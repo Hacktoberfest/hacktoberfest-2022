@@ -1,5 +1,5 @@
-# Coral
+# Hacktoberfest 2022
 
-Component playground for CSS-Tricks rework
+It's time...
 
 @logan on slack for inquiries
