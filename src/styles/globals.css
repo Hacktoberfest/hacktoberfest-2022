@@ -1,18 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500');
+
 *,
 html,
 body {
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-::selection {
+/* ::selection {
   background: #ebaaff;
   color: #081b4b;
-}
+} */
 
 a {
   color: inherit;
@@ -35,9 +37,32 @@ button {
   outline: none;
 }
 
+@font-face {
+  font-display: swap;
+  font-family: 'Vanguard';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/fonts/vanguard-heavy.otf');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Vanguard';
+  font-style: italic;
+  font-weight: 900;
+  src: url('/fonts/vanguard-heavy-oblique.otf');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Elevon';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/fonts/elevon-4g.ttf');
+}
+
 h1 {
-  /* headline large */
-  font-family: 'Epilogue', sans-serif;
+  font-family: 'Vanguard', sans-serif;
   font-size: 88px;
   font-weight: 800; /* extrabold */
   letter-spacing: -2px;
@@ -45,7 +70,6 @@ h1 {
 }
 
 h2 {
-  /* headline regular */
   font-family: 'Epilogue', sans-serif;
   font-size: 40px;
   font-weight: 700;
@@ -54,7 +78,6 @@ h2 {
 }
 
 h3 {
-  /* headline small */
   font-family: 'Epilogue', sans-serif;
   font-size: 32px;
   font-weight: 700;
@@ -63,7 +86,6 @@ h3 {
 }
 
 h4 {
-  /* subhead regular */
   font-family: 'Epilogue', sans-serif;
   font-size: 24px;
   font-weight: 600;
@@ -71,7 +93,6 @@ h4 {
 }
 
 h5 {
-  /* subhead small */
   font-family: 'Epilogue', sans-serif;
   font-size: 20px;
   font-weight: 500;
@@ -79,7 +100,6 @@ h5 {
 }
 
 h6 {
-  /* body large */
   font-family: 'Inter', sans-serif;
   font-size: 18px;
   font-weight: 400;
@@ -87,7 +107,6 @@ h6 {
 }
 
 p {
-  /* body regular */
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 400;
