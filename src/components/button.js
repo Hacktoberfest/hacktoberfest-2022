@@ -1,7 +1,6 @@
 import styled, { keyframes } from 'styled-components';
-import { productionBrowserSourceMaps } from '../../next.config';
 
-const shimmerAnimation = (x) => keyframes`
+const shimmerAnimation = () => keyframes`
   to {
     background-size: 100% 100%;
     box-shadow: -2px -2px 6px rgba(255, 227, 126, 0.5), 2px 2px 6px rgba(144, 148, 255, 0.5);
@@ -12,18 +11,19 @@ const StyledButton = styled.button`
   background: linear-gradient(90deg, #FFE27D 0%, #64E3FF 30%, #9192FF 85%);
   background-size: 200% 100%;
   border: none;
-	border-radius: 6px;
+	border-radius: 4px;
   box-shadow: -2px -2px 10px rgba(255, 227, 126, 0.5), 2px 2px 10px rgba(144, 148, 255, 0.5);
   color: #170F1E;
   cursor: pointer;
-	font-family: 'Inter', sans-serif;
+	font-family: 'JetBrains Mono', sans-serif;
   font-size: 16px;
-	font-weight: 670;
+	font-weight: 500;
   line-height: 24px;
   overflow: hidden;
-  padding: 12px 24px;
+  padding: 8px 16px;
   position: relative;
   text-decoration: none;
+  text-transform: uppercase;
   transition: 0.2s;
   
   svg {
@@ -40,11 +40,11 @@ const StyledButton = styled.button`
   }
   
   &:hover {
-    transform: rotate(-3deg);
+    transform: rotate(2deg);
   }
   
   &:active {
-    transform: scale(0.95) rotate(-3deg);
+    transform: scale(0.95) rotate(2deg);
   }
 
 }`;
@@ -73,9 +73,9 @@ const Button = (props) => (
           width="78.5"
           height="46"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -95,8 +95,8 @@ const Button = (props) => (
           y2="44"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" stop-opacity="0.6" />
-          <stop offset="1" stop-color="white" stop-opacity="0.05" />
+          <stop stopColor="white" stopOpacity="0.6" />
+          <stop offset="1" stopColor="white" stopOpacity="0.05" />
         </linearGradient>
       </defs>
     </svg>

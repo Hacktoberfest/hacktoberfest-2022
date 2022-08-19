@@ -46,8 +46,8 @@ const Library = () => {
             <h1>Components library</h1>
             <div className="wrapperJr">
               <Logo />
-              <Bug />
-              <Globe />
+              {/* <Bug /> */}
+              {/* <Globe /> */}
             </div>
             <div className="wrapperJr">
               <Button onClick={themeToggler}>toggle page theme</Button>
