@@ -1,4 +1,4 @@
-import Head from 'next/Head';
+import Head from 'next/head';
 import { useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import GlobalStyle, { liteTheme, darkTheme } from 'themes/themes';
