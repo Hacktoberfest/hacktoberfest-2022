@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { useContext } from 'react';
-import { ThemeContext } from 'components/theme';
+import { useThemeToggle } from 'components/theme';
 import Logo, { Globe, Bug } from 'components/logo';
 import Button from 'components/button';
 
@@ -25,7 +24,7 @@ const Section = styled.section`
 `;
 
 const Library = () => {
-  const toggleTheme = useContext(ThemeContext);
+  const themeToggle = useThemeToggle();
   return (
     <Section>
       <div className="wrapper">
@@ -36,7 +35,7 @@ const Library = () => {
           {/* <Globe /> */}
         </div>
         <div className="wrapperJr">
-          <Button onClick={toggleTheme}>toggle page theme</Button>
+          <Button onClick={themeToggle}>toggle page theme</Button>
         </div>
       </div>
     </Section>
