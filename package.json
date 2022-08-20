@@ -1,11 +1,26 @@
 {
-  "name": "hfest22",
+  "name": "hacktoberfest-2022",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "18.4.0"
+  },
   "scripts": {
     "dev": "next dev",
     "export": "next build && next export"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hacktoberfest/hacktoberfest-2022.git"
+  },
+  "keywords": [
+    "hacktoberfest"
+  ],
+  "author": "DigitalOcean",
+  "bugs": {
+    "url": "https://github.com/Hacktoberfest/hacktoberfest-2022/issues"
+  },
+  "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
   "dependencies": {
     "next": "12.2.4",
     "react": "18.2.0",
