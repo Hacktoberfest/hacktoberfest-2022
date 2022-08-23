@@ -1,5 +1,5 @@
 import { values, quality, spam, contributors, maintainers, prMrDetails } from 'lib/resources';
-import { MarkdownInline, Markdown } from 'components/Markdown';
+import { MarkdownInline, Markdown } from 'components/markdown';
 
 const ContentSections = ({ sections, titleAs = 'h3' }) => sections.map(section => (
     <div key={ section.title || section.content }>
