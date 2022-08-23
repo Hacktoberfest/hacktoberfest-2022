@@ -1,14 +1,15 @@
 import { values, quality, spam, contributors, maintainers, prMrDetails } from 'lib/resources';
+import { MarkdownInline, Markdown } from 'components/Markdown';
 
-const ContentSections = ({ sections, titleAs: Title = 'h3', contentAs: Content = 'p' }) => sections.map(section => (
+const ContentSections = ({ sections, titleAs = 'h3' }) => sections.map(section => (
     <div key={ section.title || section.content }>
-        { section.title && <Title>{ section.title }</Title> }
-        { section.content && <Content>{ section.content }</Content> }
+        { section.title && <MarkdownInline string={ section.title } as={ titleAs } /> }
+        { section.content && <Markdown string={ section.content } /> }
         { section.items && (
             <ul>
                 { section.items.map(item => (
                     <li key={ item }>
-                        <p>{ item }</p>
+                        <Markdown string={ item } />
                     </li>
                 )) }
             </ul>
@@ -22,44 +23,42 @@ const Resources = () => {
             <h1>Resources</h1>
 
             <div>
-                <h2>{ values.title }</h2>
+                <MarkdownInline string={ values.title } as="h2" />
                 <ContentSections sections={ values.sections } />
             </div>
 
             <div>
-                <h2>{ quality.title }</h2>
+                <MarkdownInline string={ quality.title } as="h2" />
                 <ContentSections sections={ quality.sections } />
             </div>
 
             <div>
-                <h2>{ spam.title }</h2>
+                <MarkdownInline string={ spam.title } as="h2" />
                 <ContentSections sections={ spam.sections } />
-                <p><b><i>{ spam.moto }</i></b></p>
-                <p>{ spam.report }</p>
+                <p><b><MarkdownInline string={ spam.motto } as="i" /></b></p>
+                <MarkdownInline string={ spam.report } />
             </div>
 
             <div>
-                <h2>{ contributors.title }</h2>
+                <MarkdownInline string={ contributors.title } as="h2" />
                 <ContentSections sections={ contributors.sections } />
             </div>
 
             <div>
-                <h2>{ maintainers.title }</h2>
+                <MarkdownInline string={ maintainers.title } as="h2" />
                 <ContentSections sections={ maintainers.sections } />
             </div>
 
             <div>
-                <h2>{ prMrDetails.title }</h2>
-                <p>{ prMrDetails.content }</p>
+                <MarkdownInline string={ prMrDetails.title } as="h2" />
+                <Markdown string={ prMrDetails.content } />
                 { prMrDetails.sections.map(section => (
                     <div key={ section.title }>
-                        <h3>{ section.title }</h3>
+                        <MarkdownInline string={ section.title } as="h2" />
                         <ContentSections sections={ section.items } titleAs='p' />
                         <div>
-                            <p>
-                                <i>{ section.check.type }</i>
-                                { section.check.content }
-                            </p>
+                            <p><i>{ section.check.type }</i></p>
+                            <Markdown string={ section.check.content } />
                         </div>
                     </div>
                 )) }

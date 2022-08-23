@@ -1,5 +1,3 @@
-// TODO: Inline Markdown in content/items for links
-
 export const values = {
     title: 'Values',
     sections: [
@@ -57,8 +55,7 @@ export const spam = {
                 '\n' +
                 'After the seven-day window has passed, the PR becomes eligible for Hacktoberfest and this cannot be reversed.\n' +
                 '\n' +
-                // TODO: Link `Pull/merge request details`
-                '* For more information on the specifics of what qualifies a pull request, see the ‘Pull/merge request details’ section of this page.',
+                '* For more information on the specifics of what qualifies a pull request, see the ‘[Pull/merge request details](#pr-mr-details)’ section of this page.',
         },
         {
             title: 'Bad repositories will be excluded.',
@@ -72,19 +69,16 @@ export const spam = {
             ],
         },
     ],
-    moto: 'The quality of pull requests is paramount; quantity comes second.',
-    // TODO: Link `Report it to us and we’ll take a look.`
-    report: 'We’ve implemented a system that blocks the tracking of contributions to such repositories. Found a repository that you think doesn’t follow our values? Report it to us and we’ll take a look.',
+    motto: 'The quality of pull requests is paramount; quantity comes second.',
+    report: 'We’ve implemented a system that blocks the tracking of contributions to such repositories. Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look.](/report)',
 };
 
 export const contributors = {
     title: 'Contributors',
     sections: [
         {
-            // TODO: Link `official Hacktoberfest website`
-            title: 'Sign up any time between October 1 and October 31 on the official Hacktoberfest website.',
-            // TODO: Link `GitHub` and `GitLab`
-            content: 'Pull requests can be made in any GitHub or GitLab hosted project that’s participating in Hacktoberfest (find participating projects in the ‘hacktoberfest’ topic) and must be approved by a maintainer of the project to count toward your completed pull requests.',
+            title: 'Sign up any time between October 1 and October 31 on the [official Hacktoberfest website](/).',
+            content: 'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest) hosted project that’s participating in Hacktoberfest (find participating projects in the ‘hacktoberfest’ topic) and must be approved by a maintainer of the project to count toward your completed pull requests.',
             items: [
                 'Pull/merge requests can be submitted to any opted-in repository on GitHub or GitLab.',
                 'The pull/merge request must contain commits you made yourself.',
@@ -115,8 +109,7 @@ export const maintainers = {
                 '\n' +
                 'Use a label containing the word ‘invalid’ to discount a PR/MR from Hacktoberfest (PRs/MRs that aren’t merged or approved also won’t be counted), and use a label containing the word ‘spam’ to flag the PR/MR as spam (as well as discounting it).\n' +
                 '\n' +
-                // TODO: Link `DeepSource Discover`
-                'Enable making the first contribution to your project easier. DeepSource Discover helps you list easy-to-fix but valuable code quality issues for new contributors.'
+                'Enable making the first contribution to your project easier. [DeepSource Discover](https://deepsource.io/discover/) helps you list easy-to-fix but valuable code quality issues for new contributors.'
         },
     ],
 };

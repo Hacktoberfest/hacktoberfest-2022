@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
   "dependencies": {
+    "html-react-parser": "^3.0.4",
     "knuth-shuffle": "^1.0.8",
+    "markdown-it": "^13.0.1",
     "next": "12.2.4",
     "node-fetch": "^3.2.10",
     "react": "18.2.0",
