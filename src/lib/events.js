@@ -33,6 +33,8 @@ export const fetchEvents = async () => {
     }
 
     return results.map(event => {
+        if (!event) return {};
+
         const date = new Date(event['Date']);
         if (Number.isNaN(date.getTime())) return {};
 
@@ -44,30 +46,34 @@ export const fetchEvents = async () => {
             time: `${(date.getUTCHours() % 12).toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')} ${date.getUTCHours() >= 12 ? 'PM' : 'AM'} ${event['Timezone']}`,
             format: event['Event Format'],
         };
-    }).filter(event => event.type?.length && event.title && event.location && event.date && event.time && event.format?.length)
+    }).filter(event => event.type?.length && event.title && event.location && event.date && event.time && event.format?.length);
 };
 
-// TODO: Integrate with Airtable API
-export const fetchSpeakers = async () => [
-    {
-        name: 'Chris Sevilla',
-        pronouns: 'he/him',
-        location: 'Las Vegas, NV, USA',
-        company: 'DigitalOcean',
-        social: '@Chris__Sev',
-    },
-    {
-        name: 'Rizel Scarlett',
-        pronouns: 'she/her',
-        location: 'Boston, MA, USA',
-        company: 'GitHub',
-        social: '@BlackGirlBytes',
-    },
-    {
-        name: 'Chris Sevilla',
-        pronouns: 'he/him',
-        location: 'Las Vegas, NV, USA',
-        company: 'DigitalOcean',
-        social: '@Chris__Sev',
-    },
-];
+export const fetchSpeakers = async () => {
+    const results = [];
+
+    if (process?.env?.AIRTABLE_TOKEN) {
+        let offset = null;
+        while (true) {
+            const response = await fetchAirtableRecords(process.env.AIRTABLE_TOKEN, 'appWlojsJacIo10yJ', 'Speakers & Facilitators', 'Speakers [All]', offset);
+            results.push(...response.items);
+            if (!response.more) break;
+            offset = response.more;
+        }
+    } else {
+        nextLog.warn('AIRTABLE_TOKEN not set, skipping Airtable speakers');
+    }
+
+    return results.map(speaker => {
+        if (!speaker) return {};
+
+        return {
+            name: speaker['Name'],
+            pronouns: speaker['Pronouns'],
+            location: speaker['Speaker Location'],
+            company: speaker['Company'],
+            social: speaker['Social'],
+            specialization: speaker['Specialization'],
+        };
+    }).filter(speaker => speaker.name && speaker.pronouns && speaker.location && speaker.company && speaker.social && speaker.specialization);
+};

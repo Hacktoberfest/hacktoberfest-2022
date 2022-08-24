@@ -74,6 +74,7 @@ const Events = ({ events, speakers }) => {
                                 <li>Location: {speaker.location}</li>
                                 <li>Company: {speaker.company}</li>
                                 <li>Social: {speaker.social}</li>
+                                <li>Specialization: {speaker.specialization}</li>
                             </ul>
                         </div>
                     )) }
