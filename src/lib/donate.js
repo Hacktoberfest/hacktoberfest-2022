@@ -17,6 +17,7 @@ const getOpenCollective = async (offset = 0, limit = 5000) => {
             slug
             name
             description
+            imageUrl
         }
     }
 }`;
@@ -36,8 +37,12 @@ const getOpenCollective = async (offset = 0, limit = 5000) => {
         items: data.data.accounts.nodes.map(project => ({
             source: 'OpenCollective',
             name: project.name,
-            link: `https://opencollective.com/embed/${project.slug}/donate?disabledPaymentMethodTypes=MANUAL&tags=hacktoberfest`,
+            link: {
+                title: `Support ${project.slug} via OpenCollective`,
+                url: `https://opencollective.com/embed/${project.slug}/donate?disabledPaymentMethodTypes=MANUAL&tags=hacktoberfest`,
+            },
             short: project.description,
+            icon: project.imageUrl,
         })),
         more: data.data.accounts.totalCount > (offset * limit) + data.data.accounts.nodes.length,
     };
@@ -52,7 +57,11 @@ const getGitHub = async (token, cursor = '') => {
                 name
                 description
                 owner {
-                    login
+                    avatarUrl
+                }
+                fundingLinks {
+                    platform
+                    url
                 }
             }
         }
@@ -75,13 +84,21 @@ const getGitHub = async (token, cursor = '') => {
     if (!response.ok) throw new Error(`GitHub Sponsors API error: ${response.status} ${response.statusText}`);
 
     const data = await response.json();
+    if (data.errors) throw new Error(`GitHub Sponsors API error: ${data.errors.map(e => e.message).join(', ')}`);
+
     return {
         items: data.data.search.nodes.map(project => ({
             source: 'GitHub Sponsors',
             name: project.name,
-            link: `https://github.com/sponsors/${project.owner.login}?metadata_campaign=hacktoberfest`,
+            link: project.fundingLinks
+                .filter(link => link.platform === 'GITHUB')
+                .map(link => ({
+                    title: `Support @${link.url.replace(/^https:\/\/github\.com\//, '')} via GitHub Sponsors`,
+                    url: `https://github.com/sponsors/${link.url.replace(/^https:\/\/github\.com\//, '')}?metadata_campaign=hacktoberfest`,
+                })),
             short: project.description,
-        })),
+            icon: project.owner.avatarUrl,
+        })).filter(project => project.link.length),
         more: data.data.search.pageInfo.hasNextPage && data.data.search.pageInfo.endCursor,
     };
 };

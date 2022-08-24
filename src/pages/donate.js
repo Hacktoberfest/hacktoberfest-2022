@@ -5,19 +5,24 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 const Project = ({ project }) => {
     const [ showEmbed, setShowEmbed ] = useState(false);
     const clickHandler = useCallback(event => {
-        if (project.source === 'OpenCollective') {
-            event.preventDefault();
-            setShowEmbed(current => !current);
-        }
-    }, [ project ]);
+        event.preventDefault();
+        setShowEmbed(current => !current);
+    }, []);
 
+    const firstLink = useMemo(() => Array.isArray(project.link) ? project.link[0] : project.link, [ project ]);
+    const allLinks = useMemo(() => Array.isArray(project.link) ? project.link : [ project.link ], [ project ]);
     return (
-        <a href={project.link} onClick={clickHandler}>
-            <p>[ { project.source } ]</p>
-            <h3>{ project.name }</h3>
-            <p>{ project.short }</p>
-            { showEmbed && <iframe src={project.link} width="100%" height="800" frameBorder="0" scrolling="no" /> }
-        </a>
+        <div>
+            <a href={firstLink.url} onClick={clickHandler}>
+                <img src={project.icon} alt={project.name} width={64} height={64} style={{ objectFit: "cover" }} />
+                <p>[ { project.source } ]</p>
+                <h3>{ project.name }</h3>
+                <p>{ project.short }</p>
+            </a>
+            { showEmbed && (project.source === 'OpenCollective'
+                ? <iframe src={firstLink.url} width="100%" height="800" frameBorder="0" scrolling="no" />
+                : allLinks.map(link => <a key={link.title} href={link.url} target="_blank" rel="noreferrer noopener">{ link.title }</a>)) }
+        </div>
     );
 };
 
