@@ -26,6 +26,7 @@ const Events = ({ events, speakers }) => {
                                 <li>Date: { event.date }</li>
                                 <li>Time: { event.time }</li>
                                 <li>Format: { event.format.join(', ') }</li>
+                                <li>RSVP: <a href={event.rsvp} rel="noreferrer noopener">{ event.rsvp }</a></li>
                             </ul>
                         </div>
                     )) }

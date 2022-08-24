@@ -41,12 +41,13 @@ export const fetchEvents = async () => {
         return {
             type: event['Event Type'],
             title: event['Event'],
-            location: event['Organizer\'s Location'], // TODO: Do we want to show location? Should this just be the RSVP link?
+            location: event['Event Location'],
             date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}`,
-            time: `${(date.getUTCHours() % 12).toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')} ${date.getUTCHours() >= 12 ? 'PM' : 'AM'} ${event['Timezone']}`,
+            time: `${(date.getUTCHours() % 12).toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')} ${date.getUTCHours() >= 12 ? 'PM' : 'AM'} ${event['Time Zone']}`,
             format: event['Event Format'],
+            rsvp: event['Event RSVP'],
         };
-    }).filter(event => event.type?.length && event.title && event.location && event.date && event.time && event.format?.length);
+    }).filter(event => event.type?.length && event.title && event.location && event.date && event.time && event.format?.length && event.rsvp);
 };
 
 export const fetchSpeakers = async () => {
@@ -71,7 +72,7 @@ export const fetchSpeakers = async () => {
             name: speaker['Name'],
             pronouns: speaker['Pronouns'],
             location: speaker['Speaker Location'],
-            company: speaker['Company'],
+            company: speaker['Company'] || 'N/A',
             social: speaker['Social'],
             specialization: speaker['Specialization'],
         };
