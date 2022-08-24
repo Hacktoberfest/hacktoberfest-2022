@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import * as nextLog from 'next/dist/build/output/log';
 
 const getOpenCollective = async (offset = 0, limit = 5000) => {
     const gql = `{
@@ -107,7 +108,7 @@ const fetchProjects = async () => {
             cursor = response.more;
         }
     } else {
-        console.warn('GITHUB_TOKEN not set, skipping GitHub Sponsors');
+        nextLog.warn('GITHUB_TOKEN not set, skipping GitHub Sponsors');
     }
 
     return results;
