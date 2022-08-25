@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useThemeToggle } from 'components/theme';
-import Logo, { Globe, Bug } from 'components/logo';
 import Button from 'components/button';
+import Card from 'components/card';
+import Logo, { Globe, Bug } from 'components/logo';
 
 const Section = styled.section`
   width: 100vw;
@@ -36,6 +37,12 @@ const Library = () => {
         </div>
         <div className="wrapperJr">
           <Button onClick={themeToggle}>toggle page theme</Button>
+          <Button special onClick={themeToggle}>
+            toggle page theme
+          </Button>
+        </div>
+        <div className="wrapperJr">
+          <Card />
         </div>
       </div>
     </Section>

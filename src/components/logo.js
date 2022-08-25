@@ -3,9 +3,10 @@ import styled, { keyframes } from 'styled-components';
 const StyledDiv = styled.div``;
 
 const Wrapper = styled.a`
-  display: flex;
   align-items: center;
+  display: flex;
   gap: 16px;
+  // transform: scale(2);
   width: max-content;
 
   &:hover {
@@ -15,49 +16,55 @@ const Wrapper = styled.a`
   }
 `;
 
-const BugWrapper = styled(StyledDiv)`
-  width: max-content;
+const BadgeWrapper = styled(StyledDiv)`
   position: relative;
+  width: max-content;
 
-  .mark-wrapper {
+  .h-mark_wrapper {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    pointer-events: none;
     position: absolute;
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 10;
-    pointer-events: none;
-    .mark {
-      filter: ${(props) => props.theme.logoShadow};
+    .h-mark {
+      filter: drop-shadow(0px 0px 2px ${(props) => props.theme.holoShadow})
+        drop-shadow(0px 0px 5px ${(props) => props.theme.body});
+      transform: scale(1.2);
     }
   }
 `;
 
 const GlobeWrapper = styled(StyledDiv)`
-  width: 104px;
-  height: 104px;
-  position: relative;
   background: ${(props) => props.theme.body};
   border-radius: 100%;
-  transition: 0.2s ease;
+  height: 104px;
+  position: relative;
   transform: rotate(30deg);
+  transition: 0.4s cubic-bezier(0.2, -2, 0.2, 3);
+  width: 104px;
 
   svg {
-    filter: ${(props) => props.theme.holoShadow};
+    filter: drop-shadow(0px 0px 5px ${(props) => props.theme.holoShadow});
   }
 
   &:after {
+    background: linear-gradient(
+      90deg,
+      ${(props) => props.theme.spark} 0%,
+      ${(props) => props.theme.surf} 50%,
+      ${(props) => props.theme.psybeam} 100%
+    );
+    border-radius: 100%;
     content: '';
-    visibility: ${(props) => props.theme.visibility};
-    width: 100%;
     height: 100%;
+    mix-blend-mode: ${(props) => props.theme.blendMode};
+    left: 0;
     position: absolute;
     top: 0;
-    left: 0;
-    background: ${(props) => props.theme.holo};
-    border-radius: 100%;
-    mix-blend-mode: darken;
+    width: 100%;
   }
 `;
 
@@ -68,20 +75,20 @@ const spinAnimation = (x) => keyframes`
 `;
 
 const Spinner = styled(StyledDiv)`
-  width: 100%;
   position: absolute;
-  top: 0;
   left: 0;
+  top: 0;
+  width: 100%;
 
   .spinner {
-    width: 52px;
-    height: 104px;
-    margin: 0 auto;
-    border: 2px solid ${(props) => props.theme.text};
-    border-radius: 100%;
-    filter: ${(props) => props.theme.holoShadow};
     animation: ${(props) => spinAnimation(props.spin)} 1s linear infinite
       alternate;
+    border: 3px solid ${(props) => props.theme.text};
+    border-radius: 100%;
+    filter: drop-shadow(0px 0px 5px ${(props) => props.theme.holoShadow});
+    height: 104px;
+    margin: 0 auto;
+    width: 52px;
   }
 `;
 
@@ -97,7 +104,7 @@ export const Globe = (props) => (
       <path
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M5.61307 28.4753C14.1996 11.5776 31.7478 0 52 0C80.7188 0 104 23.2812 104 52C104 80.7188 80.7188 104 52 104C28.2346 104 8.19283 88.0573 1.98623 66.2834C1.98614 66.2833 1.98633 66.2835 1.98623 66.2834C1.33789 64.0088 0.840235 61.6703 0.505371 59.28C0.172114 56.9011 0 54.4707 0 52C0 44.2617 1.69031 36.9181 4.72186 30.3185C4.7218 30.3184 4.72192 30.3185 4.72186 30.3185C5.00715 29.6974 5.30431 29.0829 5.61307 28.4753C5.61313 28.4753 5.61301 28.4753 5.61307 28.4753ZM99.0444 68.9761C92.0938 88.2342 73.6545 102 52 102C30.3456 102 11.9064 88.2344 4.95577 68.9765C7.56175 70.9369 10.9311 72.6885 14.875 74.1872C24.4251 77.8162 37.5509 80.04 51.9998 80.04C66.4487 80.04 79.5745 77.8162 89.1246 74.1872C93.0688 72.6884 96.4383 70.9366 99.0444 68.9761ZM100.216 65.2846C99.9166 65.6006 99.593 65.915 99.2451 66.2276C96.7376 68.4804 93.0528 70.5549 88.4141 72.3176C79.1439 75.8403 66.2697 78.04 51.9998 78.04C37.7299 78.04 24.8557 75.8403 15.5855 72.3176C10.9468 70.5549 7.26204 68.4804 4.75454 66.2276C4.40687 65.9152 4.08343 65.601 3.78419 65.2852C2.62116 61.0548 2 56.5999 2 52C2 44.6946 3.56671 37.7552 6.38246 31.4994C8.75007 33.058 11.6164 34.4689 14.875 35.7072C24.425 39.3362 37.5509 41.56 51.9998 41.56C66.4486 41.56 79.5745 39.3362 89.1245 35.7072C92.3833 34.4689 95.2497 33.0579 97.6174 31.4991C100.433 37.755 102 44.6945 102 52C102 56.5997 101.379 61.0543 100.216 65.2846ZM96.7507 29.6736C94.5025 31.1862 91.6972 32.5901 88.4141 33.8376C79.1439 37.3603 66.2697 39.56 51.9998 39.56C37.7298 39.56 24.8557 37.3603 15.5854 33.8376C12.3025 32.5901 9.49733 31.1864 7.24915 29.6738C15.4506 13.2666 32.4096 2 52 2C71.5903 2 88.5492 13.2665 96.7507 29.6736Z"
+        d="M103.494 59.28C103.828 56.9012 104 54.4707 104 52C104 44.4439 102.388 37.2642 99.4901 30.786C99.0711 29.8494 98.6253 28.9275 98.1535 28.0212C89.485 11.3705 72.0703 0 52 0C23.2812 0 0 23.2812 0 52C0 80.7188 23.2812 104 52 104C75.3774 104 95.1517 88.5737 101.699 67.3453C102.441 64.9397 103.013 62.4596 103.401 59.9191C103.433 59.7065 103.465 59.4935 103.494 59.28ZM99.0506 65.7291C100.32 61.3728 101 56.7659 101 52C101 45.0711 99.5618 38.4781 96.9677 32.5032C94.7544 33.8552 92.1735 35.0836 89.3025 36.1746C79.6824 39.8302 66.4937 42.06 52.0001 42.06C37.5065 42.06 24.3177 39.8302 14.6977 36.1746C11.8266 35.0836 9.2457 33.8552 7.03232 32.5031C4.43818 38.478 3 45.0711 3 52C3 56.7659 3.68039 61.3728 4.94935 65.729C4.99539 65.7712 5.04192 65.8135 5.08893 65.8557C7.53451 68.0529 11.1579 70.1002 15.7633 71.8503C24.9636 75.3464 37.7748 77.54 52 77.54C66.2253 77.54 79.0365 75.3464 88.2368 71.8503C92.8422 70.1002 96.4656 68.0529 98.9111 65.8557C98.9581 65.8135 99.0046 65.7713 99.0506 65.7291ZM97.2637 70.8002C94.9856 72.2246 92.3025 73.5146 89.3024 74.6546C79.6824 78.3102 66.4936 80.54 52 80.54C37.5065 80.54 24.3177 78.3102 14.6977 74.6546C11.6975 73.5146 9.01438 72.2245 6.73623 70.8002C14.1095 88.5321 31.5987 101 52 101C72.4012 101 89.8905 88.5321 97.2637 70.8002ZM88.2368 33.3703C91.1183 32.2753 93.6154 31.0639 95.6801 29.7723C87.5779 13.8822 71.0598 3 52 3C32.9402 3 16.4221 13.8821 8.31992 29.7722C10.3846 31.0639 12.8818 32.2753 15.7634 33.3703C24.9636 36.8664 37.7749 39.06 52.0001 39.06C66.2253 39.06 79.0365 36.8664 88.2368 33.3703Z"
         fill="currentColor"
       />
     </svg>
@@ -112,15 +119,15 @@ export const Globe = (props) => (
 );
 
 export const Bug = () => (
-  <BugWrapper>
-    <div className="mark-wrapper">
+  <BadgeWrapper>
+    <div className="h-mark_wrapper">
       <svg
         width="47"
         height="51"
         viewBox="0 0 47 51"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="mark"
+        className="h-mark"
       >
         <path
           fillRule="evenodd"
@@ -131,7 +138,7 @@ export const Bug = () => (
       </svg>
     </div>
     <Globe />
-  </BugWrapper>
+  </BadgeWrapper>
 );
 
 const Logo = () => (
