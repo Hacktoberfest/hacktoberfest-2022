@@ -9,6 +9,7 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-transform: uppercase;
 }
 
 /* ::selection {
@@ -64,9 +65,7 @@ button {
 h1 {
   font-family: 'Vanguard', sans-serif;
   font-size: 88px;
-  font-weight: 800; /* extrabold */
-  letter-spacing: -2px;
-  line-height: 88px;
+  line-height: 80px;
 }
 
 h2 {

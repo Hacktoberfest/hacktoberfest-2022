@@ -9,6 +9,8 @@ export const darkTheme = {
   giga: '#B4FF39',
   holoShadow: 'rgba(60, 0, 206, 0.5)',
   blendMode: 'darken',
+  bgGrain: `url('../../images/grain-dark.png')`,
+  textShadow: 'rgba(180, 42, 202, 0.5)',
 };
 
 export const liteTheme = {
@@ -20,11 +22,14 @@ export const liteTheme = {
   giga: '#B4FF39',
   holoShadow: 'rgba(60, 0, 206, 0.3)',
   blendMode: 'lighten',
+  bgGrain: `url('../../images/grain-lite.png')`,
+  textShadow: 'rgba(180, 42, 202, 0.5)',
 };
 
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${(props) => props.theme.body};
+    background-image: ${(props) => props.theme.bgGrain};
     color: ${(props) => props.theme.text};
   }
 `;

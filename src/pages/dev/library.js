@@ -42,7 +42,27 @@ const Library = () => {
           </Button>
         </div>
         <div className="wrapperJr">
-          <Card />
+          <Card
+            primary="spark"
+            secondary="psybeam"
+            title="days"
+            number="26"
+            delay="0s"
+          />
+          <Card
+            primary="psybeam"
+            secondary="surf"
+            title="hours"
+            number="08"
+            delay="0.5s"
+          />
+          <Card
+            primary="surf"
+            secondary="spark"
+            title="minutes"
+            number="33"
+            delay="1.3s"
+          />
         </div>
       </div>
     </Section>

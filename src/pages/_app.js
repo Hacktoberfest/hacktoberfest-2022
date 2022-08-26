@@ -2,8 +2,8 @@ import '../styles/globals.css';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Theme } from 'components/theme';
-import Logo from 'components/logo';
 import GlobalStyle from 'themes/themes';
+import Navigation from 'components/navigation';
 
 const App = ({ Component, pageProps }) => (
   <>
@@ -15,7 +15,8 @@ const App = ({ Component, pageProps }) => (
     </Head>
     <Theme>
       <GlobalStyle />
-      <div>
+      <Navigation />
+      {/* <div>
         <Link href="/">
           <Logo />
         </Link>
@@ -25,7 +26,7 @@ const App = ({ Component, pageProps }) => (
         <Link href="/donate">Donate</Link>
         <Link href="/about">About</Link>
         <a href="https://discord.gg/hacktoberfest">Join the Discord</a>
-      </div>
+      </div> */}
 
       <Component {...pageProps} />
 

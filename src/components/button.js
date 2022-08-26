@@ -22,8 +22,11 @@ const StyledButton = styled.button`
     overflow: hidden;
     padding: 8px 18px;
     text-decoration: none;
-    text-transform: uppercase;
     transition: 0.2s;
+
+    &:active {
+        transform: scale(0.95);
+      }
   }
 
   .special {
