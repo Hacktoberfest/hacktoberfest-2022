@@ -2,11 +2,10 @@ import styled, { keyframes } from 'styled-components';
 
 const StyledDiv = styled.div``;
 
-const Wrapper = styled.a`
+export const LogoWrapper = styled.a`
   align-items: center;
   display: flex;
   gap: 16px;
-  // transform: scale(2);
   width: max-content;
 
   &:hover {
@@ -141,8 +140,8 @@ export const Bug = () => (
   </BadgeWrapper>
 );
 
-const Logo = () => (
-  <Wrapper href="#" target="_blank">
+const Logo = (props) => (
+  <LogoWrapper href={props.link} target="_blank">
     <Bug />
     <svg
       width="120"
@@ -214,7 +213,7 @@ const Logo = () => (
         fill="currentColor"
       />
     </svg>
-  </Wrapper>
+  </LogoWrapper>
 );
 
 export default Logo;

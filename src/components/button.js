@@ -6,13 +6,18 @@ const shimmerAnimation = () => keyframes`
 `;
 
 const StyledButton = styled.button`
-  filter: drop-shadow(0px 0px 8px ${(props) => props.theme.holoShadow});
+  filter: ${(props) => props.theme.textDropShadow};
+
+  &.wrapper_special {
+    filter: ${(props) => props.theme.dropShadowHolo};
+  }
+  
 
   .btn {
     background: ${(props) => props.theme.text};
     border: none;
     border-radius: 2px;
-    clip-path: polygon(6% 0, 100% 0, 100% 72%, 94% 100%, 0 100%, 0 28%);
+    clip-path: polygon(12px 0, 100% 0, 100% 72%, calc(100% - 12px) 100%, 0 100%, 0 12px);
     color: ${(props) => props.theme.body};
     cursor: pointer;
     font-family: 'JetBrains Mono', sans-serif;
@@ -26,7 +31,7 @@ const StyledButton = styled.button`
 
     &:active {
         transform: scale(0.95);
-      }
+    }
   }
 
   .special {
@@ -64,7 +69,13 @@ const StyledButton = styled.button`
 const Button = (props) => {
   if (props.special) {
     return (
-      <StyledButton onClick={props.onClick}>
+      <StyledButton
+        className="wrapper_special"
+        onClick={props.onClick}
+        as={props.as}
+        href={props.href}
+        target="_blank"
+      >
         <div className="btn special">
           {props.children}
           <svg
@@ -120,7 +131,12 @@ const Button = (props) => {
     );
   } else {
     return (
-      <StyledButton onClick={props.onClick}>
+      <StyledButton
+        onClick={props.onClick}
+        as={props.as}
+        href={props.href}
+        target="_blank"
+      >
         <div className="btn">{props.children}</div>
       </StyledButton>
     );

@@ -3,7 +3,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { Theme } from 'components/theme';
 import GlobalStyle from 'themes/themes';
-import Navigation from 'components/navigation';
 
 const App = ({ Component, pageProps }) => (
   <>
@@ -15,7 +14,6 @@ const App = ({ Component, pageProps }) => (
     </Head>
     <Theme>
       <GlobalStyle />
-      <Navigation />
       {/* <div>
         <Link href="/">
           <Logo />

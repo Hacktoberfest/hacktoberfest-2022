@@ -40,10 +40,11 @@ const MainWrapper = styled(StyledDiv)`
   border-radius: 24px;
   box-shadow: 0px 0px 12px ${(props) => props.theme[props.secondary]};
   height: 354px;
+  min-width: 304px;
   padding: 36px 44px 44px 44px;
   position: relative;
   transition: 0.4s cubic-bezier(0.8, -1, 0.2, 1.5);
-  width: 304px;
+  // width: 304px;
 
   &:hover {
     box-shadow: 0px 0px 25px ${(props) => props.theme[props.secondary]},
@@ -96,13 +97,13 @@ const MainWrapper = styled(StyledDiv)`
     font-size: 180px;
     line-height: 100%;
     position: absolute;
-    text-shadow: 0px 0px 8px ${(props) => props.theme.textShadow};
+    text-shadow: ${(props) => props.theme.bodyShadow};
   }
 
   h3 {
     color: #170f1e;
     font-family: 'Elevon';
-    text-shadow: 0px 0px 8px ${(props) => props.theme.textShadow};
+    text-shadow: ${(props) => props.theme.bodyShadow};
   }
 
   .binary {
