@@ -1,10 +1,11 @@
-import Button from './button';
-import Logo, { LogoWrapper } from './logo';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { useState } from 'react';
+import Button from './button';
+import Logo, { LogoWrapper } from './logo';
 
 const Wrapper = styled.header`
-  padding: 72px 64px 0px 64px;
+  padding: 72px 64px;
   width: 100%;
 
   div {
@@ -147,38 +148,56 @@ const Navigation = () => {
         <Button id="close" onClick={handleChange}>
           X
         </Button>
-        <Button as="a" href="#">
-          Participation
-        </Button>
-        <Button as="a" href="#">
-          Events
-        </Button>
-        <Button as="a" href="#">
-          Donate
-        </Button>
-        <Button as="a" href="#">
-          About
-        </Button>
-        <Button as="a" special>
+        <Link href="/participation" passHref>
+          <Button as="a">
+            Participation
+          </Button>
+        </Link>
+        <Link href="/events" passHref>
+          <Button as="a">
+            Events
+          </Button>
+        </Link>
+        <Link href="/donate" passHref>
+          <Button as="a">
+            Donate
+          </Button>
+        </Link>
+        <Link href="/about" passHref>
+          <Button as="a">
+            About
+          </Button>
+        </Link>
+        <Button special as="a" href="https://discord.gg/hacktoberfest">
           Join the Discord
         </Button>
       </div>
       <div>
-        <Logo link="#" />
+        <Link href="/" passHref>
+          <Logo as="a" />
+        </Link>
         <nav className="expanded">
-          <Button as="a" href="#">
-            Participation
-          </Button>
-          <Button as="a" href="#">
-            Events
-          </Button>
-          <Button as="a" href="#">
-            Donate
-          </Button>
-          <Button as="a" href="#">
-            About
-          </Button>
-          <Button as="a" special>
+          <Link href="/participation" passHref>
+            <Button as="a">
+              Participation
+            </Button>
+          </Link>
+          <Link href="/events" passHref>
+            <Button as="a">
+              Events
+            </Button>
+          </Link>
+          <Link href="/donate" passHref>
+            <Button as="a">
+              Donate
+            </Button>
+          </Link>
+          <Link href="/about" passHref>
+            <Button as="a">
+              About
+            </Button>
+          </Link>
+          <Button special as="a" href="https://discord.gg/hacktoberfest">
             Join the Discord
           </Button>
         </nav>

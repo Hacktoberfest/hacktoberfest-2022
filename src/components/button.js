@@ -69,7 +69,7 @@ const Button = (props) => {
         onClick={props.onClick}
         as={props.as}
         href={props.href}
-        target="_blank"
+        target={props.target}
         id={props.id}
       >
         <div className="btn special">
@@ -132,7 +132,7 @@ const Button = (props) => {
         color={props.color}
         as={props.as}
         href={props.href}
-        target="_blank"
+        target={props.target}
         id={props.id}
       >
         <div className="btn">{props.children}</div>

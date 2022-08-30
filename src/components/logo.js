@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 const StyledDiv = styled.div``;
 
-export const LogoWrapper = styled.a`
+export const LogoWrapper = styled.div`
   align-items: center;
   display: flex;
   gap: 16px;
@@ -141,7 +141,7 @@ export const Bug = () => (
 );
 
 const Logo = (props) => (
-  <LogoWrapper href={props.link} target="_blank">
+  <LogoWrapper href={props.href} as={props.as}>
     <Bug />
     <svg
       width="120"

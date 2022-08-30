@@ -3,16 +3,12 @@ import { useThemeToggle } from 'components/theme';
 import Button from 'components/button';
 import Card from 'components/card';
 import Logo, { Globe, Bug } from 'components/logo';
-import Navigation from 'components/navigation';
 import Marquee from 'components/marquee';
 import Divider from 'components/divider';
 import Headline from 'components/headline';
 import Anchor from 'components/anchor';
 
 const Section = styled.section`
-  width: 100vw;
-  margin-top: 64px;
-
   .wrapper {
     margin: 0 auto;
     max-width: 1440px;
@@ -34,7 +30,6 @@ const Library = () => {
   const themeToggle = useThemeToggle();
   return (
     <>
-      <Navigation />
       <Section>
         <div className="wrapper">
           <h1>Components library</h1>
