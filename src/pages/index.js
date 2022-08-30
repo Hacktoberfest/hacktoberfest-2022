@@ -22,7 +22,7 @@ const Home = () => {
                     Jump start by choosing projects to contribute to, helping maintainers add the ‘hacktoberfest’ tag to their projects, or familiarizing yourself with Git.
                 </p>
                 <Link href="/events#kit">Get the Event Kit</Link>
-                <Link href="/resources">View Resources</Link>
+                <Link href="/participation">View Resources</Link>
             </div>
 
             <div>
