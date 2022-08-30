@@ -60,7 +60,6 @@ const MarqueeWrapper = styled.div`
 `;
 
 const Marquee = (props) => {
-  console.log('ok');
   return (
     <MarqueeWrapper {...props} direction={props.direction}>
       <ul className="marquee_content">

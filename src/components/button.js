@@ -7,14 +7,9 @@ const shimmerAnimation = () => keyframes`
 
 const StyledButton = styled.button`
   filter: ${(props) => props.theme.textDropShadow};
-
-  &.wrapper_special {
-    filter: ${(props) => props.theme.dropShadowHolo};
-  }
   
-
   .btn {
-    background: ${(props) => props.theme.text};
+    background: ${(props) => props.theme[props.color] || props.theme.text};
     border: none;
     border-radius: 2px;
     clip-path: polygon(12px 0, 100% 0, 100% 72%, calc(100% - 12px) 100%, 0 100%, 0 12px);
@@ -70,11 +65,12 @@ const Button = (props) => {
   if (props.special) {
     return (
       <StyledButton
-        className="wrapper_special"
+        // className="wrapper_special"
         onClick={props.onClick}
         as={props.as}
         href={props.href}
         target="_blank"
+        id={props.id}
       >
         <div className="btn special">
           {props.children}
@@ -133,9 +129,11 @@ const Button = (props) => {
     return (
       <StyledButton
         onClick={props.onClick}
+        color={props.color}
         as={props.as}
         href={props.href}
         target="_blank"
+        id={props.id}
       >
         <div className="btn">{props.children}</div>
       </StyledButton>

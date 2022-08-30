@@ -13,10 +13,10 @@ export const darkTheme = {
   bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
   textShadow:
     '-1px -1px 2px rgba(255, 215, 77, 1), 1px 1px 2px rgba(124, 127, 255, 1)',
+  smallTextShadow:
+    '-1px -1px 6px rgba(255, 215, 77, 0.3), 1px 1px 6px rgba(124, 127, 255, 0.3)',
   textDropShadow:
     'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 1)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 1))',
-  dropShadowHolo:
-    'drop-shadow(-2px 0px 4px rgba(255, 215, 77, 0.5)) drop-shadow(2px 0px 4px rgba(124, 127, 255, 0.5))',
 };
 
 export const liteTheme = {
@@ -31,9 +31,8 @@ export const liteTheme = {
   bgGrain: `url('../../images/grain-lite.png')`,
   bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
   textShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
+  smallTextShadow: '0px 0px 6px rgba(180, 42, 202, 0.2)',
   textDropShadow: 'drop-shadow(0px 0px 6px rgba(180, 42, 202, 0.5))',
-  dropShadowHolo:
-    'drop-shadow(-4px 0px 3px rgba(255, 215, 77, 1)) drop-shadow(4px 0px 3px rgba(124, 127, 255, 1))',
 };
 
 const GlobalStyle = createGlobalStyle`

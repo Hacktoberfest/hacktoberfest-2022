@@ -5,16 +5,16 @@ const StyledDiv = styled.div``;
 
 const textAnimation = () => keyframes`
   25% {
-    content: "101010 010101 101010 010101 101010";
+    content: "10101010 01010101 10101010 01010101";
   }
   50% {
-    content: "010101 101010 010101 101010 010101";
+    content: "01010101 10101010 01010101 10101010";
   }
   75% {
-    content: "101010 010101 101010 010101 101010";
+    content: "10101010 01010101 10101010 01010101";
   }
   100% {
-    content: "010101 101010 010101 101010 010101";
+    content: "01010101 10101010 01010101 10101010";
   }
 `;
 
@@ -44,7 +44,6 @@ const MainWrapper = styled(StyledDiv)`
   padding: 36px 44px 44px 44px;
   position: relative;
   transition: 0.4s cubic-bezier(0.8, -1, 0.2, 1.5);
-  // width: 304px;
 
   &:hover {
     box-shadow: 0px 0px 25px ${(props) => props.theme[props.secondary]},
@@ -144,7 +143,7 @@ const MainWrapper = styled(StyledDiv)`
     }
 
     &:after {
-      content: '010110 010100 010110 010100 010110';
+      content: '01011001 01010010 01011010 01010010';
     }
   }
 `;

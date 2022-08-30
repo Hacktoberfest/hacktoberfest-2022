@@ -5,6 +5,9 @@ import Card from 'components/card';
 import Logo, { Globe, Bug } from 'components/logo';
 import Navigation from 'components/navigation';
 import Marquee from 'components/marquee';
+import Divider from 'components/divider';
+import Headline from 'components/headline';
+import Anchor from 'components/anchor';
 
 const Section = styled.section`
   width: 100vw;
@@ -77,6 +80,55 @@ const Library = () => {
               p3="fill surf"
               direction="reverse"
             />
+          </div>
+          <div className="wrapperJr">
+            <Divider />
+            <Divider style="reverse" />
+          </div>
+          <div className="wrapperJr">
+            <Headline style="right">
+              <Divider style="reverse" />
+              <Anchor href="#prepare-to-hack" />
+              <h2>Prepare to Hack Right</h2>
+              <h3>
+                Hacktoberfest is for everyone. Whether it’s your first time —or
+                your ninth, it’s almost time to hack out four pristine
+                pull/merge requests and complete your mission for open source.
+                Join other members of the open source community on the
+                Hacktoberfest Discord.
+              </h3>
+              <Button as="a" href="#" special>
+                Join the hacktoberfest discord
+              </Button>
+            </Headline>
+            <Headline>
+              <Divider />
+              <Anchor href="#prepare-to-hack" />
+              <h2>Prepare to Hack</h2>
+              <h3>
+                Hacktoberfest is for everyone. Whether it’s your first time —or
+                your ninth, it’s almost time to hack out four pristine
+                pull/merge requests and complete your mission for open source.
+                Join other members of the open source community on the
+                Hacktoberfest Discord.
+              </h3>
+              <Button as="a" href="#" special>
+                Join the hacktoberfest discord
+              </Button>
+            </Headline>
+            <Headline style="center">
+              <h2>Prepare to Hack</h2>
+              <h3>
+                Hacktoberfest is for everyone. Whether it’s your first time —or
+                your ninth, it’s almost time to hack out four pristine
+                pull/merge requests and complete your mission for open source.
+                Join other members of the open source community on the
+                Hacktoberfest Discord.
+              </h3>
+              <Button as="a" href="#" special>
+                Join the hacktoberfest discord
+              </Button>
+            </Headline>
           </div>
         </div>
       </Section>
