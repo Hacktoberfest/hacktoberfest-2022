@@ -33,10 +33,12 @@ export const fetchEvents = async () => {
     }
 
     return results.map(event => {
-        if (!event) return {};
+        if (!event) return;
+        if (!event['Approved']) return; // Hide events that aren't approved
 
         const date = new Date(event['Date']);
-        if (Number.isNaN(date.getTime())) return {};
+        if (Number.isNaN(date.getTime())) return; // Hide events with invalid dates
+        if (date.getTime() < Date.now()) return; // Hide events that have already happened
 
         return {
             type: event['Event Type'],
@@ -47,7 +49,7 @@ export const fetchEvents = async () => {
             format: event['Event Format'],
             rsvp: event['Event RSVP'],
         };
-    }).filter(event => event.type?.length && event.title && event.location && event.date && event.time && event.format?.length && event.rsvp);
+    }).filter(event => event?.type?.length && event?.title && event?.location && event?.date && event?.time && event?.format?.length && event?.rsvp);
 };
 
 export const fetchSpeakers = async () => {
@@ -66,7 +68,8 @@ export const fetchSpeakers = async () => {
     }
 
     return results.map(speaker => {
-        if (!speaker) return {};
+        if (!speaker) return null;
+        if (!speaker['Validated']) return null; // Hide speakers that aren't approved
 
         return {
             name: speaker['Name'],
@@ -76,7 +79,7 @@ export const fetchSpeakers = async () => {
             social: speaker['Social'],
             specialization: speaker['Specialization'],
         };
-    }).filter(speaker => speaker.name && speaker.pronouns && speaker.location && speaker.company && speaker.social && speaker.specialization);
+    }).filter(speaker => speaker?.name && speaker?.pronouns && speaker?.location && speaker?.company && speaker?.social && speaker?.specialization);
 };
 
 export const organize = {
