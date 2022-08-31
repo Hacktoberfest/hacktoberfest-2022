@@ -2,16 +2,16 @@ import styled, { keyframes } from 'styled-components';
 
 const textAnimation = () => keyframes`
   25% {
-    content: "00110010 00110010";
+    content: "01001111 00111010"; // O:
   }
   50% {
-    content: "00110000 00111001";
+    content: "00111011 00101001"; // ;)
   }
   75% {
-    content: "00110010 00110010";
+    content: "01000111 01001100"; // GL
   }
   100% {
-    content: "00110000 00111001";
+    content: "01001000 01000110"; // HF
   }
 `;
 
@@ -26,7 +26,7 @@ const StyledA = styled.a`
   transition: 0.2s ease;
 
   &:after {
-    content: '01101000 01100110';
+    content: '00111010 00101001'; // :)
   }
 
   &:hover {
