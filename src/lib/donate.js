@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch from 'cross-fetch';
 import * as nextLog from 'next/dist/build/output/log';
 
 const getOpenCollective = async (offset = 0, limit = 5000) => {
