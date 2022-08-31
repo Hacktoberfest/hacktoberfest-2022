@@ -32,6 +32,41 @@ export const contributors = {
   ],
 };
 
+export const resources = {
+  title: 'Resources for Beginners',
+  sections: [
+    {
+      title: 'Intro to open source',
+      items: [
+        'DigitalOcean: [Introduction to GitHub and Open-Source Projects](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source)',
+        'GitHub: [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)',
+      ],
+    },
+    {
+      title: 'Start contributing',
+      items: [
+        'List of beginner repositories: [up-for-grabs.net](https://up-for-grabs.net/#/)',
+        'GitHub repository: [first-contributions](https://github.com/firstcontributions/first-contributions)',
+        'GitHub repository: [awesome-for-beginners](https://github.com/mungell/awesome-for-beginners)',
+      ],
+    },
+    {
+      title: 'Sharpen your skills',
+      items: [
+        '[GitHub Training Kit](https://github.github.com/training-kit/)',
+        '[Understanding the GitHub Flow](https://guides.github.com/introduction/flow/)',
+        '[Getting Started With GitLab](https://about.gitlab.com/get-started/)',
+        '[An Introduction to Open Source](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source)',
+        '[How open source contributions can boost your career](https://opensource.com/article/19/5/how-get-job-doing-open-source)',
+        '[How to write the perfect pull request](https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/)',
+        '[How to write a good commit message](https://dev.to/chrissiemhrk/git-commit-message-5e21)',
+        '[Github Desktop](https://desktop.github.com/)',
+        '[Community help in our Hacktoberfest Discord server](https://discord.gg/hacktoberfest)',
+      ],
+    }
+  ],
+};
+
 export const prMrDetails = {
   title: 'Pull/Merge Request Details',
   content: 'Here’s how we validate contributor PR/MRs for Hacktoberfest',

@@ -1,4 +1,4 @@
-import { values, spam, contributors, maintainers, prMrDetails } from 'lib/participation';
+import { values, contributors, resources, prMrDetails, spam, maintainers } from 'lib/participation';
 import { MarkdownInline, Markdown } from 'components/markdown';
 
 const ContentSections = ({ sections, titleAs = 'h3' }) => sections.map(section => (
@@ -30,6 +30,11 @@ const Participation = () => {
       <div id="contributors">
         <MarkdownInline string={contributors.title} as="h2" />
         <ContentSections sections={contributors.sections} />
+      </div>
+
+      <div id="beginner-resources">
+        <MarkdownInline string={resources.title} as="h2" />
+        <ContentSections sections={resources.sections} />
       </div>
 
       <div id="pr-mr-details">
