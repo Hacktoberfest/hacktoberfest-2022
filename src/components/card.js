@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 // import { useEffect } from 'react';
+import sparkle from 'img/sparkle.gif';
 
 const StyledDiv = styled.div``;
 
@@ -56,7 +57,7 @@ const MainWrapper = styled(StyledDiv)`
   }
 
   &:after {
-    background-image: url(../../images/sparkle.gif);
+    background-image: url(${sparkle.src});
     border-radius: inherit;
     content: '';
     height: 100%;

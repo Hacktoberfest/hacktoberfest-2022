@@ -1,4 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
+import grainDark from 'img/grain-dark.png';
+import grainLite from 'img/grain-lite.png';
 
 export const darkTheme = {
   body: '#170F1E',
@@ -9,7 +11,7 @@ export const darkTheme = {
   giga: '#B4FF39',
   holoShadow: 'rgba(60, 0, 206, 0.4)',
   blendMode: 'darken',
-  bgGrain: `url('../../images/grain-dark.png')`,
+  bgGrain: `url(${grainDark.src})`,
   bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
   textShadow:
     '-1px -1px 2px rgba(255, 215, 77, 1), 1px 1px 2px rgba(124, 127, 255, 1)',
@@ -28,7 +30,7 @@ export const liteTheme = {
   giga: '#B4FF39',
   holoShadow: 'rgba(60, 0, 206, 0.3)',
   blendMode: 'lighten',
-  bgGrain: `url('../../images/grain-lite.png')`,
+  bgGrain: `url(${grainLite.src})`,
   bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
   textShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
   smallTextShadow: '0px 0px 6px rgba(180, 42, 202, 0.2)',
