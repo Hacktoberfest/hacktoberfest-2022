@@ -5,7 +5,7 @@ import Card from 'components/card';
 import Logo, { Globe, Bug } from 'components/logo';
 import Marquee from 'components/marquee';
 import Divider from 'components/divider';
-import Headline from 'components/headline';
+import Headline from 'components/section';
 import Anchor from 'components/anchor';
 
 const Section = styled.section`

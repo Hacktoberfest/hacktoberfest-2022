@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 
-const StyledDiv = styled.div`
-  width: 100%;
+const StyledSection = styled.section`
   margin-top: 128px;
+  width: 100%;
+`;
+
+const StyledDiv = styled.div`
+  margin: 0 auto;
+  max-width: 1312px;
+  padding: 0 64px;
 
   a {
     margin: 40px 0 8px 0;
     width: max-content;
+
+    .btn {
+      margin-bottom: 64px;
+    }
   }
 
   h2 {
@@ -50,10 +60,11 @@ const StyledDiv = styled.div`
 
     h3 {
       margin: 0 auto;
+      max-width: 1088px;
     }
 
     .btn {
-      margin: 40px auto 0 auto;
+      margin: 40px auto 64px auto;
     }
 
     a {
@@ -63,9 +74,12 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Headline = (props) => {
-  console.log('ok');
-  return <StyledDiv className={props.style}>{props.children}</StyledDiv>;
+const Section = (props) => {
+  return (
+    <StyledSection>
+      <StyledDiv className={props.style}>{props.children}</StyledDiv>
+    </StyledSection>
+  );
 };
 
-export default Headline;
+export default Section;

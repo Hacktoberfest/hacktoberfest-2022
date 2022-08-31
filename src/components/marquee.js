@@ -64,12 +64,14 @@ const Marquee = (props) => {
     <MarqueeWrapper {...props} direction={props.direction}>
       <ul className="marquee_content">
         <li className={props.p1}>Registration Begins</li>
+        <li className={props.p1}>•</li>
         <li className={props.p2}>Sep 26</li>
         <li className={props.p3}>•</li>
       </ul>
 
       <ul className="marquee_content" aria-hidden="true">
         <li className={props.p1}>Registration Begins</li>
+        <li className={props.p1}>•</li>
         <li className={props.p2}>Sep 26</li>
         <li className={props.p3}>•</li>
       </ul>

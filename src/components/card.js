@@ -40,7 +40,7 @@ const MainWrapper = styled(StyledDiv)`
   border: 4px solid ${(props) => props.theme[props.secondary]};
   border-radius: 24px;
   box-shadow: 0px 0px 12px ${(props) => props.theme[props.secondary]};
-  height: 354px;
+  min-height: 354px;
   min-width: 304px;
   padding: 36px 44px 44px 44px;
   position: relative;
@@ -49,7 +49,7 @@ const MainWrapper = styled(StyledDiv)`
   &:hover {
     box-shadow: 0px 0px 25px ${(props) => props.theme[props.secondary]},
       0px 0px 8px 2px ${(props) => props.theme[props.secondary]};
-    transform: translateY(-20px);
+    transform: translateY(-12px);
 
     .binary:after {
       animation: ${textAnimation} 1s linear infinite;
@@ -90,7 +90,7 @@ const MainWrapper = styled(StyledDiv)`
     }
   }
 
-  h2 {
+  h1 {
     bottom: 44px;
     color: #170f1e;
     font-family: 'Vanguard';
@@ -102,8 +102,24 @@ const MainWrapper = styled(StyledDiv)`
 
   h3 {
     color: #170f1e;
-    font-family: 'Elevon';
+    font-family: 'Elevon', monospace;
     text-shadow: ${(props) => props.theme.bodyShadow};
+  }
+
+  p {
+    color: #170f1e;
+    font-family: 'JetBrains Mono', monospace;
+    text-shadow: ${(props) => props.theme.bodyShadow};
+
+    &:not(.binary) {
+      margin-top: 24px;
+    }
+  }
+
+  a {
+    .btn {
+      margin: 40px 16px 0 0;
+    }
   }
 
   .binary {
@@ -149,36 +165,21 @@ const MainWrapper = styled(StyledDiv)`
   }
 `;
 
+export const NewCard = (props) => {
+  return (
+    <MainWrapper id="card" primary={props.primary} secondary={props.secondary}>
+      <p className="binary top large" />
+      <p className="binary side right" />
+      <p className="binary bottom" />
+      <p className="binary side left" />
+      {props.children}
+    </MainWrapper>
+  );
+};
+
 const Card = (props) => {
-  // useEffect(() => {
-  //   const card = document.getElementById('card');
-
-  //   card.onmousemove = (e) => {
-  //     let rect = e.target.getBoundingClientRect();
-  //     let x = e.clientX - rect.left; //x position within the element.
-  //     if (x < e.target.clientWidth / 2) {
-  //       // prettier-ignore
-  //       x = ((e.target.clientWidth / 2) / x) * -1;
-  //       console.log('minus');
-  //     } else {
-  //       // prettier-ignore
-  //       x = x / (e.target.clientWidth / 2);
-  //     }
-  //     let y = e.clientY - rect.top; //y position within the element.
-  //     card.style.transform = 'rotate(' + x + 'deg)';
-  //     console.log(x);
-  //   };
-
-  //   card.onmouseleave = () => {
-  //     card.style.transform = 'rotate(0deg)';
-  //   };
-
-  //   return () => {};
-  // }, []);
-
   return (
     <MainWrapper
-      id="card"
       delay={props.delay}
       primary={props.primary}
       secondary={props.secondary}
@@ -190,7 +191,7 @@ const Card = (props) => {
       <h3>{props.title}</h3>
       <div className="divider" />
       <h3>*********</h3>
-      <h2>{props.number}</h2>
+      <h1>{props.number}</h1>
     </MainWrapper>
   );
 };
