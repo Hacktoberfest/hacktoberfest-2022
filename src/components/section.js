@@ -80,7 +80,7 @@ const StyledDiv = styled.div`
 
 const Section = (props) => {
   return (
-    <StyledSection>
+    <StyledSection id={props.id}>
       <StyledDiv className={props.style}>{props.children}</StyledDiv>
     </StyledSection>
   );

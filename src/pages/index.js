@@ -35,7 +35,7 @@ const Home = () => {
       <Marquee p2="outline" p3="fill psybeam" direction="forwards" />
       <Marquee p1="outline" p2="fill giga" p3="fill surf" direction="reverse" />
 
-      <Section>
+      <Section id="prepare-to-hack">
         <Divider />
         <Anchor href="#prepare-to-hack" />
         <h2>Prepare to Hack</h2>
@@ -58,7 +58,7 @@ const Home = () => {
                 ‘hacktoberfest’ tag to your projects, or familiarizing yourself
                 with Git.
               </p>
-              <Link href="/events#kit" passHref>
+              <Link href="/events#organizers" passHref>
                 <Button as="a" color="giga">
                   Get the Event Kit
                 </Button>
@@ -76,7 +76,7 @@ const Home = () => {
                 tests, mentors, or organizes offers much needed support for
                 open-source projects all over the world.
               </p>
-              <Link href="/about#non-code" passHref>
+              <Link href="/about#low-or-non-code" passHref>
                 <Button as="a" color="giga">
                   Learn About Non-Code Contributions
                 </Button>
@@ -86,7 +86,7 @@ const Home = () => {
         </div>
       </Section>
 
-      <Section style="right">
+      <Section id="events-all-month-long" style="right">
         <Divider style="reverse" />
         <Anchor href="#events-all-month-long" />
         <h2>Events All Month Long</h2>
@@ -111,7 +111,7 @@ const Home = () => {
         </Link>
       </Section>
 
-      <Section style="center">
+      <Section id="support-open-source" style="center">
         <h2>Support Open Source</h2>
         <h3>
           Open-source projects, maintained by community-minded coders, make the
