@@ -42,7 +42,6 @@ const StyledFooter = styled.footer`
 
   dl {
     width: 100%;
-    // background: blue;
     margin-top: 64px;
 
     dt {
@@ -58,7 +57,6 @@ const StyledFooter = styled.footer`
 
       a {
         font-family: 'JetBrains Mono', monospace;
-        // text-transform: underline;
         position: relative;
 
         &:before {
