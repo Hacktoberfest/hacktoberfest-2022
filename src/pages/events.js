@@ -56,7 +56,7 @@ const Events = ({ events, speakers }) => {
         <ContentSections sections={resources.sections} titleAs="h4" />
       </div>
 
-      <div>
+      <div id="speakers">
         <h2>Speakers &amp; Facilitators</h2>
         <p>
           This needs copy. Whether it’s your first time —or your ninth, it’s almost time to hack out four
@@ -80,7 +80,7 @@ const Events = ({ events, speakers }) => {
         </div>
       </div>
 
-      <div>
+      <div id="brand">
         <h2>Brand Guidelines</h2>
         <p>
           If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines.
