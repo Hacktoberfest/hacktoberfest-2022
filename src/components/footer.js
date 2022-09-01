@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import Logo, { Bug } from './logo';
+import { Bug } from './logo';
 import repeater from 'img/repeater.svg';
 import rainbow from 'img/rainbow-bg.svg';
+
+const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
 const StyledFooter = styled.footer`
   width: 100%;
@@ -87,7 +89,6 @@ const StyledFooter = styled.footer`
 `;
 
 const Footer = () => {
-  console.log('ok');
   return (
     <StyledFooter>
       <div className="repeater" />
@@ -102,19 +103,19 @@ const Footer = () => {
         <dl>
           <dt>Share</dt>
           <dd>
-            <a href="">Twitter</a>
+            <a href={`https://twitter.com/share?url=${encodeURIComponent(BASE_URL)}&text=${encodeURIComponent('Spread the love for open source with #Hacktoberfest, a month-long celebration of open-source projects, their maintainers, and the entire community of contributors.')}`}>Twitter</a>
           </dd>
           <dd>
-            <a href="">Facebook</a>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(BASE_URL)}`}>Facebook</a>
           </dd>
           <dd>
-            <a href="">LinkedIn</a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(BASE_URL)}`}>LinkedIn</a>
           </dd>
           <dd>
-            <a href="">Hacker News</a>
+            <a href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(BASE_URL)}&t=${encodeURIComponent('Hacktoberfest 2022')}`}>Hacker News</a>
           </dd>
           <dd>
-            <a href="">Reddit</a>
+            <a href={`https://www.reddit.com/submit?url=${encodeURIComponent(BASE_URL)}&title=${encodeURIComponent('Hacktoberfest 2022')}`}>Reddit</a>
           </dd>
         </dl>
 
