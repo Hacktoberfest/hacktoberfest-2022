@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const shimmerAnimation = () => keyframes`
@@ -61,16 +62,13 @@ const StyledButton = styled.button`
 
 }`;
 
-const Button = (props) => {
+const Button = forwardRef((props, ref) => {
   if (props.special) {
     return (
       <StyledButton
         // className="wrapper_special"
-        onClick={props.onClick}
-        as={props.as}
-        href={props.href}
-        target={props.target}
-        id={props.id}
+        {...props}
+        ref={ref}
       >
         <div className="btn special">
           {props.children}
@@ -128,17 +126,14 @@ const Button = (props) => {
   } else {
     return (
       <StyledButton
-        onClick={props.onClick}
         color={props.color}
-        as={props.as}
-        href={props.href}
-        target={props.target}
-        id={props.id}
+        {...props}
+        ref={ref}
       >
         <div className="btn">{props.children}</div>
       </StyledButton>
     );
   }
-};
+});
 
 export default Button;

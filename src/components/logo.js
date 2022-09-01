@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const StyledDiv = styled.div``;
@@ -140,8 +141,11 @@ export const Bug = () => (
   </BadgeWrapper>
 );
 
-const Logo = (props) => (
-  <LogoWrapper href={props.href} as={props.as}>
+const Logo = forwardRef((props, ref) => (
+  <LogoWrapper
+    {...props}
+    ref={ref}
+  >
     <Bug />
     <svg
       width="120"
@@ -214,6 +218,6 @@ const Logo = (props) => (
       />
     </svg>
   </LogoWrapper>
-);
+));
 
 export default Logo;
