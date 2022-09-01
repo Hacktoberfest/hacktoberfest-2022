@@ -1,4 +1,5 @@
 import { council, lowNonCode } from 'lib/about';
+import Collapse from 'components/collapse';
 
 const About = () => {
   return (
@@ -76,9 +77,16 @@ const About = () => {
 
         <div>
           {council.map(member => (
-            <div key={member.name}>
-              <img src={member.image} alt={member.name} width={128} height={128} style={{ objectFit: "cover" }}  />
-              <h3>{member.name}</h3>
+            <Collapse
+              key={member.name}
+              title={(
+                <>
+                  <img src={member.image} alt={member.name} width={128} height={128} style={{ objectFit: "cover" }} />
+                  <h3>{member.name}</h3>
+                </>
+              )}
+              collapsed
+            >
               <p>{member.role}</p>
               <p>{member.skills}</p>
               <p>{member.bio}</p>
@@ -91,7 +99,7 @@ const About = () => {
                   ))}
                 </ul>
               )}
-            </div>
+            </Collapse>
           ))}
         </div>
       </div>
