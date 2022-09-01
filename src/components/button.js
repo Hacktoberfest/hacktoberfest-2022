@@ -20,6 +20,7 @@ const StyledButton = styled.button`
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
+    display: inline-block;
     overflow: hidden;
     padding: 8px 18px;
     text-decoration: none;
