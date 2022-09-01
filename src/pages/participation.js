@@ -8,6 +8,7 @@ import {
 } from 'lib/participation';
 import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
+import Collapse from 'components/collapse';
 
 const Participation = () => {
   return (
@@ -33,11 +34,18 @@ const Participation = () => {
         <MarkdownInline string={prMrDetails.title} as="h2" />
         <Markdown string={prMrDetails.content} />
         {prMrDetails.sections.map((section) => (
-          <div key={section.title}>
-            {section.subtitle && <MarkdownInline string={section.subtitle} />}
-            <MarkdownInline string={section.title} as="h3" />
+          <Collapse
+            key={section.title}
+            title={(
+              <>
+                {section.subtitle && <MarkdownInline string={`[ ${section.subtitle} ]`} />}
+                <MarkdownInline string={section.title} as="h3" />
+              </>
+            )}
+            collapsed
+          >
             <ContentSections sections={section.items} titleAs="p" />
-          </div>
+          </Collapse>
         ))}
       </div>
 
