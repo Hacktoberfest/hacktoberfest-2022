@@ -14,7 +14,7 @@ const MarqueeWrapper = styled.div`
   display: flex;
   gap: var(--gap);
   overflow: hidden;
-  width: 100vw;
+  width: 100%;
   user-select: none;
 
   .marquee_content {
