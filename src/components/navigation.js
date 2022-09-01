@@ -41,7 +41,7 @@ const Wrapper = styled.header`
   .overlay {
     background: ${(props) => props.theme.body};
     display: block;
-    height: 100vh;
+    height: 100%;
     left: 0;
     opacity: 0;
     padding: 200px 80px;
@@ -50,7 +50,7 @@ const Wrapper = styled.header`
     transition: 0.5s ease;
     transition-delay: 0.2s;
     visibility: hidden;
-    width: 100vw;
+    width: 100%;
     z-index: 100;
 
     .btn {

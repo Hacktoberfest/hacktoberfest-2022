@@ -22,17 +22,20 @@ const StyledDiv = styled.div`
   h2 {
     text-shadow: ${(props) => props.theme.textShadow};
     margin-bottom: 40px;
+    word-wrap: break-word;
   }
 
   h3 {
     max-width: 1200px;
     text-shadow: ${(props) => props.theme.smallTextShadow};
+    word-wrap: break-word;
   }
 
   .btn {
     display: inline-block;
     margin-top: 40px;
     width: max-content;
+    max-width: 100%;
   }
 
   &.right {
@@ -46,6 +49,7 @@ const StyledDiv = styled.div`
     .btn {
       margin-right: 0;
       width: max-content;
+      max-width: 100%;
     }
 
     a {
