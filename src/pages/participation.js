@@ -1,4 +1,11 @@
-import { values, contributors, resources, prMrDetails, spam, maintainers } from 'lib/participation';
+import {
+  values,
+  contributors,
+  resources,
+  prMrDetails,
+  spam,
+  maintainers,
+} from 'lib/participation';
 import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
 
@@ -25,7 +32,7 @@ const Participation = () => {
       <div id="pr-mr-details">
         <MarkdownInline string={prMrDetails.title} as="h2" />
         <Markdown string={prMrDetails.content} />
-        {prMrDetails.sections.map(section => (
+        {prMrDetails.sections.map((section) => (
           <div key={section.title}>
             {section.subtitle && <MarkdownInline string={section.subtitle} />}
             <MarkdownInline string={section.title} as="h3" />
