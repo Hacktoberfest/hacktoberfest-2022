@@ -87,6 +87,8 @@ export const organize = {
   sections: [
     {
       title: 'Craft an event agenda.',
+      collapsible: true,
+      collapsed: true,
       content: 'Here’s an example agenda to inspire your own:',
       items: [
         'Welcome. Set a welcoming, open, and inclusive tone. Thank everyone for attending, tell them about yourself, give an overview of the programming, and remind them of the Code of Conduct.',
@@ -101,6 +103,8 @@ export const organize = {
     },
     {
       title: 'Set a date and time, and confirm the availability of your co-organizers, speakers, and facilitators.',
+      collapsible: true,
+      collapsed: true,
       items: [
         'We recommend events are completed in the first half of October to give participants time to complete 4 pull requests.',
         'To make your virtual accessible for global participants aim for between 9–11am US Eastern Time (UTC-05:00).',
@@ -108,6 +112,8 @@ export const organize = {
     },
     {
       title: 'Promote the event however you like and directly invite your community to attend.',
+      collapsible: true,
+      collapsed: true,
       content: 'Invite anyone interested in learning about, or contributing to open source. Hacktoberfest events are a way of bringing members of the open source community even closer together in a group setting, and events should be open to all!',
     },
     {
