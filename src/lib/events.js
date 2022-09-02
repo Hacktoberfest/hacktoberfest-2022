@@ -141,6 +141,8 @@ export const resources = {
     },
     {
       title: 'How to promote your event',
+      collapsible: true,
+      collapsed: true,
       items: [
         'Submit an [official event request](http://bit.ly/hacktoberfest-22-events).',
         'Remind your attendees to RSVP on the Hacktoberfest events page',
