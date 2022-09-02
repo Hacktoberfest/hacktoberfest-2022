@@ -20,6 +20,7 @@ const StyledFooter = styled.footer`
     height: 200%;
     bottom: 0;
     left: 0;
+    z-index: -1;
   }
 
   .wrapper {
