@@ -1,5 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const rotateAnimation = () => keyframes`
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.2) rotate(-90deg);
+  }
+  
+  100% {
+    transform: scale(1) rotate(-180deg);
+  }
+`;
 
 const Details = styled.details`
   summary {
@@ -16,33 +30,41 @@ const Details = styled.details`
       display: none;
     }
 
-    &::after {
+    &::before {
       font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      width: 64px;
+      flex: 0 0 64px;
       letter-spacing: 1px;
-      margin: 0 2px 0 16px;
+      text-indent: 1px;
       content: "${props => props.open ? '[-]' : '[+]'}";
-      transition: 0.2s ease;
+      transition: letter-spacing 0.2s ease 0.2s, text-indent 0.2s ease 0.2s, color 0.4s ease;
     }
 
     &:hover {
-      &::after {
-        letter-spacing: 3px;
-        margin: 0 0 0 14px;
+      &::before {
+        color: ${props => props.theme.surf};
+        letter-spacing: 4px;
+        text-indent: 4px;
+        animation: ${rotateAnimation()} 0.2s linear;
       }
     }
   }
 
   &[open] {
     summary {
-      &::after {
-        letter-spacing: 3px;
-        margin: 0 0 0 14px;
+      &::before {
+        letter-spacing: 4px;
+        text-indent: 4px;
+        transition-delay: 0s;
       }
 
       &:hover {
-        &::after {
+        &::before {
+          color: ${props => props.theme.psybeam};
           letter-spacing: 1px;
-          margin: 0 2px 0 16px;
+          text-indent: 1px;
+          animation: none;
         }
       }
     }
