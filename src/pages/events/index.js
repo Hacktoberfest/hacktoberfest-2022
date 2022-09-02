@@ -1,14 +1,12 @@
 import { useMemo, useState } from 'react';
-import { fetchEvents, fetchSpeakers, organize, resources } from '../../lib/events';
+import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
 import { ContentSections } from 'components/content';
 import { MarkdownInline } from 'components/markdown';
-
 import Button from 'components/button';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
-import Collapse from 'components/collapse';
 
-import { 
+import {
   StyledContainer,
   StyledActions,
   StyledHeader,
@@ -24,49 +22,51 @@ import {
 } from './Styles';
 
 const typesToColors = {
-  'Virtual': 'giga',
-  'Premium-Partner': 'psybeam',
-  'Community': 'surf',
-  'In-person': 'giga',
-  'Digitalocean': 'giga',
-}
+  'virtual': 'giga',
+  'premium-partner': 'psybeam',
+  'community': 'surf',
+  'in-person': 'giga',
+  'digitalocean': 'giga',
+};
 
 const Events = ({ events, speakers }) => {
   const [ eventsCount, setEventsCount ] = useState(3);
   const eventsList = useMemo(() => events.slice(0, eventsCount), [ events, eventsCount ]);
+
   return (
     <StyledContainer>
-
       <StyledEventHero>
         <h1>Events for 2022</h1>
         <h3>Find what you need quickly</h3>
         <StyledActions>
-        <Button as="a" href="#" color="spark">Event List</Button>
-        <Button as="a" href="#" color="giga">Event Organizer Kit</Button>
-        <Button as="a" href="#" color="surf">Speakers & Facilitators</Button>
-        <Button as="a" href="#" color="psybeam">Brand Guidelines</Button>
+          <Button as="a" href="#events" color="spark">Event List</Button>
+          <Button as="a" href="#organizers" color="giga">Event Organizer Kit</Button>
+          <Button as="a" href="#speakers" color="surf">Speakers & Facilitators</Button>
+          <Button as="a" href="#brand" color="psybeam">Brand Guidelines</Button>
         </StyledActions>
       </StyledEventHero>
 
       <StyledEvents id="events">
         <StyledHeader reverse={true}>
           <StyledHeaderTitle reverse={true}>
-            <Anchor href="#prepare-to-hack" />
+            <Anchor href="#events" />
             <h2>Global Events</h2>
           </StyledHeaderTitle>
           <div>
             <Divider style="reverse" />
-            <p>Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests.</p>
+            <p>
+              Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests.
+            </p>
           </div>
         </StyledHeader>
         <StyledList>
           {eventsList.map(event => (
-            <StyledListItem key={event.title} >
-              {event.type.map(type => 
-                <StyledEventsListItemEyebrow color={'surf'}>
-                { `[ ${type} ]`}
+            <StyledListItem key={event.title}>
+              {event.type.map(type => (
+                <StyledEventsListItemEyebrow key={type} color={typesToColors[type.toLowerCase()] || 'surf'}>
+                  {`[ ${type} ]`}
                 </StyledEventsListItemEyebrow>
-              )}
+              ))}
               <h3>{event.title}</h3>
               <ul>
                 <li><span>Location:</span> {event.location}</li>
@@ -77,8 +77,8 @@ const Events = ({ events, speakers }) => {
               </ul>
             </StyledListItem>
           ))}
-        {eventsCount < events.length &&
-          <Button special onClick={() => setEventsCount(count => count + 3)}>Load More Events</Button>}
+          {eventsCount < events.length &&
+            <Button special onClick={() => setEventsCount(count => count + 3)}>Load More Events</Button>}
         </StyledList>
       </StyledEvents>
 
@@ -86,11 +86,14 @@ const Events = ({ events, speakers }) => {
         <StyledHeader>
           <div>
             <Divider />
-            <p>Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.</p>
-            <Button special as="a" href="#" >Download the Kit</Button>
+            <p>
+              Here are all the resources you need to plan and host a successful Hacktoberfest event.
+              We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.
+            </p>
+            <Button special as="a" href="#">Download the Kit</Button>
           </div>
           <StyledHeaderTitle>
-            <Anchor href="#prepare-to-hack" />
+            <Anchor href="#organizers" />
             <h2>Event Organizers</h2>
           </StyledHeaderTitle>
         </StyledHeader>
@@ -109,14 +112,15 @@ const Events = ({ events, speakers }) => {
       <StyledSpeakers id="speakers">
         <StyledHeader reverse={true}>
           <StyledHeaderTitle reverse={true}>
-            <Anchor href="#prepare-to-hack" />
+            <Anchor href="#speakers" />
             <h2>Speakers &amp; Facilitators</h2>
           </StyledHeaderTitle>
           <div>
             <Divider style="reverse" />
-            <p>This needs copy. Whether it’s your first time —or your ninth, it’s almost time to hack out four
-          pristine pull/merge requests and complete your mission for open source. Join other members of the
-          open source community on the Hacktoberfest Discord.</p>
+            <p>
+              Open source experts and community leaders are all in on Hacktoberfest.
+              Find them helping contributors complete their pull/merge requests all month long in events throughout October.
+            </p>
           </div>
         </StyledHeader>
         <StyledList>
@@ -135,16 +139,18 @@ const Events = ({ events, speakers }) => {
         </StyledList>
       </StyledSpeakers>
 
-
       <StyledBrand id="brand">
         <StyledHeader>
           <div>
-            <Divider/>
-            <p>If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines. Download them here and dive in.</p>
-            <Button special as="a" href="#" >Download the Hacktoberfest Brand Guidelines</Button>
+            <Divider />
+            <p>
+              If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines
+              Download them here and dive in.
+            </p>
+            <Button special as="a" href="#">Download the Hacktoberfest Brand Guidelines</Button>
           </div>
           <StyledHeaderTitle>
-            <Anchor href="#prepare-to-hack" />
+            <Anchor href="#brand" />
             <h2>Brand Guidelines</h2>
           </StyledHeaderTitle>
         </StyledHeader>

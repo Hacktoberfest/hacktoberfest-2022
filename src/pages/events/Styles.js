@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from '../../themes/breakpoints';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 export const StyledContainer = styled.div`
   margin: 0 42px;
   padding: 0;
+  
   ${mQ(bp.largeDesktop, 'min')} {
     max-width: 1440px;
     margin: 0 auto;
@@ -15,6 +16,7 @@ export const StyledEventHero = styled.div`
     margin: 48px 0 40px;
     text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
   }
+  
   h3 {
     font-family: 'Elevon';
     margin-bottom: 16px;
@@ -29,7 +31,7 @@ export const StyledEvents = styled.div`
 export const StyledHeader = styled.div`
   display: grid;
   grid-gap: 32px;
-  grid-template-columns: ${(props) => props.reverse ? '1fr 3fr' : '3fr 1fr'};
+  grid-template-columns: ${props => props.reverse ? '1fr 3fr' : '3fr 1fr'};
 
   ${mQ(bp.tablet, 'max')} {
     grid-template-columns: 1fr;
@@ -47,14 +49,15 @@ export const StyledHeader = styled.div`
 export const StyledHeaderTitle = styled.div`
   h2 {
     text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
-  }  
+  }
+  
   ${mQ(bp.tablet, 'max')} {
-    ${(props) => props.reverse ? '' : 'grid-row-start: 1'};
+    ${props => props.reverse ? '' : 'grid-row-start: 1'};
   }
 `;
 
 export const StyledEventsListItemEyebrow = styled.div`
-  color: ${(props) => props.theme[props.color] || props.theme.text};
+  color: ${props => props.theme[props.color] || props.theme.text};
 `;
 
 export const StyledList = styled.div`
@@ -75,7 +78,7 @@ export const StyledListItem = styled.div`
     content: '';
     height: 1px;
     width: 100%;
-    background: linear-gradient(90deg, ${(props) => props.theme.spark} 0%, ${(props) => props.theme.surf} 50%, ${(props) => props.theme.psybeam} 100%);
+    background: linear-gradient(90deg, ${props => props.theme.spark} 0%, ${props => props.theme.surf} 50%, ${props => props.theme.psybeam} 100%);
   }
 
   h3 {
@@ -87,16 +90,19 @@ export const StyledListItem = styled.div`
     line-height: 32px;
   }
 
-  ul li {
-    display: inline-block;
-    margin: 0 40px 0 0;
-    span {
-      font-family: 'JetBrains Mono';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      opacity: 0.5;
+  ul {
+    li {
+      display: inline-block;
+      margin: 0 40px 0 0;
+
+      span {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        opacity: 0.5;
+      }
     }
   }
 `;
@@ -120,7 +126,7 @@ export const StyledFAQ = styled.div`
     content: '';
     height: 1px;
     width: 100%;
-    background: linear-gradient(90deg, ${(props) => props.theme.spark} 0%, ${(props) => props.theme.surf} 50%, ${(props) => props.theme.psybeam} 100%);
+    background: linear-gradient(90deg, ${props => props.theme.spark} 0%, ${props => props.theme.surf} 50%, ${props => props.theme.psybeam} 100%);
   }
 
   h3 {
@@ -128,14 +134,18 @@ export const StyledFAQ = styled.div`
     text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
   }
 
-  details, div {
+  details,
+  div {
     margin: 16px 0;
   }
 
-  details ul li {
-    margin: 16px 0;
-    list-style: disc;
-    margin-left: 16px
+  details {
+    ul {
+      li {
+        margin: 16px 0 16px 16px;
+        list-style: disc;
+      }
+    }
   }
 `;
 

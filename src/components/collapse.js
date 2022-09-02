@@ -19,7 +19,7 @@ const Details = styled.details`
     &::after {
       font-family: 'JetBrains Mono', monospace;
       letter-spacing: 1px;
-      margin: 0 0 0 16px;
+      margin: 0 2px 0 16px;
       content: "${props => props.open ? '[-]' : '[+]'}";
       transition: 0.2s ease;
     }
@@ -42,7 +42,7 @@ const Details = styled.details`
       &:hover {
         &::after {
           letter-spacing: 1px;
-          margin: 0 0 0 16px;
+          margin: 0 2px 0 16px;
         }
       }
     }
