@@ -10,7 +10,6 @@ import Anchor from 'components/anchor';
 
 export const StyledContainer = styled.div`
   margin: 0 42px;
-  padding: 0;
   
   ${mQ(bp.xLargeDesktop, 'min')} {
     max-width: 1440px;

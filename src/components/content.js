@@ -3,12 +3,6 @@ import { Markdown, MarkdownInline } from './markdown';
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
-
-  p {
-    display: block;
-    margin: 0 64px;
-  }
-
   h4 {
     display: flex;
 
