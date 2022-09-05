@@ -88,10 +88,6 @@ export const StyledListItem = styled.div`
     background: linear-gradient(90deg, ${props => props.theme.spark} 0%, ${props => props.theme.surf} 50%, ${props => props.theme.psybeam} 100%);
   }
 
-  a img {
-    margin: 12px 0 12px;
-  }
-
   h3 {
     margin: 16px 0;
     font-family: 'JetBrains Mono';

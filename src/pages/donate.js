@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { knuthShuffle } from 'knuth-shuffle';
-import fetchProjects from 'lib/donate';
 import styled from 'styled-components';
+import fetchProjects from 'lib/donate';
 import Button from 'components/button';
+import Collapse from 'components/collapse';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 import { StyledContainer, StyledList, StyledListItem } from './events';
@@ -39,33 +40,73 @@ export const StyledSubText = styled.div`
   }
 `;
 
-export const StyledFrame = styled.iframe`
-  background: #fff;
-
+export const StyledProject = styled(StyledListItem)`
+  details {
+    summary {
+      > div {
+        > p {
+          color: ${props => props.theme[props.color] || props.theme.text};
+        }
+        
+        > div {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          margin: 8px 0;
+          
+          > div {
+            margin: 8px 0;
+            
+            h3 {
+              margin: 0 0 16px;
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 
-const Project = ({ project }) => {
-  const [ showEmbed, setShowEmbed ] = useState(false);
-  const clickHandler = useCallback(event => {
-    event.preventDefault();
-    setShowEmbed(current => !current);
-  }, []);
+export const StyledFrame = styled.iframe`
+  background: #fff;
+`;
 
+const typesToColors = {
+  'opencollective': 'surf',
+  'github sponsors': 'spark',
+};
+
+const Project = ({ project }) => {
   const allLinks = useMemo(() => Array.isArray(project.link) ? project.link : [ project.link ], [ project ]);
+  const color = typesToColors[project.source.toLowerCase()] || 'surf';
 
   return (
-    <StyledListItem>
-      <a href={allLinks[0].url} onClick={clickHandler}>
-        <img src={project.icon} alt={project.name} width={64} height={64} style={{ objectFit: "cover" }} />
-        <p>[ {project.source} ]</p>
-        <h3>{project.name}</h3>
-        <span>{project.short}</span>
-      </a>
-      {showEmbed && (project.source === 'OpenCollective'
-        ? <StyledFrame src={allLinks[0].url} width="100%" height="920" frameBorder="0" scrolling="no" />
-        : allLinks.map(link => <a key={link.title} href={link.url} target="_blank"
-                                  rel="noreferrer noopener">{link.title}</a>))}
-    </StyledListItem>
+    <StyledProject color={color}>
+      <Collapse collapsed title={(
+        <div>
+          <p>[ {project.source} ]</p>
+          <div>
+            <img src={project.icon} alt={project.name} width={64} height={64} style={{ objectFit: "cover" }} />
+            <div>
+              <h3>{project.name}</h3>
+              <span>{project.short}</span>
+            </div>
+          </div>
+        </div>
+      )}>
+        {project.source === 'OpenCollective'
+          ? <StyledFrame src={allLinks[0].url} width="100%" height="920" frameBorder="0" scrolling="no" />
+          : (
+            <p>
+              {allLinks.map(link =>
+                <Button key={link.title} color={color} as="a" href={link.url} target="_blank" rel="noreferrer noopener">
+                  {link.title}
+                </Button>
+              )}
+            </p>
+          )}
+      </Collapse>
+    </StyledProject>
   );
 };
 
