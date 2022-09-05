@@ -10,11 +10,11 @@ const StyledButton = styled.button`
   filter: ${(props) => props.theme.textDropShadow};
   
   .btn {
-    background: ${(props) => props.theme[props.color] || props.theme.text};
+    background: ${(props) => props.theme[props.color] || props.color || props.theme.text};
     border: none;
     border-radius: 2px;
     clip-path: polygon(12px 0, 100% 0, 100% 72%, calc(100% - 12px) 100%, 0 100%, 0 12px);
-    color: ${(props) => props.theme.body};
+    color: ${(props) => props.theme[props.text] || props.text || props.theme.body};
     cursor: pointer;
     font-family: 'JetBrains Mono', sans-serif;
     font-size: 16px;

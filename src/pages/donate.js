@@ -13,12 +13,12 @@ export const StyledSearch = styled.input`
   width: 100%;
   height: 56px;
   background: linear-gradient(90deg, rgba(255, 226, 125, 0.1) 0%, rgba(100, 227, 255, 0.1) 50.52%, rgba(145, 146, 255, 0.1) 100%);
-  border: 1px solid #E5E1E6;
+  border: 1px solid ${props => props.theme.text};
   border-radius: 4px;
-  color: #fff;
+  color: ${props => props.theme.text};
 
   &::placeholder {
-    color: #fff;
+    color: ${props => props.theme.text};
   }
 `;
 
@@ -31,9 +31,9 @@ export const StyledSubText = styled.div`
   font-size: 16px;
   line-height: 24px;
   text-transform: uppercase;
-  color: #E5E1E6;
+  color: ${props => props.theme.text};
   opacity: 0.75;
-  text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
+  text-shadow: ${props => props.theme.smallTextShadow};
 
   ${mQ(bp.tablet, 'max')} {
     width: 100%;
@@ -45,7 +45,7 @@ export const StyledProject = styled(StyledListItem)`
     summary {
       > div {
         > p {
-          color: ${props => props.theme[props.color] || props.theme.text};
+          color: ${props => props.theme[props.color] || props.color || props.theme.text};
         }
         
         > div {
@@ -72,21 +72,21 @@ export const StyledFrame = styled.iframe`
 `;
 
 const typesToColors = {
-  'opencollective': 'surf',
-  'github sponsors': 'spark',
+  'opencollective': [ '#1F87FF', '#170F1E' ],
+  'github sponsors': [ '#EA4AAA', '#170F1E' ],
 };
 
 const Project = ({ project }) => {
   const allLinks = useMemo(() => Array.isArray(project.link) ? project.link : [ project.link ], [ project ]);
-  const color = typesToColors[project.source.toLowerCase()] || 'surf';
+  const color = useMemo(() => typesToColors[project.source.toLowerCase()], [ project ]);
 
   return (
-    <StyledProject color={color}>
+    <StyledProject color={color[0]}>
       <Collapse collapsed title={(
         <div>
           <p>[ {project.source} ]</p>
           <div>
-            <img src={project.icon} alt={project.name} width={64} height={64} style={{ objectFit: "cover" }} />
+            <img src={project.icon} alt="" width={64} height={64} style={{ objectFit: "cover" }} />
             <div>
               <h3>{project.name}</h3>
               <span>{project.short}</span>
@@ -99,7 +99,15 @@ const Project = ({ project }) => {
           : (
             <p>
               {allLinks.map(link =>
-                <Button key={link.title} color={color} as="a" href={link.url} target="_blank" rel="noreferrer noopener">
+                <Button
+                  key={link.title}
+                  color={color[0]}
+                  text={color[1]}
+                  as="a"
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {link.title}
                 </Button>
               )}
