@@ -1,5 +1,30 @@
 import Collapse from './collapse';
 import { Markdown, MarkdownInline } from './markdown';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+
+  p {
+    display: block;
+    margin: 0 64px;
+  }
+
+  h4 {
+    display: flex;
+
+    &::before {
+      font-size: 16px;
+      font-weight: normal;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      width: 64px;
+      flex: 0 0 64px;
+      letter-spacing: 1px;
+      text-indent: 1px;
+      content: "[ ]";
+    }
+  }
+`;
 
 const ContentSectionBody = ({ section }) => (
   <>
@@ -28,9 +53,9 @@ export const ContentSections = ({ sections, titleAs = 'h3' }) => sections.map(se
       </Collapse>
     )
     : (
-      <div key={section.title || section.content}>
+      <StyledDiv key={section.title || section.content}>
         {section.title && <MarkdownInline string={section.title} as={titleAs} />}
         <ContentSectionBody section={section} />
-      </div>
+      </StyledDiv>
     )
 ));
