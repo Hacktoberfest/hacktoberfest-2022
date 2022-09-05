@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
 import { ContentSections } from 'components/content';
 import { MarkdownInline } from 'components/markdown';
@@ -9,8 +12,8 @@ import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 
 export const StyledContainer = styled.div`
-  margin: 0 42px;
-  
+  margin: 0 64px;
+
   ${mQ(bp.xLargeDesktop, 'min')} {
     max-width: 1440px;
     margin: 0 auto;
@@ -20,13 +23,15 @@ export const StyledContainer = styled.div`
 export const StyledEventHero = styled.div`
   h1 {
     margin: 48px 0 40px;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
+    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
+      1px 1px 6px rgba(144, 148, 255, 0.5);
   }
-  
+
   h3 {
     font-family: 'Elevon';
     margin-bottom: 16px;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
+    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
+      1px 1px 6px rgba(144, 148, 255, 0.5);
   }
 `;
 
@@ -37,7 +42,7 @@ export const StyledEvents = styled.div`
 export const StyledHeader = styled.div`
   display: grid;
   grid-gap: 32px;
-  grid-template-columns: ${props => props.reverse ? '1fr 3fr' : '3fr 1fr'};
+  grid-template-columns: ${(props) => (props.reverse ? '1fr 3fr' : '3fr 1fr')};
 
   ${mQ(bp.tablet, 'max')} {
     grid-template-columns: 1fr;
@@ -54,16 +59,17 @@ export const StyledHeader = styled.div`
 
 export const StyledHeaderTitle = styled.div`
   h2 {
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
+    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
+      1px 1px 6px rgba(144, 148, 255, 0.5);
   }
-  
+
   ${mQ(bp.tablet, 'max')} {
-    ${props => props.reverse ? '' : 'grid-row-start: 1'};
+    ${(props) => (props.reverse ? '' : 'grid-row-start: 1')};
   }
 `;
 
 export const StyledEventsListItemEyebrow = styled.div`
-  color: ${props => props.theme[props.color] || props.theme.text};
+  color: ${(props) => props.theme[props.color] || props.theme.text};
 `;
 
 export const StyledList = styled.div`
@@ -84,7 +90,12 @@ export const StyledListItem = styled.div`
     content: '';
     height: 1px;
     width: 100%;
-    background: linear-gradient(90deg, ${props => props.theme.spark} 0%, ${props => props.theme.surf} 50%, ${props => props.theme.psybeam} 100%);
+    background: linear-gradient(
+      90deg,
+      ${(props) => props.theme.spark} 0%,
+      ${(props) => props.theme.surf} 50%,
+      ${(props) => props.theme.psybeam} 100%
+    );
   }
 
   h3 {
@@ -114,11 +125,11 @@ export const StyledListItem = styled.div`
 `;
 
 export const StyledSpeakers = styled.div`
-  margin: 126px 0 0;  
+  margin: 126px 0 0;
 `;
 
 export const StyledBrand = styled.div`
-  margin: 126px 0 0;  
+  margin: 126px 0 0;
 `;
 
 export const StyledFAQ = styled.div`
@@ -132,12 +143,18 @@ export const StyledFAQ = styled.div`
     content: '';
     height: 1px;
     width: 100%;
-    background: linear-gradient(90deg, ${props => props.theme.spark} 0%, ${props => props.theme.surf} 50%, ${props => props.theme.psybeam} 100%);
+    background: linear-gradient(
+      90deg,
+      ${(props) => props.theme.spark} 0%,
+      ${(props) => props.theme.surf} 50%,
+      ${(props) => props.theme.psybeam} 100%
+    );
   }
 
   h3 {
     margin-bottom: 20px;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
+    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
+      1px 1px 6px rgba(144, 148, 255, 0.5);
   }
 
   details,
@@ -158,7 +175,9 @@ export const StyledFAQ = styled.div`
 export const StyledActions = styled.div`
   display: grid;
   grid-gap: 24px;
-  grid-template-columns: fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%);
+  grid-template-columns: fit-content(100%) fit-content(100%) fit-content(100%) fit-content(
+      100%
+    );
 
   ${mQ(bp.tablet, 'max')} {
     grid-template-columns: 1fr;
@@ -166,16 +185,19 @@ export const StyledActions = styled.div`
 `;
 
 const typesToColors = {
-  'virtual': 'giga',
+  virtual: 'giga',
   'premium-partner': 'psybeam',
-  'community': 'surf',
+  community: 'surf',
   'in-person': 'giga',
-  'digitalocean': 'giga',
+  digitalocean: 'giga',
 };
 
 const Events = ({ events, speakers }) => {
-  const [ eventsCount, setEventsCount ] = useState(3);
-  const eventsList = useMemo(() => events.slice(0, eventsCount), [ events, eventsCount ]);
+  const [eventsCount, setEventsCount] = useState(3);
+  const eventsList = useMemo(
+    () => events.slice(0, eventsCount),
+    [events, eventsCount]
+  );
 
   return (
     <StyledContainer>
@@ -183,10 +205,18 @@ const Events = ({ events, speakers }) => {
         <h1>Events for 2022</h1>
         <h3>Find what you need quickly</h3>
         <StyledActions>
-          <Button as="a" href="#events" color="spark">Event List</Button>
-          <Button as="a" href="#organizers" color="giga">Event Organizer Kit</Button>
-          <Button as="a" href="#speakers" color="surf">Speakers & Facilitators</Button>
-          <Button as="a" href="#brand" color="psybeam">Brand Guidelines</Button>
+          <Button as="a" href="#events" color="spark">
+            Event List
+          </Button>
+          <Button as="a" href="#organizers" color="giga">
+            Event Organizer Kit
+          </Button>
+          <Button as="a" href="#speakers" color="surf">
+            Speakers & Facilitators
+          </Button>
+          <Button as="a" href="#brand" color="psybeam">
+            Brand Guidelines
+          </Button>
         </StyledActions>
       </StyledEventHero>
 
@@ -199,30 +229,54 @@ const Events = ({ events, speakers }) => {
           <div>
             <Divider style="reverse" />
             <p>
-              Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests.
+              Hacktoberfest events are happening all month long so you can join
+              your friends day or night, from dusk to dawn, as you work to
+              complete your pull/merge requests.
             </p>
           </div>
         </StyledHeader>
         <StyledList>
-          {eventsList.map(event => (
+          {eventsList.map((event) => (
             <StyledListItem key={event.title}>
-              {event.type.map(type => (
-                <StyledEventsListItemEyebrow key={type} color={typesToColors[type.toLowerCase()] || 'surf'}>
+              {event.type.map((type) => (
+                <StyledEventsListItemEyebrow
+                  key={type}
+                  color={typesToColors[type.toLowerCase()] || 'surf'}
+                >
                   {`[ ${type} ]`}
                 </StyledEventsListItemEyebrow>
               ))}
               <h3>{event.title}</h3>
               <ul>
-                <li><span>Location:</span> {event.location}</li>
-                <li><span>Date:</span> {event.date}</li>
-                <li><span>Time:</span> {event.time}</li>
-                <li><span>Format:</span> {event.format.join(', ')}</li>
-                <li><span>RSVP:</span> <a href={event.rsvp} rel="noreferrer noopener">{event.rsvp}</a></li>
+                <li>
+                  <span>Location:</span> {event.location}
+                </li>
+                <li>
+                  <span>Date:</span> {event.date}
+                </li>
+                <li>
+                  <span>Time:</span> {event.time}
+                </li>
+                <li>
+                  <span>Format:</span> {event.format.join(', ')}
+                </li>
+                <li>
+                  <span>RSVP:</span>{' '}
+                  <a href={event.rsvp} rel="noreferrer noopener">
+                    {event.rsvp}
+                  </a>
+                </li>
               </ul>
             </StyledListItem>
           ))}
-          {eventsCount < events.length &&
-            <Button special onClick={() => setEventsCount(count => count + 3)}>Load More Events</Button>}
+          {eventsCount < events.length && (
+            <Button
+              special
+              onClick={() => setEventsCount((count) => count + 3)}
+            >
+              Load More Events
+            </Button>
+          )}
         </StyledList>
       </StyledEvents>
 
@@ -231,10 +285,14 @@ const Events = ({ events, speakers }) => {
           <div>
             <Divider />
             <p>
-              Here are all the resources you need to plan and host a successful Hacktoberfest event.
-              We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.
+              Here are all the resources you need to plan and host a successful
+              Hacktoberfest event. We encourage virtual events and have included
+              a collection of tips and tricks that will help you keep
+              participants engaged.
             </p>
-            <Button special as="a" href="#">Download the Kit</Button>
+            <Button special as="a" href="#">
+              Download the Kit
+            </Button>
           </div>
           <StyledHeaderTitle>
             <Anchor href="#organizers" />
@@ -262,21 +320,35 @@ const Events = ({ events, speakers }) => {
           <div>
             <Divider style="reverse" />
             <p>
-              Open source experts and community leaders are all in on Hacktoberfest.
-              Find them helping contributors complete their pull/merge requests all month long in events throughout October.
+              Open source experts and community leaders are all in on
+              Hacktoberfest. Find them helping contributors complete their
+              pull/merge requests all month long in events throughout October.
             </p>
           </div>
         </StyledHeader>
         <StyledList>
-          {speakers.map(speaker => (
+          {speakers.map((speaker) => (
             <StyledListItem key={speaker.name}>
               <h3>{speaker.name}</h3>
               <ul>
-                <li><span>Pronouns:</span> {speaker.pronouns}</li>
-                <li><span>Location:</span> {speaker.location}</li>
-                <li><span>Company:</span> {speaker.company}</li>
-                <li><span>Social:</span> <a href={speaker.social} target="_blank">{speaker.social.replace(/^https?:\/\//, '')}</a></li>
-                <li><span>Specialization:</span> {speaker.specialization}</li>
+                <li>
+                  <span>Pronouns:</span> {speaker.pronouns}
+                </li>
+                <li>
+                  <span>Location:</span> {speaker.location}
+                </li>
+                <li>
+                  <span>Company:</span> {speaker.company}
+                </li>
+                <li>
+                  <span>Social:</span>{' '}
+                  <a href={speaker.social} target="_blank">
+                    {speaker.social.replace(/^https?:\/\//, '')}
+                  </a>
+                </li>
+                <li>
+                  <span>Specialization:</span> {speaker.specialization}
+                </li>
               </ul>
             </StyledListItem>
           ))}
@@ -288,10 +360,13 @@ const Events = ({ events, speakers }) => {
           <div>
             <Divider />
             <p>
-              If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines
+              If you plan to use the Hacktoberfest brand in promotional
+              material, you’ll need to abide by our brand use guidelines
               Download them here and dive in.
             </p>
-            <Button special as="a" href="#">Download the Hacktoberfest Brand Guidelines</Button>
+            <Button special as="a" href="#">
+              Download the Hacktoberfest Brand Guidelines
+            </Button>
           </div>
           <StyledHeaderTitle>
             <Anchor href="#brand" />

@@ -9,25 +9,65 @@ import Anchor from 'components/anchor';
 import Marquee from 'components/marquee';
 import Card, { NewCard } from 'components/card';
 import Column from 'components/column';
+import osheart from 'img/os-heart.svg';
+import Logo from 'components/logo-2';
+import grid from 'img/grid.svg';
 
-const StyledCards = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  gap: 40px;
+// const StyledCards = styled.div`
+//   display: flex;
+//   flex-flow: row wrap;
+//   justify-content: center;
+//   gap: 40px;
+// `;
+
+const StyledHero = styled.section`
+  width: 100%;
+
+  .content {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    padding: 64px 0;
+    align-items: center;
+    max-width: 1312px;
+    position: relative;
+
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: '';
+      background: url(${grid.src}) no-repeat center center;
+      background-size: cover;
+      width: 100%;
+      height: 456px;
+    }
+  }
 `;
 
 const Home = () => {
-  const [ days, setDays ] = useState(null);
-  const [ hours, setHours ] = useState(null);
-  const [ minutes, setMinutes] = useState(null);
+  const [days, setDays] = useState(null);
+  const [hours, setHours] = useState(null);
+  const [minutes, setMinutes] = useState(null);
 
   const setCountdown = useCallback(() => {
     const target = new Date('2022-09-26T12:00:00Z');
     const diff = target - new Date();
-    setDays(Math.floor(diff / 1000 / 60 / 60 / 24).toString().padStart(2, '0'));
-    setHours(Math.floor((diff / 1000 / 60 / 60) % 24).toString().padStart(2, '0'));
-    setMinutes(Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0'));
+    setDays(
+      Math.floor(diff / 1000 / 60 / 60 / 24)
+        .toString()
+        .padStart(2, '0')
+    );
+    setHours(
+      Math.floor((diff / 1000 / 60 / 60) % 24)
+        .toString()
+        .padStart(2, '0')
+    );
+    setMinutes(
+      Math.floor((diff / 1000 / 60) % 60)
+        .toString()
+        .padStart(2, '0')
+    );
   }, []);
 
   useEffect(() => {
@@ -41,7 +81,7 @@ const Home = () => {
 
   return (
     <>
-      <StyledCards>
+      {/* <StyledCards>
         <Card
           primary="spark"
           secondary="psybeam"
@@ -63,9 +103,22 @@ const Home = () => {
           number={minutes}
           delay="1.3s"
         />
-      </StyledCards>
-      <Marquee p2="outline" p3="fill psybeam" direction="forwards" />
-      <Marquee p1="outline" p2="fill giga" p3="fill surf" direction="reverse" />
+      </StyledCards> */}
+      <StyledHero>
+        <div className="content">
+          <Logo width="80px" />
+        </div>
+      </StyledHero>
+      <Marquee
+        text1="registration begins"
+        text2="sept 26"
+        direction="forwards"
+      />
+      <Marquee
+        text1="systems critical"
+        text2="systems critical"
+        direction="reverse"
+      />
 
       <Section id="prepare-to-hack">
         <Divider />
@@ -143,7 +196,13 @@ const Home = () => {
         </Link>
       </Section>
 
-      <Section id="support-open-source" style="center">
+      <Section style="center">
+        {/* <img
+          src={osheart.src}
+          alt="Girl in a jacket"
+          width="1256"
+          height="400"
+        /> */}
         <h2>Support Open Source</h2>
         <h3>
           Open-source projects, maintained by community-minded coders, make the

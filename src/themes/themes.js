@@ -19,6 +19,12 @@ export const darkTheme = {
     '-1px -1px 6px rgba(255, 215, 77, 0.3), 1px 1px 6px rgba(124, 127, 255, 0.3)',
   textDropShadow:
     'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 1)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 1))',
+
+  //new shadows
+  glowLite:
+    '-1px -1px 6px rgba(255, 215, 77, 0.6), 1px 1px 6px rgba(124, 127, 255, 0.6)',
+  glowLiteDS:
+    'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 0.6)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 0.6))',
 };
 
 export const liteTheme = {

@@ -31,7 +31,7 @@ const StyledA = styled.a`
 
   &:hover {
     opacity: 1;
-    filter: ${(props) => props.theme.textDropShadow};
+    filter: ${(props) => props.theme.glowLiteDS};
 
     :after {
       animation: ${textAnimation} 1s linear infinite;

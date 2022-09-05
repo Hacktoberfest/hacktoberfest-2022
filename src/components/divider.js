@@ -8,6 +8,7 @@ const DividerWrapper = styled(StyledDiv)`
   height: 16px;
   position: relative;
   width: 100%;
+  filter: ${(props) => props.theme.glowLiteDS};
 
   &.reverse {
     transform: scaleX(-1);
@@ -15,14 +16,9 @@ const DividerWrapper = styled(StyledDiv)`
 
   .long {
     align-self: flex-end;
-    background: linear-gradient(
-      90deg,
-      ${(props) => props.theme.spark} 0%,
-      ${(props) => props.theme.surf} 50%
-    );
-    filter: ${(props) => props.theme.textDropShadow};
+    background: ${(props) => props.theme.text};
     height: 1px;
-    width: 66%;
+    width: 50%;
   }
 
   .angled_wrapper {
@@ -34,25 +30,19 @@ const DividerWrapper = styled(StyledDiv)`
     width: 16px;
 
     .angled {
-      background: ${(props) => props.theme.surf};
-      filter: ${(props) => props.theme.textDropShadow};
+      background: ${(props) => props.theme.text};
       height: 1px;
       position: absolute;
       transform: rotate(-45deg);
-      width: 23px;
+      width: 22px;
     }
   }
 
   .short {
     align-self: flex-start;
-    background: linear-gradient(
-      90deg,
-      ${(props) => props.theme.surf} 0%,
-      ${(props) => props.theme.psybeam} 50%
-    );
-    filter: ${(props) => props.theme.textDropShadow};
+    background: ${(props) => props.theme.text};
     height: 1px;
-    width: 33%;
+    width: 50%;
   }
 
   .garnish_wrapper {
@@ -65,9 +55,7 @@ const DividerWrapper = styled(StyledDiv)`
     width: 20%;
 
     .garnish {
-      background: ${(props) => props.theme.giga};
-      box-shadow: 0px 0px 12px ${(props) => props.theme.giga};
-      filter: none;
+      background: ${(props) => props.theme.text};
       height: 100%;
 
       &.short {
@@ -82,7 +70,6 @@ const DividerWrapper = styled(StyledDiv)`
 `;
 
 export const Garnish = () => {
-  console.log('ok');
   return (
     <div className="garnish_wrapper">
       <div className="garnish-1" />
