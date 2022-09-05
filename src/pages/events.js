@@ -12,7 +12,7 @@ export const StyledContainer = styled.div`
   margin: 0 42px;
   padding: 0;
   
-  ${mQ(bp.largeDesktop, 'min')} {
+  ${mQ(bp.xLargeDesktop, 'min')} {
     max-width: 1440px;
     margin: 0 auto;
   }
@@ -86,6 +86,10 @@ export const StyledListItem = styled.div`
     height: 1px;
     width: 100%;
     background: linear-gradient(90deg, ${props => props.theme.spark} 0%, ${props => props.theme.surf} 50%, ${props => props.theme.psybeam} 100%);
+  }
+
+  a img {
+    margin: 12px 0 12px;
   }
 
   h3 {

@@ -6,6 +6,7 @@ export const breakpoints = {
   desktop: 1024,
   mediumDesktop: 1220,
   largeDesktop: 1440,
+  xLargeDesktop: 1660,
 };
 
 export const determineMediaQuery = (size, limit = 'max', unit = 'px') => `@media only screen and (${limit}-width: ${size}${unit})`;
