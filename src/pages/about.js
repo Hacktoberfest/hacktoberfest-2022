@@ -1,12 +1,96 @@
 import { council, lowNonCode } from 'lib/about';
 import Collapse from 'components/collapse';
+import { StyledContainer, StyledEventHero, StyledActions  } from './events';
+import Button from 'components/button';
+import Anchor from 'components/anchor';
+import Divider from 'components/divider';
+import styled from 'styled-components';
+import Marquee from 'components/marquee';
+
+export const StyledLore = styled.div`
+  margin: 120px 0 0;
+
+  h2 {
+    margin: 0 0 48px;
+  }
+  p {
+    margin-bottom: 24px;
+  }
+`;
+
+export const StyledNew = styled.div`
+  margin: 32px 0;
+`;
+
+export const StyledNoCode = styled.div`
+  margin: 32px 0;
+
+
+  h3 {
+    font-family: 'Elevon';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 40px;
+    text-transform: uppercase;
+    color: #E5E1E6;
+    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5), 1px 1px 6px rgba(144, 148, 255, 0.5);
+    margin: 8px 0 24px;
+  }
+
+  p {
+    margin-bottom: 24px;
+  }
+
+  table {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+`;
+
+export const StyledCouncil = styled.div`
+  margin: 32px 0;
+
+  p {
+    margin: 32px 0 24px;
+  }
+`;
+
+export const StyledCouncilMembers = styled.div`
+  margin: 32px 0;
+
+  details {
+    margin: 24px 0;
+
+    summary {
+      img {
+        margin-right: 12px;
+      }
+    }
+  }
+`;
+
+export const StyledCouncilMemberContent = styled.div`
+  margin: 32px 0 32px 64px;
+`;
 
 const About = () => {
   return (
-    <>
-      <h1>About</h1>
+    <StyledContainer>
+      <StyledEventHero>
+        <h1>About</h1>
+        <h3>Find what you need quickly</h3>
+        <StyledActions>
+          <Button as="a" href="#lore" color="spark">Hacktoberfest Lore</Button>
+          <Button as="a" href="#new-for-2022" color="giga">New for 2022</Button>
+          <Button as="a" href="#low-or-non-code" color="surf">Low or Non Code Contributions</Button>
+          <Button as="a" href="#council" color="psybeam">Advisory Council</Button>
+        </StyledActions>
+      </StyledEventHero>
 
-      <div id="lore">
+      <StyledLore id="lore">
+        <Anchor href="#lore" />
         <h2>Hacktoberfest Lore</h2>
         <p>
           Hacktoberfest is DigialOcean’s annual event that encourages people to contribute to open source throughout October.
@@ -16,21 +100,23 @@ const About = () => {
         <p>
           For the past 9 years, thousands of people—coders and non-coders alike—have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.
         </p>
-      </div>
+        <Divider style="reverse" />
+      </StyledLore>
 
-      <div>
+      <StyledNew id="new-for-2022">
         <h2>New for 2022</h2>
-      </div>
+      </StyledNew>
 
-      <div id="low-or-non-code">
+      <StyledNoCode id="low-or-non-code">
+        <Anchor href="#low-or-non-code" />
         <h3>Low or Non Code Contributions</h3>
         <p>
           Contributing to open source isn’t just for technical folks who want to write code.
           There are lots of opportunities to use your professional skills in support of open-source projects.
           This year, we’re making a point to encourage contributions that require some technical experience or none at all.
           No matter your experience, you can participate in Hacktoberfest!
-        </p>
-        <p>
+          </p>
+          <p>
           Hacktoberfest welcomes people of any experience level to participate, and low-code and non-code contributions are fantastic choices for folks who don’t have a lot of technical knowledge.
           Here are some examples of ways you can contribute to open-source projects:
         </p>
@@ -67,15 +153,15 @@ const About = () => {
             **To accept Advocacy type contributions Maintainers will need to create a specific repo that acts as an activity log and accepts PRs/MRs.
           </i>
         </p>
-      </div>
+      </StyledNoCode>
 
-      <div id="council">
+      <StyledCouncil id="council">
+        <Anchor href="#council" />
         <h2>Advisory Council</h2>
         <p>
           Each year, we bring together a talented group of open-source superfans who help ensure that Hacktoberfest is accessible, inclusive, and enriching for both contributors and maintainers.
         </p>
-
-        <div>
+        <StyledCouncilMembers>
           {council.map(member => (
             <Collapse
               key={member.name}
@@ -87,6 +173,7 @@ const About = () => {
               )}
               collapsed
             >
+              <StyledCouncilMemberContent>
               <p>{member.role}</p>
               <p>{member.skills}</p>
               <p>{member.bio}</p>
@@ -99,11 +186,12 @@ const About = () => {
                   ))}
                 </ul>
               )}
+              </StyledCouncilMemberContent>
             </Collapse>
           ))}
-        </div>
-      </div>
-    </>
+        </StyledCouncilMembers>
+      </StyledCouncil>
+    </StyledContainer>
   );
 };
 
