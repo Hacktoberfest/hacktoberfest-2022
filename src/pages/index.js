@@ -1,6 +1,8 @@
+import { useCallback, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import Link from 'next/link';
-import Button from 'components/button';
 import { events } from 'lib';
+import Button from 'components/button';
 import Section from 'components/section';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
@@ -8,30 +10,60 @@ import Marquee from 'components/marquee';
 import Card, { NewCard } from 'components/card';
 import Column from 'components/column';
 
+const StyledCards = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 40px;
+`;
+
 const Home = () => {
+  const [ days, setDays ] = useState(null);
+  const [ hours, setHours ] = useState(null);
+  const [ minutes, setMinutes] = useState(null);
+
+  const setCountdown = useCallback(() => {
+    const target = new Date('2022-09-26T12:00:00Z');
+    const diff = target - new Date();
+    setDays(Math.floor(diff / 1000 / 60 / 60 / 24).toString().padStart(2, '0'));
+    setHours(Math.floor((diff / 1000 / 60 / 60) % 24).toString().padStart(2, '0'));
+    setMinutes(Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0'));
+  }, []);
+
+  useEffect(() => {
+    setCountdown();
+
+    const interval = setInterval(() => {
+      setCountdown();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [setCountdown]);
+
   return (
     <>
-      <Card
-        primary="spark"
-        secondary="psybeam"
-        title="days"
-        number="26"
-        delay="0s"
-      />
-      <Card
-        primary="psybeam"
-        secondary="surf"
-        title="hours"
-        number="08"
-        delay="0.5s"
-      />
-      <Card
-        primary="surf"
-        secondary="spark"
-        title="minutes"
-        number="33"
-        delay="1.3s"
-      />
+      <StyledCards>
+        <Card
+          primary="spark"
+          secondary="psybeam"
+          title="days"
+          number={days}
+          delay="0s"
+        />
+        <Card
+          primary="psybeam"
+          secondary="surf"
+          title="hours"
+          number={hours}
+          delay="0.5s"
+        />
+        <Card
+          primary="surf"
+          secondary="spark"
+          title="minutes"
+          number={minutes}
+          delay="1.3s"
+        />
+      </StyledCards>
       <Marquee p2="outline" p3="fill psybeam" direction="forwards" />
       <Marquee p1="outline" p2="fill giga" p3="fill surf" direction="reverse" />
 
