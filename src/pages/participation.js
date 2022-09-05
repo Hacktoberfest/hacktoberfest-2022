@@ -9,56 +9,159 @@ import {
 import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
 import Collapse from 'components/collapse';
+import { StyledContainer, StyledEventHero, StyledHeader, StyledHeaderTitle  } from './events';
+import Button from 'components/button';
+import Anchor from 'components/anchor';
+import Divider from 'components/divider';
+
+import styled from 'styled-components';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+
+export const StyledActions = styled.div`
+  display: grid;
+  grid-gap: 24px;
+  grid-template-columns: fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%);
+
+  ${mQ(bp.tablet, 'max')} {
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const StyledValues = styled.div`
+  margin: 128px 0 64px;
+
+  details {
+    margin: 24px 0;
+  }
+`;
+
+export const StyledContent = styled.div`
+  margin: 64px 0;
+`;
+
+export const StyledContentSections = styled.div`
+  margin: 64px 0;
+
+  div { 
+    ul {
+      li {
+        display: inline-block;
+        margin: 0 40px 0 0;
+      }
+    }
+  }
+`;
 
 const Participation = () => {
   return (
-    <>
-      <h1>Participation</h1>
+    <StyledContainer>
+       <StyledEventHero>
+        <h1>Participation</h1>
+        <h3>Find what you need quickly</h3>
+        <StyledActions>
+          <Button as="a" href="#values" color="spark">Values</Button>
+          <Button as="a" href="#contributors" color="giga">Contributors</Button>
+          <Button as="a" href="#beginner-resources" color="surf">Resources</Button>
+          <Button as="a" href="#pr-mr-details" color="psybeam">PULL/MERGE REQUEST DETAILS</Button>
+          <Button as="a" href="#spam" color="spark">Spam</Button>
+          <Button as="a" href="#maintainers" color="giga">Maintainers</Button>
+        </StyledActions>
+      </StyledEventHero>
 
-      <div id="values">
-        <MarkdownInline string={values.title} as="h2" />
-        <ContentSections sections={values.sections} />
-      </div>
+      <StyledValues id="values">
+        <StyledHeader reverse={true}>
+          <StyledHeaderTitle reverse={true}>
+            <Anchor href="#values" />
+            <MarkdownInline string={values.title} as="h2" />
+          </StyledHeaderTitle>
+          <Divider style="reverse" />
+        </StyledHeader>
+        <StyledContentSections>
+          <ContentSections sections={values.sections} />
+        </StyledContentSections>
+      </StyledValues>
 
-      <div id="contributors">
-        <MarkdownInline string={contributors.title} as="h2" />
-        <ContentSections sections={contributors.sections} />
-      </div>
+      <StyledContent id="contributors">
+        <StyledHeader>
+          <Divider/>
+          <StyledHeaderTitle>
+            <Anchor href="#values" />
+            <MarkdownInline string={contributors.title} as="h2" />
+          </StyledHeaderTitle>
+        </StyledHeader>
+        <StyledContentSections>
+          <ContentSections sections={contributors.sections} />
+        </StyledContentSections>
+      </StyledContent>
 
-      <div id="beginner-resources">
-        <MarkdownInline string={resources.title} as="h2" />
-        <ContentSections sections={resources.sections} />
-      </div>
+      <StyledContent id="beginner-resources">
+        <StyledHeader reverse={true}>
+          <StyledHeaderTitle reverse={true}>
+            <Anchor href="#values" />
+            <MarkdownInline string={resources.title} as="h2" />
+          </StyledHeaderTitle>
+          <Divider style="reverse" />
+        </StyledHeader>
+        <StyledContentSections>
+          <ContentSections sections={resources.sections} />
+        </StyledContentSections>
+      </StyledContent>
 
-      <div id="pr-mr-details">
-        <MarkdownInline string={prMrDetails.title} as="h2" />
-        <Markdown string={prMrDetails.content} />
+      <StyledContent id="pr-mr-details">
+        <StyledHeader>
+          <div>
+            <Divider/>
+            <Markdown string={prMrDetails.content} />
+          </div>
+          <StyledHeaderTitle>
+            <Anchor href="#values" />
+            <MarkdownInline string={prMrDetails.title} as="h2" />
+          </StyledHeaderTitle>
+        </StyledHeader>
+        
         {prMrDetails.sections.map((section) => (
           <Collapse
             key={section.title}
             title={(
-              <>
+              <div>
                 {section.subtitle && <MarkdownInline string={`[ ${section.subtitle} ]`} />}
                 <MarkdownInline string={section.title} as="h3" />
-              </>
+              </div>
             )}
             collapsed
           >
             <ContentSections sections={section.items} titleAs="p" />
           </Collapse>
         ))}
-      </div>
+      </StyledContent>
 
-      <div id="spam">
-        <MarkdownInline string={spam.title} as="h2" />
-        <ContentSections sections={spam.sections} />
-      </div>
+      <StyledContent id="spam">
+        <StyledHeader reverse={true}>
+          <StyledHeaderTitle reverse={true}>
+            <Anchor href="#values" />
+            <MarkdownInline string={spam.title} as="h2" />
+          </StyledHeaderTitle>
+          <Divider style="reverse" />
+        </StyledHeader>
+        <StyledContentSections>
+          <ContentSections sections={spam.sections} />
+        </StyledContentSections>
+      </StyledContent>
 
-      <div id="maintainers">
-        <MarkdownInline string={maintainers.title} as="h2" />
-        <ContentSections sections={maintainers.sections} />
-      </div>
-    </>
+      <StyledContent id="maintainers">
+        <StyledHeader>
+          <Divider/>
+          <StyledHeaderTitle>
+            <Anchor href="#values" />
+            <MarkdownInline string={maintainers.title} as="h2" />
+          </StyledHeaderTitle>
+        </StyledHeader>
+        <StyledContentSections>
+          <ContentSections sections={maintainers.sections} />
+        </StyledContentSections>
+      </StyledContent>
+
+    </StyledContainer>
   );
 };
 
