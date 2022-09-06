@@ -6,16 +6,28 @@ const StyledDiv = styled.div``;
 
 const textAnimation = () => keyframes`
   25% {
-    content: "01001000 01100001 01100011 01101011"; // Hack
+    content:
+      "01001000 01100001 01100011 01101011" " "
+      "01001000 01100001 01100011 01101011" " "
+      "01001000 01100001 01100011 01101011"; // Hack
   }
   50% {
-    content: "01000111 01101001 01110100 00100001"; // Git!
+    content:
+      "01000111 01101001 01110100 00100001" " "
+      "01000111 01101001 01110100 00100001" " "
+      "01000111 01101001 01110100 00100001"; // Git!
   }
   75% {
-    content: "01000110 01100101 01110011 01110100"; // Fest
+    content:
+      "01000110 01100101 01110011 01110100" " "
+      "01000110 01100101 01110011 01110100" " "
+      "01000110 01100101 01110011 01110100"; // Fest
   }
   100% {
-    content: "01000111 01001100 01001000 01000110"; // GLHF
+    content:
+      "01000111 01001100 01001000 01000110" " "
+      "01000111 01001100 01001000 01000110" " "
+      "01000111 01001100 01001000 01000110"; // GLHF
   }
 `;
 
@@ -112,21 +124,14 @@ const MainWrapper = styled(StyledDiv)`
     position: absolute;
     text-align: center;
     width: 100%;
+    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
+    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
+    white-space: nowrap;
+    overflow: hidden;
 
     &.top {
       left: 0;
       top: 10px;
-
-      // &:after {
-      //   content: '';
-      //   position: absolute;
-      //   top: 0;
-      //   left: 0;
-      //   width: 100%;
-      //   height: 24px;
-      //   background-image: linear-gradient(to right, white, transparent 90%);
-      //   );
-      // }
     }
 
     &.bottom {
@@ -140,8 +145,10 @@ const MainWrapper = styled(StyledDiv)`
       height: 100%;
       text-align: center;
       top: 0;
-      width: max-content;
+      width: auto;
       writing-mode: vertical-rl;
+      -webkit-mask-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
+      mask-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
 
       &.right {
         right: 10px;
@@ -154,7 +161,10 @@ const MainWrapper = styled(StyledDiv)`
     }
 
     &:after {
-      content: '00111010 00101101 00101001 00101001'; // :-))
+      content:
+        "00111010 00101101 00101001 00101001" " "
+        "00111010 00101101 00101001 00101001" " "
+        "00111010 00101101 00101001 00101001"; // :-))
     }
   }
 `;
