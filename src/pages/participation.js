@@ -22,12 +22,6 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 
-import {
-  StyledEventHero,
-  StyledHeader,
-  StyledHeaderTitle,
-} from './events';
-
 export const StyledActions = styled.div`
   display: grid;
   grid-gap: 24px;
@@ -40,35 +34,10 @@ export const StyledActions = styled.div`
   }
 `;
 
-export const StyledValues = styled.div`
-  margin: 128px 0 64px;
-
-  details {
-    margin: 24px 0;
-  }
-`;
-
-export const StyledContent = styled.div`
-  margin: 64px 0;
-`;
-
-export const StyledContentSections = styled.div`
-  margin: 64px 0;
-
-  div {
-    ul {
-      li {
-        display: inline-block;
-        margin: 0 40px 0 0;
-      }
-    }
-  }
-`;
-
 const Participation = () => {
   return (
-    <Section>
-      <StyledEventHero>
+    <>
+      <Section>
         <h1>Participation</h1>
         <h4>Find what you need quickly</h4>
         <StyledActions>
@@ -91,59 +60,34 @@ const Participation = () => {
             Maintainers
           </Button>
         </StyledActions>
-      </StyledEventHero>
+      </Section>
 
-      <StyledValues id="values">
-        <StyledHeader reverse={true}>
-          <StyledHeaderTitle reverse={true}>
-            <Anchor href="#values" />
-            <MarkdownInline string={values.title} as="h2" />
-          </StyledHeaderTitle>
-          <Divider style="reverse" />
-        </StyledHeader>
-        <StyledContentSections>
-          <ContentSections sections={values.sections} titleAs="h4" />
-        </StyledContentSections>
-      </StyledValues>
+      <Section id="values">
+        <Divider />
+        <Anchor href="#values" />
+        <MarkdownInline string={values.title} as="h2" />
+        <ContentSections sections={values.sections} titleAs="h4" />
+      </Section>
 
-      <StyledContent id="contributors">
-        <StyledHeader>
-          <Divider />
-          <StyledHeaderTitle>
-            <Anchor href="#values" />
-            <MarkdownInline string={contributors.title} as="h2" />
-          </StyledHeaderTitle>
-        </StyledHeader>
-        <StyledContentSections>
-          <ContentSections sections={contributors.sections} />
-        </StyledContentSections>
-      </StyledContent>
+      <Section id="contributors">
+        <Divider />
+        <Anchor href="#contributors" />
+        <MarkdownInline string={contributors.title} as="h2" />
+        <ContentSections sections={contributors.sections} />
+      </Section>
 
-      <StyledContent id="beginner-resources">
-        <StyledHeader reverse={true}>
-          <StyledHeaderTitle reverse={true}>
-            <Anchor href="#values" />
-            <MarkdownInline string={resources.title} as="h2" />
-          </StyledHeaderTitle>
-          <Divider style="reverse" />
-        </StyledHeader>
-        <StyledContentSections>
-          <ContentSections sections={resources.sections} />
-        </StyledContentSections>
-      </StyledContent>
+      <Section id="beginner-resources">
+        <Divider />
+        <Anchor href="#beginner-resources" />
+        <MarkdownInline string={resources.title} as="h2" />
+        <ContentSections sections={resources.sections} />
+      </Section>
 
-      <StyledContent id="pr-mr-details">
-        <StyledHeader>
-          <div>
-            <Divider />
-            <Markdown string={prMrDetails.content} />
-          </div>
-          <StyledHeaderTitle>
-            <Anchor href="#values" />
-            <MarkdownInline string={prMrDetails.title} as="h2" />
-          </StyledHeaderTitle>
-        </StyledHeader>
-
+      <Section id="pr-mr-details">
+        <Divider />
+        <Anchor href="#pr-mr-details" />
+        <MarkdownInline string={prMrDetails.title} as="h2" />
+        <Markdown string={prMrDetails.content} />
         {prMrDetails.sections.map((section) => (
           <Collapse
             key={section.title}
@@ -160,34 +104,22 @@ const Participation = () => {
             <ContentSections sections={section.items} titleAs="p" />
           </Collapse>
         ))}
-      </StyledContent>
+      </Section>
 
-      <StyledContent id="spam">
-        <StyledHeader reverse={true}>
-          <StyledHeaderTitle reverse={true}>
-            <Anchor href="#values" />
-            <MarkdownInline string={spam.title} as="h2" />
-          </StyledHeaderTitle>
-          <Divider style="reverse" />
-        </StyledHeader>
-        <StyledContentSections>
-          <ContentSections sections={spam.sections} />
-        </StyledContentSections>
-      </StyledContent>
+      <Section id="spam">
+        <Divider />
+        <Anchor href="#spam" />
+        <MarkdownInline string={spam.title} as="h2" />
+        <ContentSections sections={spam.sections} />
+      </Section>
 
-      <StyledContent id="maintainers">
-        <StyledHeader>
-          <Divider />
-          <StyledHeaderTitle>
-            <Anchor href="#values" />
-            <MarkdownInline string={maintainers.title} as="h2" />
-          </StyledHeaderTitle>
-        </StyledHeader>
-        <StyledContentSections>
-          <ContentSections sections={maintainers.sections} />
-        </StyledContentSections>
-      </StyledContent>
-    </Section>
+      <Section id="maintainers">
+        <Divider />
+        <Anchor href="#maintainers" />
+        <MarkdownInline string={maintainers.title} as="h2" />
+        <ContentSections sections={maintainers.sections} />
+      </Section>
+    </>
   );
 };
 
