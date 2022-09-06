@@ -31,6 +31,10 @@ const StyledSection = styled.section`
 
     &.sub_content {
 
+      h2 {
+        margin-bottom: 24px;
+      }
+
       h4 {
         margin: 24px 0 16px;
       }

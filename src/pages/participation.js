@@ -62,11 +62,11 @@ const Participation = () => {
         </StyledActions>
       </Section>
 
-      <Section id="values">
+      <Section type="sub_content" id="values">
         <Divider />
         <Anchor href="#values" />
         <MarkdownInline string={values.title} as="h2" />
-        <ContentSections sections={values.sections} titleAs="h4" />
+        <ContentSections sections={values.sections} titleAs="h5" />
       </Section>
 
       <Section id="contributors">
