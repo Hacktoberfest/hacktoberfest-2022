@@ -4,7 +4,7 @@ import Collapse from './collapse';
 import { Markdown, MarkdownInline } from './markdown';
 
 const StyledDiv = styled.div`
-  h4 {
+  h5 {
     display: flex;
 
     &::before {
@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
       flex: 0 0 64px;
       letter-spacing: 1px;
       text-indent: 1px;
-      content: "[ ]";
+      content: '[ ]';
     }
   }
 `;
@@ -26,7 +26,7 @@ const ContentSectionBody = ({ section }) => (
     {section.content && <Markdown string={section.content} />}
     {section.items && (
       <ul>
-        {section.items.map(item => (
+        {section.items.map((item) => (
           <li key={item}>
             <Markdown string={item} />
           </li>
@@ -36,9 +36,9 @@ const ContentSectionBody = ({ section }) => (
   </>
 );
 
-export const ContentSections = ({ sections, titleAs = 'h3' }) => sections.map(section => (
-  section.collapsible
-    ? (
+export const ContentSections = ({ sections, titleAs = 'h3' }) =>
+  sections.map((section) =>
+    section.collapsible ? (
       <Collapse
         key={section.title}
         title={<MarkdownInline string={section.title} as={titleAs} />}
@@ -46,11 +46,12 @@ export const ContentSections = ({ sections, titleAs = 'h3' }) => sections.map(se
       >
         <ContentSectionBody section={section} />
       </Collapse>
-    )
-    : (
+    ) : (
       <StyledDiv key={section.title || section.content}>
-        {section.title && <MarkdownInline string={section.title} as={titleAs} />}
+        {section.title && (
+          <MarkdownInline string={section.title} as={titleAs} />
+        )}
         <ContentSectionBody section={section} />
       </StyledDiv>
     )
-));
+  );

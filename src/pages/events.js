@@ -1,11 +1,6 @@
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-
 import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
 
 import { ContentSections } from 'components/content';
@@ -14,54 +9,6 @@ import Button from 'components/button';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 import Section from 'components/section';
-
-export const StyledEventHero = styled.div`
-  h1 {
-    margin: 48px 0 40px;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
-      1px 1px 6px rgba(144, 148, 255, 0.5);
-  }
-
-  h3 {
-    font-family: 'Elevon';
-    margin-bottom: 16px;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
-      1px 1px 6px rgba(144, 148, 255, 0.5);
-  }
-`;
-
-export const StyledEvents = styled.div`
-  margin: 128px 0 64px;
-`;
-
-export const StyledHeader = styled.div`
-  display: grid;
-  grid-gap: 32px;
-  grid-template-columns: ${(props) => (props.reverse ? '1fr 3fr' : '3fr 1fr')};
-
-  ${mQ(bp.tablet, 'max')} {
-    grid-template-columns: 1fr;
-  }
-
-  p {
-    margin: 16px 0 0;
-  }
-
-  .special {
-    margin: 40px 0 0;
-  }
-`;
-
-export const StyledHeaderTitle = styled.div`
-  h2 {
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
-      1px 1px 6px rgba(144, 148, 255, 0.5);
-  }
-
-  ${mQ(bp.tablet, 'max')} {
-    ${(props) => (props.reverse ? '' : 'grid-row-start: 1')};
-  }
-`;
 
 export const StyledEventsListItemEyebrow = styled.div`
   color: ${(props) => props.theme[props.color] || props.theme.text};
@@ -119,64 +66,10 @@ export const StyledListItem = styled.div`
   }
 `;
 
-export const StyledSpeakers = styled.div`
-  margin: 126px 0 0;
-`;
-
-export const StyledBrand = styled.div`
-  margin: 126px 0 0;
-`;
-
-export const StyledFAQ = styled.div`
-  margin: 42px 0 0;
-
-  &::after {
-    position: relative;
-    top: 16px;
-    left: 0;
-    display: block;
-    content: '';
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(
-      90deg,
-      ${(props) => props.theme.spark} 0%,
-      ${(props) => props.theme.surf} 50%,
-      ${(props) => props.theme.psybeam} 100%
-    );
-  }
-
-  h3 {
-    margin-bottom: 20px;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
-      1px 1px 6px rgba(144, 148, 255, 0.5);
-  }
-
-  details,
-  div {
-    margin: 16px 0;
-  }
-
-  details {
-    ul {
-      li {
-        margin: 16px 0 16px 16px;
-        list-style: disc;
-      }
-    }
-  }
-`;
-
 export const StyledActions = styled.div`
-  display: grid;
-  grid-gap: 24px;
-  grid-template-columns: fit-content(100%) fit-content(100%) fit-content(100%) fit-content(
-      100%
-    );
-
-  ${mQ(bp.tablet, 'max')} {
-    grid-template-columns: 1fr;
-  }
+  display: flex;
+  gap: 24px;
+  flex-flow: row wrap;
 `;
 
 const typesToColors = {
@@ -195,8 +88,8 @@ const Events = ({ events, speakers }) => {
   );
 
   return (
-    <Section>
-      <StyledEventHero>
+    <>
+      <Section>
         <h1>Events for 2022</h1>
         <h3>Find what you need quickly</h3>
         <StyledActions>
@@ -213,23 +106,17 @@ const Events = ({ events, speakers }) => {
             Brand Guidelines
           </Button>
         </StyledActions>
-      </StyledEventHero>
+      </Section>
 
-      <StyledEvents id="events">
-        <StyledHeader reverse={true}>
-          <StyledHeaderTitle reverse={true}>
-            <Anchor href="#events" />
-            <h2>Global Events</h2>
-          </StyledHeaderTitle>
-          <div>
-            <Divider style="reverse" />
-            <p>
-              Hacktoberfest events are happening all month long so you can join
-              your friends day or night, from dusk to dawn, as you work to
-              complete your pull/merge requests.
-            </p>
-          </div>
-        </StyledHeader>
+      <Section>
+        <Divider />
+        <Anchor href="#events" />
+        <h2>Global Events</h2>
+        <p>
+          Hacktoberfest events are happening all month long so you can join your
+          friends day or night, from dusk to dawn, as you work to complete your
+          pull/merge requests.
+        </p>
         <StyledList>
           {eventsList.map((event) => (
             <StyledListItem key={event.title}>
@@ -273,54 +160,37 @@ const Events = ({ events, speakers }) => {
             </Button>
           )}
         </StyledList>
-      </StyledEvents>
+      </Section>
 
-      <div id="organizers">
-        <StyledHeader>
-          <div>
-            <Divider />
-            <p>
-              Here are all the resources you need to plan and host a successful
-              Hacktoberfest event. We encourage virtual events and have included
-              a collection of tips and tricks that will help you keep
-              participants engaged.
-            </p>
-            <Button special as="a" href="#">
-              Download the Kit
-            </Button>
-          </div>
-          <StyledHeaderTitle>
-            <Anchor href="#organizers" />
-            <h2>Event Organizers</h2>
-          </StyledHeaderTitle>
-        </StyledHeader>
-      </div>
+      <Section>
+        <Divider />
+        <Anchor href="#organizers" />
+        <h2>Event Organizers</h2>
+        <p>
+          Here are all the resources you need to plan and host a successful
+          Hacktoberfest event. We encourage virtual events and have included a
+          collection of tips and tricks that will help you keep participants
+          engaged.
+        </p>
+        <Button special as="a" href="#">
+          Download the Kit
+        </Button>
 
-      <StyledFAQ>
-        <MarkdownInline string={organize.title} as="h3" />
-        <ContentSections sections={organize.sections} titleAs="h4" />
-      </StyledFAQ>
+        <MarkdownInline string={organize.title} as="h4" />
+        <ContentSections sections={organize.sections} titleAs="h5" />
+        <MarkdownInline string={resources.title} as="h4" />
+        <ContentSections sections={resources.sections} titleAs="h5" />
+      </Section>
 
-      <StyledFAQ>
-        <MarkdownInline string={resources.title} as="h3" />
-        <ContentSections sections={resources.sections} titleAs="h4" />
-      </StyledFAQ>
-
-      <StyledSpeakers id="speakers">
-        <StyledHeader reverse={true}>
-          <StyledHeaderTitle reverse={true}>
-            <Anchor href="#speakers" />
-            <h2>Speakers &amp; Facilitators</h2>
-          </StyledHeaderTitle>
-          <div>
-            <Divider style="reverse" />
-            <p>
-              Open source experts and community leaders are all in on
-              Hacktoberfest. Find them helping contributors complete their
-              pull/merge requests all month long in events throughout October.
-            </p>
-          </div>
-        </StyledHeader>
+      <Section>
+        <Divider />
+        <Anchor href="#speakers" />
+        <h2>Speakers &amp; Facilitators</h2>
+        <p>
+          Open source experts and community leaders are all in on Hacktoberfest.
+          Find them helping contributors complete their pull/merge requests all
+          month long in events throughout October.
+        </p>
         <StyledList>
           {speakers.map((speaker) => (
             <StyledListItem key={speaker.name}>
@@ -348,28 +218,22 @@ const Events = ({ events, speakers }) => {
             </StyledListItem>
           ))}
         </StyledList>
-      </StyledSpeakers>
+      </Section>
 
-      <StyledBrand id="brand">
-        <StyledHeader>
-          <div>
-            <Divider />
-            <p>
-              If you plan to use the Hacktoberfest brand in promotional
-              material, you’ll need to abide by our brand use guidelines
-              Download them here and dive in.
-            </p>
-            <Button special as="a" href="#">
-              Download the Hacktoberfest Brand Guidelines
-            </Button>
-          </div>
-          <StyledHeaderTitle>
-            <Anchor href="#brand" />
-            <h2>Brand Guidelines</h2>
-          </StyledHeaderTitle>
-        </StyledHeader>
-      </StyledBrand>
-    </Section>
+      <Section>
+        <Divider />
+        <Anchor href="#brand" />
+        <h2>Brand Guidelines</h2>
+        <p>
+          If you plan to use the Hacktoberfest brand in promotional material,
+          you’ll need to abide by our brand use guidelines Download them here
+          and dive in.
+        </p>
+        <Button special as="a" href="#">
+          Download the Hacktoberfest Brand Guidelines
+        </Button>
+      </Section>
+    </>
   );
 };
 

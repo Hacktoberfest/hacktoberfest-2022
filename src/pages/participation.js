@@ -70,7 +70,7 @@ const Participation = () => {
     <Section>
       <StyledEventHero>
         <h1>Participation</h1>
-        <h3>Find what you need quickly</h3>
+        <h4>Find what you need quickly</h4>
         <StyledActions>
           <Button as="a" href="#values" color_bg="spark">
             Values
