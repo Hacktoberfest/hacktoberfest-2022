@@ -33,7 +33,10 @@ const StyledDetails = styled.details`
     }
 
     &::before {
+      font-size: 16px;
+      font-weight: normal;
       font-family: 'JetBrains Mono', monospace;
+      text-shadow: ${(props) => props.theme.glowLite};
       text-align: center;
       width: 48px;
       flex: 0 0 48px;
@@ -101,6 +104,7 @@ const StyledFakeDetails = styled.div`
       font-size: 16px;
       font-weight: normal;
       font-family: 'JetBrains Mono', monospace;
+      text-shadow: ${(props) => props.theme.glowLite};
       text-align: center;
       width: 48px;
       flex: 0 0 48px;
