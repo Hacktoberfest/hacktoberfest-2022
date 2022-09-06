@@ -1,13 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-<<<<<<< HEAD
-
-import { Bug } from './logo';
-import { useThemeToggle } from './theme';
-=======
 import { useCallback, useMemo, useState } from 'react';
 import Logo, { Bug } from './logo';
->>>>>>> e2ca62a (mobile nav)
 
 // const Moon = () => {
 //   return (
