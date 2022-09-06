@@ -2,8 +2,6 @@ import styled from 'styled-components';
 
 import { council, lowNonCode } from 'lib/about';
 
-import { StyledActions } from './events';
-
 import Collapse from 'components/collapse';
 import Button from 'components/button';
 import Anchor from 'components/anchor';
@@ -31,10 +29,10 @@ export const StyledCouncilMemberContent = styled.div`
 const About = () => {
   return (
     <>
-      <Section>
+      <Section type="sub_hero">
         <h1>About</h1>
-        <h3>Find what you need quickly</h3>
-        <StyledActions>
+        <h4>Find what you need quickly</h4>
+        <div>
           <Button as="a" href="#lore" color_bg="spark">
             Hacktoberfest Lore
           </Button>
@@ -47,10 +45,10 @@ const About = () => {
           <Button as="a" href="#council" color_bg="psybeam">
             Advisory Council
           </Button>
-        </StyledActions>
+        </div>
       </Section>
 
-      <Section id="lore">
+      <Section type="sub_content" id="lore">
         <Divider />
         <Anchor href="#lore" />
         <h2>Hacktoberfest Lore</h2>
@@ -72,7 +70,7 @@ const About = () => {
         </p>
       </Section>
 
-      <Section>
+      <Section type="sub_content">
         <Divider />
         <h2>New for 2022</h2>
 
@@ -133,7 +131,7 @@ const About = () => {
         </p>
       </Section>
 
-      <Section id="council">
+      <Section type="sub_content" id="council">
         <Divider />
         <Anchor href="#council" />
         <h2>Advisory Council</h2>

@@ -47,6 +47,24 @@ const StyledSection = styled.section`
       ${StyledButton} {
         margin-top: 40px;
       }
+
+      table {
+
+        margin-top: 24px;
+        border-spacing: 0;
+        width: 100%;
+        th, tr, td, li {
+          font-family: "JetBrains Mono", monospace;
+        }
+
+        td {
+          border-top: 1px solid ${(props) => props.theme.text};
+          border-left: 1px solid ${(props) => props.theme.text};
+          padding: 24px;
+        }
+
+      }
+
     }
 
     &.center {
