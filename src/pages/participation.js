@@ -37,26 +37,26 @@ export const StyledActions = styled.div`
 const Participation = () => {
   return (
     <>
-      <Section>
+      <Section type="sub_hero">
         <h1>Participation</h1>
         <h4>Find what you need quickly</h4>
         <StyledActions>
           <Button as="a" href="#values" color_bg="spark">
             Values
           </Button>
-          <Button as="a" href="#contributors" color_bg="giga">
+          <Button as="a" href="#contributors" color_bg="spark">
             Contributors
           </Button>
-          <Button as="a" href="#beginner-resources" color_bg="surf">
+          <Button as="a" href="#beginner-resources" color_bg="giga">
             Resources
           </Button>
-          <Button as="a" href="#pr-mr-details" color_bg="psybeam">
+          <Button as="a" href="#pr-mr-details" color_bg="giga">
             PULL/MERGE REQUEST DETAILS
           </Button>
-          <Button as="a" href="#spam" color_bg="spark">
+          <Button as="a" href="#spam" color_bg="surf">
             Spam
           </Button>
-          <Button as="a" href="#maintainers" color_bg="giga">
+          <Button as="a" href="#maintainers" color_bg="surf">
             Maintainers
           </Button>
         </StyledActions>
@@ -69,21 +69,21 @@ const Participation = () => {
         <ContentSections sections={values.sections} titleAs="h5" />
       </Section>
 
-      <Section id="contributors">
+      <Section type="sub_content" id="contributors">
         <Divider />
         <Anchor href="#contributors" />
         <MarkdownInline string={contributors.title} as="h2" />
         <ContentSections sections={contributors.sections} />
       </Section>
 
-      <Section id="beginner-resources">
+      <Section type="sub_content" id="beginner-resources">
         <Divider />
         <Anchor href="#beginner-resources" />
         <MarkdownInline string={resources.title} as="h2" />
         <ContentSections sections={resources.sections} />
       </Section>
 
-      <Section id="pr-mr-details">
+      <Section type="sub_content" id="pr-mr-details">
         <Divider />
         <Anchor href="#pr-mr-details" />
         <MarkdownInline string={prMrDetails.title} as="h2" />
@@ -96,7 +96,7 @@ const Participation = () => {
                 {section.subtitle && (
                   <MarkdownInline string={`[ ${section.subtitle} ]`} />
                 )}
-                <MarkdownInline string={section.title} as="h3" />
+                <MarkdownInline string={section.title} as="h4" />
               </div>
             }
             collapsed
@@ -106,14 +106,14 @@ const Participation = () => {
         ))}
       </Section>
 
-      <Section id="spam">
+      <Section type="sub_content" id="spam">
         <Divider />
         <Anchor href="#spam" />
         <MarkdownInline string={spam.title} as="h2" />
         <ContentSections sections={spam.sections} />
       </Section>
 
-      <Section id="maintainers">
+      <Section type="sub_content" id="maintainers">
         <Divider />
         <Anchor href="#maintainers" />
         <MarkdownInline string={maintainers.title} as="h2" />

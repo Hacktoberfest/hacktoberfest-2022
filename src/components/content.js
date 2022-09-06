@@ -4,6 +4,11 @@ import Collapse from './collapse';
 import { Markdown, MarkdownInline } from './markdown';
 
 const StyledDiv = styled.div`
+  p {
+    text-transform: none;
+    opacity: 0.75;
+    text-shadow: none;
+  }
   h5 {
     display: flex;
 
@@ -36,7 +41,7 @@ const ContentSectionBody = ({ section }) => (
   </>
 );
 
-export const ContentSections = ({ sections, titleAs = 'h3' }) =>
+export const ContentSections = ({ sections, titleAs = 'h4' }) =>
   sections.map((section) =>
     section.collapsible ? (
       <Collapse

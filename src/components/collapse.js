@@ -51,6 +51,10 @@ const Details = styled.details`
         animation: ${rotateAnimation()} 0.2s linear;
       }
     }
+
+    h4 {
+      margin: 0 !important;
+    }
   }
 
   &[open] {
@@ -74,6 +78,7 @@ const Details = styled.details`
 
   > div {
     margin-left: 48px;
+    padding-bottom: 24px;
     box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
 
     p {
@@ -81,12 +86,6 @@ const Details = styled.details`
       opacity: 0.75;
       text-shadow: none;
       text-transform: none;
-    }
-    li {
-      &:last-of-type {
-        padding-bottom: 24px;
-        margin-bottom: 24px;
-      }
     }
   }
 `;
