@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { StyledButton } from './button';
 
 const StyledSection = styled.section`
   width: 100%;
@@ -43,7 +44,7 @@ const StyledSection = styled.section`
         margin-top: 24px;
       }
 
-      a {
+      ${StyledButton} {
         margin-top: 40px;
       }
     }
@@ -58,7 +59,7 @@ const StyledSection = styled.section`
 }
 
 @media (max-width: 600px) {
-  padding 0 24px;
+  padding: 0 24px;
 }
 `;
 

@@ -15,8 +15,9 @@ const rotateAnimation = () => keyframes`
   }
 `;
 
-const Details = styled.details`
+const StyledDetails = styled.details`
   margin-bottom: 40px;
+  
   summary {
     display: flex;
     align-items: center;
@@ -90,16 +91,47 @@ const Details = styled.details`
   }
 `;
 
+const StyledFakeDetails = styled.div`
+  margin-bottom: 40px;
+  
+  > :first-child {
+    display: flex;
+
+    &::before {
+      font-size: 16px;
+      font-weight: normal;
+      font-family: 'JetBrains Mono', monospace;
+      text-align: center;
+      width: 48px;
+      flex: 0 0 48px;
+      letter-spacing: 1px;
+      text-indent: 1px;
+      content: '[ ]';
+    }
+  }
+
+  > div {
+    margin-left: 48px;
+  }
+`;
+
+export const FakeCollapse = ({ title, children }) => (
+  <StyledFakeDetails>
+    {title}
+    <div>{children}</div>
+  </StyledFakeDetails>
+);
+
 const Collapse = ({ title, collapsed, children }) => {
   const [open, setOpen] = useState(!collapsed);
   useEffect(() => setOpen(!collapsed), [collapsed]);
   const toggle = useCallback((evt) => setOpen(evt.target.open), []);
 
   return (
-    <Details open={open} onToggle={toggle}>
+    <StyledDetails open={open} onToggle={toggle}>
       <summary>{title}</summary>
       <div>{children}</div>
-    </Details>
+    </StyledDetails>
   );
 };
 

@@ -6,7 +6,7 @@ const shimmerAnimation = () => keyframes`
     background-size: 100% 100%;
 `;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
 margin-top: ${(props) => props.spacing_top};
 margin: ${(props) => props.spacing_all};
 display: inline-block;

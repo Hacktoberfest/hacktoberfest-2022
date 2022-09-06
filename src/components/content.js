@@ -1,6 +1,7 @@
+import { useMemo } from 'react';
 import styled from 'styled-components';
 
-import Collapse from './collapse';
+import Collapse, { FakeCollapse } from './collapse';
 import { Markdown, MarkdownInline } from './markdown';
 
 const StyledDiv = styled.div`
@@ -9,25 +10,10 @@ const StyledDiv = styled.div`
     opacity: 0.75;
     text-shadow: none;
   }
-  h5 {
-    display: flex;
-
-    &::before {
-      font-size: 16px;
-      font-weight: normal;
-      font-family: 'JetBrains Mono', monospace;
-      text-align: center;
-      width: 48px;
-      flex: 0 0 48px;
-      letter-spacing: 1px;
-      text-indent: 1px;
-      content: '[ ]';
-    }
-  }
 `;
 
 const ContentSectionBody = ({ section }) => (
-  <>
+  <div>
     {section.content && <Markdown string={section.content} />}
     {section.items && (
       <ul>
@@ -38,11 +24,13 @@ const ContentSectionBody = ({ section }) => (
         ))}
       </ul>
     )}
-  </>
+  </div>
 );
 
-export const ContentSections = ({ sections, titleAs = 'h4' }) =>
-  sections.map((section) =>
+export const ContentSections = ({ sections, titleAs = 'h4'  }) => {
+  const hasCollapse = useMemo(() => sections.some((section) => section.collapsible), [sections]);
+
+  return sections.map((section) =>
     section.collapsible ? (
       <Collapse
         key={section.title}
@@ -52,11 +40,22 @@ export const ContentSections = ({ sections, titleAs = 'h4' }) =>
         <ContentSectionBody section={section} />
       </Collapse>
     ) : (
-      <StyledDiv key={section.title || section.content}>
-        {section.title && (
-          <MarkdownInline string={section.title} as={titleAs} />
-        )}
-        <ContentSectionBody section={section} />
-      </StyledDiv>
-    )
+      hasCollapse ? (
+        <FakeCollapse
+          key={section.title}
+          title={<MarkdownInline string={section.title} as={titleAs} />}
+        >
+          <StyledDiv>
+            <ContentSectionBody section={section} />
+          </StyledDiv>
+        </FakeCollapse>
+      ) : (
+        <StyledDiv key={section.title || section.content}>
+          {section.title && (
+            <MarkdownInline string={section.title} as={titleAs} />
+          )}
+          <ContentSectionBody section={section} />
+        </StyledDiv>
+    ))
   );
+};
