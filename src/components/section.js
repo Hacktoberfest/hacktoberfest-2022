@@ -82,11 +82,11 @@ const StyledSection = styled.section`
   width: 100%;
   margin-top: ${(props) => props.spacing_top || '128px'};
   margin-bottom: ${(props) => props.spacing_btm || '0px'};
+  padding: 0 64px;
 
   .contents {
     max-width: 1312px;
     margin: 0 auto;
-    padding 0 64px;
 
     &.center {
       text-align: center;
@@ -95,10 +95,11 @@ const StyledSection = styled.section`
 
   }
 
-    @media (max-width: 600px) {
-      padding 0 24px;
-    }
-  }
+}
+
+@media (max-width: 600px) {
+  padding 0 24px;
+}
 `;
 
 const Section = (props) => {
@@ -108,7 +109,7 @@ const Section = (props) => {
       spacing_top={props.spacing_top}
       spacing_btm={props.spacing_btm}
     >
-      <div className={`contents ${props.flex}`}>{props.children}</div>
+      <div className={`contents ${props.flex || ''}`}>{props.children}</div>
     </StyledSection>
   );
 };

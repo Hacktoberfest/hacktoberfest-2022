@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
+import Section from 'components/section';
 
 import {
   breakpoints as bp,
@@ -14,14 +15,11 @@ import Button from 'components/button';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 
-export const StyledContainer = styled.div`
-  margin: 0 64px;
-
-  ${mQ(bp.xLargeDesktop, 'min')} {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
-`;
+// export const StyledContainer = styled.div`
+//   margin: 0 64px;
+//   // max-width: 1312px;
+//   width: 100%;
+// `;
 
 export const StyledEventHero = styled.div`
   h1 {
@@ -203,7 +201,7 @@ const Events = ({ events, speakers }) => {
   );
 
   return (
-    <StyledContainer>
+    <Section>
       <StyledEventHero>
         <h1>Events for 2022</h1>
         <h3>Find what you need quickly</h3>
@@ -377,7 +375,7 @@ const Events = ({ events, speakers }) => {
           </StyledHeaderTitle>
         </StyledHeader>
       </StyledBrand>
-    </StyledContainer>
+    </Section>
   );
 };
 

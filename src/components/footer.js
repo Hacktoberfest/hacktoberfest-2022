@@ -10,8 +10,12 @@ const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
 const StyledFooter = styled.footer`
   width: 100%;
-  padding: 0 0 120px 0;
+  padding: 0 64px 120px 64px;
   margin-top: 200px;
+
+  @media (max-width: 600px) {
+    padding: 0 24px;
+  }
 
   &:before {
     content: '';
@@ -27,11 +31,6 @@ const StyledFooter = styled.footer`
   .wrapper {
     max-width: 1312px;
     margin: 0 auto;
-    padding: 0 64px;
-
-    @media (max-width: 600px) {
-      padding 0 24px;
-  }
   }
 
   .content_wrapper {

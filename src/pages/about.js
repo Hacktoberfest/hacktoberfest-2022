@@ -8,6 +8,7 @@ import Collapse from 'components/collapse';
 import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
+import Section from 'components/section';
 
 export const StyledLore = styled.div`
   margin: 120px 0 0;
@@ -79,7 +80,7 @@ export const StyledCouncilMemberContent = styled.div`
 
 const About = () => {
   return (
-    <StyledContainer>
+    <Section>
       <StyledEventHero>
         <h1>About</h1>
         <h3>Find what you need quickly</h3>
@@ -227,7 +228,7 @@ const About = () => {
           ))}
         </StyledCouncilMembers>
       </StyledCouncil>
-    </StyledContainer>
+    </Section>
   );
 };
 

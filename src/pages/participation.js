@@ -27,6 +27,7 @@ import {
   StyledHeader,
   StyledHeaderTitle,
 } from './events';
+import Section from 'components/section';
 
 export const StyledActions = styled.div`
   display: grid;
@@ -67,7 +68,7 @@ export const StyledContentSections = styled.div`
 
 const Participation = () => {
   return (
-    <StyledContainer>
+    <Section>
       <StyledEventHero>
         <h1>Participation</h1>
         <h3>Find what you need quickly</h3>
@@ -102,7 +103,7 @@ const Participation = () => {
           <Divider style="reverse" />
         </StyledHeader>
         <StyledContentSections>
-          <ContentSections sections={values.sections} />
+          <ContentSections sections={values.sections} titleAs="h4" />
         </StyledContentSections>
       </StyledValues>
 
@@ -187,7 +188,7 @@ const Participation = () => {
           <ContentSections sections={maintainers.sections} />
         </StyledContentSections>
       </StyledContent>
-    </StyledContainer>
+    </Section>
   );
 };
 

@@ -16,7 +16,6 @@ const MarqueeWrapper = styled.div`
   overflow: hidden;
   width: 100%;
   user-select: none;
-  margin-bottom: -20px;
 
   .marquee_content {
     animation: ${marqueeScroll} 60s linear infinite
@@ -65,16 +64,24 @@ const Marquee = (props) => {
     <MarqueeWrapper {...props} direction={props.direction}>
       <ul className="marquee_content">
         <li>{props.text1}</li>
+        <li>•</li>
         <li>{props.text2}</li>
+        <li>•</li>
         <li>{props.text1}</li>
+        <li>•</li>
         <li>{props.text2}</li>
+        <li>•</li>
       </ul>
 
       <ul className="marquee_content" aria-hidden="true">
         <li>{props.text1}</li>
+        <li>•</li>
         <li>{props.text2}</li>
+        <li>•</li>
         <li>{props.text1}</li>
+        <li>•</li>
         <li>{props.text2}</li>
+        <li>•</li>
       </ul>
     </MarqueeWrapper>
   );

@@ -157,7 +157,7 @@ const Home = () => {
       </StyledHero>
       <Section spacing_top="64px">
         <CountdownContainer>
-          <p className="title"> >> Time to impact</p>
+          <p className="title"> {'>>'} Time to launch</p>
           <Column>
             <div className="ticker">
               <p>Days:</p>
@@ -191,7 +191,7 @@ const Home = () => {
       />
       <Section spacing_top="64px">
         <Repeater spacing_btm="64px" />
-        <p> >> Boot Dialogue: registration begins september 26</p>
+        <p> {'>>'} Boot Dialogue: registration begins september 26</p>
         <br />
         <p>---</p>
       </Section>
