@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import fetchProjects from 'lib/donate';
 
-import Button from 'components/button';
+import Button, { StyledButton } from 'components/button';
 import Collapse from 'components/collapse';
 import Section from 'components/section';
 
@@ -66,6 +66,11 @@ export const StyledProject = styled(StyledListItem)`
           align-items: center;
           gap: 16px;
           margin: 8px 0;
+          
+          > img {
+            border-radius: 16px;
+            filter: ${(props) => props.theme.glowLiteDS};
+          }
 
           > div {
             margin: 8px 0;
@@ -76,6 +81,11 @@ export const StyledProject = styled(StyledListItem)`
           }
         }
       }
+    }
+
+    ${StyledButton} {
+      filter: ${(props) => props.theme.glowLiteDS};
+      margin: 8px;
     }
   }
 `;
@@ -135,8 +145,8 @@ const Project = ({ project }) => {
             {allLinks.map((link) => (
               <Button
                 key={link.title}
-                color={color[0]}
-                text={color[1]}
+                color_bg={color[0]}
+                color_text={color[1]}
                 as="a"
                 href={link.url}
                 target="_blank"
