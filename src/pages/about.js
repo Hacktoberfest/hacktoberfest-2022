@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { council, lowNonCode } from 'lib/about';
 
@@ -8,15 +8,79 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 
-export const StyledCouncilMembers = styled.div`
+const textAnimation = () => keyframes`
+  50% {
+    content: " ->"
+  }
+  100% {
+    content: " -->"
+  }
+`;
+
+const StyledCouncilMembers = styled.div`
   margin: 32px 0;
 
   details {
     margin: 24px 0;
+    transition: 0.2s ease;
+    background: linear-gradient(
+      180deg,
+      rgba(124, 127, 255, 0) 0%,
+      rgba(124, 127, 255, 0.2) 100%
+    );
+    border: 1px solid ${(props) => props.theme.psybeam};
+    border-radius: 24px;
+
+    &:hover {
+      box-shadow: 0px 0px 12px ${(props) => props.theme.psybeam};
+
+      summary {
+        img {
+          transform: rotate(0deg) translateY(-10px) !important;
+        }
+      }
+    }
+
+    div {
+      padding-right: 40px;
+    }
+
+    ul {
+      margin-top: 24px;
+    }
+
+    a {
+      text-transform: none;
+      transition: 0.2s ease;
+      font-variant-ligatures: none;
+      &:after {
+        content: ' >';
+      }
+
+      &:hover {
+        color: rgba(229, 225, 230, 1);
+        &:after {
+          filter: ${(props) => props.theme.glowLiteDS};
+          animation: ${textAnimation} 1.5s linear infinite;
+        }
+      }
+    }
+
+    &:nth-of-type(2n) {
+      summary {
+        img {
+          transform: rotate(4deg);
+        }
+      }
+    }
 
     summary {
+      flex-wrap: wrap;
       img {
-        margin-right: 12px;
+        transition: 0.2s ease;
+        transform: rotate(-4deg);
+        border-radius: 24px;
+        margin-right: 24px;
       }
     }
   }

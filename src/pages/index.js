@@ -18,7 +18,11 @@ import osGrid from 'img/os-grid.svg';
 import osHeart from 'img/os-heart.svg';
 import grid from 'img/grid.svg';
 
-import { StyledEventsListItemEyebrow, StyledList, StyledListItem } from './events';
+import {
+  StyledEventsListItemEyebrow,
+  StyledList,
+  StyledListItem,
+} from './events';
 
 const StyledHero = styled.section`
   width: 100%;
@@ -58,7 +62,7 @@ const StyledCountdownContainer = styled.div`
   .title {
     animation: ${flash} 1.5s linear infinite;
   }
-  
+
   .ticker {
     display: flex;
     justify-content: space-between;
@@ -76,7 +80,7 @@ const StyledCountdownContainer = styled.div`
 const StyledHeart = styled.div`
   background: url(${osGrid.src}) center center / cover no-repeat;
   padding: 64px;
-  
+
   img {
     max-width: 100%;
   }
@@ -88,15 +92,32 @@ const StyledLoader = styled.span`
 `;
 
 const Loader = () => {
-  const frames = useMemo(() => [
-    "[    ]", "[=   ]", "[==  ]", "[=== ]", "[ ===]", "[  ==]", "[   =]",
-    "[    ]", "[   =]", "[  ==]", "[ ===]", "[====]", "[=== ]", "[==  ]", "[=   ]",
-  ].map(item => item.replace(/ /g, '\u00A0')), []);
-  const [ frame, setFrame ] = useState(0);
+  const frames = useMemo(
+    () =>
+      [
+        '[    ]',
+        '[=   ]',
+        '[==  ]',
+        '[=== ]',
+        '[ ===]',
+        '[  ==]',
+        '[   =]',
+        '[    ]',
+        '[   =]',
+        '[  ==]',
+        '[ ===]',
+        '[====]',
+        '[=== ]',
+        '[==  ]',
+        '[=   ]',
+      ].map((item) => item.replace(/ /g, '\u00A0')),
+    []
+  );
+  const [frame, setFrame] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setFrame(prev => (prev + 1) % frames.length);
+      setFrame((prev) => (prev + 1) % frames.length);
     }, 100);
     return () => clearInterval(interval);
   }, [frames]);
@@ -189,7 +210,9 @@ const Home = () => {
         <Repeater spacing_btm="64px" />
         <p> {'>>'} Boot Dialogue: registration begins september 26</p>
         <br />
-        <p><Loader /></p>
+        <p>
+          <Loader />
+        </p>
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">
@@ -248,7 +271,7 @@ const Home = () => {
                   as="a"
                   color_bg="body"
                   color_text="text"
-                  spacing_top="64px"
+                  spacing_top="40px"
                 >
                   Learn About Non-Code Contributions
                 </Button>
@@ -269,22 +292,24 @@ const Home = () => {
         <StyledList>
           {events.map((event) => (
             <StyledListItem key={event.title}>
-              <StyledEventsListItemEyebrow color="surf">[ DigitalOcean ]</StyledEventsListItemEyebrow>
+              <StyledEventsListItemEyebrow color="surf">
+                [ DigitalOcean ]
+              </StyledEventsListItemEyebrow>
               <h3>{event.title}</h3>
               <p>{event.content}</p>
               <ul>
-              <li>
-              <span>Location:</span> {event.location}
-              </li>
-              <li>
-              <span>Date:</span> {event.date}
-              </li>
-              <li>
-              <span>Time:</span> {event.time}
-              </li>
-              <li>
-              <span>Format:</span> Livestream
-              </li>
+                <li>
+                  <span>Location:</span> {event.location}
+                </li>
+                <li>
+                  <span>Date:</span> {event.date}
+                </li>
+                <li>
+                  <span>Time:</span> {event.time}
+                </li>
+                <li>
+                  <span>Format:</span> Livestream
+                </li>
               </ul>
             </StyledListItem>
           ))}
@@ -299,11 +324,7 @@ const Home = () => {
 
       <Section type="center home_content">
         <StyledHeart>
-          <img
-            src={osHeart.src}
-            alt=""
-            height="256"
-          />
+          <img src={osHeart.src} alt="" height="256" />
         </StyledHeart>
         <h2>Support Open Source</h2>
         <h5>
