@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Bug } from './logo';
 
 // const Moon = () => {
@@ -349,7 +350,9 @@ const Navigation = () => {
   const [open, setOpen] = useState(false);
   const toggle = useCallback(() => setOpen((state) => !state), []);
 
-  // const router = useRouter();
+  const router = useRouter();
+  useEffect(() => { setOpen(false); }, [ router.pathname ]);
+
   // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
 
   // const themeToggle = useThemeToggle();
