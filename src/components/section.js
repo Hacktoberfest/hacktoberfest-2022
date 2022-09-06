@@ -12,21 +12,21 @@ const StyledSection = styled.section`
     margin: 0 auto;
 
     &.home_content {
-      h5 {
+      > h5 {
         margin-top: 24px;
       }
     }
 
     &.sub_hero {
-      h4 {
-        margin-top: 24px;
+      > h4 {
+        margin-top: 48px;
       }
 
-      div {
+      > div {
         display: flex;
         gap: 24px;
         flex-flow: row wrap;
-        margin-top: 40px;
+        margin-top: 16px;
       }
     }
 

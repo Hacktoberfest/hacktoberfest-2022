@@ -100,13 +100,10 @@ const About = () => {
           <Button as="a" href="#lore" color_bg="spark">
             Hacktoberfest Lore
           </Button>
-          <Button as="a" href="#new-for-2022" color_bg="giga">
-            New for 2022
-          </Button>
-          <Button as="a" href="#low-or-non-code" color_bg="surf">
+          <Button as="a" href="#low-or-non-code" color_bg="giga">
             Low or Non Code Contributions
           </Button>
-          <Button as="a" href="#council" color_bg="psybeam">
+          <Button as="a" href="#council" color_bg="surf">
             Advisory Council
           </Button>
         </div>
@@ -136,10 +133,10 @@ const About = () => {
 
       <Section type="sub_content">
         <Divider />
-        <h2>New for 2022</h2>
+        <h4>New for 2022</h4>
 
         <Anchor href="#low-or-non-code" id="low-or-non-code" />
-        <h3>Low or Non Code Contributions</h3>
+        <h2>Low or Non Code Contributions</h2>
         <p>
           Contributing to open source isn’t just for technical folks who want to
           write code. There are lots of opportunities to use your professional
