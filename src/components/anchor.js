@@ -41,7 +41,7 @@ const StyledA = styled.a`
 
 const Anchor = (props) => {
   return (
-    <StyledA href={props.href}>
+    <StyledA href={props.href} id={props.id}>
       <svg
         width="24"
         height="24"

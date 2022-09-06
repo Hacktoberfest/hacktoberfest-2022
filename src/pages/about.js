@@ -2,63 +2,13 @@ import styled from 'styled-components';
 
 import { council, lowNonCode } from 'lib/about';
 
-import { StyledEventHero, StyledActions } from './events';
+import { StyledActions } from './events';
 
 import Collapse from 'components/collapse';
 import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
-
-export const StyledLore = styled.div`
-  margin: 120px 0 0;
-
-  h2 {
-    margin: 0 0 48px;
-  }
-  p {
-    margin-bottom: 24px;
-  }
-`;
-
-export const StyledNew = styled.div`
-  margin: 32px 0;
-`;
-
-export const StyledNoCode = styled.div`
-  margin: 32px 0;
-
-  h3 {
-    font-family: 'Elevon';
-    font-style: normal;
-    font-weight: 800;
-    font-size: 32px;
-    line-height: 40px;
-    text-transform: uppercase;
-    color: #e5e1e6;
-    text-shadow: -1px -1px 6px rgba(255, 227, 126, 0.5),
-      1px 1px 6px rgba(144, 148, 255, 0.5);
-    margin: 8px 0 24px;
-  }
-
-  p {
-    margin-bottom: 24px;
-  }
-
-  table {
-    width: 100%;
-    text-align: left;
-    margin-bottom: 32px;
-  }
-`;
-
-export const StyledCouncil = styled.div`
-  margin: 32px 0;
-
-  p {
-    margin: 32px 0 24px;
-  }
-`;
 
 export const StyledCouncilMembers = styled.div`
   margin: 32px 0;
@@ -80,8 +30,8 @@ export const StyledCouncilMemberContent = styled.div`
 
 const About = () => {
   return (
-    <Section>
-      <StyledEventHero>
+    <>
+      <Section>
         <h1>About</h1>
         <h3>Find what you need quickly</h3>
         <StyledActions>
@@ -98,9 +48,10 @@ const About = () => {
             Advisory Council
           </Button>
         </StyledActions>
-      </StyledEventHero>
+      </Section>
 
-      <StyledLore id="lore">
+      <Section id="lore">
+        <Divider />
         <Anchor href="#lore" />
         <h2>Hacktoberfest Lore</h2>
         <p>
@@ -119,15 +70,13 @@ const About = () => {
           use and love, learn and practice skills that will enhance their
           careers, and meet new people who love open source as much as they do.
         </p>
-        <Divider style="reverse" />
-      </StyledLore>
+      </Section>
 
-      <StyledNew id="new-for-2022">
+      <Section>
+        <Divider />
         <h2>New for 2022</h2>
-      </StyledNew>
 
-      <StyledNoCode id="low-or-non-code">
-        <Anchor href="#low-or-non-code" />
+        <Anchor href="#low-or-non-code" id="low-or-non-code" />
         <h3>Low or Non Code Contributions</h3>
         <p>
           Contributing to open source isn’t just for technical folks who want to
@@ -182,9 +131,10 @@ const About = () => {
             PRs/MRs.
           </i>
         </p>
-      </StyledNoCode>
+      </Section>
 
-      <StyledCouncil id="council">
+      <Section id="council">
+        <Divider />
         <Anchor href="#council" />
         <h2>Advisory Council</h2>
         <p>
@@ -227,8 +177,8 @@ const About = () => {
             </Collapse>
           ))}
         </StyledCouncilMembers>
-      </StyledCouncil>
-    </Section>
+      </Section>
+    </>
   );
 };
 

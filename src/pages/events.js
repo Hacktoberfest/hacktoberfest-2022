@@ -108,7 +108,7 @@ const Events = ({ events, speakers }) => {
         </StyledActions>
       </Section>
 
-      <Section>
+      <Section id="events">
         <Divider />
         <Anchor href="#events" />
         <h2>Global Events</h2>
@@ -162,7 +162,7 @@ const Events = ({ events, speakers }) => {
         </StyledList>
       </Section>
 
-      <Section>
+      <Section id="organizers">
         <Divider />
         <Anchor href="#organizers" />
         <h2>Event Organizers</h2>
@@ -182,7 +182,7 @@ const Events = ({ events, speakers }) => {
         <ContentSections sections={resources.sections} titleAs="h5" />
       </Section>
 
-      <Section>
+      <Section id="speakers">
         <Divider />
         <Anchor href="#speakers" />
         <h2>Speakers &amp; Facilitators</h2>
@@ -220,7 +220,7 @@ const Events = ({ events, speakers }) => {
         </StyledList>
       </Section>
 
-      <Section>
+      <Section id="brand">
         <Divider />
         <Anchor href="#brand" />
         <h2>Brand Guidelines</h2>
