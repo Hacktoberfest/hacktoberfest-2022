@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
-import sparkle from 'img/sparkle-3.gif';
+import sparkle from 'img/sparkle-5.gif';
 
 const StyledDiv = styled.div``;
 
@@ -124,8 +124,20 @@ const MainWrapper = styled(StyledDiv)`
     position: absolute;
     text-align: center;
     width: 100%;
-    -webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
-    mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0) 95%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0) 95%
+    );
     white-space: nowrap;
     overflow: hidden;
 
@@ -147,8 +159,20 @@ const MainWrapper = styled(StyledDiv)`
       top: 0;
       width: auto;
       writing-mode: vertical-rl;
-      -webkit-mask-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
-      mask-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 5%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0) 95%);
+      -webkit-mask-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 5%,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 80%,
+        rgba(0, 0, 0, 0) 95%
+      );
+      mask-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 5%,
+        rgba(0, 0, 0, 1) 20%,
+        rgba(0, 0, 0, 1) 80%,
+        rgba(0, 0, 0, 0) 95%
+      );
 
       &.right {
         right: 10px;
@@ -161,10 +185,9 @@ const MainWrapper = styled(StyledDiv)`
     }
 
     &:after {
-      content:
-        "00111010 00101101 00101001 00101001" " "
-        "00111010 00101101 00101001 00101001" " "
-        "00111010 00101101 00101001 00101001"; // :-))
+      content: '00111010 00101101 00101001 00101001' ' '
+        '00111010 00101101 00101001 00101001' ' '
+        '00111010 00101101 00101001 00101001'; // :-))
     }
   }
 `;
