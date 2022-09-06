@@ -1,10 +1,3 @@
-import styled from 'styled-components';
-
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-
 import {
   values,
   contributors,
@@ -22,25 +15,13 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 
-export const StyledActions = styled.div`
-  display: grid;
-  grid-gap: 24px;
-  grid-template-columns:
-    fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%)
-    fit-content(100%) fit-content(100%);
-
-  ${mQ(bp.tablet, 'max')} {
-    grid-template-columns: 1fr;
-  }
-`;
-
 const Participation = () => {
   return (
     <>
       <Section type="sub_hero">
         <h1>Participation</h1>
         <h4>Find what you need quickly</h4>
-        <StyledActions>
+        <div>
           <Button as="a" href="#values" color_bg="spark">
             Values
           </Button>
@@ -59,7 +40,7 @@ const Participation = () => {
           <Button as="a" href="#maintainers" color_bg="surf">
             Maintainers
           </Button>
-        </StyledActions>
+        </div>
       </Section>
 
       <Section type="sub_content" id="values">

@@ -31,7 +31,6 @@ const StyledSection = styled.section`
     }
 
     &.sub_content {
-
       h2 {
         margin-bottom: 40px;
       }
@@ -49,10 +48,10 @@ const StyledSection = styled.section`
       }
 
       table {
-
         margin-top: 24px;
         border-spacing: 0;
         width: 100%;
+        
         th, tr, td, li {
           font-family: "JetBrains Mono", monospace;
         }
@@ -62,18 +61,14 @@ const StyledSection = styled.section`
           border-left: 1px solid ${(props) => props.theme.text};
           padding: 24px;
         }
-
       }
-
     }
 
     &.center {
       text-align: center;
       margin: 128px auto 0 auto;
     }
-
   }
-
 }
 
 @media (max-width: 600px) {

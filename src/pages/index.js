@@ -20,22 +20,6 @@ import grid from 'img/grid.svg';
 
 import { StyledEventsListItemEyebrow, StyledList, StyledListItem } from './events';
 
-// const StyledCards = styled.div`
-//   display: flex;
-//   flex-flow: row wrap;
-//   justify-content: center;
-//   gap: 40px;
-// `;
-
-const glow = () => keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
-
 const StyledHero = styled.section`
   width: 100%;
 
