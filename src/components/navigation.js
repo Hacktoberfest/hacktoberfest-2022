@@ -1,9 +1,7 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useCallback, useMemo, useState } from 'react';
-import Button from './button';
-import Logo, { Globe, Bug, LogoWrapper } from './logo';
+
+import { Bug } from './logo';
 import { useThemeToggle } from './theme';
 
 // const Moon = () => {

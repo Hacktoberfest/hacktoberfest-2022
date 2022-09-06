@@ -1,11 +1,13 @@
+import styled from 'styled-components';
+
 import { council, lowNonCode } from 'lib/about';
-import Collapse from 'components/collapse';
+
 import { StyledContainer, StyledEventHero, StyledActions } from './events';
+
+import Collapse from 'components/collapse';
 import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
-import styled from 'styled-components';
-import Marquee from 'components/marquee';
 
 export const StyledLore = styled.div`
   margin: 120px 0 0;

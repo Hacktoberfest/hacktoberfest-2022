@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { knuthShuffle } from 'knuth-shuffle';
 import styled from 'styled-components';
+
 import fetchProjects from 'lib/donate';
+
 import Button from 'components/button';
 import Collapse from 'components/collapse';
+
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 import { StyledContainer, StyledList, StyledListItem } from './events';

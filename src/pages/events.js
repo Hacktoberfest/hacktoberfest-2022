@@ -1,10 +1,13 @@
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
+
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+
 import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
+
 import { ContentSections } from 'components/content';
 import { MarkdownInline } from 'components/markdown';
 import Button from 'components/button';

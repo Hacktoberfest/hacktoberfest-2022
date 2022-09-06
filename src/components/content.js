@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import Collapse from './collapse';
 import { Markdown, MarkdownInline } from './markdown';
-import styled from 'styled-components';
 
 const StyledDiv = styled.div`
   h4 {

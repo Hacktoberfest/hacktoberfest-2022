@@ -1,18 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
+
 import { events } from 'lib';
+
 import Button from 'components/button';
 import Section from 'components/section';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 import Marquee from 'components/marquee';
-import Card, { NewCard } from 'components/card';
+import { NewCard } from 'components/card';
 import Column from 'components/column';
-import osheart from 'img/os-heart.svg';
 import Logo from 'components/logo-2';
-import grid from 'img/grid.svg';
 import Repeater from 'components/repeater';
+
+import osheart from 'img/os-heart.svg';
+import grid from 'img/grid.svg';
 
 // const StyledCards = styled.div`
 //   display: flex;

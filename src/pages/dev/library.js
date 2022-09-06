@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+
 import { useThemeToggle } from 'components/theme';
 import Button from 'components/button';
 import Card from 'components/card';
-import Logo, { Globe, Bug } from 'components/logo';
+import Logo from 'components/logo-2';
 import Marquee from 'components/marquee';
 import Divider from 'components/divider';
 import Headline from 'components/section';

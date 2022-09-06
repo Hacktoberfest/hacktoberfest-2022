@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-// import { Bug } from './logo';
-import Logo, { Badge } from './logo-2';
-import repeater from 'img/repeater.svg';
-import rainbow from 'img/rainbow-bg.svg';
+
+import { Badge } from './logo-2';
 import Repeater from './repeater';
+
+import rainbow from 'img/rainbow-bg.svg';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 

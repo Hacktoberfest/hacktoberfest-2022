@@ -1,3 +1,10 @@
+import styled from 'styled-components';
+
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
+
 import {
   values,
   contributors,
@@ -6,24 +13,20 @@ import {
   spam,
   maintainers,
 } from 'lib/participation';
+
 import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
 import Collapse from 'components/collapse';
+import Button from 'components/button';
+import Anchor from 'components/anchor';
+import Divider from 'components/divider';
+
 import {
   StyledContainer,
   StyledEventHero,
   StyledHeader,
   StyledHeaderTitle,
 } from './events';
-import Button from 'components/button';
-import Anchor from 'components/anchor';
-import Divider from 'components/divider';
-
-import styled from 'styled-components';
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
 
 export const StyledActions = styled.div`
   display: grid;

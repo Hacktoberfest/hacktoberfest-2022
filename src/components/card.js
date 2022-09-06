@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-// import { useEffect } from 'react';
+
 import sparkle from 'img/sparkle.gif';
 
 const StyledDiv = styled.div``;

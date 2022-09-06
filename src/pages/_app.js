@@ -1,9 +1,13 @@
 import '../styles/globals.css';
+
 import Head from 'next/head';
+
 import { Theme } from 'components/theme';
 import Navigation from 'components/navigation';
 import Footer from 'components/footer';
+
 import GlobalStyle from 'themes/themes';
+
 import opengraph from 'img/opengraph.png';
 import favicon from 'img/favicon.svg';
 
