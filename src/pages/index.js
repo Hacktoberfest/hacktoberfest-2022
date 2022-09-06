@@ -14,7 +14,8 @@ import Column from 'components/column';
 import Logo from 'components/logo-2';
 import Repeater from 'components/repeater';
 
-import osheart from 'img/os-heart.svg';
+import osGrid from 'img/os-grid.svg';
+import osHeart from 'img/os-heart.svg';
 import grid from 'img/grid.svg';
 
 import { StyledEventsListItemEyebrow, StyledList, StyledListItem } from './events';
@@ -69,10 +70,11 @@ const flash = () => keyframes`
   }
 `;
 
-const CountdownContainer = styled.div`
+const StyledCountdownContainer = styled.div`
   .title {
     animation: ${flash} 1.5s linear infinite;
   }
+  
   .ticker {
     display: flex;
     justify-content: space-between;
@@ -84,6 +86,15 @@ const CountdownContainer = styled.div`
     h5 {
       padding-bottom: 4px;
     }
+  }
+`;
+
+const StyledHeart = styled.div`
+  background: url(${osGrid.src}) center center / cover no-repeat;
+  padding: 64px;
+  
+  img {
+    max-width: 100%;
   }
 `;
 
@@ -157,7 +168,7 @@ const Home = () => {
         </div>
       </StyledHero>
       <Section spacing_top="64px">
-        <CountdownContainer>
+        <StyledCountdownContainer>
           <p className="title"> {'>>'} Time to launch</p>
           <Column>
             <div className="ticker">
@@ -177,7 +188,7 @@ const Home = () => {
               <h5>{seconds}</h5>
             </div>
           </Column>
-        </CountdownContainer>
+        </StyledCountdownContainer>
         <Divider spacing_top="40px" spacing_btm="64px" />
       </Section>
       <Marquee
@@ -303,12 +314,13 @@ const Home = () => {
       </Section>
 
       <Section type="center home_content">
-        <img
-          src={osheart.src}
-          alt="Girl in a jacket"
-          width="100%"
-          height="456"
-        />
+        <StyledHeart>
+          <img
+            src={osHeart.src}
+            alt=""
+            height="256"
+          />
+        </StyledHeart>
         <h2>Support Open Source</h2>
         <h5>
           Open-source projects, maintained by community-minded coders, make the
