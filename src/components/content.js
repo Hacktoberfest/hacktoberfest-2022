@@ -12,8 +12,8 @@ const StyledDiv = styled.div`
       font-weight: normal;
       font-family: 'JetBrains Mono', monospace;
       text-align: center;
-      width: 64px;
-      flex: 0 0 64px;
+      width: 48px;
+      flex: 0 0 48px;
       letter-spacing: 1px;
       text-indent: 1px;
       content: '[ ]';

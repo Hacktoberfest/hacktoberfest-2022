@@ -66,12 +66,6 @@ export const StyledListItem = styled.div`
   }
 `;
 
-export const StyledActions = styled.div`
-  display: flex;
-  gap: 24px;
-  flex-flow: row wrap;
-`;
-
 const typesToColors = {
   virtual: 'giga',
   'premium-partner': 'psybeam',
@@ -89,10 +83,10 @@ const Events = ({ events, speakers }) => {
 
   return (
     <>
-      <Section>
+      <Section type="sub_hero">
         <h1>Events for 2022</h1>
-        <h3>Find what you need quickly</h3>
-        <StyledActions>
+        <h4>Find what you need quickly</h4>
+        <div>
           <Button as="a" href="#events" color_bg="spark">
             Event List
           </Button>
@@ -105,10 +99,10 @@ const Events = ({ events, speakers }) => {
           <Button as="a" href="#brand" color_bg="psybeam">
             Brand Guidelines
           </Button>
-        </StyledActions>
+        </div>
       </Section>
 
-      <Section id="events">
+      <Section type="sub_content" id="events">
         <Divider />
         <Anchor href="#events" />
         <h2>Global Events</h2>
@@ -162,7 +156,7 @@ const Events = ({ events, speakers }) => {
         </StyledList>
       </Section>
 
-      <Section id="organizers">
+      <Section type="sub_content" id="organizers">
         <Divider />
         <Anchor href="#organizers" />
         <h2>Event Organizers</h2>
@@ -182,7 +176,7 @@ const Events = ({ events, speakers }) => {
         <ContentSections sections={resources.sections} titleAs="h5" />
       </Section>
 
-      <Section id="speakers">
+      <Section type="sub_content" id="speakers">
         <Divider />
         <Anchor href="#speakers" />
         <h2>Speakers &amp; Facilitators</h2>
@@ -220,7 +214,7 @@ const Events = ({ events, speakers }) => {
         </StyledList>
       </Section>
 
-      <Section id="brand">
+      <Section type="sub_content" id="brand">
         <Divider />
         <Anchor href="#brand" />
         <h2>Brand Guidelines</h2>

@@ -127,29 +127,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <StyledCards>
-        <Card
-          primary="spark"
-          secondary="psybeam"
-          title="days"
-          number={days}
-          delay="0s"
-        />
-        <Card
-          primary="psybeam"
-          secondary="surf"
-          title="hours"
-          number={hours}
-          delay="0.5s"
-        />
-        <Card
-          primary="surf"
-          secondary="spark"
-          title="minutes"
-          number={minutes}
-          delay="1.3s"
-        />
-      </StyledCards> */}
       <StyledHero>
         <div className="content">
           <Logo width="80px" />
@@ -196,7 +173,7 @@ const Home = () => {
         <p>---</p>
       </Section>
 
-      <Section id="prepare-to-hack">
+      <Section id="prepare-to-hack" type="home_content">
         <Divider />
         <Anchor href="#prepare-to-hack" />
         <h2>Prepare to Hack</h2>
@@ -262,7 +239,7 @@ const Home = () => {
         </div>
       </Section>
 
-      <Section id="events-all-month-long" style="right">
+      <Section id="events-all-month-long" type="home_content">
         <Divider style="reverse" />
         <Anchor href="#events-all-month-long" />
         <h2>Events All Month Long</h2>
@@ -287,7 +264,7 @@ const Home = () => {
         </Link>
       </Section>
 
-      <Section flex="center">
+      <Section type="center home_content">
         <img
           src={osheart.src}
           alt="Girl in a jacket"

@@ -73,7 +73,7 @@ button {
 h1 {
   font-family: 'Vanguard', sans-serif;
   font-size: 144px;
-  line-height: 80px;
+  line-height: 100%;
 }
 
 h2 {
@@ -99,7 +99,6 @@ h5 {
   font-size: 20px;
   font-weight: 500;
   line-height: 28px;
-  margin-top: 32px;
 }
 
 h6 {

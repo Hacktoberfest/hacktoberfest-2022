@@ -16,6 +16,7 @@ const rotateAnimation = () => keyframes`
 `;
 
 const Details = styled.details`
+  margin-bottom: 40px;
   summary {
     display: flex;
     align-items: center;
@@ -33,17 +34,18 @@ const Details = styled.details`
     &::before {
       font-family: 'JetBrains Mono', monospace;
       text-align: center;
-      width: 64px;
-      flex: 0 0 64px;
+      width: 48px;
+      flex: 0 0 48px;
       letter-spacing: 1px;
       text-indent: 1px;
-      content: "${props => props.open ? '[-]' : '[+]'}";
-      transition: letter-spacing 0.2s ease 0.2s, text-indent 0.2s ease 0.2s, color 0.4s ease;
+      content: '${(props) => (props.open ? '[-]' : '[+]')}';
+      transition: letter-spacing 0.2s ease 0.2s, text-indent 0.2s ease 0.2s,
+        color 0.4s ease;
     }
 
     &:hover {
       &::before {
-        color: ${props => props.theme.surf};
+        color: ${(props) => props.theme.surf};
         letter-spacing: 4px;
         text-indent: 4px;
         animation: ${rotateAnimation()} 0.2s linear;
@@ -61,7 +63,7 @@ const Details = styled.details`
 
       &:hover {
         &::before {
-          color: ${props => props.theme.psybeam};
+          color: ${(props) => props.theme.psybeam};
           letter-spacing: 1px;
           text-indent: 1px;
           animation: none;
@@ -69,17 +71,35 @@ const Details = styled.details`
       }
     }
   }
+
+  > div {
+    margin-left: 48px;
+    box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+
+    p {
+      margin-top: 12px !important;
+      opacity: 0.75;
+      text-shadow: none;
+      text-transform: none;
+    }
+    li {
+      &:last-of-type {
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+      }
+    }
+  }
 `;
 
 const Collapse = ({ title, collapsed, children }) => {
-  const [ open, setOpen ] = useState(!collapsed);
-  useEffect(() => setOpen(!collapsed), [ collapsed ]);
-  const toggle = useCallback(evt => setOpen(evt.target.open), []);
+  const [open, setOpen] = useState(!collapsed);
+  useEffect(() => setOpen(!collapsed), [collapsed]);
+  const toggle = useCallback((evt) => setOpen(evt.target.open), []);
 
   return (
     <Details open={open} onToggle={toggle}>
       <summary>{title}</summary>
-      {children}
+      <div>{children}</div>
     </Details>
   );
 };
