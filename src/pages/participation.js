@@ -1,3 +1,5 @@
+import styled from 'styled-components';
+
 import {
   values,
   contributors,
@@ -14,6 +16,10 @@ import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
+
+const StyledPREyebrow = styled.p`
+  color: ${(props) => props.theme[props.color] || props.theme.text};
+`;
 
 const Participation = () => {
   return (
@@ -75,7 +81,7 @@ const Participation = () => {
             title={
               <div>
                 {section.subtitle && (
-                  <MarkdownInline string={`[ ${section.subtitle} ]`} />
+                  <MarkdownInline string={`[ ${section.subtitle} ]`} as={StyledPREyebrow} color="spark" />
                 )}
                 <MarkdownInline string={section.title} as="h4" />
               </div>

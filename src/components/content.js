@@ -36,6 +36,26 @@ const StyledDiv = styled.div`
     text-shadow: none;
     color: rgba(229, 225, 230, 0.75);
   }
+  
+  ul {
+    padding: 8px 0 8px 16px;
+    
+    li {
+      position: relative;
+      
+      &::before {
+        position: absolute;
+        width: 16px;
+        left: -16px;
+        content: '-';
+      }
+    }
+  }
+  
+  code {
+    color: ${(props) => props.theme.surf};
+    text-transform: none;
+  }
 `;
 
 const ContentSectionBody = ({ section }) => (
@@ -66,7 +86,9 @@ export const ContentSections = ({ sections, titleAs = 'h4' }) => {
         title={<MarkdownInline string={section.title} as={titleAs} />}
         collapsed={section.collapsed}
       >
-        <ContentSectionBody section={section} />
+        <StyledDiv>
+          <ContentSectionBody section={section} />
+        </StyledDiv>
       </Collapse>
     ) : hasCollapse ? (
       <FakeCollapse

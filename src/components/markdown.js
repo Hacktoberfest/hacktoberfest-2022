@@ -12,5 +12,5 @@ const parse = html => htmlReactParser(html, {
 
 export const Markdown = ({ string }) => parse(markdown.render(string));
 
-export const MarkdownInline = ({ string, as: Component = 'p' }) =>
-    <Component>{parse(markdown.renderInline(string))}</Component>;
+export const MarkdownInline = ({ string, as: Component = 'p', ...props }) =>
+    <Component {...props}>{parse(markdown.renderInline(string))}</Component>;
