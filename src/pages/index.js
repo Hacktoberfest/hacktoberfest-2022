@@ -17,6 +17,8 @@ import Repeater from 'components/repeater';
 import osheart from 'img/os-heart.svg';
 import grid from 'img/grid.svg';
 
+import { StyledEventsListItemEyebrow, StyledList, StyledListItem } from './events';
+
 // const StyledCards = styled.div`
 //   display: flex;
 //   flex-flow: row wrap;
@@ -269,15 +271,29 @@ const Home = () => {
           Join forces in virtual and in-person events to get your pull/merge
           requests done as a team, learn new skills, and meet lifelong friends.
         </h5>
-        {events.map((event) => (
-          <div key={event.title}>
-            <h3>{event.title}</h3>
-            <p>{event.content}</p>
-            <p>Date: {event.date}</p>
-            <p>Time: {event.time}</p>
-            <p>Location: {event.location}</p>
-          </div>
-        ))}
+        <StyledList>
+          {events.map((event) => (
+            <StyledListItem key={event.title}>
+              <StyledEventsListItemEyebrow color="surf">[ DigitalOcean ]</StyledEventsListItemEyebrow>
+              <h3>{event.title}</h3>
+              <p>{event.content}</p>
+              <ul>
+              <li>
+              <span>Location:</span> {event.location}
+              </li>
+              <li>
+              <span>Date:</span> {event.date}
+              </li>
+              <li>
+              <span>Time:</span> {event.time}
+              </li>
+              <li>
+              <span>Format:</span> Livestream
+              </li>
+              </ul>
+            </StyledListItem>
+          ))}
+        </StyledList>
 
         <Link href="/events" passHref>
           <Button special as="a" spacing_top="40px">
