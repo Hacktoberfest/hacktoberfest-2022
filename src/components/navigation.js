@@ -245,6 +245,7 @@ const Wrapper = styled.header`
       p {
         opacity: 0.75;
         transition: 0.1s ease;
+        text-shadow: none;
       }
 
       .globe_wrapper {
@@ -261,6 +262,7 @@ const Wrapper = styled.header`
 
       &:hover {
         #globe {
+          opacity: 1;
           transform: rotate(45deg) scale(0.48);
         }
 

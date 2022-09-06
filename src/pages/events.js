@@ -205,16 +205,16 @@ const Events = ({ events, speakers }) => {
         <h1>Events for 2022</h1>
         <h3>Find what you need quickly</h3>
         <StyledActions>
-          <Button as="a" href="#events" color="spark">
+          <Button as="a" href="#events" color_bg="spark">
             Event List
           </Button>
-          <Button as="a" href="#organizers" color="giga">
+          <Button as="a" href="#organizers" color_bg="giga">
             Event Organizer Kit
           </Button>
-          <Button as="a" href="#speakers" color="surf">
+          <Button as="a" href="#speakers" color_bg="surf">
             Speakers & Facilitators
           </Button>
-          <Button as="a" href="#brand" color="psybeam">
+          <Button as="a" href="#brand" color_bg="psybeam">
             Brand Guidelines
           </Button>
         </StyledActions>

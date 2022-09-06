@@ -3,31 +3,31 @@ import styled, { keyframes } from 'styled-components';
 
 const StyledDiv = styled.div``;
 
-export const LogoWrapper = styled.div`
-  width: max-content;
-  .text {
-    filter: ${(props) => props.theme.glowLiteDS};
-  }
+// export const LogoWrapper = styled.div`
+//   width: max-content;
+//   .text {
+//     filter: ${(props) => props.theme.glowLiteDS};
+//   }
 
-  .bug_wrapper {
-    margin: 0 auto;
-    width: 224px;
-    height: 224px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+//   .bug_wrapper {
+//     margin: 0 auto;
+//     width: 224px;
+//     height: 224px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
 
-    #bug {
-      transform: scale(2);
-    }
-  }
+//     #bug {
+//       transform: scale(2);
+//     }
+//   }
 
-  &:hover {
-    #globe {
-      transform: scale(0.95) rotate(40deg);
-    }
-  }
-`;
+//   &:hover {
+//     #globe {
+//       transform: scale(0.95) rotate(40deg);
+//     }
+//   }
+// `;
 
 const BadgeWrapper = styled(StyledDiv)`
   position: relative;
@@ -43,8 +43,8 @@ const BadgeWrapper = styled(StyledDiv)`
     width: 100%;
     z-index: 10;
     .h-mark {
-      filter: drop-shadow(0px 0px 2px ${(props) => props.theme.holoShadow})
-        drop-shadow(0px 0px 5px ${(props) => props.theme.body});
+      filter: drop-shadow(0px 0px 4px ${(props) => props.theme.holoShadow})
+        drop-shadow(0px 0px 4px ${(props) => props.theme.body});
       transform: scale(0.6);
     }
   }
@@ -58,6 +58,7 @@ const GlobeWrapper = styled(StyledDiv)`
   transform: rotate(30deg);
   transition: 0.4s cubic-bezier(0.2, -2, 0.2, 3);
   width: 104px;
+  opacity: 0.5;
 
   svg {
     // filter: drop-shadow(0px 0px 5px ${(props) => props.theme.holoShadow});

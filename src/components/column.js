@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const StyledDiv = styled.div`
+  margin-top: ${(props) => props.spacing_top};
   width: 100%;
   display: flex;
   gap: 32px;
@@ -9,13 +10,15 @@ const StyledDiv = styled.div`
     width: 100%;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     flex-wrap: wrap;
   }
 `;
 
 const Column = (props) => {
-  return <StyledDiv>{props.children}</StyledDiv>;
+  return (
+    <StyledDiv spacing_top={props.spacing_top}>{props.children}</StyledDiv>
+  );
 };
 
 export default Column;

@@ -9,18 +9,28 @@ import {
 import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
 import Collapse from 'components/collapse';
-import { StyledContainer, StyledEventHero, StyledHeader, StyledHeaderTitle  } from './events';
+import {
+  StyledContainer,
+  StyledEventHero,
+  StyledHeader,
+  StyledHeaderTitle,
+} from './events';
 import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledActions = styled.div`
   display: grid;
   grid-gap: 24px;
-  grid-template-columns: fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%);
+  grid-template-columns:
+    fit-content(100%) fit-content(100%) fit-content(100%) fit-content(100%)
+    fit-content(100%) fit-content(100%);
 
   ${mQ(bp.tablet, 'max')} {
     grid-template-columns: 1fr;
@@ -42,7 +52,7 @@ export const StyledContent = styled.div`
 export const StyledContentSections = styled.div`
   margin: 64px 0;
 
-  div { 
+  div {
     ul {
       li {
         display: inline-block;
@@ -55,16 +65,28 @@ export const StyledContentSections = styled.div`
 const Participation = () => {
   return (
     <StyledContainer>
-       <StyledEventHero>
+      <StyledEventHero>
         <h1>Participation</h1>
         <h3>Find what you need quickly</h3>
         <StyledActions>
-          <Button as="a" href="#values" color="spark">Values</Button>
-          <Button as="a" href="#contributors" color="giga">Contributors</Button>
-          <Button as="a" href="#beginner-resources" color="surf">Resources</Button>
-          <Button as="a" href="#pr-mr-details" color="psybeam">PULL/MERGE REQUEST DETAILS</Button>
-          <Button as="a" href="#spam" color="spark">Spam</Button>
-          <Button as="a" href="#maintainers" color="giga">Maintainers</Button>
+          <Button as="a" href="#values" color_bg="spark">
+            Values
+          </Button>
+          <Button as="a" href="#contributors" color_bg="giga">
+            Contributors
+          </Button>
+          <Button as="a" href="#beginner-resources" color_bg="surf">
+            Resources
+          </Button>
+          <Button as="a" href="#pr-mr-details" color_bg="psybeam">
+            PULL/MERGE REQUEST DETAILS
+          </Button>
+          <Button as="a" href="#spam" color_bg="spark">
+            Spam
+          </Button>
+          <Button as="a" href="#maintainers" color_bg="giga">
+            Maintainers
+          </Button>
         </StyledActions>
       </StyledEventHero>
 
@@ -83,7 +105,7 @@ const Participation = () => {
 
       <StyledContent id="contributors">
         <StyledHeader>
-          <Divider/>
+          <Divider />
           <StyledHeaderTitle>
             <Anchor href="#values" />
             <MarkdownInline string={contributors.title} as="h2" />
@@ -110,7 +132,7 @@ const Participation = () => {
       <StyledContent id="pr-mr-details">
         <StyledHeader>
           <div>
-            <Divider/>
+            <Divider />
             <Markdown string={prMrDetails.content} />
           </div>
           <StyledHeaderTitle>
@@ -118,16 +140,18 @@ const Participation = () => {
             <MarkdownInline string={prMrDetails.title} as="h2" />
           </StyledHeaderTitle>
         </StyledHeader>
-        
+
         {prMrDetails.sections.map((section) => (
           <Collapse
             key={section.title}
-            title={(
+            title={
               <div>
-                {section.subtitle && <MarkdownInline string={`[ ${section.subtitle} ]`} />}
+                {section.subtitle && (
+                  <MarkdownInline string={`[ ${section.subtitle} ]`} />
+                )}
                 <MarkdownInline string={section.title} as="h3" />
               </div>
-            )}
+            }
             collapsed
           >
             <ContentSections sections={section.items} titleAs="p" />
@@ -150,7 +174,7 @@ const Participation = () => {
 
       <StyledContent id="maintainers">
         <StyledHeader>
-          <Divider/>
+          <Divider />
           <StyledHeaderTitle>
             <Anchor href="#values" />
             <MarkdownInline string={maintainers.title} as="h2" />
@@ -160,7 +184,6 @@ const Participation = () => {
           <ContentSections sections={maintainers.sections} />
         </StyledContentSections>
       </StyledContent>
-
     </StyledContainer>
   );
 };

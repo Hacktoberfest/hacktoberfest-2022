@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, keyframes } from 'styled-components';
 import grainDark from 'img/grain-dark.png';
 import grainLite from 'img/grain-lite.png';
 
@@ -9,7 +9,7 @@ export const darkTheme = {
   surf: '#40DDFF',
   psybeam: '#7C7FFF',
   giga: '#B4FF39',
-  holoShadow: 'rgba(60, 0, 206, 0.4)',
+  holoShadow: 'rgba(60, 0, 206, 0.5)',
   blendMode: 'darken',
   bgGrain: `url(${grainDark.src})`,
   bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
@@ -20,7 +20,7 @@ export const darkTheme = {
   textDropShadow:
     'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 1)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 1))',
 
-  //new shadows
+  //new things
   glowLite:
     '-1px -1px 6px rgba(255, 215, 77, 0.6), 1px 1px 6px rgba(124, 127, 255, 0.6)',
   glowLiteDS:
@@ -48,6 +48,10 @@ const GlobalStyle = createGlobalStyle`
     background: ${(props) => props.theme.body};
     background-image: ${(props) => props.theme.bgGrain};
     color: ${(props) => props.theme.text};
+  }
+
+  h1, h2, h3, h4, h5, h6, p {
+    text-shadow: ${(props) => props.theme.glowLite};
   }
 `;
 

@@ -9,6 +9,8 @@ const DividerWrapper = styled(StyledDiv)`
   position: relative;
   width: 100%;
   filter: ${(props) => props.theme.glowLiteDS};
+  margin-top: ${(props) => props.spacing_top || 0};
+  margin-bottom: ${(props) => props.spacing_btm || '64px'};
 
   &.reverse {
     transform: scaleX(-1);
@@ -81,7 +83,11 @@ export const Garnish = () => {
 
 const Divider = (props) => {
   return (
-    <DividerWrapper className={props.style}>
+    <DividerWrapper
+      className={props.style}
+      spacing_top={props.spacing_top}
+      spacing_btm={props.spacing_btm}
+    >
       <div className="garnish_wrapper">
         <div className="garnish short" />
         <div className="garnish short" />

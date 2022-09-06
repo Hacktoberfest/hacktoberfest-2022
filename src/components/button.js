@@ -7,14 +7,22 @@ const shimmerAnimation = () => keyframes`
 `;
 
 const StyledButton = styled.button`
-  filter: ${(props) => props.theme.textDropShadow};
+margin-top: ${(props) => props.spacing_top};
+margin: ${(props) => props.spacing_all};
+display: inline-block;
+
+&.wrapper_special {
+  filter: ${(props) => props.theme.glowLiteDS};
+}
   
   .btn {
-    background: ${(props) => props.theme[props.color] || props.color || props.theme.text};
+    background: ${(props) =>
+      props.theme[props.color_bg] || props.color_bg || props.theme.text};
     border: none;
     border-radius: 2px;
     clip-path: polygon(12px 0, 100% 0, 100% 72%, calc(100% - 12px) 100%, 0 100%, 0 12px);
-    color: ${(props) => props.theme[props.text] || props.text || props.theme.body};
+    color: ${(props) =>
+      props.theme[props.color_text] || props.color_text || props.theme.body};
     cursor: pointer;
     font-family: 'JetBrains Mono', sans-serif;
     font-size: 16px;
@@ -32,6 +40,7 @@ const StyledButton = styled.button`
   }
 
   .special {
+    filter: ${(props) => props.theme.glowLiteDS};
       animation: 1.5s ease infinite alternate running ${shimmerAnimation};
       background: linear-gradient(90deg, ${(props) => props.theme.spark} 0%, ${(
   props
@@ -67,8 +76,10 @@ const Button = forwardRef((props, ref) => {
   if (props.special) {
     return (
       <StyledButton
-        // className="wrapper_special"
+        className="wrapper_special"
         {...props}
+        spacing_top={props.spacing_top}
+        spacing_all={props.spacing_all}
         ref={ref}
       >
         <div className="btn special">
@@ -127,7 +138,10 @@ const Button = forwardRef((props, ref) => {
   } else {
     return (
       <StyledButton
-        color={props.color}
+        color_bg={props.color_bg}
+        color_text={props.color_text}
+        spacing_top={props.spacing_top}
+        spacing_all={props.spacing_all}
         {...props}
         ref={ref}
       >

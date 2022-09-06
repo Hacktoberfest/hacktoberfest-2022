@@ -10,8 +10,8 @@ const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
 const StyledFooter = styled.footer`
   width: 100%;
-  padding: 0 64px 120px 64px;
-  position: relative;
+  padding: 0 0 120px 0;
+  margin-top: 200px;
 
   &:before {
     content: '';
@@ -26,9 +26,17 @@ const StyledFooter = styled.footer`
   }
 
   .wrapper {
-    display: flex;
-    margin: 0 auto;
     max-width: 1312px;
+    margin: 0 auto;
+    padding: 0 64px;
+
+    @media (max-width: 600px) {
+      padding 0 24px;
+  }
+  }
+
+  .content_wrapper {
+    display: flex;
     gap: 32px;
 
     @media (max-width: 800px) {
@@ -65,106 +73,105 @@ const StyledFooter = styled.footer`
     }
   }
 
-  p {
+  h6 {
     margin-top: 16px;
-    font-size: 14px;
-    line-height: 20px;
-    text-shadow: ${(props) => props.theme.glowLite};
   }
 `;
 
 const Footer = () => {
   return (
     <StyledFooter>
-      <Repeater top="200px" />
       <div className="wrapper">
-        <dl>
-          <Badge width="80px" />
-          <p>
-            &copy; 2022 DigitalOcean, LLC. <br /> All Rights Reserved.
-          </p>
-        </dl>
+        <Repeater top="200px" />
+        <div className="content_wrapper">
+          <dl>
+            <Badge width="80px" />
+            <h6>
+              &copy; 2022 DigitalOcean, LLC. <br /> All Rights Reserved.
+            </h6>
+          </dl>
 
-        <dl>
-          <dt>Share</dt>
-          <dd>
-            <a
-              href={`https://twitter.com/share?url=${encodeURIComponent(
-                BASE_URL
-              )}&text=${encodeURIComponent(
-                'Spread the love for open source with #Hacktoberfest, a month-long celebration of open-source projects, their maintainers, and the entire community of contributors.'
-              )}`}
-            >
-              Twitter
-            </a>
-          </dd>
-          <dd>
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                BASE_URL
-              )}`}
-            >
-              Facebook
-            </a>
-          </dd>
-          <dd>
-            <a
-              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                BASE_URL
-              )}`}
-            >
-              LinkedIn
-            </a>
-          </dd>
-          <dd>
-            <a
-              href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
-                BASE_URL
-              )}&t=${encodeURIComponent('Hacktoberfest 2022')}`}
-            >
-              Hacker News
-            </a>
-          </dd>
-          <dd>
-            <a
-              href={`https://www.reddit.com/submit?url=${encodeURIComponent(
-                BASE_URL
-              )}&title=${encodeURIComponent('Hacktoberfest 2022')}`}
-            >
-              Reddit
-            </a>
-          </dd>
-        </dl>
+          <dl>
+            <dt>Share</dt>
+            <dd>
+              <a
+                href={`https://twitter.com/share?url=${encodeURIComponent(
+                  BASE_URL
+                )}&text=${encodeURIComponent(
+                  'Spread the love for open source with #Hacktoberfest, a month-long celebration of open-source projects, their maintainers, and the entire community of contributors.'
+                )}`}
+              >
+                Twitter
+              </a>
+            </dd>
+            <dd>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                  BASE_URL
+                )}`}
+              >
+                Facebook
+              </a>
+            </dd>
+            <dd>
+              <a
+                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                  BASE_URL
+                )}`}
+              >
+                LinkedIn
+              </a>
+            </dd>
+            <dd>
+              <a
+                href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
+                  BASE_URL
+                )}&t=${encodeURIComponent('Hacktoberfest 2022')}`}
+              >
+                Hacker News
+              </a>
+            </dd>
+            <dd>
+              <a
+                href={`https://www.reddit.com/submit?url=${encodeURIComponent(
+                  BASE_URL
+                )}&title=${encodeURIComponent('Hacktoberfest 2022')}`}
+              >
+                Reddit
+              </a>
+            </dd>
+          </dl>
 
-        <dl>
-          <dt>Follow</dt>
-          <dd>
-            <a href="https://discord.gg/hacktoberfest">Discord</a>
-          </dd>
-          <dd>
-            <a href="https://twiter.com/hacktoberfest">Twitter</a>
-          </dd>
-          <dd>
-            <a href="https://reddit.com/r/hacktoberfest">Reddit</a>
-          </dd>
-        </dl>
+          <dl>
+            <dt>Follow</dt>
+            <dd>
+              <a href="https://discord.gg/hacktoberfest">Discord</a>
+            </dd>
+            <dd>
+              <a href="https://twiter.com/hacktoberfest">Twitter</a>
+            </dd>
+            <dd>
+              <a href="https://reddit.com/r/hacktoberfest">Reddit</a>
+            </dd>
+          </dl>
 
-        <dl>
-          <dt>Legal</dt>
-          <dd>
-            <a href="https://www.digitalocean.com/legal/terms-of-service-agreement">
-              Terms
-            </a>
-          </dd>
-          <dd>
-            <a href="https://www.digitalocean.com/legal/privacy-policy">
-              Privacy
-            </a>
-          </dd>
-          <dd>
-            <Link href="/events#brand">Brand Guidelines</Link>
-          </dd>
-        </dl>
+          <dl>
+            <dt>Legal</dt>
+            <dd>
+              <a href="https://www.digitalocean.com/legal/terms-of-service-agreement">
+                Terms
+              </a>
+            </dd>
+            <dd>
+              <a href="https://www.digitalocean.com/legal/privacy-policy">
+                Privacy
+              </a>
+            </dd>
+            <dd>
+              <Link href="/events#brand">Brand Guidelines</Link>
+            </dd>
+          </dl>
+        </div>
       </div>
     </StyledFooter>
   );

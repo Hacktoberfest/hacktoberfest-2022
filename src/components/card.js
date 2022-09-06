@@ -42,7 +42,7 @@ const MainWrapper = styled(StyledDiv)`
   box-shadow: 0px 0px 12px ${(props) => props.theme[props.secondary]};
   min-height: 354px;
   min-width: 304px;
-  padding: 36px 44px 44px 44px;
+  padding: 40px 40px 48px 48px;
   position: relative;
   transition: 0.4s cubic-bezier(0.8, -1, 0.2, 1.5);
 
@@ -90,35 +90,18 @@ const MainWrapper = styled(StyledDiv)`
     }
   }
 
-  h1 {
-    bottom: 44px;
-    color: #170f1e;
-    font-family: 'Vanguard';
-    font-size: 180px;
-    line-height: 100%;
-    position: absolute;
-    text-shadow: ${(props) => props.theme.bodyShadow};
-  }
-
   h3 {
     color: #170f1e;
-    font-family: 'Elevon', monospace;
-    text-shadow: ${(props) => props.theme.bodyShadow};
+    text-shadow: none;
   }
 
   p {
     color: #170f1e;
     font-family: 'JetBrains Mono', monospace;
-    text-shadow: ${(props) => props.theme.bodyShadow};
+    text-shadow: none;
 
     &:not(.binary) {
       margin-top: 24px;
-    }
-  }
-
-  a {
-    .btn {
-      margin: 40px 16px 0 0;
     }
   }
 
@@ -133,6 +116,17 @@ const MainWrapper = styled(StyledDiv)`
     &.top {
       left: 0;
       top: 10px;
+
+      // &:after {
+      //   content: '';
+      //   position: absolute;
+      //   top: 0;
+      //   left: 0;
+      //   width: 100%;
+      //   height: 24px;
+      //   background-image: linear-gradient(to right, white, transparent 90%);
+      //   );
+      // }
     }
 
     &.bottom {
@@ -172,7 +166,7 @@ export const NewCard = (props) => {
       <p className="binary side right" />
       <p className="binary bottom" />
       <p className="binary side left" />
-      {props.children}
+      <div className="content">{props.children}</div>
     </MainWrapper>
   );
 };
