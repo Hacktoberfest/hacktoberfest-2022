@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
@@ -85,6 +85,28 @@ const CountdownContainer = styled.div`
   }
 `;
 
+const StyledLoader = styled.span`
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-ligatures: none;
+`;
+
+const Loader = () => {
+  const frames = useMemo(() => [
+    "[    ]", "[=   ]", "[==  ]", "[=== ]", "[ ===]", "[  ==]", "[   =]",
+    "[    ]", "[   =]", "[  ==]", "[ ===]", "[====]", "[=== ]", "[==  ]", "[=   ]",
+  ].map(item => item.replace(/ /g, '\u00A0')), []);
+  const [ frame, setFrame ] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFrame(prev => (prev + 1) % frames.length);
+    }, 100);
+    return () => clearInterval(interval);
+  }, [frames]);
+
+  return <StyledLoader>{frames[frame]}</StyledLoader>;
+};
+
 const Home = () => {
   const [days, setDays] = useState(null);
   const [hours, setHours] = useState(null);
@@ -170,7 +192,7 @@ const Home = () => {
         <Repeater spacing_btm="64px" />
         <p> {'>>'} Boot Dialogue: registration begins september 26</p>
         <br />
-        <p>---</p>
+        <p><Loader /></p>
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">
