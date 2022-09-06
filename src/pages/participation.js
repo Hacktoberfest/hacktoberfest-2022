@@ -20,14 +20,13 @@ import Collapse from 'components/collapse';
 import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
+import Section from 'components/section';
 
 import {
-  StyledContainer,
   StyledEventHero,
   StyledHeader,
   StyledHeaderTitle,
 } from './events';
-import Section from 'components/section';
 
 export const StyledActions = styled.div`
   display: grid;

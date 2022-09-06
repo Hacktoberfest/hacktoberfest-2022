@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { council, lowNonCode } from 'lib/about';
 
-import { StyledContainer, StyledEventHero, StyledActions } from './events';
+import { StyledEventHero, StyledActions } from './events';
 
 import Collapse from 'components/collapse';
 import Button from 'components/button';

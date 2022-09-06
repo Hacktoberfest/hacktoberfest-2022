@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { Badge } from './logo-2';
 import Repeater from './repeater';
 
-import rainbow from 'img/rainbow-bg.svg';
-
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
 const StyledFooter = styled.footer`

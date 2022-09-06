@@ -6,14 +6,14 @@ import fetchProjects from 'lib/donate';
 
 import Button from 'components/button';
 import Collapse from 'components/collapse';
+import Section from 'components/section';
 
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 
-import { StyledContainer, StyledList, StyledListItem } from './events';
-import Section from 'components/section';
+import { StyledList, StyledListItem } from './events';
 
 export const StyledSearch = styled.input`
   padding: 16px;
