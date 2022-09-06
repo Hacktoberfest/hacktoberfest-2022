@@ -16,7 +16,6 @@ const StyledFooter = styled.footer`
   &:before {
     content: '';
     position: absolute;
-    // background: url(${rainbow.src});
     background-size: cover;
     width: 100%;
     height: 200%;

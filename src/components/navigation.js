@@ -1,8 +1,13 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+<<<<<<< HEAD
 
 import { Bug } from './logo';
 import { useThemeToggle } from './theme';
+=======
+import { useCallback, useMemo, useState } from 'react';
+import Logo, { Bug } from './logo';
+>>>>>>> e2ca62a (mobile nav)
 
 // const Moon = () => {
 //   return (
@@ -212,6 +217,62 @@ const Wrapper = styled.header`
   width: 100%;
   padding: 0 64px;
 
+  .overlay {
+    background: ${(props) => props.theme.body};
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    padding: 40px 64px;
+    position: fixed;
+    top: 0;
+    transition: 0.5s ease;
+    visibility: hidden;
+    width: 100%;
+    z-index: 100;
+
+    &[aria-selected='true'] {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .menu_items {
+      margin-top: 64px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+
+      a {
+        width: 100%;
+        opacity: 0.75;
+        transition: 0.1s ease;
+        padding-bottom: 4px;
+        box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+
+        &:hover {
+          opacity: 1;
+          text-shadow: ${(props) => props.theme.glowLite};
+        }
+      }
+    }
+
+    h6 {
+      position: absolute;
+      bottom: 80px;
+    }
+
+    @media (min-width: 872px) {
+      &[aria-selected='true'] {
+        visibility: hidden;
+      }
+    }
+  }
+
   .container {
     margin: 40px auto 0 auto;
     display: flex;
@@ -222,13 +283,30 @@ const Wrapper = styled.header`
     nav {
       display: flex;
       gap: 24px;
-      a {
+
+      a,
+      button {
+        color: ${(props) => props.theme.text};
         opacity: 0.75;
         transition: 0.1s ease;
 
         &:hover {
           opacity: 1;
           text-shadow: ${(props) => props.theme.glowLite};
+        }
+      }
+
+      a {
+        @media (max-width: 872px) {
+          display: none;
+        }
+      }
+
+      .menu_toggle {
+        display: none;
+
+        @media (max-width: 872px) {
+          display: block;
         }
       }
     }
@@ -274,37 +352,53 @@ const Wrapper = styled.header`
 `;
 
 const Navigation = () => {
-  // const [open, setOpen] = useState(false);
-  // const toggle = useCallback(() => setOpen((state) => !state), []);
+  const [open, setOpen] = useState(false);
+  const toggle = useCallback(() => setOpen((state) => !state), []);
 
-  // const router = useRouter();
-  // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
+  const router = useRouter();
+  const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
 
-  const themeToggle = useThemeToggle();
+  // const themeToggle = useThemeToggle();
 
   return (
     <Wrapper>
-      {/* <div className="overlay" id="modal" aria-selected={open}>
-        <Button id="close" onClick={toggle}>
-          X
-        </Button>
-        <Link href="/participation" passHref>
-          <Button as="a">Participation</Button>
-        </Link>
-        <Link href="/events" passHref>
-          <Button as="a">Events</Button>
-        </Link>
-        <Link href="/donate" passHref>
-          <Button as="a">Donate</Button>
-        </Link>
-        <Link href="/about" passHref>
-          <Button as="a">About</Button>
-        </Link>
-        <Button special as="a" href="https://discord.gg/hacktoberfest">
-          Join the Discord
-        </Button>
-      </div> */}
       <div className="container">
+        {/* mobile menu */}
+        <div className="overlay" aria-selected={open}>
+          <header>
+            <Link href="/" passHref>
+              <a className="logo_wrapper">
+                <div className="globe_wrapper">
+                  <Bug />
+                </div>
+                <p>Hacktoberfest</p>
+              </a>
+            </Link>
+            <nav>
+              <button id="close" onClick={toggle}>
+                Close
+              </button>
+            </nav>
+          </header>
+          <div className="menu_items">
+            <Link href="/participation" passHref>
+              <a>Participation</a>
+            </Link>
+            <Link href="/events" passHref>
+              <a>Events</a>
+            </Link>
+            <Link href="/donate" passHref>
+              <a>Donate</a>
+            </Link>
+            <Link href="/about" passHref>
+              <a>About</a>
+            </Link>
+            <a href="https://discord.gg/hacktoberfest">Join the Discord</a>
+          </div>
+          <h6>&copy; 2022 DigitalOcean, LLC. All Rights Reserved.</h6>
+        </div>
+        {/* mobile menu */}
+
         <Link href="/" passHref>
           <a className="logo_wrapper">
             <div className="globe_wrapper">
@@ -313,9 +407,6 @@ const Navigation = () => {
             <p>Hacktoberfest</p>
           </a>
         </Link>
-        {/* <Link href="/" passHref>
-          <Logo as="a" />
-        </Link> */}
         <nav className="expanded">
           <Link href="/participation" passHref>
             <a>Participation</a>
@@ -330,10 +421,10 @@ const Navigation = () => {
             <a>About</a>
           </Link>
           <a href="https://discord.gg/hacktoberfest">Join the Discord</a>
+          <button onClick={toggle} className="menu_toggle">
+            Menu
+          </button>
         </nav>
-        {/* <nav className="condensed">
-          <Button onClick={toggle}>Menu</Button>
-        </nav> */}
       </div>
     </Wrapper>
   );
