@@ -27,7 +27,7 @@ module.exports = {
   },
   webpack(config) {
     config.module.rules.push({
-      test: /\.(eot|woff2?)/,
+      test: /\.(eot|woff2?|zip)/,
       type: 'asset/resource',
     });
     return config;

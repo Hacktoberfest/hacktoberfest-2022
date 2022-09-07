@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import repeater from 'img/repeater.svg';
+import repeater from 'assets/img/repeater.svg';
 
 const Wrapper = styled.div`
   max-width: 1312px;

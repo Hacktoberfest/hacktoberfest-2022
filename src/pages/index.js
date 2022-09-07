@@ -14,9 +14,9 @@ import Column from 'components/column';
 import Logo from 'components/logo-2';
 import Repeater from 'components/repeater';
 
-import osGrid from 'img/os-grid.svg';
-import osHeart from 'img/os-heart.svg';
-import grid from 'img/grid.svg';
+import osGrid from 'assets/img/os-grid.svg';
+import osHeart from 'assets/img/os-heart.svg';
+import grid from 'assets/img/grid.svg';
 
 import {
   StyledEventsListItemEyebrow,

@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components';
-import grainDark from 'img/grain-dark.png';
-import grainLite from 'img/grain-lite.png';
-import vanguardHeavyEot from 'fonts/vanguardcf-heavy.eot';
-import vanguardHeavyWoff from 'fonts/vanguardcf-heavy.woff';
-import vanguardHeavyWoff2 from 'fonts/vanguardcf-heavy.woff2';
-import vanguardHeavyObliqueEot from 'fonts/vanguardcf-heavyoblique.eot';
-import vanguardHeavyObliqueWoff from 'fonts/vanguardcf-heavyoblique.woff';
-import vanguardHeavyObliqueWoff2 from 'fonts/vanguardcf-heavyoblique.woff2';
+import grainDark from 'assets/img/grain-dark.png';
+import grainLite from 'assets/img/grain-lite.png';
+import vanguardHeavyEot from 'assets/fonts/vanguardcf-heavy.eot';
+import vanguardHeavyWoff from 'assets/fonts/vanguardcf-heavy.woff';
+import vanguardHeavyWoff2 from 'assets/fonts/vanguardcf-heavy.woff2';
+import vanguardHeavyObliqueEot from 'assets/fonts/vanguardcf-heavyoblique.eot';
+import vanguardHeavyObliqueWoff from 'assets/fonts/vanguardcf-heavyoblique.woff';
+import vanguardHeavyObliqueWoff2 from 'assets/fonts/vanguardcf-heavyoblique.woff2';
 
 export const darkTheme = {
   body: '#170F1E',

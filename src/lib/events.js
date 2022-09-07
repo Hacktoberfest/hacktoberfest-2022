@@ -1,6 +1,8 @@
 import fetch from 'cross-fetch';
 import * as nextLog from 'next/dist/build/output/log';
 
+import eventKitZip from 'assets/event-kit.zip';
+
 const fetchAirtableRecords = async (key, base, table, view, offset = null) => {
     const response = await fetch(`https://api.airtable.com/v0/${encodeURIComponent(base)}/${encodeURIComponent(table)}?view=${encodeURIComponent(view)}${offset ? `&offset=${encodeURIComponent(offset)}` : ''}`, {
         headers: {
@@ -159,7 +161,7 @@ export const resources = {
       title: 'Logos and branding',
       content: 'Logos, banners, posters, and more! We kindly ask that you adopt [Hacktoberfest brand guidelines](#brand) as you share your meetup/content.\n' +
         '\n' +
-        '[Download Assets](#)', // TODO: Link in content here
+        `[Download Assets](${eventKitZip})`,
     },
     {
       title: 'Virtual event swag',

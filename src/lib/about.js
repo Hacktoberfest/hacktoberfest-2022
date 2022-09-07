@@ -1,10 +1,10 @@
-import mariatta from 'img/council/mariatta.png';
-import lisa from 'img/council/lisa.jpeg';
-import alison from 'img/council/alison.jpg';
-import marlene from 'img/council/marlene.jpg';
-import joe from 'img/council/joe.jpeg';
-import duane from 'img/council/duane.jpg';
-import mason from 'img/council/mason.jpeg';
+import mariatta from 'assets/img/council/mariatta.png';
+import lisa from 'assets/img/council/lisa.jpeg';
+import alison from 'assets/img/council/alison.jpg';
+import marlene from 'assets/img/council/marlene.jpg';
+import joe from 'assets/img/council/joe.jpeg';
+import duane from 'assets/img/council/duane.jpg';
+import mason from 'assets/img/council/mason.jpeg';
 
 export const lowNonCode = [
   {

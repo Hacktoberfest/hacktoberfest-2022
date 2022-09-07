@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
-import sparkle from 'img/sparkle-5.gif';
+import sparkle from 'assets/img/sparkle-5.gif';
 
 const StyledDiv = styled.div``;
 

@@ -8,8 +8,8 @@ import Footer from 'components/footer';
 
 import GlobalStyle from 'themes/themes';
 
-import opengraph from 'img/opengraph.png';
-import favicon from 'img/favicon.svg';
+import opengraph from 'assets/img/opengraph.png';
+import favicon from 'assets/img/favicon.svg';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 

@@ -11,6 +11,8 @@ import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 import Section from 'components/section';
 
+import eventKitZip from 'assets/event-kit.zip';
+
 export const StyledEventsListItemEyebrow = styled.div`
   color: ${(props) => props.theme[props.color] || props.theme.text};
 `;
@@ -173,8 +175,7 @@ const Events = ({ events, speakers }) => {
           Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual
           events and have included a collection of tips and tricks that will help you keep participants engaged.
         </p>
-        {/* TODO: Link here */}
-        <Button special as="a" href="#">
+        <Button special as="a" href={eventKitZip}>
           Download the Kit
         </Button>
 
