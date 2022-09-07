@@ -335,7 +335,7 @@ const Home = () => {
           You have skills that can help keep these projects continue
           running—let’s get to it.
         </h5>
-        <Link href="/donate">
+        <Link href="/donate" passHref>
           <Button special as="a" spacing_top="40px">
             Donate To Open-Source Projects
           </Button>
