@@ -22,7 +22,7 @@ export const events = [
     content: '',
     location: 'Online',
     date: 'Oct 20',
-    time: '',
+    time: 'TBD',
     format: ['Livestream'],
     rsvp: null,
   },

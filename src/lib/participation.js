@@ -32,7 +32,7 @@ export const contributors = {
         'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
         'Have 4 pull/merge requests accepted between October 1 and October 31 to complete Hacktoberfest',
-        'The first 50,000 participants who complete Hacktoberfest can elect to receive one of two prizes: a tree planted in their name, or the Hacktoberfest 2022 t-shirt.',
+        'The first 50,000 participants (maintainers and contributors) who complete Hacktoberfest can elect to receive one of two prizes: a tree planted in their name, or the Hacktoberfest 2022 t-shirt.',
       ],
     },
   ],
@@ -212,17 +212,6 @@ export const maintainers = {
         'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “hacktoberfest-accepted” label.',
         'Reject any spammy requests you receive by labeling them as “spam,” and any other invalid contributions by closing them or labeling them as “invalid.”',
       ],
-    },
-    {
-      title: 'Reward for Maintainers',
-      content: 'Your hard work is the reason Hacktoberfest exists, so we want you to have your very own Hacktoberfest 2022 reward. All you have to do is complete 4 or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the actions we look for:\n' +
-        '\n' +
-        ' - Merge unique PR/MRs\n' +
-        ' - Provide an approving review of a PR/MR\n' +
-        ' - Add the “hacktoberfest-accepted” label\n' +
-        ' - Add any label with the word “invalid” or “spam” \n' +
-        '\n' +
-        'Reward kits are limited to the first 1000 qualifying maintainers, if you are also participating as a contributor you may only receive one reward kit. \n'
     },
   ],
 };

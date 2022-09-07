@@ -194,10 +194,9 @@ const Donate = ({ projects }) => {
       <Section>
         <h1>Donate</h1>
         <StyledSubText>
-          Open-source projects keep the internet humming—but they can’t do it
-          without resources. Projects are always in need of financial support so
-          they can develop new features, cover expenses, and continue their
-          regular activities. Find a project to donate money to right here.
+          Open-source projects keep the internet humming—but they can’t do it without resources. Projects are always in
+          need of financial support so they can develop new features, cover expenses, and continue their regular
+          activities. Find a project to donate money to right here.
         </StyledSubText>
         <StyledSearch
           type="text"

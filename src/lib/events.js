@@ -91,14 +91,14 @@ export const organize = {
       collapsed: true,
       content: 'Here’s an example agenda to inspire your own:',
       items: [
-        'Welcome. Set a welcoming, open, and inclusive tone. Thank everyone for attending, tell them about yourself, give an overview of the programming, and remind them of the Code of Conduct.',
-        'Network. Get to know your attendees. Set aside 5-10 minutes to allow people to talk among themselves. You can also use Gatheround, which offers a fun and engaging way to get to know each other.',
-        'Introduce Hacktoberfest. Read the Hacktoberfest values.',
-        'Introduce open source. Check out this intro to GitHub and Open-Source Projects for inspiration.',
-        'Workshop. Explain how to contribute to open source. These resources can help.',
-        'Demos. Introduce 3- to 5-minute demos by anyone interested in sharing their open-source projects.',
-        'Get hacking. Facilitate the formation of groups by interest and hack together.',
-        'Show and Tell. Share 2-3 minute demos by anyone interested in sharing what they learned or worked on during hack time.',
+        '_Welcome._ Set a welcoming, open, and inclusive tone. Thank everyone for attending, tell them about yourself, give an overview of the programming, and remind them of the [Code of Conduct](https://do.co/hacktoberconduct).',
+        '_Network._ Get to know your attendees. Set aside 5-10 minutes to allow people to talk among themselves. You can also use [Gatheround](https://icebreaker.video/), which offers a fun and engaging way to get to know each other.',
+        '_Introduce Hacktoberfest._ Read the Hacktoberfest values.',
+        '_Introduce open source._ Check out this [intro to GitHub and Open-Source Projects](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source) for inspiration.',
+        '_Workshop._ Explain how to contribute to open source. These [resources](/participation#beginner-resources) can help.',
+        '_Demos._ Introduce 3- to 5-minute demos by anyone interested in sharing their open-source projects.',
+        '_Get hacking._ Facilitate the formation of groups by interest and hack together.',
+        '_Show and Tell._ Share 2-3 minute demos by anyone interested in sharing what they learned or worked on during hack time.',
       ],
     },
     {
@@ -117,13 +117,13 @@ export const organize = {
       content: 'Invite anyone interested in learning about, or contributing to open source. Hacktoberfest events are a way of bringing members of the open source community even closer together in a group setting, and events should be open to all!',
     },
     {
-      title: 'Submit the [Hacktoberfest New Event Request form](https://airtable.com/shr5iFhbZmAzgQyog).'
+      title: 'Submit the [Hacktoberfest New Event Request form](http://bit.ly/hacktoberfest-22-events).'
     },
     {
       title: 'Facilitate the event, making sure to create an open, inclusive, and welcoming atmosphere.',
     },
     {
-      title: 'Share special moments on social media using #hacktoberfest or #hacktoberfest2022 and tagging @digitalocean or @hacktoberfest. (Remember to ask attendees for permission to use their photos.)',
+      title: 'Share special moments on social media using #hacktoberfest or #hacktoberfest2022 and tagging @digitalocean or [@hacktoberfest](https://twitter.com/hacktoberfest). (Remember to ask attendees for permission to use their photos.)',
     },
   ],
 };
@@ -145,9 +145,9 @@ export const resources = {
       collapsed: true,
       items: [
         'Submit an [official event request](http://bit.ly/hacktoberfest-22-events).',
-        'Remind your attendees to RSVP on the Hacktoberfest events page',
+        'Remind your attendees to RSVP on the Hacktoberfest [events](/events) page',
         'Share the event via email, social networks, and events websites. Consider posting on channels that are popular with developers and open source enthusiasts in your area, such as Meetup, Eventbrite, Twitter, etc..',
-        'Tag @digitalocean, @hacktoberfest, #hacktoberfest, #hacktoberfest2022',
+        'Tag @digitalocean, [@hacktoberfest](https://twitter.com/hacktoberfest), #hacktoberfest, #hacktoberfest2022',
         'Use these example posts for inspiration:\n' +
         ' - "Happy about Hacktoberfest? So are we! Register to hack with us on [DATE!]\n' +
         ' - "Don’t hack alone. Join us on [DATE] to meet a few community members and get help on your pull requests!"\n' +
@@ -157,14 +157,14 @@ export const resources = {
     },
     {
       title: 'Logos and branding',
-      // TODO: Links in content here
-      content: 'Logos, banners, posters, and more! We kindly ask that you adopt Hacktoberfest brand guidelines as you share your meetup/content.\n' +
-        'Download Assets',
+      content: 'Logos, banners, posters, and more! We kindly ask that you adopt [Hacktoberfest brand guidelines](#brand) as you share your meetup/content.\n' +
+        '\n' +
+        '[Download Assets](#)', // TODO: Link in content here
     },
     {
       title: 'Virtual event swag',
       // TODO: Link in content here
-      content: 'Everyone loves swag! Check out the DigitalOcean Swag Store and download this year’s Virtual Event Swag.',
+      content: 'Everyone loves swag! Check out the [DigitalOcean Swag Store](https://store.digitalocean.com/) and download this year’s [Virtual Event Swag](#).',
     },
   ],
 };

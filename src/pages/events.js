@@ -114,9 +114,8 @@ const Events = ({ events, speakers }) => {
         <Anchor href="#events" />
         <h2>Global Events</h2>
         <p>
-          Hacktoberfest events are happening all month long so you can join your
-          friends day or night, from dusk to dawn, as you work to complete your
-          pull/merge requests.
+          Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to
+          dawn, as you work to complete your pull/merge requests.
         </p>
         <StyledList>
           {eventsList.length === 0 && (
@@ -171,11 +170,10 @@ const Events = ({ events, speakers }) => {
         <Anchor href="#organizers" />
         <h2>Event Organizers</h2>
         <p>
-          Here are all the resources you need to plan and host a successful
-          Hacktoberfest event. We encourage virtual events and have included a
-          collection of tips and tricks that will help you keep participants
-          engaged.
+          Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual
+          events and have included a collection of tips and tricks that will help you keep participants engaged.
         </p>
+        {/* TODO: Link here */}
         <Button special as="a" href="#">
           Download the Kit
         </Button>
@@ -191,9 +189,8 @@ const Events = ({ events, speakers }) => {
         <Anchor href="#speakers" />
         <h2>Speakers &amp; Facilitators</h2>
         <p>
-          Open source experts and community leaders are all in on Hacktoberfest.
-          Find them helping contributors complete their pull/merge requests all
-          month long in events throughout October.
+          Open source experts and community leaders are all in on Hacktoberfest. Find them helping contributors complete
+          their pull/merge requests all month long in events throughout October.
         </p>
         <StyledList>
           {speakers.map((speaker) => (
@@ -229,10 +226,10 @@ const Events = ({ events, speakers }) => {
         <Anchor href="#brand" />
         <h2>Brand Guidelines</h2>
         <p>
-          If you plan to use the Hacktoberfest brand in promotional material,
-          you’ll need to abide by our brand use guidelines Download them here
-          and dive in.
+          If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use
+          guidelines. Download them here and dive in.
         </p>
+        {/* TODO: Link here */}
         <Button special as="a" href="#">
           Download the Hacktoberfest Brand Guidelines
         </Button>
