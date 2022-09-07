@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import styled from 'styled-components';
 
 import {
@@ -24,6 +25,12 @@ const StyledPREyebrow = styled.p`
 const Participation = () => {
   return (
     <>
+      <Head>
+        <title>Participation | Hacktoberfest 2022</title>
+        <meta name="twitter:title" key="twitterTitle" content="Participation | Hacktoberfest 2022" />
+        <meta property="og:title" key="opengraphTitle" content="Participation | Hacktoberfest 2022" />
+      </Head>
+
       <Section type="sub_hero">
         <h1>Participation</h1>
         <h4>Find what you need quickly</h4>

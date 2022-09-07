@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -83,6 +84,12 @@ const Events = ({ events, speakers }) => {
 
   return (
     <>
+      <Head>
+        <title>Events | Hacktoberfest 2022</title>
+        <meta name="twitter:title" key="twitterTitle" content="Events | Hacktoberfest 2022" />
+        <meta property="og:title" key="opengraphTitle" content="Events | Hacktoberfest 2022" />
+      </Head>
+
       <Section type="sub_hero">
         <h1>Events for 2022</h1>
         <h4>Find what you need quickly</h4>

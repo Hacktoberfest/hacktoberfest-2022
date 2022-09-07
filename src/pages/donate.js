@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useEffect, useMemo, useState } from 'react';
 import { knuthShuffle } from 'knuth-shuffle';
 import styled from 'styled-components';
@@ -183,34 +184,42 @@ const Donate = ({ projects }) => {
   useEffect(() => setProjectsCount(3), [projectsFiltered]);
 
   return (
-    <Section>
-      <h1>Donate</h1>
-      <StyledSubText>
-        Open-source projects keep the internet humming—but they can’t do it
-        without resources. Projects are always in need of financial support so
-        they can develop new features, cover expenses, and continue their
-        regular activities. Find a project to donate money to right here.
-      </StyledSubText>
-      <StyledSearch
-        type="text"
-        placeholder="[ Search projects... ]"
-        value={projectsSearch}
-        onChange={(e) => setProjectsSearch(e.target.value)}
-      />
-      <StyledList>
-        {projectsList.map((project) => (
-          <Project
-            key={`${project.source}:${project.name}`}
-            project={project}
-          />
-        ))}
-      </StyledList>
-      {projectsCount < projectsFiltered.length && (
-        <Button special onClick={() => setProjectsCount((count) => count + 3)}>
-          Load More Projects
-        </Button>
-      )}
-    </Section>
+    <>
+      <Head>
+        <title>Donate | Hacktoberfest 2022</title>
+        <meta name="twitter:title" key="twitterTitle" content="Donate | Hacktoberfest 2022" />
+        <meta property="og:title" key="opengraphTitle" content="Donate | Hacktoberfest 2022" />
+      </Head>
+
+      <Section>
+        <h1>Donate</h1>
+        <StyledSubText>
+          Open-source projects keep the internet humming—but they can’t do it
+          without resources. Projects are always in need of financial support so
+          they can develop new features, cover expenses, and continue their
+          regular activities. Find a project to donate money to right here.
+        </StyledSubText>
+        <StyledSearch
+          type="text"
+          placeholder="[ Search projects... ]"
+          value={projectsSearch}
+          onChange={(e) => setProjectsSearch(e.target.value)}
+        />
+        <StyledList>
+          {projectsList.map((project) => (
+            <Project
+              key={`${project.source}:${project.name}`}
+              project={project}
+            />
+          ))}
+        </StyledList>
+        {projectsCount < projectsFiltered.length && (
+          <Button special onClick={() => setProjectsCount((count) => count + 3)}>
+            Load More Projects
+          </Button>
+        )}
+      </Section>
+    </>
   );
 };
 
