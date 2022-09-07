@@ -227,11 +227,10 @@ const Events = ({ events, speakers }) => {
         <h2>Brand Guidelines</h2>
         <p>
           If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use
-          guidelines. Download them here and dive in.
+          guidelines. Access them here and dive in.
         </p>
-        {/* TODO: Link here */}
-        <Button special as="a" href="#">
-          Download the Hacktoberfest Brand Guidelines
+        <Button special as="a" href="https://do.co/hacktoberbrand">
+          View the Hacktoberfest Brand Guidelines
         </Button>
       </Section>
     </>
