@@ -42,30 +42,6 @@ button {
   line-height: 24px;
 }
 
-@font-face {
-  font-display: swap;
-  font-family: 'Vanguard';
-  font-style: normal;
-  font-weight: 900;
-  src: url('/fonts/vanguard-heavy.otf');
-}
-
-@font-face {
-  font-display: swap;
-  font-family: 'Vanguard';
-  font-style: italic;
-  font-weight: 900;
-  src: url('/fonts/vanguard-heavy-oblique.otf');
-}
-
-@font-face {
-  font-display: swap;
-  font-family: 'Elevon';
-  font-style: normal;
-  font-weight: 800;
-  src: url('/fonts/elevon-4g.ttf');
-}
-
 h1 {
   font-family: 'Vanguard', sans-serif;
   font-size: 144px;

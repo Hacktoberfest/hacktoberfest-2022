@@ -1,6 +1,12 @@
-import { createGlobalStyle, keyframes } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import grainDark from 'img/grain-dark.png';
 import grainLite from 'img/grain-lite.png';
+import vanguardHeavyEot from 'fonts/vanguardcf-heavy.eot';
+import vanguardHeavyWoff from 'fonts/vanguardcf-heavy.woff';
+import vanguardHeavyWoff2 from 'fonts/vanguardcf-heavy.woff2';
+import vanguardHeavyObliqueEot from 'fonts/vanguardcf-heavyoblique.eot';
+import vanguardHeavyObliqueWoff from 'fonts/vanguardcf-heavyoblique.woff';
+import vanguardHeavyObliqueWoff2 from 'fonts/vanguardcf-heavyoblique.woff2';
 
 export const darkTheme = {
   body: '#170F1E',
@@ -52,6 +58,28 @@ const GlobalStyle = createGlobalStyle`
 
   h1, h2, h3, h4, h5, h6, p {
     text-shadow: ${(props) => props.theme.glowLite};
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: 'Vanguard';
+    font-style: normal;
+    font-weight: 900;
+    src:
+      url(${vanguardHeavyEot}) format('embedded-opentype'),
+      url(${vanguardHeavyWoff2}) format('woff2'),
+      url(${vanguardHeavyWoff}) format('woff');
+  }
+  
+  @font-face {
+    font-display: swap;
+    font-family: 'Vanguard';
+    font-style: italic;
+    font-weight: 900;
+    src:
+      url(${vanguardHeavyObliqueEot}) format('embedded-opentype'),
+      url(${vanguardHeavyObliqueWoff2}) format('woff2'),
+      url(${vanguardHeavyObliqueWoff}) format('woff');
   }
 `;
 

@@ -25,6 +25,13 @@ module.exports = {
         : `'${proposedBuildId}'`}`);
     return proposedBuildId;
   },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(eot|woff2?)/,
+      type: 'asset/resource',
+    });
+    return config;
+  },
   reactStrictMode: true,
   swcMinify: true,
   trailingSlash: true,
