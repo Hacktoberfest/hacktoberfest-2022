@@ -308,7 +308,16 @@ const Home = () => {
                   <span>Time:</span> {event.time}
                 </li>
                 <li>
-                  <span>Format:</span> Livestream
+                  <span>Format:</span> {event.format.join(', ')}
+                </li>
+                <li>
+                  <span>RSVP:</span>{' '}
+                  {event.rsvp && (
+                    <a href={event.rsvp} rel="noreferrer noopener">
+                      {event.rsvp}
+                    </a>)
+                  }
+                  {!event.rsvp && 'Coming Soon'}
                 </li>
               </ul>
             </StyledListItem>
