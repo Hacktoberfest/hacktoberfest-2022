@@ -97,8 +97,9 @@ const StyledDetails = styled.details`
 const StyledFakeDetails = styled.div`
   margin-bottom: 40px;
   
-  > :first-child {
+  > :nth-child(1) {
     display: flex;
+    align-items: center;
 
     &::before {
       font-size: 16px;
@@ -114,14 +115,14 @@ const StyledFakeDetails = styled.div`
     }
   }
 
-  > div {
+  > :nth-child(2) {
     margin-left: 48px;
   }
 `;
 
 export const FakeCollapse = ({ title, children }) => (
   <StyledFakeDetails>
-    {title}
+    <div>{title}</div>
     <div>{children}</div>
   </StyledFakeDetails>
 );
