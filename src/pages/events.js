@@ -119,6 +119,9 @@ const Events = ({ events, speakers }) => {
           pull/merge requests.
         </p>
         <StyledList>
+          {eventsList.length === 0 && (
+            <p>[ Sorry, there are no events listed currently ]</p>
+          )}
           {eventsList.map((event) => (
             <StyledListItem key={event.title}>
               {event.type.map((type) => (

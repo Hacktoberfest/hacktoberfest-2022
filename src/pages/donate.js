@@ -206,6 +206,12 @@ const Donate = ({ projects }) => {
           onChange={(e) => setProjectsSearch(e.target.value)}
         />
         <StyledList>
+          {projectsShuffled.length === 0 && (
+            <p>[ Sorry, there are no projects listed currently ]</p>
+          )}
+          {projectsShuffled.length > 0 && projectsList.length === 0 && (
+            <p>[ Sorry, no projects matched your search query ]</p>
+          )}
           {projectsList.map((project) => (
             <Project
               key={`${project.source}:${project.name}`}
