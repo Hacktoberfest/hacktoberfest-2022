@@ -6,7 +6,13 @@ const markdown = markdownIt({ typographer: true });
 
 const parse = html => htmlReactParser(html, {
     replace: ({ type, name, attribs, children }) => {
-        if (type === 'tag' && name === 'a' && attribs.href) return <Link {...attribs}>{domToReact(children)}</Link>;
+        if (type === 'tag' && name === 'a' && attribs.href) {
+          if (!attribs.href.startsWith('/')) {
+            attribs.target = '_blank';
+            attribs.rel = 'noopener noreferrer';
+          }
+          return <Link href={attribs.href} passHref><a {...attribs}>{domToReact(children)}</a></Link>;
+        }
     },
 });
 

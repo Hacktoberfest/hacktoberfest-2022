@@ -235,7 +235,7 @@ const About = () => {
                   <ul>
                     {member.links.map((link) => (
                       <li key={link.title}>
-                        <a href={link.url}>{link.title}</a>
+                        <a href={link.url} target="_blank" rel="noreferrer noopener">{link.title}</a>
                       </li>
                     ))}
                   </ul>

@@ -96,6 +96,8 @@ const Footer = () => {
                 )}&text=${encodeURIComponent(
                   'Spread the love for open source with #Hacktoberfest, a month-long celebration of open-source projects, their maintainers, and the entire community of contributors.'
                 )}`}
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Twitter
               </a>
@@ -105,6 +107,8 @@ const Footer = () => {
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                   BASE_URL
                 )}`}
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Facebook
               </a>
@@ -114,6 +118,8 @@ const Footer = () => {
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
                   BASE_URL
                 )}`}
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 LinkedIn
               </a>
@@ -123,6 +129,8 @@ const Footer = () => {
                 href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
                   BASE_URL
                 )}&t=${encodeURIComponent('Hacktoberfest 2022')}`}
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Hacker News
               </a>
@@ -132,6 +140,8 @@ const Footer = () => {
                 href={`https://www.reddit.com/submit?url=${encodeURIComponent(
                   BASE_URL
                 )}&title=${encodeURIComponent('Hacktoberfest 2022')}`}
+                target="_blank"
+                rel="noreferrer noopener"
               >
                 Reddit
               </a>
@@ -141,25 +151,33 @@ const Footer = () => {
           <dl>
             <dt>Follow</dt>
             <dd>
-              <a href="https://discord.gg/hacktoberfest">Discord</a>
+              <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Discord</a>
             </dd>
             <dd>
-              <a href="https://twiter.com/hacktoberfest">Twitter</a>
+              <a href="https://twiter.com/hacktoberfest" target="_blank" rel="noreferrer noopener">Twitter</a>
             </dd>
             <dd>
-              <a href="https://reddit.com/r/hacktoberfest">Reddit</a>
+              <a href="https://reddit.com/r/hacktoberfest" target="_blank" rel="noreferrer noopener">Reddit</a>
             </dd>
           </dl>
 
           <dl>
             <dt>Legal</dt>
             <dd>
-              <a href="https://www.digitalocean.com/legal/terms-of-service-agreement">
+              <a
+                href="https://www.digitalocean.com/legal/terms-of-service-agreement"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Terms
               </a>
             </dd>
             <dd>
-              <a href="https://www.digitalocean.com/legal/privacy-policy">
+              <a
+                href="https://www.digitalocean.com/legal/privacy-policy"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Privacy
               </a>
             </dd>

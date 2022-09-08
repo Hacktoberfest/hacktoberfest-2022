@@ -149,7 +149,7 @@ const Events = ({ events, speakers }) => {
                 </li>
                 <li>
                   <span>RSVP:</span>{' '}
-                  <a href={event.rsvp} rel="noreferrer noopener">
+                  <a href={event.rsvp} target="_blank" rel="noreferrer noopener">
                     {event.rsvp}
                   </a>
                 </li>
@@ -209,7 +209,7 @@ const Events = ({ events, speakers }) => {
                 </li>
                 <li>
                   <span>Social:</span>{' '}
-                  <a href={speaker.social} target="_blank">
+                  <a href={speaker.social} target="_blank" rel="noreferrer noopener">
                     {speaker.social.replace(/^https?:\/\//, '')}
                   </a>
                 </li>
@@ -230,7 +230,7 @@ const Events = ({ events, speakers }) => {
           If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use
           guidelines. Access them here and dive in.
         </p>
-        <Button special as="a" href="https://do.co/hacktoberbrand">
+        <Button special as="a" href="https://do.co/hacktoberbrand" target="_blank" rel="noreferrer noopener">
           View the Hacktoberfest Brand Guidelines
         </Button>
       </Section>

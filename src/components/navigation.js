@@ -392,7 +392,7 @@ const Navigation = () => {
             <Link href="/about" passHref>
               <a>About</a>
             </Link>
-            <a href="https://discord.gg/hacktoberfest">Join the Discord</a>
+            <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Join the Discord</a>
           </div>
           <h6>&copy; 2022 DigitalOcean, LLC. All Rights Reserved.</h6>
         </div>
@@ -419,7 +419,7 @@ const Navigation = () => {
           <Link href="/about" passHref>
             <a>About</a>
           </Link>
-          <a href="https://discord.gg/hacktoberfest">Join the Discord</a>
+          <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Join the Discord</a>
           <button onClick={toggle} className="menu_toggle">
             Menu
           </button>

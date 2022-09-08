@@ -227,6 +227,8 @@ const Home = () => {
         <Button
           as="a"
           href="https://discord.gg/hacktoberfest"
+          target="_blank"
+          rel="noreferrer noopener"
           special
           spacing_top="40px"
         >
@@ -309,7 +311,7 @@ const Home = () => {
                 <li>
                   <span>RSVP:</span>{' '}
                   {event.rsvp && (
-                    <a href={event.rsvp} rel="noreferrer noopener">
+                    <a href={event.rsvp} target="_blank" rel="noreferrer noopener">
                       {event.rsvp}
                     </a>)
                   }
