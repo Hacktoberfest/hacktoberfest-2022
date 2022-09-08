@@ -102,6 +102,10 @@ const Spinner = styled(StyledDiv)`
     height: 104px;
     margin: 0 auto;
     width: 52px;
+
+    @media (prefers-reduced-motion) {
+      animation-play-state: paused;
+    }
   }
 `;
 

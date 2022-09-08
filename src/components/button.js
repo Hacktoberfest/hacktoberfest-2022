@@ -37,7 +37,7 @@ export const StyledButton = styled.button`
     transition: 0.2s;
 
     &:active {
-        transform: scale(0.95);
+      transform: scale(0.95);
     }
   }
 
@@ -70,9 +70,9 @@ export const StyledButton = styled.button`
         opacity: 0.8;
         transform: translateX(50px) scale(2);
       }
-    }
-
-}`;
+    } 
+  }
+`;
 
 const Button = forwardRef((props, ref) => {
   if (props.special) {

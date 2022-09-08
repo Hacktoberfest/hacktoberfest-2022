@@ -63,8 +63,16 @@ const MainWrapper = styled(StyledDiv)`
       0px 0px 8px 2px ${(props) => props.theme[props.secondary]};
     transform: translateY(-12px);
 
+    @media (prefers-reduced-motion) {
+      transform: none;
+    }
+
     .binary:after {
       animation: ${textAnimation} 1s linear infinite;
+
+      @media (prefers-reduced-motion) {
+        animation-play-state: paused;
+      }
     }
   }
 
@@ -80,6 +88,10 @@ const MainWrapper = styled(StyledDiv)`
     position: absolute;
     top: 0;
     width: 100%;
+
+    @media (prefers-reduced-motion) {
+      display: none;
+    }
   }
 
   .divider {
@@ -99,6 +111,10 @@ const MainWrapper = styled(StyledDiv)`
       top: 0;
       transform-origin: top left;
       width: 100%;
+
+      @media (prefers-reduced-motion) {
+        animation-play-state: paused;
+      }
     }
   }
 

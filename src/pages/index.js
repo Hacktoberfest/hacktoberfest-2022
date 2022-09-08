@@ -61,6 +61,10 @@ const flash = () => keyframes`
 const StyledCountdownContainer = styled.div`
   .title {
     animation: ${flash} 1.5s linear infinite;
+
+    @media (prefers-reduced-motion) {
+      animation-play-state: paused;
+    }
   }
 
   .ticker {
@@ -89,6 +93,10 @@ const StyledHeart = styled.div`
 const StyledLoader = styled.span`
   font-family: 'JetBrains Mono', monospace;
   font-variant-ligatures: none;
+
+  @media (prefers-reduced-motion) {
+    display: none;
+  }
 `;
 
 const Loader = () => {

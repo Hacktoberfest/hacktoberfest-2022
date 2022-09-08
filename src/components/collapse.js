@@ -61,6 +61,10 @@ const StyledDetails = styled.details`
         letter-spacing: 4px;
         text-indent: 4px;
         animation: ${rotateAnimation()} 0.2s linear;
+
+        @media (prefers-reduced-motion) {
+          animation-play-state: paused;
+        }
       }
     }
 

@@ -33,8 +33,12 @@ const StyledA = styled.a`
     opacity: 1;
     filter: ${(props) => props.theme.glowLiteDS};
 
-    :after {
+    &:after {
       animation: ${textAnimation} 1s linear infinite;
+
+      @media (prefers-reduced-motion) {
+        animation-play-state: paused;
+      }
     }
   }
 `;

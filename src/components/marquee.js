@@ -26,6 +26,10 @@ const MarqueeWrapper = styled.div`
     justify-content: space-around;
     min-width: 100%;
 
+    @media (prefers-reduced-motion) {
+      animation-play-state: paused;
+    }
+
     li {
       font-family: 'Vanguard';
       font-size: 144px;
