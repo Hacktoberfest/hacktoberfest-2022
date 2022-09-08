@@ -7,7 +7,7 @@ const markdown = markdownIt({ typographer: true });
 const parse = html => htmlReactParser(html, {
     replace: ({ type, name, attribs, children }) => {
         if (type === 'tag' && name === 'a' && attribs.href) {
-          if (!attribs.href.startsWith('/')) {
+          if (attribs.href[0] !== '/' && attribs.href[0] !== '#') {
             attribs.target = '_blank';
             attribs.rel = 'noopener noreferrer';
           }
