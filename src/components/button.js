@@ -4,16 +4,18 @@ import styled, { keyframes } from 'styled-components';
 const shimmerAnimation = () => keyframes`
   to {
     background-size: 100% 100%;
+  }
 `;
 
 export const StyledButton = styled.button`
-margin-top: ${(props) => props.spacing_top};
-margin: ${(props) => props.spacing_all};
-display: inline-block;
+  margin-top: ${(props) => props.spacing_top};
+  margin: ${(props) => props.spacing_all};
+  display: inline-block;
+  max-width: 100%;
 
-&.wrapper_special {
-  filter: ${(props) => props.theme.glowLiteDS};
-}
+  &.wrapper_special {
+    filter: ${(props) => props.theme.glowLiteDS};
+  }
   
   .btn {
     background: ${(props) =>

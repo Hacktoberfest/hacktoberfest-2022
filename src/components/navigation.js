@@ -258,7 +258,9 @@ const Wrapper = styled.header`
 
     h6 {
       position: absolute;
-      bottom: 80px;
+      bottom: 0;
+      left: 0;
+      padding: 40px 64px;
     }
 
     @media (min-width: 872px) {

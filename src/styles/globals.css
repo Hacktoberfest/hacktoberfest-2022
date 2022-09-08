@@ -86,3 +86,25 @@ p {
   font-weight: 400;
   line-height: 24px;
 }
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 88px;
+    line-height: 96px;
+  }
+
+  h2 {
+    font-size: 72px;
+    line-height: 72px;
+  }
+
+  h3 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  h4 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+}

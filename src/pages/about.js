@@ -18,6 +18,12 @@ const textAnimation = () => keyframes`
   }
 `;
 
+const StyledTableWrapper = styled.div`
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+`;
+
 const StyledCouncilMembers = styled.div`
   margin: 32px 0;
 
@@ -153,36 +159,38 @@ const About = () => {
           you can contribute to open-source projects:
         </p>
 
-        <table>
-          <thead>
-          <tr>
-            <th />
-            <th>Low-Code</th>
-            <th>Non-Code</th>
-          </tr>
-          </thead>
-          <tbody>
-          {lowNonCode.map((row) => (
-            <tr key={row.title}>
-              <td>{row.title}</td>
-              <td>
-                <ul>
-                  {row.low.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </td>
-              <td>
-                <ul>
-                  {row.non.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </td>
+        <StyledTableWrapper>
+          <table>
+            <thead>
+            <tr>
+              <th />
+              <th>Low-Code</th>
+              <th>Non-Code</th>
             </tr>
-          ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+            {lowNonCode.map((row) => (
+              <tr key={row.title}>
+                <td>{row.title}</td>
+                <td>
+                  <ul>
+                    {row.low.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </td>
+                <td>
+                  <ul>
+                    {row.non.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </td>
+              </tr>
+            ))}
+            </tbody>
+          </table>
+        </StyledTableWrapper>
 
         <p>
           <i>
