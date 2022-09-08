@@ -154,7 +154,7 @@ const Footer = () => {
               <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Discord</a>
             </dd>
             <dd>
-              <a href="https://twiter.com/hacktoberfest" target="_blank" rel="noreferrer noopener">Twitter</a>
+              <a href="https://twitter.com/hacktoberfest" target="_blank" rel="noreferrer noopener">Twitter</a>
             </dd>
             <dd>
               <a href="https://reddit.com/r/hacktoberfest" target="_blank" rel="noreferrer noopener">Reddit</a>
