@@ -61,20 +61,20 @@ export const council = [
     name: 'Lisa Tagliaferri',
     image: lisa.src,
     role: 'Head of Developer Education at Chainguard',
-    skills: 'Python, Technical Education, Digital Humanities',
-    bio: 'Lisa Tagliaferri is Director of Developer Education at Sourcegraph. Working at the intersection of teaching, research, and development, Lisa is committed to lowering barriers of entry into technology and open source. Lisa has written popular open access books and tutorials on Python, machine learning and other technical topics, and is a maintainer and builder of open source software.',
+    skills: 'Software Security, Python, Digital Humanities',
+    bio: 'Lisa Tagliaferri is Head of Developer Education at Chainguard. Working at the intersection of teaching, research, and development, Lisa is committed to lowering barriers of entry into technology and open source. Lisa has written popular open access books and tutorials on Python, machine learning and other technical topics, and is a maintainer and builder of open source software.',
     links: [
       {
-        title: 'Sourcegraph Learn',
-        url: 'https://github.com/sourcegraph/learn',
+        title: 'Sigstore',
+        url: 'https://github.com/sigstore',
       },
       {
         title: 'Cloud Haiku',
         url: 'https://github.com/do-community/cloud_haiku',
       },
       {
-        title: 'Computation History',
-        url: 'https://github.com/dhmit/computation_hist',
+        title: 'chainguard.dev',
+        url: 'http://chainguard.dev',
       },
     ],
   },

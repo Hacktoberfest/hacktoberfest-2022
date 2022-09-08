@@ -163,5 +163,10 @@ export const resources = {
         '\n' +
         `[Download Assets](${eventKitZip})`,
     },
+    {
+      title: 'Virtual event swag',
+      // TODO: Link in content here
+      content: 'Everyone loves swag! Check out the [DigitalOcean Swag Store](https://store.digitalocean.com/) and download this year’s [Virtual Event Swag](#).',
+    },
   ],
 };

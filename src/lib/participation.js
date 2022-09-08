@@ -26,13 +26,13 @@ export const contributors = {
   title: 'Contributors',
   sections: [
     {
-      title: 'Here’s what you need to know to join Hacktoberfest:',
+      title: 'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
         'Register anytime between September 26 and October 31',
         'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
         'Have 4 pull/merge requests accepted between October 1 and October 31 to complete Hacktoberfest',
-        'The first 50,000 participants (maintainers and contributors) who complete Hacktoberfest can elect to receive one of two prizes: a tree planted in their name, or the Hacktoberfest 2022 t-shirt.',
+        'The first 40,000 participants (maintainers and contributors) who complete Hacktoberfest can elect to receive one of two prizes: a tree planted in their name, or the Hacktoberfest 2022 t-shirt.',
       ],
     },
   ],
@@ -46,6 +46,8 @@ export const resources = {
       items: [
         'DigitalOcean: [Introduction to GitHub and Open-Source Projects](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source)',
         'GitHub: [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)',
+        'DigitalOcean: [What is Open Source](https://www.digitalocean.com/community/tutorials/what-is-open-source)',
+        'DigitalOcean: [How to use Git](https://www.digitalocean.com/community/cheatsheets/how-to-use-git-a-reference-guide)',
       ],
     },
     {
@@ -75,7 +77,7 @@ export const resources = {
 
 export const prMrDetails = {
   title: 'Pull/Merge Request Details',
-  content: 'Here’s how we validate contributor PR/MRs for Hacktoberfest',
+  content: 'Here’s how we validate contributor pull/merge requests (“PR/MRs”) for Hacktoberfest',
   sections: [
     {
       title: 'Your PR/MRs must be within the bounds of Hacktoberfest.',
@@ -135,7 +137,7 @@ export const prMrDetails = {
         {
           content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.',
           items: [
-            'Specifically, we use the Node.js 16 RegEx engine with `/\\binvalid\\b/i` to look for spam labels.',
+            'Specifically, we use the Node.js 16 RegEx engine with `/\\binvalid\\b/i` to look for invalid labels.',
           ],
         },
       ],
@@ -212,6 +214,18 @@ export const maintainers = {
         'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “hacktoberfest-accepted” label.',
         'Reject any spammy requests you receive by labeling them as “spam,” and any other invalid contributions by closing them or labeling them as “invalid.”',
       ],
+    },
+    {
+      title: 'Reward for Maintainers',
+      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2022 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
+        '\n' +
+        ' - Merge unique PR/MRs\n' +
+        ' - Provide an approving review of a PR/MR\n' +
+        ' - Add the “hacktoberfest-accepted” label\n' +
+        ' - Add any label with the word “invalid” or “spam”\n' +
+        '\n' +
+        '\n' +
+        '_*Reward kits are limited; we will reach out to qualifying maintainers who are selected to receive a Reward Kit after Hacktoberfest ends._',
     },
   ],
 };
