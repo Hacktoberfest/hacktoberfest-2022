@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import * as nextLog from 'next/dist/build/output/log';
 
 import eventKitZip from 'assets/event-kit.zip';
+import virtualSwagZip from 'assets/virtual-swag.zip';
 
 const fetchAirtableRecords = async (key, base, table, view, offset = null) => {
     const response = await fetch(`https://api.airtable.com/v0/${encodeURIComponent(base)}/${encodeURIComponent(table)}?view=${encodeURIComponent(view)}${offset ? `&offset=${encodeURIComponent(offset)}` : ''}`, {
@@ -165,8 +166,7 @@ export const resources = {
     },
     {
       title: 'Virtual event swag',
-      // TODO: Link in content here
-      content: 'Everyone loves swag! Check out the [DigitalOcean Swag Store](https://store.digitalocean.com/) and download this year’s [Virtual Event Swag](#).',
+      content: `Everyone loves swag! Check out the [DigitalOcean Swag Store](https://store.digitalocean.com/) and download this year’s [Virtual Event Swag](${virtualSwagZip}).`,
     },
   ],
 };
