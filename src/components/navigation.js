@@ -212,13 +212,17 @@ const Wrapper = styled.header`
   width: 100%;
   padding: 0 64px;
 
+  @media (max-width: 600px) {
+    padding: 0 32px;
+  }
+
   .overlay {
     background: ${(props) => props.theme.body};
     display: block;
     height: 100%;
     left: 0;
     opacity: 0;
-    padding: 40px 64px;
+    padding: 40px 32px;
     position: fixed;
     top: 0;
     transition: 0.5s ease;
@@ -260,7 +264,7 @@ const Wrapper = styled.header`
       position: absolute;
       bottom: 0;
       left: 0;
-      padding: 40px 64px;
+      padding: 40px 32px;
     }
 
     @media (min-width: 872px) {

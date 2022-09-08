@@ -18,8 +18,13 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 
+const StyledPRDetails = styled.div`
+  margin: 32px 0 0;
+`;
+
 const StyledPREyebrow = styled.p`
   color: ${(props) => props.theme[props.color] || props.theme.text};
+  margin: 0 !important;
 `;
 
 const Participation = () => {
@@ -82,22 +87,24 @@ const Participation = () => {
         <Anchor href="#pr-mr-details" />
         <MarkdownInline string={prMrDetails.title} as="h2" />
         <Markdown string={prMrDetails.content} />
-        {prMrDetails.sections.map((section) => (
-          <Collapse
-            key={section.title}
-            title={
-              <div>
-                {section.subtitle && (
-                  <MarkdownInline string={`[ ${section.subtitle} ]`} as={StyledPREyebrow} color="spark" />
-                )}
-                <MarkdownInline string={section.title} as="h4" />
-              </div>
-            }
-            collapsed
-          >
-            <ContentSections sections={section.items} titleAs="p" />
-          </Collapse>
-        ))}
+        <StyledPRDetails>
+          {prMrDetails.sections.map((section) => (
+            <Collapse
+              key={section.title}
+              title={
+                <div>
+                  {section.subtitle && (
+                    <MarkdownInline string={`[ ${section.subtitle} ]`} as={StyledPREyebrow} color="spark" />
+                  )}
+                  <MarkdownInline string={section.title} as="h4" />
+                </div>
+              }
+              collapsed
+            >
+              <ContentSections sections={section.items} titleAs="p" />
+            </Collapse>
+          ))}
+        </StyledPRDetails>
       </Section>
 
       <Section type="sub_content" id="spam">

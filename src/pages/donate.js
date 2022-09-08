@@ -56,10 +56,27 @@ export const StyledSubText = styled.div`
 export const StyledProject = styled(StyledListItem)`
   details {
     summary {
+      @media (max-width: 600px) {
+        flex-direction: column;
+        align-items: flex-start;
+        position: relative;
+        
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin: 0;
+        }
+      }
+      
       > div {
         > p {
           color: ${(props) =>
             props.theme[props.color] || props.color || props.theme.text};
+          
+          @media (max-width: 600px) {
+            margin-left: 48px;
+          }
         }
 
         > div {
@@ -67,6 +84,11 @@ export const StyledProject = styled(StyledListItem)`
           align-items: center;
           gap: 16px;
           margin: 8px 0;
+          
+          @media (max-width: 600px) {
+            flex-direction: column;
+            align-items: flex-start;
+          }
           
           > img {
             border-radius: 16px;
@@ -81,6 +103,12 @@ export const StyledProject = styled(StyledListItem)`
             }
           }
         }
+      }
+    }
+    
+    > div {
+      @media (max-width: 600px) {
+        margin: 0;
       }
     }
 

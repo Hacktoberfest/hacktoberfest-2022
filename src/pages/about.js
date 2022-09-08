@@ -46,7 +46,7 @@ const StyledCouncilMembers = styled.div`
       }
     }
 
-    div {
+    > div {
       padding-right: 40px;
     }
 
@@ -84,6 +84,11 @@ const StyledCouncilMembers = styled.div`
     summary {
       flex-wrap: wrap;
 
+      @media (max-width: 600px) {
+        padding: 16px 40px;
+        align-items: center;
+      }
+
       img {
         transition: 0.2s ease;
         transform: rotate(-4deg);
@@ -95,7 +100,7 @@ const StyledCouncilMembers = styled.div`
 `;
 
 export const StyledCouncilMemberContent = styled.div`
-  margin: 32px 0 32px 64px;
+  margin: 32px 0;
 `;
 
 const About = () => {

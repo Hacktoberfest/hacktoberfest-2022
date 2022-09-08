@@ -24,6 +24,10 @@ const StyledDetails = styled.details`
     list-style: none;
     cursor: pointer;
 
+    @media (max-width: 600px) {
+      align-items: flex-start;
+    }
+
     &::-webkit-details-marker {
       display: none;
     }
@@ -45,6 +49,10 @@ const StyledDetails = styled.details`
       content: '${(props) => (props.open ? '[-]' : '[+]')}';
       transition: letter-spacing 0.2s ease 0.2s, text-indent 0.2s ease 0.2s,
         color 0.4s ease;
+
+      @media (max-width: 600px) {
+        margin-top: 4px;
+      }
     }
 
     &:hover {
@@ -101,6 +109,10 @@ const StyledFakeDetails = styled.div`
     display: flex;
     align-items: center;
 
+    @media (max-width: 600px) {
+      align-items: flex-start;
+    }
+
     &::before {
       font-size: 16px;
       font-weight: normal;
@@ -112,6 +124,10 @@ const StyledFakeDetails = styled.div`
       letter-spacing: 1px;
       text-indent: 1px;
       content: '[ ]';
+
+      @media (max-width: 600px) {
+        margin-top: 4px;
+      }
     }
   }
 
