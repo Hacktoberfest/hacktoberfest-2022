@@ -41,4 +41,4 @@ export const sammy = `
 We hope you enjoy the theme for Hacktoberfest this year!
 
 (Oh, btw, we're hiring: https://www.digitalocean.com/careers)
-`.trim();
+`.replace(/(^\n+|\n+$)/g, '');
