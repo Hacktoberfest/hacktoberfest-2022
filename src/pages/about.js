@@ -10,10 +10,13 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 
 const textAnimation = () => keyframes`
-  50% {
+  0% {
+    content: " >"
+  }
+  33% {
     content: " ->"
   }
-  100% {
+  66% {
     content: " -->"
   }
 `;

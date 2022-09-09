@@ -5,10 +5,13 @@ import Collapse, { FakeCollapse } from './collapse';
 import { Markdown, MarkdownInline } from './markdown';
 
 const textAnimation = () => keyframes`
-  50% {
+  0% {
+    content: " >"
+  }
+  33% {
     content: " ->"
   }
-  100% {
+  66% {
     content: " -->"
   }
 `;
