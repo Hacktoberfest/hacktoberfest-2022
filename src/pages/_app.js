@@ -10,6 +10,7 @@ import GlobalStyle from 'themes/themes';
 
 import opengraph from 'assets/img/opengraph.png';
 import favicon from 'assets/img/favicon.svg';
+import { sammy } from '../lib/sammy';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -35,50 +36,8 @@ const App = ({ Component, pageProps }) => (
       <meta property="og:title" key="opengraphTitle" content="Hacktoberfest 2022" />
       <meta property="og:description" key="opengraphDesc" content="Hacktoberfest: a month-long celebration of open-source projects, their maintainers, and the entire community of contributors." />
       <meta property="og:image" content={`${BASE_URL}${opengraph.src}`} />
-<script
-  dangerouslySetInnerHTML={{
-    __html: `</script>
-<!--
-        *********          ,********,                                                 
-     ***..........,*******........ ..**                                               
-    **..**********........,*********..**.                                             
-   ,***********************************,*                                             
-   .***********************************.*                                             
-    **********************************,*                                              
-     ********************************.*                                               
-      .****************************..*                                                
-         *.*********************,.*.                                                  
-            **..************..**                                                      
-                  ,*******                                                            
-                      #                                                               
-                      #                                                               
-                 ./,  #                                                               
-   //             .///#/                                                              
-   .(/,            *//#////                                                           
-    ((//            ((#(((////////////////////////,                                   
-    *((///////////////#/////////////*   //////////////                                
-    ((((((((((////////#////(((((((  .%%%%,((((((((((((                                
-   ((.    ((((((((((((#(((((((((((  .*%%%..(((((((((                                  
-             (((((((((#((((((((((((/     ((((((((/                                    
-               (((((((#((((((((/,,(((/                                                
-                 (///(#((((((((.,,,,,.                                                
-               (/(((((#(,         ////,,,,.                                           
-              ((/(( ./#/,             ////,,.                                         
-               (((////((((                                                            
-                 ,(((((((                                                             
-                 (        
 
-   *******     *******     **                                
-  /**////**   **/////**   /**                                
-  /**    /** **     //**  /**        ******  **    **  ***** 
-  /**    /**/**      /**  /**       **////**/**   /** **///**
-  /**    /**/**      /**  /**      /**   /**//** /** /*******
-  /**    ** //**     **   /**      /**   /** //****  /**//// 
-  /*******   //*******    /********//******   //**   //******
-  ///////     ///////     ////////  //////     //     ////// 
-
-@xamthorz @mattipv4 @logan_liffick was here -->`}}
-/>
+      <noscript dangerouslySetInnerHTML={{ __html: `<!--\n${sammy}\n-->` }} />
     </Head>
     <Theme>
       <GlobalStyle />
