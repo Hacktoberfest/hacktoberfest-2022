@@ -13,10 +13,10 @@ body {
   scroll-behavior: smooth;
 }
 
-/* ::selection {
-  background: #ebaaff;
-  color: #081b4b;
-} */
+::selection {
+  background: #b4ff39;
+  color: #170f1e;
+}
 
 a {
   color: inherit;

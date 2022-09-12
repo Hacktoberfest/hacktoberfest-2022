@@ -17,6 +17,7 @@ import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
+// import Hero from 'components/hero';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
@@ -32,9 +33,22 @@ const Participation = () => {
     <>
       <Head>
         <title>Participation | Hacktoberfest 2022</title>
-        <meta name="twitter:title" key="twitterTitle" content="Participation | Hacktoberfest 2022" />
-        <meta property="og:title" key="opengraphTitle" content="Participation | Hacktoberfest 2022" />
+        <meta
+          name="twitter:title"
+          key="twitterTitle"
+          content="Participation | Hacktoberfest 2022"
+        />
+        <meta
+          property="og:title"
+          key="opengraphTitle"
+          content="Participation | Hacktoberfest 2022"
+        />
       </Head>
+
+      {/* <Hero />
+      <Section spacing_top="64px">
+        <Divider />
+      </Section> */}
 
       <Section type="sub_hero">
         <h1>Participation</h1>
@@ -94,7 +108,11 @@ const Participation = () => {
               title={
                 <div>
                   {section.subtitle && (
-                    <MarkdownInline string={`[ ${section.subtitle} ]`} as={StyledPREyebrow} color="spark" />
+                    <MarkdownInline
+                      string={`[ ${section.subtitle} ]`}
+                      as={StyledPREyebrow}
+                      color="spark"
+                    />
                   )}
                   <MarkdownInline string={section.title} as="h4" />
                 </div>

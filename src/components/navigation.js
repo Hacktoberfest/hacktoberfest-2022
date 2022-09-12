@@ -1,216 +1,63 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { Bug } from './logo';
 
-// const Moon = () => {
-//   return (
-//     <svg
-//       width="14"
-//       height="14"
-//       viewBox="0 0 14 14"
-//       fill="none"
-//       xmlns="http://www.w3.org/2000/svg"
-//     >
-//       <path d="M10.9728 0.875252C10.9549 0.875085 10.9369 0.875 10.9189 0.875C7.95013 0.875 5.54345 3.15428 5.54345 5.96591C5.54345 8.77754 7.95013 11.0568 10.9189 11.0568C12.0651 11.0568 13.1275 10.7171 14 10.1381C12.7851 12.4284 10.282 14 7.39127 14C3.30918 14 0 10.866 0 7C0 3.13401 3.30918 0 7.39127 0C8.69071 0 9.91184 0.317578 10.9728 0.875252Z" />
-//     </svg>
-//   );
-// };
-
-// const MoonButton = styled(Button)`
-//   margin: 0 auto 0 0;
-
-//   svg {
-//     vertical-align: middle;
-
-//     path {
-//       fill: ${(props) => props.theme.body};
-//     }
-//   }
-// `;
-
-// const breakpoint = 1100;
-// const breakpointSm = 600;
-// const breakpointXs = 375;
-// const breakpointHomeOffset = 160;
-
-// const Wrapper = styled.header`
-//   padding: 72px 64px;
-//   width: 100%;
-
-//   div {
-//     align-items: center;
-//     display: flex;
-//     justify-content: space-between;
-//     margin: 0 auto;
-//     max-width: 1312px;
-
-//     ${(props) =>
-//       props.isHome &&
-//       css`
-//         ${LogoWrapper} {
-//           transform: scale(2) rotate(-8deg);
-//           margin: 0 0 0 64px;
-//         }
-//       `}
-
-//     nav {
-//       display: flex;
-//       gap: 16px;
-//       padding: 16px 0;
-//       position: relative;
-
-//       ${(props) =>
-//         !props.isHome &&
-//         css`
-//           flex-grow: 1;
-//           justify-content: flex-end;
-//           margin: 0 0 0 64px;
-//         `}
-
-//       // &::after {
-//       //   position: absolute;
-//       //   bottom: 0;
-//       //   display: block;
-//       //   content: '';
-//       //   height: 1px;
-//       //   width: 100%;
-//       //   background: linear-gradient(
-//       //     90deg,
-//       //     ${(props) => props.theme.spark} 0%,
-//       //     ${(props) => props.theme.surf} 50%,
-//       //     ${(props) => props.theme.psybeam} 100%
-//       //   );
-//       // }
-
-//       &.condensed {
-//         display: none;
-//       }
-
-//       @media (max-width: ${(props) =>
-//           breakpoint + (props.isHome ? breakpointHomeOffset : 0)}px) {
-//         &.expanded {
-//           display: none;
-//         }
-
-//         &.condensed {
-//           display: flex;
-//         }
-//       }
-//     }
-//   }
-
-//   .overlay {
-//     background: ${(props) => props.theme.body};
-//     display: block;
-//     height: 100%;
-//     left: 0;
-//     opacity: 0;
-//     padding: 200px 80px;
-//     position: fixed;
-//     top: 0;
-//     transition: 0.5s ease;
-//     transition-delay: 0.2s;
-//     visibility: hidden;
-//     width: 100%;
-//     z-index: 100;
-
-//     .btn {
-//       margin-bottom: 24px;
-//       opacity: 0;
-
-//       &:not(.special) {
-//         background: ${(props) => props.theme.text};
-//         color: ${(props) => props.theme.body};
-//       }
-//     }
-
-//     #close {
-//       position: absolute;
-//       right: 24px;
-//       top: 72px;
-//       z-index: 101;
-
-//       .btn {
-//         margin-bottom: 0;
-//       }
-//     }
-
-//     &[aria-selected='true'] {
-//       opacity: 1;
-//       visibility: visible;
-
-//       .btn {
-//         opacity: 1;
-//       }
-//     }
-
-//     @media (min-width: ${(props) =>
-//         breakpoint + (props.isHome ? breakpointHomeOffset : 0) + 1}px) {
-//       &[aria-selected='true'] {
-//         visibility: hidden;
-//       }
-//     }
-
-//     @media (max-width: ${(props) =>
-//         breakpoint + (props.isHome ? breakpointHomeOffset : 0)}px) {
-//       .btn {
-//         padding: 20px 24px;
-//       }
-
-//       #close {
-//         right: 64px;
-//         top: 104px;
-
-//         .btn {
-//           padding: 8px 16px;
-//         }
-//       }
-//     }
-
-//     @media (max-width: ${(props) =>
-//         breakpointSm + (props.isHome ? breakpointHomeOffset : 0)}px) {
-//       .btn {
-//         padding: 8px 16px;
-//       }
-
-//       #close {
-//         right: 24px;
-//         top: 72px;
-//       }
-//     }
-//   }
-
-//   @media (max-width: ${(props) =>
-//       breakpointSm + (props.isHome ? breakpointHomeOffset : 0)}px) {
-//     padding: 40px 24px;
-
-//     div {
-//       ${(props) =>
-//         props.isHome &&
-//         css`
-//           ${LogoWrapper} {
-//             transform: scale(1) rotate(0deg);
-//             margin: 0;
-//           }
-//         `}
-//     }
-//   }
-
-//   @media (max-width: ${breakpointXs}px) {
-//     div {
-//       ${LogoWrapper} {
-//         transform: scale(0.8);
-//         transform-origin: center left;
-//       }
-//     }
-//   }
-// `;
+const textAnimation = () => keyframes`
+  25% {
+    content:
+      "01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001 01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001 01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001" // for a surprise!!
+  }
+  50% {
+    content:
+      "01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100 01100101 01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100 01100101 01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100" // open the console
+  }
+  75% {
+    content:
+      "01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001 01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001 01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001" // for a surprise!!
+  }
+  }
+  100% {
+    content:
+      "01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100 01100101 01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100 01100101 01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100" // open the console
+  }
+`;
 
 const Wrapper = styled.header`
   width: 100%;
   padding: 0 64px;
+
+  &:after {
+    animation: ${textAnimation} 1s linear infinite;
+    content: '01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100 01100101 01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100 01100101 01001111 01110000 01100101 01101110 00100000 01110100 01101000 01100101 00100000 01100011 01101111 01101110 01110011 01101111 01101100'; //open the console
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: ${(props) => props.theme.text};
+    font-size: 12px;
+    pointer-events: none;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    opacity: 0.3;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0) 95%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 5%,
+      rgba(0, 0, 0, 1) 20%,
+      rgba(0, 0, 0, 1) 80%,
+      rgba(0, 0, 0, 0) 95%
+    );
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
   @media (max-width: 600px) {
     padding: 0 32px;
@@ -325,6 +172,10 @@ const Wrapper = styled.header`
         text-shadow: none;
       }
 
+      .h-mark {
+        filter: ${(props) => props.theme.glowLiteDS};
+      }
+
       .globe_wrapper {
         width: 56px;
         height: 56px;
@@ -333,6 +184,7 @@ const Wrapper = styled.header`
         align-items: center;
 
         #globe {
+          opacity: 0.5;
           transform: rotate(30deg) scale(0.5);
         }
       }
@@ -340,7 +192,12 @@ const Wrapper = styled.header`
       &:hover {
         #globe {
           opacity: 1;
-          transform: rotate(45deg) scale(0.48);
+          transform: rotate(40deg) scale(0.47);
+        }
+
+        .h-mark {
+          filter: drop-shadow(0px 0px 4px ${(props) => props.theme.holoShadow})
+            drop-shadow(0px 0px 6px #000);
         }
 
         p {
@@ -357,7 +214,9 @@ const Navigation = () => {
   const toggle = useCallback(() => setOpen((state) => !state), []);
 
   const router = useRouter();
-  useEffect(() => { setOpen(false); }, [ router.pathname ]);
+  useEffect(() => {
+    setOpen(false);
+  }, [router.pathname]);
 
   // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
 
@@ -396,7 +255,13 @@ const Navigation = () => {
             <Link href="/about" passHref>
               <a>About</a>
             </Link>
-            <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Join the Discord</a>
+            <a
+              href="https://discord.gg/hacktoberfest"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Join the Discord
+            </a>
           </div>
           <h6>&copy; 2022 DigitalOcean, LLC. All Rights Reserved.</h6>
         </div>
@@ -423,7 +288,13 @@ const Navigation = () => {
           <Link href="/about" passHref>
             <a>About</a>
           </Link>
-          <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Join the Discord</a>
+          <a
+            href="https://discord.gg/hacktoberfest"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Join the Discord
+          </a>
           <button onClick={toggle} className="menu_toggle">
             Menu
           </button>

@@ -42,8 +42,7 @@ const BadgeWrapper = styled(StyledDiv)`
     width: 100%;
     z-index: 10;
     .h-mark {
-      filter: drop-shadow(0px 0px 4px ${(props) => props.theme.holoShadow})
-        drop-shadow(0px 0px 4px ${(props) => props.theme.body});
+      transition: 0.2s ease;
       transform: scale(0.6);
     }
   }
@@ -55,13 +54,9 @@ const GlobeWrapper = styled(StyledDiv)`
   height: 104px;
   position: relative;
   transform: rotate(30deg);
-  transition: 0.4s cubic-bezier(0.2, -2, 0.2, 3);
+  transition: 0.2s ease;
   width: 104px;
-  opacity: 0.5;
-
-  svg {
-    // filter: drop-shadow(0px 0px 5px ${(props) => props.theme.holoShadow});
-  }
+  opacity: 1;
 
   &:after {
     background: linear-gradient(
@@ -98,7 +93,6 @@ const Spinner = styled(StyledDiv)`
       alternate;
     border: 3px solid ${(props) => props.theme.text};
     border-radius: 100%;
-    // filter: drop-shadow(0px 0px 5px ${(props) => props.theme.holoShadow});
     height: 104px;
     margin: 0 auto;
     width: 52px;

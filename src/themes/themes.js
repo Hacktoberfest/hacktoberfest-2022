@@ -15,16 +15,16 @@ export const darkTheme = {
   surf: '#40DDFF',
   psybeam: '#7C7FFF',
   giga: '#B4FF39',
-  holoShadow: 'rgba(60, 0, 206, 0.5)',
+  holoShadow: 'rgba(60, 0, 206, 1)',
   blendMode: 'darken',
   bgGrain: `url(${grainDark.src})`,
-  bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
-  textShadow:
-    '-1px -1px 2px rgba(255, 215, 77, 1), 1px 1px 2px rgba(124, 127, 255, 1)',
-  smallTextShadow:
-    '-1px -1px 6px rgba(255, 215, 77, 0.3), 1px 1px 6px rgba(124, 127, 255, 0.3)',
-  textDropShadow:
-    'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 1)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 1))',
+  // bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
+  // textShadow:
+  //   '-1px -1px 2px rgba(255, 215, 77, 1), 1px 1px 2px rgba(124, 127, 255, 1)',
+  // smallTextShadow:
+  //   '-1px -1px 6px rgba(255, 215, 77, 0.3), 1px 1px 6px rgba(124, 127, 255, 0.3)',
+  // textDropShadow:
+  //   'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 1)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 1))',
 
   //new things
   glowLite:
@@ -43,10 +43,10 @@ export const liteTheme = {
   holoShadow: 'rgba(60, 0, 206, 0.3)',
   blendMode: 'lighten',
   bgGrain: `url(${grainLite.src})`,
-  bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
-  textShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
-  smallTextShadow: '0px 0px 6px rgba(180, 42, 202, 0.2)',
-  textDropShadow: 'drop-shadow(0px 0px 6px rgba(180, 42, 202, 0.5))',
+  // bodyShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
+  // textShadow: '0px 0px 6px rgba(180, 42, 202, 0.5)',
+  // smallTextShadow: '0px 0px 6px rgba(180, 42, 202, 0.2)',
+  // textDropShadow: 'drop-shadow(0px 0px 6px rgba(180, 42, 202, 0.5))',
 };
 
 const GlobalStyle = createGlobalStyle`
