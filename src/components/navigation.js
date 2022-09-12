@@ -57,6 +57,10 @@ const Wrapper = styled.header`
     );
     white-space: nowrap;
     overflow: hidden;
+
+    @media (prefers-reduced-motion) {
+      animation-play-state: paused;
+    }
   }
 
   @media (max-width: 600px) {
