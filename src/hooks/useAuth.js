@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const useAuth = () => {
   // Track key data about the user and their registration
@@ -14,6 +14,9 @@ const useAuth = () => {
   // Track what auth state we're in: loading, auth, register, profile
   // Values map to expected routes, except loading
   const [ state, setState ] = useState('loading');
+
+  // Track if we're still loading the state we expect to be in
+  const loading = useMemo(() => state === 'loading' || router.pathname !== `/${state}`, [ state ]);
 
   // We need the Next.js router to ensure we're on the right page
   const router = useRouter();
@@ -167,7 +170,7 @@ const useAuth = () => {
 
   // Expose everything
   return {
-    loading: state === 'loading',
+    loading,
     token,
     user,
     fetchUser,
