@@ -9,7 +9,7 @@ import Section from 'components/section';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 import Marquee from 'components/marquee';
-import { NewCard } from 'components/card';
+import Card from 'components/card';
 import Column from 'components/column';
 import Logo from 'components/logo-2';
 import Repeater from 'components/repeater';
@@ -228,9 +228,10 @@ const Home = () => {
         <Anchor href="#prepare-to-hack" />
         <h2>Prepare to Hack</h2>
         <h5>
-          Hacktoberfest is for everyone. Whether it’s your first time—or your ninth—it’s almost time to hack out four
-          pristine pull/merge requests and complete your mission for open source. Join other members of the open-source
-          community on the Hacktoberfest Discord.
+          Hacktoberfest is for everyone. Whether it’s your first time—or your
+          ninth—it’s almost time to hack out four pristine pull/merge requests
+          and complete your mission for open source. Join other members of the
+          open-source community on the Hacktoberfest Discord.
         </h5>
         <Button
           as="a"
@@ -244,11 +245,13 @@ const Home = () => {
         </Button>
         <div>
           <Column spacing_top="64px">
-            <NewCard primary="psybeam" secondary="surf">
+            <Card primary="psybeam" secondary="surf">
               <h3>Preptember</h3>
               <p>
-                September is the perfect time to prepare for Hacktoberfest. Get a jump start by finding projects to
-                contribute to, adding the ‘hacktoberfest’ tag to your projects, or familiarizing yourself with Git.
+                September is the perfect time to prepare for Hacktoberfest. Get
+                a jump start by finding projects to contribute to, adding the
+                ‘hacktoberfest’ tag to your projects, or familiarizing yourself
+                with Git.
               </p>
               <Link href="/events#organizers" passHref>
                 <Button
@@ -265,12 +268,13 @@ const Home = () => {
                   How to Participate
                 </Button>
               </Link>
-            </NewCard>
-            <NewCard primary="surf" secondary="psybeam">
+            </Card>
+            <Card primary="surf" secondary="psybeam">
               <h3>New for 2022</h3>
               <p>
-                Hacktoberfest isn’t <i>all</i> about code. Anyone who writes, designs, tests, mentors, or organizes
-                offers much needed support for open-source projects all over the world.
+                Hacktoberfest isn’t <i>all</i> about code. Anyone who writes,
+                designs, tests, mentors, or organizes offers much needed support
+                for open-source projects all over the world.
               </p>
               <Link href="/about#low-or-non-code" passHref>
                 <Button
@@ -282,7 +286,7 @@ const Home = () => {
                   Learn About Non-Code Contributions
                 </Button>
               </Link>
-            </NewCard>
+            </Card>
           </Column>
         </div>
       </Section>
@@ -292,8 +296,8 @@ const Home = () => {
         <Anchor href="#events-all-month-long" />
         <h2>Events All Month Long</h2>
         <h5>
-          Join forces in virtual and in-person events to get your pull/merge requests done as a team, learn new skills,
-          and meet lifelong friends.
+          Join forces in virtual and in-person events to get your pull/merge
+          requests done as a team, learn new skills, and meet lifelong friends.
         </h5>
         <StyledList>
           {events.map((event) => (
@@ -319,10 +323,14 @@ const Home = () => {
                 <li>
                   <span>RSVP:</span>{' '}
                   {event.rsvp && (
-                    <a href={event.rsvp} target="_blank" rel="noreferrer noopener">
+                    <a
+                      href={event.rsvp}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
                       {event.rsvp}
-                    </a>)
-                  }
+                    </a>
+                  )}
                   {!event.rsvp && 'Coming Soon'}
                 </li>
               </ul>
@@ -343,11 +351,13 @@ const Home = () => {
         </StyledHeart>
         <h2>Support Open Source</h2>
         <h5>
-          Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting
-          that essential work, and the folks behind it, is what Hacktoberfest is all about.
+          Open-source projects, maintained by community-minded coders, make the
+          modern internet function. Supporting that essential work, and the
+          folks behind it, is what Hacktoberfest is all about.
           <br />
           <br />
-          You have skills that can help keep these projects continue running—let’s get to it.
+          You have skills that can help keep these projects continue
+          running—let’s get to it.
         </h5>
         <Link href="/donate" passHref>
           <Button special as="a" spacing_top="40px">

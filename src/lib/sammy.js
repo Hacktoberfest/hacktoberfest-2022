@@ -37,7 +37,7 @@ export const sammy = `
   /*******   //*******    /********//******   //**   //******
   ///////     ///////     ////////  //////     //     ////// 
 
-@Logan_Liffick, @xamthorz and @MattIPv4 were here.
+@logan_liffick, @xamthorz and @MattIPv4 were here.
 We hope you enjoy the theme for Hacktoberfest this year!
 
 (Oh, btw, we're hiring: https://www.digitalocean.com/careers)

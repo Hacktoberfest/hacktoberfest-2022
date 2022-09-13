@@ -208,7 +208,7 @@ const MainWrapper = styled(StyledDiv)`
   }
 `;
 
-export const NewCard = (props) => {
+export const Card = (props) => {
   return (
     <MainWrapper id="card" primary={props.primary} secondary={props.secondary}>
       <p className="binary top large" />
@@ -216,25 +216,6 @@ export const NewCard = (props) => {
       <p className="binary bottom" />
       <p className="binary side left" />
       <div className="content">{props.children}</div>
-    </MainWrapper>
-  );
-};
-
-const Card = (props) => {
-  return (
-    <MainWrapper
-      delay={props.delay}
-      primary={props.primary}
-      secondary={props.secondary}
-    >
-      <p className="binary top" />
-      <p className="binary side right" />
-      <p className="binary bottom" />
-      <p className="binary side left" />
-      <h3>{props.title}</h3>
-      <div className="divider" />
-      <h3>*********</h3>
-      <h1>{props.number}</h1>
     </MainWrapper>
   );
 };

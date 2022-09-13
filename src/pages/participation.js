@@ -17,7 +17,7 @@ import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
-// import Hero from 'components/hero';
+import Hero from 'components/hero';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
@@ -45,10 +45,10 @@ const Participation = () => {
         />
       </Head>
 
-      {/* <Hero />
+      <Hero />
       <Section spacing_top="64px">
         <Divider />
-      </Section> */}
+      </Section>
 
       <Section type="sub_hero">
         <h1>Participation</h1>
