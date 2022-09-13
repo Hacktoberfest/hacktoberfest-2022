@@ -8,6 +8,7 @@ import Button from 'components/button';
 import useAuth from 'hooks/useAuth';
 
 import { oauth } from 'lib/api';
+import Loader from '../components/loader';
 
 const Auth = () => {
   const auth = useAuth();
@@ -24,8 +25,7 @@ const Auth = () => {
         <Section type="sub_content">
           <Divider />
           <Anchor href="#" />
-          <p>Loading</p>
-          {/* TODO: Cute loading animation */}
+          <Loader message=">> Loading /usr/lib/profile..." />
         </Section>
       ) : (
         <Section type="sub_content">

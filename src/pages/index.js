@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
@@ -13,6 +13,7 @@ import Card from 'components/card';
 import Column from 'components/column';
 import Logo from 'components/logo-2';
 import Repeater from 'components/repeater';
+import Loader from 'components/loader';
 
 import osGrid from 'assets/img/os-grid.svg';
 import osHeart from 'assets/img/os-heart.svg';
@@ -89,49 +90,6 @@ const StyledHeart = styled.div`
     max-width: 100%;
   }
 `;
-
-const StyledLoader = styled.span`
-  font-family: 'JetBrains Mono', monospace;
-  font-variant-ligatures: none;
-
-  @media (prefers-reduced-motion) {
-    display: none;
-  }
-`;
-
-const Loader = () => {
-  const frames = useMemo(
-    () =>
-      [
-        '[    ]',
-        '[=   ]',
-        '[==  ]',
-        '[=== ]',
-        '[ ===]',
-        '[  ==]',
-        '[   =]',
-        '[    ]',
-        '[   =]',
-        '[  ==]',
-        '[ ===]',
-        '[====]',
-        '[=== ]',
-        '[==  ]',
-        '[=   ]',
-      ].map((item) => item.replace(/ /g, '\u00A0')),
-    []
-  );
-  const [frame, setFrame] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFrame((prev) => (prev + 1) % frames.length);
-    }, 100);
-    return () => clearInterval(interval);
-  }, [frames]);
-
-  return <StyledLoader>{frames[frame]}</StyledLoader>;
-};
 
 const Home = () => {
   const [days, setDays] = useState(null);
@@ -216,11 +174,7 @@ const Home = () => {
       />
       <Section spacing_top="64px">
         <Repeater spacing_btm="64px" />
-        <p> {'>>'} Boot Dialogue: registration begins september 26</p>
-        <br />
-        <p>
-          <Loader />
-        </p>
+        <Loader message=">> Boot Dialogue: registration begins september 26" />
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">

@@ -3,8 +3,10 @@ import Head from 'next/head';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
-import Button from '../components/button';
-import useAuth from '../hooks/useAuth';
+import Button from 'components/button';
+import Loader from 'components/loader';
+
+import useAuth from 'hooks/useAuth';
 
 const Profile = () => {
   const auth = useAuth();
@@ -21,8 +23,7 @@ const Profile = () => {
         <Section type="sub_content">
           <Divider />
           <Anchor href="#" />
-          <p>Loading</p>
-          {/* TODO: Cute loading animation */}
+          <Loader message=">> Loading /usr/lib/profile..." />
         </Section>
       ) : (
         <Section type="sub_content">
