@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
+
+import Button from './button';
 import { Bug } from './logo';
 
 const textAnimation = () => keyframes`
@@ -134,6 +136,7 @@ const Wrapper = styled.header`
 
     nav {
       display: flex;
+      align-items: center;
       gap: 24px;
 
       a,
@@ -266,6 +269,9 @@ const Navigation = () => {
             >
               Join the Discord
             </a>
+            <Link href="/auth" passHref>
+              <Button special as="a">Start Hacking</Button>
+            </Link>
           </div>
           <h6>&copy; 2022 DigitalOcean, LLC. All Rights Reserved.</h6>
         </div>
@@ -299,6 +305,9 @@ const Navigation = () => {
           >
             Join the Discord
           </a>
+          <Link href="/auth" passHref>
+            <Button special as="a">Start Hacking</Button>
+          </Link>
           <button onClick={toggle} className="menu_toggle">
             Menu
           </button>
