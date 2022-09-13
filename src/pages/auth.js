@@ -3,7 +3,11 @@ import Head from 'next/head';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
-import useAuth from '../hooks/useAuth';
+import Button from 'components/button';
+
+import useAuth from 'hooks/useAuth';
+
+import { oauth } from 'lib/api';
 
 const Auth = () => {
   const auth = useAuth();
@@ -27,8 +31,8 @@ const Auth = () => {
         <Section type="sub_content">
           <Divider />
           <Anchor href="#" />
-          <p>Coming soon</p>
-          {/* TODO: GitHub + GitLab buttons */}
+          <Button special as="a" href={oauth('github')}>Start Hacking with GitHub</Button>
+          <Button special as="a" href={oauth('gitlab')}>Start Hacking with GitLab</Button>
         </Section>
       )}
 

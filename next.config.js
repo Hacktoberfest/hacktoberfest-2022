@@ -1,5 +1,6 @@
 const childProcess = require('child_process');
 const nextLog = require('next/dist/build/output/log');
+const { EnvironmentPlugin } = require('webpack');
 
 const getBuildId = () => {
   // Prefer BUILD_ID env var if available
@@ -26,6 +27,11 @@ module.exports = {
     return proposedBuildId;
   },
   webpack(config) {
+    config.plugins.push(new EnvironmentPlugin({
+      BASE_URL: '',
+      API_BASE_URL: '',
+      API_EVENT_ID: '',
+    }));
     config.module.rules.push({
       test: /\.(eot|woff2?|zip)/,
       type: 'asset/resource',

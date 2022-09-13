@@ -72,39 +72,40 @@ const useAuth = () => {
    * Logic to handle updating our token based on router changes
    */
 
-  // Gwt our JWT from the URL, or from local storage
-  const getJwt = useCallback(() => {
+  // Gwt our token from the URL, or from local storage
+  const getToken = useCallback(() => {
     // If JWT in query params, use it and remove it
     const url = new URL(window.location.origin + router.asPath);
-    if (url.searchParams.has('jwt')) {
-      const jwt = url.searchParams.get('jwt');
-      url.searchParams.delete('jwt');
+    if (url.searchParams.has('token')) {
+      const param = url.searchParams.get('token');
+      url.searchParams.delete('token');
+      url.searchParams.delete('expiration');
       router.replace(url.toString()).then();
-      return jwt;
+      return param;
     }
 
-    // If JWT in local storage, use it
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) return jwt;
+    // If token in local storage, use it
+    const storage = localStorage.getItem('token');
+    if (storage) return storage;
 
-    // No JWT
+    // No token
     return null;
   }, [ router ]);
 
   // Whenever the router changes, check for a JWT
   useEffect(() => {
     // Load the token from the URL or local storage
-    setToken(getJwt());
+    setToken(getToken());
 
     // Track that we've attempted to load the token
     setLoaded(prev => ({ ...prev, token: true }));
     console.log('useAuth: token loaded');
-  }, [ getJwt ]);
+  }, [ getToken ]);
 
   // Whenever the token changes, store it
   useEffect(() => {
-    if (token) localStorage.setItem('jwt', token);
-    if (!token && loaded.token) localStorage.removeItem('jwt');
+    if (token) localStorage.setItem('token', token);
+    if (!token && loaded.token) localStorage.removeItem('token');
   }, [ token, loaded.token ]);
 
   /**
@@ -115,6 +116,7 @@ const useAuth = () => {
   const fetchUser = useCallback(async () => {
     // TODO: Fetch the user from /users/@me
     // TODO: Handle an invalid token
+    console.log('useAuth: user loading', token);
 
     setUser(null);
   }, [ token ]);
@@ -145,6 +147,7 @@ const useAuth = () => {
   // Fetch the registration from the API
   const fetchRegistration = useCallback(async () => {
     // TODO: Fetch the registration from /events/:id/registrations/:id
+    console.log('useAuth: registration loading', token);
 
     setRegistration(null);
   }, [ token, user?.id ]);
