@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { fetchUser } from 'lib/api';
+import { fetchRegistration, fetchUser } from 'lib/api';
 
 const useAuth = () => {
   // Track key data about the user and their registration
@@ -125,10 +125,17 @@ const useAuth = () => {
     console.log('useAuth: user loading', token);
 
     // Fetch the user from /users/@me
-    // TODO: Handle an invalid token
-    const user = await fetchUser('@me', token);
+    const user = await fetchUser('@me', token).catch(e => {
+      // If we get a 401, the token is invalid
+      if (e.status === 401) {
+        reset();
+        return;
+      }
+
+      throw e;
+    });
     setUser(user);
-  }, [ token ]);
+  }, [ token, reset ]);
 
   // When the token changes, fetch the user
   useEffect(() => {
@@ -155,11 +162,20 @@ const useAuth = () => {
 
   // Fetch the registration from the API
   const getRegistration = useCallback(async () => {
-    // TODO: Fetch the registration from /events/:id/registrations/:id
-    console.log('useAuth: registration loading', token);
+    console.log('useAuth: registration loading', user.id, token);
 
-    setRegistration(null);
-  }, [ token, user?.id ]);
+    // Fetch the registration from /events/:id/registrations/:id
+    const registration = await fetchRegistration(user.id, token).catch(e => {
+      // If we get a 401, the token is invalid
+      if (e.status === 401) {
+        reset();
+        return;
+      }
+
+      throw e;
+    });
+    setRegistration(registration);
+  }, [ token, user?.id, reset ]);
 
   // When the user ID changes, fetch the registration
   useEffect(() => {
@@ -167,8 +183,8 @@ const useAuth = () => {
       // Wait until we've loaded the user
       if (!loaded.user) return;
 
-      // Only fetch the registration if we have a user
-      if (user) {
+      // Only fetch the registration if we have a token and user
+      if (token && user) {
         await getRegistration();
       } else {
         setRegistration(null);

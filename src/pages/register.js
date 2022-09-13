@@ -29,6 +29,7 @@ const Register = () => {
         <Section type="sub_content">
           <Divider />
           <Anchor href="#" />
+          <p>Registration</p>
           <p>Hello, {auth.user.name}</p>
           {/* TODO: Registration flow */}
 
