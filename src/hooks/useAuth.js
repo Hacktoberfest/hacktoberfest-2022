@@ -125,7 +125,7 @@ const useAuth = () => {
     console.log('useAuth: user loading', token);
 
     // Fetch the user from /users/@me
-    const user = await fetchUser('@me', token).catch(e => {
+    setUser(await fetchUser('@me', token).catch(e => {
       // If we get a 401, the token is invalid
       if (e.status === 401) {
         reset();
@@ -133,8 +133,7 @@ const useAuth = () => {
       }
 
       throw e;
-    });
-    setUser(user);
+    }));
   }, [ token, reset ]);
 
   // When the token changes, fetch the user
@@ -165,16 +164,20 @@ const useAuth = () => {
     console.log('useAuth: registration loading', user.id, token);
 
     // Fetch the registration from /events/:id/registrations/:id
-    const registration = await fetchRegistration(user.id, token).catch(e => {
+    setRegistration(await fetchRegistration(user.id, token).catch(e => {
       // If we get a 401, the token is invalid
       if (e.status === 401) {
         reset();
-        return;
+        return null;
+      }
+
+      // If we get a 404, the user has no registration
+      if (e.status === 404) {
+        return null;
       }
 
       throw e;
-    });
-    setRegistration(registration);
+    }));
   }, [ token, user?.id, reset ]);
 
   // When the user ID changes, fetch the registration

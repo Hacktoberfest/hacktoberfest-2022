@@ -26,4 +26,8 @@ export const oauth = provider => `${API_BASE_URL}/users/oauth/${encodeURICompone
 
 export const fetchUser = async (id, token) => fetchEndpoint(`/users/${encodeURIComponent(id)}`, token);
 
+export const fetchUserEmails = async (id, token) => fetchEndpoint(`/users/${encodeURIComponent(id)}/emails`, token);
+
 export const fetchRegistration = async (id, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(id)}`, token);
+
+export const fetchMetadata = async (token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/metadata`, token);
