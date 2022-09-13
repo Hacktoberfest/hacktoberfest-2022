@@ -107,7 +107,9 @@ export const prMrDetails = {
         {
           content: 'PR/MRs that are labeled with a label containing the word “spam” by maintainers will not be counted.',
           items: [
-            'Specifically, we use the Node.js 16 RegEx engine with `/\\bspam\\b/i` to look for spam labels.',
+            'We use the Node.js 16 RegEx engine with `/\\bspam\\b/i` to look for spam labels.',
+            'PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.',
+            'PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.',
           ],
         },
         {
