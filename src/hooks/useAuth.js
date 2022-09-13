@@ -16,10 +16,10 @@ const useAuth = () => {
   const [ state, setState ] = useState('loading');
 
   // Track if we're still loading the state we expect to be in
-  const loading = useMemo(() => state === 'loading' || router.pathname !== `/${state}`, [ state ]);
-
-  // We need the Next.js router to ensure we're on the right page
   const router = useRouter();
+  const loading = useMemo(() => state === 'loading' || router.pathname !== `/${state}`, [ state, router.pathname ]);
+
+  // Ensure we're on the right page that matches the state we're in
   useEffect(() => {
     // If we've not yet established the auth state, wait
     if (state === 'loading') return;
@@ -66,7 +66,7 @@ const useAuth = () => {
 
     // Otherwise, we're good to go to profile
     setState('profile');
-  }, [ loaded, token, user, registration ]);
+  }, [ loaded, state, token, user, registration ]);
 
   /**
    * Logic to handle updating our token based on router changes
@@ -99,7 +99,7 @@ const useAuth = () => {
     // Track that we've attempted to load the token
     setLoaded(prev => ({ ...prev, token: true }));
     console.log('useAuth: token loaded');
-  }, [ router ]);
+  }, [ getJwt ]);
 
   // Whenever the token changes, store it
   useEffect(() => {
@@ -136,7 +136,7 @@ const useAuth = () => {
       setLoaded(prev => ({ ...prev, user: true }));
       console.log('useAuth: user loaded');
     })();
-  }, [ loaded.token, token ]);
+  }, [ loaded.token, fetchUser ]);
 
   /**
    * Logic to handle updating our registration based on user changes
@@ -147,7 +147,7 @@ const useAuth = () => {
     // TODO: Fetch the registration from /events/:id/registrations/:id
 
     setRegistration(null);
-  }, []);
+  }, [ token, user?.id ]);
 
   // When the user ID changes, fetch the registration
   useEffect(() => {
@@ -166,7 +166,7 @@ const useAuth = () => {
       setLoaded(prev => ({ ...prev, registration: true }));
       console.log('useAuth: registration loaded');
     })();
-  }, [ loaded.user, user?.id ]);
+  }, [ loaded.user, fetchRegistration ]);
 
   // Expose everything
   return {
