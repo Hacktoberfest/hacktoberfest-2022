@@ -56,13 +56,24 @@ const Register = () => {
       }), {}));
 
       // Group the metadata by category for the UI
-      setMetadata(rawMetadata.reduce((obj, item) => ({
+      const groupedMetadata = rawMetadata.reduce((obj, item) => ({
         ...obj,
         [item.name.split('-')[0]]: [
           ...(obj[item.name.split('-')[0]] || []),
-          item,
+          {
+            position: Number(item.message?.match(/^(\d+): /)?.[1]) || 0,
+            item: {
+              ...item,
+              message: item.message?.replace(/^(\d+): /, ''),
+            },
+          },
         ],
-      }), {}));
+      }), {});
+      for (const key in groupedMetadata) {
+        groupedMetadata[key].sort((a, b) => a.position - b.position);
+        groupedMetadata[key] = groupedMetadata[key].map(item => item.item);
+      }
+      setMetadata(groupedMetadata);
 
       // Show the page
       setLoaded(true);
@@ -112,6 +123,7 @@ const Register = () => {
                   name="email"
                   value={data.email}
                   onChange={e => setData(prev => ({ ...prev, email: e.target.value }))}
+                  required
                 >
                   {emails.map(email => (
                     <option key={email} value={email}>{email}</option>
