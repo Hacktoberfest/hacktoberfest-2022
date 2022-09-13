@@ -3,7 +3,9 @@ import Head from 'next/head';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
-import useAuth from '../hooks/useAuth';
+import Button from 'components/button';
+
+import useAuth from 'hooks/useAuth';
 
 const Register = () => {
   const auth = useAuth();
@@ -27,8 +29,10 @@ const Register = () => {
         <Section type="sub_content">
           <Divider />
           <Anchor href="#" />
-          <p>Coming soon</p>
+          <p>Hello, {auth.user.name}</p>
           {/* TODO: Registration flow */}
+
+          <Button onClick={() => auth.reset()}>Logout</Button>
         </Section>
       )}
 

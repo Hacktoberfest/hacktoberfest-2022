@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { fetchUser } from 'lib/api';
+
 const useAuth = () => {
   // Track key data about the user and their registration
   const [ token, setToken ] = useState(null);
@@ -92,6 +94,12 @@ const useAuth = () => {
     return null;
   }, [ router ]);
 
+  // Allow the token to be reset, which will cascade to the rest of the state
+  const reset = useCallback(() => {
+    setState('loading');
+    setToken(null);
+  }, []);
+
   // Whenever the router changes, check for a JWT
   useEffect(() => {
     // Load the token from the URL or local storage
@@ -113,12 +121,13 @@ const useAuth = () => {
    */
 
   // Fetch the user from the API, identified by their token
-  const fetchUser = useCallback(async () => {
-    // TODO: Fetch the user from /users/@me
-    // TODO: Handle an invalid token
+  const getUser = useCallback(async () => {
     console.log('useAuth: user loading', token);
 
-    setUser(null);
+    // Fetch the user from /users/@me
+    // TODO: Handle an invalid token
+    const user = await fetchUser('@me', token);
+    setUser(user);
   }, [ token ]);
 
   // When the token changes, fetch the user
@@ -129,7 +138,7 @@ const useAuth = () => {
 
       // Only fetch the user if we have a token
       if (token) {
-        await fetchUser();
+        await getUser();
       } else {
         setUser(null);
       }
@@ -138,14 +147,14 @@ const useAuth = () => {
       setLoaded(prev => ({ ...prev, user: true }));
       console.log('useAuth: user loaded');
     })();
-  }, [ loaded.token, fetchUser ]);
+  }, [ loaded.token, getUser ]);
 
   /**
    * Logic to handle updating our registration based on user changes
    */
 
   // Fetch the registration from the API
-  const fetchRegistration = useCallback(async () => {
+  const getRegistration = useCallback(async () => {
     // TODO: Fetch the registration from /events/:id/registrations/:id
     console.log('useAuth: registration loading', token);
 
@@ -160,7 +169,7 @@ const useAuth = () => {
 
       // Only fetch the registration if we have a user
       if (user) {
-        await fetchRegistration();
+        await getRegistration();
       } else {
         setRegistration(null);
       }
@@ -169,16 +178,17 @@ const useAuth = () => {
       setLoaded(prev => ({ ...prev, registration: true }));
       console.log('useAuth: registration loaded');
     })();
-  }, [ loaded.user, fetchRegistration ]);
+  }, [ loaded.user, getRegistration ]);
 
   // Expose everything
   return {
     loading,
     token,
+    reset,
     user,
-    fetchUser,
+    getUser,
     registration,
-    fetchRegistration,
+    getRegistration,
   };
 };
 
