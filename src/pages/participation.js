@@ -45,10 +45,10 @@ const Participation = () => {
         />
       </Head>
 
-      <Hero />
+      {/* <Hero />
       <Section spacing_top="64px">
         <Divider />
-      </Section>
+      </Section> */}
 
       <Section type="sub_hero">
         <h1>Participation</h1>
