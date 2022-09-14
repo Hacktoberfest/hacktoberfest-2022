@@ -24,22 +24,30 @@ const fetchEndpoint = async (endpoint, token, options = {}, ok = true, json = tr
 
 export const oauth = provider => `${API_BASE_URL}/users/oauth/${encodeURIComponent(provider)}?success_redirect=${encodeURIComponent(`${BASE_URL}/auth`)}&error_redirect=${encodeURIComponent(`${BASE_URL}/auth`)}`;
 
-export const fetchUser = async (id, token) => fetchEndpoint(`/users/${encodeURIComponent(id)}`, token);
+export const fetchUser = async (userId, token) => fetchEndpoint(`/users/${encodeURIComponent(userId)}`, token);
 
-export const updateUser = async (id, token, data) => fetchEndpoint(`/users/${encodeURIComponent(id)}`, token, {
+export const updateUser = async (userId, token, data) => fetchEndpoint(`/users/${encodeURIComponent(userId)}`, token, {
   method: 'PATCH',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(data),
 });
 
-export const fetchUserEmails = async (id, token) => fetchEndpoint(`/users/${encodeURIComponent(id)}/emails`, token);
+export const fetchUserEmails = async (userId, token) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/emails`, token);
 
-export const fetchRegistration = async (id, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(id)}`, token);
+export const fetchUserAvatars = async (userId, token) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/avatars`, token);
 
-export const createRegistration = async (id, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(id)}`, token, {
+export const fetchRegistration = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token);
+
+export const createRegistration = async (userId, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(data),
 });
 
 export const fetchMetadata = async (token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/metadata`, token);
+
+export const fetchPullRequests = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/pull_requests/users/${encodeURIComponent(userId)}`, token);
+
+export const fetchGiftCodes = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/gift_codes/users/${encodeURIComponent(userId)}`, token);
+
+export const triggerIngest = async (userId, token) => fetchEndpoint(`/pull_requests/users/${encodeURIComponent(userId)}/ingest`, token);

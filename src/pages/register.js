@@ -16,7 +16,7 @@ const Register = () => {
   const auth = useAuth();
 
   // Track the data we need to render
-  const [ loaded, setLoaded ] = useState(false);
+  const [ loaded, setLoaded ] = useState(null);
   const [ emails, setEmails ] = useState([]);
   const [ metadata, setMetadata ] = useState([]);
 
@@ -30,7 +30,8 @@ const Register = () => {
   useEffect(() => {
     (async () => {
       if (auth.loading) return;
-      if (loaded) return;
+      if (loaded === true || loaded === false) return;
+      setLoaded(false);
 
       // Fetch all emails and default to the user's current email
       setEmails(await fetchUserEmails(auth.user.id, auth.token));
