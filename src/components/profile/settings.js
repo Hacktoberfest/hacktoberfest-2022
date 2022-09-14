@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { createRegistration, fetchMetadata, fetchUserEmails, updateRegistration, updateUser } from 'lib/api';
+import {
+  createRegistration,
+  updateRegistration,
+  fetchUserOAuth,
+  createUserOAuth,
+  removeUserOAuth,
+  fetchMetadata,
+  fetchUserEmails,
+  updateUser,
+} from 'lib/api';
 
 import Button from '../button';
 import Loader from '../loader';
@@ -10,6 +19,7 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
   // Track the data we need to render
   const [ loaded, setLoaded ] = useState(null);
   const [ emails, setEmails ] = useState([]);
+  const [ oauth, setOauth ] = useState([]);
   const [ metadata, setMetadata ] = useState([]);
 
   // Track the data the user enters
@@ -17,6 +27,28 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
     email: null,
     metadata: {},
   });
+
+  // Handle fetching OAuth accounts
+  const fetchOAuth = useCallback(async () => {
+    setOauth(await fetchUserOAuth(auth.user.id, auth.token).then(data => data.reduce((obj, item) => ({
+      ...obj,
+      [item.provider]: item,
+    }), {})));
+  }, [ auth ]);
+
+  // Handle linking OAuth accounts
+  const linkOAuth = useCallback(async provider => {
+    // TODO: Error handling?
+    const link = await createUserOAuth(auth.user.id, auth.token, provider);
+    window.location.href = link.redirect;
+  }, [ auth ]);
+
+  // Handle unlinking OAuth accounts
+  const unlinkOAuth = useCallback(async provider => {
+    // TODO: Error handling?
+    await removeUserOAuth(auth.user.id, auth.token, provider);
+    await fetchOAuth();
+  }, [ auth ]);
 
   // Load the data we need to render
   useEffect(() => {
@@ -27,6 +59,9 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
       // Fetch all emails and default to the user's current email
       setEmails(await fetchUserEmails(auth.user.id, auth.token));
       setData(prev => ({ ...prev, email: auth.user.email }));
+
+      // Fetch the user's linked OAuth accounts
+      await fetchOAuth();
 
       // Fetch all the metadata for the event
       const rawMetadata = await fetchMetadata(auth.token);
@@ -92,6 +127,43 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
   // Render the user's settings
   return (
     <form ref={form} onSubmit={submit}>
+      {isEdit && (
+        <>
+          {oauth.github
+            ? (oauth.gitlab && (
+              <Button onClick={e => {
+                e.preventDefault();
+                unlinkOAuth('github').then();
+              }}>
+                Unlink GitHub account (@{oauth.github.providerUsername})
+              </Button>
+            )) : (
+              <Button onClick={e => {
+                e.preventDefault();
+                linkOAuth('github').then();
+              }}>
+                Link GitHub account
+              </Button>
+            )}
+          {oauth.gitlab
+            ? (oauth.github && (
+              <Button onClick={e => {
+                e.preventDefault();
+                unlinkOAuth('gitlab').then();
+              }}>
+                Unlink GitLab account (@{oauth.gitlab.providerUsername})
+              </Button>
+            )) : (
+              <Button onClick={e => {
+                e.preventDefault();
+                linkOAuth('gitlab').then();
+              }}>
+                Link GitLab account
+              </Button>
+            )}
+        </>
+      )}
+
       <MetadataFields
         emails={emails}
         metadata={metadata}
@@ -100,7 +172,10 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
         exclude={isEdit ? ["agree"] : []}
       />
 
-      {!isEdit && <Button onClick={() => auth.reset()}>Logout</Button>}
+      {!isEdit && <Button onClick={e => {
+        e.preventDefault();
+        auth.reset();
+      }}>Logout</Button>}
       <Button onClick={submit}>{isEdit ? "Save" : "Register"}</Button>
     </form>
   );

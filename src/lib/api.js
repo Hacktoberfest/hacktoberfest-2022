@@ -36,6 +36,12 @@ export const fetchUserEmails = async (userId, token) => fetchEndpoint(`/users/${
 
 export const fetchUserAvatars = async (userId, token) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/avatars`, token);
 
+export const fetchUserOAuth = async (userId, token) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/oauth`, token);
+
+export const createUserOAuth = async (userId, token, provider) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/oauth/${encodeURIComponent(provider)}?success_redirect=${encodeURIComponent(`${BASE_URL}/auth`)}&error_redirect=${encodeURIComponent(`${BASE_URL}/auth`)}`, token);
+
+export const removeUserOAuth = async (userId, token, provider) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/oauth/${encodeURIComponent(provider)}`, token, { method: 'DELETE' }, true, false);
+
 export const fetchRegistration = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token);
 
 export const createRegistration = async (userId, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token, {
