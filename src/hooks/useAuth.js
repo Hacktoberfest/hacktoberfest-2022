@@ -32,7 +32,7 @@ const useAuth = () => {
     // Otherwise, redirect to the right page
     console.log(`useAuth: switching to ${state}`);
     router.push(`/${state}`).then();
-  }, [ state, router ]);
+  }, [ state, router?.pathname, router?.push ]);
 
   /**
    * Logic to handle updating our state based on loading changes
@@ -92,7 +92,7 @@ const useAuth = () => {
 
     // No token
     return null;
-  }, [ router ]);
+  }, [ router?.asPath, router?.replace ]);
 
   // Allow the token to be reset, which will cascade to the rest of the state
   const reset = useCallback(() => {
@@ -122,6 +122,8 @@ const useAuth = () => {
 
   // Fetch the user from the API, identified by their token
   const getUser = useCallback(async () => {
+    setState('loading');
+    setLoaded(prev => ({ ...prev, user: false }));
     console.log('useAuth: user loading', token);
 
     // Fetch the user from /users/@me
@@ -134,6 +136,7 @@ const useAuth = () => {
 
       throw e;
     }));
+    setLoaded(prev => ({ ...prev, user: true }));
   }, [ token, reset ]);
 
   // When the token changes, fetch the user
@@ -147,10 +150,9 @@ const useAuth = () => {
         await getUser();
       } else {
         setUser(null);
+        setLoaded(prev => ({ ...prev, user: true }));
       }
 
-      // Track that we've attempted to load the user
-      setLoaded(prev => ({ ...prev, user: true }));
       console.log('useAuth: user loaded');
     })();
   }, [ loaded.token, getUser ]);
@@ -161,6 +163,8 @@ const useAuth = () => {
 
   // Fetch the registration from the API
   const getRegistration = useCallback(async () => {
+    setState('loading');
+    setLoaded(prev => ({ ...prev, registration: false }));
     console.log('useAuth: registration loading', user.id, token);
 
     // Fetch the registration from /events/:id/registrations/:id
@@ -178,6 +182,7 @@ const useAuth = () => {
 
       throw e;
     }));
+    setLoaded(prev => ({ ...prev, registration: true }));
   }, [ token, user?.id, reset ]);
 
   // When the user ID changes, fetch the registration
@@ -191,10 +196,9 @@ const useAuth = () => {
         await getRegistration();
       } else {
         setRegistration(null);
+        setLoaded(prev => ({ ...prev, registration: true }));
       }
 
-      // Track that we've attempted to load the registration
-      setLoaded(prev => ({ ...prev, registration: true }));
       console.log('useAuth: registration loaded');
     })();
   }, [ loaded.user, getRegistration ]);

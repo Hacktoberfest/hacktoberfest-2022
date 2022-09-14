@@ -10,7 +10,7 @@ import MetadataFields from 'components/profile/metadata-fields';
 
 import useAuth from 'hooks/useAuth';
 
-import { fetchMetadata, fetchUserEmails } from 'lib/api';
+import { createRegistration, fetchMetadata, fetchUserEmails, updateUser } from 'lib/api';
 
 const Register = () => {
   const auth = useAuth();
@@ -59,15 +59,26 @@ const Register = () => {
 
   // Handle form submission
   const form = useRef();
-  const submit = useCallback(e => {
+  const submit = useCallback(async e => {
     e.preventDefault();
 
     // Check the form is valid, fail if not
-    if (!form.current.reportValidity()) return;
+    // TODO: Aid the native error reporting?
+    if (!form.current?.reportValidity()) return;
 
-    // TODO: PATCH user with email
-    // TODO: POST registration with metadata
-  }, [ form ]);
+    // Update the user email if needed
+    // TODO: Error handling?
+    if (data.email !== auth.user.email) await updateUser(auth.user.id, auth.token, { email: data.email });
+
+    // Create the registration
+    // TODO: Error handling?
+    await createRegistration(auth.user.id, auth.token, { metadata: data.metadata });
+
+    // Reload the auth user + registration
+    // TODO: Error handling?
+    if (data.email !== auth.user.email) await auth.getUser();
+    await auth.getRegistration();
+  }, [ form, data, auth?.user?.email ]);
 
   return (
     <>
