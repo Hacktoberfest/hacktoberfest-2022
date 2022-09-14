@@ -17,7 +17,7 @@ export const registrationStart = process.env.REGISTRATION_START || '2022-09-26T1
  * Used for:
  *   - Controlling access to registration page
  */
-export const registrationEnd = process.env.REGISTRATION_END || '2022-11-01T12:00:0Z';
+export const registrationEnd = process.env.REGISTRATION_END || '2022-11-01T12:00:00Z';
 
 /**
  * Used for:
@@ -30,4 +30,4 @@ export const trackingStart = process.env.TRACKING_START || '2022-09-30T10:00:00Z
  *   - Displaying start hacking in nav
  *   - Controlling access to auth hook
  */
-export const profileEnd = process.env.PROFILE_END || '2022-12-15T12:00:0Z';
+export const profileEnd = process.env.PROFILE_END || '2022-12-15T12:00:00Z';

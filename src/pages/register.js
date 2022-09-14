@@ -104,10 +104,10 @@ const Register = () => {
 
           <form ref={form} onSubmit={submit}>
             <MetadataFields emails={emails} metadata={metadata} value={data} onChange={setData} />
-          </form>
 
-          <Button onClick={() => auth.reset()}>Logout</Button>
-          <Button onClick={submit}>Register</Button>
+            <Button onClick={() => auth.reset()}>Logout</Button>
+            <Button onClick={submit}>Register</Button>
+          </form>
         </Section>
       )}
 

@@ -44,6 +44,12 @@ export const createRegistration = async (userId, token, data) => fetchEndpoint(`
   body: JSON.stringify(data),
 });
 
+export const updateRegistration = async (userId, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token, {
+  method: 'PATCH',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data),
+});
+
 export const fetchMetadata = async (token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/metadata`, token);
 
 export const fetchPullRequests = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/pull_requests/users/${encodeURIComponent(userId)}`, token);
