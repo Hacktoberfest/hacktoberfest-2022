@@ -31,6 +31,10 @@ module.exports = {
       BASE_URL: '',
       API_BASE_URL: '',
       API_EVENT_ID: '',
+      REGISTRATION_START: '',
+      REGISTRATION_END: '',
+      TRACKING_START: '',
+      PROFILE_END: '',
     }));
     config.module.rules.push({
       test: /\.(eot|woff2?|zip)/,
