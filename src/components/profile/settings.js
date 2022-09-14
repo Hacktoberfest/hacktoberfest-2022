@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { fetchMetadata, fetchUserEmails, updateRegistration, updateUser } from 'lib/api';
+import { createRegistration, fetchMetadata, fetchUserEmails, updateRegistration, updateUser } from 'lib/api';
 
 import Button from '../button';
 import Loader from '../loader';
 import MetadataFields from './metadata-fields';
 
-const Edit = ({ auth, onSave }) => {
+const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
   // Track the data we need to render
   const [ loaded, setLoaded ] = useState(null);
   const [ emails, setEmails ] = useState([]);
@@ -32,11 +32,11 @@ const Edit = ({ auth, onSave }) => {
       const rawMetadata = await fetchMetadata(auth.token);
       setMetadata(rawMetadata);
 
-      // Group the user's current registration data by name
-      const currentMetadata = auth.registration.metadata.reduce((obj, item) => ({
+      // Group the user's current registration data by name (or use an empty object if not editing)
+      const currentMetadata = isEdit ? auth.registration.metadata.reduce((obj, item) => ({
         ...obj,
         [item.metadataId]: item.value,
-      }), {});
+      }), {}) : {};
 
       // Store default values for each metadata item, preferring the user's exising value
       setData(prev => ({
@@ -72,29 +72,38 @@ const Edit = ({ auth, onSave }) => {
     // TODO: Error handling?
     if (data.email !== auth.user.email) await updateUser(auth.user.id, auth.token, { email: data.email });
 
-    // Create the registration
+    // Create/update the registration
     // TODO: Error handling?
-    await updateRegistration(auth.user.id, auth.token, { metadata: data.metadata });
+    const registrationHandler = isEdit ? updateRegistration : createRegistration;
+    await registrationHandler(auth.user.id, auth.token, { metadata: data.metadata });
 
     // Reload the auth user + registration
     // TODO: Error handling?
     if (data.email !== auth.user.email) await auth.getUser();
     await auth.getRegistration();
 
-    onSave();
-  }, [ form, data, auth?.user?.email, onSave ]);
+    // Call the save handler
+    if (typeof onSave === 'function') onSave();
+  }, [ form, data, auth, isEdit, onSave ]);
 
   // Don't render anything until we have the data we need
-  if (!loaded) return <Loader message=">> Loading /usr/lib/edit..." />;
+  if (!loaded) return <Loader message={isEdit ? ">> Loading /usr/lib/edit..." : ">> Loading /usr/lib/register..."} />;
 
   // Render the user's settings
   return (
     <form ref={form} onSubmit={submit}>
-      <MetadataFields emails={emails} metadata={metadata} value={data} onChange={setData} exclude={["agree"]} />
+      <MetadataFields
+        emails={emails}
+        metadata={metadata}
+        value={data}
+        onChange={setData}
+        exclude={isEdit ? ["agree"] : []}
+      />
 
-      <Button onClick={submit}>Save</Button>
+      {!isEdit && <Button onClick={() => auth.reset()}>Logout</Button>}
+      <Button onClick={submit}>{isEdit ? "Save" : "Register"}</Button>
     </form>
   );
 };
 
-export default Edit;
+export default Settings;

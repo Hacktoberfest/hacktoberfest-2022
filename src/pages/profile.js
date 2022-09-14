@@ -8,7 +8,7 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Button from 'components/button';
 import Loader from 'components/loader';
-import Edit from 'components/profile/edit';
+import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
 
 import useAuth from 'hooks/useAuth';
@@ -63,7 +63,7 @@ const Profile = () => {
           <Button onClick={() => auth.reset()}>Logout</Button>
 
           {edit ? (
-            <Edit auth={auth} onSave={() => setEdit(false)} />
+            <Settings auth={auth} onSave={() => setEdit(false)} isEdit />
           ) : (
             <Progress auth={auth} />
           )}
