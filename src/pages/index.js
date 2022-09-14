@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
@@ -14,6 +13,8 @@ import Column from 'components/column';
 import Logo from 'components/logo-2';
 import Repeater from 'components/repeater';
 import Loader from 'components/loader';
+
+import useCountdown from 'hooks/useCountdown';
 
 import osGrid from 'assets/img/os-grid.svg';
 import osHeart from 'assets/img/os-heart.svg';
@@ -92,44 +93,7 @@ const StyledHeart = styled.div`
 `;
 
 const Home = () => {
-  const [days, setDays] = useState(null);
-  const [hours, setHours] = useState(null);
-  const [minutes, setMinutes] = useState(null);
-  const [seconds, setSeconds] = useState(null);
-
-  const setCountdown = useCallback(() => {
-    const target = new Date('2022-09-26T18:00:00Z');
-    const diff = target - new Date();
-    setDays(
-      Math.floor(diff / 1000 / 60 / 60 / 24)
-        .toString()
-        .padStart(2, '0')
-    );
-    setHours(
-      Math.floor((diff / 1000 / 60 / 60) % 24)
-        .toString()
-        .padStart(2, '0')
-    );
-    setMinutes(
-      Math.floor((diff / 1000 / 60) % 60)
-        .toString()
-        .padStart(2, '0')
-    );
-    setSeconds(
-      Math.floor((diff / 1000) % 60)
-        .toString()
-        .padStart(2, '0')
-    );
-  }, []);
-
-  useEffect(() => {
-    setCountdown();
-
-    const interval = setInterval(() => {
-      setCountdown();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [setCountdown]);
+  const [ days, hours, minutes, seconds ] = useCountdown(new Date('2022-09-26T18:00:00Z').getTime());
 
   return (
     <>
