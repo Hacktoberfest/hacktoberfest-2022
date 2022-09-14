@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 
+import { fetchGiftCodes, fetchPullRequests, fetchUserAvatars, triggerIngest } from 'lib/api';
+import { trackingStart } from 'lib/config';
+
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
@@ -9,8 +12,6 @@ import Loader from 'components/loader';
 import PullRequest from 'components/profile/pull-request';
 
 import useAuth from 'hooks/useAuth';
-
-import { fetchGiftCodes, fetchPullRequests, fetchUserAvatars, triggerIngest } from 'lib/api';
 
 const Profile = () => {
   const auth = useAuth();
@@ -52,7 +53,7 @@ const Profile = () => {
   }, [ auth, loaded ]);
 
   // Determine the user's progress
-  const hasStarted = useMemo(() => new Date() >= new Date('2022-09-30T10:00:00Z'), []);
+  const hasStarted = useMemo(() => new Date() >= new Date(trackingStart), []);
   const acceptedCount = useMemo(() => pullRequests.filter(pr => pr.state.state === 'accepted').length, [ pullRequests ]);
   const waitingCount = useMemo(() => pullRequests.filter(pr => pr.state.state === 'waiting').length, [ pullRequests ]);
 

@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
 import { events } from 'lib';
+import { registrationStart } from 'lib/config';
 
 import Button from 'components/button';
 import Section from 'components/section';
@@ -93,7 +94,7 @@ const StyledHeart = styled.div`
 `;
 
 const Home = () => {
-  const [ days, hours, minutes, seconds ] = useCountdown(new Date('2022-09-26T18:00:00Z').getTime());
+  const [ days, hours, minutes, seconds ] = useCountdown(new Date(registrationStart).getTime());
 
   return (
     <>

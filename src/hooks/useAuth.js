@@ -2,8 +2,12 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { fetchRegistration, fetchUser } from 'lib/api';
+import { profileEnd, registrationEnd, registrationStart } from '../lib/config';
 
 const useAuth = () => {
+  // Check if auth is active
+  const active = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
+
   // Track key data about the user and their registration
   const [ token, setToken ] = useState(null);
   const [ user, setUser ] = useState(null);
@@ -13,7 +17,7 @@ const useAuth = () => {
    * Logic to handle updating our route based on state changes
    */
 
-  // Track what auth state we're in: loading, auth, register, profile
+  // Track what auth state we're in: 'loading', '', 'auth', 'register', 'profile'
   // Values map to expected routes, except loading
   const [ state, setState ] = useState('loading');
 
@@ -54,15 +58,21 @@ const useAuth = () => {
     // If we've already loaded everything, do nothing
     if (state !== 'loading') return;
 
+    // If we're not active, go to the homepage
+    if (!active) {
+      setState('');
+      return;
+    }
+
     // If we don't have a token or a user, we need to go to auth
     if (!token || !user) {
       setState('auth');
       return;
     }
 
-    // If we don't have a registration, we need to go to register
+    // If we don't have a registration, we need to go to register (or homepage if registration is closed)
     if (!registration) {
-      setState('register');
+      setState(new Date() >= new Date(registrationEnd) ? '' : 'register');
       return;
     }
 
@@ -102,8 +112,12 @@ const useAuth = () => {
 
   // Whenever the router changes, check for a JWT
   useEffect(() => {
-    // Load the token from the URL or local storage
-    setToken(getToken());
+    // Load the token from the URL or local storage (if active)
+    if (active) {
+      setToken(getToken());
+    } else {
+      setToken(null);
+    }
 
     // Track that we've attempted to load the token
     setLoaded(prev => ({ ...prev, token: true }));

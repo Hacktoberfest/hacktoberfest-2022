@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { profileEnd, registrationStart } from 'lib/config';
 
 import Button from './button';
 import { Bug } from './logo';
@@ -225,8 +227,9 @@ const Navigation = () => {
     setOpen(false);
   }, [router.pathname]);
 
-  // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
+  const hasRegistration = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
 
+  // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
   // const themeToggle = useThemeToggle();
 
   return (
@@ -269,9 +272,11 @@ const Navigation = () => {
             >
               Join the Discord
             </a>
-            <Link href="/auth" passHref>
-              <Button special as="a">Start Hacking</Button>
-            </Link>
+            {hasRegistration && (
+              <Link href="/auth" passHref>
+                <Button special as="a">Start Hacking</Button>
+              </Link>
+            )}
           </div>
           <h6>&copy; 2022 DigitalOcean, LLC. All Rights Reserved.</h6>
         </div>
@@ -305,9 +310,11 @@ const Navigation = () => {
           >
             Join the Discord
           </a>
-          <Link href="/auth" passHref>
-            <Button special as="a">Start Hacking</Button>
-          </Link>
+          {hasRegistration && (
+            <Link href="/auth" passHref>
+              <Button special as="a">Start Hacking</Button>
+            </Link>
+          )}
           <button onClick={toggle} className="menu_toggle">
             Menu
           </button>

@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import useCountdown from 'hooks/useCountdown';
 
+import { prWaitingTime } from 'lib/config';
+
 const StyledPullRequest = styled.div`
   margin: 16px 8px;
   
@@ -17,7 +19,7 @@ const providerMap = {
 
 const PullRequest = ({ data, as }) => {
   // Get countdown for waiting PRs
-  const [ days, hours, minutes, seconds ] = useCountdown(new Date(data.state.timestamp || 0).getTime() + (7 * 24 * 60 * 60 * 1000));
+  const [ days, hours, minutes, seconds ] = useCountdown(new Date(data.state.timestamp || 0).getTime() + prWaitingTime);
 
   return (
     <StyledPullRequest as={as}>
