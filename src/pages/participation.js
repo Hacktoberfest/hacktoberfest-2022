@@ -18,6 +18,7 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
+import { PixelGlobe } from 'components/pixels';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
@@ -45,7 +46,15 @@ const Participation = () => {
         />
       </Head>
 
-      {/* <Hero />
+      {/* <Hero
+        h="200"
+        s="10"
+        b="0.5"
+        gradientLeft="#9131ff"
+        gradientRight="#2effcd"
+      >
+        <PixelGlobe />
+      </Hero>
       <Section spacing_top="64px">
         <Divider />
       </Section> */}
