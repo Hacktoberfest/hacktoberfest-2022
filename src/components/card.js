@@ -78,6 +78,8 @@ const MainWrapper = styled(StyledDiv)`
 
   &:after {
     background-image: url(${sparkle.src});
+    background-size: cover;
+    background-position: center center;
     border-radius: inherit;
     content: '';
     height: 100%;
