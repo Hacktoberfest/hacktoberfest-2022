@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { fetchRegistration, fetchUser } from 'lib/api';
-import { profileEnd, registrationEnd, registrationStart } from '../lib/config';
+import { profileEnd, registrationEnd, registrationStart } from 'lib/config';
 
 const useAuth = () => {
   // Check if auth is active

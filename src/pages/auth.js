@@ -4,11 +4,11 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 import Button from 'components/button';
+import Loader from 'components/loader';
 
 import useAuth from 'hooks/useAuth';
 
 import { oauth } from 'lib/api';
-import Loader from '../components/loader';
 
 const Auth = () => {
   const auth = useAuth();

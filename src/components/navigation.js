@@ -227,7 +227,7 @@ const Navigation = () => {
     setOpen(false);
   }, [router.pathname]);
 
-  const hasRegistration = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
+  const hasProfile = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
 
   // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
   // const themeToggle = useThemeToggle();
@@ -272,7 +272,7 @@ const Navigation = () => {
             >
               Join the Discord
             </a>
-            {hasRegistration && (
+            {hasProfile && (
               <Link href="/auth" passHref>
                 <Button special as="a">Start Hacking</Button>
               </Link>
@@ -310,7 +310,7 @@ const Navigation = () => {
           >
             Join the Discord
           </a>
-          {hasRegistration && (
+          {hasProfile && (
             <Link href="/auth" passHref>
               <Button special as="a">Start Hacking</Button>
             </Link>
