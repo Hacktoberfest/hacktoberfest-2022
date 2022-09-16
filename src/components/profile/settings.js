@@ -18,6 +18,7 @@ import MetadataFields from './metadata-fields';
 const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
   // Track the data we need to render
   const [ loaded, setLoaded ] = useState(null);
+  const loading = useRef(false);
   const [ emails, setEmails ] = useState([]);
   const [ oauth, setOauth ] = useState([]);
   const [ metadata, setMetadata ] = useState([]);
@@ -34,28 +35,29 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
       ...obj,
       [item.provider]: item,
     }), {})));
-  }, [ auth ]);
+  }, [ auth.user?.id, auth.token ]);
 
   // Handle linking OAuth accounts
   const linkOAuth = useCallback(async provider => {
     // TODO: Error handling?
     const link = await createUserOAuth(auth.user.id, auth.token, provider);
     window.location.href = link.redirect;
-  }, [ auth ]);
+  }, [ auth.user?.id, auth.token ]);
 
   // Handle unlinking OAuth accounts
   const unlinkOAuth = useCallback(async provider => {
     // TODO: Error handling?
     await removeUserOAuth(auth.user.id, auth.token, provider);
     await fetchOAuth();
-  }, [ auth ]);
+  }, [ auth.user?.id, auth.token ]);
 
   // Load the data we need to render
   useEffect(() => {
-    (async () => {
-      if (loaded === true || loaded === false) return;
-      setLoaded(false);
+    if (loaded) return;
+    if (loading.current) return;
+    loading.current = true;
 
+    (async () => {
       // Fetch all emails and default to the user's current email
       setEmails(await fetchUserEmails(auth.user.id, auth.token));
       setData(prev => ({ ...prev, email: auth.user.email }));
@@ -92,7 +94,7 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
       // Show the page
       setLoaded(true);
     })();
-  }, [ auth, loaded ]);
+  }, [ loaded, auth.user?.id, auth.user?.email, auth.token, auth.registration?.metadata, fetchOAuth ]);
 
   // Handle form submission
   const form = useRef();
@@ -119,7 +121,7 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
 
     // Call the save handler
     if (typeof onSave === 'function') onSave();
-  }, [ form, data, auth, isEdit, onSave ]);
+  }, [ data, auth, isEdit, onSave ]);
 
   // Don't render anything until we have the data we need
   if (!loaded) return <Loader message={isEdit ? ">> Loading /usr/lib/edit..." : ">> Loading /usr/lib/register..."} />;

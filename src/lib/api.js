@@ -58,7 +58,7 @@ export const updateRegistration = async (userId, token, data) => fetchEndpoint(`
 
 export const fetchMetadata = async (token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/metadata`, token);
 
-export const fetchPullRequests = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/pull_requests/users/${encodeURIComponent(userId)}`, token);
+export const fetchPullRequests = async (userId, token, exclude = []) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/pull_requests/users/${encodeURIComponent(userId)}?excludeState=${encodeURIComponent(exclude.join(','))}`, token);
 
 export const fetchGiftCodes = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/gift_codes/users/${encodeURIComponent(userId)}`, token);
 

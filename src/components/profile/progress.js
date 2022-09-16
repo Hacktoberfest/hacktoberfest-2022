@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { fetchGiftCodes, fetchPullRequests, triggerIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
@@ -8,18 +8,20 @@ import PullRequest from './pull-request';
 
 const Progress = ({ auth }) => {
   // Track the data we need to render
-  const [ loaded, setLoaded ] = useState(null);
+  const [ loaded, setLoaded ] = useState(false);
+  const loading = useRef(false);
   const [ pullRequests, setPullRequests ] = useState([]);
   const [ giftCodes, setGiftCodes ] = useState([]);
 
   // Load the data we need to render
   useEffect(() => {
-    (async () => {
-      if (loaded === true || loaded === false) return;
-      setLoaded(false);
+    if (loaded) return;
+    if (loading.current) return;
+    loading.current = true;
 
+    (async () => {
       // Fetch the user's pull requests
-      const rawPullRequests = await fetchPullRequests(auth.user.id, auth.token)
+      const rawPullRequests = await fetchPullRequests(auth.user.id, auth.token, [ 'out-of-bounds' ])
         .then(data => data.filter(pr => pr.state?.state && pr.state.state !== 'out-of-bounds'));
       setPullRequests(rawPullRequests.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)));
 
@@ -36,7 +38,7 @@ const Progress = ({ auth }) => {
       // Show the page
       setLoaded(true);
     })();
-  }, [ auth, loaded ]);
+  }, [ loaded, auth.user?.id, auth.token ]);
 
   // Determine the user's progress
   const hasStarted = useMemo(() => new Date() >= new Date(trackingStart), []);
