@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchRegistration, fetchUser } from 'lib/api';
 import { profileEnd, registrationEnd, registrationStart } from 'lib/config';
 
-const useAuth = () => {
+const useAuth = (redirect = true) => {
   // Check if auth is active
   const active = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
 
@@ -23,7 +23,7 @@ const useAuth = () => {
 
   // Track if we're still loading the state we expect to be in
   const router = useRouter();
-  const loading = useMemo(() => state === 'loading' || router.pathname !== `/${state}`, [ state, router.pathname ]);
+  const loading = useMemo(() => state === 'loading' || (redirect && router.pathname !== `/${state}`), [ state, redirect, router.pathname ]);
 
   // Ensure we're on the right page that matches the state we're in
   useEffect(() => {
@@ -33,10 +33,15 @@ const useAuth = () => {
     // If we're on the right page, do nothing
     if (router.pathname === `/${state}`) return;
 
-    // Otherwise, redirect to the right page
+    // Log the state change
     console.log(`useAuth: switching to ${state}`);
+
+    // If we're not supposed to redirect, do nothing
+    if (!redirect) return;
+
+    // Otherwise, redirect to the right page
     router.push(`/${state}`).then();
-  }, [ state, router?.pathname, router?.push ]);
+  }, [ state, router.pathname, redirect, router.push ]);
 
   /**
    * Logic to handle updating our state based on loading changes
@@ -220,6 +225,8 @@ const useAuth = () => {
   // Expose everything
   return {
     loading,
+    active,
+    state,
     token,
     reset,
     user,

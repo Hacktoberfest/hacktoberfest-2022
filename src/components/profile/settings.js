@@ -178,7 +178,7 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
         e.preventDefault();
         auth.reset();
       }}>Logout</Button>}
-      <Button onClick={submit}>{isEdit ? "Save" : "Register"}</Button>
+      <Button onClick={submit} type="submit">{isEdit ? "Save" : "Register"}</Button>
     </form>
   );
 };

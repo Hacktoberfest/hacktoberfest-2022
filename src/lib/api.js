@@ -17,6 +17,7 @@ const fetchEndpoint = async (endpoint, token, options = {}, ok = true, json = tr
   if (ok && !response.ok) {
     const err = new Error(`API error: ${options.method || 'GET'} ${endpoint}: ${response.status} ${response.statusText}`);
     err.status = response.status;
+    err.response = response;
     throw err;
   }
   return json ? response.json() : response;
@@ -63,3 +64,9 @@ export const fetchPullRequests = async (userId, token, exclude = []) => fetchEnd
 export const fetchGiftCodes = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/gift_codes/users/${encodeURIComponent(userId)}`, token);
 
 export const triggerIngest = async (userId, token) => fetchEndpoint(`/pull_requests/users/${encodeURIComponent(userId)}/ingest`, token);
+
+export const createExcludedRepository = async (userId, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/excluded_repositories`, token, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data),
+});

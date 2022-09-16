@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import useCountdown from 'hooks/useCountdown';
 
-import { prWaitingTime } from 'lib/config';
+import { providerMap, prWaitingTime } from 'lib/config';
 
 const StyledPullRequest = styled.div`
   margin: 16px 8px;
@@ -11,11 +11,6 @@ const StyledPullRequest = styled.div`
     margin: 4px 0 !important;
   }
 `;
-
-const providerMap = {
-  github: 'GitHub',
-  gitlab: 'GitLab',
-};
 
 const PullRequest = ({ data, as }) => {
   // Get countdown for waiting PRs

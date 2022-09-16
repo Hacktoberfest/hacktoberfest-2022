@@ -31,3 +31,13 @@ export const trackingStart = process.env.TRACKING_START || '2022-09-30T10:00:00Z
  *   - Controlling access to auth hook
  */
 export const profileEnd = process.env.PROFILE_END || '2022-12-15T12:00:00Z';
+
+/**
+ * Used for:
+ *   - Displaying nice names for PR/MR providers
+ *   - Provider selection on report page
+ */
+export const providerMap = Object.freeze({
+  github: 'GitHub',
+  gitlab: 'GitLab',
+});
