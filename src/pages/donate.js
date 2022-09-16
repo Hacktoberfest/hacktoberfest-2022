@@ -15,6 +15,8 @@ import {
 } from 'themes/breakpoints';
 
 import { StyledList, StyledListItem } from './events';
+import { PixelCoin } from 'components/pixels';
+import Hero from 'components/hero';
 
 export const StyledSearch = styled.input`
   padding: 16px;
@@ -60,7 +62,7 @@ export const StyledProject = styled(StyledListItem)`
         flex-direction: column;
         align-items: flex-start;
         position: relative;
-        
+
         &::before {
           position: absolute;
           top: 0;
@@ -68,12 +70,12 @@ export const StyledProject = styled(StyledListItem)`
           margin: 0;
         }
       }
-      
+
       > div {
         > p {
           color: ${(props) =>
             props.theme[props.color] || props.color || props.theme.text};
-          
+
           @media (max-width: 600px) {
             margin-left: 48px;
           }
@@ -84,12 +86,12 @@ export const StyledProject = styled(StyledListItem)`
           align-items: center;
           gap: 16px;
           margin: 8px 0;
-          
+
           @media (max-width: 600px) {
             flex-direction: column;
             align-items: flex-start;
           }
-          
+
           > img {
             border-radius: 16px;
             filter: ${(props) => props.theme.glowLiteDS};
@@ -105,7 +107,7 @@ export const StyledProject = styled(StyledListItem)`
         }
       }
     }
-    
+
     > div {
       @media (max-width: 600px) {
         margin: 0;
@@ -215,16 +217,35 @@ const Donate = ({ projects }) => {
     <>
       <Head>
         <title>Donate | Hacktoberfest 2022</title>
-        <meta name="twitter:title" key="twitterTitle" content="Donate | Hacktoberfest 2022" />
-        <meta property="og:title" key="opengraphTitle" content="Donate | Hacktoberfest 2022" />
+        <meta
+          name="twitter:title"
+          key="twitterTitle"
+          content="Donate | Hacktoberfest 2022"
+        />
+        <meta
+          property="og:title"
+          key="opengraphTitle"
+          content="Donate | Hacktoberfest 2022"
+        />
       </Head>
 
+      <Hero
+        h="110"
+        s="5"
+        b="0.5"
+        gradientLeft="#0AFFA2"
+        gradientRight="#B5FF0A"
+        title="Donate"
+      >
+        <PixelCoin />
+      </Hero>
+
       <Section>
-        <h1>Donate</h1>
         <StyledSubText>
-          Open-source projects keep the internet humming—but they can’t do it without resources. Projects are always in
-          need of financial support so they can develop new features, cover expenses, and continue their regular
-          activities. Find a project to donate money to right here.
+          Open-source projects keep the internet humming—but they can’t do it
+          without resources. Projects are always in need of financial support so
+          they can develop new features, cover expenses, and continue their
+          regular activities. Find a project to donate money to right here.
         </StyledSubText>
         <StyledSearch
           type="text"
@@ -247,7 +268,10 @@ const Donate = ({ projects }) => {
           ))}
         </StyledList>
         {projectsCount < projectsFiltered.length && (
-          <Button special onClick={() => setProjectsCount((count) => count + 3)}>
+          <Button
+            special
+            onClick={() => setProjectsCount((count) => count + 3)}
+          >
             Load More Projects
           </Button>
         )}

@@ -227,7 +227,12 @@ const Navigation = () => {
     setOpen(false);
   }, [router.pathname]);
 
-  const hasProfile = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
+  const hasProfile = useMemo(
+    () =>
+      new Date() >= new Date(registrationStart) &&
+      new Date() < new Date(profileEnd),
+    []
+  );
 
   // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
   // const themeToggle = useThemeToggle();
@@ -274,7 +279,9 @@ const Navigation = () => {
             </a>
             {hasProfile && (
               <Link href="/auth" passHref>
-                <Button special as="a">Start Hacking</Button>
+                <Button special as="a">
+                  Start Hacking
+                </Button>
               </Link>
             )}
           </div>
@@ -308,11 +315,13 @@ const Navigation = () => {
             target="_blank"
             rel="noreferrer noopener"
           >
-            Join the Discord
+            Discord
           </a>
           {hasProfile && (
             <Link href="/auth" passHref>
-              <Button special as="a">Start Hacking</Button>
+              <Button special as="a">
+                Start Hacking
+              </Button>
             </Link>
           )}
           <button onClick={toggle} className="menu_toggle">

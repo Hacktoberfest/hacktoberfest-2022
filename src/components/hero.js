@@ -56,6 +56,7 @@ const StyledSection = styled.section`
     position: relative;
 
     #icon {
+      transform-origin: top right;
       position: absolute;
       top: 40px;
       right: 40px;
@@ -83,7 +84,7 @@ const Hero = (props) => {
       gradientRight={props.gradientRight}
     >
       <div className="hero">
-        <h1>Participation</h1>
+        <h1>{props.title}</h1>
         {props.children}
       </div>
     </StyledSection>
