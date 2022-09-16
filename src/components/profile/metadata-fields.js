@@ -52,9 +52,19 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
   // Provide a single checkbox to opt out of all marketing
   const [ marketingDisabled, setMarketingDisabled ] = useState(false);
   useEffect(() => {
-    if (marketingDisabled && fields.marketing) {
-      updateMetadata(fields.marketing.reduce((obj, item) => ({ ...obj, [item.name]: false }), {}));
-    }
+    if (!marketingDisabled || !fields.marketing) return;
+
+    // Determine what we need to change
+    const changes = fields.marketing.reduce((obj, item) => ({
+      ...obj,
+      ...(value.metadata[item.name] ? { [item.name]: false } : {}),
+    }), {});
+
+    // If no changes, don't update, so we don't infinite loop
+    if (!Object.keys(changes).length) return;
+
+    // Update the values
+    updateMetadata(changes);
   }, [ marketingDisabled, fields, updateMetadata ]);
 
   return (
