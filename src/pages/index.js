@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
 import { events } from 'lib';
+import { registrationStart } from 'lib/config';
 
 import Button from 'components/button';
 import Section from 'components/section';
@@ -13,6 +13,9 @@ import Card from 'components/card';
 import Column from 'components/column';
 import Logo from 'components/logo-2';
 import Repeater from 'components/repeater';
+import Loader from 'components/loader';
+
+import useCountdown from 'hooks/useCountdown';
 
 import osGrid from 'assets/img/os-grid.svg';
 import osHeart from 'assets/img/os-heart.svg';
@@ -90,88 +93,8 @@ const StyledHeart = styled.div`
   }
 `;
 
-const StyledLoader = styled.span`
-  font-family: 'JetBrains Mono', monospace;
-  font-variant-ligatures: none;
-
-  @media (prefers-reduced-motion) {
-    display: none;
-  }
-`;
-
-const Loader = () => {
-  const frames = useMemo(
-    () =>
-      [
-        '[    ]',
-        '[=   ]',
-        '[==  ]',
-        '[=== ]',
-        '[ ===]',
-        '[  ==]',
-        '[   =]',
-        '[    ]',
-        '[   =]',
-        '[  ==]',
-        '[ ===]',
-        '[====]',
-        '[=== ]',
-        '[==  ]',
-        '[=   ]',
-      ].map((item) => item.replace(/ /g, '\u00A0')),
-    []
-  );
-  const [frame, setFrame] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFrame((prev) => (prev + 1) % frames.length);
-    }, 100);
-    return () => clearInterval(interval);
-  }, [frames]);
-
-  return <StyledLoader>{frames[frame]}</StyledLoader>;
-};
-
 const Home = () => {
-  const [days, setDays] = useState(null);
-  const [hours, setHours] = useState(null);
-  const [minutes, setMinutes] = useState(null);
-  const [seconds, setSeconds] = useState(null);
-
-  const setCountdown = useCallback(() => {
-    const target = new Date('2022-09-26T18:00:00Z');
-    const diff = target - new Date();
-    setDays(
-      Math.floor(diff / 1000 / 60 / 60 / 24)
-        .toString()
-        .padStart(2, '0')
-    );
-    setHours(
-      Math.floor((diff / 1000 / 60 / 60) % 24)
-        .toString()
-        .padStart(2, '0')
-    );
-    setMinutes(
-      Math.floor((diff / 1000 / 60) % 60)
-        .toString()
-        .padStart(2, '0')
-    );
-    setSeconds(
-      Math.floor((diff / 1000) % 60)
-        .toString()
-        .padStart(2, '0')
-    );
-  }, []);
-
-  useEffect(() => {
-    setCountdown();
-
-    const interval = setInterval(() => {
-      setCountdown();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [setCountdown]);
+  const [ days, hours, minutes, seconds ] = useCountdown(new Date(registrationStart).getTime());
 
   return (
     <>
@@ -216,11 +139,7 @@ const Home = () => {
       />
       <Section spacing_top="64px">
         <Repeater spacing_btm="64px" />
-        <p> {'>>'} Boot Dialogue: registration begins september 26</p>
-        <br />
-        <p>
-          <Loader />
-        </p>
+        <Loader message=">> Boot Dialogue: registration begins september 26" />
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">

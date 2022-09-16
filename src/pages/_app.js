@@ -9,9 +9,10 @@ import { useEffect } from 'react';
 
 import GlobalStyle from 'themes/themes';
 
+import { sammy } from 'lib/sammy';
+
 import opengraph from 'assets/img/opengraph.png';
 import favicon from 'assets/img/favicon.svg';
-import { sammy } from '../lib/sammy';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
