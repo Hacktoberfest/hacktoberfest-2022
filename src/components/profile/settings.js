@@ -69,11 +69,8 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
       const rawMetadata = await fetchMetadata(auth.token);
       setMetadata(rawMetadata);
 
-      // Group the user's current registration data by name (or use an empty object if not editing)
-      const currentMetadata = isEdit ? auth.registration.metadata.reduce((obj, item) => ({
-        ...obj,
-        [item.metadataId]: item.value,
-      }), {}) : {};
+      // Get the user's current metadata (or none if this is registration)
+      const currentMetadata = isEdit ? auth.registration.metadata : {};
 
       // Store default values for each metadata item, preferring the user's exising value
       setData(prev => ({
@@ -83,10 +80,10 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
           ...rawMetadata.reduce((obj, item) => ({
             ...obj,
             [item.name]: item.datatype === 'boolean'
-              ? (currentMetadata[item.id] === 'true')
+              ? (currentMetadata[item.name]?.value === 'true')
               : (item.datatype === 'string'
-                ? (currentMetadata[item.id] || '')
-                : (currentMetadata[item.id] || null)),
+                ? (currentMetadata[item.name]?.value || '')
+                : (currentMetadata[item.name]?.value || null)),
           }), {}),
         },
       }));
