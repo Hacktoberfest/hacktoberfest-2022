@@ -18,15 +18,12 @@ const StyledSection = styled.section`
     }
 
     &.sub_hero {
-      > h4 {
-        margin-top: 48px;
-      }
-
+      margin-top: -64px;
+      
       > div {
         display: flex;
         gap: 24px;
         flex-flow: row wrap;
-        margin-top: 16px;
       }
     }
 

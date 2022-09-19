@@ -18,12 +18,7 @@ import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
-import {
-  PixelGlobe,
-  PixelComputer,
-  PixelPus,
-  PixelCoin,
-} from 'components/pixels';
+import { PixelPus } from 'components/pixels';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
@@ -61,13 +56,8 @@ const Participation = () => {
       >
         <PixelPus />
       </Hero>
-      {/* <Section spacing_top="64px">
-        <Divider />
-      </Section> */}
 
-      {/* <Section type="sub_hero">
-        <h1>Participation</h1>
-        <h4>Find what you need quickly</h4>
+      <Section type="sub_hero">
         <div>
           <Button as="a" href="#values" color_bg="spark">
             Values
@@ -88,7 +78,7 @@ const Participation = () => {
             Maintainers
           </Button>
         </div>
-      </Section> */}
+      </Section>
 
       <Section type="sub_content" id="values">
         <Divider />

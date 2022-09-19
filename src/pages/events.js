@@ -10,10 +10,10 @@ import Button from 'components/button';
 import Divider from 'components/divider';
 import Anchor from 'components/anchor';
 import Section from 'components/section';
-
-import eventKitZip from 'assets/event-kit.zip';
 import Hero from 'components/hero';
 import { PixelGlobe } from 'components/pixels';
+
+import eventKitZip from 'assets/event-kit.zip';
 
 export const StyledEventsListItemEyebrow = styled.div`
   color: ${(props) => props.theme[props.color] || props.theme.text};
@@ -113,9 +113,7 @@ const Events = ({ events, speakers }) => {
         <PixelGlobe />
       </Hero>
 
-      {/* <Section type="sub_hero">
-        <h1>Events for 2022</h1>
-        <h4>Find what you need quickly</h4>
+      <Section type="sub_hero">
         <div>
           <Button as="a" href="#events" color_bg="spark">
             Event List
@@ -130,7 +128,7 @@ const Events = ({ events, speakers }) => {
             Brand Guidelines
           </Button>
         </div>
-      </Section> */}
+      </Section>
 
       <Section type="sub_content" id="events">
         <Divider />

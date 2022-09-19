@@ -138,9 +138,7 @@ const About = () => {
         <PixelComputer />
       </Hero>
 
-      {/* <Section type="sub_hero">
-        <h1>About</h1>
-        <h4>Find what you need quickly</h4>
+      <Section type="sub_hero">
         <div>
           <Button as="a" href="#lore" color_bg="spark">
             Hacktoberfest Lore
@@ -152,7 +150,7 @@ const About = () => {
             Advisory Council
           </Button>
         </div>
-      </Section> */}
+      </Section>
 
       <Section type="sub_content" id="lore">
         <Divider />
