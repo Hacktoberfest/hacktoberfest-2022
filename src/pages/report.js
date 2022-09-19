@@ -7,6 +7,8 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Loader from 'components/loader';
 import Button from 'components/button';
+import Hero from 'components/hero';
+import { PixelPus } from 'components/pixels';
 
 import useAuth from 'hooks/useAuth';
 
@@ -83,14 +85,22 @@ const Report = () => {
         <meta property="og:title" key="opengraphTitle" content="Report | Hacktoberfest 2022" />
       </Head>
 
-      <Section type="sub_hero">
-        <h1>Report</h1>
-        <h4>Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.</h4>
-      </Section>
+      <Hero
+        h="200"
+        s="10"
+        b="0.5"
+        gradientLeft="#9131ff"
+        gradientRight="#2effcd"
+        title="Report"
+      >
+        <PixelPus />
+      </Hero>
 
       <Section type="sub_content">
         <Divider />
         <Anchor href="#" />
+
+        <h4>Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.</h4>
 
         {!auth.active ? (
           <p>
