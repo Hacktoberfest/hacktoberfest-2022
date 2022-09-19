@@ -19,6 +19,7 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelPus } from 'components/pixels';
+import DorknamicIsland from './dorknamic-island';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
@@ -46,6 +47,15 @@ const Participation = () => {
         />
       </Head>
 
+      <DorknamicIsland>
+        <a href="#values">Values</a>
+        <a href="#contributors">Contributors</a>
+        <a href="#beginner-resources">Beginner-resources</a>
+        <a href="#pr-mr-details">Pull/Merge Request Details</a>
+        <a href="#spam">Spam</a>
+        <a href="#maintainers">maintainers</a>
+      </DorknamicIsland>
+
       <Hero
         h="200"
         s="10"
@@ -57,7 +67,7 @@ const Participation = () => {
         <PixelPus />
       </Hero>
 
-      <Section type="sub_hero">
+      {/* <Section type="sub_hero">
         <div>
           <Button as="a" href="#values" color_bg="spark">
             Values
@@ -78,7 +88,7 @@ const Participation = () => {
             Maintainers
           </Button>
         </div>
-      </Section>
+      </Section> */}
 
       <Section type="sub_content" id="values">
         <Divider />

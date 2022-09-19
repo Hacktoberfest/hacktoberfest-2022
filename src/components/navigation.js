@@ -68,7 +68,7 @@ const Wrapper = styled.header`
   }
 
   @media (max-width: 600px) {
-    padding: 0 32px;
+    padding: 0 24px;
   }
 
   .overlay {
