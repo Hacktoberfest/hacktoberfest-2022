@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import countryList from 'country-list';
 
 import CheckRadio from './check-radio';
+
+const countries = Object.entries(countryList.getCodeList()).map(([ code, name ]) => ({
+  code,
+  name,
+})).sort((a, b) => a.name.localeCompare(b.name)).concat([{
+  code: '',
+  name: 'Prefer not to say',
+}]);
 
 const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
   const [ fields, setFields ] = useState({});
@@ -139,6 +148,22 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
                   checked={value.metadata[meta.name]}
                 />
               ))}
+            </fieldset>
+          )}
+
+          {!!fields.country && (
+            <fieldset>
+              <label>What country are you participating from?</label>
+              <select
+                name="country"
+                value={value.metadata.country || ''}
+                onChange={e => updateMetadata({ country: e.target.value })}
+                required
+              >
+                {countries.map(country => (
+                  <option key={country.code} value={country.code}>{country.name}</option>
+                ))}
+              </select>
             </fieldset>
           )}
         </fieldset>

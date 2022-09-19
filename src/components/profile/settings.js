@@ -128,9 +128,9 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
 
   // Render the user's settings
   return (
-    <form ref={form} onSubmit={submit}>
+    <>
       {isEdit && (
-        <>
+        <div>
           {oauth.github
             ? (oauth.gitlab && (
               <Button onClick={e => {
@@ -163,23 +163,25 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
                 Link GitLab account
               </Button>
             )}
-        </>
+        </div>
       )}
 
-      <MetadataFields
-        emails={emails}
-        metadata={metadata}
-        value={data}
-        onChange={setData}
-        exclude={isEdit ? ["agree"] : []}
-      />
+      <form ref={form} onSubmit={submit}>
+        <MetadataFields
+          emails={emails}
+          metadata={metadata}
+          value={data}
+          onChange={setData}
+          exclude={isEdit ? ["agree"] : []}
+        />
 
-      {!isEdit && <Button onClick={e => {
-        e.preventDefault();
-        auth.reset();
-      }}>Logout</Button>}
-      <Button onClick={submit} type="submit">{isEdit ? "Save" : "Register"}</Button>
-    </form>
+        {!isEdit && <Button onClick={e => {
+          e.preventDefault();
+          auth.reset();
+        }}>Logout</Button>}
+        <Button onClick={submit} type="submit">{isEdit ? "Save" : "Register"}</Button>
+      </form>
+    </>
   );
 };
 
