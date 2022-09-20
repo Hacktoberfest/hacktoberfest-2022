@@ -77,7 +77,7 @@ const Wrapper = styled.header`
     height: 100%;
     left: 0;
     opacity: 0;
-    padding: 40px 32px;
+    padding: 40px 24px;
     position: fixed;
     top: 0;
     transition: 0.5s ease;
@@ -107,6 +107,20 @@ const Wrapper = styled.header`
         transition: 0.1s ease;
         padding-bottom: 4px;
         box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+
+        &:last-of-type {
+          opacity: 1;
+          box-shadow: none;
+
+          &:hover {
+            text-shadow: none;
+          }
+
+          div {
+            width: 100%;
+            text-align: center;
+          }
+        }
 
         &:hover {
           opacity: 1;
@@ -146,6 +160,14 @@ const Wrapper = styled.header`
         color: ${(props) => props.theme.text};
         opacity: 0.75;
         transition: 0.1s ease;
+
+        &:last-of-type {
+          opacity: 1;
+
+          &:hover {
+            text-shadow: none;
+          }
+        }
 
         &:hover {
           opacity: 1;
@@ -275,7 +297,7 @@ const Navigation = () => {
               target="_blank"
               rel="noreferrer noopener"
             >
-              Join the Discord
+              Discord
             </a>
             {hasProfile && (
               <Link href="/auth" passHref>

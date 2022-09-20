@@ -12,6 +12,7 @@ import Anchor from 'components/anchor';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelGlobe } from 'components/pixels';
+import DorknamicIsland from 'components/dorknamic-island';
 
 import eventKitZip from 'assets/event-kit.zip';
 
@@ -102,6 +103,13 @@ const Events = ({ events, speakers }) => {
         />
       </Head>
 
+      <DorknamicIsland>
+        <a href="#events">Events</a>
+        <a href="#organizers">Organizers</a>
+        <a href="#speakers">Speakers</a>
+        <a href="#brand">Brand Guidelines</a>
+      </DorknamicIsland>
+
       <Hero
         h="10"
         s="10"
@@ -113,7 +121,7 @@ const Events = ({ events, speakers }) => {
         <PixelGlobe />
       </Hero>
 
-      <Section type="sub_hero">
+      {/* <Section type="sub_hero">
         <div>
           <Button as="a" href="#events" color_bg="spark">
             Event List
@@ -128,7 +136,7 @@ const Events = ({ events, speakers }) => {
             Brand Guidelines
           </Button>
         </div>
-      </Section>
+      </Section> */}
 
       <Section type="sub_content" id="events">
         <Divider />

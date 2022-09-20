@@ -19,7 +19,7 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelPus } from 'components/pixels';
-import DorknamicIsland from './dorknamic-island';
+import DorknamicIsland from '../components/dorknamic-island';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;

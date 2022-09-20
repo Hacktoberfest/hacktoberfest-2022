@@ -1,9 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 import { useEffect } from 'react';
 
-const loadAnimation = () => keyframes`
+const loadAnimation = (x) => keyframes`
   from {
-    transform: translateY(-200px);
+    transform: translateY(${x}px);
   }
   to {
     transform: translateY(0);
@@ -62,15 +62,26 @@ const StyledDiv = styled.div`
   pointer-events: none;
   transition: all 0.5s var(--bez);
   transform: translateY(-200px);
-  animation: ${loadAnimation} 1.25s 0.2s var(--bez2) forwards;
+
+  &.top {
+    animation: ${() => loadAnimation(-200)} 1.25s 0.2s var(--bez2) forwards;
+  }
+
+  &.bottom {
+    animation: ${() => loadAnimation(200)} 1.25s 0.2s var(--bez2) forwards;
+  }
 
   @media (max-width: 600px) {
     padding: 0 24px;
+    top: auto;
+    bottom: 120px;
+    transform: translateY(200px);
   }
 
   .island {
     background: #0e0318;
     width: 200px;
+    max-width: 1312px;
     border-radius: 100px;
     box-shadow: ${(props) => props.theme.glowLite};
     display: flex;
@@ -175,25 +186,48 @@ const DorknamicIsland = (props) => {
       const wrapper = document.getElementById('wrapper');
       const nav = document.getElementById('nav');
 
-      if (window.scrollY > 100 && window.innerWidth > 600) {
+      if (window.scrollY > 100) {
+        if (window.innerWidth > 600) {
+          wrapper.classList.add('top');
+          wrapper.style.top = '40px';
+          wrapper.style.bottom = 'auto';
+        } else {
+          if (wrapper.classList.contains('top') === true) {
+            wrapper.classList.remove('top'); //position reset
+          }
+          wrapper.classList.add('bottom');
+          wrapper.style.top = 'auto';
+          wrapper.style.bottom = '40px';
+        }
         island.style.borderRadius = '16px';
-        wrapper.style.top = '40px';
-        wrapper.style.bottom = 'auto';
-        island.style.width = '1312px';
+        island.style.width = '100%';
         island.style.padding = '16px 24px';
         hex.style.display = 'none';
         init.style.display = 'none';
-        nav.style.display = 'flex';
         nav.style.display = 'flex';
         setTimeout(() => {
           nav.style.opacity = '1';
           nav.style.height = 'max-content';
           nav.style.visibility = 'visible';
         }, '200');
-      } else if (window.scrollY < 100 && window.innerWidth > 600) {
+      } else {
+        if (window.innerWidth > 600) {
+          if (wrapper.classList.contains('bottom') === true) {
+            wrapper.classList.remove('bottom'); //position reset
+          }
+          wrapper.classList.add('top');
+          wrapper.style.top = '120px';
+          wrapper.style.bottom = 'auto';
+          island.style.borderRadius = '100px';
+        } else {
+          if (wrapper.classList.contains('top') === true) {
+            wrapper.classList.remove('top'); //position reset
+          }
+          wrapper.classList.add('bottom');
+          wrapper.style.top = 'auto';
+          wrapper.style.bottom = '40px';
+        }
         island.style.borderRadius = '100px';
-        wrapper.style.top = '120px';
-        wrapper.style.bottom = 'auto';
         island.style.width = '200px';
         island.style.padding = '4px 4px 4px 12px';
         hex.style.display = 'block';
@@ -202,9 +236,6 @@ const DorknamicIsland = (props) => {
         nav.style.visibility = 'hidden';
         nav.style.display = 'none';
         nav.style.height = '0';
-      } else {
-        wrapper.style.top = 'auto';
-        wrapper.style.bottom = '40px';
       }
     };
     scrollTrigger();

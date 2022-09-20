@@ -10,6 +10,7 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelComputer } from 'components/pixels';
+import DorknamicIsland from 'components/dorknamic-island';
 
 const textAnimation = () => keyframes`
   0% {
@@ -127,6 +128,12 @@ const About = () => {
         />
       </Head>
 
+      <DorknamicIsland>
+        <a href="#lore">Hacktoberfest Lore</a>
+        <a href="#low-or-non-code">Low or Non Code Contributions</a>
+        <a href="#council">Advisory Council</a>
+      </DorknamicIsland>
+
       <Hero
         h="210"
         s="10"
@@ -138,7 +145,7 @@ const About = () => {
         <PixelComputer />
       </Hero>
 
-      <Section type="sub_hero">
+      {/* <Section type="sub_hero">
         <div>
           <Button as="a" href="#lore" color_bg="spark">
             Hacktoberfest Lore
@@ -150,7 +157,7 @@ const About = () => {
             Advisory Council
           </Button>
         </div>
-      </Section>
+      </Section> */}
 
       <Section type="sub_content" id="lore">
         <Divider />
