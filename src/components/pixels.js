@@ -149,11 +149,10 @@ const PixelComputerWrapper = styled(StyledDiv)`
 
   .doLogo {
     animation: ${flickerAnimation} 5s infinite;
-    margin-bottom: 4px;
-
-    svg {
-      width: 100%;
-    }
+    margin-bottom: 6px;
+    position: relative;
+    display: flex;
+    justify-content: center;
   }
 
   .computer-container {
