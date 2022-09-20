@@ -99,6 +99,8 @@ const StyledShutter = styled.div`
 `;
 
 const StyledInit = styled.p`
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-ligatures: none;
   width: 68px;
   user-select: none;
 
