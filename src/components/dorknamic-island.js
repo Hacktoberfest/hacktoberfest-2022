@@ -151,7 +151,7 @@ const StyledIsland = styled.div`
 
 const StyledWrapper = styled.div`
   --bez: cubic-bezier(0.5, 0, 0.5, 1.5);
-  --bez2: cubic-bezier(0.9, -0.5, 0.2, 1.5);
+  --bez2: cubic-bezier(0.5, -0.5, 0.2, 1.6);
   width: 100%;
   display: flex;
   justify-content: center;
@@ -164,11 +164,11 @@ const StyledWrapper = styled.div`
   transform: translateY(-200px);
 
   &.top {
-    animation: ${() => loadAnimation(-200)} 1.25s 0.2s var(--bez2) forwards;
+    animation: ${() => loadAnimation(-200)} 0.5s var(--bez2) 0.2s forwards;
   }
 
   &.bottom {
-    animation: ${() => loadAnimation(200)} 1.25s 0.2s var(--bez2) forwards;
+    animation: ${() => loadAnimation(200)} 0.5s var(--bez2) 0.2s forwards;
   }
 
   @media (max-width: 600px) {
