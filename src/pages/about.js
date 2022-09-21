@@ -11,6 +11,7 @@ import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelComputer } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
+import Card, { MainWrapper } from '../components/card';
 
 const textAnimation = () => keyframes`
   0% {
@@ -21,6 +22,32 @@ const textAnimation = () => keyframes`
   }
   66% {
     content: " -->"
+  }
+`;
+
+const StyledYouTube = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 64px 0 0;
+  
+  ${MainWrapper} {
+    width: 100%;
+    max-width: 48rem;
+    min-width: auto;
+    min-height: auto;
+    
+    .content {
+      line-height: 0;
+
+      iframe {
+        display: block;
+        position: relative;
+        z-index: 1;
+        border-radius: 8px;
+        width: 100%;
+        aspect-ratio: 16/9;
+      }
+    }
   }
 `;
 
@@ -179,6 +206,18 @@ const About = () => {
           use and love, learn and practice skills that will enhance their
           careers, and meet new people who love open source as much as they do.
         </p>
+
+        <StyledYouTube>
+          <Card primary="psybeam" secondary="surf">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/BDUtORDL_k4?modestbranding=1&rel=0"
+              title="YouTube video player: Open Source is Counting on You! Answer the Call, at Hacktoberfest 2022"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </Card>
+        </StyledYouTube>
       </Section>
 
       <Section type="sub_content">

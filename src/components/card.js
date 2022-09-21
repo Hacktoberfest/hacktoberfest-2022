@@ -43,7 +43,7 @@ const dividerAnimation = () => keyframes`
   }
 `;
 
-const MainWrapper = styled(StyledDiv)`
+export const MainWrapper = styled(StyledDiv)`
   background: linear-gradient(
     180deg,
     ${(props) => props.theme[props.primary]} 0%,
@@ -54,7 +54,7 @@ const MainWrapper = styled(StyledDiv)`
   box-shadow: 0px 0px 12px ${(props) => props.theme[props.secondary]};
   min-height: 354px;
   min-width: 304px;
-  padding: 40px 40px 48px 48px;
+  padding: 40px 48px;
   position: relative;
   transition: 0.4s cubic-bezier(0.8, -1, 0.2, 1.5);
 
@@ -142,6 +142,7 @@ const MainWrapper = styled(StyledDiv)`
     position: absolute;
     text-align: center;
     width: 100%;
+    margin: 0 !important;
     -webkit-mask-image: linear-gradient(
       90deg,
       rgba(0, 0, 0, 0) 5%,
@@ -212,7 +213,7 @@ const MainWrapper = styled(StyledDiv)`
 
 export const Card = (props) => {
   return (
-    <MainWrapper id="card" primary={props.primary} secondary={props.secondary}>
+    <MainWrapper primary={props.primary} secondary={props.secondary}>
       <p className="binary top large" />
       <p className="binary side right" />
       <p className="binary bottom" />
