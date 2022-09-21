@@ -92,11 +92,44 @@ const Progress = ({ auth }) => {
       {/* Show any gift codes the user has been awarded */}
       {!!Object.keys(giftCodes).length && (
         <>
-          <p>[ Rewards ]</p>
+          {/* TODO: Kotis code */}
+          {/* TODO: DEV badge code */}
 
-          <ul>
-            {/* TODO: Show different reward codes */}
-          </ul>
+          {Object.keys(giftCodes).some(type => type.startsWith('holopin')) && (
+            <>
+              <p>[ Rewards: Holopin Badges ]</p>
+
+              <ul>
+                {giftCodes['holopin-registered-badge'] && (
+                  <li>
+                    <p>You've been awarded a Holopin badge for registering for Hacktoberfest!</p>
+                  </li>
+                )}
+                {giftCodes['holopin-level-1-badge'] && (
+                  <li>
+                    <p>You've been awarded a Holopin badge for completing one accepted PR/MR!</p>
+                  </li>
+                )}
+                {giftCodes['holopin-level-2-badge'] && (
+                  <li>
+                    <p>You've been awarded a Holopin badge for completing two accepted PR/MRs!</p>
+                  </li>
+                )}
+                {giftCodes['holopin-level-3-badge'] && (
+                  <li>
+                    <p>You've been awarded a Holopin badge for completing three accepted PR/MRs!</p>
+                  </li>
+                )}
+                {giftCodes['holopin-level-4-badge'] && (
+                  <li>
+                    <p>You've been awarded a Holopin badge for completing four accepted PR/MRs!</p>
+                  </li>
+                )}
+              </ul>
+
+              <p>Check your email for more information on how to claim each badge.</p>
+            </>
+          )}
         </>
       )}
 
