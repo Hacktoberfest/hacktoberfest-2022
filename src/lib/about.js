@@ -1,4 +1,3 @@
-import mariatta from 'assets/img/council/mariatta.png';
 import lisa from 'assets/img/council/lisa.jpeg';
 import alison from 'assets/img/council/alison.jpg';
 import marlene from 'assets/img/council/marlene.jpg';
@@ -44,19 +43,6 @@ export const lowNonCode = [
 ];
 
 export const council = [
-  {
-    name: 'Mariatta Wijaya',
-    image: mariatta.src,
-    role: 'Sr Developer Relations Engineer at Google',
-    skills: 'Python, Web Development, APIs, Open Source community',
-    bio: 'Mariatta is a Python Core Developer, Staff Software Engineer at Uplight, and the Vancouver PyLadies co-organizer. She has over 15 years of professional experience in tech industry, with expertise in web development and APIs. For her contributions to Python and open source community, she was awarded Python Community Service Award in 2018 and Google Open Source Peer Bonus twice.',
-    links: [
-      {
-        title: 'Python',
-        url: 'https://github.com/python/cpython',
-      },
-    ],
-  },
   {
     name: 'Lisa Tagliaferri',
     image: lisa.src,
