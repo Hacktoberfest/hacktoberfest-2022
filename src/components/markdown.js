@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 const markdown = markdownIt({ typographer: true });
 
-const parse = html => htmlReactParser(html, {
+const parse = (html, forceNewTab = false) => htmlReactParser(html, {
     replace: ({ type, name, attribs, children }) => {
         if (type === 'tag' && name === 'a' && attribs.href) {
-          if (attribs.href[0] !== '/' && attribs.href[0] !== '#') {
+          if (forceNewTab || (attribs.href[0] !== '/' && attribs.href[0] !== '#')) {
             attribs.target = '_blank';
             attribs.rel = 'noopener noreferrer';
           }
@@ -16,7 +16,7 @@ const parse = html => htmlReactParser(html, {
     },
 });
 
-export const Markdown = ({ string }) => parse(markdown.render(string));
+export const Markdown = ({ string, forceNewTab = false }) => parse(markdown.render(string), forceNewTab);
 
-export const MarkdownInline = ({ string, as: Component = 'p', ...props }) =>
-    <Component {...props}>{parse(markdown.renderInline(string))}</Component>;
+export const MarkdownInline = ({ string, forceNewTab = false, as: Component = 'p', ...props }) =>
+    <Component {...props}>{parse(markdown.renderInline(string), forceNewTab)}</Component>;
