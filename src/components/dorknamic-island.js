@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
-import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 const loadAnimation = (x) => keyframes`
   from {
@@ -119,7 +120,14 @@ const StyledNav = styled.nav`
   flex-flow: row wrap;
   opacity: 0;
   transition: all 0.2s ease;
-  transition-property: opacity, visibility;
+  transition-property: opacity, visibility, height;
+
+  &[aria-selected='true'] {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    display: none !important;
+  }
 
   a {
     transition: opacity 0.2s ease;
@@ -133,7 +141,7 @@ const StyledNav = styled.nav`
 const StyledHex = styled.svg`
   animation: ${flickerAnimation} 3s infinite;
   filter: ${(props) => props.theme.glowLiteDS};
-`
+`;
 
 const StyledIsland = styled.div`
   background: #0e0318;
@@ -147,6 +155,79 @@ const StyledIsland = styled.div`
   padding: 4px 4px 4px 12px;
   pointer-events: all;
   transition: all 0.2s ease;
+
+  .shutter-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 40px;
+    height: 100%;
+    gap: 16px;
+    justify-content: space-between;
+
+    &[aria-selected='true'] {
+    width: 100%;
+    flex-direction: reverse;
+
+  }
+
+      &:after {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+`;
+
+const StyledButton = styled.button`
+  height: 40px;
+  width: 40px;
+  border: 2px solid ${(props) => props.theme.text};
+  border-radius: 6px;
+  position: relative;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  filter: ${(props) => props.theme.glowLiteDS};
+  transition: 0.1s ease;
+  opacity: 0;
+  visibility: hidden;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+
+  &:before,
+  &:after {
+    position: absolute;
+    content: '';
+    width: 60%;
+    height: 2px;
+    background: ${(props) => props.theme.text};
+    z-index: 2;
+    transition 0.2s ease;
+  }
+
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+
+  &[aria-selected='true'] {
+    
+    :after,
+    :before {
+      transform: rotate(0deg);
+    }
+    :before {
+      margin-top: 8px;
+    }
+    :after {
+      margin-bottom: 8px;
+    }
+  }
 `;
 
 const StyledWrapper = styled.div`
@@ -180,11 +261,20 @@ const StyledWrapper = styled.div`
 `;
 
 const DorknamicIsland = (props) => {
+  const [open, setOpen] = useState(false);
+  const toggle = useCallback(() => setOpen((state) => !state), []);
+
+  const router = useRouter();
+  useEffect(() => {
+    setOpen(false);
+  }, [router.pathname]);
+
   const island = useRef(null);
   const init = useRef(null);
   const hex = useRef(null);
   const wrapper = useRef(null);
   const nav = useRef(null);
+  const hamburger = useRef(null);
 
   useEffect(() => {
     const scrollTrigger = () => {
@@ -193,19 +283,24 @@ const DorknamicIsland = (props) => {
       if (!hex.current) return;
       if (!wrapper.current) return;
       if (!nav.current) return;
+      if (!hamburger.current) return;
 
       if (window.scrollY > 100) {
         if (window.innerWidth > 600) {
           wrapper.current.classList.add('top');
           wrapper.current.style.top = '40px';
           wrapper.current.style.bottom = 'auto';
+          hamburger.current.style.display = 'none';
+          setOpen(false);
         } else {
           if (wrapper.current.classList.contains('top') === true) {
             wrapper.current.classList.remove('top'); //position reset
           }
+
           wrapper.current.classList.add('bottom');
           wrapper.current.style.top = 'auto';
           wrapper.current.style.bottom = '40px';
+          hamburger.current.style.display = 'flex';
         }
         island.current.style.borderRadius = '16px';
         island.current.style.width = '100%';
@@ -218,6 +313,8 @@ const DorknamicIsland = (props) => {
           nav.current.style.opacity = '1';
           nav.current.style.height = 'max-content';
           nav.current.style.visibility = 'visible';
+          hamburger.current.style.opacity = '1';
+          hamburger.current.style.visibility = 'visible';
         }, 200);
       } else {
         if (window.innerWidth > 600) {
@@ -245,6 +342,9 @@ const DorknamicIsland = (props) => {
         nav.current.style.visibility = 'hidden';
         nav.current.style.display = 'none';
         nav.current.style.height = '0';
+        hamburger.current.style.display = 'none';
+        hamburger.current.style.opacity = '0';
+        hamburger.current.style.visibility = 'hidden';
       }
     };
     scrollTrigger();
@@ -277,10 +377,15 @@ const DorknamicIsland = (props) => {
           />
         </StyledHex>
         <StyledInit ref={init}>Init</StyledInit>
-        <StyledNav ref={nav}>{props.children}</StyledNav>
-        <StyledShutter>
-          <div />
-        </StyledShutter>
+        <StyledNav ref={nav} aria-selected={open}>
+          {props.children}
+        </StyledNav>
+        <div className="shutter-wrapper" aria-selected={open}>
+          <StyledShutter>
+            <div />
+          </StyledShutter>
+          <StyledButton ref={hamburger} onClick={toggle} aria-selected={open} />
+        </div>
       </StyledIsland>
     </StyledWrapper>
   );
