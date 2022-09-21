@@ -332,6 +332,7 @@ const DorknamicIsland = (props) => {
           wrapper.current.classList.add('bottom');
           wrapper.current.style.top = 'auto';
           wrapper.current.style.bottom = '40px';
+          setOpen(false);
         }
         island.current.style.borderRadius = '100px';
         island.current.style.width = '200px';
