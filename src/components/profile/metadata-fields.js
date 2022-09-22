@@ -3,13 +3,14 @@ import countryList from 'country-list';
 
 import CheckRadio from './check-radio';
 
-const countries = Object.entries(countryList.getCodeList()).map(([ code, name ]) => ({
-  code,
-  name,
-})).sort((a, b) => a.name.localeCompare(b.name)).concat([{
+const countries = [{
   code: '',
   name: 'Prefer not to say',
-}]);
+}].concat(
+  Object.entries(countryList.getCodeList())
+    .map(([ code, name ]) => ({ code, name }))
+    .sort((a, b) => a.name.localeCompare(b.name)),
+);
 
 const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
   const [ fields, setFields ] = useState({});
