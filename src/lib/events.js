@@ -49,10 +49,19 @@ export const fetchEvents = async () => {
             location: event['Event Location'],
             date: `${date.getUTCMonth() + 1}/${date.getUTCDate()}`,
             time: `${(date.getUTCHours() % 12).toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')} ${date.getUTCHours() >= 12 ? 'PM' : 'AM'} ${event['Time Zone']}`,
+            timestamp: date.getTime(),
             format: event['Event Format'],
             rsvp: event['Event RSVP'],
         };
-    }).filter(event => event?.type?.length && event?.title && event?.location && event?.date && event?.time && event?.format?.length && event?.rsvp);
+    })
+      .filter(event => event?.type?.length
+        && event?.title
+        && event?.location
+        && event?.date
+        && event?.time
+        && event?.format?.length
+        && event?.rsvp)
+      .sort((a, b) => a.timestamp - b.timestamp);
 };
 
 export const fetchSpeakers = async () => {
