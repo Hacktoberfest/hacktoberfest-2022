@@ -29,13 +29,13 @@ const StyledYouTube = styled.div`
   display: flex;
   justify-content: center;
   margin: 64px 0 0;
-  
+
   ${MainWrapper} {
     width: 100%;
     max-width: 48rem;
     min-width: auto;
     min-height: auto;
-    
+
     .content {
       line-height: 0;
 
@@ -77,6 +77,7 @@ const StyledCouncilMembers = styled.div`
       summary {
         img {
           transform: rotate(0deg) translateY(-10px) !important;
+          filter: hue-rotate(140deg) contrast(150%) !important;
         }
       }
     }
@@ -172,20 +173,6 @@ const About = () => {
         <PixelComputer />
       </Hero>
 
-      {/* <Section type="sub_hero">
-        <div>
-          <Button as="a" href="#lore" color_bg="spark">
-            Hacktoberfest Lore
-          </Button>
-          <Button as="a" href="#low-or-non-code" color_bg="giga">
-            Low or Non Code Contributions
-          </Button>
-          <Button as="a" href="#council" color_bg="surf">
-            Advisory Council
-          </Button>
-        </div>
-      </Section> */}
-
       <Section type="sub_content" id="lore">
         <Divider />
         <Anchor href="#lore" />
@@ -208,7 +195,7 @@ const About = () => {
         </p>
 
         <StyledYouTube>
-          <Card primary="psybeam" secondary="surf">
+          <Card primary="giga" secondary="spark">
             <iframe
               src="https://www.youtube-nocookie.com/embed/BDUtORDL_k4?modestbranding=1&rel=0"
               title="YouTube video player: Open Source is Counting on You! Answer the Call, at Hacktoberfest 2022"

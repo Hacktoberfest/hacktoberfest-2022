@@ -17,7 +17,7 @@ const rotateAnimation = () => keyframes`
 
 const StyledDetails = styled.details`
   margin-bottom: 40px;
-  
+
   summary {
     display: flex;
     align-items: center;
@@ -108,7 +108,7 @@ const StyledDetails = styled.details`
 
 const StyledFakeDetails = styled.div`
   margin-bottom: 40px;
-  
+
   > :nth-child(1) {
     display: flex;
     align-items: center;
