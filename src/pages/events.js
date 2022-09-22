@@ -59,6 +59,8 @@ export const StyledListItem = styled.div`
     li {
       display: inline-block;
       margin: 0 40px 0 0;
+      word-wrap: break-word;
+      max-width: 100%;
 
       span {
         font-family: 'JetBrains Mono';
