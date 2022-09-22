@@ -161,7 +161,7 @@ const Wrapper = styled.header`
         opacity: 0.75;
         transition: 0.1s ease;
 
-        &:has(div) {
+        &[href='/auth/'] {
           opacity: 1;
           height: 40px;
 
