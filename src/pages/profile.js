@@ -29,7 +29,7 @@ const Profile = () => {
       setLoaded(false);
 
       // Fetch the user's avatar
-      setAvatar((await fetchUserAvatars(auth.user.id, auth.token))?.[0] || null);
+      setAvatar((await fetchUserAvatars(auth.user.id, auth.token).catch(() => {}))?.[0] || null);
 
       // Show the page
       setLoaded(true);
