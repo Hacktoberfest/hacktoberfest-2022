@@ -58,10 +58,10 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
     onChange({ ...value, metadata: { ...value.metadata, ...obj } });
   }, [ onChange, value ]);
 
-  // Provide a single checkbox to opt out of all marketing
-  const [ marketingDisabled, setMarketingDisabled ] = useState(false);
-  useEffect(() => {
-    if (!marketingDisabled || !fields.marketing) return;
+  // Allow a user to opt-out of all marketing with a single click
+  const marketingOptOut = useCallback((e) => {
+    e.preventDefault();
+    if (!e.target.checked) return;
 
     // Determine what we need to change
     const changes = fields.marketing.reduce((obj, item) => ({
@@ -74,7 +74,10 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
 
     // Update the values
     updateMetadata(changes);
-  }, [ marketingDisabled, fields, updateMetadata ]);
+  }, [ fields, updateMetadata, value ]);
+
+  // Check the opt-out checkbox automatically based on opt-in states
+  const marketingOptedOut = useMemo(() => fields.marketing?.every(key => !value.metadata[key.name]), [ fields, value ]);
 
   return (
     <>
@@ -198,15 +201,14 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
               name={meta.name}
               onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
               checked={value.metadata[meta.name]}
-              disabled={marketingDisabled}
             />
           ))}
 
           <CheckRadio
             title="I do not wish to receive any marketing updates from Hacktoberfest’s partners."
             name="marketing-disabled"
-            onChange={e => setMarketingDisabled(e.target.checked)}
-            checked={marketingDisabled}
+            onChange={marketingOptOut}
+            checked={marketingOptedOut}
           />
         </fieldset>
       )}
