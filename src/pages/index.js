@@ -26,6 +26,7 @@ import {
   StyledListItem,
 } from './events';
 import { FauxHero } from 'components/hero';
+import { PixelHeart } from 'components/pixels';
 
 // const StyledHero = styled.section`
 //   width: 100%;
@@ -106,8 +107,6 @@ const Home = () => {
         b="0.4"
         gradientLeft="#0049FF"
         gradientRight="#FF69B9"
-        gridTop="5%"
-        gradientTop="15%"
         height="600px"
         spacing_btm="0"
       >
@@ -274,11 +273,22 @@ const Home = () => {
         </Link>
       </Section>
 
-      {/* <FauxHero /> */}
+      <FauxHero
+        h="220"
+        s="8"
+        b="0.4"
+        gradientLeft="#E800FF"
+        gradientRight="#FF2020"
+        height="456px"
+        spacing_btm="-64px"
+        spacing_top="128px"
+      >
+        <PixelHeart />
+      </FauxHero>
       <Section type="center home_content">
-        <StyledHeart>
+        {/* <StyledHeart>
           <img src={osHeart.src} alt="" height="256" />
-        </StyledHeart>
+        </StyledHeart> */}
         <h2>Support Open Source</h2>
         <h5>
           Open-source projects, maintained by community-minded coders, make the

@@ -45,7 +45,7 @@ const StyledSection = styled.section`
     z-index: -2;
     mask-image: radial-gradient(
       ellipse 70% 80% at 50% 50%,
-      black 0%,
+      black -40%,
       transparent 60%
     );
   }
