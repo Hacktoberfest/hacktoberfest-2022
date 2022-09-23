@@ -142,6 +142,7 @@ const Report = () => {
                       name="provider"
                       value={provider}
                       onChange={e => setProvider(e.target.value)}
+                      disabled={submitting}
                       required
                     >
                       {Object.entries(providerMap).map(([ key, value ]) => (
@@ -158,11 +159,12 @@ const Report = () => {
                       name="repository"
                       value={repository}
                       onChange={e => setRepository(e.target.value)}
+                      disabled={submitting}
                       required
                     />
                   </fieldset>
 
-                  <Button onClick={submit} type="submit">Report</Button>
+                  <Button onClick={submit} type="submit" disabled={submitting}>Report</Button>
                 </form>
               </>
             )

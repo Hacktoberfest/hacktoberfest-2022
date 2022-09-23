@@ -12,7 +12,7 @@ const countries = [{
     .sort((a, b) => a.name.localeCompare(b.name)),
 );
 
-const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
+const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled = false }) => {
   const [ fields, setFields ] = useState({});
 
   // Group the metadata by category
@@ -62,6 +62,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
   // Allow a user to opt-out of all marketing with a single click
   const marketingOptOut = useCallback((e) => {
     e.preventDefault();
+    if (disabled) return;
     if (!e.target.checked) return;
 
     // Determine what we need to change
@@ -93,6 +94,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
                 name="email"
                 value={value.email}
                 onChange={e => updateEmail(e.target.value)}
+                disabled={disabled}
                 required
               >
                 {emails.map(email => (
@@ -113,6 +115,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
                   name={meta.name}
                   onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
                   checked={value.metadata[meta.name]}
+                  disabled={disabled}
                 />
               ))}
             </fieldset>
@@ -134,6 +137,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
                     [item.name]: meta.name === item.name && e.target.checked,
                   }), {}))}
                   checked={value.metadata[meta.name]}
+                  disabled={disabled}
                 />
               ))}
             </fieldset>
@@ -150,6 +154,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
                   name={meta.name}
                   onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
                   checked={value.metadata[meta.name]}
+                  disabled={disabled}
                 />
               ))}
             </fieldset>
@@ -162,6 +167,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
                 name="country"
                 value={value.metadata.country || ''}
                 onChange={e => updateMetadata({ country: e.target.value })}
+                disabled={disabled}
                 required
               >
                 {countries.map(country => (
@@ -185,6 +191,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
               name={meta.name}
               onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
               checked={value.metadata[meta.name]}
+              disabled={disabled}
             />
           ))}
         </fieldset>
@@ -202,6 +209,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
               name={meta.name}
               onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
               checked={value.metadata[meta.name]}
+              disabled={disabled}
             />
           ))}
 
@@ -210,6 +218,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
             name="marketing-disabled"
             onChange={marketingOptOut}
             checked={marketingOptedOut}
+            disabled={disabled}
           />
         </fieldset>
       )}
@@ -226,6 +235,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange }) => {
               name={meta.name}
               onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
               checked={value.metadata[meta.name]}
+              disabled={disabled}
               required
             />
           ))}

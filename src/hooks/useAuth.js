@@ -140,9 +140,11 @@ const useAuth = (redirect = true) => {
    */
 
   // Fetch the user from the API, identified by their token
-  const getUser = useCallback(async () => {
-    setState('loading');
-    setLoaded(prev => ({ ...prev, user: false }));
+  const getUser = useCallback(async (silent = false) => {
+    if (!silent) {
+      setState('loading');
+      setLoaded(prev => ({ ...prev, user: false }));
+    }
     console.log('useAuth: user loading', token);
 
     // Fetch the user from /users/@me
@@ -181,9 +183,11 @@ const useAuth = (redirect = true) => {
    */
 
   // Fetch the registration from the API
-  const getRegistration = useCallback(async () => {
-    setState('loading');
-    setLoaded(prev => ({ ...prev, registration: false }));
+  const getRegistration = useCallback(async (silent = false) => {
+    if (!silent) {
+      setState('loading');
+      setLoaded(prev => ({ ...prev, registration: false }));
+    }
     console.log('useAuth: registration loading', user.id, token);
 
     // Fetch the registration from /events/:id/registrations/:id

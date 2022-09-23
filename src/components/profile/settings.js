@@ -15,7 +15,7 @@ import Button from '../button';
 import Loader from '../loader';
 import MetadataFields from './metadata-fields';
 
-const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
+const Settings = ({ auth, isEdit = false }) => {
   // Track the data we need to render
   const [ loaded, setLoaded ] = useState(null);
   const loading = useRef(false);
@@ -29,6 +29,11 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
     metadata: {},
   });
 
+  // Track the state of the form
+  const [ submitting, setSubmitting ] = useState(false);
+  const [ success, setSuccess ] = useState(false);
+  const [ error, setError ] = useState(null);
+
   // Handle fetching OAuth accounts
   const fetchOAuth = useCallback(async () => {
     setOauth(await fetchUserOAuth(auth.user.id, auth.token).then(data => data.reduce((obj, item) => ({
@@ -39,15 +44,21 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
 
   // Handle linking OAuth accounts
   const linkOAuth = useCallback(async provider => {
-    // TODO: Error handling?
-    const link = await createUserOAuth(auth.user.id, auth.token, provider);
+    const link = await createUserOAuth(auth.user.id, auth.token, provider).catch(async err => {
+      const data = await err.response.json().catch(() => null);
+      console.error(err, data);
+      setError('An unknown error occurred while linking your account. Please try again later.');
+    });
     window.location.href = link.redirect;
   }, [ auth.user?.id, auth.token ]);
 
   // Handle unlinking OAuth accounts
   const unlinkOAuth = useCallback(async provider => {
-    // TODO: Error handling?
-    await removeUserOAuth(auth.user.id, auth.token, provider);
+    await removeUserOAuth(auth.user.id, auth.token, provider).catch(async err => {
+      const data = await err.response.json().catch(() => null);
+      console.error(err, data);
+      setError('An unknown error occurred while unlinking your account. Please try again later.');
+    });
     await fetchOAuth();
   }, [ auth.user?.id, auth.token ]);
 
@@ -95,30 +106,48 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
 
   // Handle form submission
   const form = useRef();
+  const top = useRef();
   const submit = useCallback(async e => {
     e.preventDefault();
+    if (submitting) return;
+    setSubmitting(true);
+    setError(null);
+    setSuccess(false);
 
     // Check the form is valid, fail if not
     // TODO: Aid the native error reporting?
     if (!form.current?.reportValidity()) return;
 
-    // Update the user email if needed
-    // TODO: Error handling?
-    if (data.email !== auth.user.email) await updateUser(auth.user.id, auth.token, { email: data.email });
+    try {
+      // Update the user email if needed
+      if (data.email !== auth.user.email) await updateUser(auth.user.id, auth.token, { email: data.email });
 
-    // Create/update the registration
-    // TODO: Error handling?
-    const registrationHandler = isEdit ? updateRegistration : createRegistration;
-    await registrationHandler(auth.user.id, auth.token, { metadata: data.metadata });
+      // Create/update the registration
+      const registrationHandler = isEdit ? updateRegistration : createRegistration;
+      await registrationHandler(auth.user.id, auth.token, { metadata: data.metadata });
 
-    // Reload the auth user + registration
-    // TODO: Error handling?
-    if (data.email !== auth.user.email) await auth.getUser();
-    await auth.getRegistration();
+      // Reload the auth user + registration (silently when editing)
+      if (data.email !== auth.user.email) await auth.getUser(isEdit);
+      await auth.getRegistration(isEdit);
 
-    // Call the save handler
-    if (typeof onSave === 'function') onSave();
-  }, [ data, auth, isEdit, onSave ]);
+      // Done
+      setSuccess(true);
+      top.current?.scrollIntoView();
+    } catch (err) {
+      // Log any errors
+      const data = await err.response.json().catch(() => null);
+      console.error(err, data);
+      setError('An unknown error occurred while saving your registration. Please try again later.');
+    } finally {
+      setSubmitting(false);
+    }
+  }, [ submitting, data, auth, isEdit ]);
+
+  const logout = useCallback(e => {
+    e.preventDefault();
+    if (submitting) return;
+    auth.reset();
+  }, [ submitting, auth.reset ]);
 
   // Don't render anything until we have the data we need
   if (!loaded) return <Loader message={isEdit ? ">> Loading /usr/lib/edit..." : ">> Loading /usr/lib/register..."} />;
@@ -126,6 +155,22 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
   // Render the user's settings
   return (
     <>
+      <div ref={top} />
+
+      {success && (
+        <>
+          <p>[ Success ]</p>
+          <p>Your Hacktoberfest registration has been saved.</p>
+        </>
+      )}
+
+      {error && (
+        <>
+          <p>[ Error ]</p>
+          <p>{error}</p>
+        </>
+      )}
+
       {isEdit && (
         <div>
           {oauth.github
@@ -170,13 +215,11 @@ const Settings = ({ auth, isEdit = false, onSave = undefined }) => {
           value={data}
           onChange={setData}
           exclude={isEdit ? ["agree"] : []}
+          disabled={submitting}
         />
 
-        {!isEdit && <Button onClick={e => {
-          e.preventDefault();
-          auth.reset();
-        }}>Logout</Button>}
-        <Button onClick={submit} type="submit">{isEdit ? "Save" : "Register"}</Button>
+        {!isEdit && <Button onClick={logout} disabled={submitting}>Logout</Button>}
+        <Button onClick={submit} type="submit" disabled={submitting}>{isEdit ? "Save" : "Register"}</Button>
       </form>
     </>
   );
