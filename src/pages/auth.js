@@ -6,6 +6,7 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Button from 'components/button';
 import Loader from 'components/loader';
+import { FauxHero } from 'components/hero';
 
 import useAuth from 'hooks/useAuth';
 
@@ -19,34 +20,52 @@ const Auth = () => {
     <>
       <Head>
         <title>Auth | Hacktoberfest 2022</title>
-        <meta name="twitter:title" key="twitterTitle" content="Auth | Hacktoberfest 2022" />
-        <meta property="og:title" key="opengraphTitle" content="Auth | Hacktoberfest 2022" />
+        <meta
+          name="twitter:title"
+          key="twitterTitle"
+          content="Auth | Hacktoberfest 2022"
+        />
+        <meta
+          property="og:title"
+          key="opengraphTitle"
+          content="Auth | Hacktoberfest 2022"
+        />
       </Head>
 
       {auth.loading ? (
         <Section type="sub_content">
-          <Divider />
-          <Anchor href="#" />
           <Loader message=">> Loading /usr/lib/profile..." />
         </Section>
       ) : (
-        <Section type="sub_content">
-          <Divider />
-          <Anchor href="#" />
-
+        <FauxHero
+          h="220"
+          s="8"
+          b="0.4"
+          gradientLeft="#E800FF"
+          gradientRight="#FF2020"
+          height="600px"
+          // spacing_top="128px"
+        >
           {!!(router.query.error_code && router.query.error_message) && (
             <p>
-              <strong>It looks like something went wrong when authenticating you.</strong>
+              <strong>
+                It looks like something went wrong when authenticating you.
+              </strong>
               <br />
-              <code>{router.query.error_code}: {router.query.error_message}</code>
+              <code>
+                {router.query.error_code}: {router.query.error_message}
+              </code>
             </p>
           )}
 
-          <Button special as="a" href={oauth('github')}>Start Hacking with GitHub</Button>
-          <Button special as="a" href={oauth('gitlab')}>Start Hacking with GitLab</Button>
-        </Section>
+          <Button special as="a" href={oauth('github')}>
+            Start Hacking with GitHub
+          </Button>
+          <Button special as="a" href={oauth('gitlab')}>
+            Start Hacking with GitLab
+          </Button>
+        </FauxHero>
       )}
-
     </>
   );
 };

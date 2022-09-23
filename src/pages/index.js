@@ -18,7 +18,6 @@ import Loader from 'components/loader';
 import useCountdown from 'hooks/useCountdown';
 
 import osGrid from 'assets/img/os-grid.svg';
-import osHeart from 'assets/img/os-heart.svg';
 
 import {
   StyledEventsListItemEyebrow,
@@ -27,31 +26,6 @@ import {
 } from './events';
 import { FauxHero } from 'components/hero';
 import { PixelHeart } from 'components/pixels';
-
-// const StyledHero = styled.section`
-//   width: 100%;
-
-//   .content {
-//     margin: 0 auto;
-//     display: flex;
-//     justify-content: center;
-//     padding: 64px 0;
-//     align-items: center;
-//     max-width: 1312px;
-//     position: relative;
-
-//     &:before {
-//       position: absolute;
-//       left: 0;
-//       top: 0;
-//       content: '';
-//       background: url(${grid.src}) no-repeat center center;
-//       background-size: cover;
-//       width: 100%;
-//       height: 456px;
-//     }
-//   }
-// `;
 
 const flash = () => keyframes`
   from {
@@ -82,15 +56,6 @@ const StyledCountdownContainer = styled.div`
     h5 {
       padding-bottom: 4px;
     }
-  }
-`;
-
-const StyledHeart = styled.div`
-  background: url(${osGrid.src}) center center / cover no-repeat;
-  padding: 64px;
-
-  img {
-    max-width: 100%;
   }
 `;
 
@@ -286,9 +251,6 @@ const Home = () => {
         <PixelHeart />
       </FauxHero>
       <Section type="center home_content">
-        {/* <StyledHeart>
-          <img src={osHeart.src} alt="" height="256" />
-        </StyledHeart> */}
         <h2>Support Open Source</h2>
         <h5>
           Open-source projects, maintained by community-minded coders, make the
