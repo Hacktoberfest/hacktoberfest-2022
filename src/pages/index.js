@@ -19,38 +19,38 @@ import useCountdown from 'hooks/useCountdown';
 
 import osGrid from 'assets/img/os-grid.svg';
 import osHeart from 'assets/img/os-heart.svg';
-import grid from 'assets/img/grid.svg';
 
 import {
   StyledEventsListItemEyebrow,
   StyledList,
   StyledListItem,
 } from './events';
+import { FauxHero } from 'components/hero';
 
-const StyledHero = styled.section`
-  width: 100%;
+// const StyledHero = styled.section`
+//   width: 100%;
 
-  .content {
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    padding: 64px 0;
-    align-items: center;
-    max-width: 1312px;
-    position: relative;
+//   .content {
+//     margin: 0 auto;
+//     display: flex;
+//     justify-content: center;
+//     padding: 64px 0;
+//     align-items: center;
+//     max-width: 1312px;
+//     position: relative;
 
-    &:before {
-      position: absolute;
-      left: 0;
-      top: 0;
-      content: '';
-      background: url(${grid.src}) no-repeat center center;
-      background-size: cover;
-      width: 100%;
-      height: 456px;
-    }
-  }
-`;
+//     &:before {
+//       position: absolute;
+//       left: 0;
+//       top: 0;
+//       content: '';
+//       background: url(${grid.src}) no-repeat center center;
+//       background-size: cover;
+//       width: 100%;
+//       height: 456px;
+//     }
+//   }
+// `;
 
 const flash = () => keyframes`
   from {
@@ -94,18 +94,28 @@ const StyledHeart = styled.div`
 `;
 
 const Home = () => {
-  const [ days, hours, minutes, seconds ] = useCountdown(new Date(registrationStart).getTime());
+  const [days, hours, minutes, seconds] = useCountdown(
+    new Date(registrationStart).getTime()
+  );
 
   return (
     <>
-      <StyledHero>
-        <div className="content">
-          <Logo width="80px" />
-        </div>
-      </StyledHero>
+      <FauxHero
+        h="205"
+        s="8"
+        b="0.4"
+        gradientLeft="#0049FF"
+        gradientRight="#FF69B9"
+        gridTop="5%"
+        gradientTop="15%"
+        height="600px"
+        spacing_btm="0"
+      >
+        <Logo width="80px" />
+      </FauxHero>
       <Section spacing_top="64px">
         <StyledCountdownContainer>
-          <p className="title"> {'>>'} Time to launch</p>
+          <p className="title"> {'>>'} Launch initiated</p>
           <Column>
             <div className="ticker">
               <p>Days:</p>
@@ -128,18 +138,18 @@ const Home = () => {
         <Divider spacing_top="40px" spacing_btm="64px" />
       </Section>
       <Marquee
-        text1="systems critical"
-        text2="systems critical"
+        text1="launch sequence initiated!"
+        text2="launch sequence initiated!"
         direction="forwards"
       />
       <Marquee
-        text1="registration begins"
-        text2="sept 26"
+        text1="it's time to hack"
+        text2="it's time to hack"
         direction="reverse"
       />
       <Section spacing_top="64px">
         <Repeater spacing_btm="64px" />
-        <Loader message=">> Boot Dialogue: registration begins september 26" />
+        <Loader message=">> Boot Dialogue: registration is now open!" />
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">
@@ -167,8 +177,8 @@ const Home = () => {
             <Card primary="psybeam" secondary="surf">
               <h3>Preptember</h3>
               <p>
-                September is the perfect time to prepare for Hacktoberfest. Get
-                a jump start by finding projects to contribute to, adding the
+                Now is the perfect time to prepare for Hacktoberfest. Get a jump
+                start by finding projects to contribute to, adding the
                 ‘hacktoberfest’ tag to your projects, or familiarizing yourself
                 with Git.
               </p>
@@ -264,6 +274,7 @@ const Home = () => {
         </Link>
       </Section>
 
+      {/* <FauxHero /> */}
       <Section type="center home_content">
         <StyledHeart>
           <img src={osHeart.src} alt="" height="256" />
