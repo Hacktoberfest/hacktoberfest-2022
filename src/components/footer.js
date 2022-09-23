@@ -13,17 +13,7 @@ const StyledFooter = styled.footer`
 
   @media (max-width: 600px) {
     padding: 0 24px;
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    background-size: cover;
-    width: 100%;
-    height: 200%;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
+    margin-bottom: 200px;
   }
 
   .wrapper {
@@ -151,13 +141,31 @@ const Footer = () => {
           <dl>
             <dt>Follow</dt>
             <dd>
-              <a href="https://discord.gg/hacktoberfest" target="_blank" rel="noreferrer noopener">Discord</a>
+              <a
+                href="https://discord.gg/hacktoberfest"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Discord
+              </a>
             </dd>
             <dd>
-              <a href="https://twitter.com/hacktoberfest" target="_blank" rel="noreferrer noopener">Twitter</a>
+              <a
+                href="https://twitter.com/hacktoberfest"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Twitter
+              </a>
             </dd>
             <dd>
-              <a href="https://reddit.com/r/hacktoberfest" target="_blank" rel="noreferrer noopener">Reddit</a>
+              <a
+                href="https://reddit.com/r/hacktoberfest"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Reddit
+              </a>
             </dd>
           </dl>
 
