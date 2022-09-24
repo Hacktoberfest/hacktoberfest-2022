@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
@@ -10,12 +11,15 @@ import {
   fetchUserEmails,
   updateUser,
 } from 'lib/api';
+import { providerMap } from 'lib/config';
 
 import Button from '../button';
 import Loader from '../loader';
 import MetadataFields from './metadata-fields';
 
 const Settings = ({ auth, isEdit = false }) => {
+  const router = useRouter();
+
   // Track the data we need to render
   const [ loaded, setLoaded ] = useState(null);
   const loading = useRef(false);
@@ -43,21 +47,26 @@ const Settings = ({ auth, isEdit = false }) => {
   }, [ auth.user?.id, auth.token ]);
 
   // Handle linking OAuth accounts
-  const linkOAuth = useCallback(async provider => {
+  const linkOAuth = useCallback(async (e, provider) => {
+    e.preventDefault();
+
     const link = await createUserOAuth(auth.user.id, auth.token, provider).catch(async err => {
       const data = await err.response.json().catch(() => null);
       console.error(err, data);
-      setError('An unknown error occurred while linking your account. Please try again later.');
+      setError(`An unknown error occurred while linking your ${providerMap[provider]} account. Please try again later.`);
     });
     window.location.href = link.redirect;
   }, [ auth.user?.id, auth.token ]);
 
   // Handle unlinking OAuth accounts
-  const unlinkOAuth = useCallback(async provider => {
+  const unlinkOAuth = useCallback(async (e, provider) => {
+    e.preventDefault();
+    if (!confirm(`Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`)) return;
+
     await removeUserOAuth(auth.user.id, auth.token, provider).catch(async err => {
       const data = await err.response.json().catch(() => null);
       console.error(err, data);
-      setError('An unknown error occurred while unlinking your account. Please try again later.');
+      setError(`An unknown error occurred while unlinking your ${providerMap[provider]} account. Please try again later.`);
     });
     await fetchOAuth();
   }, [ auth.user?.id, auth.token ]);
@@ -174,34 +183,22 @@ const Settings = ({ auth, isEdit = false }) => {
       {isEdit && (
         <div>
           {oauth.github
-            ? (oauth.gitlab && (
-              <Button onClick={e => {
-                e.preventDefault();
-                unlinkOAuth('github').then();
-              }}>
+            ? (!!oauth.gitlab && router.query.unlink === 'enabled' && (
+              <Button onClick={e => unlinkOAuth(e, 'github')}>
                 Unlink GitHub account (@{oauth.github.providerUsername})
               </Button>
             )) : (
-              <Button onClick={e => {
-                e.preventDefault();
-                linkOAuth('github').then();
-              }}>
+              <Button onClick={e => linkOAuth(e, 'github')}>
                 Link GitHub account
               </Button>
             )}
           {oauth.gitlab
-            ? (oauth.github && (
-              <Button onClick={e => {
-                e.preventDefault();
-                unlinkOAuth('gitlab').then();
-              }}>
+            ? (!!oauth.github && router.query.unlink === 'enabled' && (
+              <Button onClick={e => unlinkOAuth(e, 'gitlab')}>
                 Unlink GitLab account (@{oauth.gitlab.providerUsername})
               </Button>
             )) : (
-              <Button onClick={e => {
-                e.preventDefault();
-                linkOAuth('gitlab').then();
-              }}>
+              <Button onClick={e => linkOAuth(e, 'gitlab')}>
                 Link GitLab account
               </Button>
             )}
