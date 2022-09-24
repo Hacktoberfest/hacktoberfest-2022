@@ -38,7 +38,10 @@ const Report = () => {
 
     // Check the form is valid, fail if not
     // TODO: Aid the native error reporting?
-    if (!form.current?.reportValidity()) return;
+    if (!form.current?.reportValidity()) {
+      setSubmitting(false);
+      return;
+    };
 
     // Create the report
     await createExcludedRepository(auth.user.id, auth.token, { provider, name: repository })

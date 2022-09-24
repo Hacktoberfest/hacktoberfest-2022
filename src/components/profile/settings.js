@@ -125,7 +125,10 @@ const Settings = ({ auth, isEdit = false }) => {
 
     // Check the form is valid, fail if not
     // TODO: Aid the native error reporting?
-    if (!form.current?.reportValidity()) return;
+    if (!form.current?.reportValidity()) {
+      setSubmitting(false);
+      return;
+    };
 
     try {
       // Update the user email if needed
@@ -141,14 +144,25 @@ const Settings = ({ auth, isEdit = false }) => {
 
       // Done
       setSuccess(true);
-      top.current?.scrollIntoView();
     } catch (err) {
-      // Log any errors
       const data = await err.response.json().catch(() => null);
       console.error(err, data);
+
+      // Handle known errors we can show the user
+      if (data?.code === 'InvalidArgument' && data?.message === 'User is excluded from registering for given event') {
+        setError(`Sorry, you've been disqualified from Hacktoberfest and cannot register.`);
+        return;
+      }
+      if (data?.code === 'InvalidArgument' && data?.message === 'User has previously registered for given event') {
+        setError(`Sorry, you've already registered for this event before and cannot register again.`);
+        return;
+      }
+
+      // Handle unknown errors
       setError('An unknown error occurred while saving your registration. Please try again later.');
     } finally {
       setSubmitting(false);
+      top.current?.scrollIntoView();
     }
   }, [ submitting, data, auth, isEdit ]);
 

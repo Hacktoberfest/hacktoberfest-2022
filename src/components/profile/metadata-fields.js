@@ -168,7 +168,6 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
                 value={value.metadata.country || ''}
                 onChange={e => updateMetadata({ country: e.target.value })}
                 disabled={disabled}
-                required
               >
                 {countries.map(country => (
                   <option key={country.code} value={country.code}>{country.name}</option>
