@@ -124,8 +124,8 @@ const Settings = ({ auth, isEdit = false }) => {
         return;
       }
 
-      // Default to the user's current email
-      setData((prev) => ({ ...prev, email: auth.user.email }));
+      // Default to the user's current name/email
+      setData((prev) => ({ ...prev, name: auth.user.name, email: auth.user.email }));
 
       // Fetch the user's linked OAuth accounts
       await fetchOAuth();
@@ -163,6 +163,7 @@ const Settings = ({ auth, isEdit = false }) => {
   }, [
     loaded,
     auth.user?.id,
+    auth.user?.name,
     auth.user?.email,
     auth.token,
     auth.registration?.metadata,
@@ -188,9 +189,10 @@ const Settings = ({ auth, isEdit = false }) => {
       }
 
       try {
-        // Update the user email if needed
-        if (data.email !== auth.user.email)
-          await updateUser(auth.user.id, auth.token, { email: data.email });
+        // Update the user name/email if needed
+        const userChanged = data.name !== auth.user.name || data.email !== auth.user.email;
+        if (userChanged)
+          await updateUser(auth.user.id, auth.token, { name: data.name, email: data.email });
 
         // Create/update the registration
         const registrationHandler = isEdit
@@ -201,7 +203,7 @@ const Settings = ({ auth, isEdit = false }) => {
         });
 
         // Reload the auth user + registration (silently when editing)
-        if (data.email !== auth.user.email) await auth.getUser(isEdit);
+        if (userChanged) await auth.getUser(isEdit);
         await auth.getRegistration(isEdit);
 
         // Done
@@ -245,10 +247,9 @@ const Settings = ({ auth, isEdit = false }) => {
   const logout = useCallback(
     (e) => {
       e.preventDefault();
-      if (submitting) return;
       auth.reset();
     },
-    [submitting, auth.reset]
+    [auth.reset]
   );
 
   // Don't render anything until we have the data we need
@@ -315,7 +316,7 @@ const Settings = ({ auth, isEdit = false }) => {
         />
 
         {!isEdit && (
-          <Button onClick={logout} disabled={submitting}>
+          <Button onClick={logout}>
             Logout
           </Button>
         )}
