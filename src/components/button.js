@@ -12,8 +12,14 @@ export const StyledButton = styled.button`
   margin: ${(props) => props.spacing_all};
   display: inline-block;
   max-width: 100%;
+  height: 40px;
+  transition: 0.2s ease;
 
   &.wrapper_special {
+    filter: ${(props) => props.theme.glowLiteDS};
+  }
+
+  &:hover {
     filter: ${(props) => props.theme.glowLiteDS};
   }
   

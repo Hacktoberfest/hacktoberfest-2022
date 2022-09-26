@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import Section from 'components/section';
 import Button from 'components/button';
@@ -10,6 +10,17 @@ import { FauxHero } from 'components/hero';
 import useAuth from 'hooks/useAuth';
 
 import { oauth } from 'lib/api';
+
+const loadAnim = (x) => keyframes`
+  from {
+    transform: translateY(80px) rotate(${x});
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+`;
 
 const StyledCard = styled.div`
   width: 304px;
@@ -29,6 +40,10 @@ const StyledCard = styled.div`
   text-align: center;
   margin: 40px;
   transition: box-shadow 0.2s ease;
+  transform: translateY(80px);
+  opacity: 0;
+  animation: ${(props) => loadAnim(props.rotate)} 0.8s ${(props) => props.delay}
+    ease forwards;
 
   svg {
     width: 100%;
@@ -51,6 +66,9 @@ const StyledCard = styled.div`
   }
 
   @media (max-width: 872px) {
+    &:first-of-type {
+      margin-top: 104px;
+    }
     margin: 40px 0px 0px;
     width: 100%;
     flex-flow: column wrap;
@@ -58,8 +76,40 @@ const StyledCard = styled.div`
 `;
 
 const Card = (props) => {
-  return <StyledCard color={props.color}>{props.children}</StyledCard>;
+  return (
+    <StyledCard color={props.color} delay={props.delay} rotate={props.rotate}>
+      {props.children}
+    </StyledCard>
+  );
 };
+
+const typingAnim = () => keyframes`
+  from {
+    width: 0ch;
+  }
+`;
+
+const StyledP = styled.p`
+  position: absolute;
+  top: 40px;
+  left: 0;
+  display: flex;
+  line-height: 40px;
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    width: ${(props) => props.width}ch;
+    animation: ${typingAnim} 1.5s steps(${(props) => props.width});
+  }
+`;
+
+const StyledHeader = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 0;
+  height: 40px;
+`;
 
 const Auth = () => {
   const auth = useAuth();
@@ -82,31 +132,41 @@ const Auth = () => {
       </Head>
 
       {auth.loading ? (
-        <Section type="sub_content">
-          <Loader message=">> Loading /usr/lib/profile..." />
-        </Section>
+        <FauxHero
+          h="220"
+          s="8"
+          b="0.4"
+          gradientLeft="#E800FF"
+          gradientRight="#0F00FF"
+          height="600px"
+        >
+          <StyledHeader>
+            <Loader message=">> Authorization in progress..." />
+          </StyledHeader>
+        </FauxHero>
       ) : (
         <FauxHero
           h="220"
           s="8"
           b="0.4"
           gradientLeft="#E800FF"
-          gradientRight="#FF2020"
+          gradientRight="#0F00FF"
           height="600px"
         >
           {!!(router.query.error_code && router.query.error_message) && (
             <p>
-              <strong>
-                It looks like something went wrong when authenticating you.
-              </strong>
+              <strong>ERROR: Authentication process failed.</strong>
               <br />
               <code>
                 {router.query.error_code}: {router.query.error_message}
               </code>
             </p>
           )}
+          <StyledP width="25">
+            {'>>'} Boot dialogue: <span>Initiating Pilot protocol</span>_
+          </StyledP>
 
-          <Card color="psybeam">
+          <Card color="psybeam" rotate="-6deg">
             <svg
               width="94"
               height="94"
@@ -181,7 +241,7 @@ const Auth = () => {
               Initiate
             </Button>
           </Card>
-          <Card color="spark">
+          <Card color="spark" rotate="6deg" delay="0.3s">
             <svg
               width="98"
               height="94"

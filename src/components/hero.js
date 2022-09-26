@@ -86,6 +86,7 @@ const StyledContent = styled.div`
   align-items: center;
   height: inherit;
   flex-flow: row wrap;
+  position: inherit;
 `;
 
 export const FauxHero = (props) => {

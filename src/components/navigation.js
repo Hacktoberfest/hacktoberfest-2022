@@ -136,7 +136,7 @@ const Wrapper = styled.header`
       padding: 40px 32px;
     }
 
-    @media (min-width: 872px) {
+    @media (min-width: 964px) {
       &[aria-selected='true'] {
         visibility: hidden;
       }
@@ -163,7 +163,6 @@ const Wrapper = styled.header`
 
         &[href='/auth/'] {
           opacity: 1;
-          height: 40px;
 
           &:hover {
             text-shadow: none;
@@ -177,7 +176,7 @@ const Wrapper = styled.header`
       }
 
       a {
-        @media (max-width: 872px) {
+        @media (max-width: 964px) {
           display: none;
         }
       }
@@ -185,7 +184,7 @@ const Wrapper = styled.header`
       .menu_toggle {
         display: none;
 
-        @media (max-width: 872px) {
+        @media (max-width: 964px) {
           display: block;
         }
       }
@@ -256,9 +255,6 @@ const Navigation = () => {
       new Date() < new Date(profileEnd),
     []
   );
-
-  // const isHome = useMemo(() => router.pathname === '/', [router.pathname]);
-  // const themeToggle = useThemeToggle();
 
   return (
     <Wrapper>

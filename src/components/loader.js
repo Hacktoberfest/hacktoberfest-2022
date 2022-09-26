@@ -1,18 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
 import styled, { css } from 'styled-components';
 
+const StyledLoaderWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 24px;
+  height: 40px;
+`;
+
 const StyledLoader = styled.p`
   font-family: 'JetBrains Mono', monospace;
   font-variant-ligatures: none;
   margin: 0;
 
-  ${({ animated }) => animated && css`
-    margin: 16px 0 0;
-  
-    @media (prefers-reduced-motion) {
-      display: none;
-    }
-  `}
+  ${({ animated }) =>
+    animated &&
+    css`
+      margin: 0;
+
+      @media (prefers-reduced-motion) {
+        display: none;
+      }
+    `}
 `;
 
 const Loader = ({ message }) => {
@@ -47,10 +57,11 @@ const Loader = ({ message }) => {
   }, [frames]);
 
   return (
-    <>
+    // <div style={{ display: 'block' }}>
+    <StyledLoaderWrapper>
       <StyledLoader>{message}</StyledLoader>
       <StyledLoader animated>{frames[frame]}</StyledLoader>
-    </>
+    </StyledLoaderWrapper>
   );
 };
 
