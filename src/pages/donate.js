@@ -8,52 +8,10 @@ import fetchProjects from 'lib/donate';
 import Button, { StyledButton } from 'components/button';
 import Collapse from 'components/collapse';
 import Section from 'components/section';
-
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-
-import { StyledList, StyledListItem } from './events';
 import { PixelCoin } from 'components/pixels';
 import Hero from 'components/hero';
 
-export const StyledSearch = styled.input`
-  padding: 16px;
-  width: 100%;
-  height: 56px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 226, 125, 0.1) 0%,
-    rgba(100, 227, 255, 0.1) 50.52%,
-    rgba(145, 146, 255, 0.1) 100%
-  );
-  border: 1px solid ${(props) => props.theme.text};
-  border-radius: 4px;
-  color: ${(props) => props.theme.text};
-
-  &::placeholder {
-    color: ${(props) => props.theme.text};
-  }
-`;
-
-export const StyledSubText = styled.div`
-  margin: 38px 0 72px;
-  width: 864px;
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  text-transform: uppercase;
-  color: ${(props) => props.theme.text};
-  opacity: 0.75;
-  text-shadow: ${(props) => props.theme.smallTextShadow};
-
-  ${mQ(bp.tablet, 'max')} {
-    width: 100%;
-  }
-`;
+import { StyledList, StyledListItem, StyledSearch, StyledSubText } from './events';
 
 export const StyledProject = styled(StyledListItem)`
   details {

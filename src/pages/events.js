@@ -74,6 +74,38 @@ export const StyledListItem = styled.div`
   }
 `;
 
+export const StyledSubText = styled.p`
+  margin: 32px 0;
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: uppercase;
+  color: ${(props) => props.theme.text};
+  opacity: 0.75;
+  text-shadow: ${(props) => props.theme.smallTextShadow};
+`;
+
+export const StyledSearch = styled.input`
+  padding: 16px;
+  width: 100%;
+  height: 56px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 226, 125, 0.1) 0%,
+    rgba(100, 227, 255, 0.1) 50.52%,
+    rgba(145, 146, 255, 0.1) 100%
+  );
+  border: 1px solid ${(props) => props.theme.text};
+  border-radius: 4px;
+  color: ${(props) => props.theme.text};
+
+  &::placeholder {
+    color: ${(props) => props.theme.text};
+  }
+`;
+
 const typesToColors = {
   virtual: 'giga',
   'premium-partner': 'psybeam',
@@ -83,10 +115,20 @@ const typesToColors = {
 };
 
 const Events = ({ events, speakers }) => {
+  const [eventsSearch, setEventsSearch] = useState('');
+  const eventsFiltered = useMemo(
+    () =>
+      events.filter((event) =>
+        event.title.toLowerCase().includes(eventsSearch.toLowerCase())
+        || event.location.toLowerCase().includes(eventsSearch.toLowerCase())
+      ),
+    [events, eventsSearch]
+  );
+
   const [eventsCount, setEventsCount] = useState(3);
   const eventsList = useMemo(
-    () => events.slice(0, eventsCount),
-    [events, eventsCount]
+    () => eventsFiltered.slice(0, eventsCount),
+    [eventsFiltered, eventsCount]
   );
 
   return (
@@ -144,14 +186,23 @@ const Events = ({ events, speakers }) => {
         <Divider />
         <Anchor href="#events" />
         <h2>Global Events</h2>
-        <p>
+        <StyledSubText>
           Hacktoberfest events are happening all month long so you can join your
           friends day or night, from dusk to dawn, as you work to complete your
           pull/merge requests.
-        </p>
+        </StyledSubText>
+        <StyledSearch
+          type="text"
+          placeholder="[ Search events... ]"
+          value={eventsSearch}
+          onChange={(e) => setEventsSearch(e.target.value)}
+        />
         <StyledList>
-          {eventsList.length === 0 && (
+          {events.length === 0 && (
             <p>[ Sorry, there are no events listed currently ]</p>
+          )}
+          {events.length > 0 && eventsList.length === 0 && (
+            <p>[ Sorry, no events matched your search query ]</p>
           )}
           {eventsList.map((event) => (
             <StyledListItem key={event.title}>
@@ -190,7 +241,7 @@ const Events = ({ events, speakers }) => {
               </ul>
             </StyledListItem>
           ))}
-          {eventsCount < events.length && (
+          {eventsCount < eventsFiltered.length && (
             <Button
               special
               onClick={() => setEventsCount((count) => count + 3)}
