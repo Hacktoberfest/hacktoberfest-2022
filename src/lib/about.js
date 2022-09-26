@@ -1,5 +1,4 @@
 import lisa from 'assets/img/council/lisa.jpeg';
-import alison from 'assets/img/council/alison.jpg';
 import marlene from 'assets/img/council/marlene.jpg';
 import joe from 'assets/img/council/joe.jpeg';
 import duane from 'assets/img/council/duane.jpg';
@@ -63,14 +62,6 @@ export const council = [
         url: 'http://chainguard.dev',
       },
     ],
-  },
-  {
-    name: 'Alison Dowdney',
-    image: alison.src,
-    role: 'Developer Advocate at Weaveworks',
-    skills: 'Open Source, Kubernetes, GitOps',
-    bio: 'Alison Dowdney is co-chair of Kubernetes SIG Contributor Experience, a CNCF Ambassador, a Flux maintainer, and a Developer Advocate at Weaveworks. Alison lives in London and tweets @AlisonDowdney',
-    links: [],
   },
   {
     name: 'Marlene Mhangami',
