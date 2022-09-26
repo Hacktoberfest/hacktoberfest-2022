@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 import { fetchGiftCodes, fetchPullRequests, triggerIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
 
-import Loader from '../loader';
+import Loader from 'components/loader';
 import Section from 'components/section';
+
 import PullRequest from './pull-request';
-import styled from 'styled-components';
 
 const StyledProgressWrapper = styled.div`
   h1,
@@ -56,7 +57,11 @@ const StyledNotification = styled.div`
   border-radius: 24px;
 
   h5 {
-    margin-bottom: 8px;
+    margin: 0 0 8px;
+  }
+  
+  p {
+    margin: 0 0 4px;
   }
 `;
 
@@ -140,12 +145,12 @@ const Progress = ({ auth }) => {
             ? ` + ${(acceptedCount - 4).toLocaleString()}`
             : ''}{' '}
           / 4
-          {!!waitingCount && (
+          {/*!!waitingCount && (
             <>
               {' '}
               <i>[{waitingCount.toLocaleString()} waiting]</i>
             </>
-          )}
+          )*/}
         </h4>
 
         {/* Handle a user that has been disqualified */}

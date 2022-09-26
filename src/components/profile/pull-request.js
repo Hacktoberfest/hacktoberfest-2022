@@ -1,14 +1,14 @@
+import { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
-import { MarkdownInline } from '../markdown';
+import Button from 'components/button';
+import { MarkdownInline } from 'components/markdown';
 
 import useCountdown from 'hooks/useCountdown';
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/router';
 
 import { providerMap, prWaitingTime } from 'lib/config';
 import { pullRequestStates, pullRequestValidation } from 'lib/profile';
-import Button from 'components/button';
 
 const stateColors = {
   excluded: (theme) => theme.spark,
@@ -225,22 +225,19 @@ const PullRequest = ({ data, as }) => {
       </StyledEyebrowWrapper>
       <StyledInfo>
         <div>
-          <h5>Details</h5>
           <p>
-            <span>Project: </span>
+            <span>PR/MR: </span>
             {data.target}#{data.number}
           </p>
 
           <p>
-            <span>PR/MR Title: </span>
+            <span>Title: </span>
             {data.title}
           </p>
         </div>
-        {/* <a href={data.url} target="_blank" rel="noreferrer"> */}
         <Button as="a" href={data.url} target="_blank" rel="noreferrer">
           View on {providerMap[data.provider]}
         </Button>
-        {/* </a> */}
       </StyledInfo>
     </StyledPullRequest>
   );

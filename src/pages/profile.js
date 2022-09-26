@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import styled, { keyframes } from 'styled-components';
 
 import { fetchUserAvatars } from 'lib/api';
 
-import Anchor from 'components/anchor';
-import Divider from 'components/divider';
-import Section from 'components/section';
 import Button from 'components/button';
 import Loader from 'components/loader';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
-import styled, { keyframes } from 'styled-components';
+import { FauxHero } from 'components/hero';
 
 import useAuth from 'hooks/useAuth';
-import { FauxHero } from 'components/hero';
 
 const typingAnim = () => keyframes`
   from {
@@ -22,9 +19,6 @@ const typingAnim = () => keyframes`
 `;
 
 const StyledHeader = styled.div`
-  position: absolute;
-  top: 40px;
-  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -39,12 +33,14 @@ const StyledHeader = styled.div`
 
   p {
     display: flex;
+    
     span {
       white-space: nowrap;
       overflow: hidden;
       width: ${(props) => props.width}ch;
       animation: ${typingAnim} 1.5s steps(${(props) => props.width});
     }
+    
     &.name:after {
       content: '_';
     }
@@ -76,7 +72,7 @@ const StyledHeader = styled.div`
 
 const loadAvi = () => keyframes`
   to {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(-40px) rotate(0deg);
     opacity: 1;
   }
 `;
@@ -196,7 +192,7 @@ const Profile = () => {
           </FauxHero>
           <div>
             {edit ? (
-              <Settings auth={auth} onSave={() => setEdit(false)} isEdit />
+              <Settings auth={auth} isEdit />
             ) : (
               <Progress auth={auth} />
             )}
