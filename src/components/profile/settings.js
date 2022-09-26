@@ -13,11 +13,12 @@ import {
 } from 'lib/api';
 import { providerMap } from 'lib/config';
 
-import Button from '../button';
-import Form from '../form';
-import Loader from '../loader';
-import MetadataFields from './metadata-fields';
+import Button, { StyledButtonGroup } from 'components/button';
+import Form from 'components/form';
+import Loader from 'components/loader';
 import Section from 'components/section';
+
+import MetadataFields from './metadata-fields';
 
 const Settings = ({ auth, isEdit = false }) => {
   const router = useRouter();
@@ -272,7 +273,7 @@ const Settings = ({ auth, isEdit = false }) => {
       <div ref={top} />
 
       {isEdit && (
-        <div>
+        <StyledButtonGroup>
           {oauth.github ? (
             !!oauth.gitlab &&
             router.query.unlink === 'enabled' && (
@@ -297,7 +298,7 @@ const Settings = ({ auth, isEdit = false }) => {
               Link GitLab account
             </Button>
           )}
-        </div>
+        </StyledButtonGroup>
       )}
 
       <Form
@@ -315,16 +316,18 @@ const Settings = ({ auth, isEdit = false }) => {
           disabled={submitting}
         />
 
-        {!isEdit && (
-          <Button onClick={logout}>
-            Logout
-          </Button>
-        )}
-        {!!metadata.length && (
-          <Button onClick={submit} type="submit" disabled={submitting}>
-            {isEdit ? 'Save' : 'Register'}
-          </Button>
-        )}
+        <StyledButtonGroup>
+          {!isEdit && (
+            <Button onClick={logout}>
+              Logout
+            </Button>
+          )}
+          {!!metadata.length && (
+            <Button onClick={submit} type="submit" disabled={submitting}>
+              {isEdit ? 'Save' : 'Register'}
+            </Button>
+          )}
+        </StyledButtonGroup>
       </Form>
     </Section>
   );

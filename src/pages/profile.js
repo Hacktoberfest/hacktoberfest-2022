@@ -6,19 +6,14 @@ import iconLite from 'assets/img/icon-lite.svg';
 
 import { fetchUserAvatars } from 'lib/api';
 
-import Button from 'components/button';
+import Button, { StyledButtonGroup } from 'components/button';
 import Loader from 'components/loader';
+import { FauxHero } from 'components/hero';
+import Type from 'components/type';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
-import { FauxHero } from 'components/hero';
 
 import useAuth from 'hooks/useAuth';
-
-const typingAnim = () => keyframes`
-  from {
-    width: 0ch;
-  }
-`;
 
 const StyledHeader = styled.div`
   display: flex;
@@ -28,26 +23,6 @@ const StyledHeader = styled.div`
   height: 40px;
   flex-flow: row wrap;
 
-  div {
-    display: flex;
-    gap: 16px;
-  }
-
-  p {
-    display: flex;
-    
-    span {
-      white-space: nowrap;
-      overflow: hidden;
-      width: ${(props) => props.width}ch;
-      animation: ${typingAnim} 1.5s steps(${(props) => props.width});
-    }
-    
-    &.name:after {
-      content: '_';
-    }
-  }
-
   @media (max-width: 964px) {
     height: auto;
     flex-flow: row wrap;
@@ -55,17 +30,9 @@ const StyledHeader = styled.div`
     div {
       margin-top: 12px;
     }
-
-    p {
-      width: 100%;
-    }
   }
 
   @media (max-width: 450px) {
-    p {
-      display: block;
-    }
-
     div {
       margin-top: 4px;
     }
@@ -174,12 +141,9 @@ const Profile = () => {
             height="600px"
             spacing_btm="-80px"
           >
-            <StyledHeader width={auth.user.name.length + 7}>
-              <p className="name">
-                {'>>'} Boot Profile: 
-                <span>Hello, {auth.user.name}</span>
-              </p>
-              <div>
+            <StyledHeader>
+              <Type text={`Hello, ${auth.user.name}`} prefix=">> Boot Profile:" />
+              <StyledButtonGroup>
                 {!edit && (
                   <Button onClick={() => setEdit(true)}>Edit Info</Button>
                 )}
@@ -189,7 +153,7 @@ const Profile = () => {
                   </Button>
                 )}
                 <Button onClick={() => auth.reset()}>Logout</Button>
-              </div>
+              </StyledButtonGroup>
             </StyledHeader>
 
             <StyledAvi isDefault={!avatar}>

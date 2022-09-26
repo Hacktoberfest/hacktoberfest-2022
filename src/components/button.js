@@ -7,6 +7,12 @@ const shimmerAnimation = () => keyframes`
   }
 `;
 
+export const StyledButtonGroup = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  gap: 16px;
+`;
+
 export const StyledButton = styled.button`
   margin-top: ${(props) => props.spacing_top};
   margin: ${(props) => props.spacing_all};

@@ -5,6 +5,7 @@ import Divider from 'components/divider';
 import Section from 'components/section';
 import Loader from 'components/loader';
 import Settings from 'components/profile/settings';
+import Type from 'components/type';
 
 import useAuth from 'hooks/useAuth';
 
@@ -29,9 +30,7 @@ const Register = () => {
         <Section type="sub_content">
           <Divider />
           <Anchor href="#" />
-          <p>Registration</p>
-          <p>Hello, {auth.user.name}</p>
-
+          <Type text={`Hello, ${auth.user.name}`} prefix=">> Boot Registration:" />
           <Settings auth={auth} />
         </Section>
       )}
