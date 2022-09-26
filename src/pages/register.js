@@ -1,7 +1,5 @@
 import Head from 'next/head';
 
-import Anchor from 'components/anchor';
-import Divider from 'components/divider';
 import Section from 'components/section';
 import Loader from 'components/loader';
 import Settings from 'components/profile/settings';
