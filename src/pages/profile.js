@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 
+import iconLite from 'assets/img/icon-lite.svg';
+
 import { fetchUserAvatars } from 'lib/api';
 
 import Button from 'components/button';
@@ -88,7 +90,13 @@ const StyledAvi = styled.div`
     object-fit: cover;
     transform: rotate(8deg);
     box-shadow: ${(props) => props.theme.glowLite};
+    background: ${(props) => props.theme.body};
     transition: 0.2s ease;
+    
+    ${(props) => props.isDefault && `
+      opacity: 0.5;
+      pointer-events: none;
+    `}
 
     &:hover {
       transform: rotate(0deg);
@@ -184,11 +192,9 @@ const Profile = () => {
               </div>
             </StyledHeader>
 
-            {avatar && (
-              <StyledAvi>
-                <img src={avatar} alt="" width={256} height={256} />
-              </StyledAvi>
-            )}
+            <StyledAvi isDefault={!avatar}>
+              <img src={avatar || iconLite.src} alt="" width={256} height={256} />
+            </StyledAvi>
           </FauxHero>
           <div>
             {edit ? (
