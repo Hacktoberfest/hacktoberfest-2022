@@ -103,7 +103,7 @@ const StyledP = styled.p`
   }
 `;
 
-const StyledHeader = styled.div`
+export const StyledHeader = styled.div`
   position: absolute;
   top: 40px;
   left: 0;
