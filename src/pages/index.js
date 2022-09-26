@@ -1,8 +1,9 @@
+import { useMemo } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
 import { events } from 'lib';
-import { registrationStart } from 'lib/config';
+import { profileEnd, registrationStart } from 'lib/config';
 
 import Button from 'components/button';
 import Section from 'components/section';
@@ -64,6 +65,19 @@ const Home = () => {
     new Date(registrationStart).getTime()
   );
 
+  const hasProfile = useMemo(
+    () =>
+      new Date() >= new Date(registrationStart) &&
+      new Date() < new Date(profileEnd),
+    []
+  );
+
+  const hasEnded = useMemo(
+    () =>
+      new Date() >= new Date(profileEnd),
+    []
+  );
+
   return (
     <>
       <FauxHero
@@ -79,7 +93,7 @@ const Home = () => {
       </FauxHero>
       <Section spacing_top="64px">
         <StyledCountdownContainer>
-          <p className="title"> {'>>'} Launch initiated</p>
+          <p className="title"> {'>>'} {hasProfile || hasEnded ? "launch initiated" : "Time to launch"}</p>
           <Column>
             <div className="ticker">
               <p>Days:</p>
@@ -102,18 +116,18 @@ const Home = () => {
         <Divider spacing_top="40px" spacing_btm="64px" />
       </Section>
       <Marquee
-        text1="launch sequence initiated!"
-        text2="launch sequence initiated!"
+        text1={hasProfile ? "launch sequence initiated!" : (hasEnded ? "launch sequence complete!" : "systems critical")}
+        text2={hasProfile ? "launch sequence initiated!" : (hasEnded ? "launch sequence complete!" : "systems critical")}
         direction="forwards"
       />
       <Marquee
-        text1="it's time to hack"
-        text2="it's time to hack"
+        text1={hasProfile ? "it's time to hack" : (hasEnded ? "see you for 2023" : "registration begins")}
+        text2={hasProfile ? "it's time to hack" : (hasEnded ? "see you for 2023" : "sept 26")}
         direction="reverse"
       />
       <Section spacing_top="64px">
         <Repeater spacing_btm="64px" />
-        <Loader message=">> Boot Dialogue: registration is now open!" />
+        <Loader message={`>> Boot Dialogue: ${hasProfile ? "registration is now open!" : (hasEnded ? "system paused until 2023" : "registration begins september 26")}`} />
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">
