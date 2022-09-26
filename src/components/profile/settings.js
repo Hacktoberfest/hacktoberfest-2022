@@ -14,6 +14,7 @@ import {
 import { providerMap } from 'lib/config';
 
 import Button from '../button';
+import Form from '../form';
 import Loader from '../loader';
 import MetadataFields from './metadata-fields';
 import Section from 'components/section';
@@ -254,20 +255,6 @@ const Settings = ({ auth, isEdit = false }) => {
     <Section>
       <div ref={top} />
 
-      {success && (
-        <>
-          <p>[ Success ]</p>
-          <p>Your Hacktoberfest registration has been saved.</p>
-        </>
-      )}
-
-      {error && (
-        <>
-          <p>[ Error ]</p>
-          <p>{error}</p>
-        </>
-      )}
-
       {isEdit && (
         <div>
           {oauth.github ? (
@@ -297,7 +284,12 @@ const Settings = ({ auth, isEdit = false }) => {
         </div>
       )}
 
-      <form ref={form} onSubmit={submit}>
+      <Form
+        ref={form}
+        onSubmit={submit}
+        success={success && 'Your Hacktoberfest registration has been saved.'}
+        error={error}
+      >
         <MetadataFields
           emails={emails}
           metadata={metadata}
@@ -315,7 +307,7 @@ const Settings = ({ auth, isEdit = false }) => {
         <Button onClick={submit} type="submit" disabled={submitting}>
           {isEdit ? 'Save' : 'Register'}
         </Button>
-      </form>
+      </Form>
     </Section>
   );
 };

@@ -89,9 +89,10 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
 
           {showEmail && (
             <fieldset>
-              <label>Email</label>
+              <label htmlFor="email">Email</label>
               <select
                 name="email"
+                id="email"
                 value={value.email}
                 onChange={e => updateEmail(e.target.value)}
                 disabled={disabled}
@@ -123,7 +124,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
 
           {!!fields.stage && (
             <fieldset>
-              <label>What is your experience level?</label>
+              <label htmlFor="stage">What is your experience level?</label>
               {fields.stage.map(meta => (
                 <CheckRadio
                   key={meta.name}
@@ -131,6 +132,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
                   message={meta.message}
                   radio
                   name="stage"
+                  id="stage"
                   value={meta.name}
                   onChange={e => updateMetadata(fields.stage.reduce((obj, item) => ({
                     ...obj,
@@ -162,9 +164,10 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
 
           {!!fields.country && (
             <fieldset>
-              <label>What country are you participating from?</label>
+              <label htmlFor="country">What country are you participating from?</label>
               <select
                 name="country"
+                id="country"
                 value={value.metadata.country || ''}
                 onChange={e => updateMetadata({ country: e.target.value })}
                 disabled={disabled}

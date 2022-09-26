@@ -14,6 +14,7 @@ import useAuth from 'hooks/useAuth';
 
 import { providerMap } from 'lib/config';
 import { createExcludedRepository } from 'lib/api';
+import Form from '../components/form';
 
 const Report = () => {
   const auth = useAuth(false);
@@ -41,7 +42,7 @@ const Report = () => {
     if (!form.current?.reportValidity()) {
       setSubmitting(false);
       return;
-    };
+    }
 
     // Create the report
     await createExcludedRepository(auth.user.id, auth.token, { provider, name: repository })
@@ -54,7 +55,7 @@ const Report = () => {
         console.error(err, data);
 
         // Handle known errors we can show the user
-        if (data?.code === 'NotFound' && data?.message === 'Could not locate repository name with provider') {
+        if (data?.code === 'NotFound' && data?.message === `Could not locate repository name '${repository}' with provider ${provider}`) {
           setError(`The repository name you provided could not be found on ${providerMap[provider]}.`);
           return;
         }
@@ -124,25 +125,17 @@ const Report = () => {
               </>
             ) : (
               <>
-                <form ref={form} onSubmit={submit}>
-                  {success && (
-                    <>
-                      <p>[ Success ]</p>
-                      <p>Thanks for letting us know about this repository. We'll review it as soon as possible.</p>
-                    </>
-                  )}
-
-                  {error && (
-                    <>
-                      <p>[ Error ]</p>
-                      <p>{error}</p>
-                    </>
-                  )}
-
+                <Form
+                  ref={form}
+                  onSubmit={submit}
+                  success={success && 'Thanks for letting us know about this repository. We\'ll review it as soon as possible.'}
+                  error={error}
+                >
                   <fieldset>
-                    <legend>[ Provider ]</legend>
+                    <label htmlFor="provider">[ Provider ]</label>
                     <select
                       name="provider"
+                      id="provider"
                       value={provider}
                       onChange={e => setProvider(e.target.value)}
                       disabled={submitting}
@@ -155,11 +148,12 @@ const Report = () => {
                   </fieldset>
 
                   <fieldset>
-                    <legend>[ Repository ]</legend>
+                    <label htmlFor="repository">[ Repository ]</label>
                     <input
                       type="text"
                       placeholder="owner/target"
                       name="repository"
+                      id="repository"
                       value={repository}
                       onChange={e => setRepository(e.target.value)}
                       disabled={submitting}
@@ -168,7 +162,7 @@ const Report = () => {
                   </fieldset>
 
                   <Button onClick={submit} type="submit" disabled={submitting}>Report</Button>
-                </form>
+                </Form>
               </>
             )
           )

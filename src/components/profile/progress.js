@@ -6,6 +6,7 @@ import { trackingStart } from 'lib/config';
 
 import Loader from 'components/loader';
 import Section from 'components/section';
+import Notification from 'components/notification';
 
 import PullRequest from './pull-request';
 
@@ -39,29 +40,6 @@ const StyledProgressWrapper = styled.div`
     border-radius: 16px;
     width: max-content;
     transform: rotate(-4deg);
-  }
-`;
-
-const StyledNotification = styled.div`
-  width: 100%;
-  margin: 24px 0;
-  padding: 24px 32px;
-  transition: 0.2s ease;
-  background: linear-gradient(
-    180deg,
-    rgba(124, 127, 255, 0) 0%,
-    ${(props) => props.theme[props.color]} 300%
-  );
-  border: 1px solid ${(props) => props.theme[props.color]};
-  box-shadow: 0px 0px 8px ${(props) => props.theme[props.color]};
-  border-radius: 24px;
-
-  h5 {
-    margin: 0 0 8px;
-  }
-  
-  p {
-    margin: 0 0 4px;
   }
 `;
 
@@ -155,8 +133,7 @@ const Progress = ({ auth }) => {
 
         {/* Handle a user that has been disqualified */}
         {auth.registration.state.state.includes('disqualified') && (
-          <StyledNotification color="giga">
-            <h5>[ Disqualification ]</h5>
+          <Notification title="Disqualification" color="spark">
             <p>
               You have been disqualified from Hacktoberfest for submitting two
               or more PR/MRs that have been identified as spam.
@@ -164,20 +141,19 @@ const Progress = ({ auth }) => {
               Due to being disqualified, you will be ineligible to recieve any
               further rewards for your participation in Hacktoberfest.
             </p>
-          </StyledNotification>
+          </Notification>
         )}
 
         {/* Handle a user that has been disqualified */}
         {auth.registration.state.state.includes('warning') && (
-          <StyledNotification color="spark">
-            <h5>[ Warning: Disqualification ]</h5>
+          <Notification title="Warning: Disqualification" color="spark">
             <p>
               You have had a PR/MR identified as spam.
               <br />
               If you submit another PR/MR that is identified as spam, you will
               be disqualified from Hacktoberfest.
             </p>
-          </StyledNotification>
+          </Notification>
         )}
 
         {/* Show any gift codes the user has been awarded */}
@@ -189,9 +165,7 @@ const Progress = ({ auth }) => {
             {Object.keys(giftCodes).some((type) =>
               type.startsWith('holopin')
             ) && (
-              <StyledNotification color="surf">
-                <h5>[ Rewards: Holopin Badges ]</h5>
-
+              <Notification title="Rewards: Holopin Badges" color="surf">
                 <ul>
                   {giftCodes['holopin-registered-badge'] && (
                     <li>
@@ -239,24 +213,12 @@ const Progress = ({ auth }) => {
                   Check your email for more information on how to claim each
                   badge.
                 </p>
-              </StyledNotification>
+              </Notification>
             )}
           </>
         )}
 
-        <h3>
-          Pull/Merge Requests {' '}
-          {/* <span>
-            {Math.min(acceptedCount, 4).toLocaleString()}
-            {acceptedCount > 4
-              ? ` + ${(acceptedCount - 4).toLocaleString()}`
-              : ''}{' '}
-            / 4
-            {!!waitingCount && (
-              <> [ {waitingCount.toLocaleString()} waiting ]</>
-            )}
-          </span> */}
-        </h3>
+        <h3>Pull/Merge Requests</h3>
 
         {pullRequests.length ? (
           <ul>
