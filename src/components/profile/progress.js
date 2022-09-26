@@ -40,6 +40,11 @@ const StyledProgressWrapper = styled.div`
     border-radius: 16px;
     width: max-content;
     transform: rotate(-4deg);
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: rotate(4deg);
+    }
   }
 `;
 

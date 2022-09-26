@@ -81,6 +81,17 @@ const StyledAvi = styled.div`
   }
 `;
 
+const opacityFade = () => keyframes`
+  to {
+    opacity: 1;
+  }
+`;
+
+const StyledProgressWrapper = styled.div`
+  opacity: 0;
+  animation: ${opacityFade} 0.5s 0.5s ease forwards;
+`;
+
 const Profile = () => {
   const auth = useAuth();
 
@@ -199,9 +210,9 @@ const Profile = () => {
               />
             </StyledAnimations>
           </FauxHero>
-          <div>
+          <StyledProgressWrapper>
             {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
-          </div>
+          </StyledProgressWrapper>
         </>
       )}
     </>
