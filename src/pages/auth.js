@@ -65,7 +65,7 @@ const StyledCard = styled.div`
     }
   }
 
-  @media (max-width: 872px) {
+  @media (max-width: 964px) {
     &:first-of-type {
       margin-top: 104px;
     }

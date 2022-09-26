@@ -74,8 +74,18 @@ const StyledHeader = styled.div`
   }
 `;
 
+const loadAvi = () => keyframes`
+  to {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 1;
+  }
+`;
+
 const StyledAvi = styled.div`
   position: relative;
+  transform: translateY(200px) rotate(-16deg);
+  opacity: 0;
+  animation ${loadAvi} 0.5s 0.5s ease forwards;
 
   img {
     border-radius: 24px;

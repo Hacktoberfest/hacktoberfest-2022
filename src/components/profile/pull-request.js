@@ -3,126 +3,245 @@ import styled from 'styled-components';
 import { MarkdownInline } from '../markdown';
 
 import useCountdown from 'hooks/useCountdown';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/router';
 
 import { providerMap, prWaitingTime } from 'lib/config';
 import { pullRequestStates, pullRequestValidation } from 'lib/profile';
+import Button from 'components/button';
 
 const stateColors = {
-  excluded: theme => theme.spark,
-  spam: theme => theme.spark,
-  'not-participating': theme => theme.surf,
-  invalid: theme => theme.spark,
-  'not-accepted': theme => theme.surf,
-  waiting: theme => theme.surf,
-  accepted: theme => theme.giga,
+  excluded: (theme) => theme.spark,
+  spam: (theme) => theme.spark,
+  'not-participating': (theme) => theme.surf,
+  invalid: (theme) => theme.spark,
+  'not-accepted': (theme) => theme.surf,
+  waiting: (theme) => theme.surf,
+  accepted: (theme) => theme.giga,
 };
 
 const providerColors = {
-  github: theme => theme.psybeam,
-  gitlab: theme => theme.spark,
+  github: (theme) => theme.psybeam,
+  gitlab: (theme) => theme.spark,
 };
 
-const StyledState = styled.div`
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: -1px;
-  right: -1px;
-  padding: 8px;
-  background: linear-gradient(to bottom, rgba(23, 15, 30, 0.8) 0%, rgba(23, 15, 30, 0.95) 100%);
-  z-index: 1;
-  border-radius: 0 0 8px 8px;
-  border: solid transparent;
-  border-width: 0 1px 1px 1px;
+const StyledState = styled.button`
+  width: 32px;
+  height: 32px;
+  background: green;
+  position: relative;
+  transition: 0.2s;
+  cursor: pointer;
+  border-radius: 6px;
+  color: ${(props) => props.theme.body};
+  background: rgba(229, 225, 230, 0.3);
+
+  &:hover,
+  &:focus {
+    background: rgba(229, 225, 230, 0.5);
+  }
+
+  div {
+    background: ${(props) => props.theme.text};
+    display: none;
+    width: 600px;
+    z-index: 100;
+    padding: 16px 48px 16px 24px;
+    border-radius: 6px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: left;
+
+    &:after {
+      content: 'x';
+      position: absolute;
+      text-align: center;
+      top: 8px;
+      right: 8px;
+      line-height: 24px;
+      border-radius: 4px;
+      width: 28px;
+      height: 24px;
+      color: ${(props) => props.theme.text};
+      background: ${(props) => props.theme.body};
+      transition: 0.2s ease;
+      opacity: 0.5;
+    }
+
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
+
+    p {
+      color: ${(props) => props.theme.body};
+
+      a {
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+
+    button {
+      width: 24px;
+      height: 24px;
+      border: 2px solid ${(props) => props.theme.body};
+      color: ${(props) => props.theme.body};
+    }
+  }
+
+  &[aria-selected='true'] {
+    opacity: 1;
+    div {
+      display: block;
+    }
+  }
+
+  @media (max-width: 550px) {
+    position: static;
+    div {
+      top: 48px;
+      width: 100%;
+    }
+  }
+`;
+
+const StyledEyebrowWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 24px 0 32px;
+  gap: 12px;
+  flex-flow: row wrap;
 `;
 
 const StyledEyebrow = styled.p``;
 
-const StyledProvider = styled.span``;
+const StyledProvider = styled.a``;
+
+const StyledInfo = styled.div``;
 
 const StyledPullRequest = styled.div`
-  > a {
-    margin: 8px 0;
-    padding: 8px;
-    border-radius: 8px 8px 0 0;
-    display: block;
-    position: relative;
-    min-width: 60rem;
-    max-width: 100%;
-    border: solid transparent;
-    border-width: 1px 1px 0 1px;
-    
-    &:hover {
-      border-color: ${props => stateColors[props.state](props.theme)};
-      
-      &::before {
-        display: block;
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        box-shadow: ${props => stateColors[props.state](props.theme)} 0px 0px 12px;
-        clip-path: inset(-12px -12px 0 -12px);
-      }
-      
-      ${StyledState} {
-        display: block;
-        border-color: ${props => stateColors[props.state](props.theme)};
-        box-shadow: ${props => stateColors[props.state](props.theme)} 0px 0px 12px;
-        clip-path: inset(0 -12px -12px -12px);
-      }
+  padding: 24px 0;
+  box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  transition: 0.2s ease;
+
+  &:hover {
+    box-shadow: 0px 1px 0px ${(props) => stateColors[props.state](props.theme)};
+  }
+
+  ${StyledEyebrow} {
+    color: ${(props) => props.theme.body};
+    text-shadow: 0 0 3px ${(props) => stateColors[props.state](props.theme)};
+    font-size: 20px;
+    line-height: 32px;
+    background: ${(props) => stateColors[props.state](props.theme)};
+    filter: drop-shadow(
+      0px 0px 4px ${(props) => stateColors[props.state](props.theme)}
+    );
+    width: max-content;
+    padding: 2px 12px;
+    border-radius: 4px;
+  }
+
+  ${StyledProvider} {
+    padding: 8px 12px;
+    background: ${(props) => providerColors[props.provider](props.theme)};
+    color: ${(props) => props.theme.body};
+    text-shadow: 0 0 3px
+      ${(props) => providerColors[props.provider](props.theme)};
+  }
+
+  ${StyledInfo} {
+    margin: 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-flow: row wrap;
+
+    a {
+      margin-top: 24px;
     }
-    
+
+    h5 {
+      margin-bottom: 12px;
+    }
+
     p {
-      margin: 4px 0 !important;
-    }
-    
-    ${StyledEyebrow} {
-      color: ${props => stateColors[props.state](props.theme)};
-      text-shadow: 0 0 3px ${props => stateColors[props.state](props.theme)};
-    }
-    
-    ${StyledProvider} {
-      color: ${props => providerColors[props.provider](props.theme)};
-      text-shadow: 0 0 3px ${props => providerColors[props.provider](props.theme)};
+      span {
+        opacity: 0.5;
+        text-shadow: none;
+      }
     }
   }
 `;
 
 const PullRequest = ({ data, as }) => {
   // Get countdown for waiting PRs
-  const [ days, hours, minutes, seconds ] = useCountdown(new Date(data.state.timestamp || 0).getTime() + prWaitingTime);
+  const [days, hours, minutes, seconds] = useCountdown(
+    new Date(data.state.timestamp || 0).getTime() + prWaitingTime
+  );
+
+  const [open, setOpen] = useState(false);
+  const toggle = useCallback(() => setOpen((state) => !state), []);
+
+  const router = useRouter();
+  useEffect(() => {
+    setOpen(false);
+  }, [router.pathname]);
 
   return (
-    <StyledPullRequest as={as} state={data.state.state} provider={data.provider}>
-      <a href={data.url} target="_blank" rel="noreferrer">
+    <StyledPullRequest
+      as={as}
+      state={data.state.state}
+      provider={data.provider}
+    >
+      <StyledEyebrowWrapper>
         <StyledEyebrow>
-          [ {data.state.state} ]
+          {' '}
+          {data.state.state}
           {data.state.state === 'waiting' && (
             <>
               {' '}
-              [ {days}:{hours}:{minutes}:{seconds} ]
+              [{days}:{hours}:{minutes}:{seconds}]
             </>
           )}
         </StyledEyebrow>
-
-        <p>
-          <StyledProvider>[ {providerMap[data.provider]} ]</StyledProvider>
-          {' '}
-          {data.target}#{data.number}
-        </p>
-
-        <p>
-          {data.title}
-        </p>
-
-        <StyledState>
-          <MarkdownInline string={pullRequestStates[data.state.state]} />
-          <MarkdownInline string={pullRequestValidation} />
+        <StyledState onClick={toggle} aria-selected={open}>
+          ?
+          <div>
+            <MarkdownInline string={pullRequestStates[data.state.state]} />
+            <MarkdownInline string={pullRequestValidation} />
+          </div>
         </StyledState>
-      </a>
+      </StyledEyebrowWrapper>
+      <StyledInfo>
+        <div>
+          <h5>Details</h5>
+          <p>
+            <span>Project: </span>
+            {data.target}#{data.number}
+          </p>
+
+          <p>
+            <span>PR/MR Title: </span>
+            {data.title}
+          </p>
+        </div>
+        {/* <a href={data.url} target="_blank" rel="noreferrer"> */}
+        <Button as="a" href={data.url} target="_blank" rel="noreferrer">
+          View on {providerMap[data.provider]}
+        </Button>
+        {/* </a> */}
+      </StyledInfo>
     </StyledPullRequest>
   );
 };

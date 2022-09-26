@@ -61,6 +61,7 @@ const Wrapper = styled.header`
     );
     white-space: nowrap;
     overflow: hidden;
+    z-index: 200;
 
     @media (prefers-reduced-motion) {
       animation-play-state: paused;

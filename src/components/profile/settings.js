@@ -16,60 +16,89 @@ import { providerMap } from 'lib/config';
 import Button from '../button';
 import Loader from '../loader';
 import MetadataFields from './metadata-fields';
+import Section from 'components/section';
 
 const Settings = ({ auth, isEdit = false }) => {
   const router = useRouter();
 
   // Track the data we need to render
-  const [ loaded, setLoaded ] = useState(null);
+  const [loaded, setLoaded] = useState(null);
   const loading = useRef(false);
-  const [ emails, setEmails ] = useState([]);
-  const [ oauth, setOauth ] = useState([]);
-  const [ metadata, setMetadata ] = useState([]);
+  const [emails, setEmails] = useState([]);
+  const [oauth, setOauth] = useState([]);
+  const [metadata, setMetadata] = useState([]);
 
   // Track the data the user enters
-  const [ data, setData ] = useState({
+  const [data, setData] = useState({
     email: null,
     metadata: {},
   });
 
   // Track the state of the form
-  const [ submitting, setSubmitting ] = useState(false);
-  const [ success, setSuccess ] = useState(false);
-  const [ error, setError ] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   // Handle fetching OAuth accounts
   const fetchOAuth = useCallback(async () => {
-    setOauth(await fetchUserOAuth(auth.user.id, auth.token).then(data => data.reduce((obj, item) => ({
-      ...obj,
-      [item.provider]: item,
-    }), {})));
-  }, [ auth.user?.id, auth.token ]);
+    setOauth(
+      await fetchUserOAuth(auth.user.id, auth.token).then((data) =>
+        data.reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.provider]: item,
+          }),
+          {}
+        )
+      )
+    );
+  }, [auth.user?.id, auth.token]);
 
   // Handle linking OAuth accounts
-  const linkOAuth = useCallback(async (e, provider) => {
-    e.preventDefault();
+  const linkOAuth = useCallback(
+    async (e, provider) => {
+      e.preventDefault();
 
-    const link = await createUserOAuth(auth.user.id, auth.token, provider).catch(async err => {
-      const data = await err.response.json().catch(() => null);
-      console.error(err, data);
-      setError(`An unknown error occurred while linking your ${providerMap[provider]} account. Please try again later.`);
-    });
-    window.location.href = link.redirect;
-  }, [ auth.user?.id, auth.token ]);
+      const link = await createUserOAuth(
+        auth.user.id,
+        auth.token,
+        provider
+      ).catch(async (err) => {
+        const data = await err.response.json().catch(() => null);
+        console.error(err, data);
+        setError(
+          `An unknown error occurred while linking your ${providerMap[provider]} account. Please try again later.`
+        );
+      });
+      window.location.href = link.redirect;
+    },
+    [auth.user?.id, auth.token]
+  );
 
   // Handle unlinking OAuth accounts
-  const unlinkOAuth = useCallback(async (e, provider) => {
-    e.preventDefault();
-    if (!confirm(`Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`)) return;
+  const unlinkOAuth = useCallback(
+    async (e, provider) => {
+      e.preventDefault();
+      if (
+        !confirm(
+          `Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`
+        )
+      )
+        return;
 
-    await removeUserOAuth(auth.user.id, auth.token, provider).catch(async err => {
-      const data = await err.response.json().catch(() => null);
-      console.error(err, data);
-      setError(`An unknown error occurred while unlinking your ${providerMap[provider]} account. Please try again later.`);
-    });
-    await fetchOAuth();
-  }, [ auth.user?.id, auth.token ]);
+      await removeUserOAuth(auth.user.id, auth.token, provider).catch(
+        async (err) => {
+          const data = await err.response.json().catch(() => null);
+          console.error(err, data);
+          setError(
+            `An unknown error occurred while unlinking your ${providerMap[provider]} account. Please try again later.`
+          );
+        }
+      );
+      await fetchOAuth();
+    },
+    [auth.user?.id, auth.token]
+  );
 
   // Load the data we need to render
   useEffect(() => {
@@ -80,7 +109,7 @@ const Settings = ({ auth, isEdit = false }) => {
     (async () => {
       // Fetch all emails and default to the user's current email
       setEmails(await fetchUserEmails(auth.user.id, auth.token));
-      setData(prev => ({ ...prev, email: auth.user.email }));
+      setData((prev) => ({ ...prev, email: auth.user.email }));
 
       // Fetch the user's linked OAuth accounts
       await fetchOAuth();
@@ -93,91 +122,136 @@ const Settings = ({ auth, isEdit = false }) => {
       const currentMetadata = isEdit ? auth.registration.metadata : {};
 
       // Store default values for each metadata item, preferring the user's exising value
-      setData(prev => ({
+      setData((prev) => ({
         ...prev,
         metadata: {
           ...prev.metadata,
-          ...rawMetadata.reduce((obj, item) => ({
-            ...obj,
-            [item.name]: item.datatype === 'boolean'
-              ? (currentMetadata[item.name]?.value === 'true')
-              : (item.datatype === 'string'
-                ? (currentMetadata[item.name]?.value || '')
-                : (currentMetadata[item.name]?.value || null)),
-          }), {}),
+          ...rawMetadata.reduce(
+            (obj, item) => ({
+              ...obj,
+              [item.name]:
+                item.datatype === 'boolean'
+                  ? currentMetadata[item.name]?.value === 'true'
+                  : item.datatype === 'string'
+                  ? currentMetadata[item.name]?.value || ''
+                  : currentMetadata[item.name]?.value || null,
+            }),
+            {}
+          ),
         },
       }));
 
       // Show the page
       setLoaded(true);
     })();
-  }, [ loaded, auth.user?.id, auth.user?.email, auth.token, auth.registration?.metadata, fetchOAuth ]);
+  }, [
+    loaded,
+    auth.user?.id,
+    auth.user?.email,
+    auth.token,
+    auth.registration?.metadata,
+    fetchOAuth,
+  ]);
 
   // Handle form submission
   const form = useRef();
   const top = useRef();
-  const submit = useCallback(async e => {
-    e.preventDefault();
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    setSuccess(false);
+  const submit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (submitting) return;
+      setSubmitting(true);
+      setError(null);
+      setSuccess(false);
 
-    // Check the form is valid, fail if not
-    // TODO: Aid the native error reporting?
-    if (!form.current?.reportValidity()) {
-      setSubmitting(false);
-      return;
-    };
-
-    try {
-      // Update the user email if needed
-      if (data.email !== auth.user.email) await updateUser(auth.user.id, auth.token, { email: data.email });
-
-      // Create/update the registration
-      const registrationHandler = isEdit ? updateRegistration : createRegistration;
-      await registrationHandler(auth.user.id, auth.token, { metadata: data.metadata });
-
-      // Reload the auth user + registration (silently when editing)
-      if (data.email !== auth.user.email) await auth.getUser(isEdit);
-      await auth.getRegistration(isEdit);
-
-      // Done
-      setSuccess(true);
-    } catch (err) {
-      const data = await err.response.json().catch(() => null);
-      console.error(err, data);
-
-      // Handle known errors we can show the user
-      if (data?.code === 'InvalidArgument' && data?.message === 'User is excluded from registering for given event') {
-        setError(`Sorry, you've been disqualified from Hacktoberfest and cannot register.`);
-        return;
-      }
-      if (data?.code === 'InvalidArgument' && data?.message === 'User has previously registered for given event') {
-        setError(`Sorry, you've already registered for this event before and cannot register again.`);
+      // Check the form is valid, fail if not
+      // TODO: Aid the native error reporting?
+      if (!form.current?.reportValidity()) {
+        setSubmitting(false);
         return;
       }
 
-      // Handle unknown errors
-      setError('An unknown error occurred while saving your registration. Please try again later.');
-    } finally {
-      setSubmitting(false);
-      top.current?.scrollIntoView();
-    }
-  }, [ submitting, data, auth, isEdit ]);
+      try {
+        // Update the user email if needed
+        if (data.email !== auth.user.email)
+          await updateUser(auth.user.id, auth.token, { email: data.email });
 
-  const logout = useCallback(e => {
-    e.preventDefault();
-    if (submitting) return;
-    auth.reset();
-  }, [ submitting, auth.reset ]);
+        // Create/update the registration
+        const registrationHandler = isEdit
+          ? updateRegistration
+          : createRegistration;
+        await registrationHandler(auth.user.id, auth.token, {
+          metadata: data.metadata,
+        });
+
+        // Reload the auth user + registration (silently when editing)
+        if (data.email !== auth.user.email) await auth.getUser(isEdit);
+        await auth.getRegistration(isEdit);
+
+        // Done
+        setSuccess(true);
+      } catch (err) {
+        const data = await err.response.json().catch(() => null);
+        console.error(err, data);
+
+        // Handle known errors we can show the user
+        if (
+          data?.code === 'InvalidArgument' &&
+          data?.message === 'User is excluded from registering for given event'
+        ) {
+          setError(
+            `Sorry, you've been disqualified from Hacktoberfest and cannot register.`
+          );
+          return;
+        }
+        if (
+          data?.code === 'InvalidArgument' &&
+          data?.message === 'User has previously registered for given event'
+        ) {
+          setError(
+            `Sorry, you've already registered for this event before and cannot register again.`
+          );
+          return;
+        }
+
+        // Handle unknown errors
+        setError(
+          'An unknown error occurred while saving your registration. Please try again later.'
+        );
+      } finally {
+        setSubmitting(false);
+        top.current?.scrollIntoView();
+      }
+    },
+    [submitting, data, auth, isEdit]
+  );
+
+  const logout = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (submitting) return;
+      auth.reset();
+    },
+    [submitting, auth.reset]
+  );
 
   // Don't render anything until we have the data we need
-  if (!loaded) return <Loader message={isEdit ? ">> Loading /usr/lib/edit..." : ">> Loading /usr/lib/register..."} />;
+  if (!loaded)
+    return (
+      <Section>
+        <Loader
+          message={
+            isEdit
+              ? '>> Loading /usr/lib/edit...'
+              : '>> Loading /usr/lib/register...'
+          }
+        />
+      </Section>
+    );
 
   // Render the user's settings
   return (
-    <>
+    <Section>
       <div ref={top} />
 
       {success && (
@@ -196,26 +270,30 @@ const Settings = ({ auth, isEdit = false }) => {
 
       {isEdit && (
         <div>
-          {oauth.github
-            ? (!!oauth.gitlab && router.query.unlink === 'enabled' && (
-              <Button onClick={e => unlinkOAuth(e, 'github')}>
+          {oauth.github ? (
+            !!oauth.gitlab &&
+            router.query.unlink === 'enabled' && (
+              <Button onClick={(e) => unlinkOAuth(e, 'github')}>
                 Unlink GitHub account (@{oauth.github.providerUsername})
               </Button>
-            )) : (
-              <Button onClick={e => linkOAuth(e, 'github')}>
-                Link GitHub account
-              </Button>
-            )}
-          {oauth.gitlab
-            ? (!!oauth.github && router.query.unlink === 'enabled' && (
-              <Button onClick={e => unlinkOAuth(e, 'gitlab')}>
+            )
+          ) : (
+            <Button onClick={(e) => linkOAuth(e, 'github')}>
+              Link GitHub account
+            </Button>
+          )}
+          {oauth.gitlab ? (
+            !!oauth.github &&
+            router.query.unlink === 'enabled' && (
+              <Button onClick={(e) => unlinkOAuth(e, 'gitlab')}>
                 Unlink GitLab account (@{oauth.gitlab.providerUsername})
               </Button>
-            )) : (
-              <Button onClick={e => linkOAuth(e, 'gitlab')}>
-                Link GitLab account
-              </Button>
-            )}
+            )
+          ) : (
+            <Button onClick={(e) => linkOAuth(e, 'gitlab')}>
+              Link GitLab account
+            </Button>
+          )}
         </div>
       )}
 
@@ -225,14 +303,20 @@ const Settings = ({ auth, isEdit = false }) => {
           metadata={metadata}
           value={data}
           onChange={setData}
-          exclude={isEdit ? ["agree"] : []}
+          exclude={isEdit ? ['agree'] : []}
           disabled={submitting}
         />
 
-        {!isEdit && <Button onClick={logout} disabled={submitting}>Logout</Button>}
-        <Button onClick={submit} type="submit" disabled={submitting}>{isEdit ? "Save" : "Register"}</Button>
+        {!isEdit && (
+          <Button onClick={logout} disabled={submitting}>
+            Logout
+          </Button>
+        )}
+        <Button onClick={submit} type="submit" disabled={submitting}>
+          {isEdit ? 'Save' : 'Register'}
+        </Button>
       </form>
-    </>
+    </Section>
   );
 };
 
