@@ -12,6 +12,8 @@ import { FauxHero } from 'components/hero';
 import Type from 'components/type';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
+import { PixelFirework1, PixelFirework2 } from 'components/pixels';
+import { StyledAnimations } from 'pages';
 
 import useAuth from 'hooks/useAuth';
 
@@ -44,7 +46,7 @@ const StyledHeader = styled.div`
 
 const loadAvi = () => keyframes`
   to {
-    transform: translateY(-40px) rotate(0deg);
+    transform: translateY(0px) rotate(0deg);
     opacity: 1;
   }
 `;
@@ -172,6 +174,30 @@ const Profile = () => {
                 height={256}
               />
             </StyledAvi>
+            <StyledAnimations>
+              <PixelFirework1
+                width="840"
+                scale="1"
+                timing="1.5"
+                frames="7"
+                id="f1"
+              />
+
+              <PixelFirework2
+                width="840"
+                scale="1"
+                timing="1"
+                frames="7"
+                id="f2"
+              />
+              <PixelFirework1
+                width="840"
+                scale="1.5"
+                timing="1.25"
+                frames="7"
+                id="f3"
+              />
+            </StyledAnimations>
           </FauxHero>
           <div>
             {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}

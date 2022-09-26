@@ -60,7 +60,7 @@ const StyledCountdownContainer = styled.div`
   }
 `;
 
-const StyledAnimations = styled.div`
+export const StyledAnimations = styled.div`
   z-index: -1;
 
   & > * {
