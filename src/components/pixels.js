@@ -574,7 +574,6 @@ const PixelHeartWrapper = styled(StyledDiv)`
   transform: scale(4);
 
   svg {
-    // transform: scale(4);
     animation: ${heartAnimation} 0.5s steps(2) infinite alternate;
     filter: ${(props) => props.theme.glowLiteDS};
   }
@@ -630,4 +629,106 @@ export const PixelHeart = () => (
       <path d="M204 39H207V42H204V39Z" fill="currentColor" />
     </svg>
   </PixelHeartWrapper>
+);
+
+const stdAnim = (x) => keyframes`
+  to {
+    transform: translatex(-${x}px);
+  }
+`;
+
+const PixelWrapper = styled.div`
+  width: 120px;
+  overflow: hidden;
+  animation: ${flickerAnimation} 2s infinite;
+  transform: scale(${(props) => props.scale});
+
+  svg {
+    animation: ${(props) => stdAnim(props.width)} ${(props) => props.timing}s
+      steps(${(props) => props.frames}) infinite;
+    filter: ${(props) => props.theme.glowLiteDS};
+  }
+`;
+
+export const PixelFirework1 = (props) => (
+  <PixelWrapper
+    scale={props.scale}
+    width={props.width}
+    timing={props.timing}
+    frames={props.frames}
+    id={props.id}
+  >
+    <svg
+      width="840"
+      height="120"
+      viewBox="0 0 840 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M616 8H632V16H616V8Z" fill="currentColor" />
+      <path d="M504 16H512V24H504V16Z" fill="currentColor" />
+      <path d="M520 32H512V24H520V32Z" fill="currentColor" />
+      <path d="M520 40V32H528V40H520Z" fill="currentColor" />
+      <path d="M520 40V48H512V40H520Z" fill="currentColor" />
+      <path
+        d="M416 32H408V40H400V56H408V64H416V56H408V48H416V32Z"
+        fill="currentColor"
+      />
+      <path
+        d="M288 40H296V48H304V40H312V56H320V64H312V72H296V64H288V56H280V48H288V40Z"
+        fill="currentColor"
+      />
+      <path
+        d="M176 48V56H168V64H176V72H184V64H192V48H176Z"
+        fill="currentColor"
+      />
+      <path d="M64 56H56V64H64V56Z" fill="currentColor" />
+      <path d="M416 72H424V80H416V72Z" fill="currentColor" />
+      <path d="M424 72V64H432V56H440V72H424Z" fill="currentColor" />
+      <path d="M432 32H440V40H432V32Z" fill="currentColor" />
+      <path d="M432 40V48H424V40H432Z" fill="currentColor" />
+      <path d="M520 64H528V80H520V64Z" fill="currentColor" />
+      <path d="M552 72H560V80H552V72Z" fill="currentColor" />
+      <path d="M560 80H568V88H560V80Z" fill="currentColor" />
+      <path d="M552 16H560V24H552V16Z" fill="currentColor" />
+      <path d="M560 24H568V32H560V24Z" fill="currentColor" />
+      <path d="M632 80H640V88H632V80Z" fill="currentColor" />
+      <path d="M632 80H624V72H632V80Z" fill="currentColor" />
+      <path d="M688 88H696V96H688V88Z" fill="currentColor" />
+      <path d="M688 16H680V24H688V16Z" fill="currentColor" />
+    </svg>
+  </PixelWrapper>
+);
+
+export const PixelFirework2 = (props) => (
+  <PixelWrapper
+    scale={props.scale}
+    width={props.width}
+    timing={props.timing}
+    frames={props.frames}
+    id={props.id}
+  >
+    <svg
+      width="840"
+      height="120"
+      viewBox="0 0 840 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M528 16H536V24H528V16Z" fill="currentColor" />
+      <path d="M408 32H400V40H392V48H400V40H408V32Z" fill="currentColor" />
+      <path d="M280 40H288V56H280V40Z" fill="currentColor" />
+      <path d="M160 48H168V56H160V48Z" fill="currentColor" />
+      <path d="M168 56H184V64H192V72H176V80H168V56Z" fill="currentColor" />
+      <path d="M56 56H64V64H56V56Z" fill="currentColor" />
+      <path d="M320 64H312V56H296V64H312V72H320V64Z" fill="currentColor" />
+      <path d="M280 72H288V80H280V72Z" fill="currentColor" />
+      <path d="M288 80H296V88H288V80Z" fill="currentColor" />
+      <path d="M440 64H448V72H440V64Z" fill="currentColor" />
+      <path d="M440 64H432V48H440V64Z" fill="currentColor" />
+      <path d="M408 80H400V88H408V80Z" fill="currentColor" />
+      <path d="M584 64H576V72H568V80H576V72H584V64Z" fill="currentColor" />
+      <path d="M704 56H696V64H704V56Z" fill="currentColor" />
+    </svg>
+  </PixelWrapper>
 );

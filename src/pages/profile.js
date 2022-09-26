@@ -22,6 +22,9 @@ const StyledHeader = styled.div`
   width: 100%;
   height: 40px;
   flex-flow: row wrap;
+  position: absolute;
+  top: 40px;
+  left: 0;
 
   @media (max-width: 964px) {
     height: auto;
@@ -60,7 +63,9 @@ const StyledAvi = styled.div`
     background: ${(props) => props.theme.body};
     transition: 0.2s ease;
     
-    ${(props) => props.isDefault && `
+    ${(props) =>
+      props.isDefault &&
+      `
       opacity: 0.5;
       pointer-events: none;
     `}
@@ -142,7 +147,10 @@ const Profile = () => {
             spacing_btm="-80px"
           >
             <StyledHeader>
-              <Type text={`Hello, ${auth.user.name}`} prefix=">> Boot Profile:" />
+              <Type
+                text={`Hello, ${auth.user.name}`}
+                prefix=">> Boot Profile:"
+              />
               <StyledButtonGroup>
                 {!edit && (
                   <Button onClick={() => setEdit(true)}>Edit Info</Button>
@@ -157,15 +165,16 @@ const Profile = () => {
             </StyledHeader>
 
             <StyledAvi isDefault={!avatar}>
-              <img src={avatar || iconLite.src} alt="" width={256} height={256} />
+              <img
+                src={avatar || iconLite.src}
+                alt=""
+                width={256}
+                height={256}
+              />
             </StyledAvi>
           </FauxHero>
           <div>
-            {edit ? (
-              <Settings auth={auth} isEdit />
-            ) : (
-              <Progress auth={auth} />
-            )}
+            {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
           </div>
         </>
       )}

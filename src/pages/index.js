@@ -18,15 +18,13 @@ import Loader from 'components/loader';
 
 import useCountdown from 'hooks/useCountdown';
 
-import osGrid from 'assets/img/os-grid.svg';
-
 import {
   StyledEventsListItemEyebrow,
   StyledList,
   StyledListItem,
 } from './events';
 import { FauxHero } from 'components/hero';
-import { PixelHeart } from 'components/pixels';
+import { PixelHeart, PixelFirework1, PixelFirework2 } from 'components/pixels';
 
 const flash = () => keyframes`
   from {
@@ -39,7 +37,9 @@ const flash = () => keyframes`
 
 const StyledCountdownContainer = styled.div`
   .title {
-    animation: ${flash} 1.5s linear infinite;
+    span {
+      animation: ${flash} 1.5s linear infinite;
+    }
 
     @media (prefers-reduced-motion) {
       animation-play-state: paused;
@@ -60,6 +60,56 @@ const StyledCountdownContainer = styled.div`
   }
 `;
 
+const StyledAnimations = styled.div`
+  z-index: -1;
+
+  & > * {
+    position: absolute;
+
+    svg {
+      opacity: 0.5;
+    }
+  }
+
+  #f1 {
+    top: 50%;
+    left: 40px;
+  }
+
+  #f2 {
+    top: 40px;
+    right: 100px;
+  }
+
+  #f3 {
+    bottom: 0px;
+    right: 250px;
+  }
+`;
+
+const StyledHeroContent = styled.div`
+  display: block;
+
+  div {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  a {
+    margin: 40px auto 0;
+    display: flex;
+    justify-content: center;
+
+    .btn {
+      width: 344px;
+    }
+
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+  }
+`;
+
 const Home = () => {
   const [days, hours, minutes, seconds] = useCountdown(
     new Date(registrationStart).getTime()
@@ -72,11 +122,7 @@ const Home = () => {
     []
   );
 
-  const hasEnded = useMemo(
-    () =>
-      new Date() >= new Date(profileEnd),
-    []
-  );
+  const hasEnded = useMemo(() => new Date() >= new Date(profileEnd), []);
 
   return (
     <>
@@ -89,11 +135,42 @@ const Home = () => {
         height="600px"
         spacing_btm="0"
       >
-        <Logo width="80px" />
+        <StyledHeroContent>
+          <Logo width="80px" />
+          <Link href="/auth" passHref>
+            <Button special as="a">
+              Registration now open
+            </Button>
+          </Link>
+        </StyledHeroContent>
+        <StyledAnimations>
+          <PixelFirework1
+            width="840"
+            scale="1"
+            timing="1.5"
+            frames="7"
+            id="f1"
+          />
+
+          <PixelFirework2 width="840" scale="1" timing="1" frames="7" id="f2" />
+          <PixelFirework1
+            width="840"
+            scale="1.5"
+            timing="1.25"
+            frames="7"
+            id="f3"
+          />
+        </StyledAnimations>
       </FauxHero>
       <Section spacing_top="64px">
         <StyledCountdownContainer>
-          <p className="title"> {'>>'} {hasProfile || hasEnded ? "launch initiated" : "Time to launch"}</p>
+          <p className="title">
+            {' '}
+            {'>>'}{' '}
+            <span>
+              {hasProfile || hasEnded ? 'launch initiated' : 'Time to launch'}
+            </span>
+          </p>
           <Column>
             <div className="ticker">
               <p>Days:</p>
@@ -116,18 +193,50 @@ const Home = () => {
         <Divider spacing_top="40px" spacing_btm="64px" />
       </Section>
       <Marquee
-        text1={hasProfile ? "launch sequence initiated!" : (hasEnded ? "launch sequence complete!" : "systems critical")}
-        text2={hasProfile ? "launch sequence initiated!" : (hasEnded ? "launch sequence complete!" : "systems critical")}
+        text1={
+          hasProfile
+            ? 'Get in the repo, Hacker!'
+            : hasEnded
+            ? 'launch sequence complete!'
+            : 'systems critical'
+        }
+        text2={
+          hasProfile
+            ? 'Get in the repo, Hacker!'
+            : hasEnded
+            ? 'launch sequence complete!'
+            : 'systems critical'
+        }
         direction="forwards"
       />
       <Marquee
-        text1={hasProfile ? "it's time to hack" : (hasEnded ? "see you for 2023" : "registration begins")}
-        text2={hasProfile ? "it's time to hack" : (hasEnded ? "see you for 2023" : "sept 26")}
+        text1={
+          hasProfile
+            ? 'launch sequence Initiated'
+            : hasEnded
+            ? 'see you for 2023'
+            : 'registration begins'
+        }
+        text2={
+          hasProfile
+            ? "it's time to hack"
+            : hasEnded
+            ? 'see you for 2023'
+            : 'sept 26'
+        }
         direction="reverse"
       />
       <Section spacing_top="64px">
         <Repeater spacing_btm="64px" />
-        <Loader message={`>> Boot Dialogue: ${hasProfile ? "registration is now open!" : (hasEnded ? "system paused until 2023" : "registration begins september 26")}`} />
+        <Loader
+          message={`>> Boot Dialogue: ${
+            hasProfile
+              ? 'registration is now open!'
+              : hasEnded
+              ? 'system paused until 2023'
+              : 'registration begins september 26'
+          }`}
+        />
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">

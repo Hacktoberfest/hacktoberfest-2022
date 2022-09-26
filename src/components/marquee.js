@@ -25,6 +25,7 @@ const MarqueeWrapper = styled.div`
     gap: var(--gap);
     justify-content: space-around;
     min-width: 100%;
+    margin-top: -40px;
 
     @media (prefers-reduced-motion) {
       animation-play-state: paused;
@@ -33,32 +34,8 @@ const MarqueeWrapper = styled.div`
     li {
       font-family: 'Vanguard';
       font-size: 144px;
-      line-height: 100%;
+      line-height: 120%;
       text-shadow: ${(props) => props.theme.glowLite};
-
-      // &.outline {
-      //   color: ${(props) => props.theme.body};
-      //   text-shadow: ${(props) => props.theme.textShadowLite};
-      //   -webkit-text-stroke: 1px ${(props) => props.theme.text};
-      // }
-
-      // &.fill {
-      //   &.surf {
-      //     color: ${(props) => props.theme.surf};
-      //     text-shadow: 0px 0px 12px ${(props) => props.theme.surf};
-      //   }
-      //   &.spark {
-      //     color: ${(props) => props.theme.spark};
-      //     text-shadow: 0px 0px 12px ${(props) => props.theme.spark};
-      //   }
-      //   &.giga {
-      //     color: ${(props) => props.theme.giga};
-      //     text-shadow: 0px 0px 12px ${(props) => props.theme.giga};
-      //   }
-      //   &.psybeam {
-      //     color: ${(props) => props.theme.psybeam};
-      //     text-shadow: 0px 0px 12px ${(props) => props.theme.psybeam};
-      //   }
     }
   }
 `;
