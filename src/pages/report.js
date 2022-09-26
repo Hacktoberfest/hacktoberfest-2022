@@ -132,7 +132,7 @@ const Report = () => {
                   error={error}
                 >
                   <fieldset>
-                    <label htmlFor="provider">[ Provider ]</label>
+                    <label htmlFor="provider">Provider</label>
                     <select
                       name="provider"
                       id="provider"
@@ -148,7 +148,7 @@ const Report = () => {
                   </fieldset>
 
                   <fieldset>
-                    <label htmlFor="repository">[ Repository ]</label>
+                    <label htmlFor="repository">Repository</label>
                     <input
                       type="text"
                       placeholder="owner/target"

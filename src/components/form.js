@@ -7,12 +7,58 @@ const StyledForm = styled.form`
   fieldset {
     border: 1px solid ${(props) => props.theme.text};
     border-radius: 8px;
-    padding: 8px;
+    padding: 16px;
     margin: 0 0 16px;
+    transition: 0.2s ease border-color;
+
+    &:hover,
+    &:focus-within {
+      border-color: ${(props) => props.theme.surf};
+    }
+    
+    fieldset {
+      padding: 8px 0;
+      border-width: 0 0 1px;
+      border-radius: 0;
+      
+      &:last-child {
+        border-width: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  > fieldset {
+    &:hover,
+    &:focus-within {
+      > label:first-child {
+        color: ${(props) => props.theme.surf};
+      }
+    }
+    
+    > label:first-child {
+      font-size: 1.1em;
+      transition: 0.2s ease color;
+      
+      &::before {
+        content: '[';
+        margin-right: 1ch;
+      }
+      
+      &::after {
+        content: ']';
+        margin-left: 1ch;
+      }
+    }
   }
   
   label {
     display: block;
+  }
+  
+  input,
+  select,
+  label {
     margin: 0 0 8px;
   }
   

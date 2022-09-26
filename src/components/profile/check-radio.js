@@ -13,6 +13,10 @@ const StyledLabel = styled.label`
     flex-flow: row nowrap;
     gap: 8px;
     
+    > input {
+      margin: 0;
+    }
+    
     > p {
       margin: 0 !important; // Some section somewhere is using classes to get higher precedence
     }

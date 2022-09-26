@@ -85,7 +85,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
     <>
       {(showEmail || !!fields.role || !!fields.stage || !!fields.type) && (
         <fieldset>
-          <label>[ Self-identification ]</label>
+          <label>Self-identification</label>
 
           {showEmail && (
             <fieldset>
@@ -183,7 +183,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
 
       {!!fields.operational && (
         <fieldset>
-          <label>[ Operational opt-ins ]</label>
+          <label>Operational opt-ins</label>
 
           {fields.operational.map(meta => (
             <CheckRadio
@@ -201,7 +201,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
 
       {!!fields.marketing && (
         <fieldset>
-          <label>[ Marketing opt-ins ]</label>
+          <label>Marketing opt-ins</label>
 
           {fields.marketing.map(meta => (
             <CheckRadio
@@ -227,7 +227,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
 
       {!!fields.agree && (
         <fieldset>
-          <label>[ Rules &amp; terms ]</label>
+          <label>Rules &amp; terms</label>
 
           {fields.agree.map(meta => (
             <CheckRadio
