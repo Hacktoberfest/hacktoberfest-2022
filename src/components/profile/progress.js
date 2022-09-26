@@ -6,6 +6,59 @@ import { trackingStart } from 'lib/config';
 import Loader from '../loader';
 import Section from 'components/section';
 import PullRequest from './pull-request';
+import styled from 'styled-components';
+
+const StyledProgressWrapper = styled.div`
+  h1,
+  h3 {
+    padding-bottom: 24px;
+    box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+  }
+
+  h1 {
+    margin-bottom: 40px;
+  }
+
+  h3 {
+    margin: 80px 0 24px;
+  }
+
+  h4 {
+    background: linear-gradient(
+      160deg,
+      ${(props) => props.theme.spark} 0%,
+      ${(props) => props.theme.surf} 30%,
+      ${(props) => props.theme.psybeam} 85%
+    );
+    background-size: 100% 100%;
+    color: ${(props) => props.theme.body};
+    box-shadow: ${(props) => props.theme.glowLite};
+    text-shadow: none;
+    padding: 24px 32px;
+    border-radius: 16px;
+    width: max-content;
+    transform: rotate(-4deg);
+  }
+`;
+
+const StyledNotification = styled.div`
+  width: 100%;
+  margin: 24px 0;
+  padding: 24px 32px;
+  transition: 0.2s ease;
+  background: linear-gradient(
+    180deg,
+    rgba(124, 127, 255, 0) 0%,
+    ${(props) => props.theme[props.color]} 300%
+  );
+  border: 1px solid ${(props) => props.theme[props.color]};
+  box-shadow: 0px 0px 8px ${(props) => props.theme[props.color]};
+  border-radius: 24px;
+
+  h5 {
+    margin-bottom: 8px;
+  }
+`;
 
 const Progress = ({ auth }) => {
   // Track the data we need to render
@@ -79,132 +132,146 @@ const Progress = ({ auth }) => {
   // Render the user's progress
   return (
     <Section>
-      <h2>Progress</h2>
-      <p>
-        {Math.min(acceptedCount, 4).toLocaleString()}
-        {acceptedCount > 4
-          ? ` + ${(acceptedCount - 4).toLocaleString()}`
-          : ''}{' '}
-        / 4
-        {!!waitingCount && (
-          <>
-            {' '}
-            <i>({waitingCount.toLocaleString()} waiting)</i>
-          </>
-        )}
-      </p>
-
-      {/* Handle a user that has been disqualified */}
-      {auth.registration.state.state.includes('disqualified') && (
-        <>
-          <p>[ Disqualification ]</p>
-          <p>
-            You have been disqualified from Hacktoberfest for submitting two or
-            more PR/MRs that have been identified as spam.
-            <br />
-            Due to being disqualified, you will be ineligible to recieve any
-            further rewards for your participation in Hacktoberfest.
-          </p>
-        </>
-      )}
-
-      {/* Handle a user that has been disqualified */}
-      {auth.registration.state.state.includes('warning') && (
-        <>
-          <p>[ Warning: Disqualification ]</p>
-          <p>
-            You have had a PR/MR identified as spam.
-            <br />
-            If you submit another PR/MR that is identified as spam, you will be
-            disqualified from Hacktoberfest.
-          </p>
-        </>
-      )}
-
-      {/* Show any gift codes the user has been awarded */}
-      {!!Object.keys(giftCodes).length && (
-        <>
-          {/* TODO: Kotis code */}
-          {/* TODO: DEV badge code */}
-
-          {Object.keys(giftCodes).some((type) =>
-            type.startsWith('holopin')
-          ) && (
+      <StyledProgressWrapper>
+        <h1>Progress</h1>
+        <h4>
+          {Math.min(acceptedCount, 4).toLocaleString()}
+          {acceptedCount > 4
+            ? ` + ${(acceptedCount - 4).toLocaleString()}`
+            : ''}{' '}
+          / 4
+          {!!waitingCount && (
             <>
-              <p>[ Rewards: Holopin Badges ]</p>
-
-              <ul>
-                {giftCodes['holopin-registered-badge'] && (
-                  <li>
-                    <p>
-                      You've been awarded a Holopin badge for registering for
-                      Hacktoberfest!
-                    </p>
-                  </li>
-                )}
-                {giftCodes['holopin-level-1-badge'] && (
-                  <li>
-                    <p>
-                      You've been awarded a Holopin badge for completing one
-                      accepted PR/MR!
-                    </p>
-                  </li>
-                )}
-                {giftCodes['holopin-level-2-badge'] && (
-                  <li>
-                    <p>
-                      You've been awarded a Holopin badge for completing two
-                      accepted PR/MRs!
-                    </p>
-                  </li>
-                )}
-                {giftCodes['holopin-level-3-badge'] && (
-                  <li>
-                    <p>
-                      You've been awarded a Holopin badge for completing three
-                      accepted PR/MRs!
-                    </p>
-                  </li>
-                )}
-                {giftCodes['holopin-level-4-badge'] && (
-                  <li>
-                    <p>
-                      You've been awarded a Holopin badge for completing four
-                      accepted PR/MRs!
-                    </p>
-                  </li>
-                )}
-              </ul>
-
-              <p>
-                Check your email for more information on how to claim each
-                badge.
-              </p>
+              {' '}
+              <i>[{waitingCount.toLocaleString()} waiting]</i>
             </>
           )}
-        </>
-      )}
+        </h4>
 
-      <h4>Pull/Merge Requests</h4>
+        {/* Handle a user that has been disqualified */}
+        {auth.registration.state.state.includes('disqualified') && (
+          <StyledNotification color="giga">
+            <h5>[ Disqualification ]</h5>
+            <p>
+              You have been disqualified from Hacktoberfest for submitting two
+              or more PR/MRs that have been identified as spam.
+              <br />
+              Due to being disqualified, you will be ineligible to recieve any
+              further rewards for your participation in Hacktoberfest.
+            </p>
+          </StyledNotification>
+        )}
 
-      {pullRequests.length ? (
-        <ul>
-          {pullRequests.map((pr) => (
-            <PullRequest key={pr.id} data={pr} as="li" />
-          ))}
-        </ul>
-      ) : hasStarted ? (
-        <p>
-          Uh oh! You haven't made any pull/merge requests yet. Submit your first
-          contribution to a participating project to get started with
-          Hacktoberfest!
-        </p>
-      ) : (
-        <p>
-          Hacktoberfest has not yet begun, hold off on those pull/merge requests
-          until October so they can count!
-        </p>
-      )}
+        {/* Handle a user that has been disqualified */}
+        {auth.registration.state.state.includes('warning') && (
+          <StyledNotification color="spark">
+            <h5>[ Warning: Disqualification ]</h5>
+            <p>
+              You have had a PR/MR identified as spam.
+              <br />
+              If you submit another PR/MR that is identified as spam, you will
+              be disqualified from Hacktoberfest.
+            </p>
+          </StyledNotification>
+        )}
+
+        {/* Show any gift codes the user has been awarded */}
+        {!!Object.keys(giftCodes).length && (
+          <>
+            {/* TODO: Kotis code */}
+            {/* TODO: DEV badge code */}
+
+            {Object.keys(giftCodes).some((type) =>
+              type.startsWith('holopin')
+            ) && (
+              <StyledNotification color="surf">
+                <h5>[ Rewards: Holopin Badges ]</h5>
+
+                <ul>
+                  {giftCodes['holopin-registered-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for registering for
+                        Hacktoberfest!
+                      </p>
+                    </li>
+                  )}
+                  {giftCodes['holopin-level-1-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for completing one
+                        accepted PR/MR!
+                      </p>
+                    </li>
+                  )}
+                  {giftCodes['holopin-level-2-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for completing two
+                        accepted PR/MRs!
+                      </p>
+                    </li>
+                  )}
+                  {giftCodes['holopin-level-3-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for completing three
+                        accepted PR/MRs!
+                      </p>
+                    </li>
+                  )}
+                  {giftCodes['holopin-level-4-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for completing four
+                        accepted PR/MRs!
+                      </p>
+                    </li>
+                  )}
+                </ul>
+
+                <p>
+                  Check your email for more information on how to claim each
+                  badge.
+                </p>
+              </StyledNotification>
+            )}
+          </>
+        )}
+
+        <h3>
+          Pull/Merge Requests {' '}
+          {/* <span>
+            {Math.min(acceptedCount, 4).toLocaleString()}
+            {acceptedCount > 4
+              ? ` + ${(acceptedCount - 4).toLocaleString()}`
+              : ''}{' '}
+            / 4
+            {!!waitingCount && (
+              <> [ {waitingCount.toLocaleString()} waiting ]</>
+            )}
+          </span> */}
+        </h3>
+
+        {pullRequests.length ? (
+          <ul>
+            {pullRequests.map((pr) => (
+              <PullRequest key={pr.id} data={pr} as="li" />
+            ))}
+          </ul>
+        ) : hasStarted ? (
+          <p>
+            Uh oh! You haven't made any pull/merge requests yet. Submit your
+            first contribution to a participating project to get started with
+            Hacktoberfest!
+          </p>
+        ) : (
+          <p>
+            Hacktoberfest has not yet begun, hold off on those pull/merge
+            requests until October so they can count!
+          </p>
+        )}
+      </StyledProgressWrapper>
     </Section>
   );
 };
