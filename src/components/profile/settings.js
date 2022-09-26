@@ -108,8 +108,23 @@ const Settings = ({ auth, isEdit = false }) => {
     loading.current = true;
 
     (async () => {
-      // Fetch all emails and default to the user's current email
-      setEmails(await fetchUserEmails(auth.user.id, auth.token));
+      // Fetch all emails and
+      try {
+        setEmails(await fetchUserEmails(auth.user.id, auth.token));
+      } catch (err) {
+        const data = await err.response.json().catch(() => null);
+        console.error(err, data);
+
+        // If emails fail to load, show an error and stop early
+        setError(
+          'An error occurred while fetching your email addresses. If you previously participated in Hacktoberfest with both GitHub and GitLab linked, try authenticating again with the other.'
+        );
+        setLoaded(true);
+        setSubmitting(true); // Disable everything
+        return;
+      }
+
+      // Default to the user's current email
       setData((prev) => ({ ...prev, email: auth.user.email }));
 
       // Fetch the user's linked OAuth accounts
@@ -304,9 +319,11 @@ const Settings = ({ auth, isEdit = false }) => {
             Logout
           </Button>
         )}
-        <Button onClick={submit} type="submit" disabled={submitting}>
-          {isEdit ? 'Save' : 'Register'}
-        </Button>
+        {!!metadata.length && (
+          <Button onClick={submit} type="submit" disabled={submitting}>
+            {isEdit ? 'Save' : 'Register'}
+          </Button>
+        )}
       </Form>
     </Section>
   );
