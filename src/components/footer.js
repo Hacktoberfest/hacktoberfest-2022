@@ -3,6 +3,9 @@ import styled from 'styled-components';
 
 import { Badge } from './logo-2';
 import Repeater from './repeater';
+import docker from 'assets/img/sponsors/docker-logo.svg';
+import appwrite from 'assets/img/sponsors/appwrite-logo.svg';
+import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -13,7 +16,7 @@ const StyledFooter = styled.footer`
 
   @media (max-width: 600px) {
     padding: 0 24px;
-    margin-bottom: 200px;
+    margin-bottom: 64px;
   }
 
   .wrapper {
@@ -27,6 +30,10 @@ const StyledFooter = styled.footer`
 
     @media (max-width: 800px) {
       flex-wrap: wrap;
+
+      .brand {
+        order: 3;
+      }
     }
   }
 
@@ -57,6 +64,20 @@ const StyledFooter = styled.footer`
         }
       }
     }
+
+    h6 {
+      opacity: 0.75;
+
+      &:first-of-type {
+        margin-bottom: 40px;
+      }
+    }
+
+    img {
+      display: block;
+      margin-top: 16px;
+      filter: ${(props) => props.theme.glowLiteDS};
+    }
   }
 
   h6 {
@@ -70,11 +91,30 @@ const Footer = () => {
       <div className="wrapper">
         <Repeater top="200px" />
         <div className="content_wrapper">
-          <dl>
+          <dl className="brand">
             <Badge width="80px" />
             <h6>
               &copy; 2022 DigitalOcean, LLC. <br /> All Rights Reserved.
             </h6>
+            <h6>Presented by</h6>
+            <img
+              src={digitalocean.src}
+              alt="DigitalOcean logo"
+              width={160}
+              height={'auto'}
+            />
+            <img
+              src={appwrite.src}
+              alt="Appwri0te logo"
+              width={128}
+              height={'auto'}
+            />
+            <img
+              src={docker.src}
+              alt="Docker logo"
+              width={112}
+              height={'auto'}
+            />
           </dl>
 
           <dl>

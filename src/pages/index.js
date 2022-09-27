@@ -125,9 +125,7 @@ const SponsorsWrapper = styled.div`
   padding-top: 64px;
   flex-flow: row wrap;
 
-  p {
-    font-size: 14px;
-    line-height: 20px;
+  h6 {
     opacity: 0.75;
     text-shadow: none;
     margin: 0 auto;
@@ -184,7 +182,7 @@ const Home = () => {
             </Button>
           </Link>
           <SponsorsWrapper>
-            <p>Presented by</p>
+            <h6>Presented by</h6>
             <div>
               <img
                 src={digitalocean.src}
