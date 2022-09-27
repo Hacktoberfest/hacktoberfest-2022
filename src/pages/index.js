@@ -27,6 +27,7 @@ import { FauxHero } from 'components/hero';
 import { PixelHeart, PixelFirework1, PixelFirework2 } from 'components/pixels';
 import docker from 'assets/img/sponsors/docker-logo.svg';
 import appwrite from 'assets/img/sponsors/appwrite-logo.svg';
+import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
 
 const flash = () => keyframes`
   from {
@@ -105,9 +106,46 @@ const StyledHeroContent = styled.div`
     .btn {
       width: 344px;
     }
+  }
 
-    @media (max-width: 500px) {
+  @media (max-width: 500px) {
+    a {
       width: 100%;
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+`;
+
+const SponsorsWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  padding-top: 64px;
+  flex-flow: row wrap;
+
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    opacity: 0.75;
+    text-shadow: none;
+    margin: 0 auto;
+  }
+
+  div {
+    display: inherit;
+    align-items: flex-end;
+    gap: 20px;
+    flex-flow: row wrap;
+
+    img {
+      margin: 0 auto;
+      filter: ${(props) => props.theme.glowLiteDS};
+
+      &#docker {
+        margin-bottom: 2px;
+      }
     }
   }
 `;
@@ -134,8 +172,9 @@ const Home = () => {
         b="0.4"
         gradientLeft="#0049FF"
         gradientRight="#FF69B9"
-        height="600px"
-        spacing_btm="0"
+        height="632px"
+        spacing_btm="-24px"
+        spacing_top="24px"
       >
         <StyledHeroContent>
           <Logo width="80px" />
@@ -144,6 +183,30 @@ const Home = () => {
               Registration now open
             </Button>
           </Link>
+          <SponsorsWrapper>
+            <p>Presented by</p>
+            <div>
+              <img
+                src={digitalocean.src}
+                alt="DigitalOcean logo"
+                width={160}
+                height={'100%'}
+              />
+              <img
+                src={appwrite.src}
+                alt="Appwri0te logo"
+                width={128}
+                height={'100%'}
+              />
+              <img
+                src={docker.src}
+                alt="Docker logo"
+                width={112}
+                height={'100%'}
+                id="docker"
+              />
+            </div>
+          </SponsorsWrapper>
         </StyledHeroContent>
         <StyledAnimations>
           <PixelFirework1
