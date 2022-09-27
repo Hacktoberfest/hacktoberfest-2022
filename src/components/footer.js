@@ -97,24 +97,42 @@ const Footer = () => {
               &copy; 2022 DigitalOcean, LLC. <br /> All Rights Reserved.
             </h6>
             <h6>Presented by</h6>
-            <img
-              src={digitalocean.src}
-              alt="DigitalOcean logo"
-              width={160}
-              height={'auto'}
-            />
-            <img
-              src={appwrite.src}
-              alt="Appwri0te logo"
-              width={128}
-              height={'auto'}
-            />
-            <img
-              src={docker.src}
-              alt="Docker logo"
-              width={112}
-              height={'auto'}
-            />
+            <a
+              href="https://digitalocean.com"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <img
+                src={digitalocean.src}
+                alt="DigitalOcean logo"
+                width={160}
+                height={'auto'}
+              />
+            </a>
+            <a
+              href="https://appwrite.io/"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <img
+                src={appwrite.src}
+                alt="Appwrite logo"
+                width={128}
+                height={'auto'}
+              />
+            </a>
+            <a
+              href="https://docker.com/"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <img
+                src={docker.src}
+                alt="Docker logo"
+                width={112}
+                height={'auto'}
+              />
+            </a>
           </dl>
 
           <dl>

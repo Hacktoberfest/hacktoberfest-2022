@@ -192,7 +192,7 @@ const Home = () => {
               />
               <img
                 src={appwrite.src}
-                alt="Appwri0te logo"
+                alt="Appwrite logo"
                 width={128}
                 height={'100%'}
               />
