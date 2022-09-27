@@ -25,6 +25,8 @@ import {
 } from './events';
 import { FauxHero } from 'components/hero';
 import { PixelHeart, PixelFirework1, PixelFirework2 } from 'components/pixels';
+import docker from 'assets/img/sponsors/docker-logo.svg';
+import appwrite from 'assets/img/sponsors/appwrite-logo.svg';
 
 const flash = () => keyframes`
   from {
