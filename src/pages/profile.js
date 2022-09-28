@@ -13,73 +13,11 @@ import Type from 'components/type';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
 import { PixelFirework1, PixelFirework2 } from 'components/pixels';
-import { StyledAnimations } from 'pages';
 
 import useAuth from 'hooks/useAuth';
 
-const StyledHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 40px;
-  flex-flow: row wrap;
-  position: absolute;
-  top: 40px;
-  left: 0;
-
-  @media (max-width: 964px) {
-    height: auto;
-    flex-flow: row wrap;
-
-    div {
-      margin-top: 12px;
-    }
-  }
-
-  @media (max-width: 450px) {
-    div {
-      margin-top: 4px;
-    }
-  }
-`;
-
-const loadAvi = () => keyframes`
-  to {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 1;
-  }
-`;
-
-const StyledAvi = styled.div`
-  position: relative;
-  transform: translateY(200px) rotate(-16deg);
-  opacity: 0;
-  animation ${loadAvi} 0.5s 0.5s ease forwards;
-
-  img {
-    border-radius: 24px;
-    object-fit: cover;
-    transform: rotate(8deg);
-    box-shadow: ${(props) => props.theme.glowLite};
-    background: ${(props) => props.theme.body};
-    transition: 0.2s ease;
-    
-    ${(props) =>
-      props.isDefault &&
-      `
-      opacity: 0.5;
-      pointer-events: none;
-    `}
-
-    &:hover {
-      transform: rotate(0deg);
-      filter: hue-rotate(140deg) contrast(100%);
-      box-shadow: -1px -1px 20px rgba(255, 215, 77, 1),
-        1px 1px 20px rgba(124, 127, 255, 1);
-    }
-  }
-`;
+import { StyledAnimations } from './index';
+import { StyledAvatar, StyledHeader } from './register';
 
 const opacityFade = () => keyframes`
   to {
@@ -177,14 +115,14 @@ const Profile = () => {
               </StyledButtonGroup>
             </StyledHeader>
 
-            <StyledAvi isDefault={!avatar}>
+            <StyledAvatar isDefault={!avatar}>
               <img
                 src={avatar || iconLite.src}
                 alt=""
                 width={256}
                 height={256}
               />
-            </StyledAvi>
+            </StyledAvatar>
             <StyledAnimations>
               <PixelFirework1
                 width="840"
@@ -193,7 +131,6 @@ const Profile = () => {
                 frames="7"
                 id="f1"
               />
-
               <PixelFirework2
                 width="840"
                 scale="1"
