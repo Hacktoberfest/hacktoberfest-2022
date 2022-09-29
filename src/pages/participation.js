@@ -20,6 +20,7 @@ import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelPus } from 'components/pixels';
 import DorknamicIsland from '../components/dorknamic-island';
+import YouTube from '../components/youtube';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
@@ -109,6 +110,8 @@ const Participation = () => {
         <Anchor href="#beginner-resources" />
         <MarkdownInline string={resources.title} as="h2" />
         <ContentSections sections={resources.sections} />
+
+        <YouTube id="nkuYH40cjo4" title="How to Do Your First Pull Request" />
       </Section>
 
       <Section type="sub_content" id="pr-mr-details">
