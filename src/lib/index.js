@@ -6,7 +6,7 @@ export const events = [
     date: 'Oct 04',
     time: '11:00 AM Eastern Daylight Time',
     format: ['Livestream'],
-    rsvp: null,
+    rsvp: 'https://try.digitalocean.com/hacktoberfest22-kick-off/',
   },
   {
     title: 'Hacktoberfest Hack Party Asia Pacific Edition',
@@ -15,7 +15,7 @@ export const events = [
     date: 'Oct 12',
     time: '11:00 AM Indian Standard Time',
     format: ['Livestream'],
-    rsvp: null,
+    rsvp: 'https://try.digitalocean.com/hacktoberfest22-hack-party-apac/',
   },
   {
     title: 'Hacktoberfest Hack Party',
