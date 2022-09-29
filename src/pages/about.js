@@ -92,16 +92,15 @@ const StyledCouncilMembers = styled.div`
 
     a {
       text-transform: none;
-      transition: 0.2s ease;
+      transition: color 0.2s ease, filter 0.2s ease;
       font-variant-ligatures: none;
 
       &:after {
         content: ' >';
       }
 
-      &:hover {
-        color: rgba(229, 225, 230, 1);
-
+      &:hover,
+      &:focus {
         &:after {
           filter: ${(props) => props.theme.glowLiteDS};
           animation: ${textAnimation} 1.5s linear infinite;

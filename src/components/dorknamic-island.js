@@ -130,9 +130,12 @@ const StyledNav = styled.nav`
   }
 
   a {
-    transition: opacity 0.2s ease;
+    color: ${(props) => props.theme.text};
+    transition: text-shadow 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &:focus {
+      color: ${(props) => props.theme.text};
       text-shadow: ${(props) => props.theme.glowLite};
     }
   }
@@ -166,14 +169,12 @@ const StyledIsland = styled.div`
     justify-content: space-between;
 
     &[aria-selected='true'] {
-    width: 100%;
-    flex-direction: reverse;
+      width: 100%;
+      flex-direction: reverse;
+    }
 
-  }
-
-      &:after {
-        transform: rotate(-45deg);
-      }
+    &:after {
+      transform: rotate(-45deg);
     }
   }
 `;

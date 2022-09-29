@@ -16,7 +16,7 @@ const textAnimation = () => keyframes`
 `;
 
 const StyledA = styled.a`
-  color: ${(props) => props.theme.manga};
+  color: ${(props) => props.theme.text};
   display: flex;
   gap: 16px;
   opacity: 0.5;

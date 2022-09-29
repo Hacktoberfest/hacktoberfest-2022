@@ -55,10 +55,13 @@ const StyledFooter = styled.footer`
       box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
 
       a {
+        color: ${(props) => props.theme.text};
         opacity: 0.75;
-        transition: 0.1s ease;
+        transition: opacity 0.2s ease, text-shadow 0.2s ease;
 
-        &:hover {
+        &:hover,
+        &:focus {
+          color: ${(props) => props.theme.text};
           opacity: 1;
           text-shadow: ${(props) => props.theme.glowLite};
         }

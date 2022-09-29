@@ -192,6 +192,7 @@ const Wrapper = styled.header`
     }
 
     .logo_wrapper {
+      color: ${(props) => props.theme.text};
       position: relative;
       display: flex;
       justify-content: flex-start;

@@ -47,6 +47,16 @@ const GlobalStyle = createGlobalStyle`
     text-shadow: ${(props) => props.theme.glowLite};
     word-wrap: break-word;
   }
+  
+  a {
+    color: ${(props) => props.theme.surf};
+    transition: color 0.2s ease;
+    
+    &:hover,
+    &:focus {
+      color: ${(props) => props.theme.psybeam};
+    }
+  }
 
   @font-face {
     font-display: swap;
