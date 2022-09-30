@@ -24,9 +24,23 @@ export const StyledButton = styled.button`
   &.wrapper_special {
     filter: ${(props) => props.theme.glowLiteDS};
   }
+  
+  &:disabled {
+    cursor: default;
+  }
 
-  &:hover {
-    filter: ${(props) => props.theme.glowLiteDS};
+  &:not(:disabled) {
+    cursor: pointer;
+    
+    &:hover {
+      filter: ${(props) => props.theme.glowLiteDS};
+    }
+    
+    .btn {
+      &:active {
+        transform: scale(0.95);
+      }
+    }
   }
   
   .btn {
@@ -37,7 +51,6 @@ export const StyledButton = styled.button`
     clip-path: polygon(12px 0, 100% 0, 100% 72%, calc(100% - 12px) 100%, 0 100%, 0 12px);
     color: ${(props) =>
       props.theme[props.color_text] || props.color_text || props.theme.body};
-    cursor: pointer;
     font-family: 'JetBrains Mono', sans-serif;
     font-size: 16px;
     font-weight: 500;
@@ -47,42 +60,37 @@ export const StyledButton = styled.button`
     padding: 8px 18px;
     text-decoration: none;
     transition: 0.2s;
-
-    &:active {
-      transform: scale(0.95);
-    }
   }
 
   .special {
     filter: ${(props) => props.theme.glowLiteDS};
-      animation: 1.5s ease infinite alternate running ${shimmerAnimation};
-      background: linear-gradient(90deg, ${(props) => props.theme.spark} 0%, ${(
-  props
+    animation: 1.5s ease infinite alternate running ${shimmerAnimation};
+    background: linear-gradient(90deg, ${(props) => props.theme.spark} 0%, ${(
+props
 ) => props.theme.surf} 30%, ${(props) => props.theme.psybeam} 85%);
-      background-size: 200% 100%;
-      color: #170F1E;
+    background-size: 200% 100%;
+    color: #170F1E;
 
-      svg {
-        left: -24px;
-        opacity: 0.3;
-        position: absolute;
-        top: -2px;
-        transition: 0.4s cubic-bezier(.5,-0.5,.5,1.5);
-      }
+    svg {
+      left: -24px;
+      opacity: 0.3;
+      position: absolute;
+      top: -2px;
+      transition: 0.4s cubic-bezier(.5,-0.5,.5,1.5);
+    }
 
-      &:hover {
-        transform: rotate(2deg);
-      }
-    
-      &:active {
-        transform: scale(0.95) rotate(2deg);
-      }
-    
-      &:hover svg {
-        opacity: 0.8;
-        transform: translateX(50px) scale(2);
-      }
-    } 
+    &:hover {
+      transform: rotate(2deg);
+    }
+  
+    &:active {
+      transform: scale(0.95) rotate(2deg);
+    }
+  
+    &:hover svg {
+      opacity: 0.8;
+      transform: translateX(50px) scale(2);
+    }
   }
 `;
 

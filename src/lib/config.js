@@ -36,7 +36,7 @@ export const profileEnd = process.env.PROFILE_END || '2022-12-15T12:00:00Z';
  * Used for:
  *   - Displaying nice names for PR/MR providers
  *   - Provider selection on report page
- *   - Provider names in profile link/unlinking
+ *   - Providers in profile link/unlinking
  */
 export const providerMap = Object.freeze({
   github: 'GitHub',
