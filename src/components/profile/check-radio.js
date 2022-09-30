@@ -3,9 +3,10 @@ import styled from 'styled-components';
 
 import { MarkdownInline } from '../markdown';
 
-const StyledLabel = styled.label`
+export const StyledLabel = styled.label`
   display: block;
-  margin: 12px 0;
+  margin: 16px 0;
+  cursor: pointer;
   
   > div {
     display: flex;

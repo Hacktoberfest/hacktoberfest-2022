@@ -2,6 +2,7 @@ import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 import Notification from './notification';
+import { StyledLabel } from './profile/check-radio';
 
 const StyledForm = styled.form`
   fieldset {
@@ -58,7 +59,7 @@ const StyledForm = styled.form`
   
   input,
   select,
-  label {
+  label:not(${StyledLabel}) {
     margin: 0 0 8px;
   }
   
