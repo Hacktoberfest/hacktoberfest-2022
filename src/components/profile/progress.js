@@ -7,6 +7,7 @@ import { trackingStart } from 'lib/config';
 import Loader from 'components/loader';
 import Section from 'components/section';
 import Notification from 'components/notification';
+import EmailWarning from './email-warning';
 
 import PullRequest from './pull-request';
 
@@ -160,6 +161,12 @@ const Progress = ({ auth }) => {
             </p>
           </Notification>
         )}
+
+        {/* Handle a user that has a no-reply email selected */}
+        <EmailWarning
+          email={auth.user.email}
+          hasHolopin={auth.registration.metadata['operational-holopin']?.value === 'true'}
+        />
 
         {/* Show any gift codes the user has been awarded */}
         {!!Object.keys(giftCodes).length && (

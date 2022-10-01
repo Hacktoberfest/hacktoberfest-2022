@@ -281,8 +281,8 @@ const Settings = ({ auth, isEdit = false }) => {
         success={success && 'Your Hacktoberfest registration has been saved.'}
         error={error}
       >
-        <fieldset>
-          {isEdit && (
+        {isEdit && (
+          <fieldset>
             <StyledButtonGroup>
               {Object.keys(providerMap).map((provider) => (
                 <Fragment key={provider}>
@@ -304,8 +304,8 @@ const Settings = ({ auth, isEdit = false }) => {
                 </Fragment>
               ))}
             </StyledButtonGroup>
-          )}
-        </fieldset>
+          </fieldset>
+        )}
 
         <MetadataFields
           emails={emails}

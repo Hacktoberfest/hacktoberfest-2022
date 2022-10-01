@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import countryList from 'country-list';
 
 import CheckRadio from './check-radio';
+import EmailWarning from './email-warning';
 
 const countries = [{
   code: '',
@@ -111,6 +112,8 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
                 <option key={email} value={email}>{email}</option>
               ))}
             </select>
+
+            <EmailWarning email={value.email} hasHolopin={value.metadata['operational-holopin']} />
           </fieldset>
         )}
 
@@ -194,15 +197,19 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
           <label>Operational opt-ins</label>
 
           {fields.operational.map(meta => (
-            <CheckRadio
-              key={meta.name}
-              title={meta.title}
-              message={meta.message}
-              name={meta.name}
-              onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
-              checked={value.metadata[meta.name]}
-              disabled={disabled}
-            />
+            <Fragment key={meta.name}>
+              <CheckRadio
+                title={meta.title}
+                message={meta.message}
+                name={meta.name}
+                onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
+                checked={value.metadata[meta.name]}
+                disabled={disabled}
+              />
+              {!!(meta.name === 'operational-holopin' && value.metadata[meta.name]) && (
+                <EmailWarning email={value.email} hasHolopin />
+              )}
+            </Fragment>
           ))}
         </fieldset>
       )}
