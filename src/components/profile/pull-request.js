@@ -28,7 +28,6 @@ const providerColors = {
 const StyledState = styled.button`
   width: 32px;
   height: 32px;
-  background: green;
   position: relative;
   transition: 0.2s;
   cursor: pointer;
@@ -79,9 +78,11 @@ const StyledState = styled.button`
       color: ${(props) => props.theme.body};
 
       a {
+        color: ${(props) => props.theme.psybeam};
         text-decoration: underline;
-
-        &:hover {
+        
+        &:hover,
+        &:focus {
           text-decoration: none;
         }
       }
@@ -97,6 +98,7 @@ const StyledState = styled.button`
 
   &[aria-selected='true'] {
     opacity: 1;
+    
     div {
       display: block;
     }
@@ -104,6 +106,7 @@ const StyledState = styled.button`
 
   @media (max-width: 550px) {
     position: static;
+    
     div {
       top: 48px;
       width: 100%;
