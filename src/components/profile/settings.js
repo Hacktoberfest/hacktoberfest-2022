@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   createRegistration,
@@ -285,21 +285,23 @@ const Settings = ({ auth, isEdit = false }) => {
           {isEdit && (
             <StyledButtonGroup>
               {Object.keys(providerMap).map((provider) => (
-                oauth[provider] ? (
-                  hasMultipleOAuth && router.query.unlink === 'enabled' ? (
-                    <Button onClick={(e) => unlinkOAuth(e, provider)} type="button">
-                      Unlink {providerMap[provider]} account (@{oauth[provider].providerUsername})
-                    </Button>
+                <Fragment key={provider}>
+                  {oauth[provider] ? (
+                    hasMultipleOAuth && router.query.unlink === 'enabled' ? (
+                      <Button onClick={(e) => unlinkOAuth(e, provider)} type="button">
+                        Unlink {providerMap[provider]} account (@{oauth[provider].providerUsername})
+                      </Button>
+                    ) : (
+                      <Button onClick={(e) => e.preventDefault()} type="button" disabled>
+                        {providerMap[provider]} linked (@{oauth[provider].providerUsername})
+                      </Button>
+                    )
                   ) : (
-                    <Button onClick={(e) => e.preventDefault()} type="button" disabled>
-                      {providerMap[provider]} linked (@{oauth[provider].providerUsername})
+                    <Button onClick={(e) => linkOAuth(e, provider)} type="button">
+                      Link {providerMap[provider]} account
                     </Button>
-                  )
-                ) : (
-                  <Button onClick={(e) => linkOAuth(e, provider)} type="button">
-                    Link {providerMap[provider]} account
-                  </Button>
-                )
+                  )}
+                </Fragment>
               ))}
             </StyledButtonGroup>
           )}

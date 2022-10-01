@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 
@@ -32,9 +33,10 @@ const StyledProgressWrapper = styled.div`
 
 const Profile = () => {
   const auth = useAuth();
+  const router = useRouter();
 
   // Track if we're in the edit view
-  const [edit, setEdit] = useState(false);
+  const edit = useMemo(() => /\/profile\/edit\/?/.test(router.asPath), [router.asPath]);
 
   // Once initial auth has completed, load the avatar (and only load it once)
   const [loaded, setLoaded] = useState(null);
@@ -104,10 +106,10 @@ const Profile = () => {
               />
               <StyledButtonGroup>
                 {!edit && (
-                  <Button onClick={() => setEdit(true)}>Edit Info</Button>
+                  <Button onClick={() => router.push('/profile/edit', undefined, { shallow: true })}>Edit Info</Button>
                 )}
                 {edit && (
-                  <Button onClick={() => setEdit(false)}>
+                  <Button onClick={() => router.push('/profile', undefined, { shallow: true })}>
                     Back to Profile
                   </Button>
                 )}

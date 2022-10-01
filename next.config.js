@@ -42,6 +42,20 @@ module.exports = {
     });
     return config;
   },
+  rewrites() {
+    return [
+      {
+        source: '/profile/edit',
+        destination: '/profile',
+      },
+    ];
+  },
+  exportPathMap(defaultPathMap) {
+    return {
+      ...defaultPathMap,
+      '/profile/edit': { page: '/profile' },
+    };
+  },
   reactStrictMode: true,
   swcMinify: true,
   trailingSlash: true,
