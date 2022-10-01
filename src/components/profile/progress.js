@@ -49,6 +49,12 @@ const StyledProgressWrapper = styled.div`
   }
 `;
 
+const StyledFootNote = styled.p`
+  font-style: italic;
+  opacity: 0.8;
+  margin: 48px 0 0;
+`;
+
 const Progress = ({ auth }) => {
   // Track the data we need to render
   const [loaded, setLoaded] = useState(false);
@@ -250,6 +256,14 @@ const Progress = ({ auth }) => {
             requests until October so they can count!
           </p>
         )}
+
+        <StyledFootNote>
+          Not seeing what you expect here? Hacktoberfest profiles only show
+          contributor activity, not maintainer activity (we calculate this
+          after Hacktoberfest ends). Profiles update once every 15 minutes
+          if you're loading the page often, or once every 6 hours in the
+          background.
+        </StyledFootNote>
       </StyledProgressWrapper>
     </Section>
   );
