@@ -43,6 +43,8 @@ export const fetchEvents = async () => {
         if (Number.isNaN(date.getTime())) return; // Hide events with invalid dates
         if (date.getTime() < Date.now()) return; // Hide events that have already happened
 
+        if (!/^(https?:)?\/\//.test(event['Event RSVP'])) event['Event RSVP'] = `https://${event['Event RSVP']}`;
+
         return {
             type: event['Event Type'],
             title: event['Event'],
