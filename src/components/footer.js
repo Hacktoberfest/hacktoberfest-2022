@@ -87,7 +87,7 @@ const Footer = () => {
           gradientLeft="#00A6FF"
           gradientRight="#9700FF"
           height="540px"
-          spacing_btm="-64px"
+          spacing_btm="-16px"
           spacing_top="-64px"
         >
           <AllSponsors />
