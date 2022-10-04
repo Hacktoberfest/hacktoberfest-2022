@@ -16,14 +16,14 @@ const sponsors = {
     },
     {
       name: 'Appwrite',
-      url: 'https://appwrite.io/',
+      url: 'https://hacktoberfest.appwrite.io/',
       image: appwrite.src,
       scaleFactor: 1,
       verticalOffset: 0,
     },
     {
       name: 'Docker',
-      url: 'https://docker.com/',
+      url: 'https://dockr.ly/3BMyG08',
       image: docker.src,
       scaleFactor: 0.875,
       verticalOffset: 2,
@@ -39,7 +39,7 @@ const sponsors = {
     },
     {
       name: 'RapidAPI',
-      url: 'https://rapidapi.com/',
+      url: 'https://rapidapi.com/learn?utm_source=DevRel&utm_medium=hacktoberfest&utm_campaign=2022',
       image: rapidapi.src,
       scaleFactor: 1,
       verticalOffset: 0,
