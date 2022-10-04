@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 import { Badge } from './logo-2';
 import Repeater from './repeater';
-import docker from 'assets/img/sponsors/docker-logo.svg';
-import appwrite from 'assets/img/sponsors/appwrite-logo.svg';
-import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
+import { FauxHero } from './hero';
+import { AllSponsors } from './sponsors';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -70,21 +69,8 @@ const StyledFooter = styled.footer`
 
     h6 {
       opacity: 0.75;
-
-      &:first-of-type {
-        margin-bottom: 40px;
-      }
-    }
-
-    img {
-      display: block;
       margin-top: 16px;
-      filter: ${(props) => props.theme.glowLiteDS};
     }
-  }
-
-  h6 {
-    margin-top: 16px;
   }
 `;
 
@@ -93,49 +79,26 @@ const Footer = () => {
     <StyledFooter>
       <div className="wrapper">
         <Repeater top="200px" />
+
+        <FauxHero
+          h="180"
+          s="6"
+          b="0.3"
+          gradientLeft="#00A6FF"
+          gradientRight="#9700FF"
+          height="540px"
+          spacing_btm="-64px"
+          spacing_top="-64px"
+        >
+          <AllSponsors />
+        </FauxHero>
+
         <div className="content_wrapper">
           <dl className="brand">
             <Badge width="80px" />
             <h6>
               &copy; 2022 DigitalOcean, LLC. <br /> All Rights Reserved.
             </h6>
-            <h6>Presented by</h6>
-            <a
-              href="https://digitalocean.com"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <img
-                src={digitalocean.src}
-                alt="DigitalOcean logo"
-                width={160}
-                height={'auto'}
-              />
-            </a>
-            <a
-              href="https://appwrite.io/"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <img
-                src={appwrite.src}
-                alt="Appwrite logo"
-                width={128}
-                height={'auto'}
-              />
-            </a>
-            <a
-              href="https://docker.com/"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <img
-                src={docker.src}
-                alt="Docker logo"
-                width={112}
-                height={'auto'}
-              />
-            </a>
           </dl>
 
           <dl>
