@@ -121,7 +121,7 @@ export const prMrDetails = {
       ],
     },
     {
-      title: 'Your PR/MRs must be in a repo tagged with the “hacktoberfest” topic, or be labeled “hacktoberfest-accepted.”',
+      title: 'Your PR/MRs must be in a repo tagged with the “hacktoberfest” topic, or have the “hacktoberfest-accepted” label.',
       subtitle: 'participating',
       items: [
         {
