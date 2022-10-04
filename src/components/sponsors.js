@@ -41,25 +41,43 @@ export const FounderSponsors = () => (
   <SponsorsWrapper>
     <h6>Presented by</h6>
     <div>
-      <img
-        src={digitalocean.src}
-        alt="DigitalOcean logo"
-        width={160}
-        height={'100%'}
-      />
-      <img
-        src={appwrite.src}
-        alt="Appwrite logo"
-        width={128}
-        height={'100%'}
-      />
-      <img
-        src={docker.src}
-        alt="Docker logo"
-        width={112}
-        height={'100%'}
-        id="docker"
-      />
+      <a
+        href="https://digitalocean.com"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        <img
+          src={digitalocean.src}
+          alt="DigitalOcean logo"
+          width={160}
+          height={'100%'}
+        />
+      </a>
+      <a
+        href="https://appwrite.io/"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        <img
+          src={appwrite.src}
+          alt="Appwrite logo"
+          width={128}
+          height={'100%'}
+        />
+      </a>
+      <a
+        href="https://docker.com/"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        <img
+          src={docker.src}
+          alt="Docker logo"
+          width={112}
+          height={'100%'}
+          id="docker"
+        />
+      </a>
     </div>
   </SponsorsWrapper>
 );
