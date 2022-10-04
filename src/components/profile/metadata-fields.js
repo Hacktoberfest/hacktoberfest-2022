@@ -4,12 +4,17 @@ import countryList from 'country-list';
 import CheckRadio from './check-radio';
 import EmailWarning from './email-warning';
 
+// Override ISO 3166-1 for some countries
+const countryOverrides = {
+  tw: 'Taiwan',
+}
+
 const countries = [{
   code: '',
   name: 'Prefer not to say',
 }].concat(
   Object.entries(countryList.getCodeList())
-    .map(([ code, name ]) => ({ code, name }))
+    .map(([ code, name ]) => ({ code, name: countryOverrides[code] || name }))
     .sort((a, b) => a.name.localeCompare(b.name)),
 );
 
