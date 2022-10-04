@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
-import appwrite from 'assets/img/sponsors/appwrite-logo.svg';
-import devtron from 'assets/img/sponsors/devtron-logo.svg';
-import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
-import docker from 'assets/img/sponsors/docker-logo.svg';
-import novu from 'assets/img/sponsors/novu-logo.svg';
-import rapidapi from 'assets/img/sponsors/rapidapi-logo.svg';
+import sponsors from 'lib/sponsors';
 
 const SponsorsWrapper = styled.div`
   display: flex;
@@ -29,10 +24,6 @@ const SponsorsWrapper = styled.div`
     img {
       margin: 0 auto;
       filter: ${(props) => props.theme.glowLiteDS};
-
-      &#docker {
-        margin-bottom: 2px;
-      }
     }
   }
 `;
@@ -41,43 +32,22 @@ export const FounderSponsors = () => (
   <SponsorsWrapper>
     <h6>Presented by</h6>
     <div>
-      <a
-        href="https://digitalocean.com"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        <img
-          src={digitalocean.src}
-          alt="DigitalOcean logo"
-          width={160}
-          height={'100%'}
-        />
-      </a>
-      <a
-        href="https://appwrite.io/"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        <img
-          src={appwrite.src}
-          alt="Appwrite logo"
-          width={128}
-          height={'100%'}
-        />
-      </a>
-      <a
-        href="https://docker.com/"
-        target="_blank"
-        rel="noreferrer noopener"
-      >
-        <img
-          src={docker.src}
-          alt="Docker logo"
-          width={112}
-          height={'100%'}
-          id="docker"
-        />
-      </a>
+      {sponsors.presented.map((sponsor) => (
+        <a
+          key={sponsor.name}
+          href={sponsor.url}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <img
+            src={sponsor.image}
+            alt={`${sponsor.name} logo`}
+            width={128 * (sponsor.scaleFactor || 1)}
+            style={{ marginBottom: sponsor.verticalOffset ? `${sponsor.verticalOffset}px` : undefined }}
+            height={'100%'}
+          />
+        </a>
+      ))}
     </div>
   </SponsorsWrapper>
 );
@@ -129,85 +99,43 @@ export const AllSponsors = () => (
     <div className="block">
       <h6>Presented by</h6>
       <div>
-        <a
-          href="https://digitalocean.com"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            src={digitalocean.src}
-            alt="DigitalOcean logo"
-            width={235}
-            height={'100%'}
-          />
-        </a>
-        <a
-          href="https://appwrite.io/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            src={appwrite.src}
-            alt="Appwrite logo"
-            width={226}
-            height={'100%'}
-          />
-        </a>
-        <a
-          href="https://docker.com/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            src={docker.src}
-            alt="Docker logo"
-            width={187}
-            height={'100%'}
-            id="docker"
-          />
-        </a>
+        {sponsors.presented.map((sponsor) => (
+          <a
+            key={sponsor.name}
+            href={sponsor.url}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <img
+              src={sponsor.image}
+              alt={`${sponsor.name} logo`}
+              width={224 * (sponsor.scaleFactor || 1)}
+              style={{ marginBottom: sponsor.verticalOffset ? `${sponsor.verticalOffset * 2}px` : undefined }}
+              height={'100%'}
+            />
+          </a>
+        ))}
       </div>
     </div>
     <div className="block">
       <h6>Supported by</h6>
       <div>
-        <a
-          href="https://novu.co/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            src={novu.src}
-            alt="Novu logo"
-            width={140}
-            height={'100%'}
-          />
-        </a>
-        <a
-          href="https://rapidapi.com/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            src={rapidapi.src}
-            alt="RapidApi logo"
-            width={142}
-            height={'100%'}
-          />
-        </a>
-        <a
-          href="https://devtron.ai/"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          <img
-            src={devtron.src}
-            alt="Devtron logo"
-            width={174}
-            height={'100%'}
-            id="docker"
-          />
-        </a>
+        {sponsors.supported.map((sponsor) => (
+          <a
+            key={sponsor.name}
+            href={sponsor.url}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <img
+              src={sponsor.image}
+              alt={`${sponsor.name} logo`}
+              width={142 * (sponsor.scaleFactor || 1)}
+              style={{ marginBottom: sponsor.verticalOffset ? `${sponsor.verticalOffset}px` : undefined }}
+              height={'100%'}
+            />
+          </a>
+        ))}
       </div>
     </div>
   </AllSponsorsWrapper>
