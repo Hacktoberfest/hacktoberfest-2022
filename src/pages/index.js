@@ -28,6 +28,9 @@ import { PixelHeart, PixelFirework1, PixelFirework2 } from 'components/pixels';
 import docker from 'assets/img/sponsors/docker-logo.svg';
 import appwrite from 'assets/img/sponsors/appwrite-logo.svg';
 import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
+import novu from 'assets/img/sponsors/novu-logo.svg';
+import rapidapi from 'assets/img/sponsors/rapidapi-logo.svg';
+import devtron from 'assets/img/sponsors/devtron-logo.svg';
 
 const flash = () => keyframes`
   from {
@@ -143,6 +146,48 @@ const SponsorsWrapper = styled.div`
 
       &#docker {
         margin-bottom: 2px;
+      }
+    }
+  }
+`;
+
+const AllSponsorsWrapper = styled(SponsorsWrapper)`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .block {
+    display: block;
+    margin-bottom: 40px;
+    width: 100%;
+    flex-flow: row reverse;
+
+    h6 {
+      margin-bottom: 24px;
+    }
+
+    > div {
+      display: flex;
+      gap: 40px;
+      width: max-content;
+      margin: 0 auto;
+
+      img {
+        &#docker {
+          margin-bottom: 4px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 800px) {
+    .block {
+      > div {
+        display: block;
+        img {
+          display: block;
+          margin-bottom: 24px;
+        }
       }
     }
   }
@@ -453,6 +498,103 @@ const Home = () => {
           </Button>
         </Link>
       </Section>
+      <FauxHero
+        h="180"
+        s="6"
+        b="0.3"
+        gradientLeft="#00A6FF"
+        gradientRight="#9700FF"
+        height="540px"
+        spacing_btm="-64px"
+        spacing_top="200px"
+      >
+        <AllSponsorsWrapper>
+          <div className="block">
+            <h6>Presented by</h6>
+            <div>
+              <a
+                href="https://digitalocean.com"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  src={digitalocean.src}
+                  alt="DigitalOcean logo"
+                  width={235}
+                  height={'100%'}
+                />
+              </a>
+              <a
+                href="https://appwrite.io/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  src={appwrite.src}
+                  alt="Appwrite logo"
+                  width={226}
+                  height={'100%'}
+                />
+              </a>
+              <a
+                href="https://docker.com/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  src={docker.src}
+                  alt="Docker logo"
+                  width={187}
+                  height={'100%'}
+                  id="docker"
+                />
+              </a>
+            </div>
+          </div>
+          <div className="block">
+            <h6>Supported by</h6>
+            <div>
+              <a
+                href="https://novu.co/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  src={novu.src}
+                  alt="Novu logo"
+                  width={140}
+                  height={'100%'}
+                />
+              </a>
+              <a
+                href="https://rapidapi.com/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  src={rapidapi.src}
+                  alt="RapidApi logo"
+                  width={142}
+                  height={'100%'}
+                />
+              </a>
+              <a
+                href="https://devtron.ai/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  src={devtron.src}
+                  alt="Devtron logo"
+                  width={174}
+                  height={'100%'}
+                  id="docker"
+                />
+              </a>
+            </div>
+          </div>
+        </AllSponsorsWrapper>
+      </FauxHero>
     </>
   );
 };
