@@ -20,10 +20,14 @@ const SponsorsWrapper = styled.div`
     align-items: flex-end;
     gap: 20px;
     flex-flow: row wrap;
+    
+    a {
+      margin: 0;
 
-    img {
-      margin: 0 auto;
-      filter: ${(props) => props.theme.glowLiteDS};
+      img {
+        margin: 0;
+        filter: ${(props) => props.theme.glowLiteDS};
+      }
     }
   }
 `;
@@ -61,7 +65,6 @@ const AllSponsorsWrapper = styled(SponsorsWrapper)`
     display: block;
     margin-bottom: 40px;
     width: 100%;
-    flex-flow: row reverse;
 
     h6 {
       margin-bottom: 24px;
@@ -69,24 +72,20 @@ const AllSponsorsWrapper = styled(SponsorsWrapper)`
 
     > div {
       display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
       gap: 40px;
-      width: max-content;
+      width: 100%;
       margin: 0 auto;
-
-      img {
-        &#docker {
-          margin-bottom: 4px;
-        }
-      }
     }
   }
 
   @media (max-width: 800px) {
+    margin: 64px 0 32px;
+    
     .block {
       > div {
-        display: block;
-        img {
-          display: block;
+        a {
           margin-bottom: 24px;
         }
       }

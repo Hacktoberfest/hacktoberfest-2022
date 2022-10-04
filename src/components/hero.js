@@ -5,9 +5,10 @@ const StyledSection = styled.section`
   width: 100%;
   padding: 0 64px;
   position: relative;
-  height: ${(props) => props.height || '456px'};
+  min-height: ${(props) => props.height || '456px'};
   margin-top: ${(props) => props.spacing_top || 0};
   margin-bottom: ${(props) => props.spacing_btm || '128px'};
+  display: flex;
 
   &:before {
     content: '';
@@ -58,10 +59,10 @@ const StyledSection = styled.section`
 const StyledHeroContent = styled.div`
   margin: 0 auto;
   display: flex;
-  height: inherit;
   justify-content: flex-start;
   align-items: flex-end;
   max-width: 1312px;
+  width: 100%;
   position: relative;
 
   #icon {
@@ -82,9 +83,9 @@ const StyledContent = styled.div`
   display: flex;
   margin: 0 auto;
   max-width: 1312px;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  height: inherit;
   flex-flow: row wrap;
   position: inherit;
 `;
