@@ -51,7 +51,7 @@ export const StyledButton = styled.button`
     clip-path: polygon(12px 0, 100% 0, 100% 72%, calc(100% - 12px) 100%, 0 100%, 0 12px);
     color: ${(props) =>
       props.theme[props.color_text] || props.color_text || props.theme.body};
-    font-family: 'JetBrains Mono', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;

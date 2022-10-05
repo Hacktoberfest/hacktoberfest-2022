@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledNotification = styled.div`
   width: 100%;
@@ -21,10 +21,23 @@ const StyledNotification = styled.div`
   p {
     margin: 0 0 4px;
   }
+  
+  ${(props) => props.linkColor && props.theme[props.linkColor] && css`
+    a {
+      color: ${(props) => props.theme[props.linkColor]};
+      text-decoration: none;
+      
+      &:hover,
+      &:focus {
+        color: ${(props) => props.theme[props.linkColor]};
+        text-decoration: underline;
+      }
+    }
+  `}
 `;
 
-const Notification = ({ title, children, color }) => (
-  <StyledNotification color={color}>
+const Notification = ({ title, children, color, linkColor = null }) => (
+  <StyledNotification color={color} linkColor={linkColor}>
     <h5>[ {title} ]</h5>
     {children}
   </StyledNotification>

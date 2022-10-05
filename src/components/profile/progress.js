@@ -7,9 +7,10 @@ import { trackingStart } from 'lib/config';
 import Loader from 'components/loader';
 import Section from 'components/section';
 import Notification from 'components/notification';
-import EmailWarning from './email-warning';
 
+import EmailWarning from './email-warning';
 import PullRequest from './pull-request';
+// import GiftCode from './gift-code';
 
 const textAnimation = () => keyframes`
   0% {
@@ -24,10 +25,19 @@ const textAnimation = () => keyframes`
 `;
 
 const StyledProgressWrapper = styled.div`
-  h1 {
+  > h1 {
     padding-bottom: 32px;
     margin-bottom: 48px;
     box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+  }
+  
+  > h3 {
+    padding: 64px 0 32px;
+    margin: 64px 0 32px;
+    line-height: 1.25;
+    box-shadow:
+      0px 1px 0px rgba(229, 225, 230, 0.25),
+      0px -1px 0px rgba(229, 225, 230, 0.25);
   }
 `;
 
@@ -58,7 +68,7 @@ const StyledProgressSummary = styled.div`
     transform: rotate(-4deg);
     transition: transform 0.2s ease;
     font-size: 32px;
-    font-family: 'JetBrains Mono', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
     line-height: 1.25;
 
     &:hover {
@@ -68,7 +78,7 @@ const StyledProgressSummary = styled.div`
   
   h3 {
     font-size: 24px;
-    font-family: 'JetBrains Mono', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
     line-height: 1.25;
     
     &::before {
@@ -176,7 +186,6 @@ const Progress = ({ auth }) => {
           )}
         </StyledProgressSummary>
 
-
         {/* Handle a user that has been disqualified */}
         {auth.registration.state.state.includes('disqualified') && (
           <Notification title="Disqualification" color="spark">
@@ -211,8 +220,55 @@ const Progress = ({ auth }) => {
         {/* Show any gift codes the user has been awarded */}
         {!!Object.keys(giftCodes).length && (
           <>
-            {/* TODO: Kotis code */}
-            {/* TODO: DEV badge code */}
+            {/* TODO: Finish this */}
+            {/*giftCodes.tshirt && (
+              <Notification title="Rewards: Swag Pack or Tree" color="surf" linkColor="spark">
+                <p>
+                  Congratulations on completing Hacktoberfest 2022!
+                  You've been awarded a swag pack (or a tree planted in your
+                  name if you'd prefer) for your participation.
+                </p>
+                <GiftCode code={giftCodes.tshirt.code} />
+                <p>
+                  Head to
+                  {' '}
+                  <a
+                    href="https://stores.kotisdesign.com/hacktoberfest-2022"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    https://stores.kotisdesign.com/hacktoberfest-2022
+                  </a>
+                  {' '}
+                  to redeem your code.
+                </p>
+              </Notification>
+            )*/}
+
+            {/* TODO: Finish this */}
+            {/*giftCodes['dev-badge'] && (
+              <Notification title="Rewards: DEV Badge" color="surf" linkColor="spark">
+                <p>
+                  Congratulations on completing Hacktoberfest 2022!
+                  You've been awarded a badge from DEV for your participation
+                  that you can show off on your DEV profile.
+                </p>
+                <GiftCode code={giftCodes['dev-badge'].code} />
+                <p>
+                  Head to
+                  {' '}
+                  <a
+                    href="https://shop.forem.com/hacktoberfest"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    https://shop.forem.com/hacktoberfest
+                  </a>
+                  {' '}
+                  to redeem your code.
+                </p>
+              </Notification>
+            )*/}
 
             {Object.keys(giftCodes).some((type) =>
               type.startsWith('holopin')
