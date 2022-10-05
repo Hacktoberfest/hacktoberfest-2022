@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { fetchGiftCodes, fetchPullRequests, triggerIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
@@ -11,22 +11,37 @@ import EmailWarning from './email-warning';
 
 import PullRequest from './pull-request';
 
+const textAnimation = () => keyframes`
+  0% {
+    content: "oOo";
+  }
+  33% {
+    content: "ooO";
+  }
+  66% {
+    content: "Ooo";
+  }
+`;
+
 const StyledProgressWrapper = styled.div`
-  h1,
-  h3 {
-    padding-bottom: 24px;
+  h1 {
+    padding-bottom: 32px;
+    margin-bottom: 48px;
     box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
   }
+`;
 
-  h1 {
-    margin-bottom: 40px;
-  }
-
-  h3 {
-    margin: 80px 0 24px;
-  }
-
-  h4 {
+const StyledProgressSummary = styled.div`
+  display: flex;
+  gap: 32px;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 48px;
+  margin-bottom: 64px;
+  box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
+  
+  h2 {
     background: linear-gradient(
       160deg,
       ${(props) => props.theme.spark} 0%,
@@ -42,9 +57,25 @@ const StyledProgressWrapper = styled.div`
     width: max-content;
     transform: rotate(-4deg);
     transition: transform 0.2s ease;
+    font-size: 32px;
+    font-family: 'JetBrains Mono', sans-serif;
+    line-height: 1.25;
 
     &:hover {
       transform: rotate(4deg);
+    }
+  }
+  
+  h3 {
+    font-size: 24px;
+    font-family: 'JetBrains Mono', sans-serif;
+    line-height: 1.25;
+    
+    &::before {
+      content: 'oOo';
+      text-transform: none;
+      animation: ${textAnimation} 2s linear infinite;
+      padding-right: 1ch;
     }
   }
 `;
@@ -129,19 +160,22 @@ const Progress = ({ auth }) => {
     <Section>
       <StyledProgressWrapper>
         <h1>Progress</h1>
-        <h4>
-          {Math.min(acceptedCount, 4).toLocaleString()}
-          {acceptedCount > 4
-            ? ` + ${(acceptedCount - 4).toLocaleString()}`
-            : ''}{' '}
-          / 4
-          {/*!!waitingCount && (
-            <>
-              {' '}
-              <i>[{waitingCount.toLocaleString()} waiting]</i>
-            </>
-          )*/}
-        </h4>
+        <StyledProgressSummary>
+          <h2>
+            {Math.min(acceptedCount, 4).toLocaleString()}
+            {acceptedCount > 4
+              ? ` + ${(acceptedCount - 4).toLocaleString()}`
+              : ''}{' '}
+            / 4
+          </h2>
+
+          {!!waitingCount && (
+            <h3>
+              [{waitingCount.toLocaleString()} waiting]
+            </h3>
+          )}
+        </StyledProgressSummary>
+
 
         {/* Handle a user that has been disqualified */}
         {auth.registration.state.state.includes('disqualified') && (
