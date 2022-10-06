@@ -37,7 +37,7 @@ export const fetchEvents = async () => {
 
     return results.map(event => {
         if (!event) return;
-        if (!event['Approved']) return; // Hide events that aren't approved
+        if (event['Status'] !== 'Accepted') return; // Hide events that aren't approved
 
         const date = new Date(event['Date']);
         if (Number.isNaN(date.getTime())) return; // Hide events with invalid dates
