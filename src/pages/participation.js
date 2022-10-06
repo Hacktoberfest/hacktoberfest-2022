@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -8,22 +9,46 @@ import {
   prMrDetails,
   spam,
   maintainers,
+  faqs,
 } from 'lib/participation';
 
 import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
 import Collapse from 'components/collapse';
-import Button from 'components/button';
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelPus } from 'components/pixels';
-import DorknamicIsland from '../components/dorknamic-island';
-import YouTube from '../components/youtube';
+import DorknamicIsland from 'components/dorknamic-island';
+import YouTube from 'components/youtube';
 
 const StyledPRDetails = styled.div`
   margin: 32px 0 0;
+`;
+
+const StyledFAQs = styled.div`
+  h3 {
+    font-size: 48px;
+    line-height: 1.25;
+    margin: 32px 0;
+  }
+  
+  details {
+    margin: 16px 0;
+    
+    h4 {
+      font-size: 24px;
+      text-shadow: none;
+      font-weight: normal;
+      text-transform: none;
+      color: rgba(229, 225, 230, 0.75);
+    }
+    
+    p {
+      opacity: 1;
+    }
+  }
 `;
 
 const StyledPREyebrow = styled.p`
@@ -51,10 +76,11 @@ const Participation = () => {
       <DorknamicIsland>
         <a href="#values">Values</a>
         <a href="#contributors">Contributors</a>
-        <a href="#beginner-resources">Beginner-resources</a>
+        <a href="#beginner-resources">Beginner-Resources</a>
         <a href="#pr-mr-details">Pull/Merge Request Details</a>
         <a href="#spam">Spam</a>
-        <a href="#maintainers">maintainers</a>
+        <a href="#maintainers">Maintainers</a>
+        <a href="#faqs">Swag/Shipping FAQs</a>
       </DorknamicIsland>
 
       <Hero
@@ -67,29 +93,6 @@ const Participation = () => {
       >
         <PixelPus />
       </Hero>
-
-      {/* <Section type="sub_hero">
-        <div>
-          <Button as="a" href="#values" color_bg="spark">
-            Values
-          </Button>
-          <Button as="a" href="#contributors" color_bg="spark">
-            Contributors
-          </Button>
-          <Button as="a" href="#beginner-resources" color_bg="giga">
-            Resources
-          </Button>
-          <Button as="a" href="#pr-mr-details" color_bg="giga">
-            PULL/MERGE REQUEST DETAILS
-          </Button>
-          <Button as="a" href="#spam" color_bg="surf">
-            Spam
-          </Button>
-          <Button as="a" href="#maintainers" color_bg="surf">
-            Maintainers
-          </Button>
-        </div>
-      </Section> */}
 
       <Section type="sub_content" id="values">
         <Divider />
@@ -155,6 +158,20 @@ const Participation = () => {
         <Anchor href="#maintainers" />
         <MarkdownInline string={maintainers.title} as="h2" />
         <ContentSections sections={maintainers.sections} />
+      </Section>
+
+      <Section type="sub_content" id="faqs">
+        <Divider />
+        <Anchor href="#faqs" />
+        <MarkdownInline string={faqs.title} as="h2" />
+        <StyledFAQs>
+          {faqs.sections.map((section) => (
+            <Fragment key={section.title}>
+              <MarkdownInline string={section.title} as="h3" />
+              <ContentSections sections={section.items} />
+            </Fragment>
+          ))}
+        </StyledFAQs>
       </Section>
     </>
   );

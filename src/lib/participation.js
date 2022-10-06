@@ -231,3 +231,104 @@ export const maintainers = {
     },
   ],
 };
+
+export const faqs = {
+  title: 'FAQs',
+  sections: [
+    {
+      title: 'Swag & Shipping',
+      items: [
+        {
+          title: 'When will I receive my t-shirt?',
+          collapsible: true,
+          collapsed: true,
+          content: 'You will receive an email once your t-shirt is shipped. Due to ongoing COVID-related disruptions and supply chain constraints we cannot guarantee a ship date, but estimate that all t-shirts will be shipped by the end of 2022.\n' +
+            '\n' +
+            'T-shirts (or the option to plant a tree) will be awarded on a first-come, first-served basis to the first 40,000 participants who successfully complete the Hacktoberfest challenge.',
+        },
+        {
+          title: 'What t-shirt size should I order?',
+          collapsible: true,
+          collapsed: true,
+          content: 'You can reference the size charts for the t-shirts on the ordering page. Both size charts include measurements in inches, and instructions for how to measure yourself.',
+        },
+        {
+          title: 'Tracking for my order is not active; is my tracking number correct?',
+          collapsible: true,
+          collapsed: true,
+          content: 'You may receive a tracking email 2-3 days before tracking becomes active on DHL’s website. Try again in a few days.',
+        },
+        {
+          title: 'How do I return or exchange an item?',
+          collapsible: true,
+          collapsed: true,
+          content: 'If you believe your order was shipped incorrectly, contact us with the order number from the email subject line, plus a description of the incorrect item you received.\n' +
+            '\n' +
+            'Otherwise, if it’s still within 30 days of the original purchase, follow the instructions at [kotisdesign.com/returns](https://kotisdesign.com/returns).\n' +
+            '\n' +
+            'Please note: You will be responsible for shipping the item back to us if you decide to exchange it.',
+        },
+        {
+          title: 'Did my t-shirt order go through?',
+          collapsible: true,
+          collapsed: true,
+          content: 'If you did not receive an order confirmation email within an hour of placing your order, we can look up your order using the email address you used.\n' +
+            '\n' +
+            'Please check your spam or junk folders first. If it’s not there, send us an email to [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) to confirm your t-shirt order.'
+        },
+        {
+          title: 'Will I have to pay anything to receive my t-shirt/stickers?',
+          collapsible: true,
+          collapsed: true,
+          content: 'T-shirts are free of charge for participants, including shipping costs. Customs may assess duty/VAT/tax for some countries and in rare instances.',
+        },
+        {
+          title: 'Will I have to pay anything/custom tax/duty for the t-shirt?',
+          collapsible: true,
+          collapsed: true,
+          content: 'We write down a low enough dollar value on the mailed packages that we don’t expect any issues with customs tax, but we cannot guarantee that. You may have to pay a small fee depending on your country’s import policies. DigitalOcean and Kotis Design will not issue a refund for shipping/duty fees.',
+        },
+        {
+          title: 'What countries do you ship to?',
+          collapsible: true,
+          collapsed: true,
+          content: 'We are able to ship to all countries with the exception of the following: Russia, Belarus, Cuba, Iran, Libya, North Korea, Sierra Leone, Somalia, Sudan, Syria, and Yemen.',
+        },
+        {
+          title: 'My international order is delayed. What can I do?',
+          collapsible: true,
+          collapsed: true,
+          content: 'We recommend [contacting DHL](http://www.dhl.com/global-en/home/our-divisions/ecommerce/customer-service.html) in your country for help with clearing the package.',
+        },
+        {
+          title: 'Can I update my email address, delivery address, and/or the size of my t-shirt?',
+          collapsible: true,
+          collapsed: true,
+          content: 'Yes, as long as your item has not shipped yet we can absolutely adjust this. Please email hacktoberfest@kotisdesign.com as soon as possible and make sure to include your order number as well as how we should edit your order (including the new shipping address, preferred size, or the correct email address).\m' +
+            '\n' +
+            'Unfortunately, we are unable to change this information once your items have departed from our facilities.',
+        },
+        {
+          title: 'Customs is asking me for an invoice; where do I find one of those?',
+          collapsible: true,
+          collapsed: true,
+          content: 'We can provide you with a commercial invoice that you can pass on to customs or the shipping company.\n' +
+            'Please email hacktoberfest@kotisdesign.com and make sure you’ve listed your order number in your request so we can generate an appropriate invoice for you.',
+        },
+        {
+          title: 'I didn’t receive my Hacktoberfest 2021 t-shirt/swag.',
+          collapsible: true,
+          collapsed: true,
+          content: 'We are no longer printing 2021 t-shirts. If you did not receive your t-shirt, this means we tried to deliver multiple times unsuccessfully. We are working hard on improving the shipping process this year so that everyone receives their t-shirts. Thank you for your understanding.',
+        },
+        {
+          title: 'Can I receive a shirt and plant a tree?',
+          collapsible: true,
+          collapsed: true,
+          content: 'Once you’ve completed Hacktoberfest, you will have the option to choose either a Hacktoberfest t-shirt OR the option to have a tree planted in your name. You will not have the option to choose both reward options.\n' +
+            'However, if you want to plant a tree on your own, you can do so [in our Tree-Nation forest](http://tree-nation.com/profile/digitalocean)!',
+        },
+      ],
+    },
+  ],
+};
