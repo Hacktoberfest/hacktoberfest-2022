@@ -10,7 +10,7 @@ import Notification from 'components/notification';
 
 import EmailWarning from './email-warning';
 import PullRequest from './pull-request';
-// import GiftCode from './gift-code';
+import GiftCode from './gift-code';
 
 const textAnimation = () => keyframes`
   0% {
@@ -220,30 +220,29 @@ const Progress = ({ auth }) => {
         {/* Show any gift codes the user has been awarded */}
         {!!Object.keys(giftCodes).length && (
           <>
-            {/* TODO: Finish this */}
-            {/*giftCodes.tshirt && (
+            {giftCodes.tshirt && (
               <Notification title="Rewards: Swag Pack or Tree" color="surf" linkColor="spark">
                 <p>
-                  Congratulations on completing Hacktoberfest 2022!
-                  You've been awarded a swag pack (or a tree planted in your
-                  name if you'd prefer) for your participation.
+                  Congratulations on completing Hacktoberfest 2022! You've been
+                  awarded a swag pack (or a tree planted in your name, if you'd
+                  prefer) for your participation.
                 </p>
                 <GiftCode code={giftCodes.tshirt.code} />
                 <p>
                   Head to
                   {' '}
                   <a
-                    href="https://stores.kotisdesign.com/hacktoberfest-2022"
+                    href={`https://stores.kotisdesign.com/hf22?redemption_code=${giftCodes.tshirt.code}`}
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    https://stores.kotisdesign.com/hacktoberfest-2022
+                    https://stores.kotisdesign.com/hf22
                   </a>
                   {' '}
                   to redeem your code.
                 </p>
               </Notification>
-            )*/}
+            )}
 
             {/* TODO: Finish this */}
             {/*giftCodes['dev-badge'] && (

@@ -46,9 +46,10 @@ const GiftCode = ({ code }) => {
         {code}
       </StyledCode>
       <StyledWarning>
+        Hover over or click on the box to reveal your redemption code.
+        <br/>
         Remember: This code is unique to you and can only be used once.
         Don't share it with anyone, and don't include it in any screenshots you post online.
-        Hover, or click, on the box to reveal your code.
       </StyledWarning>
     </>
   );
