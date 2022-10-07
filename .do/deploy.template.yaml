@@ -1,0 +1,58 @@
+spec:
+  name: hacktoberfest-nyc
+  region: nyc
+
+  alerts:
+    - rule: DEPLOYMENT_LIVE
+    - rule: DEPLOYMENT_FAILED
+
+  features:
+    - enable-kata-build
+
+  jobs:
+    - environment_slug: node-js
+      envs:
+        - key: CLOUDFLARE_ZONE_ID
+          scope: RUN_TIME
+        - key: CLOUDFLARE_API_TOKEN
+          scope: RUN_TIME
+          type: SECRET
+      github:
+        branch: production
+        deploy_on_push: true
+        repo: Hacktoberfest/hacktoberfest-2022
+      instance_count: 1
+      instance_size_slug: basic-xxs
+      kind: POST_DEPLOY
+      name: hacktoberfest-production-nyc-job
+      run_command: npm run postbuild
+      source_dir: /
+
+  static_sites:
+    - build_command: npm run export
+      environment_slug: node-js
+      envs:
+        - key: BASE_URL
+          scope: BUILD_TIME
+        - key: GITHUB_TOKEN
+          scope: BUILD_TIME
+          type: SECRET
+        - key: BUILD_ID
+          scope: BUILD_TIME
+          value: ${_self.COMMIT_HASH}
+        - key: AIRTABLE_TOKEN
+          scope: BUILD_TIME
+          type: SECRET
+        - key: API_BASE_URL
+          scope: BUILD_TIME
+        - key: API_EVENT_ID
+          scope: BUILD_TIME
+      github:
+        branch: production
+        deploy_on_push: true
+        repo: Hacktoberfest/hacktoberfest-2022
+      name: hacktoberfest-production-nyc
+      output_dir: out
+      routes:
+        - path: /
+      source_dir: /
