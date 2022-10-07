@@ -274,26 +274,10 @@ const Progress = ({ auth }) => {
             ) && (
               <Notification title="Rewards: Holopin Badges" color="surf">
                 <ul>
-                  {giftCodes['holopin-registered-badge'] && (
+                  {giftCodes['holopin-level-4-badge'] && (
                     <li>
                       <p>
-                        You've been awarded a Holopin badge for registering for
-                        Hacktoberfest!
-                      </p>
-                    </li>
-                  )}
-                  {giftCodes['holopin-level-1-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for completing one
-                        accepted PR/MR!
-                      </p>
-                    </li>
-                  )}
-                  {giftCodes['holopin-level-2-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for completing two
+                        You've been awarded a Holopin badge for completing four
                         accepted PR/MRs!
                       </p>
                     </li>
@@ -306,11 +290,27 @@ const Progress = ({ auth }) => {
                       </p>
                     </li>
                   )}
-                  {giftCodes['holopin-level-4-badge'] && (
+                  {giftCodes['holopin-level-2-badge'] && (
                     <li>
                       <p>
-                        You've been awarded a Holopin badge for completing four
+                        You've been awarded a Holopin badge for completing two
                         accepted PR/MRs!
+                      </p>
+                    </li>
+                  )}
+                  {giftCodes['holopin-level-1-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for completing one
+                        accepted PR/MR!
+                      </p>
+                    </li>
+                  )}
+                  {giftCodes['holopin-registered-badge'] && (
+                    <li>
+                      <p>
+                        You've been awarded a Holopin badge for registering for
+                        Hacktoberfest!
                       </p>
                     </li>
                   )}
