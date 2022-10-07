@@ -7,6 +7,7 @@ const StyledCode = styled.p`
   padding: 16px;
   margin: 16px 0 8px !important;
   font-family: 'JetBrains Mono', monospace;
+  text-transform: none;
   line-height: 1;
   transition: box-shadow 0.2s ease;
   
