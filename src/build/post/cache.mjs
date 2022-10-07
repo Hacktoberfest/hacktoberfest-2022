@@ -30,7 +30,9 @@ const cache = async () => {
   );
 
   // Check the response
-  if (!resp.ok) throw new Error(`Cloudflare API error: ${resp.status} ${resp.statusText}: ${await resp.text().catch(() => '')}`);
+  const body = await resp.text().catch(() => '');
+  if (!resp.ok) throw new Error(`Cloudflare API error: ${resp.status} ${resp.statusText}: ${body}`);
+  console.log(`Cloudflare API response: ${resp.status} ${resp.statusText}: ${body}`);
 };
 
 export default cache;
