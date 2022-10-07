@@ -10,6 +10,7 @@
     "build": "npm run build:custom && npm run build:next",
     "build:custom": "node src/build/index.mjs",
     "build:next": "next build",
+    "postbuild": "node src/build/post/index.mjs",
     "export": "npm run build && next export"
   },
   "repository": {
