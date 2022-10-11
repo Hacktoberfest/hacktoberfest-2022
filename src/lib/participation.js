@@ -53,7 +53,11 @@ export const resources = {
     {
       title: 'Start contributing',
       items: [
-        'List of beginner repositories: [up-for-grabs.net](https://up-for-grabs.net/#/)',
+        'Participating Hacktoberfest projects: [GitHub](https://github.com/topics/hacktoberfest)',
+        'Participating Hacktoberfest projects: [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest)',
+        'Explore projects with issues: [up-for-grabs.net](https://up-for-grabs.net/#/)',
+        'Explore projects with issues: [goodfirstissue.dev](https://goodfirstissue.dev)',
+        'Explore Hacktoberfest projects: [hacktoberfest-projects.vercel.app](https://hacktoberfest-projects.vercel.app)',
         'GitHub repository: [first-contributions](https://github.com/firstcontributions/first-contributions)',
         'GitHub repository: [awesome-for-beginners](https://github.com/mungell/awesome-for-beginners)',
       ],
