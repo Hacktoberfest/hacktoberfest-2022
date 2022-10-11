@@ -308,7 +308,7 @@ export const faqs = {
           title: 'Can I update my email address, delivery address, and/or the size of my t-shirt?',
           collapsible: true,
           collapsed: true,
-          content: 'Yes, as long as your item has not shipped yet we can absolutely adjust this. Please email hacktoberfest@kotisdesign.com as soon as possible and make sure to include your order number as well as how we should edit your order (including the new shipping address, preferred size, or the correct email address).\m' +
+          content: 'Yes, as long as your item has not shipped yet we can absolutely adjust this. Please email [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) as soon as possible and make sure to include your order number as well as how we should edit your order (including the new shipping address, preferred size, or the correct email address).\n' +
             '\n' +
             'Unfortunately, we are unable to change this information once your items have departed from our facilities.',
         },
@@ -317,7 +317,7 @@ export const faqs = {
           collapsible: true,
           collapsed: true,
           content: 'We can provide you with a commercial invoice that you can pass on to customs or the shipping company.\n' +
-            'Please email hacktoberfest@kotisdesign.com and make sure you’ve listed your order number in your request so we can generate an appropriate invoice for you.',
+            'Please email [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) and make sure you’ve listed your order number in your request so we can generate an appropriate invoice for you.',
         },
         {
           title: 'I didn’t receive my Hacktoberfest 2021 t-shirt/swag.',
