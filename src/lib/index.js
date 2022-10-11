@@ -13,7 +13,7 @@ export const events = [
     content: 'Get started with non-code contributions to Hacktoberfest no matter your experience level.',
     location: 'Online',
     date: 'Oct 12',
-    time: '11:00 AM Indian Standard Time',
+    time: '12:00 PM Indian Standard Time',
     format: ['Livestream'],
     rsvp: 'https://try.digitalocean.com/hacktoberfest22-hack-party-apac/',
   },
