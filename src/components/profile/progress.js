@@ -244,8 +244,7 @@ const Progress = ({ auth }) => {
               </Notification>
             )}
 
-            {/* TODO: Finish this */}
-            {/*giftCodes['dev-badge'] && (
+            {giftCodes['dev-badge'] && (
               <Notification title="Rewards: DEV Badge" color="surf" linkColor="spark">
                 <p>
                   Congratulations on completing Hacktoberfest 2022!
@@ -254,20 +253,29 @@ const Progress = ({ auth }) => {
                 </p>
                 <GiftCode code={giftCodes['dev-badge'].code} />
                 <p>
-                  Head to
+                  Make sure to register for an account on
                   {' '}
                   <a
-                    href="https://shop.forem.com/hacktoberfest"
+                    href="https://dev.to/"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    https://shop.forem.com/hacktoberfest
+                    DEV
+                  </a>
+                  , and then head to
+                  {' '}
+                  <a
+                    href="https://shop.forem.com/products/dev-hacktoberfest-badge-2022"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    https://shop.forem.com/products/dev-hacktoberfest-badge-2022
                   </a>
                   {' '}
                   to redeem your code.
                 </p>
               </Notification>
-            )*/}
+            )}
 
             {Object.keys(giftCodes).some((type) =>
               type.startsWith('holopin')
