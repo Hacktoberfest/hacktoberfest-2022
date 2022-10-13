@@ -113,11 +113,24 @@ const Settings = ({ auth, isEdit = false }) => {
 
     (async () => {
       // Fetch all emails and
+      let currentEmails;
       try {
-        setEmails(await fetchUserEmails(auth.user.id, auth.token));
+        currentEmails = await fetchUserEmails(auth.user.id, auth.token);
+        setEmails(currentEmails);
       } catch (err) {
         const data = await err.response.json().catch(() => null);
         console.error(err, data);
+
+        // Handle known errors we can show the user
+        if (
+          data?.code === 'NotFound' &&
+          data?.message === 'Could not locate any verified emails for user'
+        ) {
+          setError(
+            'No verified emails could be located. Please ensure you have a verified email on your GitHub/GitLab account.'
+          );
+          return;
+        }
 
         // If emails fail to load, show an error and stop early
         setError(
@@ -129,7 +142,11 @@ const Settings = ({ auth, isEdit = false }) => {
       }
 
       // Default to the user's current name/email
-      setData((prev) => ({ ...prev, name: auth.user.name, email: auth.user.email }));
+      setData((prev) => ({
+        ...prev,
+        name: auth.user.name,
+        email: currentEmails.includes(auth.user.email) ? auth.user.email : currentEmails[0],
+      }));
 
       // Fetch the user's linked OAuth accounts
       await fetchOAuth();
