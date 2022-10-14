@@ -257,6 +257,13 @@ export const faqs = {
           content: 'You can reference the size charts for the t-shirts on the ordering page. Both size charts include measurements in inches, and instructions for how to measure yourself.',
         },
         {
+          title: 'Why isn’t there a Women’s fit t-shirt this year?',
+          collapsible: true,
+          collapsed: true,
+          content: 'This year, we expanded our unisex t-shirt offering to two types: dark and light mode. To print two different types of t-shirt, we had to streamline the process by selecting a single t-shirt style. The t-shirt style we chose for 2022 is a tighter, more tailored fit than the t-shirts of previous years and falls somewhere between a unisex fit and a women’s fit.\n' +
+            'Would you prefer that we bring back the women’s fit t-shirt option? [Let us know](mailto:hacktoberfest@digitalocean.com)!',
+        },
+        {
           title: 'Tracking for my order is not active; is my tracking number correct?',
           collapsible: true,
           collapsed: true,
