@@ -9,6 +9,7 @@ import Section from 'components/section';
 import Notification from 'components/notification';
 
 import EmailWarning from './email-warning';
+import Holopin from './holopin';
 import PullRequest from './pull-request';
 import GiftCode from './gift-code';
 
@@ -280,47 +281,22 @@ const Progress = ({ auth }) => {
             {Object.keys(giftCodes).some((type) =>
               type.startsWith('holopin')
             ) && (
-              <Notification title="Rewards: Holopin Badges" color="surf">
+              <Notification title="Rewards: Holopin Badges" color="surf" linkColor="spark">
                 <ul>
                   {giftCodes['holopin-level-4-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for completing four
-                        accepted PR/MRs!
-                      </p>
-                    </li>
+                    <Holopin code={giftCodes['holopin-level-4-badge']} reason="completing four accepted PR/MRs" />
                   )}
                   {giftCodes['holopin-level-3-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for completing three
-                        accepted PR/MRs!
-                      </p>
-                    </li>
+                    <Holopin code={giftCodes['holopin-level-3-badge']} reason="completing three accepted PR/MRs" />
                   )}
                   {giftCodes['holopin-level-2-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for completing two
-                        accepted PR/MRs!
-                      </p>
-                    </li>
+                    <Holopin code={giftCodes['holopin-level-2-badge']} reason="completing two accepted PR/MRs" />
                   )}
                   {giftCodes['holopin-level-1-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for completing one
-                        accepted PR/MR!
-                      </p>
-                    </li>
+                    <Holopin code={giftCodes['holopin-level-1-badge']} reason="completing one accepted PR/MR" />
                   )}
                   {giftCodes['holopin-registered-badge'] && (
-                    <li>
-                      <p>
-                        You've been awarded a Holopin badge for registering for
-                        Hacktoberfest!
-                      </p>
-                    </li>
+                    <Holopin code={giftCodes['holopin-registered-badge']} reason="registering for Hacktoberfest" />
                   )}
                 </ul>
 
