@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { profileEnd, registrationStart } from 'lib/config';
+import { profileEnd, registrationEnd, registrationStart } from 'lib/config';
 
 import Button from './button';
 import { Bug } from './logo';
@@ -258,6 +258,8 @@ const Navigation = () => {
     []
   );
 
+  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
+
   return (
     <Wrapper>
       <div className="container">
@@ -301,7 +303,7 @@ const Navigation = () => {
             {hasProfile && (
               <Link href="/auth" passHref>
                 <Button special as="a">
-                  Start Hacking
+                  {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
                 </Button>
               </Link>
             )}

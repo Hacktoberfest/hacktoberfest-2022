@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Link from 'next/link';
 
-import { events } from 'lib';
-import { profileEnd, registrationStart } from 'lib/config';
+import { communityPartners, events, months } from 'lib';
+import { registrationEnd, registrationStart } from 'lib/config';
+import sponsors from 'lib/sponsors';
 
 import Button from 'components/button';
 import Section from 'components/section';
@@ -116,19 +117,41 @@ const StyledHeroContent = styled.div`
   }
 `;
 
+const StyledThanks = styled.div`
+  p {
+    margin: 48px 0 0;
+  }
+  
+  ul {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    margin: 24px 0 0;
+    
+    li {
+      margin: 4px;
+      
+      a {
+        padding: 8px;
+        text-shadow: ${(props) => props.theme.glowLite};
+      }
+    }
+  }
+`;
+
 const Home = () => {
   const [days, hours, minutes, seconds] = useCountdown(
     new Date(registrationStart).getTime()
   );
 
-  const hasProfile = useMemo(
+  const hasRegistration = useMemo(
     () =>
       new Date() >= new Date(registrationStart) &&
-      new Date() < new Date(profileEnd),
+      new Date() < new Date(registrationEnd),
     []
   );
 
-  const hasEnded = useMemo(() => new Date() >= new Date(profileEnd), []);
+  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
 
   return (
     <>
@@ -144,11 +167,13 @@ const Home = () => {
       >
         <StyledHeroContent>
           <Logo width="80px" />
-          <Link href="/auth" passHref>
-            <Button special as="a">
-              Registration now open
-            </Button>
-          </Link>
+          {hasRegistration && (
+            <Link href="/auth" passHref>
+              <Button special as="a">
+                Registration now open
+              </Button>
+            </Link>
+          )}
           <FounderSponsors />
         </StyledHeroContent>
         <StyledAnimations>
@@ -176,61 +201,77 @@ const Home = () => {
             {' '}
             {'>>'}{' '}
             <span>
-              {hasProfile || hasEnded ? 'launch initiated' : 'Time to launch'}
+              {hasRegistration
+                ? 'Launch initiated'
+                : (hasRegistrationEnded
+                  ? 'Registration is closed'
+                  : 'Time to launch')}
             </span>
           </p>
-          <Column>
-            <div className="ticker">
-              <p>Days:</p>
-              <h5>{days}</h5>
-            </div>
-            <div className="ticker">
-              <p>Hours:</p>
-              <h5>{hours}</h5>
-            </div>
-            <div className="ticker">
-              <p>Minutes:</p>
-              <h5>{minutes}</h5>
-            </div>
-            <div className="ticker">
-              <p>Seconds:</p>
-              <h5>{seconds}</h5>
-            </div>
-          </Column>
+          {!hasRegistrationEnded && (
+            <Column>
+              <div className="ticker">
+                <p>Days:</p>
+                <h5>{days}</h5>
+              </div>
+              <div className="ticker">
+                <p>Hours:</p>
+                <h5>{hours}</h5>
+              </div>
+              <div className="ticker">
+                <p>Minutes:</p>
+                <h5>{minutes}</h5>
+              </div>
+              <div className="ticker">
+                <p>Seconds:</p>
+                <h5>{seconds}</h5>
+              </div>
+            </Column>
+          )}
+          {hasRegistrationEnded && (
+            <>
+              <br/>
+              <p>
+                Thank you for making contributions to open source.
+                Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
+              </p>
+              <br/>
+            </>
+          )}
         </StyledCountdownContainer>
         <Divider spacing_top="40px" spacing_btm="64px" />
       </Section>
       <Marquee
         text1={
-          hasProfile
+          hasRegistration
             ? 'Get in the repo, Hacker!'
-            : hasEnded
-            ? 'launch sequence complete!'
-            : 'systems critical'
+            : (hasRegistrationEnded
+              ? 'Keep contributing!'
+              : 'Systems critical')
         }
         text2={
-          hasProfile
+          hasRegistration
             ? 'Get in the repo, Hacker!'
-            : hasEnded
-            ? 'launch sequence complete!'
-            : 'systems critical'
+            : (hasRegistrationEnded
+              ? 'Keep contributing!'
+              : 'Systems critical')
         }
         direction="forwards"
       />
       <Marquee
         text1={
-          hasProfile
-            ? 'launch sequence Initiated'
-            : hasEnded
-            ? 'see you for 2023'
-            : 'registration begins'
+          hasRegistration
+            ? 'Launch sequence Initiated'
+            : (hasRegistrationEnded
+              ? `See you for ${new Date(registrationStart).getFullYear() + 1}`
+              : 'Registration begins')
         }
         text2={
-          hasProfile
-            ? "it's time to hack"
-            : hasEnded
-            ? 'see you for 2023'
-            : 'sept 26'
+          hasRegistration
+            ? 'It\'s time to hack'
+            : (hasRegistrationEnded
+              ? `See you for ${new Date(registrationStart).getFullYear() + 1}`
+              : `${months.short[new Date(registrationStart).getMonth()]} ${new Date(registrationStart).getDate()}`)
         }
         direction="reverse"
       />
@@ -238,13 +279,67 @@ const Home = () => {
         <Repeater spacing_btm="64px" />
         <Loader
           message={`>> Boot Dialogue: ${
-            hasProfile
-              ? 'registration is now open!'
-              : hasEnded
-              ? 'system paused until 2023'
-              : 'registration begins september 26'
+            hasRegistration
+              ? 'Registration is now open!'
+              : (hasRegistrationEnded
+                ? `System paused until ${new Date(registrationStart).getFullYear() + 1}`
+                : `Registration begins ${months.long[new Date(registrationStart).getMonth()]} ${new Date(registrationStart).getDate()}`)
           }`}
         />
+        {hasRegistrationEnded && (
+          <StyledThanks>
+            <Button
+              as="a"
+              href="https://discord.gg/hacktoberfest"
+              target="_blank"
+              rel="noreferrer noopener"
+              special
+              spacing_top="48px"
+            >
+              Join the Hacktoberfest Discord
+            </Button>
+            <p>
+              A special thank you to the great people at
+              {' '}
+              {sponsors.presented.concat(sponsors.supported)
+                .map((sponsor, idx, arr) => (
+                  <Fragment key={sponsor.name}>
+                    {idx === arr.length - 1 && ' and '}
+                    <a
+                      href={sponsor.url}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      {sponsor.name}
+                    </a>
+                    {idx < arr.length - 1 && ', '}
+                  </Fragment>
+                ))}
+              {' '}
+              for their partnership and support of Hacktoberfest. We couldn’t
+              do it without you!
+            </p>
+            <p>
+              Thank you to our Community Partners, we &lt;3 you!
+            </p>
+            <ul>
+              {communityPartners.map((partner) => (
+                <li key={partner.name}>
+                  <a href={partner.url} target="_blank" rel="noreferrer noopener">
+                    {partner.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p>
+              Keep contributing to open source. We look forward to seeing you
+              for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}!
+              <br/>
+              <br/>
+              - The Hacktoberfest Team :)
+            </p>
+          </StyledThanks>
+        )}
       </Section>
 
       <Section id="prepare-to-hack" type="home_content">
@@ -265,7 +360,7 @@ const Home = () => {
           special
           spacing_top="40px"
         >
-          Join the hacktoberfest discord
+          Join the Hacktoberfest Discord
         </Button>
         <div>
           <Column spacing_top="64px">
