@@ -10,12 +10,14 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Displaying profile access in nav
  *   - Controlling access to auth hook
  *   - Controlling access to registration page
+ *   - Controlling access to report page
  */
 export const registrationStart = process.env.REGISTRATION_START || '2022-09-26T18:00:00Z';
 
 /**
  * Used for:
  *   - Controlling access to registration page
+ *   - Controlling access to report page
  *   - Toggling copy for profile access in nav
  */
 export const registrationEnd = process.env.REGISTRATION_END || '2022-11-01T12:00:00Z';
