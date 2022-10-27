@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
+import { registrationEnd, registrationStart } from 'lib/config';
 
 import { ContentSections } from 'components/content';
 import { MarkdownInline } from 'components/markdown';
@@ -131,6 +132,8 @@ const Events = ({ events, speakers }) => {
     [eventsFiltered, eventsCount]
   );
 
+  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
+
   return (
     <>
       <Head>
@@ -165,23 +168,6 @@ const Events = ({ events, speakers }) => {
         <PixelGlobe />
       </Hero>
 
-      {/* <Section type="sub_hero">
-        <div>
-          <Button as="a" href="#events" color_bg="spark">
-            Event List
-          </Button>
-          <Button as="a" href="#organizers" color_bg="giga">
-            Event Organizer Kit
-          </Button>
-          <Button as="a" href="#speakers" color_bg="surf">
-            Speakers & Facilitators
-          </Button>
-          <Button as="a" href="#brand" color_bg="psybeam">
-            Brand Guidelines
-          </Button>
-        </div>
-      </Section> */}
-
       <Section type="sub_content" id="events">
         <Divider />
         <Anchor href="#events" />
@@ -191,65 +177,77 @@ const Events = ({ events, speakers }) => {
           friends day or night, from dusk to dawn, as you work to complete your
           pull/merge requests.
         </StyledSubText>
-        <StyledSearch
-          type="text"
-          placeholder="[ Search events... ]"
-          value={eventsSearch}
-          onChange={(e) => setEventsSearch(e.target.value)}
-        />
-        <StyledList>
-          {events.length === 0 && (
-            <p>[ Sorry, there are no events listed currently ]</p>
-          )}
-          {events.length > 0 && eventsList.length === 0 && (
-            <p>[ Sorry, no events matched your search query ]</p>
-          )}
-          {eventsList.map((event) => (
-            <StyledListItem key={event.title}>
-              {event.type.map((type) => (
-                <StyledEventsListItemEyebrow
-                  key={type}
-                  color={typesToColors[type.toLowerCase()] || 'surf'}
-                >
-                  {`[ ${type} ]`}
-                </StyledEventsListItemEyebrow>
+        {hasRegistrationEnded ? (
+          <StyledList>
+            <p>
+              [ Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended. ]
+              <br/>
+              [ We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}, where we can host even more events! ]
+            </p>
+          </StyledList>
+        ) : (
+          <>
+            <StyledSearch
+              type="text"
+              placeholder="[ Search events... ]"
+              value={eventsSearch}
+              onChange={(e) => setEventsSearch(e.target.value)}
+            />
+            <StyledList>
+              {events.length === 0 && (
+                <p>[ Sorry, there are no events listed currently ]</p>
+              )}
+              {events.length > 0 && eventsList.length === 0 && (
+                <p>[ Sorry, no events matched your search query ]</p>
+              )}
+              {eventsList.map((event) => (
+                <StyledListItem key={event.title}>
+                  {event.type.map((type) => (
+                    <StyledEventsListItemEyebrow
+                      key={type}
+                      color={typesToColors[type.toLowerCase()] || 'surf'}
+                    >
+                      {`[ ${type} ]`}
+                    </StyledEventsListItemEyebrow>
+                  ))}
+                  <h3>{event.title}</h3>
+                  <ul>
+                    <li>
+                      <span>Location:</span> {event.location}
+                    </li>
+                    <li>
+                      <span>Date:</span> {event.date}
+                    </li>
+                    <li>
+                      <span>Time:</span> {event.time}
+                    </li>
+                    <li>
+                      <span>Format:</span> {event.format.join(', ')}
+                    </li>
+                    <li>
+                      <span>RSVP:</span>{' '}
+                      <a
+                        href={event.rsvp}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        {event.rsvp}
+                      </a>
+                    </li>
+                  </ul>
+                </StyledListItem>
               ))}
-              <h3>{event.title}</h3>
-              <ul>
-                <li>
-                  <span>Location:</span> {event.location}
-                </li>
-                <li>
-                  <span>Date:</span> {event.date}
-                </li>
-                <li>
-                  <span>Time:</span> {event.time}
-                </li>
-                <li>
-                  <span>Format:</span> {event.format.join(', ')}
-                </li>
-                <li>
-                  <span>RSVP:</span>{' '}
-                  <a
-                    href={event.rsvp}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {event.rsvp}
-                  </a>
-                </li>
-              </ul>
-            </StyledListItem>
-          ))}
-          {eventsCount < eventsFiltered.length && (
-            <Button
-              special
-              onClick={() => setEventsCount((count) => count + 3)}
-            >
-              Load More Events
-            </Button>
-          )}
-        </StyledList>
+              {eventsCount < eventsFiltered.length && (
+                <Button
+                  special
+                  onClick={() => setEventsCount((count) => count + 3)}
+                >
+                  Load More Events
+                </Button>
+              )}
+            </StyledList>
+          </>
+        )}
       </Section>
 
       <Section type="sub_content" id="organizers">
@@ -281,37 +279,47 @@ const Events = ({ events, speakers }) => {
           Find them helping contributors complete their pull/merge requests all
           month long in events throughout October.
         </p>
-        <StyledList>
-          {speakers.map((speaker) => (
-            <StyledListItem key={speaker.name}>
-              <h3>{speaker.name}</h3>
-              <ul>
-                <li>
-                  <span>Pronouns:</span> {speaker.pronouns}
-                </li>
-                <li>
-                  <span>Location:</span> {speaker.location}
-                </li>
-                <li>
-                  <span>Company:</span> {speaker.company}
-                </li>
-                <li>
-                  <span>Social:</span>{' '}
-                  <a
-                    href={speaker.social}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    {speaker.social.replace(/^https?:\/\//, '')}
-                  </a>
-                </li>
-                <li>
-                  <span>Specialization:</span> {speaker.specialization}
-                </li>
-              </ul>
-            </StyledListItem>
-          ))}
-        </StyledList>
+        {hasRegistrationEnded ? (
+          <StyledList>
+            <p>
+              [ Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended. ]
+              <br/>
+              [ We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}, where we can host even more events! ]
+            </p>
+          </StyledList>
+        ) : (
+          <StyledList>
+            {speakers.map((speaker) => (
+              <StyledListItem key={speaker.name}>
+                <h3>{speaker.name}</h3>
+                <ul>
+                  <li>
+                    <span>Pronouns:</span> {speaker.pronouns}
+                  </li>
+                  <li>
+                    <span>Location:</span> {speaker.location}
+                  </li>
+                  <li>
+                    <span>Company:</span> {speaker.company}
+                  </li>
+                  <li>
+                    <span>Social:</span>{' '}
+                    <a
+                      href={speaker.social}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                    >
+                      {speaker.social.replace(/^https?:\/\//, '')}
+                    </a>
+                  </li>
+                  <li>
+                    <span>Specialization:</span> {speaker.specialization}
+                  </li>
+                </ul>
+              </StyledListItem>
+            ))}
+          </StyledList>
+        )}
       </Section>
 
       <Section type="sub_content" id="brand">

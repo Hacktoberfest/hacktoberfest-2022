@@ -343,7 +343,7 @@ const Navigation = () => {
           {hasProfile && (
             <Link href="/auth" passHref>
               <Button special as="a">
-                Start Hacking
+                {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
               </Button>
             </Link>
           )}
