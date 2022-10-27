@@ -410,59 +410,61 @@ const Home = () => {
         </div>
       </Section>
 
-      <Section id="events-all-month-long" type="home_content">
-        <Divider style="reverse" />
-        <Anchor href="#events-all-month-long" />
-        <h2>Events All Month Long</h2>
-        <h5>
-          Join forces in virtual and in-person events to get your pull/merge
-          requests done as a team, learn new skills, and meet lifelong friends.
-        </h5>
-        <StyledList>
-          {events.map((event) => (
-            <StyledListItem key={event.title}>
-              <StyledEventsListItemEyebrow color="surf">
-                [ DigitalOcean ]
-              </StyledEventsListItemEyebrow>
-              <h3>{event.title}</h3>
-              <p>{event.content}</p>
-              <ul>
-                <li>
-                  <span>Location:</span> {event.location}
-                </li>
-                <li>
-                  <span>Date:</span> {event.date}
-                </li>
-                <li>
-                  <span>Time:</span> {event.time}
-                </li>
-                <li>
-                  <span>Format:</span> {event.format.join(', ')}
-                </li>
-                <li>
-                  <span>RSVP:</span>{' '}
-                  {event.rsvp && (
-                    <a
-                      href={event.rsvp}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      {event.rsvp}
-                    </a>
-                  )}
-                  {!event.rsvp && 'Coming Soon'}
-                </li>
-              </ul>
-            </StyledListItem>
-          ))}
-        </StyledList>
+      {!hasRegistrationEnded && (
+        <Section id="events-all-month-long" type="home_content">
+          <Divider style="reverse" />
+          <Anchor href="#events-all-month-long" />
+          <h2>Events All Month Long</h2>
+          <h5>
+            Join forces in virtual and in-person events to get your pull/merge
+            requests done as a team, learn new skills, and meet lifelong friends.
+          </h5>
+          <StyledList>
+            {events.map((event) => (
+              <StyledListItem key={event.title}>
+                <StyledEventsListItemEyebrow color="surf">
+                  [ DigitalOcean ]
+                </StyledEventsListItemEyebrow>
+                <h3>{event.title}</h3>
+                <p>{event.content}</p>
+                <ul>
+                  <li>
+                    <span>Location:</span> {event.location}
+                  </li>
+                  <li>
+                    <span>Date:</span> {event.date}
+                  </li>
+                  <li>
+                    <span>Time:</span> {event.time}
+                  </li>
+                  <li>
+                    <span>Format:</span> {event.format.join(', ')}
+                  </li>
+                  <li>
+                    <span>RSVP:</span>{' '}
+                    {event.rsvp && (
+                      <a
+                        href={event.rsvp}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        {event.rsvp}
+                      </a>
+                    )}
+                    {!event.rsvp && 'Coming Soon'}
+                  </li>
+                </ul>
+              </StyledListItem>
+            ))}
+          </StyledList>
 
-        <Link href="/events" passHref>
-          <Button special as="a" spacing_top="40px">
-            See All Events
-          </Button>
-        </Link>
-      </Section>
+          <Link href="/events" passHref>
+            <Button special as="a" spacing_top="40px">
+              See All Events
+            </Button>
+          </Link>
+        </Section>
+      )}
 
       <FauxHero
         h="220"
