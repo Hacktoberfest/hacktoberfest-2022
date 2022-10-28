@@ -1,6 +1,9 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+
+import { providerMap, registrationEnd, registrationStart } from 'lib/config';
+import { createExcludedRepository } from 'lib/api';
 
 import Anchor from 'components/anchor';
 import Divider from 'components/divider';
@@ -9,15 +12,14 @@ import Loader from 'components/loader';
 import Button from 'components/button';
 import Hero from 'components/hero';
 import { PixelPus } from 'components/pixels';
+import Form from 'components/form';
 
 import useAuth from 'hooks/useAuth';
 
-import { providerMap } from 'lib/config';
-import { createExcludedRepository } from 'lib/api';
-import Form from '../components/form';
-
 const Report = () => {
   const auth = useAuth(false);
+
+  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
 
   // Track the data the user enters
   const [ provider, setProvider ] = useState(Object.keys(providerMap)[0]);
@@ -106,68 +108,73 @@ const Report = () => {
 
         <h4>Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.</h4>
 
-        {!auth.active ? (
+        {hasRegistrationEnded ? (
           <p>
-            Coming soon: The ability to report repositories will be available when registration opens.
+            We are no longer accepting new repository reports, as Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
+            We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}!
           </p>
         ) : (
-          auth.loading ? (
-            <Loader message=">> Loading /usr/lib/report..." />
+          !auth.active ? (
+            <p>
+              Coming soon: The ability to report repositories will be available when registration opens.
+            </p>
           ) : (
-            auth.state !== 'profile' ? (
-              <>
-                <p>
-                  You must be registered for Hacktoberfest to report repositories.
-                </p>
-                <Link href="/auth" passHref>
-                  <Button as="a" special>Start Hacking</Button>
-                </Link>
-              </>
+            auth.loading ? (
+              <Loader message=">> Loading /usr/lib/report..." />
             ) : (
-              <>
-                <Form
-                  ref={form}
-                  onSubmit={submit}
-                  success={success && 'Thanks for letting us know about this repository. We\'ll review it as soon as possible.'}
-                  error={error}
-                >
-                  <fieldset>
-                    <label htmlFor="provider">Provider</label>
-                    <select
-                      name="provider"
-                      id="provider"
-                      value={provider}
-                      onChange={e => setProvider(e.target.value)}
-                      disabled={submitting}
-                      required
-                    >
-                      {Object.entries(providerMap).map(([ key, value ]) => (
-                        <option key={key} value={key}>{value}</option>
-                      ))}
-                    </select>
-                  </fieldset>
+              auth.state !== 'profile' ? (
+                <>
+                  <p>
+                    You must be registered for Hacktoberfest to report repositories.
+                  </p>
+                  <Link href="/auth" passHref>
+                    <Button as="a" special>Start Hacking</Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Form
+                    ref={form}
+                    onSubmit={submit}
+                    success={success && 'Thanks for letting us know about this repository. We\'ll review it as soon as possible.'}
+                    error={error}
+                  >
+                    <fieldset>
+                      <label htmlFor="provider">Provider</label>
+                      <select
+                        name="provider"
+                        id="provider"
+                        value={provider}
+                        onChange={e => setProvider(e.target.value)}
+                        disabled={submitting}
+                        required
+                      >
+                        {Object.entries(providerMap).map(([ key, value ]) => (
+                          <option key={key} value={key}>{value}</option>
+                        ))}
+                      </select>
+                    </fieldset>
 
-                  <fieldset>
-                    <label htmlFor="repository">Repository</label>
-                    <input
-                      type="text"
-                      placeholder="owner/target"
-                      name="repository"
-                      id="repository"
-                      value={repository}
-                      onChange={e => setRepository(e.target.value)}
-                      disabled={submitting}
-                      required
-                    />
-                  </fieldset>
+                    <fieldset>
+                      <label htmlFor="repository">Repository</label>
+                      <input
+                        type="text"
+                        placeholder="owner/target"
+                        name="repository"
+                        id="repository"
+                        value={repository}
+                        onChange={e => setRepository(e.target.value)}
+                        disabled={submitting}
+                        required
+                      />
+                    </fieldset>
 
-                  <Button onClick={submit} type="submit" disabled={submitting}>Report</Button>
-                </Form>
-              </>
+                    <Button onClick={submit} type="submit" disabled={submitting}>Report</Button>
+                  </Form>
+                </>
+              )
             )
-          )
-        )}
-
+          ))}
       </Section>
     </>
   );

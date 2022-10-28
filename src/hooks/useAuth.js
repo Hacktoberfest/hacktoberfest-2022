@@ -75,9 +75,9 @@ const useAuth = (redirect = true) => {
       return;
     }
 
-    // If we don't have a registration, we need to go to register (or homepage if registration is closed)
+    // If we don't have a registration, we need to go to register
     if (!registration) {
-      setState(new Date() >= new Date(registrationEnd) ? '' : 'register');
+      setState('register');
       return;
     }
 
