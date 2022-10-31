@@ -219,94 +219,100 @@ const Progress = ({ auth }) => {
         />
 
         {/* Show any gift codes the user has been awarded */}
-        {!!Object.keys(giftCodes).length && (
-          <>
-            {giftCodes.tshirt && (
-              <Notification title="Rewards: Swag Pack or Tree" color="surf" linkColor="spark">
-                <p>
-                  Congratulations on completing Hacktoberfest 2022! You've been
-                  awarded a swag pack (or a tree planted in your name, if you'd
-                  prefer) for your participation.
-                </p>
-                <GiftCode code={giftCodes.tshirt.code} />
-                <p>
-                  Head to
-                  {' '}
-                  <a
-                    href={`https://stores.kotisdesign.com/hf22?redemption_code=${giftCodes.tshirt.code}`}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    https://stores.kotisdesign.com/hf22
-                  </a>
-                  {' '}
-                  to redeem your code.
-                </p>
-              </Notification>
-            )}
+        {giftCodes.tshirt ? (
+          <Notification title="Rewards: Prize Kit" color="surf" linkColor="spark">
+            <p>
+              Congratulations on completing Hacktoberfest 2022! You've been
+              awarded a swag pack (or a tree planted in your name, if you'd
+              prefer) for your participation.
+            </p>
+            <GiftCode code={giftCodes.tshirt.code} />
+            <p>
+              Head to
+              {' '}
+              <a
+                href={`https://stores.kotisdesign.com/hf22?redemption_code=${giftCodes.tshirt.code}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                https://stores.kotisdesign.com/hf22
+              </a>
+              {' '}
+              to redeem your code.
+            </p>
+          </Notification>
+        ) : (auth.registration.state.state.includes('contributor') && (
+          <Notification title="Rewards: Prize Kit" color="surf" linkColor="spark">
+            <p>
+              Congratulations on completing Hacktoberfest 2022! It looks like
+              we’re all out of prizes to allocate for now (the first 40,000
+              participants to complete Hacktoberfest were eligible this year).
+              Keep an eye on your profile though, as we may allocate more
+              prizes later!
+            </p>
+          </Notification>
+        ))}
 
-            {giftCodes['dev-badge'] && (
-              <Notification title="Rewards: DEV Badge" color="surf" linkColor="spark">
-                <p>
-                  Congratulations on completing Hacktoberfest 2022!
-                  You've been awarded a badge from DEV for your participation
-                  that you can show off on your DEV profile.
-                </p>
-                <GiftCode code={giftCodes['dev-badge'].code} />
-                <p>
-                  Make sure to register for an account on
-                  {' '}
-                  <a
-                    href="https://dev.to/"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    DEV
-                  </a>
-                  , and then head to
-                  {' '}
-                  <a
-                    href="https://shop.forem.com/products/dev-hacktoberfest-badge-2022"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    https://shop.forem.com/products/dev-hacktoberfest-badge-2022
-                  </a>
-                  {' '}
-                  to redeem your code.
-                </p>
-              </Notification>
-            )}
+        {giftCodes['dev-badge'] && (
+          <Notification title="Rewards: DEV Badge" color="surf" linkColor="spark">
+            <p>
+              Congratulations on completing Hacktoberfest 2022!
+              You've been awarded a badge from DEV for your participation
+              that you can show off on your DEV profile.
+            </p>
+            <GiftCode code={giftCodes['dev-badge'].code} />
+            <p>
+              Make sure to register for an account on
+              {' '}
+              <a
+                href="https://dev.to/"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                DEV
+              </a>
+              , and then head to
+              {' '}
+              <a
+                href="https://shop.forem.com/products/dev-hacktoberfest-badge-2022"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                https://shop.forem.com/products/dev-hacktoberfest-badge-2022
+              </a>
+              {' '}
+              to redeem your code.
+            </p>
+          </Notification>
+        )}
 
-            {Object.keys(giftCodes).some((type) =>
-              type.startsWith('holopin')
-            ) && (
-              <Notification title="Rewards: Holopin Badges" color="surf" linkColor="spark">
-                <ul>
-                  {giftCodes['holopin-level-4-badge'] && (
-                    <Holopin code={giftCodes['holopin-level-4-badge']} reason="completing four accepted PR/MRs" />
-                  )}
-                  {giftCodes['holopin-level-3-badge'] && (
-                    <Holopin code={giftCodes['holopin-level-3-badge']} reason="completing three accepted PR/MRs" />
-                  )}
-                  {giftCodes['holopin-level-2-badge'] && (
-                    <Holopin code={giftCodes['holopin-level-2-badge']} reason="completing two accepted PR/MRs" />
-                  )}
-                  {giftCodes['holopin-level-1-badge'] && (
-                    <Holopin code={giftCodes['holopin-level-1-badge']} reason="completing one accepted PR/MR" />
-                  )}
-                  {giftCodes['holopin-registered-badge'] && (
-                    <Holopin code={giftCodes['holopin-registered-badge']} reason="registering for Hacktoberfest" />
-                  )}
-                </ul>
+        {Object.keys(giftCodes).some((type) =>
+          type.startsWith('holopin')
+        ) && (
+          <Notification title="Rewards: Holopin Badges" color="surf" linkColor="spark">
+            <ul>
+              {giftCodes['holopin-level-4-badge'] && (
+                <Holopin code={giftCodes['holopin-level-4-badge']} reason="completing four accepted PR/MRs" />
+              )}
+              {giftCodes['holopin-level-3-badge'] && (
+                <Holopin code={giftCodes['holopin-level-3-badge']} reason="completing three accepted PR/MRs" />
+              )}
+              {giftCodes['holopin-level-2-badge'] && (
+                <Holopin code={giftCodes['holopin-level-2-badge']} reason="completing two accepted PR/MRs" />
+              )}
+              {giftCodes['holopin-level-1-badge'] && (
+                <Holopin code={giftCodes['holopin-level-1-badge']} reason="completing one accepted PR/MR" />
+              )}
+              {giftCodes['holopin-registered-badge'] && (
+                <Holopin code={giftCodes['holopin-registered-badge']} reason="registering for Hacktoberfest" />
+              )}
+            </ul>
 
-                <p>
-                  Check your email for more information on how to claim each
-                  badge.
-                </p>
-              </Notification>
-            )}
-          </>
+            <p>
+              Check your email for more information on how to claim each
+              badge.
+            </p>
+          </Notification>
         )}
 
         <h3>Pull/Merge Requests</h3>
