@@ -222,9 +222,11 @@ const Progress = ({ auth }) => {
         {giftCodes.tshirt ? (
           <Notification title="Rewards: Prize Kit" color="surf" linkColor="spark">
             <p>
-              Congratulations on completing Hacktoberfest 2022! You've been
-              awarded a swag pack (or a tree planted in your name, if you'd
-              prefer) for your participation.
+              Congratulations on completing Hacktoberfest 2022! You’ve been
+              awarded a prize kit for your participation – t-shirts are
+              available for the first 40,000 participants that complete
+              Hacktoberfest, and you can always have a tree planted in your
+              name!
             </p>
             <GiftCode code={giftCodes.tshirt.code} />
             <p>
