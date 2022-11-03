@@ -305,8 +305,11 @@ const Progress = ({ auth }) => {
               {giftCodes['holopin-level-1-badge'] && (
                 <Holopin code={giftCodes['holopin-level-1-badge']} reason="completing one accepted PR/MR" />
               )}
+              {giftCodes['holopin-docker-badge'] && (
+                <Holopin code={giftCodes['holopin-docker-badge']} reason="registering for Hacktoberfest" from="Docker" />
+              )}
               {giftCodes['holopin-registered-badge'] && (
-                <Holopin code={giftCodes['holopin-registered-badge']} reason="registering for Hacktoberfest" />
+                <Holopin code={giftCodes['holopin-registered-badge']} reason="registering for Hacktoberfest" from="DigitalOcean" />
               )}
             </ul>
 

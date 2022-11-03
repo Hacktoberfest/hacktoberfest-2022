@@ -21,7 +21,7 @@ const StyledWarning = styled.p`
   opacity: 0.8;
 `;
 
-const Holopin = ({ code, reason }) => {
+const Holopin = ({ code, reason, from = null }) => {
   const id = useMemo(() => {
     try {
       return JSON.parse(code.code).data.id;
@@ -33,7 +33,10 @@ const Holopin = ({ code, reason }) => {
   return (
     <StyledCode>
       <p>
-        You've been awarded a Holopin badge for {reason}!
+        You've been awarded a Holopin badge
+        {from && ` from ${from}`}
+        {' '}
+        for {reason}!
       </p>
       {id && (
         <StyledWarning>
