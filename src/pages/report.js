@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 
-import { providerMap, registrationEnd, registrationStart } from 'lib/config';
+import { providerMap, registrationEnd, registrationStart, trackingEnd } from 'lib/config';
 import { createExcludedRepository } from 'lib/api';
 
 import Anchor from 'components/anchor';
@@ -19,7 +19,7 @@ import useAuth from 'hooks/useAuth';
 const Report = () => {
   const auth = useAuth(false);
 
-  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
+  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEnd), []);
 
   // Track the data the user enters
   const [ provider, setProvider ] = useState(Object.keys(providerMap)[0]);
@@ -108,7 +108,7 @@ const Report = () => {
 
         <h4>Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.</h4>
 
-        {hasRegistrationEnded ? (
+        {hasTrackingEnded ? (
           <p>
             We are no longer accepting new repository reports, as Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
             We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}!
