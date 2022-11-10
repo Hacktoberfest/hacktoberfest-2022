@@ -410,9 +410,31 @@ const Home = () => {
         </div>
       </Section>
 
+      <Section id="beanie" type="home_content">
+        <Divider style="reverse" />
+        <Anchor href="#beanie" />
+        <h2>Hacktoberfest Beanie</h2>
+        <h5>
+          Official Hacktoberfest 2022 Beanie - $15.95
+          <br/>
+          Commemorate Hacktoberfest 2022 with a collectible beanie, available
+          for the first time ever.
+        </h5>
+        <Button
+          as="a"
+          href="https://stores.kotisdesign.com/wf6xjr1eyd/items/unisex-port-company-100-acrylic-rolled-beanie/145268"
+          target="_blank"
+          rel="noreferrer noopener"
+          special
+          spacing_top="40px"
+        >
+          Buy Your Beanie
+        </Button>
+      </Section>
+
       {!hasRegistrationEnded && (
         <Section id="events-all-month-long" type="home_content">
-          <Divider style="reverse" />
+          <Divider />
           <Anchor href="#events-all-month-long" />
           <h2>Events All Month Long</h2>
           <h5>
