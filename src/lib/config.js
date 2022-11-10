@@ -30,6 +30,7 @@ export const trackingStart = process.env.TRACKING_START || '2022-09-30T10:00:00Z
 /**
  * Used for:
  *   - Controlling access to report page
+ *   - Controlling access to profile edit page
  */
 export const trackingEnd = process.env.TRACKING_END || '2022-11-08T12:00:00Z';
 

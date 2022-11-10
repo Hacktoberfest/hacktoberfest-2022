@@ -76,6 +76,11 @@ const StyledForm = styled.form`
       background: ${(props) => props.theme.spark};
       border-color: ${(props) => props.theme.spark};
     }
+    
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
 
     &::placeholder {
       color: ${(props) => props.theme.body};

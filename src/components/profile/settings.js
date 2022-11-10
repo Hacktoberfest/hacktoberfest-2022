@@ -11,7 +11,7 @@ import {
   fetchUserEmails,
   updateUser,
 } from 'lib/api';
-import { providerMap } from 'lib/config';
+import { providerMap, registrationStart, trackingEnd } from 'lib/config';
 
 import Button, { StyledButtonGroup } from 'components/button';
 import Form from 'components/form';
@@ -29,6 +29,7 @@ const Settings = ({ auth, isEdit = false }) => {
   const [emails, setEmails] = useState([]);
   const [oauth, setOauth] = useState([]);
   const [metadata, setMetadata] = useState([]);
+  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEnd), []);
 
   // Track the data the user enters
   const [data, setData] = useState({
@@ -60,6 +61,7 @@ const Settings = ({ auth, isEdit = false }) => {
   const linkOAuth = useCallback(
     async (e, provider) => {
       e.preventDefault();
+      if (hasTrackingEnded) return;
 
       const link = await createUserOAuth(
         auth.user.id,
@@ -81,6 +83,8 @@ const Settings = ({ auth, isEdit = false }) => {
   const unlinkOAuth = useCallback(
     async (e, provider) => {
       e.preventDefault();
+      if (hasTrackingEnded) return;
+
       if (
         !confirm(
           `Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`
@@ -197,7 +201,8 @@ const Settings = ({ auth, isEdit = false }) => {
   const submit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (submitting) return;
+      if (hasTrackingEnded || submitting) return;
+
       setSubmitting(true);
       setError(null);
       setSuccess(false);
@@ -292,6 +297,17 @@ const Settings = ({ auth, isEdit = false }) => {
     <Section>
       <div ref={top} />
 
+      {hasTrackingEnded && (
+        <>
+          <p>
+            It is no longer possible to edit your profile for this year, as Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
+          </p>
+          <br/>
+          <hr/>
+          <br/>
+        </>
+      )}
+
       <Form
         ref={form}
         onSubmit={submit}
@@ -305,7 +321,7 @@ const Settings = ({ auth, isEdit = false }) => {
                 <Fragment key={provider}>
                   {oauth[provider] ? (
                     hasMultipleOAuth && router.query.unlink === 'enabled' ? (
-                      <Button onClick={(e) => unlinkOAuth(e, provider)} type="button">
+                      <Button onClick={(e) => unlinkOAuth(e, provider)} type="button" disabled={hasTrackingEnded}>
                         Unlink {providerMap[provider]} account (@{oauth[provider].providerUsername})
                       </Button>
                     ) : (
@@ -314,7 +330,7 @@ const Settings = ({ auth, isEdit = false }) => {
                       </Button>
                     )
                   ) : (
-                    <Button onClick={(e) => linkOAuth(e, provider)} type="button">
+                    <Button onClick={(e) => linkOAuth(e, provider)} type="button" disabled={hasTrackingEnded}>
                       Link {providerMap[provider]} account
                     </Button>
                   )}
@@ -330,7 +346,7 @@ const Settings = ({ auth, isEdit = false }) => {
           value={data}
           onChange={setData}
           exclude={isEdit ? ['agree'] : []}
-          disabled={submitting}
+          disabled={hasTrackingEnded || submitting}
         />
 
         <StyledButtonGroup>
@@ -340,7 +356,7 @@ const Settings = ({ auth, isEdit = false }) => {
             </Button>
           )}
           {!!metadata.length && (
-            <Button onClick={submit} type="submit" disabled={submitting}>
+            <Button onClick={submit} type="submit" disabled={hasTrackingEnded || submitting}>
               {isEdit ? 'Save' : 'Register'}
             </Button>
           )}

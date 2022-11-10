@@ -8,6 +8,10 @@ export const StyledLabel = styled.label`
   margin: 16px 0;
   cursor: pointer;
   
+  &[disabled] {
+    cursor: not-allowed;
+  }
+  
   > div {
     display: flex;
     align-items: center;
@@ -40,12 +44,13 @@ export const StyledLabel = styled.label`
   }
 `;
 
-const CheckRadio = ({ radio, title, message, ...props }) => {
+const CheckRadio = ({ radio, title, message, disabled = false, ...props }) => {
   return (
-    <StyledLabel>
+    <StyledLabel disabled={disabled}>
       <div>
         <input
           type={radio ? 'radio' : 'checkbox'}
+          disabled={disabled}
           {...props}
         />
         {title && <p><MarkdownInline string={title} as={Fragment} forceNewTab /></p>}

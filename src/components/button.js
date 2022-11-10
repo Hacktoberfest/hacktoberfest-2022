@@ -26,7 +26,8 @@ export const StyledButton = styled.button`
   }
   
   &:disabled {
-    cursor: default;
+    cursor: not-allowed;
+    opacity: 0.8;
   }
 
   &:not(:disabled) {
