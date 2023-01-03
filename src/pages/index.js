@@ -338,6 +338,11 @@ const Home = () => {
               <br/>
               - The Hacktoberfest Team :)
             </p>
+            <p>
+              <a href="https://youtu.be/hzDrGs2PZ0Y" target="_blank" rel="noreferrer noopener">
+                Watch the Hacktoberfest 2022 Recap ->
+              </a>
+            </p>
           </StyledThanks>
         )}
       </Section>
