@@ -410,7 +410,7 @@ const Home = () => {
         </div>
       </Section>
 
-      <Section id="beanie" type="home_content">
+      {/*<Section id="beanie" type="home_content">
         <Divider style="reverse" />
         <Anchor href="#beanie" />
         <h2>Hacktoberfest Beanie</h2>
@@ -430,11 +430,11 @@ const Home = () => {
         >
           Buy Your Beanie
         </Button>
-      </Section>
+      </Section>*/}
 
       {!hasRegistrationEnded && (
         <Section id="events-all-month-long" type="home_content">
-          <Divider />
+          <Divider style="reverse" />
           <Anchor href="#events-all-month-long" />
           <h2>Events All Month Long</h2>
           <h5>
