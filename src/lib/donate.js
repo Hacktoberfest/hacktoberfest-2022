@@ -8,7 +8,6 @@ const getOpenCollective = async (offset = 0, limit = 5000) => {
         type: [COLLECTIVE, PROJECT]
         isActive: true
         hasCustomContributionsEnabled: true
-        supportedPaymentMethodService: [STRIPE, PAYPAL]
         offset: ${offset}
         limit: ${limit}
     ) {
@@ -30,7 +29,10 @@ const getOpenCollective = async (offset = 0, limit = 5000) => {
         },
         body: JSON.stringify({ query: gql }),
     });
-    if (!response.ok) throw new Error(`OpenCollective API error: ${response.status} ${response.statusText}`);
+    if (!response.ok) {
+      console.error(await response.text());
+      throw new Error(`OpenCollective API error: ${response.status} ${response.statusText}`);
+    }
 
     const data = await response.json();
     return {
