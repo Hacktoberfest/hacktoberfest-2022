@@ -6,7 +6,7 @@ import { providerMap, registrationEnd, registrationStart, trackingEnd } from 'li
 import { createExcludedRepository } from 'lib/api';
 
 import Anchor from 'components/anchor';
-import Divider from 'components/divider';
+import Divider from 'components/_divider';
 import Section from 'components/section';
 import Loader from 'components/loader';
 import Button from 'components/button';

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { darkTheme, liteTheme } from 'themes/themes';
+import { darkTheme, liteTheme, mainTheme } from 'themes/themes';
 
 const ThemeContext = createContext(() =>
   console.error('Attempted to set theme outside of ThemeContext')
@@ -24,7 +24,7 @@ export const Theme = ({ children }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={theme === 'dark' ? darkTheme : liteTheme}>
+    <ThemeProvider theme={theme === 'dark' ? {...darkTheme, ...mainTheme} : liteTheme}>
       <ThemeContext.Provider value={themeToggler}>
         {children}
       </ThemeContext.Provider>

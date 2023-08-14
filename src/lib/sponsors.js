@@ -4,6 +4,7 @@ import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
 import docker from 'assets/img/sponsors/docker-logo.svg';
 import novu from 'assets/img/sponsors/novu-logo.svg';
 import rapidapi from 'assets/img/sponsors/rapidapi-logo.svg';
+import illa from 'assets/img/sponsors/illa-logo.svg';
 
 const sponsors = {
   presented: [
@@ -22,9 +23,9 @@ const sponsors = {
       verticalOffset: 0,
     },
     {
-      name: 'Docker',
-      url: 'https://dockr.ly/3BMyG08',
-      image: docker.src,
+      name: 'Illa',
+      url: '/',
+      image: illa.src,
       scaleFactor: 0.875,
       verticalOffset: 2,
     },

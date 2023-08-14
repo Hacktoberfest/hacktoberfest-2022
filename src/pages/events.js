@@ -8,7 +8,7 @@ import { registrationEnd, registrationStart } from 'lib/config';
 import { ContentSections } from 'components/content';
 import { MarkdownInline } from 'components/markdown';
 import Button from 'components/button';
-import Divider from 'components/divider';
+import Divider from 'components/_divider';
 import Anchor from 'components/anchor';
 import Section from 'components/section';
 import Hero from 'components/hero';
@@ -22,57 +22,11 @@ export const StyledEventsListItemEyebrow = styled.div`
 `;
 
 export const StyledList = styled.div`
-  margin: 64px 0 0;
-  position: relative;
+
 `;
 
 export const StyledListItem = styled.div`
-  border-top: 1px solid rgba(229, 225, 230, 0.5);
-  padding: 40px 16px;
-  text-transform: uppercase;
 
-  &::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    content: '';
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(
-      90deg,
-      ${(props) => props.theme.spark} 0%,
-      ${(props) => props.theme.surf} 50%,
-      ${(props) => props.theme.psybeam} 100%
-    );
-  }
-
-  h3 {
-    margin: 16px 0;
-    font-family: 'JetBrains Mono';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 32px;
-  }
-
-  ul {
-    li {
-      display: inline-block;
-      margin: 0 40px 0 0;
-      word-wrap: break-word;
-      max-width: 100%;
-
-      span {
-        font-family: 'JetBrains Mono';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 24px;
-        opacity: 0.5;
-      }
-    }
-  }
 `;
 
 export const StyledSubText = styled.p`

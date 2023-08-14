@@ -16,7 +16,7 @@ import { MarkdownInline, Markdown } from 'components/markdown';
 import { ContentSections } from 'components/content';
 import Collapse from 'components/collapse';
 import Anchor from 'components/anchor';
-import Divider from 'components/divider';
+import Divider from 'components/_divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelPus } from 'components/pixels';
@@ -33,10 +33,10 @@ const StyledFAQs = styled.div`
     line-height: 1.25;
     margin: 32px 0;
   }
-  
+
   details {
     margin: 16px 0;
-    
+
     h4 {
       font-size: 24px;
       text-shadow: none;
@@ -44,7 +44,7 @@ const StyledFAQs = styled.div`
       text-transform: none;
       color: rgba(229, 225, 230, 0.75);
     }
-    
+
     p {
       opacity: 1;
     }

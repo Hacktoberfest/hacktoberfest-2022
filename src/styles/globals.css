@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;0,800;1,800&display=swap');
 
 *,
 html,
@@ -9,7 +9,6 @@ body {
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-transform: uppercase;
   scroll-behavior: smooth;
 }
 
@@ -37,51 +36,43 @@ button {
   border: 0;
   cursor: pointer;
   outline: none;
-  font-family: 'JetBrains Mono', monospace;
   font-size: 16px;
   line-height: 24px;
 }
 
 h1 {
-  font-family: 'Vanguard', sans-serif;
   font-size: 144px;
   line-height: 100%;
 }
 
 h2 {
-  font-family: 'Vanguard', sans-serif;
   font-size: 88px;
   line-height: 96px;
 }
 
 h3 {
-  font-family: 'Vanguard', sans-serif;
   font-size: 72px;
   line-height: 72px;
 }
 
 h4 {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 32px;
   line-height: 40px;
 }
 
 h5 {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 20px;
   font-weight: 500;
   line-height: 28px;
 }
 
 h6 {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
 }
 
 p {
-  font-family: 'JetBrains Mono', monospace;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;

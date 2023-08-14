@@ -5,7 +5,7 @@ import { council, lowNonCode } from 'lib/about';
 
 import Collapse from 'components/collapse';
 import Anchor from 'components/anchor';
-import Divider from 'components/divider';
+import Divider from 'components/_divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelComputer } from 'components/pixels';

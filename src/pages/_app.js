@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 import { Theme } from 'components/theme';
 import Navigation from 'components/navigation';
-import Footer from 'components/footer';
+import Footer from 'components/Footer';
 import { useEffect } from 'react';
 
 import GlobalStyle from 'themes/themes';
@@ -13,6 +13,7 @@ import { sammy } from 'lib/sammy';
 
 import opengraph from 'assets/img/opengraph.png';
 import favicon from 'assets/img/favicon.svg';
+import Header from 'components/Header';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -48,7 +49,7 @@ const App = ({ Component, pageProps }) => {
       </Head>
       <Theme>
         <GlobalStyle />
-        <Navigation />
+        <Header />
 
         <Component {...pageProps} />
 
