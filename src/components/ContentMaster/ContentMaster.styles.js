@@ -56,6 +56,22 @@ export const StyledContentMasterBody = styled.div`
     ${({ $size }) => $size === 'md' && body20};
     ${({ $size }) => $size === 'sm' && body16};
   }
+
+  strong {
+    color: ${({ theme }) => theme.colors.bavarian.gold200};
+    font-weight: 700;
+  }
+
+  a {
+    color: ${({ theme }) => theme.colors.bavarian.blue200};
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.bavarian.blue200};
+      text-decoration: none;
+    }
+  }
 `;
 
 export const StyledContentMasterLinks = styled.ul`
@@ -68,4 +84,45 @@ export const StyledContentMasterLinks = styled.ul`
 
 export const StyledContentMasterCta = styled.div`
   padding: 24px 0 0;
+`;
+
+export const StyledContentMasterList = styled.ul`
+  list-style-type: disc;
+  padding-left: 20px;
+
+  ${({ $columns }) => $columns === '2' ? `
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    ${mQ(bp.desktop)} {
+      display: block;
+      column-count: 2;
+      column-gap: 64px;
+    }
+  `: `
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  `};
+
+  li {
+    ${body20};
+    color: ${({ theme }) => theme.colors.neutral.manga300};
+  }
+
+  strong {
+    color: ${({ theme }) => theme.colors.bavarian.gold200};
+    font-weight: 700;
+  }
+
+  a {
+    color: ${({ theme }) => theme.colors.bavarian.blue200};
+    text-decoration: underline;
+    text-underline-offset: 4px;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.bavarian.blue200};
+      text-decoration: none;
+    }
+  }
 `;

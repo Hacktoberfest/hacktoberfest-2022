@@ -22,12 +22,19 @@ import IlloComputer from 'assets/img/8bit-computer.svg';
 import IlloGit from 'assets/img/8bit-git.svg';
 import IlloDiscord from 'assets/img/8bit-discord.svg';
 import IlloBranch from 'assets/img/8bit-branch.svg';
+import IlloPumpkin from 'assets/img/8bit-pumpkin.svg';
 import bgHome from 'assets/img/bg-home.svg';
 import Events from 'components/Events';
 
 export const StyledHome = styled.div`
   background: url(${bgHome.src}) no-repeat;
   background-size: 100% auto;
+`;
+
+export const StyledHomeCallout = styled.div`
+  background: url(${IlloPumpkin.src}) no-repeat;
+  background-size: ${(537/1440)*100}% auto;
+  background-position: 0 -35px;
 `;
 
 const Home = () => {
@@ -62,21 +69,27 @@ const Home = () => {
 
         <Divider type="pixel" />
 
-        <ContentSide
-          title="Preptember"
-          links={[
-            {
-              id: 'preptember-link-1',
-              children: 'Get the event kit',
-              href: '/'
-            }, {
-              id: 'preptember-link-2',
-              children: 'How to participate',
-              href: '/'
-            }
-          ]}>
-            September is the perfect time to prepare for Hacktoberfest. Get a jump start by finding projects to contribute to, adding the ‘hacktoberfest’ tag to your projects, or familiarizing yourself with Git.
-        </ContentSide>
+        <Section>
+          <ContentSide>
+            <ContentMaster size="xl" title="Preptember" />
+            <ContentMaster
+              size="md"
+              links={[
+                {
+                  id: 'preptember-link-1',
+                  children: 'Get the event kit',
+                  href: '/'
+                }, {
+                  id: 'preptember-link-2',
+                  children: 'How to participate',
+                  href: '/'
+                }
+              ]}
+            >
+              September is the perfect time to prepare for Hacktoberfest. Get a jump start by finding projects to contribute to, adding the **‘hacktoberfest’** tag to your projects, or familiarizing yourself with Git.
+            </ContentMaster>
+          </ContentSide>
+        </Section>
       </Container>
 
       <Marquee
@@ -97,15 +110,17 @@ const Home = () => {
         direction="forwards"
       />
 
-      <Section>
-        <Callout
-          link={{
-            children: 'Learn more',
-            href: '/'
-          }}>
-          **Hacktoberfest has grown from 676 participants in 2014 to nearly 147,000 participants last year. To ensure Hacktoberfest can be sustained for another decade, this year we’re moving away from a free t-shirt reward to a digital reward.**
-        </Callout>
-      </Section>
+      <StyledHomeCallout>
+        <Section>
+          <Callout
+            link={{
+              children: 'Learn more',
+              href: '/'
+            }}>
+            **Hacktoberfest has grown from 676 participants in 2014 to nearly 147,000 participants last year. To ensure Hacktoberfest can be sustained for another decade, this year we’re moving away from a free t-shirt reward to a digital reward.**
+          </Callout>
+        </Section>
+      </StyledHomeCallout>
 
       <Container>
         <Divider type="doubledashed" />

@@ -23,12 +23,12 @@ export const values = {
 };
 
 export const contributors = {
-  title: 'Contributors',
+  title: 'Participating in Hacktoberfest',
   sections: [
     {
       title: 'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
-        'Register anytime between September 26 and October 31',
+        'Register anytime between **September 26** and **October 31**',
         'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
         'Have 4 pull/merge requests accepted between October 1 and October 31 to complete Hacktoberfest',
@@ -81,14 +81,14 @@ export const resources = {
 
 export const prMrDetails = {
   title: 'Pull/Merge Request Details',
-  content: 'Here’s how we validate contributor pull/merge requests (“PR/MRs”) for Hacktoberfest',
+  content: 'Here’s how we validate contributor pull/merge requests (“**PR/MRs**”) for Hacktoberfest',
   sections: [
     {
       title: 'Your PR/MRs must be within the bounds of Hacktoberfest.',
       subtitle: 'out-of-bounds',
       items: [
         {
-          content: 'Your PR/MRs must be created between October 1 and October 31 (in any time zone, UTC-12 thru UTC+14).',
+          content: 'Your PR/MRs must be created between **October 1** and **October 31** (in any time zone, UTC-12 thru UTC+14).',
         },
         {
           content: 'Your PR/MRs must be made to a public, unarchived repository.',
@@ -109,7 +109,7 @@ export const prMrDetails = {
       subtitle: 'spam',
       items: [
         {
-          content: 'PR/MRs that are labeled with a label containing the word “spam” by maintainers will not be counted.',
+          content: 'PR/MRs that are labeled with a label containing the word “**spam**” by maintainers will not be counted.',
           items: [
             'We use the Node.js 16 RegEx engine with `/\\bspam\\b/i` to look for spam labels.',
             'PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.',
@@ -180,45 +180,61 @@ export const spam = {
   sections: [
     {
       title: 'Spammy pull/merge requests will be labeled as “spam.”',
-      content: 'Maintainers: label spammy requests “spam” and close them. PR/MRs labeled “spam” won’t count toward Hacktoberfest. Contributors with 2+ spammy PR/MRs are disqualified.',
+      items: [
+        {
+          content: 'Maintainers: label spammy requests “spam” and close them. PR/MRs labeled “spam” won’t count toward Hacktoberfest. Contributors with 2+ spammy PR/MRs are disqualified.',
+        }
+      ]
     },
     {
       title: 'Pull/merge requests must be approved by a maintainer.',
-      content: 'Maintainers accept PR/MRs by merging them, labeling them “hacktoberfest-accepted,” or giving them an overall approving review. Accepted PR/MRs enter a 7-day review window, during which approval can be revoked by the maintainer or by our team.',
+      items: [
+        {
+          content: 'Maintainers accept PR/MRs by merging them, labeling them “hacktoberfest-accepted,” or giving them an overall approving review. Accepted PR/MRs enter a 7-day review window, during which approval can be revoked by the maintainer or by our team.',
+        }
+      ]
     },
     {
       title: 'Bad repositories will be excluded.',
-      content: 'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n' +
-        '\n' +
-        'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
+      items: [
+        {
+          content: 'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n' +
+            '\n' +
+            'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
+        }
+      ]
     },
     {
       title: 'Avoid submitting low-quality pull/merge requests.',
-      content: 'Hacktoberfest is about contributing meaningfully to open-source projects. Here are some examples of low-quality pull/merge requests that won’t count towards Hacktoberfest.\n' +
-        '\n' +
-        ' - Automated pull/merge requests: scripted opening pull requests to remove whitespace, fix typos or optimize images.\n' +
-        ' - Disruptive pull/merge requests: taking someone else\'s branch/commits and making a pull request.\n' +
-        ' - Anything that a project maintainer flags as spam.\n' +
-        ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
-        '\n' +
-        'Multiple pull/merge requests for the same issue that are unnecessary -for example five PR/MRs to remove a stray whitespace is not.\n',
+      items: [
+        {
+          content: 'Hacktoberfest is about contributing meaningfully to open-source projects. Here are some examples of low-quality pull/merge requests that won’t count towards Hacktoberfest.\n' +
+            '\n' +
+            ' - Automated pull/merge requests: scripted opening pull requests to remove whitespace, fix typos or optimize images.\n' +
+            ' - Disruptive pull/merge requests: taking someone else\'s branch/commits and making a pull request.\n' +
+            ' - Anything that a project maintainer flags as spam.\n' +
+            ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
+            '\n' +
+            'Multiple pull/merge requests for the same issue that are unnecessary -for example five PR/MRs to remove a stray whitespace is not.\n',
+        }
+      ]
     },
   ],
 };
 
 export const maintainers = {
   title: 'Maintainers',
+  content: 'Prepare your project for contributions by following these best practices:',
   sections: [
     {
-      content: 'Prepare your project for contributions by following these best practices: \n',
       items: [
-        'Add the “hacktoberfest” topic to your repository to **opt-in to Hacktoberfest** and indicate you’re looking for contributions.',
-        'Apply the “hacktoberfest” label to issues you want contributors to help with in your GitHub or GitLab project.',
-        'Add a CONTRIBUTING.md file with contribution guidelines to your repository.',
+        'Add the “**hacktoberfest**” topic to your repository to **opt-in to Hacktoberfest** and indicate you’re looking for contributions.',
+        'Apply the “**hacktoberfest**” label to issues you want contributors to help with in your GitHub or GitLab project.',
+        'Add a **CONTRIBUTING.md** file with contribution guidelines to your repository.',
         'Choose issues that have a well-defined scope and are self-contained.',
         'Adopt a code of conduct to create a greater sense of inclusion and community for contributors.',
-        'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “hacktoberfest-accepted” label.',
-        'Reject any spammy requests you receive by labeling them as “spam,” and any other invalid contributions by closing them or labeling them as “invalid.”',
+        'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “**hacktoberfest-accepted**” label.',
+        'Reject any spammy requests you receive by labeling them as “**spam,**” and any other invalid contributions by closing them or labeling them as “**invalid.**”',
       ],
     },
     {
@@ -238,108 +254,181 @@ export const maintainers = {
 
 export const faqs = {
   title: 'FAQs',
+  content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum rhoncus metus id lacus interdum faucibus. Cras rutrum diam non egestas porttitor. Quisque nisi nisi, gravida ut turpis et, dignissim dignissim sapien.',
   sections: [
     {
-      title: 'Swag & Shipping',
+      title: 'When will I receive my t-shirt?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
       items: [
         {
-          title: 'When will I receive my t-shirt?',
-          collapsible: true,
-          collapsed: true,
           content: 'You will receive an email once your t-shirt is shipped. Due to ongoing COVID-related disruptions and supply chain constraints we cannot guarantee a ship date, but estimate that all t-shirts will be shipped by the end of 2022.\n' +
             '\n' +
             'T-shirts (or the option to plant a tree) will be awarded on a first-come, first-served basis to the first 40,000 participants who successfully complete the Hacktoberfest challenge.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'What t-shirt size should I order?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'What t-shirt size should I order?',
-          collapsible: true,
-          collapsed: true,
           content: 'You can reference the size charts for the t-shirts on the ordering page. Both size charts include measurements in inches, and instructions for how to measure yourself.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Why isn’t there a Women’s fit t-shirt this year?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Why isn’t there a Women’s fit t-shirt this year?',
-          collapsible: true,
-          collapsed: true,
           content: 'This year, we expanded our unisex t-shirt offering to two types: dark and light mode. To print two different types of t-shirt, we had to streamline the process by selecting a single t-shirt style. The t-shirt style we chose for 2022 is a tighter, more tailored fit than the t-shirts of previous years and falls somewhere between a unisex fit and a women’s fit.\n' +
             'Would you prefer that we bring back the women’s fit t-shirt option? [Let us know](mailto:hacktoberfest@digitalocean.com)!',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Tracking for my order is not active; is my tracking number correct?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Tracking for my order is not active; is my tracking number correct?',
-          collapsible: true,
-          collapsed: true,
           content: 'You may receive a tracking email 2-3 days before tracking becomes active on DHL’s website. Try again in a few days.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'How do I return or exchange an item?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'How do I return or exchange an item?',
-          collapsible: true,
-          collapsed: true,
           content: 'If you believe your order was shipped incorrectly, contact us with the order number from the email subject line, plus a description of the incorrect item you received.\n' +
             '\n' +
             'Otherwise, if it’s still within 30 days of the original purchase, follow the instructions at [kotisdesign.com/returns](https://kotisdesign.com/returns).\n' +
             '\n' +
             'Please note: You will be responsible for shipping the item back to us if you decide to exchange it.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Did my t-shirt order go through?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Did my t-shirt order go through?',
-          collapsible: true,
-          collapsed: true,
           content: 'If you did not receive an order confirmation email within an hour of placing your order, we can look up your order using the email address you used.\n' +
             '\n' +
             'Please check your spam or junk folders first. If it’s not there, send us an email to [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) to confirm your t-shirt order.'
-        },
+        }
+      ]
+    },
+    {
+      title: 'Will I have to pay anything to receive my t-shirt/stickers?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Will I have to pay anything to receive my t-shirt/stickers?',
-          collapsible: true,
-          collapsed: true,
           content: 'T-shirts are free of charge for participants, including shipping costs. Customs may assess duty/VAT/tax for some countries and in rare instances.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Will I have to pay anything/custom tax/duty for the t-shirt?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Will I have to pay anything/custom tax/duty for the t-shirt?',
-          collapsible: true,
-          collapsed: true,
           content: 'We write down a low enough dollar value on the mailed packages that we don’t expect any issues with customs tax, but we cannot guarantee that. You may have to pay a small fee depending on your country’s import policies. DigitalOcean and Kotis Design will not issue a refund for shipping/duty fees.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'What countries do you ship to?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'What countries do you ship to?',
-          collapsible: true,
-          collapsed: true,
           content: 'We are able to ship to all countries with the exception of the following: Russia, Belarus, Cuba, Iran, Libya, North Korea, Sierra Leone, Somalia, Sudan, Syria, and Yemen.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'My international order is delayed. What can I do?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'My international order is delayed. What can I do?',
-          collapsible: true,
-          collapsed: true,
           content: 'We recommend [contacting DHL](http://www.dhl.com/global-en/home/our-divisions/ecommerce/customer-service.html) in your country for help with clearing the package.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Can I update my email address, delivery address, and/or the size of my t-shirt?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Can I update my email address, delivery address, and/or the size of my t-shirt?',
-          collapsible: true,
-          collapsed: true,
           content: 'Yes, as long as your item has not shipped yet we can absolutely adjust this. Please email [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) as soon as possible and make sure to include your order number as well as how we should edit your order (including the new shipping address, preferred size, or the correct email address).\n' +
             '\n' +
             'Unfortunately, we are unable to change this information once your items have departed from our facilities.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Customs is asking me for an invoice; where do I find one of those?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Customs is asking me for an invoice; where do I find one of those?',
-          collapsible: true,
-          collapsed: true,
           content: 'We can provide you with a commercial invoice that you can pass on to customs or the shipping company.\n' +
             'Please email [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) and make sure you’ve listed your order number in your request so we can generate an appropriate invoice for you.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'I didn’t receive my Hacktoberfest 2021 t-shirt/swag.',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'I didn’t receive my Hacktoberfest 2021 t-shirt/swag.',
-          collapsible: true,
-          collapsed: true,
           content: 'We are no longer printing 2021 t-shirts. If you did not receive your t-shirt, this means we tried to deliver multiple times unsuccessfully. We are working hard on improving the shipping process this year so that everyone receives their t-shirts. Thank you for your understanding.',
-        },
+        }
+      ]
+    },
+    {
+      title: 'Can I receive a shirt and plant a tree?',
+      subtitle: 'Section Title',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Can I receive a shirt and plant a tree?',
-          collapsible: true,
-          collapsed: true,
           content: 'Once you’ve completed Hacktoberfest, you will have the option to choose either a Hacktoberfest t-shirt OR the option to have a tree planted in your name. You will not have the option to choose both reward options.\n' +
             'However, if you want to plant a tree on your own, you can do so [in our Tree-Nation forest](http://tree-nation.com/profile/digitalocean)!',
-        },
-      ],
+        }
+      ]
     },
   ],
 };
+
+
+export const note = {
+  content: '**Note:** If you\'re submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution. Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n' +
+  '\n' +
+  '**For Maintainers:** How to attract low or non-code contributions.'
+}

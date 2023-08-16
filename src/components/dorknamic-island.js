@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { body16 } from 'themes/typography';
 
 const loadAnimation = (x) => keyframes`
   from {
@@ -50,55 +51,6 @@ const textAnimation = () => keyframes`
   }
 `;
 
-const StyledShutter = styled.div`
-  width: 40px;
-  height: 40px;
-  background: black;
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  @media (max-width: 600px) {
-    align-self: flex-start;
-  }
-
-  > div {
-    width: 24px;
-    height: 24px;
-    border-radius: inherit;
-    background: #0e0318;
-    position: relative;
-    overflow: hidden;
-
-    &:before {
-      content: '';
-      background: #5ef5ff;
-      width: 12px;
-      height: 8px;
-      border-radius: inherit;
-      position: absolute;
-      top: -5px;
-      left: 4px;
-      opacity: 0.8;
-      filter: blur(3px);
-    }
-
-    &:after {
-      content: '';
-      background: #ffab5e;
-      width: 16px;
-      height: 12px;
-      border-radius: inherit;
-      position: absolute;
-      bottom: -5px;
-      left: 4px;
-      opacity: 0.5;
-      filter: blur(3px);
-    }
-  }
-`;
-
 const StyledInit = styled.p`
   font-family: 'JetBrains Mono', monospace;
   font-variant-ligatures: none;
@@ -117,6 +69,7 @@ const StyledNav = styled.nav`
   width: 100%;
   height: 0;
   gap: 24px;
+  justify-content: center;
   flex-flow: row wrap;
   opacity: 0;
   transition: all 0.2s ease;
@@ -130,28 +83,23 @@ const StyledNav = styled.nav`
   }
 
   a {
-    color: ${(props) => props.theme.text};
-    transition: text-shadow 0.2s ease;
+    ${body16};
+    color: ${({theme}) => theme.colors.neutral.manga300};
+    text-transform: uppercase;
 
     &:hover,
     &:focus {
-      color: ${(props) => props.theme.text};
-      text-shadow: ${(props) => props.theme.glowLite};
+      color: ${({theme}) => theme.colors.neutral.manga200};
     }
   }
 `;
 
-const StyledHex = styled.svg`
-  animation: ${flickerAnimation} 3s infinite;
-  filter: ${(props) => props.theme.glowLiteDS};
-`;
-
 const StyledIsland = styled.div`
-  background: #0e0318;
+  background: ${({theme}) => theme.colors.neutral.void200};
   width: 200px;
-  max-width: 1312px;
+  max-width: 1280px;
   border-radius: 100px;
-  box-shadow: ${(props) => props.theme.glowLite};
+  border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -180,19 +128,19 @@ const StyledIsland = styled.div`
 `;
 
 const StyledButton = styled.button`
-  height: 40px;
-  width: 40px;
-  border: 2px solid ${(props) => props.theme.text};
-  border-radius: 6px;
-  position: relative;
-  display: none;
   align-items: center;
-  justify-content: center;
   align-self: flex-end;
-  filter: ${(props) => props.theme.glowLiteDS};
-  transition: 0.1s ease;
+  border: 2px solid ${({theme}) => theme.colors.neutral.manga200};
+  border-radius: 6px;
+  display: none;
+  height: 40px;
+  justify-content: center;
+  margin-left: auto;
   opacity: 0;
+  position: relative;
+  transition: 0.1s ease;
   visibility: hidden;
+  width: 40px;
 
   &:hover {
     transform: scale(0.9);
@@ -204,9 +152,9 @@ const StyledButton = styled.button`
     content: '';
     width: 60%;
     height: 2px;
-    background: ${(props) => props.theme.text};
+    background: ${({theme}) => theme.colors.neutral.manga200};
     z-index: 2;
-    transition 0.2s ease;
+    transition: 200ms ease;
   }
 
   &:before {
@@ -217,7 +165,6 @@ const StyledButton = styled.button`
   }
 
   &[aria-selected='true'] {
-    
     :after,
     :before {
       transform: rotate(0deg);
@@ -254,9 +201,9 @@ const StyledWrapper = styled.div`
   }
 
   @media (max-width: 600px) {
+    bottom: 120px;
     padding: 0 24px;
     top: auto;
-    bottom: 120px;
     transform: translateY(200px);
   }
 `;
@@ -272,7 +219,6 @@ const DorknamicIsland = (props) => {
 
   const island = useRef(null);
   const init = useRef(null);
-  const hex = useRef(null);
   const wrapper = useRef(null);
   const nav = useRef(null);
   const hamburger = useRef(null);
@@ -281,7 +227,6 @@ const DorknamicIsland = (props) => {
     const scrollTrigger = () => {
       if (!island.current) return;
       if (!init.current) return;
-      if (!hex.current) return;
       if (!wrapper.current) return;
       if (!nav.current) return;
       if (!hamburger.current) return;
@@ -305,8 +250,7 @@ const DorknamicIsland = (props) => {
         }
         island.current.style.borderRadius = '16px';
         island.current.style.width = '100%';
-        island.current.style.padding = '16px 24px';
-        hex.current.style.display = 'none';
+        island.current.style.padding = '24px 40px';
         init.current.style.display = 'none';
         nav.current.style.display = 'flex';
 
@@ -337,8 +281,7 @@ const DorknamicIsland = (props) => {
         }
         island.current.style.borderRadius = '100px';
         island.current.style.width = '200px';
-        island.current.style.padding = '4px 4px 4px 12px';
-        hex.current.style.display = 'block';
+        island.current.style.padding = '4px 12px';
         init.current.style.display = 'block';
         nav.current.style.opacity = '0';
         nav.current.style.visibility = 'hidden';
@@ -363,29 +306,11 @@ const DorknamicIsland = (props) => {
   return (
     <StyledWrapper ref={wrapper}>
       <StyledIsland ref={island}>
-        <StyledHex
-          width="24"
-          height="22"
-          viewBox="0 0 24 22"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          ref={hex}
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M6.83961 20.0323C6.9791 20.1043 7.13588 20.1437 7.29827 20.1437L16.7017 20.1437C17.059 20.1437 17.3891 19.9531 17.5677 19.6437L22.2694 11.5001C22.4481 11.1907 22.4481 10.8095 22.2694 10.5001L17.5677 2.35644C17.4706 2.18814 17.3286 2.05499 17.1617 1.96855L6.83961 20.0323ZM5.56622 1.85645C5.92349 1.23764 6.58374 0.856445 7.29827 0.856445H16.7017C17.4162 0.856445 18.0765 1.23764 18.4338 1.85644L23.1355 10.0001C23.4927 10.6189 23.4927 11.3812 23.1355 12.0001L18.4338 20.1437C18.0765 20.7625 17.4162 21.1437 16.7017 21.1437H7.29827C6.58374 21.1437 5.92349 20.7625 5.56622 20.1437L0.864507 12.0001C0.507241 11.3812 0.507241 10.6189 0.864507 10.0001L5.56622 1.85645Z"
-            fill="currentColor"
-          />
-        </StyledHex>
         <StyledInit ref={init}>Init</StyledInit>
         <StyledNav ref={nav} aria-selected={open}>
           {props.children}
         </StyledNav>
         <div className="shutter-wrapper" aria-selected={open}>
-          <StyledShutter>
-            <div />
-          </StyledShutter>
           <StyledButton ref={hamburger} onClick={toggle} aria-selected={open} />
         </div>
       </StyledIsland>

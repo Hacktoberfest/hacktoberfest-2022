@@ -3,27 +3,27 @@ import styled, { keyframes } from 'styled-components';
 const StyledDiv = styled.div``;
 
 const flickerAnimation = () => keyframes`
-0% {
-      opacity: 1;
-    }
-    18% {
-      opacity: 1;
-    }
-    19% {
-      opacity: 0;
-    }
-    20% {
-      opacity: 1;
-    }
-    96% {
-      opacity: 1;
-    }
-    97% {
-      opacity: 0;
-    }
-    98% {
-      opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 1;
+  }
+  19% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0;
+  }
+  98% {
+    opacity: 1;
+  }
 `;
 
 const pixelGlobeAnimation = () => keyframes`

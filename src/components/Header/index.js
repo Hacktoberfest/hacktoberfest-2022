@@ -44,7 +44,11 @@ const Header = () => {
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledHeaderLogo>
-            <img src={hacktoberfestLogo.src} alt="Hacktoberfest 10" />
+            <Link href="/" passHref>
+              <a>
+                <img src={hacktoberfestLogo.src} alt="Hacktoberfest 10" />
+              </a>
+            </Link>
           </StyledHeaderLogo>
           <StyledHeaderNav>
             <Link href="/participation" passHref>

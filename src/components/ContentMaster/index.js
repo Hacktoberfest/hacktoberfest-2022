@@ -6,10 +6,11 @@ import {
   StyledContentMasterHeader,
   StyledContentMasterBody,
   StyledContentMasterLinks,
-  StyledContentMasterCta
+  StyledContentMasterCta,
+  StyledContentMasterList
 } from './ContentMaster.styles';
 import TextLink from 'components/TextLink';
-import { MarkdownInline } from 'components/markdown';
+import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
 
 const ContentMaster = props => {
@@ -20,6 +21,8 @@ const ContentMaster = props => {
     children,
     size,
     align = 'left',
+    list,
+    listColumns,
     links,
     cta
   } = props;
@@ -40,8 +43,16 @@ const ContentMaster = props => {
       )}
       {children && (
         <StyledContentMasterBody $size={size}>
-          <MarkdownInline string={children} />
+          {/* <MarkdownInline string={children} /> */}
+          <Markdown string={children} />
         </StyledContentMasterBody>
+      )}
+      {list && (
+        <StyledContentMasterList $columns={listColumns}>
+          {list.map(item => (
+            <MarkdownInline string={item} as="li" />
+          ))}
+        </StyledContentMasterList>
       )}
       {links && (
         <StyledContentMasterLinks>
