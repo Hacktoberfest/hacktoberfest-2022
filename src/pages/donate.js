@@ -6,10 +6,8 @@ import styled from 'styled-components';
 import fetchProjects from 'lib/donate';
 
 import Button, { StyledButton } from 'components/button';
-import Collapse from 'components/collapse';
-import Section from 'components/section';
-import { PixelCoin } from 'components/pixels';
-import Hero from 'components/hero';
+
+import Section from 'components/Section';
 
 import { StyledList, StyledListItem, StyledSearch, StyledSubText } from './events';
 import HeroSecondary from 'components/HeroSecondary';

@@ -2,9 +2,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import styled, { keyframes } from 'styled-components';
 
-import Button from 'components/button';
 import Loader from 'components/loader';
-import { FauxHero } from 'components/hero';
 
 import useAuth from 'hooks/useAuth';
 

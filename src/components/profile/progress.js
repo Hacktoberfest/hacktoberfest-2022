@@ -5,7 +5,7 @@ import { fetchGiftCodes, fetchPullRequests, triggerIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
 
 import Loader from 'components/loader';
-import Section from 'components/section';
+import Section from 'components/Section';
 import Notification from 'components/notification';
 
 import EmailWarning from './email-warning';
@@ -31,7 +31,7 @@ const StyledProgressWrapper = styled.div`
     margin-bottom: 48px;
     box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
   }
-  
+
   > h3 {
     padding: 64px 0 32px;
     margin: 64px 0 32px;
@@ -51,7 +51,7 @@ const StyledProgressSummary = styled.div`
   padding-bottom: 48px;
   margin-bottom: 64px;
   box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
-  
+
   h2 {
     background: linear-gradient(
       160deg,
@@ -76,12 +76,12 @@ const StyledProgressSummary = styled.div`
       transform: rotate(4deg);
     }
   }
-  
+
   h3 {
     font-size: 24px;
     font-family: 'JetBrains Mono', monospace;
     line-height: 1.25;
-    
+
     &::before {
       content: 'oOo';
       text-transform: none;

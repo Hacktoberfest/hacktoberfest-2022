@@ -4,11 +4,8 @@ import styled, { keyframes } from 'styled-components';
 import { intro, lore, digitalRewards, advisoryCouncil, council, lowNonCode } from 'lib/about';
 
 import Collapse from 'components/collapse';
-import Anchor from 'components/anchor';
 import Divider from 'components/Divider';
 import Section from 'components/section';
-import Hero from 'components/hero';
-import { PixelComputer } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
 import YouTube from '../components/youtube';
 import HeroSecondary from 'components/HeroSecondary';

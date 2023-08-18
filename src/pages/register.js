@@ -40,7 +40,7 @@ export const StyledAvatar = styled.div`
     box-shadow: ${(props) => props.theme.glowLite};
     background: ${(props) => props.theme.body};
     transition: 0.2s ease;
-    
+
     ${(props) =>
   props.isDefault &&
   `
