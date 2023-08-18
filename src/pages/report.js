@@ -7,11 +7,9 @@ import { createExcludedRepository } from 'lib/api';
 
 import Anchor from 'components/anchor';
 import Divider from 'components/Divider';
-import Section from 'components/section';
+import Section from 'components/Section';
 import Loader from 'components/loader';
 import Button from 'components/button';
-import Hero from 'components/hero';
-import { PixelPus } from 'components/pixels';
 import Form from 'components/form';
 
 import useAuth from 'hooks/useAuth';

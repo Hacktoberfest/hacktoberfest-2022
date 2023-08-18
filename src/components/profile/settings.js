@@ -16,7 +16,7 @@ import { providerMap, registrationStart, trackingEnd } from 'lib/config';
 import Button, { StyledButtonGroup } from 'components/button';
 import Form from 'components/form';
 import Loader from 'components/loader';
-import Section from 'components/section';
+import Section from 'components/Section';
 
 import MetadataFields from './metadata-fields';
 

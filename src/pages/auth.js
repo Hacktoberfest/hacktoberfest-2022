@@ -9,7 +9,7 @@ import useAuth from 'hooks/useAuth';
 import { oauth } from 'lib/api';
 import Container from 'components/Container';
 import Card from 'components/Card';
-import Section from 'components/section';
+import Section from 'components/Section';
 
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 

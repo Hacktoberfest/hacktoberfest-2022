@@ -15,8 +15,8 @@ import {
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 import Divider from 'components/Divider';
-import Section from 'components/section';
-import Hero from 'components/hero';
+import Section from 'components/Section';
+import Hero from 'components/Hero';
 import { PixelPus } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
 import Container from 'components/Container';

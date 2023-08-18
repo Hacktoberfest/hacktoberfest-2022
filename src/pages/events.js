@@ -10,8 +10,8 @@ import { MarkdownInline } from 'components/markdown';
 import Button from 'components/button';
 import Divider from 'components/Divider';
 import Anchor from 'components/anchor';
-import Section from 'components/section';
-import Hero from 'components/hero';
+import Section from 'components/Section';
+import Hero from 'components/Hero';
 import { PixelGlobe } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
 

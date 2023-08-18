@@ -7,18 +7,18 @@ import iconLite from 'assets/img/icon-lite.svg';
 
 import { fetchUserAvatars } from 'lib/api';
 
-import Section from 'components/section';
+import Section from 'components/Section';
 import Loader from 'components/loader';
 import Settings from 'components/profile/settings';
 import Type from 'components/type';
-import { FauxHero } from 'components/hero';
+// import { FauxHero } from 'components/Hero';
 import { PixelFirework1, PixelFirework2 } from 'components/pixels';
 
 import useAuth from 'hooks/useAuth';
 import Button, { StyledButtonGroup } from '../components/button';
 import { registrationEnd, registrationStart } from '../lib/config';
 
-import { StyledAnimations } from './index';
+// import { StyledAnimations } from './index';
 
 const loadAvi = () => keyframes`
   to {
@@ -154,7 +154,7 @@ const Register = () => {
         </Section>
       ) : (
         auth.loading ? (
-          <FauxHero
+          <div
             h="220"
             s="8"
             b="0.4"
@@ -165,10 +165,10 @@ const Register = () => {
             <StyledHeader>
               <Loader message=">> Authorization in progress..." />
             </StyledHeader>
-          </FauxHero>
+          </div>
         ) : (
           <>
-            <FauxHero
+            <div
               h="220"
               s="8"
               b="0.4"
@@ -192,7 +192,7 @@ const Register = () => {
                   height={256}
                 />
               </StyledAvatar>
-              <StyledAnimations>
+              <div>
                 <PixelFirework1
                   width="840"
                   scale="1"
@@ -214,8 +214,8 @@ const Register = () => {
                   frames="7"
                   id="f3"
                 />
-              </StyledAnimations>
-            </FauxHero>
+              </div>
+            </div>
             <Section>
               <Settings auth={auth} />
             </Section>

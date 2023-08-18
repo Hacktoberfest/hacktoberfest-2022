@@ -5,7 +5,7 @@ import { intro, lore, digitalRewards, advisoryCouncil, council, lowNonCode } fro
 
 import Collapse from 'components/collapse';
 import Divider from 'components/Divider';
-import Section from 'components/section';
+import Section from 'components/Section';
 import DorknamicIsland from 'components/dorknamic-island';
 import YouTube from '../components/youtube';
 import HeroSecondary from 'components/HeroSecondary';

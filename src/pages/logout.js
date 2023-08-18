@@ -3,7 +3,7 @@ import Head from 'next/head';
 
 import Anchor from 'components/anchor';
 import Divider from 'components/Divider';
-import Section from 'components/section';
+import Section from 'components/Section';
 import Loader from 'components/loader';
 
 import useAuth from 'hooks/useAuth';

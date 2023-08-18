@@ -9,7 +9,7 @@ import { fetchUserAvatars } from 'lib/api';
 
 import Button, { StyledButtonGroup } from 'components/button';
 import Loader from 'components/loader';
-import { FauxHero } from 'components/hero';
+// import { FauxHero } from 'components/Hero';
 import Type from 'components/type';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
@@ -17,7 +17,7 @@ import { PixelFirework1, PixelFirework2 } from 'components/pixels';
 
 import useAuth from 'hooks/useAuth';
 
-import { StyledAnimations } from './index';
+// import { StyledAnimations } from './index';
 import { StyledAvatar, StyledHeader } from './register';
 
 const opacityFade = () => keyframes`
@@ -76,7 +76,7 @@ const Profile = () => {
       </Head>
 
       {auth.loading || !loaded ? (
-        <FauxHero
+        <div
           h="220"
           s="8"
           b="0.4"
@@ -87,10 +87,10 @@ const Profile = () => {
           <StyledHeader>
             <Loader message=">> Loading /usr/lib/profile..." />
           </StyledHeader>
-        </FauxHero>
+        </div>
       ) : (
         <>
-          <FauxHero
+          <div
             h="220"
             s="8"
             b="0.4"
@@ -125,7 +125,7 @@ const Profile = () => {
                 height={256}
               />
             </StyledAvatar>
-            <StyledAnimations>
+            {/* <StyledAnimations>
               <PixelFirework1
                 width="840"
                 scale="1"
@@ -147,8 +147,8 @@ const Profile = () => {
                 frames="7"
                 id="f3"
               />
-            </StyledAnimations>
-          </FauxHero>
+            </StyledAnimations> */}
+          </div>
           <StyledProgressWrapper>
             {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
           </StyledProgressWrapper>
