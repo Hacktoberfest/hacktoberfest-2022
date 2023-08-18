@@ -29,6 +29,7 @@ import Note from 'components/Note';
 
 import IlloPencil from 'assets/img/8bit-pencil.svg';
 import HeroSecondary from 'components/HeroSecondary';
+import PixelComputer2023 from 'components/pixels/PixelComputer2023';
 
 const StyledPRDetails = styled.div`
   margin: 16px 0 0;
@@ -84,7 +85,18 @@ const Participation = () => {
         <a href="#faqs">low-or-non-code</a>
       </DorknamicIsland>
 
-      <HeroSecondary title="Participation" />
+      <HeroSecondary
+        title="Participation"
+        icon={
+          <PixelComputer2023
+            width="1680"
+            scale="1"
+            timing="5"
+            frames="7"
+            id="f2"
+          />
+        }
+      />
 
       <Container>
         <Section>

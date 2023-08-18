@@ -76,7 +76,7 @@ export const StyledHeroSecondary = styled.div`
   }
 `;
 
-export const StyledHeroSecondaryContent = styled.div`
+export const StyledHeroSecondaryContainer = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 40px;
@@ -91,10 +91,21 @@ export const StyledHeroSecondaryContent = styled.div`
   }
 `;
 
-export const StyledHeroSecondaryTitle = styled.h1`
+export const StyledHeroSecondaryContent = styled.div`
   max-width: 742px;
   width: 100%;
   margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center;
+
+  ${mQ(bp.desktop)} {
+    align-items: flex-start;
+  }
+`;
+
+export const StyledHeroSecondaryTitle = styled.h1`
   ${headline88};
   color: ${({ theme }) => theme.colors.neutral.manga200};
   text-align: center;

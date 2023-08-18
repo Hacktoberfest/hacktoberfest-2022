@@ -1,6 +1,6 @@
 import {
   PixelWrapper
-} from './PixelComputer2023.styles';
+} from '../Pixels.styles';
 
 export const PixelComputer2023 = props => {
   const {

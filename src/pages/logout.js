@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import Anchor from 'components/anchor';
-import Divider from 'components/_divider';
+import Divider from 'components/Divider';
 import Section from 'components/section';
 import Loader from 'components/loader';
 

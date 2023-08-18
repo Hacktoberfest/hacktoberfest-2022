@@ -4,6 +4,30 @@ import joe from 'assets/img/council/joe.jpeg';
 import duane from 'assets/img/council/duane.jpg';
 import mason from 'assets/img/council/mason.jpeg';
 
+export const intro = {
+  title: 'Video [Yancey Welcome]',
+  content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus vehicula ex. Ut ultrices viverra sagittis.'
+}
+
+export const lore = {
+  title: 'Hacktoberfest Lore',
+  content: 'Hacktoberfest is DigitalOcean’s annual event that encourages people to contribute to open source throughout October. Much of modern tech infrastructure—including some of DigitalOcean’s own products—relies on open-source projects built and maintained by passionate people who often don’t have the staff or budgets to do much more than keep the project alive. Hacktoberfest is all about giving back to those projects, sharpening skills, and celebrating all things open source, especially the people that make open source so special.\n\n' +
+  'For the past 10 years, thousands of people—coders and non-coders alike—have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.'
+}
+
+export const digitalRewards = {
+  title: 'Going Digital for Rewards',
+  content: 'This year, there will be no physical reward kit for completing Hacktoberfest – no t-shirt and stickers. Instead, we’re pivoting to an all-digital reward kit in partnership with Holopin and our sponsors. Let’s talk about why.\n\n' +
+  'Although we know Hacktoberfest t-shirts are loved by the community, producing over 50,000 t-shirts and shipping them around the world has become logistically challenging. Even with the support of external sponsors, almost all of the program’s operating budget in past years has been allocated towards these physical rewards. Furthermore, we’ve run into challenges in many countries with participants being required to pay customs taxes and import duty fees which often exceed the value of the gift itself.\n\n' +
+  'Our commitment remains unwavering towards Hacktoberfest\'s primary mission of supporting open source projects. After carefully considering various options for this year and the future, we are excited to introduce an exclusive digital reward kit in partnership with Holopin. We believe that even without t-shirt rewards, the developer community will continue to come together in the same spirit of Hacktoberfest that they’ve always shown.\n\n' +
+  'The new digital reward kit will include a customizable badge that evolves with each pull/merge request accepted by maintainers, representing the participant\'s journey in open-source and Hacktoberfest. Additionally, winners will receive unique badges featuring a delightful surprise and gifts from sponsors. To celebrate their success, participants will also be able to share their winner’s badge on the Holopin Hacktoberfest Badge Board of Fame.'
+}
+
+export const advisoryCouncil = {
+  title: 'Advisory Council',
+  content: 'Each year, we bring together a talented group of open-source superfans who help ensure that Hacktoberfest is accessible, inclusive, and enriching for both contributors and maintainers.'
+}
+
 export const lowNonCode = [
   {
     title: 'Writing',

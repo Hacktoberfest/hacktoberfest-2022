@@ -1,32 +1,32 @@
 import Container from 'components/Container';
 import {
   StyledHeroSecondary,
+  StyledHeroSecondaryContainer,
   StyledHeroSecondaryContent,
   StyledHeroSecondaryTitle,
   StyledHeroSecondaryImage
 } from './HeroSecondary.styles';
 import Divider from 'components/Divider';
-import PixelComputer2023 from 'components/pixels/PixelComputer2023';
+import ButtonMain from 'components/ButtonMain';
 
 const HeroSecondary = props => {
-  const { children, title } = props;
+  const { title, icon, cta } = props;
   return (
     <StyledHeroSecondary>
       <Container>
-        <StyledHeroSecondaryContent>
-          <StyledHeroSecondaryTitle>
-            {title}
-          </StyledHeroSecondaryTitle>
+        <StyledHeroSecondaryContainer>
+          <StyledHeroSecondaryContent>
+            <StyledHeroSecondaryTitle>
+              {title}
+            </StyledHeroSecondaryTitle>
+            {cta && (
+              <ButtonMain {...cta} />
+            )}
+          </StyledHeroSecondaryContent>
           <StyledHeroSecondaryImage>
-            <PixelComputer2023
-              width="1680"
-              scale="1"
-              timing="5"
-              frames="7"
-              id="f2"
-            />
+            {icon }
           </StyledHeroSecondaryImage>
-        </StyledHeroSecondaryContent>
+        </StyledHeroSecondaryContainer>
         <Divider type="pixelarrow" />
       </Container>
     </StyledHeroSecondary>

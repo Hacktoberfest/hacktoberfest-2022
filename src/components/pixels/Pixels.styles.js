@@ -39,7 +39,8 @@ export const PixelWrapper = styled.div`
   &::after {
     content: '';
     display: block;
-    padding-bottom: 87.5%;
+    /* padding-bottom: 87.5%; */
+    padding-bottom: 100%;
   }
 
   svg {

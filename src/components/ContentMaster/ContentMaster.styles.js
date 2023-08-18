@@ -44,17 +44,32 @@ export const StyledContentMasterTitle = styled.h2`
 export const StyledContentMasterBody = styled.div`
   color: ${({ theme }) => theme.colors.neutral.manga300};
 
+  p,
+  li {
+    ${({ $size }) => $size === 'xl' && body24};
+    ${({ $size }) => $size === 'lg' && body24};
+    ${({ $size }) => $size === 'md' && body20};
+    ${({ $size }) => $size === 'sm' && body16};
+  }
+
   p {
     margin: 0 0 24px;
 
     &:last-child {
       margin-bottom: 0;
     }
+  }
 
-    ${({ $size }) => $size === 'xl' && body24};
-    ${({ $size }) => $size === 'lg' && body24};
-    ${({ $size }) => $size === 'md' && body20};
-    ${({ $size }) => $size === 'sm' && body16};
+  ul {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  li > ul {
+    margin-top: 16px;
   }
 
   strong {

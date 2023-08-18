@@ -97,7 +97,7 @@ const GlobalStyle = createGlobalStyle`
     transition: color 0.2s ease;
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: ${(props) => props.theme.psybeam};
     }
   }

@@ -6,7 +6,7 @@ import { providerMap, registrationEnd, registrationStart, trackingEnd } from 'li
 import { createExcludedRepository } from 'lib/api';
 
 import Anchor from 'components/anchor';
-import Divider from 'components/_divider';
+import Divider from 'components/Divider';
 import Section from 'components/section';
 import Loader from 'components/loader';
 import Button from 'components/button';
@@ -15,6 +15,10 @@ import { PixelPus } from 'components/pixels';
 import Form from 'components/form';
 
 import useAuth from 'hooks/useAuth';
+import PixelLeaf from 'components/pixels/PixelLeaf';
+import HeroSecondary from 'components/HeroSecondary';
+import Container from 'components/Container';
+import ContentMaster from 'components/ContentMaster';
 
 const Report = () => {
   const auth = useAuth(false);
@@ -91,16 +95,25 @@ const Report = () => {
         <meta property="og:title" key="opengraphTitle" content="Report | Hacktoberfest 2022" />
       </Head>
 
-      <Hero
-        h="200"
-        s="10"
-        b="0.5"
-        gradientLeft="#9131ff"
-        gradientRight="#2effcd"
+      <HeroSecondary
         title="Report"
-      >
-        <PixelPus />
-      </Hero>
+        icon={
+          <PixelLeaf
+            width="1440"
+            scale="1"
+            timing="5"
+            frames="6"
+          />
+        }
+      />
+
+      <Container>
+        <Section>
+          <ContentMaster size="xl">
+            Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.
+          </ContentMaster>
+        </Section>
+      </Container>
 
       <Section type="sub_content">
         <Divider />

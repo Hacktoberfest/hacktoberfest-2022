@@ -2,13 +2,13 @@ import Head from 'next/head';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
+import { fetchEvents, fetchSpeakers, organize, organizeDisclaimer, resources } from 'lib/events';
 import { registrationEnd, registrationStart } from 'lib/config';
 
 import { ContentSections } from 'components/content';
 import { MarkdownInline } from 'components/markdown';
 import Button from 'components/button';
-import Divider from 'components/_divider';
+import Divider from 'components/Divider';
 import Anchor from 'components/anchor';
 import Section from 'components/section';
 import Hero from 'components/hero';
@@ -16,6 +16,19 @@ import { PixelGlobe } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
 
 import eventKitZip from 'assets/event-kit.zip';
+import HeroSecondary from 'components/HeroSecondary';
+import PixelEvents from 'components/pixels/PixelEvents';
+import SpotHeader from 'components/SpotHeader';
+import Container from 'components/Container';
+
+import IlloDOPumpkin from 'assets/img/8bit-do-pumpkin.svg';
+import IlloShip from 'assets/img/8bit-ship.svg';
+import IlloBeer from 'assets/img/8bit-beer.svg';
+import IlloHacktoberfest from 'assets/img/8bit-hacktoberfest.svg';
+
+import Accordion from 'components/Accordion';
+import ContentMaster from 'components/ContentMaster';
+import DividerRow from 'components/DividerRow';
 
 export const StyledEventsListItemEyebrow = styled.div`
   color: ${(props) => props.theme[props.color] || props.theme.text};
@@ -59,6 +72,18 @@ export const StyledSearch = styled.input`
   &::placeholder {
     color: ${(props) => props.theme.text};
   }
+`;
+
+export const StyledAccordionGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+`;
+
+export const StyledPromoteSection = styled.div`
+  display: grid;
+  grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
+  gap: 24px;
 `;
 
 const typesToColors = {
@@ -111,18 +136,203 @@ const Events = ({ events, speakers }) => {
         <a href="#brand">Brand Guidelines</a>
       </DorknamicIsland>
 
-      <Hero
-        h="10"
-        s="10"
-        b="0.5"
-        gradientLeft="#FFDE22"
-        gradientRight="#FF22DD"
+      <HeroSecondary
         title="Events"
-      >
-        <PixelGlobe />
-      </Hero>
+        icon={
+          <PixelEvents
+            width="1020"
+            scale="1"
+            timing="5"
+            frames="3"
+            id="f3"
+          />
+        }
+      />
 
-      <Section type="sub_content" id="events">
+      <Container>
+        <Section>
+          <SpotHeader
+            image={{
+              src: IlloDOPumpkin.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Global events',
+              children: 'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests.'
+            }}
+          />
+
+          <Divider type="doubledashed" />
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+        <Section>
+          <SpotHeader
+            image={{
+              src: IlloShip.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Event Organizers',
+              children: 'Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.',
+              cta: {
+                size: 'lg',
+                href: eventKitZip,
+                children: 'Download the event kit'
+              }
+            }}
+          />
+        </Section>
+        <Divider type="pixel" />
+      </Container>
+
+      <Container inner>
+        <Section>
+          <StyledAccordionGroup>
+            <ContentMaster
+              size="xl"
+              title={organize.title}
+            />
+
+            <div>
+              {organize.sections.map((section, index) => (
+                <>
+                  <Accordion
+                    key={section.title}
+                    title={section.title}
+                    collapsed
+                  >
+                    {section.items && (
+                    <ContentMaster size="md">
+                      {section.items[0]}
+                    </ContentMaster>
+                    )}
+                  </Accordion>
+                  <Divider />
+                </>
+              ))}
+            </div>
+
+            <ContentMaster size="xl">
+              {organizeDisclaimer.content}
+            </ContentMaster>
+          </StyledAccordionGroup>
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+        <Section>
+          <SpotHeader
+            image={{
+              src: IlloBeer.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              eyebrow: resources.eyebrow,
+              title: resources.title,
+              children: resources.content
+            }}
+          />
+        </Section>
+
+        <Divider type="doubledashed" />
+
+        <DividerRow>
+          <ContentMaster
+            size="md"
+            title={resources.sections[0].title}
+            titleTag="h3"
+          >
+            {resources.sections[0].content}
+          </ContentMaster>
+          <ContentMaster
+            size="md"
+            title={resources.sections[1].title}
+            titleTag="h3"
+          >
+            {resources.sections[1].content}
+          </ContentMaster>
+        </DividerRow>
+
+        <Divider type="doubledashed" />
+
+        <Section small>
+          <StyledPromoteSection>
+            <ContentMaster
+              size="md"
+              title={resources.sections[2].title}
+              titleTag="h3"
+            />
+            <ContentMaster size="md">
+              {resources.sections[2].content}
+            </ContentMaster>
+          </StyledPromoteSection>
+        </Section>
+
+        <Divider type="doubledashed" />
+
+        <DividerRow>
+          <ContentMaster
+            size="md"
+            title={resources.sections[3].title}
+            titleTag="h3"
+            links={resources.sections[3].links}
+          >
+            {resources.sections[3].content}
+          </ContentMaster>
+          <ContentMaster
+            size="md"
+            title={resources.sections[4].title}
+            titleTag="h3"
+          >
+            {resources.sections[4].content}
+          </ContentMaster>
+        </DividerRow>
+
+        <Divider type="doubledashed" />
+      </Container>
+
+      <Container inner>
+        <Section>
+          <ContentMaster
+            size="xl"
+            title="Speakers and Facilitators"
+          >
+            Open source experts and community leaders are all in on Hacktoberfest. Find them helping contributors complete their pull/merge requests all month long in events throughout October.
+          </ContentMaster>
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+        <Section>
+          <SpotHeader
+            image={{
+              src: IlloHacktoberfest.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Brand Guidelines',
+              children: 'If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines. Access them here and dive in.',
+              cta: {
+                size: 'lg',
+                target: '_blank',
+                href: 'https://do.co/hacktoberbrand',
+                children: 'View Brand Guidelines'
+              }
+            }}
+          />
+        </Section>
+      </Container>
+
+      {/* <Section type="sub_content" id="events">
         <Divider />
         <Anchor href="#events" />
         <h2>Global Events</h2>
@@ -202,9 +412,9 @@ const Events = ({ events, speakers }) => {
             </StyledList>
           </>
         )}
-      </Section>
+      </Section> */}
 
-      <Section type="sub_content" id="organizers">
+      {/* <Section type="sub_content" id="organizers">
         <Divider />
         <Anchor href="#organizers" />
         <h2>Event Organizers</h2>
@@ -222,9 +432,9 @@ const Events = ({ events, speakers }) => {
         <ContentSections sections={organize.sections} titleAs="h5" />
         <MarkdownInline string={resources.title} as="h4" />
         <ContentSections sections={resources.sections} titleAs="h5" />
-      </Section>
+      </Section> */}
 
-      <Section type="sub_content" id="speakers">
+      {/* <Section type="sub_content" id="speakers">
         <Divider />
         <Anchor href="#speakers" />
         <h2>Speakers &amp; Facilitators</h2>
@@ -274,9 +484,9 @@ const Events = ({ events, speakers }) => {
             ))}
           </StyledList>
         )}
-      </Section>
+      </Section> */}
 
-      <Section type="sub_content" id="brand">
+      {/* <Section type="sub_content" id="brand">
         <Divider />
         <Anchor href="#brand" />
         <h2>Brand Guidelines</h2>
@@ -294,7 +504,7 @@ const Events = ({ events, speakers }) => {
         >
           View the Hacktoberfest Brand Guidelines
         </Button>
-      </Section>
+      </Section> */}
     </>
   );
 };

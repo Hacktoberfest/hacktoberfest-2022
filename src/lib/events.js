@@ -128,22 +128,21 @@ export const organize = {
       title: 'Promote the event however you like and directly invite your community to attend.',
       collapsible: true,
       collapsed: true,
-      content: 'Invite anyone interested in learning about, or contributing to open source. Hacktoberfest events are a way of bringing members of the open source community even closer together in a group setting, and events should be open to all!',
-    },
-    {
-      title: 'Submit the [Hacktoberfest New Event Request form](http://bit.ly/hacktoberfest-22-events).'
-    },
-    {
-      title: 'Facilitate the event, making sure to create an open, inclusive, and welcoming atmosphere.',
-    },
-    {
-      title: 'Share special moments on social media using #hacktoberfest or #hacktoberfest2022 and tagging @digitalocean or [@hacktoberfest](https://twitter.com/hacktoberfest). (Remember to ask attendees for permission to use their photos.)',
-    },
+      items: ['Invite anyone interested in learning about, or contributing to open source. Hacktoberfest events are a way of bringing members of the open source community even closer together in a group setting, and events should be open to all!'],
+    }
   ],
 };
 
+export const organizeDisclaimer = {
+  content: 'Submit the [Hacktoberfest New Event Request form](http://bit.ly/hacktoberfest-22-events).\n\n' +
+    'Facilitate the event, making sure to create an open, inclusive, and welcoming atmosphere.\n\n' +
+    'Share special moments on social media using #hacktoberfest or #hacktoberfest2022 and tagging @digitalocean or [@hacktoberfest](https://twitter.com/hacktoberfest). (**Remember to ask attendees for permission to use their photos**.)'
+}
+
 export const resources = {
+  eyebrow: 'Host your event online or in person',
   title: 'Event Platforms & Resources',
+  content: 'Hacktoberfest is primarily online, but we encourage people to run in-person events—just be sure to abide by local health and safety regulations.',
   sections: [
     {
       title: 'Host your event online or in person',
@@ -157,23 +156,25 @@ export const resources = {
       title: 'How to promote your event',
       collapsible: true,
       collapsed: true,
-      items: [
-        'Submit an [official event request](http://bit.ly/hacktoberfest-22-events).',
-        'Remind your attendees to RSVP on the Hacktoberfest [events](/events) page',
-        'Share the event via email, social networks, and events websites. Consider posting on channels that are popular with developers and open source enthusiasts in your area, such as Meetup, Eventbrite, Twitter, etc..',
-        'Tag @digitalocean, [@hacktoberfest](https://twitter.com/hacktoberfest), #hacktoberfest, #hacktoberfest2022',
-        'Use these example posts for inspiration:\n' +
-        ' - "Happy about Hacktoberfest? So are we! Register to hack with us on [DATE!]\n' +
-        ' - "Don’t hack alone. Join us on [DATE] to meet a few community members and get help on your pull requests!"\n' +
-        ' - "I just donated to the open-source community, it’s your turn!"\n' +
-        ' - "Learning how to code or just interested in open source? Sign up to share your skills!"',
-      ],
+      content: '- Submit an [official event request](http://bit.ly/hacktoberfest-22-events).\n' +
+        '- Remind your attendees to RSVP on the Hacktoberfest [events](/events) page\n' +
+        '- Share the event via email, social networks, and events websites. Consider posting on channels that are popular with developers and open source enthusiasts in your area, such as Meetup, Eventbrite, Twitter, etc..\n' +
+        '- Tag @digitalocean, [@hacktoberfest](https://twitter.com/hacktoberfest), #hacktoberfest, #hacktoberfest2022\n' +
+        '- Use these example posts for inspiration:\n' +
+        '  - "Happy about Hacktoberfest? So are we! Register to hack with us on [DATE!]"\n' +
+        '  - "Don’t hack alone. Join us on [DATE] to meet a few community members and get help on your pull requests!"\n' +
+        '  - "I just donated to the open-source community, it’s your turn!"\n' +
+        '  - "Learning how to code or just interested in open source? Sign up to share your skills!"',
     },
     {
       title: 'Logos and branding',
-      content: 'Logos, banners, posters, and more! We kindly ask that you adopt [Hacktoberfest brand guidelines](#brand) as you share your meetup/content.\n' +
-        '\n' +
-        `[Download Assets](${eventKitZip})`,
+      content: 'Logos, banners, posters, and more! We kindly ask that you adopt [Hacktoberfest brand guidelines](#brand) as you share your meetup/content.',
+      links: [
+        {
+          href: eventKitZip,
+          children: 'Download Assets',
+        }
+      ]
     },
     {
       title: 'Virtual event swag',

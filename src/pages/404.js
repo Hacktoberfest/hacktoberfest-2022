@@ -3,6 +3,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 import Button from 'components/button';
+import HeroSecondary from 'components/HeroSecondary';
+import PixelLogo from 'components/pixels/PixelLogo';
 
 const StyledSection = styled.section`
   width: 100%;
@@ -43,16 +45,23 @@ const FourOFour = () => {
         />
       </Head>
 
-      <StyledSection>
-        <div>
-          <h1>uh oh... this page doesn't exist</h1>
-          <Link href="/" passHref>
-            <Button special as="a">
-              Return home
-            </Button>
-          </Link>
-        </div>
-      </StyledSection>
+      <HeroSecondary
+        title="UH OH... THIS PAGE DOESN'T EXIST"
+        cta={{
+          size: 'lg',
+          href: '/',
+          children: 'Return Home',
+        }}
+        icon={
+          <PixelLogo
+            width="1360"
+            scale="1"
+            timing="5"
+            frames="4"
+            id="f3"
+          />
+        }
+      />
     </>
   );
 };

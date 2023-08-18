@@ -1,16 +1,24 @@
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 
-import { council, lowNonCode } from 'lib/about';
+import { intro, lore, digitalRewards, advisoryCouncil, council, lowNonCode } from 'lib/about';
 
 import Collapse from 'components/collapse';
 import Anchor from 'components/anchor';
-import Divider from 'components/_divider';
+import Divider from 'components/Divider';
 import Section from 'components/section';
 import Hero from 'components/hero';
 import { PixelComputer } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
 import YouTube from '../components/youtube';
+import HeroSecondary from 'components/HeroSecondary';
+import PixelLogo from 'components/pixels/PixelLogo';
+import ContentMaster from 'components/ContentMaster';
+import Container from 'components/Container';
+import Marquee from 'components/Marquee';
+import SpotHeader from 'components/SpotHeader';
+
+import IlloLeafs from 'assets/img/8bit-leafs.svg';
 
 const textAnimation = () => keyframes`
   0% {
@@ -134,156 +142,133 @@ const About = () => {
         <a href="#council">Advisory Council</a>
       </DorknamicIsland>
 
-      <Hero
-        h="210"
-        s="10"
-        b="0.5"
-        gradientLeft="#0AFFA6"
-        gradientRight="#FF0AC0"
+      <HeroSecondary
         title="About"
-      >
-        <PixelComputer />
-      </Hero>
+        icon={
+          <PixelLogo
+            width="1360"
+            scale="1"
+            timing="5"
+            frames="4"
+          />
+        }
+      />
 
-      <Section type="sub_content" id="lore">
-        <Divider />
-        <Anchor href="#lore" />
-        <h2>Hacktoberfest Lore</h2>
-        <p>
-          Hacktoberfest is DigitalOcean’s annual event that encourages people to
-          contribute to open source throughout October. Much of modern tech
-          infrastructure—including some of DigitalOcean’s own products—relies on
-          open-source projects built and maintained by passionate people who
-          often don’t have the staff or budgets to do much more than keep the
-          project alive. Hacktoberfest is all about giving back to those
-          projects, sharpening skills, and celebrating all things open source,
-          especially the people that make open source so special.
-        </p>
-        <p>
-          For the past 9 years, thousands of people—coders and non-coders
-          alike—have participated in Hacktoberfest to support the projects they
-          use and love, learn and practice skills that will enhance their
-          careers, and meet new people who love open source as much as they do.
-        </p>
+      <Container inner>
+        <Section>
+          <ContentMaster
+            align="center"
+            size="xl"
+            title={intro.title}
+          >
+            {intro.content}
+          </ContentMaster>
 
-        <YouTube id="BDUtORDL_k4" title="Open Source is Counting on You! Answer the Call, at Hacktoberfest 2022" />
-      </Section>
+          <YouTube id="BDUtORDL_k4" title="Open Source is Counting on You! Answer the Call, at Hacktoberfest 2022" />
+        </Section>
 
-      <Section type="sub_content">
-        <Divider />
-        <h4>New for 2022</h4>
+        <Section>
+          <ContentMaster
+            size="xl"
+            title={lore.title}
+          >
+            {lore.content}
+          </ContentMaster>
+        </Section>
+      </Container>
 
-        <Anchor href="#low-or-non-code" id="low-or-non-code" />
-        <h2>Low or Non Code Contributions</h2>
-        <p>
-          Contributing to open source isn’t just for technical folks who want to
-          write code. There are lots of opportunities to use your professional
-          skills in support of open-source projects. This year, we’re making a
-          point to encourage contributions that require some technical
-          experience or none at all. No matter your experience, you can
-          participate in Hacktoberfest!
-        </p>
-        <p>
-          Hacktoberfest welcomes people of any experience level to participate,
-          and low-code and non-code contributions are fantastic choices for
-          folks who don’t have a lot of technical knowledge. Here are some
-          examples of ways you can contribute to open-source projects:
-        </p>
+      <Marquee
+        text1="New for 2023"
+        text2="New for 2023"
+        direction="forwards"
+      />
 
-        <StyledTableWrapper>
-          <table>
-            <thead>
-              <tr>
-                <th />
-                <th>Low-Code</th>
-                <th>Non-Code</th>
-              </tr>
-            </thead>
-            <tbody>
-              {lowNonCode.map((row) => (
-                <tr key={row.title}>
-                  <td>{row.title}</td>
-                  <td>
+      <Container inner>
+        <Section>
+          <ContentMaster
+            size="xl"
+            title={digitalRewards.title}
+          >
+            {digitalRewards.content}
+          </ContentMaster>
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+      </Container>
+
+      <Section>
+        <Container inner>
+          <ContentMaster
+            size="xl"
+            title={advisoryCouncil.title}
+          >
+            {advisoryCouncil.content}
+          </ContentMaster>
+        </Container>
+
+        <Container>
+          <StyledCouncilMembers>
+            {council.map((member) => (
+              <Collapse
+                key={member.name}
+                title={
+                  <>
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      width={128}
+                      height={128}
+                      style={{ objectFit: 'cover' }}
+                    />
+                    <h3>{member.name}</h3>
+                  </>
+                }
+                collapsed
+              >
+                <StyledCouncilMemberContent>
+                  <p>{member.role}</p>
+                  <p>{member.skills}</p>
+                  <p>{member.bio}</p>
+                  {!!member.links.length && (
                     <ul>
-                      {row.low.map((item) => (
-                        <li key={item}>{item}</li>
+                      {member.links.map((link) => (
+                        <li key={link.title}>
+                          <a
+                            href={link.url}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                          >
+                            {link.title}
+                          </a>
+                        </li>
                       ))}
                     </ul>
-                  </td>
-                  <td>
-                    <ul>
-                      {row.non.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </StyledTableWrapper>
-
-        <p>
-          <i>
-            Contributors submitting low- or non-code content to projects should
-            create a PR/MR to track it. While Hacktoberfest tracks all PR/MRs
-            submitted for the event, maintainers may need to facilitate tracking
-            of those contributions through an activity log or similar.
-          </i>
-        </p>
+                  )}
+                </StyledCouncilMemberContent>
+              </Collapse>
+            ))}
+          </StyledCouncilMembers>
+        </Container>
       </Section>
 
-      <Section type="sub_content" id="council">
-        <Divider />
-        <Anchor href="#council" />
-        <h2>Advisory Council</h2>
-        <p>
-          Each year, we bring together a talented group of open-source superfans
-          who help ensure that Hacktoberfest is accessible, inclusive, and
-          enriching for both contributors and maintainers.
-        </p>
-        <StyledCouncilMembers>
-          {council.map((member) => (
-            <Collapse
-              key={member.name}
-              title={
-                <>
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    width={128}
-                    height={128}
-                    style={{ objectFit: 'cover' }}
-                  />
-                  <h3>{member.name}</h3>
-                </>
-              }
-              collapsed
-            >
-              <StyledCouncilMemberContent>
-                <p>{member.role}</p>
-                <p>{member.skills}</p>
-                <p>{member.bio}</p>
-                {!!member.links.length && (
-                  <ul>
-                    {member.links.map((link) => (
-                      <li key={link.title}>
-                        <a
-                          href={link.url}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                        >
-                          {link.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </StyledCouncilMemberContent>
-            </Collapse>
-          ))}
-        </StyledCouncilMembers>
-      </Section>
+      <Container>
+        <Divider type="pixel" />
+        <Section>
+          <SpotHeader
+            image={{
+              src: IlloLeafs.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Our Sponsors & Partners',
+              children: 'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them here.'
+            }}
+          />
+        </Section>
+      </Container>
     </>
   );
 };
