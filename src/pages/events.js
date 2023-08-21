@@ -29,6 +29,7 @@ import IlloHacktoberfest from 'assets/img/8bit-hacktoberfest.svg';
 import Accordion from 'components/Accordion';
 import ContentMaster from 'components/ContentMaster';
 import DividerRow from 'components/DividerRow';
+import { body20 } from 'themes/typography';
 
 export const StyledEventsListItemEyebrow = styled.div`
   color: ${(props) => props.theme[props.color] || props.theme.text};
@@ -56,18 +57,15 @@ export const StyledSubText = styled.p`
 `;
 
 export const StyledSearch = styled.input`
-  padding: 16px;
+  padding: 16px 24px;
   width: 100%;
-  height: 56px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 226, 125, 0.1) 0%,
-    rgba(100, 227, 255, 0.1) 50.52%,
-    rgba(145, 146, 255, 0.1) 100%
-  );
-  border: 1px solid ${(props) => props.theme.text};
-  border-radius: 4px;
   color: ${(props) => props.theme.text};
+  margin-top: 64px;
+  ${body20};
+  border-radius: 16px;
+  border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+  background: var(--card-bg, linear-gradient(156deg, rgba(239, 237, 239, 0.04) 0%, rgba(0, 0, 0, 0.04) 92.30%));
+  backdrop-filter: blur(5px);
 
   &::placeholder {
     color: ${(props) => props.theme.text};

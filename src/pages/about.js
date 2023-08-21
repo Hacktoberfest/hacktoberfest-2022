@@ -16,104 +16,32 @@ import Marquee from 'components/Marquee';
 import SpotHeader from 'components/SpotHeader';
 
 import IlloLeafs from 'assets/img/8bit-leafs.svg';
-
-const textAnimation = () => keyframes`
-  0% {
-    content: " >"
-  }
-  33% {
-    content: " ->"
-  }
-  66% {
-    content: " -->"
-  }
-`;
-
-const StyledTableWrapper = styled.div`
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-`;
+import AccordionCouncil from 'components/AccordionCouncil';
+import DividerRow from 'components/DividerRow';
+import HeartCallout from 'components/HeartCallout';
+import PixelHearts from 'components/pixels/PixelHearts';
 
 const StyledCouncilMembers = styled.div`
-  margin: 32px 0;
-
-  details {
-    margin: 24px 0;
-    transition: 0.2s ease;
-    background: linear-gradient(
-      180deg,
-      rgba(124, 127, 255, 0) 0%,
-      rgba(124, 127, 255, 0.2) 100%
-    );
-    border: 1px solid ${(props) => props.theme.psybeam};
-    border-radius: 24px;
-
-    &:hover {
-      box-shadow: 0px 0px 12px ${(props) => props.theme.psybeam};
-
-      summary {
-        img {
-          transform: rotate(0deg) translateY(-10px) !important;
-          filter: hue-rotate(140deg) contrast(150%) !important;
-        }
-      }
-    }
-
-    > div {
-      padding-right: 40px;
-    }
-
-    ul {
-      margin-top: 24px;
-    }
-
-    a {
-      text-transform: none;
-      transition: color 0.2s ease, filter 0.2s ease;
-      font-variant-ligatures: none;
-
-      &:after {
-        content: ' >';
-      }
-
-      &:hover,
-      &:focus {
-        &:after {
-          filter: ${(props) => props.theme.glowLiteDS};
-          animation: ${textAnimation} 1.5s linear infinite;
-        }
-      }
-    }
-
-    &:nth-of-type(2n) {
-      summary {
-        img {
-          transform: rotate(4deg);
-        }
-      }
-    }
-
-    summary {
-      flex-wrap: wrap;
-
-      @media (max-width: 600px) {
-        padding: 16px 40px;
-        align-items: center;
-      }
-
-      img {
-        transition: 0.2s ease;
-        transform: rotate(-4deg);
-        border-radius: 24px;
-        margin-right: 24px;
-      }
-    }
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin: 80px 0 0;
 `;
 
-export const StyledCouncilMemberContent = styled.div`
-  margin: 32px 0;
+export const StyledBlogSection = styled.div`
+  display: grid;
+  grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
+  gap: 24px;
+`;
+
+export const StyledHacktoberfestLove = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 80px;
+
+  > div:first-child {
+    max-width: 762px;
+  }
 `;
 
 const About = () => {
@@ -207,44 +135,23 @@ const About = () => {
 
         <Container>
           <StyledCouncilMembers>
-            {council.map((member) => (
-              <Collapse
+            {council.map((member, index) => (
+              <AccordionCouncil
                 key={member.name}
-                title={
-                  <>
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      width={128}
-                      height={128}
-                      style={{ objectFit: 'cover' }}
-                    />
-                    <h3>{member.name}</h3>
-                  </>
-                }
+                filled
+                image={{
+                  src: member.image,
+                  alt: `Profile image of ${member.name}`
+                }}
+                imageRotatation={ index % 2 ? 'left' : 'right' }
+                title={member.name}
+                subtitle={`[${member.role}]`}
+                skills={member.skills}
+                links={member.links}
                 collapsed
               >
-                <StyledCouncilMemberContent>
-                  <p>{member.role}</p>
-                  <p>{member.skills}</p>
-                  <p>{member.bio}</p>
-                  {!!member.links.length && (
-                    <ul>
-                      {member.links.map((link) => (
-                        <li key={link.title}>
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                          >
-                            {link.title}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </StyledCouncilMemberContent>
-              </Collapse>
+                {member.bio}
+              </AccordionCouncil>
             ))}
           </StyledCouncilMembers>
         </Container>
@@ -252,6 +159,7 @@ const About = () => {
 
       <Container>
         <Divider type="pixel" />
+
         <Section>
           <SpotHeader
             image={{
@@ -264,6 +172,67 @@ const About = () => {
               children: 'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them here.'
             }}
           />
+        </Section>
+
+        <Divider type="pixel" />
+
+        <Section>
+          <StyledHacktoberfestLove>
+            <ContentMaster size="xl2" title="Hacktoberfest Love" />
+            <PixelHearts />
+          </StyledHacktoberfestLove>
+
+          <Section small>
+            <div style={{maxWidth: '1012px'}}>
+              <ContentMaster size="md" titleTag="h3" title="Share your Hacktoberfest">
+                Join the Hacktoberfest community by sharing your story through photos, videos, or a blog post! Whether you're a  contributor, maintainer, event organizer, sponsor, or partner we want to hear from you.
+              </ContentMaster>
+            </div>
+          </Section>
+
+          <Divider type="doubledashed" />
+
+          <DividerRow gap="128px">
+            <ContentMaster
+              size="md"
+              titleTag="h3"
+              title="Video"
+            >
+              To share a photo or short video, simply fill out our video submissions form.
+            </ContentMaster>
+
+            <ContentMaster
+              size="md"
+              titleTag="h3"
+              title="Social Media"
+            >
+              Share your Hacktoberfest experience on social media! Use the official hashtag #hacktoberfest10 and tell others about your favorite contributions, any swag you've received in the past (share a pic!), or a particularly memorable hack.
+            </ContentMaster>
+          </DividerRow>
+
+          <Divider type="doubledashed" />
+
+          <Section small>
+            <StyledBlogSection>
+              <ContentMaster
+                size="md"
+                titleTag="h3"
+                title="Blog post"
+              />
+
+              <ContentMaster
+                size="lg"
+              >
+                If you'd like to write about your experience participating in Hacktoberfest, we encourage you to create a blog post. Our partners at DEV welcome your writings, here are some great examples. You can share how you first heard about Hacktoberfest, how being part of the community has impacted your personal or professional development, and your favorite or most useful hack. Creativity is welcome! Once your blog post is live, let us know by tagging us in your social media posts about it.
+              </ContentMaster>
+            </StyledBlogSection>
+          </Section>
+
+          <Divider type="doubledashed" />
+
+          <HeartCallout>
+            We look forward to hearing from you and seeing how you've been part of the **Hacktoberfest community**!
+          </HeartCallout>
         </Section>
       </Container>
     </>

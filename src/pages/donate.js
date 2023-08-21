@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect, useMemo, useState } from 'react';
+import { Children, useEffect, useMemo, useState } from 'react';
 import { knuthShuffle } from 'knuth-shuffle';
 import styled from 'styled-components';
 
@@ -16,142 +16,19 @@ import Container from 'components/Container';
 import ContentMaster from 'components/ContentMaster';
 import Divider from 'components/Divider';
 import Project from 'components/Project';
+import AccordionCouncil from 'components/AccordionCouncil';
+import ButtonMain from 'components/ButtonMain';
 
-export const StyledProject = styled.div`
-  details {
-    summary {
-      @media (max-width: 600px) {
-        flex-direction: column;
-        align-items: flex-start;
-        position: relative;
-
-        &::before {
-          position: absolute;
-          top: 0;
-          left: 0;
-          margin: 0;
-        }
-      }
-
-      > div {
-        > p {
-          color: ${(props) =>
-            props.theme[props.color] || props.color || props.theme.text};
-
-          @media (max-width: 600px) {
-            margin-left: 48px;
-          }
-        }
-
-        > div {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin: 8px 0;
-
-          @media (max-width: 600px) {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-
-          > img {
-            border-radius: 16px;
-            filter: ${(props) => props.theme.glowLiteDS};
-          }
-
-          > div {
-            margin: 8px 0;
-
-            h3 {
-              margin: 0 0 16px;
-            }
-          }
-        }
-      }
-    }
-
-    > div {
-      @media (max-width: 600px) {
-        margin: 0;
-      }
-    }
-
-    ${StyledButton} {
-      filter: ${(props) => props.theme.glowLiteDS};
-      margin: 8px;
-    }
-  }
-`;
-
-
-export const StyledDonateProjects = styled.div`
+export const StyledProjects = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 48px;
+  padding: 48px 0;
 `;
 
-// const Project = ({ project }) => {
-//   const allLinks = useMemo(
-//     () => (Array.isArray(project.link) ? project.link : [project.link]),
-//     [project]
-//   );
-//   const color = useMemo(
-//     () => typesToColors[project.source.toLowerCase()],
-//     [project]
-//   );
-
-//   return (
-//     <StyledProject color={color[0]}>
-//       <Collapse
-//         collapsed
-//         title={
-//           <div>
-//             <p>[ {project.source} ]</p>
-//             <div>
-//               <img
-//                 src={project.icon}
-//                 alt=""
-//                 width={64}
-//                 height={64}
-//                 style={{ objectFit: 'cover' }}
-//               />
-//               <div>
-//                 <h3>{project.name}</h3>
-//                 <span>{project.short}</span>
-//               </div>
-//             </div>
-//           </div>
-//         }
-//       >
-//         {project.source === 'OpenCollective' ? (
-//           <StyledFrame
-//             src={allLinks[0].url}
-//             width="100%"
-//             height="920"
-//             frameBorder="0"
-//             scrolling="no"
-//           />
-//         ) : (
-//           <p>
-//             {allLinks.map((link) => (
-//               <Button
-//                 key={link.title}
-//                 color_bg={color[0]}
-//                 color_text={color[1]}
-//                 as="a"
-//                 href={link.url}
-//                 target="_blank"
-//                 rel="noreferrer noopener"
-//               >
-//                 {link.title}
-//               </Button>
-//             ))}
-//           </p>
-//         )}
-//       </Collapse>
-//     </StyledProject>
-//   );
-// };
+export const StyledMoreProjects = styled.div`
+  text-align: center;
+`;
 
 const Donate = ({ projects }) => {
   const [projectsShuffled, setProjectsShuffled] = useState([]);
@@ -202,60 +79,72 @@ const Donate = ({ projects }) => {
         }
       />
 
-      <Container inner>
-        <Section>
-          <StyledDonateProjects>
-            <ContentMaster
-              size="xl"
-              title="Find a project"
-            >
-              Open-source projects keep the internet humming—but they can’t do it
-              without resources. Projects are always in need of financial support so
-              they can develop new features, cover expenses, and continue their
-              regular activities. Find a project to donate money to right here.
-            </ContentMaster>
+      <Section>
+        <Container inner>
+          <ContentMaster
+            size="xl"
+            title="Find a project"
+          >
+            Open-source projects keep the internet humming—but they can’t do it
+            without resources. Projects are always in need of financial support so
+            they can develop new features, cover expenses, and continue their
+            regular activities. Find a project to donate money to right here.
+          </ContentMaster>
 
-            <StyledSearch
-              type="text"
-              placeholder="[ Search projects... ]"
-              value={projectsSearch}
-              onChange={(e) => setProjectsSearch(e.target.value)}
+          <StyledSearch
+            type="text"
+            placeholder="[ Search projects... ]"
+            value={projectsSearch}
+            onChange={(e) => setProjectsSearch(e.target.value)}
             />
+        </Container>
 
-            <div>
-              <Divider type="doubledashed" />
-              <StyledList>
-                {projectsShuffled.length === 0 && (
-                  <p>[ Sorry, there are no projects listed currently ]</p>
-                )}
-                {projectsShuffled.length > 0 && projectsList.length === 0 && (
-                  <p>[ Sorry, no projects matched your search query ]</p>
-                )}
-                {projectsList.map((project, index) => (
-                  <>
-                    <Project
-                      key={`${project.source}:${project.name}`}
-                      project={project}
-                    />
-                    {projectsList.length !== (index + 1) && (
-                      <Divider />
-                    )}
-                  </>
-                ))}
-              </StyledList>
-              <Divider type="doubledashed" />
-            </div>
-
-            {projectsCount < projectsFiltered.length && (
-              <Button
+        <Container>
+          <Section small>
+            <Divider type="doubledashed" />
+            <StyledProjects>
+              {projectsShuffled.length === 0 && (
+                <p>[ Sorry, there are no projects listed currently ]</p>
+              )}
+              {projectsShuffled.length > 0 && projectsList.length === 0 && (
+                <p>[ Sorry, no projects matched your search query ]</p>
+              )}
+              {projectsList.map((project, index) => (
+                <>
+                  {console.log(project.link)}
+                  <AccordionCouncil
+                    key={`${project.source}:${project.name}`}
+                    image={{
+                      src: project.icon,
+                      alt: `Project profile of ${project.name}`
+                    }}
+                    imageRotatation={ index % 2 ? 'left' : 'right' }
+                    title={project.name}
+                    subtitle={`[${project.source}]`}
+                    skills={project.short}
+                    iframe={project.source === 'OpenCollective' ? project.link.url : null}
+                    collapsed
+                  />
+                  {projectsList.length !== (index + 1) && (
+                    <Divider />
+                  )}
+                </>
+              ))}
+            </StyledProjects>
+            <Divider type="doubledashed" />
+          </Section>
+          {projectsCount < projectsFiltered.length && (
+            <StyledMoreProjects>
+              <ButtonMain
+                as="button"
                 onClick={() => setProjectsCount((count) => count + 3)}
               >
                 Load More Projects
-              </Button>
-            )}
-          </StyledDonateProjects>
-        </Section>
-      </Container>
+              </ButtonMain>
+            </StyledMoreProjects>
+          )}
+        </Container>
+      </Section>
     </>
   );
 };
