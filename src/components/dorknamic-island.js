@@ -193,7 +193,7 @@ const StyledWrapper = styled.div`
   justify-content: center;
   position: fixed;
   top: 120px;
-  z-index: 10;
+  z-index: 200;
   padding: 0 64px;
   pointer-events: none;
   transition: all 0.5s var(--bez);

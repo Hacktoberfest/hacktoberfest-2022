@@ -93,7 +93,6 @@ const Participation = () => {
             scale="1"
             timing="5"
             frames="7"
-            id="f2"
           />
         }
       />

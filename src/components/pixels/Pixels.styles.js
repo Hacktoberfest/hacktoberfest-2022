@@ -33,13 +33,12 @@ const stdAnim = () => keyframes`
 export const PixelWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  /* animation: ${flickerAnimation} 2s infinite; */
+  animation: ${flickerAnimation} 2s infinite;
   transform: scale(${(props) => props.scale});
 
   &::after {
     content: '';
     display: block;
-    /* padding-bottom: 87.5%; */
     padding-bottom: 100%;
   }
 

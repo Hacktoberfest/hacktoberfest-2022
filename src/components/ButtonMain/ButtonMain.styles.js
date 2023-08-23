@@ -11,18 +11,18 @@ export const StyledButtonMain = styled.a`
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.neutral.manga300};
 
+  ${({ $size }) => $size === 'lg' && body20};
   ${({ $size }) => $size === 'lg' && `
     padding: 12px 20px;
-    ${body20}
 
     ${mQ(bp.desktop)} {
       padding: 18px 26px;
     }
   `};
 
+  ${({ $size }) => $size === 'sm' && body16};
   ${({ $size }) => $size === 'sm' && `
     padding: 12px 20px;
-    ${body16}
   `};
 
   &::before,

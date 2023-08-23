@@ -56,19 +56,62 @@ export const StyledSubText = styled.p`
   text-shadow: ${(props) => props.theme.smallTextShadow};
 `;
 
-export const StyledSearch = styled.input`
-  padding: 16px 24px;
-  width: 100%;
-  color: ${(props) => props.theme.text};
+export const StyledSearch = styled.div`
+  position: relative;
   margin-top: 64px;
-  ${body20};
-  border-radius: 16px;
-  border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
-  background: ${({theme}) => theme.card.bg};
-  backdrop-filter: blur(5px);
 
-  &::placeholder {
+  &:has(input:focus)::before {
+    opacity: 1;
+  }
+
+  &:has(input:focus)::after {
+    opacity: .3;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out; /* stylelint-disable-line property-no-vendor-prefix */
+    mask-composite: exclude;
+    padding: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-in-out;
+  }
+
+  &::before {
+    background: linear-gradient(77.9deg, #EC4237 0%, #33B6D8 100%);
+  }
+
+  &::after {
+    background: linear-gradient(230deg, #FFFBA4 0%, rgba(255, 251, 164, 0) 100%);
+  }
+
+  input {
+    padding: 16px 24px;
+    width: 100%;
     color: ${(props) => props.theme.text};
+    ${body20};
+    border-radius: 16px;
+    border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+    background: ${({theme}) => theme.card.bg};
+    backdrop-filter: blur(5px);
+    transition: box-shadow 300ms ease-in-out;
+
+    &:focus {
+      box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
+      outline: 0;
+    }
+
+    &::placeholder {
+      color: ${(props) => props.theme.text};
+    }
   }
 `;
 

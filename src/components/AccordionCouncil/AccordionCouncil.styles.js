@@ -24,7 +24,7 @@ export const StyledAccordion = styled.details`
     background: ${theme.card.bg};
     backdrop-filter: blur(5px);
 
-    ${mQ(bp.desktop)} {
+    ${mQ(bp.tablet)} {
       padding: 48px 64px;
     }
   `)};
@@ -35,11 +35,11 @@ export const StyledAccordion = styled.details`
     cursor: pointer;
     color: ${({ theme }) => theme.colors.neutral.manga200};
 
-    ${mQ(bp.desktop)} {
+    ${mQ(bp.tablet)} {
       padding-right: 60px;
     }
 
-    ${mQ(bp.desktop)} {
+    ${mQ(bp.tablet)} {
       padding-right: 136px;
     }
 
@@ -74,12 +74,12 @@ export const StyledAccordion = styled.details`
       ${({ $isFilled }) => $isFilled ? (`
         top: 0;
 
-        ${mQ(bp.desktop)} {
+        ${mQ(bp.tablet)} {
           top: 50%;
         }`
       ) : (`top: 18px;`)};
 
-      ${mQ(bp.desktop)} {
+      ${mQ(bp.tablet)} {
         width: 72px;
         font-size: 32px;
         letter-spacing: 1px;
@@ -139,7 +139,7 @@ export const StyledAccordion = styled.details`
 `;
 
 export const StyledAccordionHeader = styled.div`
-  ${mQ(bp.desktop)} {
+  ${mQ(bp.tablet)} {
     display: grid;
     grid-template-columns: 240px 1fr;
     gap: 64px;
@@ -157,7 +157,7 @@ export const StyledAccordionImageWrapper = styled.div`
   width: 63.53790614%;
   position: relative;
 
-  ${mQ(bp.desktop)} {
+  ${mQ(bp.tablet)} {
     margin-bottom: 0;
     width: 100%;
   }

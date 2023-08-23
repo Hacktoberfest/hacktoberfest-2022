@@ -70,7 +70,7 @@ const Donate = ({ projects }) => {
         title="Donate"
         icon={
           <PixelFlower
-            width="1200"
+            width="1700"
             scale="1"
             timing="5"
             frames="5"
@@ -91,12 +91,20 @@ const Donate = ({ projects }) => {
             regular activities. Find a project to donate money to right here.
           </ContentMaster>
 
-          <StyledSearch
+          {/* <StyledSearch
             type="text"
             placeholder="[ Search projects... ]"
             value={projectsSearch}
             onChange={(e) => setProjectsSearch(e.target.value)}
-            />
+          /> */}
+
+          <StyledSearch>
+            <input
+              type="text"
+              placeholder="[ Search projects... ]"
+              value={projectsSearch}
+              onChange={(e) => setProjectsSearch(e.target.value)} />
+          </StyledSearch>
         </Container>
 
         <Container>
@@ -111,7 +119,6 @@ const Donate = ({ projects }) => {
               )}
               {projectsList.map((project, index) => (
                 <>
-                  {console.log(project.link)}
                   <AccordionCouncil
                     key={`${project.source}:${project.name}`}
                     image={{
@@ -137,7 +144,7 @@ const Donate = ({ projects }) => {
           {projectsCount < projectsFiltered.length && (
             <StyledMoreProjects>
               <ButtonMain
-                type="button"
+                as="button"
                 onClick={() => setProjectsCount((count) => count + 3)}
               >
                 Load More Projects

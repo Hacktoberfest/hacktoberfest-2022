@@ -5,8 +5,12 @@ import { body18 } from 'themes/typography';
 
 export const StyledHeader = styled.header`
   padding: 12px 0;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   border-bottom: 1px solid ${({ theme }) => theme.colors.neutral.manga400};
+  z-index: 100;
 
   &::before {
     content: '';

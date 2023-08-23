@@ -83,10 +83,10 @@ const About = () => {
         title="About"
         icon={
           <PixelLogo
-            width="1360"
+            width="1020"
             scale="1"
             timing="5"
-            frames="4"
+            frames="3"
           />
         }
       />
@@ -190,7 +190,7 @@ const About = () => {
 
         <Section>
           <StyledHacktoberfestLove>
-            <ContentMaster size="xl" title="Hacktoberfest Love" />
+            <ContentMaster size="xl2" title="Hacktoberfest Love" />
             <PixelHearts />
           </StyledHacktoberfestLove>
 

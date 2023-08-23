@@ -4,10 +4,10 @@ import { body16, body20, headline88 } from 'themes/typography';
 
 export const StyledHero = styled.div`
   text-align: center;
-  padding: 80px 0;
+  padding: 144px 0 80px;
 
   ${mQ(bp.desktop)} {
-    padding: 80px 0 114px;
+    padding: 224px 0 114px;
     text-align: left;
   }
 `;

@@ -17,6 +17,10 @@ import PixelLeaf from 'components/pixels/PixelLeaf';
 import HeroSecondary from 'components/HeroSecondary';
 import Container from 'components/Container';
 import ContentMaster from 'components/ContentMaster';
+import { reportEnded, reportTitle } from 'lib/report';
+import Input from 'components/Input';
+import Select from 'components/Select';
+import ButtonMain from 'components/ButtonMain';
 
 const Report = () => {
   const auth = useAuth(false);
@@ -106,87 +110,78 @@ const Report = () => {
       />
 
       <Container>
-        <Section>
-          <ContentMaster size="xl">
-            Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.
-          </ContentMaster>
-        </Section>
-      </Container>
+        <Section small>
+          {!hasTrackingEnded && (
+            <ContentMaster size="xl" children={reportTitle} />
+          )}
 
-      <Section type="sub_content">
-        <Divider />
-        <Anchor href="#" />
-
-        <h4>Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.</h4>
-
-        {hasTrackingEnded ? (
-          <p>
-            We are no longer accepting new repository reports, as Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
-            We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}!
-          </p>
-        ) : (
-          !auth.active ? (
-            <p>
-              Coming soon: The ability to report repositories will be available when registration opens.
-            </p>
+          {hasTrackingEnded ? (
+            <ContentMaster size="xl" children={reportEnded} />
           ) : (
-            auth.loading ? (
-              <Loader message=">> Loading /usr/lib/report..." />
+            !auth.active ? (
+              <ContentMaster size="xl">
+                Coming soon: The ability to report repositories will be available when registration opens.
+              </ContentMaster>
             ) : (
-              auth.state !== 'profile' ? (
-                <>
-                  <p>
-                    You must be registered for Hacktoberfest to report repositories.
-                  </p>
-                  <Link href="/auth" passHref>
-                    <Button as="a" special>Start Hacking</Button>
-                  </Link>
-                </>
+              auth.loading ? (
+                <Loader message=">> Loading /usr/lib/report..." />
               ) : (
-                <>
-                  <Form
-                    ref={form}
-                    onSubmit={submit}
-                    success={success && 'Thanks for letting us know about this repository. We\'ll review it as soon as possible.'}
-                    error={error}
-                  >
-                    <fieldset>
-                      <label htmlFor="provider">Provider</label>
-                      <select
+                auth.state !== 'profile' ? (
+                  <Section small>
+                    <ContentMaster
+                      size="xl"
+                      cta={{
+                        href: '/auth',
+                        children: 'Start Hacking'
+                      }}
+                    >
+                      You must be registered for Hacktoberfest to report repositories.
+                    </ContentMaster>
+                  </Section>
+                ) : (
+                  <>
+                    <Form
+                      ref={form}
+                      onSubmit={submit}
+                      success={success && 'Thanks for letting us know about this repository. We\'ll review it as soon as possible.'}
+                      error={error}
+                      style={{marginTop: '48px'}}
+                    >
+                      <Select
                         name="provider"
-                        id="provider"
+                        label="Provider"
                         value={provider}
+                        items={Object.entries(providerMap)}
                         onChange={e => setProvider(e.target.value)}
                         disabled={submitting}
                         required
-                      >
-                        {Object.entries(providerMap).map(([ key, value ]) => (
-                          <option key={key} value={key}>{value}</option>
-                        ))}
-                      </select>
-                    </fieldset>
-
-                    <fieldset>
-                      <label htmlFor="repository">Repository</label>
-                      <input
-                        type="text"
-                        placeholder="owner/target"
+                      />
+                      <Input
                         name="repository"
-                        id="repository"
+                        label="Repository"
+                        placeholder="owner/target"
                         value={repository}
                         onChange={e => setRepository(e.target.value)}
                         disabled={submitting}
                         required
                       />
-                    </fieldset>
 
-                    <Button onClick={submit} type="submit" disabled={submitting}>Report</Button>
-                  </Form>
-                </>
+                      <ButtonMain
+                        size="lg"
+                        as="button"
+                        type="submit"
+                        onClick={submit}
+                        disabled={submitting}
+                      >
+                        Report
+                      </ButtonMain>
+                    </Form>
+                  </>
+                )
               )
-            )
-          ))}
-      </Section>
+            ))}
+        </Section>
+      </Container>
     </>
   );
 };

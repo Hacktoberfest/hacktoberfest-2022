@@ -12,8 +12,6 @@ import { useTheme } from 'styled-components';
 import Frame from 'components/Frame';
 
 const AccordionCouncil = props => {
-
-
   const {
     filled,
     image,

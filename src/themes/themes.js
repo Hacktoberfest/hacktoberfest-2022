@@ -69,7 +69,6 @@ export const mainTheme = {
       wordmarkVoid: '',
       wordmarkManga: ''
     }
-
   },
   card: {
     stroke: '',

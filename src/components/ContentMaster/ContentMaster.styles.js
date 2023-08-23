@@ -1,6 +1,6 @@
 import styled, {css} from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
-import { body16, body20, body24, headline20, headline32, headline48, headline56 } from 'themes/typography';
+import { body16, body20, body24, headline20, headline32, headline48, headline56, headline88 } from 'themes/typography';
 
 export const StyledContentMaster = styled.div`
   position: relative;
@@ -35,6 +35,7 @@ export const StyledContentMasterTitle = styled.h2`
   color: ${({ theme }) => theme.colors.neutral.manga200};
   margin: 0;
 
+  ${({ $size }) => $size === 'xl2' && headline88};
   ${({ $size }) => $size === 'xl' && headline56};
   ${({ $size }) => $size === 'lg' && headline48};
   ${({ $size }) => $size === 'md' && headline32};
@@ -46,6 +47,7 @@ export const StyledContentMasterBody = styled.div`
 
   p,
   li {
+    ${({ $size }) => $size === 'xl2' && body24};
     ${({ $size }) => $size === 'xl' && body24};
     ${({ $size }) => $size === 'lg' && body24};
     ${({ $size }) => $size === 'md' && body20};

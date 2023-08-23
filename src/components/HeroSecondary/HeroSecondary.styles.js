@@ -27,7 +27,7 @@ export const StyledHeroSecondary = styled.div`
   position: relative;
   background: url(${heroBg.src}) no-repeat;
   background-size: 300% auto;
-  background-position: 100% 300%;
+  background-position: 100% 0;
 
   ${mQ(bp.desktop)} {
     background-position: right 0;
@@ -82,7 +82,7 @@ export const StyledHeroSecondaryContainer = styled.div`
   gap: 40px;
   flex-direction: column;
   align-items: center;
-  padding: 80px 0 222px;
+  padding: 144px 0 222px;
 
   ${mQ(bp.desktop)} {
     flex-direction: row;

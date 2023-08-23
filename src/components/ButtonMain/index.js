@@ -6,7 +6,7 @@ import {
 const ButtonMain = props => {
   const {
     children,
-    type= "a",
+    as = "a",
     size = 'sm',
     onClick,
     ...link
@@ -14,14 +14,14 @@ const ButtonMain = props => {
 
   return (
     <>
-      {type === 'a' ? (
+      {as === 'a' ? (
         <Link {...link} passHref>
           <StyledButtonMain $size={size}>
             {children}
           </StyledButtonMain>
         </Link>
       ) : (
-        <StyledButtonMain $size={size} onClick={onClick} as="button">
+        <StyledButtonMain $size={size} onClick={onClick} as={as} {...link}>
           {children}
         </StyledButtonMain>
       )}

@@ -30,10 +30,10 @@ const FourOFour = () => {
         }}
         icon={
           <PixelHops
-            width="240"
+            width="1360"
             scale="1"
             timing="5"
-            frames="1"
+            frames="4"
           />
         }
       />
