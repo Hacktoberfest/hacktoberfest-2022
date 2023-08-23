@@ -26,14 +26,14 @@ const flickerAnimation = () => keyframes`
 
 const stdAnim = () => keyframes`
   to {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
 `;
 
 export const PixelWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  animation: ${flickerAnimation} 2s infinite;
+  /* animation: ${flickerAnimation} 2s infinite; */
   transform: scale(${(props) => props.scale});
 
   &::after {
@@ -50,5 +50,6 @@ export const PixelWrapper = styled.div`
     width: auto;
     height: 100%;
     animation: ${stdAnim} ${({timing, frames}) => `${timing}s steps(${frames}) infinite`};
+    shape-rendering: crispEdges;
   }
 `;
