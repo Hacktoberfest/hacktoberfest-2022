@@ -9,7 +9,7 @@ const rotateAnimation = () => keyframes`
   50% {
     transform: scale(1.2) rotate(-90deg);
   }
-  
+
   100% {
     transform: scale(1) rotate(-180deg);
   }

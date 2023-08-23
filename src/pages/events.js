@@ -64,7 +64,7 @@ export const StyledSearch = styled.input`
   ${body20};
   border-radius: 16px;
   border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
-  background: var(--card-bg, linear-gradient(156deg, rgba(239, 237, 239, 0.04) 0%, rgba(0, 0, 0, 0.04) 92.30%));
+  background: ${({theme}) => theme.card.bg};
   backdrop-filter: blur(5px);
 
   &::placeholder {

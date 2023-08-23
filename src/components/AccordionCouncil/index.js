@@ -8,8 +8,12 @@ import {
 } from './AccordionCouncil.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
+import { useTheme } from 'styled-components';
+import Frame from 'components/Frame';
 
 const AccordionCouncil = props => {
+
+
   const {
     filled,
     image,
@@ -24,17 +28,18 @@ const AccordionCouncil = props => {
     skills
   } = props;
 
-  console.log(iframe);
-
   const [open, setOpen] = useState(!collapsed);
   useEffect(() => setOpen(!collapsed), [collapsed]);
   const toggle = useCallback((evt) => setOpen(evt.target.open), []);
+
+  const colors = ['gold', 'blue', 'red'];
 
   return (
     <StyledAccordion $isFilled={filled} open={open} onToggle={toggle}>
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
           <StyledAccordionImageWrapper $bgImage={bgImage}>
+            <Frame color={colors[(Math.floor(Math.random() * colors.length))]} />
             <StyledAccordionImage $rotate={imageRotatation}>
               <img {...image} />
             </StyledAccordionImage>

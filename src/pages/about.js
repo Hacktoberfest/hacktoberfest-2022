@@ -4,6 +4,7 @@ import styled, { keyframes } from 'styled-components';
 import { intro, lore, digitalRewards, advisoryCouncil, council, lowNonCode } from 'lib/about';
 
 import Collapse from 'components/collapse';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 import Divider from 'components/Divider';
 import Section from 'components/Section';
 import DorknamicIsland from 'components/dorknamic-island';
@@ -30,17 +31,28 @@ const StyledCouncilMembers = styled.div`
 
 export const StyledBlogSection = styled.div`
   display: grid;
-  grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
-  gap: 24px;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+
+  ${mQ(bp.desktop)} {
+    gap: 24px;
+    grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
+  }
 `;
 
 export const StyledHacktoberfestLove = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 80px;
+  gap: 32px;
+  flex-direction: column;
 
-  > div:first-child {
-    max-width: 762px;
+  ${mQ(bp.desktop)} {
+    justify-content: space-between;
+    gap: 80px;
+    flex-direction: row;
+
+    > div:first-child {
+      max-width: 762px;
+    }
   }
 `;
 
@@ -178,7 +190,7 @@ const About = () => {
 
         <Section>
           <StyledHacktoberfestLove>
-            <ContentMaster size="xl2" title="Hacktoberfest Love" />
+            <ContentMaster size="xl" title="Hacktoberfest Love" />
             <PixelHearts />
           </StyledHacktoberfestLove>
 

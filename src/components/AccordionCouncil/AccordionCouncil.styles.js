@@ -20,18 +20,24 @@ export const StyledAccordion = styled.details`
   ${({ $isFilled, theme }) => $isFilled && (`
     border-radius: 40px;
     border: 1px solid ${theme.colors.neutral.manga400};
-    padding: 48px 64px;
-    background: var(--card-bg, linear-gradient(156deg, rgba(239, 237, 239, 0.04) 0%, rgba(0, 0, 0, 0.04) 92.30%));
+    padding: 48px 24px;
+    background: ${theme.card.bg};
     backdrop-filter: blur(5px);
+
+    ${mQ(bp.desktop)} {
+      padding: 48px 64px;
+    }
   `)};
 
   summary {
     position: relative;
     list-style: none;
     cursor: pointer;
-    ${headline32};
     color: ${({ theme }) => theme.colors.neutral.manga200};
-    padding-right: 60px;
+
+    ${mQ(bp.desktop)} {
+      padding-right: 60px;
+    }
 
     ${mQ(bp.desktop)} {
       padding-right: 136px;
@@ -57,7 +63,6 @@ export const StyledAccordion = styled.details`
       color: ${({ theme }) => theme.colors.neutral.manga300};
       letter-spacing: 2px;
       font-weight: 700;
-      transform: translateY(-50%);
       text-indent: 2px;
       content: '${(props) => (props.open ? '[-]' : '[+]')}';
       transition:
@@ -66,13 +71,20 @@ export const StyledAccordion = styled.details`
         text-shadow 0.2s ease 0.2s,
         color 0.4s ease;
 
-      ${({ $isFilled }) => $isFilled ? (`top: 50%`) : (`top: 18px;`)};
+      ${({ $isFilled }) => $isFilled ? (`
+        top: 0;
+
+        ${mQ(bp.desktop)} {
+          top: 50%;
+        }`
+      ) : (`top: 18px;`)};
 
       ${mQ(bp.desktop)} {
         width: 72px;
         font-size: 32px;
         letter-spacing: 1px;
         text-indent: 1px;
+        transform: translateY(-50%);
       }
     }
 
@@ -127,11 +139,13 @@ export const StyledAccordion = styled.details`
 `;
 
 export const StyledAccordionHeader = styled.div`
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 64px;
+  ${mQ(bp.desktop)} {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 64px;
 
-  ${({ $isFilled }) => $isFilled && (`align-items: center;`)};
+    ${({ $isFilled }) => $isFilled && (`align-items: center;`)};
+  }
 `;
 
 export const StyledAccordionImageWrapper = styled.div`
@@ -139,24 +153,30 @@ export const StyledAccordionImageWrapper = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   align-items: center;
+  margin-bottom: 40px;
+  width: 63.53790614%;
+  position: relative;
 
-  &::before {
-    background: url(${({ $bgImage }) => $bgImage}) no-repeat center center;
-    background-size: cover;
-    content: '';
+  ${mQ(bp.desktop)} {
+    margin-bottom: 0;
     width: 100%;
+  }
+
+  svg {
     grid-row: 1/-1;
     grid-column: 1/-1;
-    padding-bottom: 100%;
+    width: 100%;
+    height: auto;
   }
 `;
 
 export const StyledAccordionImage = styled.div`
   margin: 0 auto;
   position: relative;
-  width: 83.33333333%;
   grid-row: 1/-1;
   grid-column: 1/-1;
+  width: 100%;
+  width: 83.33333333%;
 
   ${({ $rotate }) => $rotate === 'left' ? `
     transform: rotate(-14deg);

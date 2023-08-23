@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 import { body32 } from 'themes/typography';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 export const StyledHeartCallout = styled.div`
   display: grid;
-  grid-template-columns: 1fr ${((742/1280) * 100)}% 1fr;
+  grid-template-columns: 1fr;
   padding: 64px 0 0;
-  gap: 16px;
+  gap: 40px;
   align-items: center;
+
+  ${mQ(bp.desktop)} {
+    gap: 16px;
+    grid-template-columns: 1fr ${((742/1280) * 100)}% 1fr;
+  }
 
   p {
     ${body32};

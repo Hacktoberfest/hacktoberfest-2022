@@ -40,7 +40,7 @@ export const StyledButtonMain = styled.a`
 
   &:hover {
     text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
-    background: var(--card-bg, linear-gradient(156deg, rgba(239, 237, 239, 0.04) 0%, rgba(0, 0, 0, 0.04) 92.30%));
+    background: ${({theme}) => theme.card.bg};
     box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
     backdrop-filter: blur(5px);
     color: ${({ theme }) => theme.colors.neutral.manga200};

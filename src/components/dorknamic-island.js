@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { body16 } from 'themes/typography';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 const loadAnimation = (x) => keyframes`
   from {
@@ -71,9 +72,14 @@ const StyledNav = styled.nav`
   gap: 24px;
   justify-content: center;
   flex-flow: row wrap;
+  flex-direction: column;
   opacity: 0;
   transition: all 0.2s ease;
   transition-property: opacity, visibility, height;
+
+  ${mQ(bp.desktop)} {
+    flex-direction: row;
+  }
 
   &[aria-selected='true'] {
     opacity: 0 !important;
@@ -86,6 +92,7 @@ const StyledNav = styled.nav`
     ${body16};
     color: ${({theme}) => theme.colors.neutral.manga300};
     text-transform: uppercase;
+    width: auto;
 
     &:hover,
     &:focus {

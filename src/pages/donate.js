@@ -123,6 +123,7 @@ const Donate = ({ projects }) => {
                     subtitle={`[${project.source}]`}
                     skills={project.short}
                     iframe={project.source === 'OpenCollective' ? project.link.url : null}
+                    links={project.source !== 'OpenCollective' ? project.link : null}
                     collapsed
                   />
                   {projectsList.length !== (index + 1) && (
@@ -136,7 +137,7 @@ const Donate = ({ projects }) => {
           {projectsCount < projectsFiltered.length && (
             <StyledMoreProjects>
               <ButtonMain
-                as="button"
+                type="button"
                 onClick={() => setProjectsCount((count) => count + 3)}
               >
                 Load More Projects

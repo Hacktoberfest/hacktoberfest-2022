@@ -14,17 +14,17 @@ const ButtonMain = props => {
 
   return (
     <>
-    {type === 'button' ? (
-      <Link {...link} passHref>
-        <StyledButtonMain $size={size}>
+      {type === 'a' ? (
+        <Link {...link} passHref>
+          <StyledButtonMain $size={size}>
+            {children}
+          </StyledButtonMain>
+        </Link>
+      ) : (
+        <StyledButtonMain $size={size} onClick={onClick} as="button">
           {children}
         </StyledButtonMain>
-      </Link>
-    ) : (
-      <StyledButtonMain $size={size} onClick={onClick} as="button">
-        {children}
-      </StyledButtonMain>
-    )}
+      )}
     </>
   );
 };

@@ -71,7 +71,7 @@ const Header = () => {
               Discord
             </StyledHeaderLink>
             {hasProfile && (
-              <ButtonMain href="/auth">
+              <ButtonMain href="/auth" passHref>
                 {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
               </ButtonMain>
             )}
