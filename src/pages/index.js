@@ -25,11 +25,61 @@ import IlloBranch from 'assets/img/8bit-branch.svg';
 import IlloPumpkin from 'assets/img/8bit-pumpkin.svg';
 import bgHome from 'assets/img/bg-home.svg';
 import Events from 'components/Events';
+import PixelIntro from 'components/pixels/PixelIntro';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 export const StyledHome = styled.div`
-  background: url(${bgHome.src}) no-repeat;
-  background-size: 100% auto;
+  /* background: url(${bgHome.src}) no-repeat;
+  background-size: 100% auto; */
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
 `;
+
+export const StyledHomeBg = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: -1;
+  mask-image: radial-gradient(circle at 50% 0%, #000, transparent 100%);
+  mask-size: 100% 100%;
+
+  ${mQ(bp.tablet)} {
+    mask-image: radial-gradient(circle at 100% 0%, #000, transparent 60%);
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    padding-bottom: 296.53333333%;
+
+    ${mQ(bp.tablet)} {
+      padding-bottom: 103.194444444%;
+    }
+  }
+
+  > div {
+    width: 429.86666667%;
+    top: -46.33333333vw;
+    right: -178.066667vw;
+    position: absolute;
+
+    ${mQ(bp.tablet)} {
+      top: -35.48611111vw;
+      right: -58.68055556%;
+      width: 161.38888889%;
+    }
+
+    &::after {
+      padding-bottom: 75.12406948%;
+
+      ${mQ(bp.tablet)} {
+        padding-bottom: 79.51807229%;
+      }
+    }
+  }
+`
 
 export const StyledHomeCallout = styled.div`
   background: url(${IlloPumpkin.src}) no-repeat;
@@ -49,6 +99,14 @@ const Home = () => {
 
   return (
     <StyledHome>
+      <StyledHomeBg>
+        <PixelIntro
+          width="5976"
+          scale="1"
+          timing="5"
+          frames="3"
+        />
+      </StyledHomeBg>
       <Container>
         <Hero />
 
