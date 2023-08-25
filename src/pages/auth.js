@@ -64,16 +64,16 @@ const Auth = () => {
   return (
     <>
       <Head>
-        <title>Auth | Hacktoberfest 2022</title>
+        <title>Auth | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Auth | Hacktoberfest 2022"
+          content="Auth | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Auth | Hacktoberfest 2022"
+          content="Auth | Hacktoberfest 2023"
         />
       </Head>
       <StyledAuth>

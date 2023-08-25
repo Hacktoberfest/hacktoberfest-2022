@@ -9,8 +9,9 @@ import {
   StyledFooterLinksTitle,
   StyledFooterBackground
 } from './Footer.styles';
-import { Badge } from 'components/logo-2';
 import Container from 'components/Container';
+
+import hacktoberfestLogomark from 'assets/img/logo-hacktoberfest--logomark.svg';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -21,7 +22,7 @@ const Footer = () => {
         <StyledFooterContainer>
           <StyledFooterBackground />
           <StyledFooterLogo>
-            <Badge width="203px" />
+            <img src={hacktoberfestLogomark.src} alt="Hacktoberfest" />
             <p>
               &copy; {new Date().getFullYear()} DigitalOcean, LLC. <br /> All Rights Reserved.
             </p>
@@ -70,7 +71,7 @@ const Footer = () => {
                   <a
                     href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
                       BASE_URL
-                    )}&t=${encodeURIComponent('Hacktoberfest 2022')}`}
+                    )}&t=${encodeURIComponent('Hacktoberfest 2023')}`}
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -81,7 +82,7 @@ const Footer = () => {
                   <a
                     href={`https://www.reddit.com/submit?url=${encodeURIComponent(
                       BASE_URL
-                    )}&title=${encodeURIComponent('Hacktoberfest 2022')}`}
+                    )}&title=${encodeURIComponent('Hacktoberfest 2023')}`}
                     target="_blank"
                     rel="noreferrer noopener"
                   >

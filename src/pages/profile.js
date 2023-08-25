@@ -9,15 +9,12 @@ import { fetchUserAvatars } from 'lib/api';
 
 import Button, { StyledButtonGroup } from 'components/button';
 import Loader from 'components/loader';
-// import { FauxHero } from 'components/Hero';
 import Type from 'components/type';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
-import { PixelFirework1, PixelFirework2 } from 'components/pixels';
 
 import useAuth from 'hooks/useAuth';
 
-// import { StyledAnimations } from './index';
 import { StyledAvatar, StyledHeader } from './register';
 
 const opacityFade = () => keyframes`
@@ -62,16 +59,16 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>Profile | Hacktoberfest 2022</title>
+        <title>Profile | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Profile | Hacktoberfest 2022"
+          content="Profile | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Profile | Hacktoberfest 2022"
+          content="Profile | Hacktoberfest 2023"
         />
       </Head>
 
@@ -125,29 +122,6 @@ const Profile = () => {
                 height={256}
               />
             </StyledAvatar>
-            {/* <StyledAnimations>
-              <PixelFirework1
-                width="840"
-                scale="1"
-                timing="1.5"
-                frames="7"
-                id="f1"
-              />
-              <PixelFirework2
-                width="840"
-                scale="1"
-                timing="1"
-                frames="7"
-                id="f2"
-              />
-              <PixelFirework1
-                width="840"
-                scale="1.5"
-                timing="1.25"
-                frames="7"
-                id="f3"
-              />
-            </StyledAnimations> */}
           </div>
           <StyledProgressWrapper>
             {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}

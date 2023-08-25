@@ -1,9 +1,19 @@
 import Head from 'next/head';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-import { intro, lore, digitalRewards, advisoryCouncil, council, lowNonCode } from 'lib/about';
+import {
+  intro,
+  lore,
+  digitalRewards,
+  advisoryCouncil,
+  council,
+  founders,
+  contributors,
+  sustainer,
+  partners,
+  sharing
+} from 'lib/about';
 
-import Collapse from 'components/collapse';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 import Divider from 'components/Divider';
 import Section from 'components/Section';
@@ -21,6 +31,8 @@ import AccordionCouncil from 'components/AccordionCouncil';
 import DividerRow from 'components/DividerRow';
 import HeartCallout from 'components/HeartCallout';
 import PixelHearts from 'components/pixels/PixelHearts';
+import AccordionSponsor from 'components/AccordionSponsor';
+import { headline48 } from 'themes/typography';
 
 const StyledCouncilMembers = styled.div`
   display: flex;
@@ -56,27 +68,45 @@ export const StyledHacktoberfestLove = styled.div`
   }
 `;
 
+export const StyledSponsorsList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 32px;
+  align-items: flex-start;
+
+  ${mQ(bp.desktop)} {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+`;
+
+export const StyledSponsorsListTitle = styled.h2`
+  margin: 64px 0 48px;
+  ${headline48};
+`;
+
 const About = () => {
   return (
     <>
       <Head>
-        <title>About | Hacktoberfest 2022</title>
+        <title>About | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="About | Hacktoberfest 2022"
+          content="About | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="About | Hacktoberfest 2022"
+          content="About | Hacktoberfest 2023"
         />
       </Head>
 
       <DorknamicIsland>
-        <a href="#lore">Hacktoberfest Lore</a>
-        <a href="#low-or-non-code">Low or Non Code Contributions</a>
-        <a href="#council">Advisory Council</a>
+        <a href="#lore">Lore</a>
+        <a href="#digital-rewards">Digital Rewards</a>
+        <a href="#council">Council</a>
+        <a href="#sponsors">Sponsors</a>
+        <a href="#hacktoberfest-love">Hacktoberfest Love</a>
       </DorknamicIsland>
 
       <HeroSecondary
@@ -101,10 +131,10 @@ const About = () => {
             {intro.content}
           </ContentMaster>
 
-          <YouTube id="BDUtORDL_k4" title="Open Source is Counting on You! Answer the Call, at Hacktoberfest 2022" />
+          <YouTube id="BDUtORDL_k4" title="Open Source is Counting on You! Answer the Call, at Hacktoberfest 2023" />
         </Section>
 
-        <Section>
+        <Section id="lore">
           <ContentMaster
             size="xl"
             title={lore.title}
@@ -121,7 +151,7 @@ const About = () => {
       />
 
       <Container inner>
-        <Section>
+        <Section id="digital-rewards">
           <ContentMaster
             size="xl"
             title={digitalRewards.title}
@@ -135,7 +165,7 @@ const About = () => {
         <Divider type="pixel" />
       </Container>
 
-      <Section>
+      <Section id="council">
         <Container inner>
           <ContentMaster
             size="xl"
@@ -172,7 +202,7 @@ const About = () => {
       <Container>
         <Divider type="pixel" />
 
-        <Section>
+        <Section id="sponsors">
           <SpotHeader
             image={{
               src: IlloLeafs.src,
@@ -181,24 +211,111 @@ const About = () => {
             content={{
               size: 'xl',
               title: 'Our Sponsors & Partners',
-              children: 'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them here.'
+              children: 'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them!'
             }}
           />
+
+          <StyledSponsorsListTitle>
+            Founder
+          </StyledSponsorsListTitle>
+
+          <StyledSponsorsList>
+            {founders.map((item, index) => (
+              <AccordionSponsor
+                key={item.title}
+                image={{ src: item.image, alt: '' }}
+                imageRotatation={ index % 2 ? 'left' : 'right' }
+                title={item.title}
+                link={{
+                  href: item.link.href,
+                  children: item.link.title
+                }}
+                children={item.content}
+                collapsed
+              />
+            ))}
+          </StyledSponsorsList>
+
+          <StyledSponsorsListTitle>
+            Contributor
+          </StyledSponsorsListTitle>
+
+          <StyledSponsorsList>
+            {contributors.map((item, index) => (
+              <AccordionSponsor
+                key={item.title}
+                image={{ src: item.image, alt: '' }}
+                imageRotatation={ index % 2 ? 'left' : 'right' }
+                title={item.title}
+                link={{
+                  href: item.link.href,
+                  children: item.link.title
+                }}
+                children={item.content}
+                collapsed
+              />
+            ))}
+          </StyledSponsorsList>
+
+          <StyledSponsorsListTitle>
+            Sustainer
+          </StyledSponsorsListTitle>
+
+          <StyledSponsorsList>
+            {sustainer.map((item, index) => (
+              <AccordionSponsor
+                key={item.title}
+                image={{ src: item.image, alt: '' }}
+                imageRotatation={ index % 2 ? 'left' : 'right' }
+                title={item.title}
+                link={{
+                  href: item.link.href,
+                  children: item.link.title
+                }}
+                children={item.content}
+                collapsed
+              />
+            ))}
+          </StyledSponsorsList>
+
+          <StyledSponsorsListTitle>
+            Our Partners:
+          </StyledSponsorsListTitle>
+
+          <StyledSponsorsList>
+            {partners.map((item, index) => (
+              <AccordionSponsor
+                key={item.title}
+                image={{ src: item.image, alt: '' }}
+                imageRotatation={ index % 2 ? 'left' : 'right' }
+                title={item.title}
+                link={{
+                  href: item.link.href,
+                  children: item.link.title
+                }}
+                children={item.content}
+                collapsed
+              />
+            ))}
+          </StyledSponsorsList>
         </Section>
 
         <Divider type="pixel" />
 
-        <Section>
+        <Section id="hacktoberfest-love">
           <StyledHacktoberfestLove>
-            <ContentMaster size="xl2" title="Hacktoberfest Love" />
+            <ContentMaster size="xl2" title={sharing.intro} />
             <PixelHearts />
           </StyledHacktoberfestLove>
 
           <Section small>
             <div style={{maxWidth: '1012px'}}>
-              <ContentMaster size="md" titleTag="h3" title="Share your Hacktoberfest">
-                Join the Hacktoberfest community by sharing your story through photos, videos, or a blog post! Whether you're a  contributor, maintainer, event organizer, sponsor, or partner we want to hear from you.
-              </ContentMaster>
+              <ContentMaster
+                size="md"
+                titleTag="h3"
+                title={sharing.share.title}
+                children={sharing.share.content}
+              />
             </div>
           </Section>
 
@@ -208,18 +325,16 @@ const About = () => {
             <ContentMaster
               size="md"
               titleTag="h3"
-              title="Video"
-            >
-              To share a photo or short video, simply fill out our video submissions form.
-            </ContentMaster>
+              title={sharing.video.title}
+              children={sharing.video.content}
+            />
 
             <ContentMaster
               size="md"
               titleTag="h3"
-              title="Social Media"
-            >
-              Share your Hacktoberfest experience on social media! Use the official hashtag #hacktoberfest10 and tell others about your favorite contributions, any swag you've received in the past (share a pic!), or a particularly memorable hack.
-            </ContentMaster>
+              title={sharing.social.title}
+              children={sharing.social.content}
+            />
           </DividerRow>
 
           <Divider type="doubledashed" />
@@ -229,21 +344,20 @@ const About = () => {
               <ContentMaster
                 size="md"
                 titleTag="h3"
-                title="Blog post"
+                title={sharing.blog.title}
               />
 
               <ContentMaster
                 size="lg"
-              >
-                If you'd like to write about your experience participating in Hacktoberfest, we encourage you to create a blog post. Our partners at DEV welcome your writings, here are some great examples. You can share how you first heard about Hacktoberfest, how being part of the community has impacted your personal or professional development, and your favorite or most useful hack. Creativity is welcome! Once your blog post is live, let us know by tagging us in your social media posts about it.
-              </ContentMaster>
+                children={sharing.blog.content}
+              />
             </StyledBlogSection>
           </Section>
 
           <Divider type="doubledashed" />
 
           <HeartCallout>
-            We look forward to hearing from you and seeing how you've been part of the **Hacktoberfest community**!
+            {sharing.cta}
           </HeartCallout>
         </Section>
       </Container>

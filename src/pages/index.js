@@ -23,14 +23,11 @@ import IlloGit from 'assets/img/8bit-git.svg';
 import IlloDiscord from 'assets/img/8bit-discord.svg';
 import IlloBranch from 'assets/img/8bit-branch.svg';
 import IlloPumpkin from 'assets/img/8bit-pumpkin.svg';
-import bgHome from 'assets/img/bg-home.svg';
 import Events from 'components/Events';
 import PixelIntro from 'components/pixels/PixelIntro';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 export const StyledHome = styled.div`
-  /* background: url(${bgHome.src}) no-repeat;
-  background-size: 100% auto; */
   overflow: hidden;
   position: relative;
   isolation: isolate;
@@ -79,7 +76,7 @@ export const StyledHomeBg = styled.div`
       }
     }
   }
-`
+`;
 
 export const StyledHomeCallout = styled.div`
   background: url(${IlloPumpkin.src}) no-repeat;
@@ -114,7 +111,7 @@ const Home = () => {
           callout={{
             title: 'Join other members of the open-source community on the Hacktoberfest Discord.',
             link: {
-              href: '#',
+              href: 'https://discord.gg/hacktoberfest',
               children: 'Join the discord'
             },
             image: {
@@ -135,12 +132,12 @@ const Home = () => {
               links={[
                 {
                   id: 'preptember-link-1',
-                  children: 'Get the event kit',
-                  href: '/'
+                  children: 'Get the Event Kit',
+                  href: '/events#organizers'
                 }, {
                   id: 'preptember-link-2',
-                  children: 'How to participate',
-                  href: '/'
+                  children: 'How to Participate',
+                  href: '/participation'
                 }
               ]}
             >
@@ -173,7 +170,7 @@ const Home = () => {
           <Callout
             link={{
               children: 'Learn more',
-              href: '/'
+              href: '/about#digital-rewards'
             }}>
             **Hacktoberfest has grown from 676 participants in 2014 to nearly 147,000 participants last year. To ensure Hacktoberfest can be sustained for another decade, this year we’re moving away from a free t-shirt reward to a digital reward.**
           </Callout>
@@ -191,8 +188,8 @@ const Home = () => {
             }}
             links={[{
               id: 'spot-card-1',
-              href: '#',
-              children: 'Share your love for hacktoberfest'
+              href: '/about#hacktoberfest-love',
+              children: 'Share your love for Hacktoberfest'
             }]}
           >
             This year we’re celebrating 10 years of open source love and we want to hear your Hacktoberfest story!
@@ -204,8 +201,8 @@ const Home = () => {
             }}
             links={[{
               id: 'spot-card-2',
-              href: '#',
-              children: 'MLH Global hack week'
+              href: 'https://ghw.mlh.io/events/open-source',
+              children: 'MLH Global Hack Week'
             }]}
           >
             We’re teaming up with Major League Hacking for Global Hack Week! Join the Hacktoberfest Guild, win daily challenges!
@@ -222,7 +219,8 @@ const Home = () => {
             size="xl"
             title="Events All Month Long"
             cta={{
-              href: "#",
+              size: 'lg',
+              href: "/events",
               children: 'Learn more'
             }}
           >
@@ -244,19 +242,19 @@ const Home = () => {
         <Divider type="pixel" />
 
         <SupportSection
-          title="Events all month long"
+          title="Support Open Source"
           callout={{
             title: 'You have skills that can help keep these projects continue running—let’s get to it.',
             link: {
-              href: '#',
+              href: '/donate',
               children: 'Donate to open source projects'
             },
             image: {
               src: IlloBranch.src,
               alt: ''
             }
-          }}>
-          Join forces in virtual and in-person events to get your pull/merge requests done as a team, learn new skills, and meet lifelong friends.
+        }}>
+          Open source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.
         </SupportSection>
       </Container>
     </StyledHome>

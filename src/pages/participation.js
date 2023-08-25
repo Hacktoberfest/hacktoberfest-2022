@@ -16,8 +16,6 @@ import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints
 
 import Divider from 'components/Divider';
 import Section from 'components/Section';
-import Hero from 'components/Hero';
-import { PixelPus } from 'components/pixels';
 import DorknamicIsland from 'components/dorknamic-island';
 import Container from 'components/Container';
 import ContentMaster from 'components/ContentMaster';
@@ -30,9 +28,11 @@ import Note from 'components/Note';
 import IlloPencil from 'assets/img/8bit-pencil.svg';
 import HeroSecondary from 'components/HeroSecondary';
 import PixelComputer2023 from 'components/pixels/PixelComputer2023';
+import React from 'react';
 
 const StyledPRDetails = styled.div`
   margin: 16px 0 0;
+
   ${mQ(bp.desktop)} {
     margin: 32px 0 0;
   }
@@ -62,16 +62,16 @@ const Participation = () => {
   return (
     <>
       <Head>
-        <title>Participation | Hacktoberfest 2022</title>
+        <title>Participation | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Participation | Hacktoberfest 2022"
+          content="Participation | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Participation | Hacktoberfest 2022"
+          content="Participation | Hacktoberfest 2023"
         />
       </Head>
 
@@ -82,7 +82,7 @@ const Participation = () => {
         <a href="#pr-mr-details">pr-mr-details</a>
         <a href="#spam">Spam</a>
         <a href="#maintainers">Maintainers</a>
-        <a href="#faqs">low-or-non-code</a>
+        <a href="#low-or-non-code">low-or-non-code</a>
       </DorknamicIsland>
 
       <HeroSecondary
@@ -98,11 +98,11 @@ const Participation = () => {
       />
 
       <Container>
-        <Section>
+        <Section id="values">
           <StyledValues>
             <ContentMaster size="lg" eyebrow={`[${values.title}]`} />
             {values.sections.map(value => (
-              <ContentSide>
+              <ContentSide key={value.title}>
                 <ContentMaster size="lg" title={value.title} />
                 <ContentMaster size="md">
                   {value.content}
@@ -116,7 +116,7 @@ const Participation = () => {
       </Container>
 
       <Container inner>
-        <Section>
+        <Section id="contributors">
           <StyledSpacer>
             <ContentMaster
               size="xl"
@@ -135,7 +135,7 @@ const Participation = () => {
 
       <Container>
         <Divider type="doubledashed" />
-        <Section small>
+        <Section id="beginner-resources" small>
           <ContentSide>
             <ContentMaster
               size="xl"
@@ -168,7 +168,7 @@ const Participation = () => {
       </Container>
 
       <Container inner>
-        <Section>
+        <Section id="pr-mr-details">
           <ContentMaster
             size="xl"
             title={prMrDetails.title}
@@ -177,9 +177,8 @@ const Participation = () => {
           </ContentMaster>
           <StyledPRDetails>
             {prMrDetails.sections.map((section, index) => (
-              <>
+              <React.Fragment key={section.title}>
                 <Accordion
-                  key={section.title}
                   title={section.title}
                   subtitle={section.subtitle}
                   collapsed
@@ -191,7 +190,7 @@ const Participation = () => {
                 {prMrDetails.sections.length !== (index + 1) && (
                   <Divider />
                 )}
-              </>
+              </React.Fragment>
             ))}
           </StyledPRDetails>
         </Section>
@@ -202,7 +201,7 @@ const Participation = () => {
       </Container>
 
       <Container inner>
-        <Section>
+        <Section id="spam">
           <ContentMaster
             size="xl"
             title={spam.title}
@@ -211,9 +210,8 @@ const Participation = () => {
           </ContentMaster>
           <StyledPRDetails>
             {spam.sections.map((section, index) => (
-              <>
+              <React.Fragment key={section.title}>
                 <Accordion
-                  key={section.title}
                   title={section.title}
                   subtitle={section.subtitle}
                   collapsed
@@ -228,7 +226,7 @@ const Participation = () => {
                 {spam.sections.length !== (index + 1) && (
                   <Divider />
                 )}
-              </>
+              </React.Fragment>
             ))}
           </StyledPRDetails>
         </Section>
@@ -237,7 +235,7 @@ const Participation = () => {
       <Container>
         <Divider type="pixel" />
 
-        <Section>
+        <Section id="maintainers">
           <StyledSpacer>
             <div style={{maxWidth: '1020px'}}>
               <ContentMaster
@@ -257,11 +255,11 @@ const Participation = () => {
 
         <Divider type="pixel" />
 
-        <Section>
+        <Section id="low-or-non-code">
           <div style={{maxWidth: '1020px'}}>
             <ContentMaster
               size="xl"
-              title="Low or Non-Code Contributions"
+              title="Low or Non Code Contributions"
             >
               At its core, Hacktoberfest aims to encourage more individuals to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don't involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year's effort, we're committed to promoting contributions that don't require technical knowledge.
             </ContentMaster>
@@ -273,7 +271,7 @@ const Participation = () => {
         <Section small>
           <ContentSide>
             <ContentMaster size="xl">
-              Low-code and non-code contributions are an excellent way to get involved in supporting open source. Here are some examples of ways you can contribute to open-source projects:
+              [Low-code and non-code contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source) are an excellent way to get involved in supporting open source. Here are some examples of ways you can contribute to open-source projects:
             </ContentMaster>
             <ContentMaster
               size="md"
@@ -308,7 +306,7 @@ const Participation = () => {
               'Social media',
               'Blog posts',
               'Video production',
-              'Graphic design',
+              'Graphic design'
             ]}
           />
         </Section>
@@ -337,9 +335,8 @@ const Participation = () => {
           </ContentMaster>
           <StyledPRDetails>
             {faqs.sections.map((section, index) => (
-              <>
+              <React.Fragment key={section.title}>
                 <Accordion
-                  key={section.title}
                   title={section.title}
                   subtitle={section.subtitle}
                   collapsed
@@ -351,7 +348,7 @@ const Participation = () => {
                 {faqs.sections.length !== (index + 1) && (
                   <Divider />
                 )}
-              </>
+              </React.Fragment>
             ))}
           </StyledPRDetails>
         </Section>

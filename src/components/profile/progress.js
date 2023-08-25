@@ -222,7 +222,7 @@ const Progress = ({ auth }) => {
         {giftCodes.tshirt ? (
           <Notification title="Rewards: Prize Kit" color="surf" linkColor="spark">
             <p>
-              Congratulations on completing Hacktoberfest 2022! You’ve been
+              Congratulations on completing Hacktoberfest 2023! You’ve been
               awarded a prize kit for your participation – t-shirts are
               available for the first 40,000 participants that complete
               Hacktoberfest, and you can always have a tree planted in your
@@ -246,7 +246,7 @@ const Progress = ({ auth }) => {
         ) : (auth.registration.state.state.includes('contributor') && (
           <Notification title="Rewards: Prize Kit" color="surf" linkColor="spark">
             <p>
-              Congratulations on completing Hacktoberfest 2022! It looks like
+              Congratulations on completing Hacktoberfest 2023! It looks like
               we’re all out of prizes to allocate for now (the first 40,000
               participants to complete Hacktoberfest were eligible this year).
               Keep an eye on your profile though, as we may allocate more
@@ -258,7 +258,7 @@ const Progress = ({ auth }) => {
         {giftCodes['dev-badge'] && (
           <Notification title="Rewards: DEV Badge" color="surf" linkColor="spark">
             <p>
-              Congratulations on completing Hacktoberfest 2022!
+              Congratulations on completing Hacktoberfest 2023!
               You've been awarded a badge from DEV for your participation
               that you can show off on your DEV profile.
             </p>
@@ -276,11 +276,11 @@ const Progress = ({ auth }) => {
               , and then head to
               {' '}
               <a
-                href="https://shop.forem.com/products/dev-hacktoberfest-badge-2022"
+                href="https://shop.forem.com/products/dev-hacktoberfest-badge-2023"
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                https://shop.forem.com/products/dev-hacktoberfest-badge-2022
+                https://shop.forem.com/products/dev-hacktoberfest-badge-2023
               </a>
               {' '}
               to redeem your code.

@@ -16,8 +16,7 @@ import {
   StyledHeaderLink,
   StyledHeaderToggle
 } from './Header.styles';
-import Button from 'components/button';
-import { Bug } from 'components/logo';
+
 import hacktoberfestLogo from 'assets/img/logo-hacktoberfest--horizontal.svg';
 import ButtonMain from 'components/ButtonMain';
 

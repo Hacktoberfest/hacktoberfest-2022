@@ -1,3 +1,4 @@
+import ButtonMain from 'components/ButtonMain';
 import { StyledButtonMain } from 'components/ButtonMain/ButtonMain.styles';
 import styled, { keyframes } from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
@@ -105,7 +106,7 @@ export const StyledMobileWrapper = styled.div`
   transition: 0.5s ease;
   visibility: hidden;
   width: 100%;
-  z-index: 100;
+  z-index: 500;
 
   &[aria-selected='true'] {
     opacity: 1;
@@ -117,6 +118,9 @@ export const StyledMobileContainer = styled.div`
   max-width: 1328px;
   margin: 0 auto;
   padding: 0 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const StyledMobileNav = styled.div`
@@ -125,12 +129,19 @@ export const StyledMobileNav = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 48px 0;
+  flex-grow: 1;
 
   a {
     display: block;
     width: 100%;
     padding: 16px 0;
     border-bottom: 1px solid ${({ theme }) => theme.colors.neutral.manga300};
+  }
+
+  ${StyledButtonMain} {
+    margin-top: auto;
+    text-align: center;
+    border-bottom: 0;
   }
 `;
 

@@ -3,9 +3,9 @@ import {
 } from './Section.styles';
 
 const Section = props => {
-  const { children, small } = props;
+  const { children, id, small } = props;
   return (
-    <StyledSection $small={small}>
+    <StyledSection id={id} $small={small}>
       {children}
     </StyledSection>
   );

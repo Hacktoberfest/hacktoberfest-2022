@@ -22,9 +22,9 @@ const Logout = () => {
   return (
     <>
       <Head>
-        <title>Logout | Hacktoberfest 2022</title>
-        <meta name="twitter:title" key="twitterTitle" content="Logout | Hacktoberfest 2022" />
-        <meta property="og:title" key="opengraphTitle" content="Logout | Hacktoberfest 2022" />
+        <title>Logout | Hacktoberfest 2023</title>
+        <meta name="twitter:title" key="twitterTitle" content="Logout | Hacktoberfest 2023" />
+        <meta property="og:title" key="opengraphTitle" content="Logout | Hacktoberfest 2023" />
       </Head>
 
       <Section type="sub_content">

@@ -5,7 +5,7 @@ export const values = {
       title: 'Everyone is welcome',
       collapsible: true,
       collapsed: true,
-      content: 'Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome everyone who\'s already part of the open-source software community, and anyone who is interested in diving in.',
+      content: 'Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome anyone who is interested in diving in, and everyone who\'s already part of the open-source software community.',
     },
     {
       title: 'Quantity is fun, quality is key',
@@ -31,8 +31,8 @@ export const contributors = {
         'Register anytime between **September 26** and **October 31**',
         'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
-        'Have 4 pull/merge requests accepted between October 1 and October 31 to complete Hacktoberfest',
-        'The first 40,000 participants (maintainers and contributors) who complete Hacktoberfest can elect to receive one of two prizes: a tree planted in their name, or the Hacktoberfest 2022 t-shirt.',
+        'The first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through Tree Nation',
+        'Participants with four pull/merge requests accepted between October 1 and October 31 will receive a unique digital reward',
       ],
     },
   ],
@@ -88,10 +88,8 @@ export const prMrDetails = {
       subtitle: 'out-of-bounds',
       items: [
         {
-          content: 'Your PR/MRs must be created between **October 1** and **October 31** (in any time zone, UTC-12 thru UTC+14).',
-        },
-        {
-          content: 'Your PR/MRs must be made to a public, unarchived repository.',
+          content: 'Your PR/MRs must be created between **October 1** and **October 31** (in any time zone, UTC-12 thru UTC+14).\n\n' +
+          'Your PR/MRs must be made to a public, unarchived repository.',
         },
       ],
     },
@@ -109,19 +107,13 @@ export const prMrDetails = {
       subtitle: 'spam',
       items: [
         {
-          content: 'PR/MRs that are labeled with a label containing the word “**spam**” by maintainers will not be counted.',
-          items: [
-            'We use the Node.js 16 RegEx engine with `/\\bspam\\b/i` to look for spam labels.',
-            'PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.',
-            'PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.',
-          ],
-        },
-        {
-          content: 'PR/MRs that our system detects as spammy will also not be counted.',
-        },
-        {
-          content: 'Any user with two or more spammy PR/MRs will be disqualified.',
-        },
+          content: 'PR/MRs that are labeled with a label containing the word “**spam**” by maintainers will not be counted.\n\n' +
+          ' - We use the Node.js 16 RegEx engine with `/\\bspam\\b/i` to look for spam labels.\n' +
+          ' - PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.\n' +
+          ' - PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.\n\n' +
+          'PR/MRs that our system detects as spammy will also not be counted.\n\n' +
+          'Any user with two or more spammy PR/MRs will be disqualified.'
+        }
       ],
     },
     {
@@ -129,11 +121,9 @@ export const prMrDetails = {
       subtitle: 'participating',
       items: [
         {
-          content: 'Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.',
-        },
-        {
-          content: 'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).',
-        },
+          content: 'Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.\n\n' +
+          'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).',
+        }
       ],
     },
     {
@@ -141,10 +131,8 @@ export const prMrDetails = {
       subtitle: 'invalid',
       items: [
         {
-          content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.',
-          items: [
-            'Specifically, we use the Node.js 16 RegEx engine with `/\\binvalid\\b/i` to look for invalid labels.',
-          ],
+          content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n\n' +
+          'Specifically, we use the Node.js 16 RegEx engine with **`/\\binvalid\\b/i`** to look for invalid labels.',
         },
       ],
     },
@@ -153,21 +141,17 @@ export const prMrDetails = {
       subtitle: 'accepted',
       items: [
         {
-          content: 'Your PR/MR must not be a draft to be considered accepted.',
-        },
-        {
-          content: 'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.',
+          content: 'Your PR/MR must not be a draft to be considered accepted.\n\n' +
+          'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.',
         },
       ],
     },
     {
-      title: 'Once your PR/MRs pass all the checks above, it will be accepted for Hacktoberfest after the 7-day review period.',
+      title: 'Once your PR/MRs pass all the checks above, it will be accepted for Hacktoberfest after the seven day review period.',
       items: [
         {
-          content: 'We continually evaluate all of the checks except the **[participating]** check. If it fails any of these checks during this time, the 7-day timer will reset. ',
-        },
-        {
-          content: 'After the 7-day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. Once accepted for Hacktoberfest, we stop checking. :party:',
+          content: 'We continually evaluate all of the checks except the **[participating]** check. If it fails any of these checks during this time, the seven day timer will reset.\n\n' +
+          'After the seven day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. Once accepted for Hacktoberfest, we stop checking. :party:',
         },
       ],
     },
@@ -176,7 +160,7 @@ export const prMrDetails = {
 
 export const spam = {
   title: 'Measures to Reduce Spam',
-  content: 'Hacktoberfest is best without spam. To reduce the number of spammy requests contributors make, we empower maintainers to label pull/merge requests as “spam” at their own discretion, all pull/merge requests you submit must be approved by project maintainer, and repos that try to game the system will be excluded from Hacktoberfest.',
+  content: 'To ensure quality contributions to Hacktoberfest, we empower maintainers to label pull/merge requests as “spam” at their own discretion, all pull/merge requests you submit must be approved by the project maintainer, and repos that try to game the system will be excluded from Hacktoberfest.',
   sections: [
     {
       title: 'Spammy pull/merge requests will be labeled as “spam.”',
@@ -190,7 +174,7 @@ export const spam = {
       title: 'Pull/merge requests must be approved by a maintainer.',
       items: [
         {
-          content: 'Maintainers accept PR/MRs by merging them, labeling them “hacktoberfest-accepted,” or giving them an overall approving review. Accepted PR/MRs enter a 7-day review window, during which approval can be revoked by the maintainer or by our team.',
+          content: 'Maintainers accept PR/MRs by merging them, labeling them “hacktoberfest-accepted,” or giving them an overall approving review. Accepted PR/MRs enter a seven day review window, during which approval can be revoked by the maintainer or by our team.',
         }
       ]
     },
@@ -198,9 +182,8 @@ export const spam = {
       title: 'Bad repositories will be excluded.',
       items: [
         {
-          content: 'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n' +
-            '\n' +
-            'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
+          content: 'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n\n' +
+          'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
         }
       ]
     },
@@ -208,14 +191,12 @@ export const spam = {
       title: 'Avoid submitting low-quality pull/merge requests.',
       items: [
         {
-          content: 'Hacktoberfest is about contributing meaningfully to open-source projects. Here are some examples of low-quality pull/merge requests that won’t count towards Hacktoberfest.\n' +
-            '\n' +
-            ' - Automated pull/merge requests: scripted opening pull requests to remove whitespace, fix typos or optimize images.\n' +
-            ' - Disruptive pull/merge requests: taking someone else\'s branch/commits and making a pull request.\n' +
-            ' - Anything that a project maintainer flags as spam.\n' +
-            ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
-            '\n' +
-            'Multiple pull/merge requests for the same issue that are unnecessary -for example five PR/MRs to remove a stray whitespace is not.\n',
+          content: 'Hacktoberfest is about contributing meaningfully to open-source projects. Here are some examples of low-quality pull/merge requests that won’t count towards Hacktoberfest.\n\n' +
+          ' - Automated pull/merge requests: scripted opening pull requests to remove whitespace, fix typos or optimize images.\n' +
+          ' - Disruptive pull/merge requests: taking someone else\'s branch/commits and making a pull request.\n' +
+          ' - Anything that a project maintainer flags as spam.\n' +
+          ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
+          ' - Multiple pull/merge requests for the same issue that are unnecessary, for example five PR/MRs to remove a stray whitespace.',
         }
       ]
     },
@@ -239,7 +220,7 @@ export const maintainers = {
     },
     {
       title: 'Reward for Maintainers',
-      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2022 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
+      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2023 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
         '\n' +
         ' - Merge unique PR/MRs\n' +
         ' - Provide an approving review of a PR/MR\n' +
@@ -263,7 +244,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'You will receive an email once your t-shirt is shipped. Due to ongoing COVID-related disruptions and supply chain constraints we cannot guarantee a ship date, but estimate that all t-shirts will be shipped by the end of 2022.\n' +
+          content: 'You will receive an email once your t-shirt is shipped. Due to ongoing COVID-related disruptions and supply chain constraints we cannot guarantee a ship date, but estimate that all t-shirts will be shipped by the end of 2023.\n' +
             '\n' +
             'T-shirts (or the option to plant a tree) will be awarded on a first-come, first-served basis to the first 40,000 participants who successfully complete the Hacktoberfest challenge.',
         }
@@ -287,7 +268,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'This year, we expanded our unisex t-shirt offering to two types: dark and light mode. To print two different types of t-shirt, we had to streamline the process by selecting a single t-shirt style. The t-shirt style we chose for 2022 is a tighter, more tailored fit than the t-shirts of previous years and falls somewhere between a unisex fit and a women’s fit.\n' +
+          content: 'This year, we expanded our unisex t-shirt offering to two types: dark and light mode. To print two different types of t-shirt, we had to streamline the process by selecting a single t-shirt style. The t-shirt style we chose for 2023 is a tighter, more tailored fit than the t-shirts of previous years and falls somewhere between a unisex fit and a women’s fit.\n' +
             'Would you prefer that we bring back the women’s fit t-shirt option? [Let us know](mailto:hacktoberfest@digitalocean.com)!',
         }
       ]
@@ -426,9 +407,8 @@ export const faqs = {
   ],
 };
 
-
 export const note = {
   content: '**Note:** If you\'re submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution. Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n' +
   '\n' +
-  '**For Maintainers:** How to attract low or non-code contributions.'
+  '**For Maintainers:** [How to attract low or non-code contributions](https://www.youtube.com/live/Z7ppp_DrxyM?feature=share).'
 }

@@ -11,14 +11,10 @@ import Section from 'components/Section';
 import Loader from 'components/loader';
 import Settings from 'components/profile/settings';
 import Type from 'components/type';
-// import { FauxHero } from 'components/Hero';
-import { PixelFirework1, PixelFirework2 } from 'components/pixels';
 
 import useAuth from 'hooks/useAuth';
 import Button, { StyledButtonGroup } from '../components/button';
 import { registrationEnd, registrationStart } from '../lib/config';
-
-// import { StyledAnimations } from './index';
 
 const loadAvi = () => keyframes`
   to {
@@ -121,16 +117,16 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>Register | Hacktoberfest 2022</title>
+        <title>Register | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Register | Hacktoberfest 2022"
+          content="Register | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Register | Hacktoberfest 2022"
+          content="Register | Hacktoberfest 2023"
         />
       </Head>
 
@@ -192,29 +188,6 @@ const Register = () => {
                   height={256}
                 />
               </StyledAvatar>
-              <div>
-                <PixelFirework1
-                  width="840"
-                  scale="1"
-                  timing="1.5"
-                  frames="7"
-                  id="f1"
-                />
-                <PixelFirework2
-                  width="840"
-                  scale="1"
-                  timing="1"
-                  frames="7"
-                  id="f2"
-                />
-                <PixelFirework1
-                  width="840"
-                  scale="1.5"
-                  timing="1.25"
-                  frames="7"
-                  id="f3"
-                />
-              </div>
             </div>
             <Section>
               <Settings auth={auth} />

@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import styled from 'styled-components';
 
 import HeroSecondary from 'components/HeroSecondary';
 import PixelHops from 'components/pixels/PixelHops';
@@ -8,16 +7,16 @@ const FourOFour = () => {
   return (
     <>
       <Head>
-        <title>404 | Hacktoberfest 2022</title>
+        <title>404 | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Report | Hacktoberfest 2022"
+          content="Report | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Report | Hacktoberfest 2022"
+          content="Report | Hacktoberfest 2023"
         />
       </Head>
 

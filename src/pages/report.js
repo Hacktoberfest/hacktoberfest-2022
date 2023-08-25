@@ -1,15 +1,11 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import Link from 'next/link';
 import Head from 'next/head';
 
-import { providerMap, registrationEnd, registrationStart, trackingEnd } from 'lib/config';
+import { providerMap, trackingEnd } from 'lib/config';
 import { createExcludedRepository } from 'lib/api';
 
-import Anchor from 'components/anchor';
-import Divider from 'components/Divider';
 import Section from 'components/Section';
 import Loader from 'components/loader';
-import Button from 'components/button';
 import Form from 'components/form';
 
 import useAuth from 'hooks/useAuth';
@@ -92,9 +88,9 @@ const Report = () => {
   return (
     <>
       <Head>
-        <title>Report | Hacktoberfest 2022</title>
-        <meta name="twitter:title" key="twitterTitle" content="Report | Hacktoberfest 2022" />
-        <meta property="og:title" key="opengraphTitle" content="Report | Hacktoberfest 2022" />
+        <title>Report | Hacktoberfest 2023</title>
+        <meta name="twitter:title" key="twitterTitle" content="Report | Hacktoberfest 2023" />
+        <meta property="og:title" key="opengraphTitle" content="Report | Hacktoberfest 2023" />
       </Head>
 
       <HeroSecondary

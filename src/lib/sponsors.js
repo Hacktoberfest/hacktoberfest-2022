@@ -40,7 +40,7 @@ const sponsors = {
     },
     {
       name: 'RapidAPI',
-      url: 'https://rapidapi.com/learn?utm_source=DevRel&utm_medium=hacktoberfest&utm_campaign=2022',
+      url: 'https://rapidapi.com/learn?utm_source=DevRel&utm_medium=hacktoberfest&utm_campaign=2023',
       image: rapidapi.src,
       scaleFactor: 1,
       verticalOffset: 0,

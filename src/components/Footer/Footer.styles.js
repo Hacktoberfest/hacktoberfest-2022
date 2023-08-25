@@ -31,8 +31,8 @@ export const StyledFooterLogo = styled.div`
   flex-direction: column;
   gap: 32px;
 
-  .badge {
-    margin: 0 0 32px;
+  img {
+    max-width: 203px;
   }
 
   p {

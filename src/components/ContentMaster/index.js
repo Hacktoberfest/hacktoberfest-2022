@@ -50,7 +50,7 @@ const ContentMaster = props => {
       {list && (
         <StyledContentMasterList $columns={listColumns}>
           {list.map(item => (
-            <MarkdownInline string={item} as="li" />
+            <MarkdownInline key={item} string={item} as="li" />
           ))}
         </StyledContentMasterList>
       )}
