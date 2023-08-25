@@ -85,7 +85,9 @@ const Hero = props => {
                   })}
                 </StyledCountdownLoadingContainer>
               </StyledCountdownLoading>
-              <ButtonMain href="#">Register now!</ButtonMain>
+              {hasRegistration && (
+                <ButtonMain href="/auth">Register now!</ButtonMain>
+              )}
             </>
           )}
           {hasRegistrationEnded && (
