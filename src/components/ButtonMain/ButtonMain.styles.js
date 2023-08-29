@@ -10,6 +10,7 @@ export const StyledButtonMain = styled.a`
   border-radius: 16px;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.neutral.manga300};
+  transition: box-shadow 300ms ease-in-out;
 
   ${({ $size }) => $size === 'lg' && body20};
   ${({ $size }) => $size === 'lg' && `

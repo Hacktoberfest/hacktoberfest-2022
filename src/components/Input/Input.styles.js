@@ -1,6 +1,6 @@
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
-import { body20, headline32 } from 'themes/typography';
+import { body20 } from 'themes/typography';
 
 export const StyledInput = styled.input`
   ${body20};

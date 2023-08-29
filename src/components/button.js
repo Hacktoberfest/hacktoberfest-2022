@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 const shimmerAnimation = () => keyframes`
   to {
@@ -9,8 +10,14 @@ const shimmerAnimation = () => keyframes`
 
 export const StyledButtonGroup = styled.div`
   display: flex;
-  flex-flow: row wrap;
-  gap: 16px;
+  flex-flow: column;
+  gap: 8px;
+  justify-content: ${({$align}) => $align ? $align : 'flex-start'};
+
+  ${mQ(bp.tablet)} {
+    flex-direction: row;
+    gap: 16px;
+  }
 `;
 
 export const StyledButton = styled.button`
@@ -24,7 +31,7 @@ export const StyledButton = styled.button`
   &.wrapper_special {
     filter: ${(props) => props.theme.glowLiteDS};
   }
-  
+
   &:disabled {
     cursor: not-allowed;
     opacity: 0.8;
@@ -32,18 +39,18 @@ export const StyledButton = styled.button`
 
   &:not(:disabled) {
     cursor: pointer;
-    
+
     &:hover {
       filter: ${(props) => props.theme.glowLiteDS};
     }
-    
+
     .btn {
       &:active {
         transform: scale(0.95);
       }
     }
   }
-  
+
   .btn {
     background: ${(props) =>
       props.theme[props.color_bg] || props.color_bg || props.theme.text};
@@ -83,11 +90,11 @@ props
     &:hover {
       transform: rotate(2deg);
     }
-  
+
     &:active {
       transform: scale(0.95) rotate(2deg);
     }
-  
+
     &:hover svg {
       opacity: 0.8;
       transform: translateX(50px) scale(2);

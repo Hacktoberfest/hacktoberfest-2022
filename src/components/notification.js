@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { body24, headline32 } from 'themes/typography';
 
 const StyledNotification = styled.div`
@@ -10,12 +10,12 @@ const StyledNotification = styled.div`
   border-radius: 24px;
 
   h2 {
-    margin: 0 0 16px;
+    margin: 0 0 48px;
     ${headline32};
   }
 
   p {
-    margin: 0 0 4px;
+    margin: 0 0 32px;
     ${body24};
 
     &:last-child {
@@ -23,18 +23,16 @@ const StyledNotification = styled.div`
     }
   }
 
-  ${(props) => props.linkColor && props.theme[props.linkColor] && css`
-    a {
-      color: ${(props) => props.theme[props.linkColor]};
-      text-decoration: none;
+  a {
+    color: ${({$color}) => $color};
+    text-decoration: none;
 
-      &:hover,
-      &:focus {
-        color: ${(props) => props.theme[props.linkColor]};
-        text-decoration: underline;
-      }
+    &:hover,
+    &:focus {
+      color: ${({$color}) => $color};
+      text-decoration: underline;
     }
-  `}
+  }
 `;
 
 const Notification = ({ title, children, color, linkColor = null }) => (
