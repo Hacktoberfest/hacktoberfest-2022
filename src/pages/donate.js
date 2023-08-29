@@ -67,7 +67,7 @@ export const StyledSearch = styled.div`
   input {
     padding: 16px 24px;
     width: 100%;
-    color: ${(props) => props.theme.text};
+    color: ${({theme}) => theme.colors.neutral.manga200};
     ${body20};
     border-radius: 16px;
     border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
@@ -81,7 +81,7 @@ export const StyledSearch = styled.div`
     }
 
     &::placeholder {
-      color: ${(props) => props.theme.text};
+      color: ${({theme}) => theme.colors.neutral.manga200};
     }
   }
 `;

@@ -14,13 +14,14 @@ import Settings from 'components/profile/settings';
 import Type from 'components/type';
 
 import useAuth from 'hooks/useAuth';
-import { StyledButtonGroup } from '../components/button';
+
 import { registrationEnd, registrationStart } from '../lib/config';
 import Divider from 'components/Divider';
 import Container from 'components/Container';
 import Frame from 'components/Frame';
 import { StyledAvatar } from 'components/Avatar/Avatar.styles';
 import ButtonMain from 'components/ButtonMain';
+import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
 
 export const StyledHeader = styled.div`
   display: flex;

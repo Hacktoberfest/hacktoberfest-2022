@@ -1,40 +1,4 @@
 import { createGlobalStyle } from 'styled-components';
-import grainDark from 'assets/img/grain-dark.png';
-import grainLite from 'assets/img/grain-lite.png';
-import vanguardHeavyEot from 'assets/fonts/vanguardcf-heavy.eot';
-import vanguardHeavyWoff from 'assets/fonts/vanguardcf-heavy.woff';
-import vanguardHeavyWoff2 from 'assets/fonts/vanguardcf-heavy.woff2';
-import vanguardHeavyObliqueEot from 'assets/fonts/vanguardcf-heavyoblique.eot';
-import vanguardHeavyObliqueWoff from 'assets/fonts/vanguardcf-heavyoblique.woff';
-import vanguardHeavyObliqueWoff2 from 'assets/fonts/vanguardcf-heavyoblique.woff2';
-
-export const darkTheme = {
-  body: '#170F1E',
-  text: '#E5E1E6',
-  spark: '#FFD74D',
-  surf: '#40DDFF',
-  psybeam: '#7C7FFF',
-  giga: '#B4FF39',
-  holoShadow: 'rgba(60, 0, 206, 1)',
-  blendMode: 'darken',
-  bgGrain: `url(${grainDark.src})`,
-  glowLite:
-    '-1px -1px 6px rgba(255, 215, 77, 0.6), 1px 1px 6px rgba(124, 127, 255, 0.6)',
-  glowLiteDS:
-    'drop-shadow(-1px -1px 2px rgba(255, 215, 77, 0.6)) drop-shadow(1px 1px 2px rgba(124, 127, 255, 0.6))',
-};
-
-export const liteTheme = {
-  body: '#E5E1E6',
-  text: '#170F1E',
-  spark: '#FFC700',
-  surf: '#32DAFF',
-  psybeam: '#5759FF',
-  giga: '#B4FF39',
-  holoShadow: 'rgba(60, 0, 206, 0.3)',
-  blendMode: 'lighten',
-  bgGrain: `url(${grainLite.src})`,
-};
 
 export const mainTheme = {
   colors: {
@@ -83,8 +47,7 @@ export const mainTheme = {
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${({ theme }) => theme.colors.neutral.void200};
-    /* background-image: ${(props) => props.theme.bgGrain}; */
-    color: ${(props) => props.theme.text};
+    color: ${({theme}) => theme.colors.neutral.manga200};
   }
 
   h1, h2, h3, h4, h5, h6, p, label {
@@ -92,35 +55,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${(props) => props.theme.surf};
+    color: ${({theme}) => theme.colors.bavarian.blue200};
     transition: color 0.2s ease;
 
     &:hover,
     &:focus-visible {
-      color: ${(props) => props.theme.psybeam};
+      color: ${({theme}) => theme.colors.bavarian.blue300};
     }
-  }
-
-  @font-face {
-    font-display: swap;
-    font-family: 'Vanguard';
-    font-style: normal;
-    font-weight: 900;
-    src:
-      url(${vanguardHeavyEot}) format('embedded-opentype'),
-      url(${vanguardHeavyWoff2}) format('woff2'),
-      url(${vanguardHeavyWoff}) format('woff');
-  }
-
-  @font-face {
-    font-display: swap;
-    font-family: 'Vanguard';
-    font-style: italic;
-    font-weight: 900;
-    src:
-      url(${vanguardHeavyObliqueEot}) format('embedded-opentype'),
-      url(${vanguardHeavyObliqueWoff2}) format('woff2'),
-      url(${vanguardHeavyObliqueWoff}) format('woff');
   }
 `;
 

@@ -7,7 +7,7 @@ import iconLite from 'assets/img/icon-lite.svg';
 
 import { fetchUserAvatars } from 'lib/api';
 
-import { StyledButtonGroup } from 'components/button';
+
 import Loader from 'components/loader';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
@@ -23,6 +23,7 @@ import ButtonMain from 'components/ButtonMain';
 import Divider from 'components/Divider';
 import bgProfile from 'assets/img/bg-profile.svg';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
 
 const opacityFade = () => keyframes`
   to {

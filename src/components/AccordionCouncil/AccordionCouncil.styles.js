@@ -114,7 +114,7 @@ export const StyledAccordion = styled.details`
 
       &:hover {
         &::before {
-          color: ${(props) => props.theme.psybeam};
+          color: ${({theme}) => theme.colors.bavarian.blue200};
           letter-spacing: 1px;
           text-indent: 1px;
           animation: none;

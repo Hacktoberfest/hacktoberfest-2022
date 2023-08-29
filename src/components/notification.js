@@ -35,8 +35,8 @@ const StyledNotification = styled.div`
   }
 `;
 
-const Notification = ({ title, children, color, linkColor = null }) => (
-  <StyledNotification $color={color} linkColor={linkColor}>
+const Notification = ({ title, children, color }) => (
+  <StyledNotification $color={color}>
     <h2>{title}</h2>
     {children}
   </StyledNotification>

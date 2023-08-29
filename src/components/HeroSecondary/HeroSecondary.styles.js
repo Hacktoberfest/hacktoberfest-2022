@@ -40,7 +40,7 @@ export const StyledHeroSecondary = styled.div`
     position: absolute;
     bottom: 0;
     left: 0;
-    color: ${(props) => props.theme.text};
+    color: ${({theme}) => theme.colors.neutral.manga200};
     font-size: 16px;
     line-height: 1;
     font-weight: 500;

@@ -56,3 +56,15 @@ export const StyledButtonMain = styled.a`
     }
   }
 `;
+
+export const StyledButtonGroup = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: 8px;
+  justify-content: ${({$align}) => $align ? $align : 'flex-start'};
+
+  ${mQ(bp.tablet)} {
+    flex-direction: row;
+    gap: 16px;
+  }
+`;

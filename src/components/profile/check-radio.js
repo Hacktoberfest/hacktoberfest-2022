@@ -23,7 +23,7 @@ export const StyledLabel = styled.label`
       width: 16px;
       height: 16px;
       flex-shrink: 0;
-      accent-color: #33B6D8;
+      accent-color: ${({theme}) => theme.colors.bavarian.blue200};
     }
 
     > p {
@@ -47,7 +47,7 @@ export const StyledLabel = styled.label`
 
       &:hover,
       &:focus {
-        color: ${(props) => props.theme.surf};
+        text-decoration: none;
       }
     }
   }

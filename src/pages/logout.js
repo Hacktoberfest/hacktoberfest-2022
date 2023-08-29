@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
-import Anchor from 'components/anchor';
 import Divider from 'components/Divider';
 import Section from 'components/Section';
 import Loader from 'components/loader';
@@ -29,7 +28,6 @@ const Logout = () => {
 
       <Section type="sub_content">
         <Divider />
-        <Anchor href="#" />
         <Loader message=">> Loading /usr/lib/logout..." />
       </Section>
     </>
