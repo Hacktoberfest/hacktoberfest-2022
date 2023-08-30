@@ -16,18 +16,18 @@ const sponsors = {
       verticalOffset: 0,
     },
     {
-      name: 'Appwrite',
-      url: 'https://hacktoberfest.appwrite.io/',
-      image: appwrite.src,
-      scaleFactor: 1,
-      verticalOffset: 0,
-    },
-    {
       name: 'Illa',
       url: '/',
       image: illa.src,
       scaleFactor: 0.875,
       verticalOffset: 2,
+    },
+    {
+      name: 'Appwrite',
+      url: 'https://hacktoberfest.appwrite.io/',
+      image: appwrite.src,
+      scaleFactor: 1,
+      verticalOffset: 0,
     },
   ],
   supported: [
