@@ -163,7 +163,7 @@ export const resources = {
         '- Share the event via email, social networks, and events websites. Consider posting on channels that are popular with developers and open source enthusiasts in your area, such as Meetup, Eventbrite, Twitter, etc..\n' +
         '- Tag [@hacktoberfest](https://twitter.com/hacktoberfest), #hacktoberfest, #hacktoberfest2023, #hacktoberfest10\n' +
         '- Use these example posts for inspiration:\n' +
-        '  - "Happy about Hacktoberfest? So are we! Register to hack with us on [DATE!]"\n' +
+        '  - "Happy about Hacktoberfest? So are we! Register to hack with us on [DATE]!"\n' +
         '  - "Don’t hack alone. Join us on [DATE] to meet a few community members and get help on your pull requests!"\n' +
         '  - "I just donated to the open-source community, it’s your turn!"\n' +
         '  - "Learning how to code or just interested in open source? Sign up to share your skills!"',

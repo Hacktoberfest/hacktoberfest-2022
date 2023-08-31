@@ -13,7 +13,7 @@ const TextLink = props => {
 
   return (
     <Link {...link} passHref>
-      <StyledTextLink $size={size}>
+      <StyledTextLink {...link} $size={size}>
         <span>{children}</span>
         <StyledTextLinkArrow aria-hidden>
           <span>›</span>
