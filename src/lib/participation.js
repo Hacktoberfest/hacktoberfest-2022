@@ -233,7 +233,7 @@ export const maintainers = {
 
 export const faqs = {
   title: 'FAQs',
-  content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum rhoncus metus id lacus interdum faucibus. Cras rutrum diam non egestas porttitor. Quisque nisi nisi, gravida ut turpis et, dignissim dignissim sapien.',
+  content: null,
   sections: [
     {
       title: 'Do I get a reward for participating?',
@@ -354,7 +354,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'No, pull/merge requests for Hacktoberfest do not need to be attached to a [\\*\\*hacktoberfest\\*\\* issue](https://github.com/search?l=&o=desc&q=label%3Ahacktoberfest+state%3Aopen&s=updated&type=Issues).',
+          content: 'No, pull/merge requests for Hacktoberfest do not need to be attached to a [**hacktoberfest** issue](https://github.com/search?l=&o=desc&q=label%3Ahacktoberfest+state%3Aopen&s=updated&type=Issues).',
         }
       ]
     },
@@ -376,8 +376,8 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'You can politely request that the maintainer of the project you contributed to tag your contribution with the label \\*\\*hacktoberfest-accepted\\*\\* . Or, add the \'hacktoberfest\' topic to the repository to opt the project into Hacktoberfest.\n\n' +
-          'Any pull/merge request with the \\*\\*hacktoberfest-accepted\\*\\* label, submitted to any public GitHub/GitLab repository, with or without the hacktoberfest topic, will be considered valid for Hacktoberfest.',
+          content: 'You can politely request that the maintainer of the project you contributed to tag your contribution with the label **hacktoberfest-accepted** . Or, add the \'hacktoberfest\' topic to the repository to opt the project into Hacktoberfest.\n\n' +
+          'Any pull/merge request with the **hacktoberfest-accepted** label, submitted to any public GitHub/GitLab repository, with or without the hacktoberfest topic, will be considered valid for Hacktoberfest.',
         }
       ]
     },
@@ -471,8 +471,8 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'For Hacktoberfest, pull/merge requests on GitHub/GitLab will not be counted until they are marked as \\*\\*ready for review\\*\\*:  Those marked as \\*\\*draft\\*\\* will not be counted.\n\n' +
-          'Please make sure to mark any draft pull requests as \\*\\*ready for review\\*\\* so that project maintainers can merge them.',
+          content: 'For Hacktoberfest, pull/merge requests on GitHub/GitLab will not be counted until they are marked as **ready for review**:  Those marked as **draft** will not be counted.\n\n' +
+          'Please make sure to mark any draft pull requests as **ready for review** so that project maintainers can merge them.',
         }
       ]
     },
@@ -494,7 +494,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'If a maintainer labels your pull/merge request as \\*\\*invalid\\*\\* or \\*\\*spam\\*\\*, but you don’t believe this is correct, please begin a conversation with the maintainer of the PR and respectfully explain your position. Understand that it is ultimately up to the maintainer whether or not they think your PR/MR is legitimate, and you should respect their decision after discussing it with them.',
+          content: 'If a maintainer labels your pull/merge request as **invalid** or **spam**, but you don’t believe this is correct, please begin a conversation with the maintainer of the PR and respectfully explain your position. Understand that it is ultimately up to the maintainer whether or not they think your PR/MR is legitimate, and you should respect their decision after discussing it with them.',
         }
       ]
     },
@@ -528,7 +528,7 @@ export const faqs = {
       items: [
         {
           content: 'First, classify your repository with the \'hacktoberfest\' topic. This will let participants know that your repo is participating in Hacktoberfest.\n\n' +
-          'You can also create issues for anything you’d like contributors to help with, and you can add labels like \\*\\*good first issue\\*\\* and \\*\\*help wanted\\*\\* so they’re easier to discover.',
+          'You can also create issues for anything you’d like contributors to help with, and you can add labels like **good first issue** and **help wanted** so they’re easier to discover.',
         }
       ]
     },
@@ -539,7 +539,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'We dislike seeing spam pull/merge requests just as much as you, so please give them a \\*\\*spam\\*\\* label and close them. Pull/merge requests that have a label containing the word \\*\\*spam\\*\\* won’t be counted toward Hacktoberfest, and participants with two or more PR/MRs identified as spam will be disqualified.',
+          content: 'We dislike seeing spam pull/merge requests just as much as you, so please give them a **spam** label and close them. Pull/merge requests that have a label containing the word **spam** won’t be counted toward Hacktoberfest, and participants with two or more PR/MRs identified as spam will be disqualified.',
         }
       ]
     },
@@ -561,7 +561,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'Hacktoberfest is an opt-in system for maintainers. Repositories must have the \\*\\*hacktoberfest\\*\\* topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the \\*\\*hacktoberfest-accepted\\*\\* label. Any repository without the \\*\\*hacktoberfest\\*\\* topic, and not using the label, is automatically excluded, no action required. ',
+          content: 'Hacktoberfest is an opt-in system for maintainers. Repositories must have the **hacktoberfest** topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the **hacktoberfest-accepted** label. Any repository without the **hacktoberfest** topic, and not using the label, is automatically excluded, no action required. ',
         }
       ]
     },
