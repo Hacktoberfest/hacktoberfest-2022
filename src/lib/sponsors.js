@@ -17,7 +17,7 @@ const sponsors = {
     },
     {
       name: 'Illa',
-      url: '/',
+      url: 'https://www.illacloud.com/',
       image: illa.src,
       scaleFactor: 0.875,
       verticalOffset: 2,

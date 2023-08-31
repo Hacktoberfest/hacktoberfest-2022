@@ -129,7 +129,12 @@ export const StyledAccordion = styled.details`
     padding: 48px 0 0;
 
     p {
+      margin: 0 0 24px;
       ${body20};
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
 
     li {

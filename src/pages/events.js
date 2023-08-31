@@ -91,9 +91,13 @@ const Events = () => {
               title: 'Global Events',
               children: 'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether your event is in-person, virtual or a combination of both, make sure you let the community know about it! Set up and share your Hacktoberfest event with the community.  Register for a Major League Hacking account and start creating your event today!',
               links: [{
-                id: 'global-event-link',
-                href: '/',
-                children: 'Set up, publish and announce your Hacktoberfest Event'
+                id: 'global-event-link-1',
+                href: 'https://organize.mlh.io/host/hacktoberfest-2023',
+                children: 'Create New Event'
+              }, {
+                id: 'global-event-link-2',
+                href: 'https://events.mlh.io/series/hacktoberfest-2023',
+                children: 'View All Events'
               }]
             }}
           />
@@ -220,13 +224,13 @@ const Events = () => {
           >
             {resources.sections[3].content}
           </ContentMaster>
-          <ContentMaster
+          {/* <ContentMaster
             size="md"
             title={resources.sections[4].title}
             titleTag="h3"
           >
             {resources.sections[4].content}
-          </ContentMaster>
+          </ContentMaster> */}
         </DividerRow>
 
         <Divider type="doubledashed" />

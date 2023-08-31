@@ -42,7 +42,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    Twitter
+                    X (Twitter)
                   </a>
                 </li>
                 <li>
@@ -109,7 +109,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    Twitter
+                    X (Twitter)
                   </a>
                 </li>
                 <li>
@@ -119,6 +119,15 @@ const Footer = () => {
                     rel="noreferrer noopener"
                   >
                     Reddit
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.digitalocean.com/open-source/hacktoberfest#open-source-stay-up-to-date"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Email
                   </a>
                 </li>
               </ul>

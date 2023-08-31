@@ -18,7 +18,7 @@ import SupportSection from 'components/SupportSection';
 
 import Section from 'components/Section';
 
-import IlloComputer from 'assets/img/8bit-computer.svg';
+import IlloMLH from 'assets/img/logo-MLH.svg';
 import IlloGit from 'assets/img/8bit-git.svg';
 import IlloDiscord from 'assets/img/8bit-discord.svg';
 import IlloBranch from 'assets/img/8bit-branch.svg';
@@ -172,7 +172,7 @@ const Home = () => {
               children: 'Learn more',
               href: '/about#digital-rewards'
             }}>
-            **Hacktoberfest has grown from 676 participants in 2014 to nearly 147,000 participants last year. To ensure Hacktoberfest can be sustained for another decade, this year we’re moving away from a free t-shirt reward to a digital reward.**
+            **Hacktoberfest has grown from 676 participants in 2014 to nearly 147,000 participants last year. To help ensure Hacktoberfest can be sustained for another decade, this year we’re moving away from a free t-shirt reward to a digital reward.**
           </Callout>
         </Section>
       </StyledHomeCallout>
@@ -196,7 +196,10 @@ const Home = () => {
           </SpotCard>
           <SpotCard
             image={{
-              src: IlloComputer.src,
+              style: {
+                objectFit: 'contain'
+              },
+              src: IlloMLH.src,
               alt: ''
             }}
             links={[{
@@ -227,14 +230,10 @@ const Home = () => {
             Join forces in virtual and in-person events to get your pull/merge requests done as a team, learn new skills, and meet lifelong friends. This year we’re partnering with Major League Hacking to help the community connect.
           </ContentMaster>
 
-          <Events
+          {/* <Events
             title="Event_Info.exe"
             events={events}
-            link={{
-              href: '/events',
-              children: 'See all events'
-            }}
-          />
+          /> */}
         </Section>
       </Container>
 

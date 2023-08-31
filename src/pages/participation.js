@@ -10,6 +10,7 @@ import {
   maintainers,
   faqs,
   note,
+  lowNoCode,
 } from 'lib/participation';
 
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
@@ -83,6 +84,7 @@ const Participation = () => {
         <a href="#spam">Spam</a>
         <a href="#maintainers">Maintainers</a>
         <a href="#low-or-non-code">low-or-non-code</a>
+        <a href="#faq">FAQ</a>
       </DorknamicIsland>
 
       <HeroSecondary
@@ -259,10 +261,9 @@ const Participation = () => {
           <div style={{maxWidth: '1020px'}}>
             <ContentMaster
               size="xl"
-              title="Low or Non Code Contributions"
-            >
-              At its core, Hacktoberfest aims to encourage more individuals to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don't involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year's effort, we're committed to promoting contributions that don't require technical knowledge.
-            </ContentMaster>
+              title={lowNoCode.title}
+              children={lowNoCode.content}
+            />
           </div>
         </Section>
 
@@ -326,7 +327,7 @@ const Participation = () => {
       </Container>
 
       <Container inner>
-        <Section>
+        <Section id="faq">
           <ContentMaster
             size="xl"
             title={faqs.title}

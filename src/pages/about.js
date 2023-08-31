@@ -33,6 +33,7 @@ import HeartCallout from 'components/HeartCallout';
 import PixelHearts from 'components/pixels/PixelHearts';
 import AccordionSponsor from 'components/AccordionSponsor';
 import { headline48 } from 'themes/typography';
+import Wistia from 'components/Wistia';
 
 const StyledCouncilMembers = styled.div`
   display: flex;
@@ -131,7 +132,7 @@ const About = () => {
             {intro.content}
           </ContentMaster>
 
-          <YouTube id="BDUtORDL_k4" title="Open Source is Counting on You! Answer the Call, at Hacktoberfest 2023" />
+          <Wistia id="3vikqzhoj5" />
         </Section>
 
         <Section id="lore">

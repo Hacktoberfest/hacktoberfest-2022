@@ -34,7 +34,7 @@ export const lore = {
 
 export const digitalRewards = {
   title: 'Going Digital for Rewards',
-  content: 'In its tenth year, we\'re making important changes to Hacktoberfest to ensure its sustainability for the next decade. Most notably, we will be moving away from the t-shirt rewards we have previously provided to a digital reward kit.\n\n' +
+  content: 'In its tenth year, we\'re making important changes to Hacktoberfest to help ensure its sustainability for the next decade. Most notably, we will be moving away from the t-shirt rewards we have previously provided to a digital reward kit.\n\n' +
   'Although we know Hacktoberfest t-shirts are loved by the community, producing over 50,000 t-shirts and shipping them around the world has become logistically challenging. Even with the support of external sponsors, almost all of the program’s operating budget in past years has been allocated towards these physical rewards. Furthermore, we’ve run into challenges in many countries with participants being required to pay customs taxes and import duty fees which often exceed the value of the gift itself.\n\n' +
   'Our commitment remains unwavering towards Hacktoberfest\'s primary mission of supporting open source projects. After carefully considering various options for this year and the future, we are excited to introduce an exclusive digital reward kit in partnership with Holopin. We believe that even without t-shirt rewards, the developer community will continue to come together in the same spirit of Hacktoberfest that they’ve always shown.\n\n' +
   'The new digital reward kit will include a customizable badge that evolves with each pull/merge request accepted by maintainers, representing the participant\'s journey in open-source and Hacktoberfest. Additionally, winners will receive unique badges featuring a delightful surprise and gifts from sponsors. To celebrate their success, participants will also be able to share their winner’s badge on the Holopin Hacktoberfest Badge Board of Fame.\n\n' +
@@ -115,6 +115,15 @@ export const council = [
 ];
 
 export const founders = [
+  {
+    image: foundersIlla.src,
+    title: 'DigitalOcean',
+    content: 'DigitalOcean simplifies cloud computing so businesses can spend more time creating software that changes the world. With its mission-critical infrastructure and fully managed offerings, DigitalOcean helps developers at startups and small and medium-sized businesses (SMBs) rapidly build, deploy and scale, whether creating a digital presence or building digital products. DigitalOcean combines the power of simplicity, security, community and customer support so customers can spend less time managing their infrastructure and more time building innovative applications that drive business growth. For more information, visit [digitalocean.com](http://digitalocean.com/).',
+    link: {
+      href: 'http://digitalocean.com',
+      title: 'Visit DigitalOcean'
+    },
+  },
   {
     image: foundersIlla.src,
     title: 'ILLA Cloud',
@@ -201,9 +210,9 @@ export const partners = [
   }, {
     image: partnersGithub.src,
     title: 'GitHub',
-    content: '',
+    content: 'As the global home for all developers, GitHub is the complete developer platform to build, scale, and deliver secure software. Over 100 million people, including developers from 90 of the Fortune 100 companies, use GitHub to build amazing things together. With all the collaborative features of GitHub, it\'s never been easier for individuals and teams to write faster, better code.',
     link: {
-      href: 'https://github.com',
+      href: 'https://gh.io/gh-hacktoberfest',
       title: 'Visit GitHub'
     },
   }, {
@@ -255,6 +264,14 @@ export const partners = [
       href: 'https://dagshub.com/lp/hacktoberfest-2023?utm_source=digital_ocean&utm_medium=website&utm_campaign=hacktoberfest_2023',
       title: 'Visit Hugging Face'
     },
+  }, {
+    image: '',
+    title: 'Paperspace',
+    content: 'Paperspace, a leading provider of cloud infrastructure for highly scalable GPU-accelerated applications, is [now part of DigitalOcean](https://www.digitalocean.com/blog/paperspace-joins-digitalocean). Paperspace brings a host of new compute potential to DigitalOcean’s offerings, which means you get even more reliability and a platform from which to access cloud GPU-powered machines for nearly any task. Get the power to train deep learning models, build next-gen applications, and run resource-intensive projects like Stable Diffusion or LLaMA—the future is at your fingertips with [Paperspace by DigitalOcean](http://paperspace.com/?utm_medium=referral&utm_source=hacktoberfest).',
+    link: {
+      href: 'https://www.paperspace.com/?utm_medium=referral&utm_source=hacktoberfest',
+      title: 'Visit Paperspace'
+    },
   }
 ]
 
@@ -263,7 +280,7 @@ export const sharing = {
   share: {
     title: 'Share your Hacktoberfest 🩷',
     content: 'Hacktoberfest is an open-source celebration that brings people together from all over the world to make a positive impact on open source. If you’ve had an experience that started with Hacktoberfest and led to something bigger, we would love to hear and share your story. We’ll pick some of the stories we receive to share with the community. Pictures, videos, and links are encouraged!\n\n' +
-    'Share your Hacktoberfest story with us. We might feature you! [Story submissions](https://bit.ly/HF10-share-the-love) form.'
+    'Share your Hacktoberfest story with us. We might feature you! [Story submissions](https://bit.ly/HF10-share-the-love).'
   },
   video: {
     title: 'Video',
@@ -271,7 +288,7 @@ export const sharing = {
   },
   social: {
     title: 'Social Media',
-    content: 'Share your Hacktoberfest experience on social media! Use the official hashtag #hacktoberfest10 and tell others about your favorite contributions, any swag you\'ve received in the past (share a pic!), or a particularly memorable hack.',
+    content: 'Share your Hacktoberfest experience on social media! Use the official hashtag #hacktoberfest, #hacktoberfest10, or #hacktoberfest2023 and tell others about your favorite contributions, any swag you\'ve received in the past (share a pic!), or a particularly memorable hack.',
   },
   blog: {
     title: 'Blog Post',
