@@ -5,6 +5,7 @@ import mason from 'assets/img/council/mason.jpg';
 
 import foundersIlla from 'assets/img/founders/illa.png';
 import foundersAppwrite from 'assets/img/founders/appwrite.png';
+import foundersDigitalOcean from 'assets/img/founders/digitalocean.png';
 
 import contributorsAmplication from 'assets/img/contributors/amplication.png';
 
@@ -20,6 +21,7 @@ import partnersGithub from 'assets/img/partners/github.png';
 import partnersGithubEducation from 'assets/img/partners/github_education.png';
 import partnersDev from 'assets/img/partners/dev.png';
 import partnersDagshub from 'assets/img/partners/dagshub.png';
+import partnersPaperspace from 'assets/img/partners/paperspace.png';
 
 export const intro = {
   title: 'Video [10th Anniversary]',
@@ -116,7 +118,7 @@ export const council = [
 
 export const founders = [
   {
-    image: foundersIlla.src,
+    image: foundersDigitalOcean.src,
     title: 'DigitalOcean',
     content: 'DigitalOcean simplifies cloud computing so businesses can spend more time creating software that changes the world. With its mission-critical infrastructure and fully managed offerings, DigitalOcean helps developers at startups and small and medium-sized businesses (SMBs) rapidly build, deploy and scale, whether creating a digital presence or building digital products. DigitalOcean combines the power of simplicity, security, community and customer support so customers can spend less time managing their infrastructure and more time building innovative applications that drive business growth. For more information, visit [digitalocean.com](http://digitalocean.com/).',
     link: {
@@ -265,7 +267,7 @@ export const partners = [
       title: 'Visit Hugging Face'
     },
   }, {
-    image: '',
+    image: partnersPaperspace.src,
     title: 'Paperspace',
     content: 'Paperspace, a leading provider of cloud infrastructure for highly scalable GPU-accelerated applications, is [now part of DigitalOcean](https://www.digitalocean.com/blog/paperspace-joins-digitalocean). Paperspace brings a host of new compute potential to DigitalOcean’s offerings, which means you get even more reliability and a platform from which to access cloud GPU-powered machines for nearly any task. Get the power to train deep learning models, build next-gen applications, and run resource-intensive projects like Stable Diffusion or LLaMA—the future is at your fingertips with [Paperspace by DigitalOcean](http://paperspace.com/?utm_medium=referral&utm_source=hacktoberfest).',
     link: {
