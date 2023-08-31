@@ -85,6 +85,8 @@ export const StyledSponsorsListTitle = styled.h2`
   ${headline48};
 `;
 
+const colors = ['gold', 'blue', 'red'];
+
 const About = () => {
   return (
     <>
@@ -182,6 +184,7 @@ const About = () => {
               <AccordionCouncil
                 key={member.name}
                 filled
+                frame={colors[(Math.floor(Math.random() * colors.length))]}
                 image={{
                   src: member.image,
                   alt: `Profile image of ${member.name}`
@@ -224,13 +227,11 @@ const About = () => {
             {founders.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
+                frame={colors[(Math.floor(Math.random() * colors.length))]}
                 image={{ src: item.image, alt: '' }}
                 imageRotatation={ index % 2 ? 'left' : 'right' }
                 title={item.title}
-                link={{
-                  href: item.link.href,
-                  children: item.link.title
-                }}
+                link={{children: item.link.title, ...item.link}}
                 children={item.content}
                 collapsed
               />
@@ -245,13 +246,11 @@ const About = () => {
             {contributors.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
+                frame={colors[(Math.floor(Math.random() * colors.length))]}
                 image={{ src: item.image, alt: '' }}
                 imageRotatation={ index % 2 ? 'left' : 'right' }
                 title={item.title}
-                link={{
-                  href: item.link.href,
-                  children: item.link.title
-                }}
+                link={{children: item.link.title, ...item.link}}
                 children={item.content}
                 collapsed
               />
@@ -266,13 +265,11 @@ const About = () => {
             {sustainer.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
+                frame={colors[(Math.floor(Math.random() * colors.length))]}
                 image={{ src: item.image, alt: '' }}
                 imageRotatation={ index % 2 ? 'left' : 'right' }
                 title={item.title}
-                link={{
-                  href: item.link.href,
-                  children: item.link.title
-                }}
+                link={{children: item.link.title, ...item.link}}
                 children={item.content}
                 collapsed
               />
@@ -287,13 +284,11 @@ const About = () => {
             {partners.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
+                frame={colors[(Math.floor(Math.random() * colors.length))]}
                 image={{ src: item.image, alt: '' }}
                 imageRotatation={ index % 2 ? 'left' : 'right' }
                 title={item.title}
-                link={{
-                  href: item.link.href,
-                  children: item.link.title
-                }}
+                link={{children: item.link.title, ...item.link}}
                 children={item.content}
                 collapsed
               />

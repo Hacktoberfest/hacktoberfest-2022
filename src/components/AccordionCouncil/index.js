@@ -14,6 +14,7 @@ import Frame from 'components/Frame';
 const AccordionCouncil = props => {
   const {
     filled,
+    frame,
     image,
     imageRotatation = 'left',
     bgImage,
@@ -30,14 +31,12 @@ const AccordionCouncil = props => {
   useEffect(() => setOpen(!collapsed), [collapsed]);
   const toggle = useCallback((evt) => setOpen(evt.target.open), []);
 
-  const colors = ['gold', 'blue', 'red'];
-
   return (
     <StyledAccordion $isFilled={filled} open={open} onToggle={toggle}>
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
           <StyledAccordionImageWrapper $bgImage={bgImage}>
-            <Frame color={colors[(Math.floor(Math.random() * colors.length))]} />
+            <Frame color={frame} />
             <StyledAccordionImage $rotate={imageRotatation}>
               <img {...image} />
             </StyledAccordionImage>

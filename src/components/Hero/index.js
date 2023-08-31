@@ -10,7 +10,8 @@ import {
   StyledCountdownHeader,
   StyledCountdownLoading,
   StyledCountdownLoadingContainer,
-  StyledCountdownLoadingItem
+  StyledCountdownLoadingItem,
+  StyledCountdownLoadingBorder
 } from './Hero.styles';
 
 import useCountdown from 'hooks/useCountdown';
@@ -79,6 +80,22 @@ const Hero = props => {
                 </StyledCountdownItem>
               </StyledCountdown>
               <StyledCountdownLoading>
+                <StyledCountdownLoadingBorder>
+                  <svg viewBox="0 0 474 36" preserveAspectRatio="none">
+                    <rect
+                          x=".5"
+                          y=".5"
+                          width="473"
+                          height="35"
+                          rx="8"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeDasharray="6,6"
+                          vectorEffect="non-scaling-stroke"
+                    />
+                  </svg>
+                </StyledCountdownLoadingBorder>
                 <StyledCountdownLoadingContainer>
                   {Array.from(Array(progressBarSegments), (el, i) => {
                     return <StyledCountdownLoadingItem key={i} $complete={i < progressBarPercentage} />

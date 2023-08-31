@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   StyledAccordion,
   StyledAccordionImage,
@@ -8,7 +8,6 @@ import {
 } from './AccordionSponsor.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
-import { useTheme } from 'styled-components';
 import Frame from 'components/Frame';
 import TextLink from 'components/TextLink';
 
@@ -16,6 +15,7 @@ const AccordionSponsor = props => {
   const {
     filled,
     image,
+    frame,
     imageRotatation = 'left',
     bgImage,
     title,
@@ -29,14 +29,12 @@ const AccordionSponsor = props => {
   useEffect(() => setOpen(!collapsed), [collapsed]);
   const toggle = useCallback((evt) => setOpen(evt.target.open), []);
 
-  const colors = ['gold', 'blue', 'red'];
-
   return (
     <StyledAccordion $isFilled={filled} open={open} onToggle={toggle}>
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
           <StyledAccordionImageWrapper $bgImage={bgImage}>
-            <Frame color={colors[(Math.floor(Math.random() * colors.length))]} />
+            <Frame color={frame} />
             <StyledAccordionImage $rotate={imageRotatation}>
               <img {...image} />
             </StyledAccordionImage>

@@ -81,14 +81,29 @@ export const StyledCountdownItem = styled.div`
 `;
 
 export const StyledCountdownLoading = styled.div`
-  border: 2px dashed ${({ theme }) => theme.colors.bavarian.gold200};
+  /* border: 2px dashed ${({ theme }) => theme.colors.bavarian.gold200}; */
   border-radius: 8px;
   box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
   padding: 10px;
   margin: 0 0 32px;
+  position: relative;
 
   ${mQ(bp.desktop)} {
     margin: 0 0 48px;
+  }
+`;
+
+export const StyledCountdownLoadingBorder = styled.div`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  color: ${({ theme }) => theme.colors.bavarian.gold200};
+
+  svg {
+    width: 100%;
+    height: 100%;
   }
 `;
 

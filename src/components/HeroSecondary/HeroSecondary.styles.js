@@ -28,6 +28,7 @@ export const StyledHeroSecondary = styled.div`
   background: url(${heroBg.src}) no-repeat;
   background-size: 300% auto;
   background-position: 100% 0;
+  overflow: hidden;
 
   ${mQ(bp.desktop)} {
     background-position: right 0;
@@ -99,6 +100,7 @@ export const StyledHeroSecondaryContent = styled.div`
   flex-direction: column;
   gap: 48px;
   align-items: center;
+  z-index: 5;
 
   ${mQ(bp.desktop)} {
     align-items: flex-start;
@@ -128,5 +130,16 @@ export const StyledHeroSecondaryImage = styled.div`
   ${mQ(bp.desktop)} {
     max-width: 340px;
     margin: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200%;
+    background: radial-gradient(circle at 50% 50%, ${({ theme }) => theme.colors.neutral.void200}, ${({ theme }) => theme.colors.neutral.void200} 40%, transparent 90%);
+    height: 200%;
   }
 `;

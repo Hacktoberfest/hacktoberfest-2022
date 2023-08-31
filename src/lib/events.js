@@ -170,7 +170,7 @@ export const resources = {
     },
     {
       title: 'Logos and branding',
-      content: 'Logos, banners, and more! We kindly ask that you adopt [Hacktoberfest brand guidelines](https://hacktoberfest.com/events/#brand) as you share your meetup/content.',
+      content: 'Logos, banners, and more! We kindly ask that you adopt [Hacktoberfest brand guidelines](/events/#brand) as you share your meetup/content.',
       links: [
         {
           id: 'download-assets-link',

@@ -112,6 +112,8 @@ const Home = () => {
             title: 'Join other members of the open-source community on the Hacktoberfest Discord.',
             link: {
               href: 'https://discord.gg/hacktoberfest',
+              target: '_blank',
+              rel: "noreferrer noopener",
               children: 'Join the discord'
             },
             image: {
@@ -205,6 +207,8 @@ const Home = () => {
             links={[{
               id: 'spot-card-2',
               href: 'https://ghw.mlh.io/events/open-source',
+              target: '_blank',
+              rel: "noreferrer noopener",
               children: 'MLH Global Hack Week'
             }]}
           >

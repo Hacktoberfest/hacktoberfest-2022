@@ -57,6 +57,8 @@ const StyledInit = styled.p`
   font-variant-ligatures: none;
   width: 68px;
   user-select: none;
+  text-transform: uppercase;
+  font-weight: 600;
 
   &:after {
     content: '...';
@@ -69,7 +71,7 @@ const StyledNav = styled.nav`
   visibility: hidden;
   width: 100%;
   height: 0;
-  gap: 24px;
+  gap: 8px;
   justify-content: center;
   flex-flow: row wrap;
   flex-direction: column;
@@ -78,6 +80,7 @@ const StyledNav = styled.nav`
   transition-property: opacity, visibility, height;
 
   ${mQ(bp.desktop)} {
+    gap: 24px;
     flex-direction: row;
   }
 
@@ -90,6 +93,7 @@ const StyledNav = styled.nav`
 
   a {
     ${body16};
+    font-weight: 600;
     color: ${({theme}) => theme.colors.neutral.manga300};
     text-transform: uppercase;
     width: auto;
@@ -106,7 +110,7 @@ const StyledIsland = styled.div`
   width: 200px;
   max-width: 1280px;
   border-radius: 100px;
-  border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+  box-shadow: inset 0 0 0 2px ${({theme}) => theme.colors.neutral.manga400};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -137,7 +141,7 @@ const StyledIsland = styled.div`
 const StyledButton = styled.button`
   align-items: center;
   align-self: flex-end;
-  border: 2px solid ${({theme}) => theme.colors.neutral.manga200};
+  border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
   border-radius: 6px;
   display: none;
   height: 40px;
@@ -159,7 +163,7 @@ const StyledButton = styled.button`
     content: '';
     width: 60%;
     height: 2px;
-    background: ${({theme}) => theme.colors.neutral.manga200};
+    background: ${({theme}) => theme.colors.neutral.manga300};
     z-index: 2;
     transition: 200ms ease;
   }
@@ -244,20 +248,21 @@ const DorknamicIsland = (props) => {
           wrapper.current.style.top = '40px';
           wrapper.current.style.bottom = 'auto';
           hamburger.current.style.display = 'none';
+          island.current.style.padding = '24px 40px';
           setOpen(false);
         } else {
           if (wrapper.current.classList.contains('top') === true) {
             wrapper.current.classList.remove('top'); //position reset
           }
-
           wrapper.current.classList.add('bottom');
           wrapper.current.style.top = 'auto';
           wrapper.current.style.bottom = '40px';
           hamburger.current.style.display = 'flex';
+          island.current.style.padding = '16px';
         }
         island.current.style.borderRadius = '16px';
         island.current.style.width = '100%';
-        island.current.style.padding = '24px 40px';
+
         init.current.style.display = 'none';
         nav.current.style.display = 'flex';
 
@@ -288,7 +293,7 @@ const DorknamicIsland = (props) => {
         }
         island.current.style.borderRadius = '100px';
         island.current.style.width = '200px';
-        island.current.style.padding = '4px 12px';
+        island.current.style.padding = '12px 16px';
         init.current.style.display = 'block';
         nav.current.style.opacity = '0';
         nav.current.style.visibility = 'hidden';

@@ -122,6 +122,8 @@ export const founders = [
     title: 'DigitalOcean',
     content: 'DigitalOcean simplifies cloud computing so businesses can spend more time creating software that changes the world. With its mission-critical infrastructure and fully managed offerings, DigitalOcean helps developers at startups and small and medium-sized businesses (SMBs) rapidly build, deploy and scale, whether creating a digital presence or building digital products. DigitalOcean combines the power of simplicity, security, community and customer support so customers can spend less time managing their infrastructure and more time building innovative applications that drive business growth. For more information, visit [digitalocean.com](http://digitalocean.com/).',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'http://digitalocean.com',
       title: 'Visit DigitalOcean'
     },
@@ -131,6 +133,8 @@ export const founders = [
     title: 'ILLA Cloud',
     content: 'ILLA Cloud is an open source low-code developer tool with AI Agent features.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://bit.ly/3rN5YuG',
       title: 'Visit ILLA Cloud'
     },
@@ -139,6 +143,8 @@ export const founders = [
     title: 'Appwrite',
     content: 'Appwrite is a backend platform for developing Web, Mobile, and Flutter applications. Built with the open source community and optimized for developer experience in the coding languages you love.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'http://hacktoberfest.appwrite.io',
       title: 'Visit Appwrite'
     },
@@ -151,6 +157,8 @@ export const contributors = [
     title: 'Amplication',
     content: 'Amplication is the most flexible open-source backend development platform that saves engineers from repetitive coding tasks and long development cycles. Amplication accelerates development of any application, generating fully-functioning backend in minutes while solving production delaying issues.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'http://www.amplication.com/',
       title: 'Visit Amplication'
     },
@@ -163,6 +171,8 @@ export const sustainer = [
     title: 'Runme',
     content: 'Runme is an open source project that enables devs to run markdown documentation as an interactive runbook, either in VS Code or the terminal. You can also avoid bit-rot by testing your markdown in CI/CD and enjoy a number of integrations to get better UX for the services and infrastructure your repo interfaces with.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://runme.dev/',
       title: 'Visit Runme'
     },
@@ -171,6 +181,8 @@ export const sustainer = [
     title: 'OpenSauced',
     content: 'OpenSauced provides a path to your next contribution. Join the global community of open source developers sharing highlights of their contributions and receiving recommendations for projects to work on.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://opensauced.pizza/',
       title: 'Visit OpenSauced'
     },
@@ -183,8 +195,10 @@ export const partners = [
     title: 'Holographic',
     content: 'Display, share, and issue digital badges for achievements. Showcase on GitHub, LinkedIn, and your favorite socials.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://blog.holopin.io/posts/announcing-hacktoberfest-2023',
-      title: 'Read our blog pos'
+      title: 'Read our blog post'
     },
   }, {
     image: partnersMLH.src,
@@ -195,6 +209,8 @@ export const partners = [
     ' - GHW Open Source landing page: [https://hackp.ac/ghw-opensource](https://hackp.ac/ghw-opensource)\n' +
     ' - GHW Open Source registration page: [https://hackp.ac/ghw-opensource-registration](https://hackp.ac/ghw-opensource-registration)',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://mlh.io/',
       title: 'Visit Major League Hacking'
     },

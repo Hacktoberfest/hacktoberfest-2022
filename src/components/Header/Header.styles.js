@@ -17,8 +17,7 @@ export const StyledHeader = styled.header`
     content: '';
     position: absolute;
     inset: 0;
-    background-color: ${({ theme }) => theme.colors.neutral.void200};
-    opacity: .8;
+    background: linear-gradient(180deg, ${({ theme }) => theme.colors.neutral.void200} 0%, rgba(15, 9, 19, 0) 100%);
   }
 
   ${mQ(bp.desktop)} {

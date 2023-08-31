@@ -16,7 +16,7 @@ const ButtonMain = props => {
     <>
       {as === 'a' ? (
         <Link {...link} passHref>
-          <StyledButtonMain $size={size}>
+          <StyledButtonMain {...link} $size={size}>
             {children}
           </StyledButtonMain>
         </Link>

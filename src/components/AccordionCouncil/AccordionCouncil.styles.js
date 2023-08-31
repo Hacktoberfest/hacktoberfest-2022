@@ -204,6 +204,7 @@ export const StyledAccordionImage = styled.div`
     object-fit: cover;
     border-radius: 16px;
     border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+    background-color: #000;
   }
 `;
 

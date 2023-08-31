@@ -297,7 +297,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](https://hacktoberfest.com/about/#digital-rewards).'
+          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).'
         }
       ]
     },
@@ -388,7 +388,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'Please visit the [Hacktoberfest Events page](https://hacktoberfest.com/events/) to learn how to host a Hacktoberfest event.\n\n' +
+          content: 'Please visit the [Hacktoberfest Events page](/events/) to learn how to host a Hacktoberfest event.\n\n' +
           'To create your event visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)',
         }
       ]
@@ -401,7 +401,7 @@ export const faqs = {
       items: [
         {
           content: 'Yes. To create your event and share it globally, visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)\n\n' +
-          'Check out the [Hacktoberfest Events](https://hacktoberfest.com/events/) page for more information.',
+          'Check out the [Hacktoberfest Events](/events/) page for more information.',
         }
       ]
     },
@@ -448,7 +448,7 @@ export const faqs = {
         {
           content: 'Yes! We encourage all kinds of events - whether they are virtual, in-person or a hybrid.\n\n' +
           'If you do want to hold an in-person event, there are a few things to note:\n\n' +
-          ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Organizer Event Kit](https://hacktoberfest.com/events/#organizers) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
+          ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Organizer Event Kit](/events/#organizers) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
           ' - Please follow the advisory guidelines of your state and local governments about gatherings in person.',
         }
       ]

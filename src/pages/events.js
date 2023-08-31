@@ -104,7 +104,7 @@ const Events = () => {
             }}
           />
 
-          <Divider type="doubledashed" />
+          {/* <Divider type="doubledashed" /> */}
         </Section>
       </Container>
 
@@ -235,10 +235,10 @@ const Events = () => {
           </ContentMaster> */}
         </DividerRow>
 
-        <Divider type="doubledashed" />
+        {/* <Divider type="doubledashed" /> */}
       </Container>
 
-      <Container inner>
+      {/* <Container inner>
         <Section id="speakers">
           <ContentMaster
             size="xl"
@@ -247,7 +247,7 @@ const Events = () => {
             Open source experts and community leaders are all in on Hacktoberfest. Find them helping contributors complete their pull/merge requests all month long in events throughout October.
           </ContentMaster>
         </Section>
-      </Container>
+      </Container> */}
 
       <Container>
         <Divider type="pixel" />
@@ -264,6 +264,7 @@ const Events = () => {
               cta: {
                 size: 'lg',
                 target: '_blank',
+                rel: "noreferrer noopener",
                 href: 'https://do.co/hacktoberbrand',
                 children: 'View Brand Guidelines'
               }
