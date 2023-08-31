@@ -222,6 +222,8 @@ export const partners = [
     ' - [https://tree-nation.com/about-us](https://tree-nation.com/about-us)\n' +
     ' - [https://tree-nation.com/why-plant-trees](https://tree-nation.com/why-plant-trees)',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://tree-nation.com/',
       title: 'Visit Tree Nation'
     },
@@ -230,6 +232,8 @@ export const partners = [
     title: 'GitHub',
     content: 'As the global home for all developers, GitHub is the complete developer platform to build, scale, and deliver secure software. Over 100 million people, including developers from 90 of the Fortune 100 companies, use GitHub to build amazing things together. With all the collaborative features of GitHub, it\'s never been easier for individuals and teams to write faster, better code.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://gh.io/gh-hacktoberfest',
       title: 'Visit GitHub'
     },
@@ -239,6 +243,8 @@ export const partners = [
     content: 'At GitHub Education our mission is to empower learners and educators with tools and resources to accelerate learning and develop the next generation of software professionals. From individual student developers to large educational institutions, we offer tailored programs and services, including access to real-world tools, free learning resources, and opportunities to connect with a global community of developers. With GitHub Education, we\'re equipping a generation of future innovators to build the future.\n' +
     ' - [Join GitHub Global Campus!](https://education.github.com/)',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://gh.io/hacktoberfest23',
       title: 'Visit GitHub Education'
     },
@@ -249,6 +255,8 @@ export const partners = [
     ' - [Contribute to GitLab](https://go.gitlab.com/n5kZ02)\n' +
     ' - [Browse the GitLab project](https://go.gitlab.com/eXuRd0)',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://go.gitlab.com/DEBE0y',
       title: 'Visit GitLab'
     },
@@ -258,6 +266,8 @@ export const partners = [
     content: 'DEV is an inclusive community of software developers sharing coding resources and advice. DEV is built on [Forem](https://forem.com/), an open source software we designed to empower communities.\n\n' +
     '[DEV Pro Tools](https://pro.forem.tools/?utm_source=hacktoberfest&utm_medium=hf&utm_campaign=hf2023) unlocks advanced functionality for DEV Organization pages. Organizations can get advanced analytics, exclusive advertising access, and adjustable CTAs on your articles. Access is currently for organizations, with plans to welcome individual accounts later in 2023.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://dev.to/?utm_source=hacktoberfest&utm_medium=hf&utm_campaign=hf2023',
       title: 'Visit DEV'
     },
@@ -266,6 +276,8 @@ export const partners = [
     title: 'DagsHub',
     content: '​​DagsHub is where people build machine learning projects. A centralized platform to host all ML project components such as code, data, models, experiments, annotations, and more with zero DevOps required. Built on top of popular open-source tools, DagsHub does the heavy lifting for you, so you can focus on creating better models.',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://dagshub.com/lp/hacktoberfest-2023?utm_source=digital_ocean&utm_medium=website&utm_campaign=hacktoberfest_2023',
       title: 'Visit DagsHub'
     },
@@ -279,6 +291,8 @@ export const partners = [
     ' - [https://github.com/huggingface/diffusers](https://github.com/huggingface/diffusers)\n' +
     ' - [https://github.com/huggingface/peft](https://github.com/huggingface/peft)',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://dagshub.com/lp/hacktoberfest-2023?utm_source=digital_ocean&utm_medium=website&utm_campaign=hacktoberfest_2023',
       title: 'Visit Hugging Face'
     },
@@ -287,6 +301,8 @@ export const partners = [
     title: 'Paperspace',
     content: 'Paperspace, a leading provider of cloud infrastructure for highly scalable GPU-accelerated applications, is [now part of DigitalOcean](https://www.digitalocean.com/blog/paperspace-joins-digitalocean). Paperspace brings a host of new compute potential to DigitalOcean’s offerings, which means you get even more reliability and a platform from which to access cloud GPU-powered machines for nearly any task. Get the power to train deep learning models, build next-gen applications, and run resource-intensive projects like Stable Diffusion or LLaMA—the future is at your fingertips with [Paperspace by DigitalOcean](http://paperspace.com/?utm_medium=referral&utm_source=hacktoberfest).',
     link: {
+      target: '_blank',
+      rel: "noreferrer noopener",
       href: 'https://www.paperspace.com/?utm_medium=referral&utm_source=hacktoberfest',
       title: 'Visit Paperspace'
     },

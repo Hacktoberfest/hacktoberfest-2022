@@ -259,7 +259,9 @@ const DorknamicIsland = (props) => {
           wrapper.current.style.bottom = '40px';
           hamburger.current.style.display = 'flex';
           island.current.style.padding = '16px';
+          setOpen(true);
         }
+
         island.current.style.borderRadius = '16px';
         island.current.style.width = '100%';
 
