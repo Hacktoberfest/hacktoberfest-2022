@@ -4,6 +4,7 @@ import digitalocean from 'assets/img/sponsors/digitalocean-logo.svg';
 import docker from 'assets/img/sponsors/docker-logo.svg';
 import novu from 'assets/img/sponsors/novu-logo.svg';
 import rapidapi from 'assets/img/sponsors/rapidapi-logo.svg';
+import illa from 'assets/img/sponsors/illa-logo.svg';
 
 const sponsors = {
   presented: [
@@ -15,18 +16,18 @@ const sponsors = {
       verticalOffset: 0,
     },
     {
+      name: 'Illa',
+      url: 'https://www.illacloud.com/',
+      image: illa.src,
+      scaleFactor: 0.875,
+      verticalOffset: 2,
+    },
+    {
       name: 'Appwrite',
       url: 'https://hacktoberfest.appwrite.io/',
       image: appwrite.src,
       scaleFactor: 1,
       verticalOffset: 0,
-    },
-    {
-      name: 'Docker',
-      url: 'https://dockr.ly/3BMyG08',
-      image: docker.src,
-      scaleFactor: 0.875,
-      verticalOffset: 2,
     },
   ],
   supported: [
@@ -39,7 +40,7 @@ const sponsors = {
     },
     {
       name: 'RapidAPI',
-      url: 'https://rapidapi.com/learn?utm_source=DevRel&utm_medium=hacktoberfest&utm_campaign=2022',
+      url: 'https://rapidapi.com/learn?utm_source=DevRel&utm_medium=hacktoberfest&utm_campaign=2023',
       image: rapidapi.src,
       scaleFactor: 1,
       verticalOffset: 0,

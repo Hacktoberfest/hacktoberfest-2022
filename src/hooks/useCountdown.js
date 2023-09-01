@@ -1,3 +1,4 @@
+import { launchDate } from 'lib/config';
 import { useCallback, useEffect, useState } from 'react';
 
 const useCountdown = target => {
@@ -5,9 +6,16 @@ const useCountdown = target => {
   const [hours, setHours] = useState(null);
   const [minutes, setMinutes] = useState(null);
   const [seconds, setSeconds] = useState(null);
+  const [progress, setProgress] = useState(null);
+
+  const currentDate = new Date();
+
+  const progressStart = new Date(launchDate);
+  const progressCurrent = Math.abs(currentDate-progressStart);
+  const progressTotal = Math.abs(target-progressStart);
 
   const setCountdown = useCallback(val => {
-    const diff = Math.max(val - Date.now(), 0);
+    const diff = Math.max(val - currentDate, 0);
     setDays(
       Math.floor(diff / 1000 / 60 / 60 / 24)
         .toString()
@@ -28,11 +36,14 @@ const useCountdown = target => {
         .toString()
         .padStart(2, '0')
     );
+    setProgress(
+      Math.round((progressCurrent/progressTotal)*100)
+    );
   }, []);
 
   useEffect(() => {
     setCountdown(target);
-    if (target < Date.now()) return () => {};
+    if (target < currentDate) return () => {};
 
     const interval = setInterval(() => {
       setCountdown(target);
@@ -40,7 +51,7 @@ const useCountdown = target => {
     return () => clearInterval(interval);
   }, [ setCountdown, target ]);
 
-  return [ days, hours, minutes, seconds ];
+  return [ days, hours, minutes, seconds, progress ];
 };
 
 export default useCountdown;

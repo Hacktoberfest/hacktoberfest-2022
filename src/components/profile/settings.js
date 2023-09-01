@@ -13,12 +13,39 @@ import {
 } from 'lib/api';
 import { providerMap, registrationStart, trackingEnd } from 'lib/config';
 
-import Button, { StyledButtonGroup } from 'components/button';
 import Form from 'components/form';
 import Loader from 'components/loader';
-import Section from 'components/section';
+import Section from 'components/Section';
 
+import styled from 'styled-components';
 import MetadataFields from './metadata-fields';
+import ButtonMain from 'components/ButtonMain';
+import Divider from 'components/Divider';
+import { body20, headline48 } from 'themes/typography';
+
+const StyledFormSectionTitle = styled.h2`
+  ${headline48};
+  margin: 0 0 48px;
+`;
+
+const StyledButtonGroup = styled.div`
+  display: flex;
+  gap: 48px;
+`;
+
+const StyledButtonLink = styled.button`
+  color: ${({theme}) => theme.colors.neutral.manga300};
+  ${body20};
+  text-transform: uppercase;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  span {
+    color: ${({theme}) => theme.colors.bavarian.blue200};
+  }
+`;
 
 const Settings = ({ auth, isEdit = false }) => {
   const router = useRouter();
@@ -294,7 +321,7 @@ const Settings = ({ auth, isEdit = false }) => {
 
   // Render the user's settings
   return (
-    <Section>
+    <>
       <div ref={top} />
 
       {hasTrackingEnded && (
@@ -315,29 +342,45 @@ const Settings = ({ auth, isEdit = false }) => {
         error={error}
       >
         {isEdit && (
-          <fieldset>
-            <StyledButtonGroup>
-              {Object.keys(providerMap).map((provider) => (
-                <Fragment key={provider}>
-                  {oauth[provider] ? (
-                    hasMultipleOAuth && router.query.unlink === 'enabled' ? (
-                      <Button onClick={(e) => unlinkOAuth(e, provider)} type="button" disabled={hasTrackingEnded}>
-                        Unlink {providerMap[provider]} account (@{oauth[provider].providerUsername})
-                      </Button>
+          <>
+            <Section small>
+              <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
+              <StyledButtonGroup>
+                {Object.keys(providerMap).map((provider) => (
+                  <Fragment key={provider}>
+                    {oauth[provider] ? (
+                      hasMultipleOAuth && router.query.unlink === 'enabled' ? (
+                        <StyledButtonLink
+                          onClick={(e) => unlinkOAuth(e, provider)}
+                          type="button"
+                          disabled={hasTrackingEnded}
+                        >
+                          Unlink {providerMap[provider]} account: <span>@{oauth[provider].providerUsername}</span>
+                        </StyledButtonLink>
+                      ) : (
+                        <StyledButtonLink
+                          onClick={(e) => e.preventDefault()}
+                          type="button"
+                          disabled
+                        >
+                          {providerMap[provider]} linked: <span>@{oauth[provider].providerUsername}</span>
+                        </StyledButtonLink>
+                      )
                     ) : (
-                      <Button onClick={(e) => e.preventDefault()} type="button" disabled>
-                        {providerMap[provider]} linked (@{oauth[provider].providerUsername})
-                      </Button>
-                    )
-                  ) : (
-                    <Button onClick={(e) => linkOAuth(e, provider)} type="button" disabled={hasTrackingEnded}>
-                      Link {providerMap[provider]} account
-                    </Button>
-                  )}
-                </Fragment>
-              ))}
-            </StyledButtonGroup>
-          </fieldset>
+                      <StyledButtonLink
+                        onClick={(e) => linkOAuth(e, provider)}
+                        type="button"
+                        disabled={hasTrackingEnded}
+                      >
+                        Link {providerMap[provider]} account
+                      </StyledButtonLink>
+                    )}
+                  </Fragment>
+                ))}
+              </StyledButtonGroup>
+            </Section>
+            <Divider type="doubledashed" />
+          </>
         )}
 
         <MetadataFields
@@ -349,20 +392,30 @@ const Settings = ({ auth, isEdit = false }) => {
           disabled={hasTrackingEnded || submitting}
         />
 
-        <StyledButtonGroup>
+        <StyledButtonGroup $align="center">
           {!isEdit && (
-            <Button onClick={logout}>
+            <ButtonMain
+              size="lg"
+              as="button"
+              onClick={logout}
+            >
               Logout
-            </Button>
+            </ButtonMain>
           )}
           {!!metadata.length && (
-            <Button onClick={submit} type="submit" disabled={hasTrackingEnded || submitting}>
+            <ButtonMain
+              size="lg"
+              as="button"
+              type="submit"
+              disabled={hasTrackingEnded || submitting}
+              onClick={submit}
+            >
               {isEdit ? 'Save' : 'Register'}
-            </Button>
+            </ButtonMain>
           )}
         </StyledButtonGroup>
       </Form>
-    </Section>
+    </>
   );
 };
 

@@ -1,152 +1,60 @@
 import Head from 'next/head';
-import { useMemo, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import { fetchEvents, fetchSpeakers, organize, resources } from 'lib/events';
-import { registrationEnd, registrationStart } from 'lib/config';
+import { organize, organizeDisclaimer, resources } from 'lib/events';
 
-import { ContentSections } from 'components/content';
-import { MarkdownInline } from 'components/markdown';
-import Button from 'components/button';
-import Divider from 'components/divider';
-import Anchor from 'components/anchor';
-import Section from 'components/section';
-import Hero from 'components/hero';
-import { PixelGlobe } from 'components/pixels';
+import Divider from 'components/Divider';
+import Section from 'components/Section';
 import DorknamicIsland from 'components/dorknamic-island';
 
 import eventKitZip from 'assets/event-kit.zip';
+import HeroSecondary from 'components/HeroSecondary';
+import PixelEvents from 'components/pixels/PixelEvents';
+import SpotHeader from 'components/SpotHeader';
+import Container from 'components/Container';
 
-export const StyledEventsListItemEyebrow = styled.div`
-  color: ${(props) => props.theme[props.color] || props.theme.text};
+import IlloDOPumpkin from 'assets/img/8bit-do-pumpkin.svg';
+import IlloShip from 'assets/img/8bit-ship.svg';
+import IlloBeer from 'assets/img/8bit-beer.svg';
+import IlloHacktoberfest from 'assets/img/8bit-hacktoberfest.svg';
+
+import Accordion from 'components/Accordion';
+import ContentMaster from 'components/ContentMaster';
+import DividerRow from 'components/DividerRow';
+
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+
+export const StyledAccordionGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
 `;
 
-export const StyledList = styled.div`
-  margin: 64px 0 0;
-  position: relative;
-`;
+export const StyledPromoteSection = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
 
-export const StyledListItem = styled.div`
-  border-top: 1px solid rgba(229, 225, 230, 0.5);
-  padding: 40px 16px;
-  text-transform: uppercase;
-
-  &::before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    content: '';
-    height: 1px;
-    width: 100%;
-    background: linear-gradient(
-      90deg,
-      ${(props) => props.theme.spark} 0%,
-      ${(props) => props.theme.surf} 50%,
-      ${(props) => props.theme.psybeam} 100%
-    );
-  }
-
-  h3 {
-    margin: 16px 0;
-    font-family: 'JetBrains Mono';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 24px;
-    line-height: 32px;
-  }
-
-  ul {
-    li {
-      display: inline-block;
-      margin: 0 40px 0 0;
-      word-wrap: break-word;
-      max-width: 100%;
-
-      span {
-        font-family: 'JetBrains Mono';
-        font-style: normal;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 24px;
-        opacity: 0.5;
-      }
-    }
+  ${mQ(bp.tablet)} {
+    grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
   }
 `;
 
-export const StyledSubText = styled.p`
-  margin: 32px 0;
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  text-transform: uppercase;
-  color: ${(props) => props.theme.text};
-  opacity: 0.75;
-  text-shadow: ${(props) => props.theme.smallTextShadow};
-`;
-
-export const StyledSearch = styled.input`
-  padding: 16px;
-  width: 100%;
-  height: 56px;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 226, 125, 0.1) 0%,
-    rgba(100, 227, 255, 0.1) 50.52%,
-    rgba(145, 146, 255, 0.1) 100%
-  );
-  border: 1px solid ${(props) => props.theme.text};
-  border-radius: 4px;
-  color: ${(props) => props.theme.text};
-
-  &::placeholder {
-    color: ${(props) => props.theme.text};
-  }
-`;
-
-const typesToColors = {
-  virtual: 'giga',
-  'premium-partner': 'psybeam',
-  community: 'surf',
-  'in-person': 'giga',
-  digitalocean: 'giga',
-};
-
-const Events = ({ events, speakers }) => {
-  const [eventsSearch, setEventsSearch] = useState('');
-  const eventsFiltered = useMemo(
-    () =>
-      events.filter((event) =>
-        event.title.toLowerCase().includes(eventsSearch.toLowerCase())
-        || event.location.toLowerCase().includes(eventsSearch.toLowerCase())
-      ),
-    [events, eventsSearch]
-  );
-
-  const [eventsCount, setEventsCount] = useState(3);
-  const eventsList = useMemo(
-    () => eventsFiltered.slice(0, eventsCount),
-    [eventsFiltered, eventsCount]
-  );
-
-  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
-
+const Events = () => {
   return (
     <>
       <Head>
-        <title>Events | Hacktoberfest 2022</title>
+        <title>Events | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Events | Hacktoberfest 2022"
+          content="Events | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Events | Hacktoberfest 2022"
+          content="Events | Hacktoberfest 2023"
         />
       </Head>
 
@@ -154,207 +62,218 @@ const Events = ({ events, speakers }) => {
         <a href="#events">Events</a>
         <a href="#organizers">Organizers</a>
         <a href="#speakers">Speakers</a>
+        <a href="#resources">Resources</a>
         <a href="#brand">Brand Guidelines</a>
       </DorknamicIsland>
 
-      <Hero
-        h="10"
-        s="10"
-        b="0.5"
-        gradientLeft="#FFDE22"
-        gradientRight="#FF22DD"
+      <HeroSecondary
         title="Events"
-      >
-        <PixelGlobe />
-      </Hero>
+        icon={
+          <PixelEvents
+            width="1020"
+            scale="1"
+            timing="5"
+            frames="3"
+            id="f3"
+          />
+        }
+      />
 
-      <Section type="sub_content" id="events">
-        <Divider />
-        <Anchor href="#events" />
-        <h2>Global Events</h2>
-        <StyledSubText>
-          Hacktoberfest events are happening all month long so you can join your
-          friends day or night, from dusk to dawn, as you work to complete your
-          pull/merge requests.
-        </StyledSubText>
-        {hasRegistrationEnded ? (
-          <StyledList>
-            <p>
-              [ Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended. ]
-              <br/>
-              [ We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}, where we can host even more events! ]
-            </p>
-          </StyledList>
-        ) : (
-          <>
-            <StyledSearch
-              type="text"
-              placeholder="[ Search events... ]"
-              value={eventsSearch}
-              onChange={(e) => setEventsSearch(e.target.value)}
+      <Container>
+        <Section id="events">
+          <SpotHeader
+            image={{
+              src: IlloDOPumpkin.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Global Events',
+              children: 'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether your event is in-person, virtual or a combination of both, make sure you let the community know about it! Set up and share your Hacktoberfest event with the community.  Register for a Major League Hacking account and start creating your event today!',
+              links: [{
+                id: 'global-event-link-1',
+                target: '_blank',
+                href: 'https://organize.mlh.io/host/hacktoberfest-2023',
+                children: 'Create New Event'
+              }, {
+                id: 'global-event-link-2',
+                target: '_blank',
+                href: 'https://events.mlh.io/series/hacktoberfest-2023',
+                children: 'View All Events'
+              }]
+            }}
+          />
+
+          {/* <Divider type="doubledashed" /> */}
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+        <Section id="organizers">
+          <SpotHeader
+            image={{
+              src: IlloShip.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Event Organizers',
+              children: 'Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.',
+              cta: {
+                size: 'lg',
+                href: eventKitZip,
+                children: 'Download the Event Kit'
+              }
+            }}
+          />
+        </Section>
+        <Divider type="pixel" />
+      </Container>
+
+      <Container inner>
+        <Section>
+          <StyledAccordionGroup>
+            <ContentMaster
+              size="xl"
+              title={organize.title}
             />
-            <StyledList>
-              {events.length === 0 && (
-                <p>[ Sorry, there are no events listed currently ]</p>
-              )}
-              {events.length > 0 && eventsList.length === 0 && (
-                <p>[ Sorry, no events matched your search query ]</p>
-              )}
-              {eventsList.map((event) => (
-                <StyledListItem key={event.title}>
-                  {event.type.map((type) => (
-                    <StyledEventsListItemEyebrow
-                      key={type}
-                      color={typesToColors[type.toLowerCase()] || 'surf'}
-                    >
-                      {`[ ${type} ]`}
-                    </StyledEventsListItemEyebrow>
-                  ))}
-                  <h3>{event.title}</h3>
-                  <ul>
-                    <li>
-                      <span>Location:</span> {event.location}
-                    </li>
-                    <li>
-                      <span>Date:</span> {event.date}
-                    </li>
-                    <li>
-                      <span>Time:</span> {event.time}
-                    </li>
-                    <li>
-                      <span>Format:</span> {event.format.join(', ')}
-                    </li>
-                    <li>
-                      <span>RSVP:</span>{' '}
-                      <a
-                        href={event.rsvp}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                      >
-                        {event.rsvp}
-                      </a>
-                    </li>
-                  </ul>
-                </StyledListItem>
+
+            <div>
+              {organize.sections.map((section, index) => (
+                <React.Fragment key={section.title}>
+                  <Accordion
+                    title={section.title}
+                    collapsed
+                  >
+                    {section.items && (
+                    <ContentMaster size="md">
+                      {section.items[0]}
+                    </ContentMaster>
+                    )}
+                  </Accordion>
+                  <Divider />
+                </React.Fragment>
               ))}
-              {eventsCount < eventsFiltered.length && (
-                <Button
-                  special
-                  onClick={() => setEventsCount((count) => count + 3)}
-                >
-                  Load More Events
-                </Button>
-              )}
-            </StyledList>
-          </>
-        )}
-      </Section>
+            </div>
 
-      <Section type="sub_content" id="organizers">
-        <Divider />
-        <Anchor href="#organizers" />
-        <h2>Event Organizers</h2>
-        <p>
-          Here are all the resources you need to plan and host a successful
-          Hacktoberfest event. We encourage virtual events and have included a
-          collection of tips and tricks that will help you keep participants
-          engaged.
-        </p>
-        <Button special as="a" href={eventKitZip}>
-          Download the Kit
-        </Button>
+            <ContentMaster size="xl">
+              {organizeDisclaimer.content}
+            </ContentMaster>
+          </StyledAccordionGroup>
+        </Section>
+      </Container>
 
-        <MarkdownInline string={organize.title} as="h4" />
-        <ContentSections sections={organize.sections} titleAs="h5" />
-        <MarkdownInline string={resources.title} as="h4" />
-        <ContentSections sections={resources.sections} titleAs="h5" />
-      </Section>
+      <Container>
+        <Divider type="pixel" />
+        <Section id="resources">
+          <SpotHeader
+            image={{
+              src: IlloBeer.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              eyebrow: resources.eyebrow,
+              title: resources.title,
+              children: resources.content
+            }}
+          />
+        </Section>
 
-      <Section type="sub_content" id="speakers">
-        <Divider />
-        <Anchor href="#speakers" />
-        <h2>Speakers &amp; Facilitators</h2>
-        <p>
-          Open source experts and community leaders are all in on Hacktoberfest.
-          Find them helping contributors complete their pull/merge requests all
-          month long in events throughout October.
-        </p>
-        {hasRegistrationEnded ? (
-          <StyledList>
-            <p>
-              [ Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended. ]
-              <br/>
-              [ We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}, where we can host even more events! ]
-            </p>
-          </StyledList>
-        ) : (
-          <StyledList>
-            {speakers.map((speaker) => (
-              <StyledListItem key={speaker.name}>
-                <h3>{speaker.name}</h3>
-                <ul>
-                  <li>
-                    <span>Pronouns:</span> {speaker.pronouns}
-                  </li>
-                  <li>
-                    <span>Location:</span> {speaker.location}
-                  </li>
-                  <li>
-                    <span>Company:</span> {speaker.company}
-                  </li>
-                  <li>
-                    <span>Social:</span>{' '}
-                    <a
-                      href={speaker.social}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      {speaker.social.replace(/^https?:\/\//, '')}
-                    </a>
-                  </li>
-                  <li>
-                    <span>Specialization:</span> {speaker.specialization}
-                  </li>
-                </ul>
-              </StyledListItem>
-            ))}
-          </StyledList>
-        )}
-      </Section>
+        <Divider type="doubledashed" />
 
-      <Section type="sub_content" id="brand">
-        <Divider />
-        <Anchor href="#brand" />
-        <h2>Brand Guidelines</h2>
-        <p>
-          If you plan to use the Hacktoberfest brand in promotional material,
-          you’ll need to abide by our brand use guidelines. Access them here and
-          dive in.
-        </p>
-        <Button
-          special
-          as="a"
-          href="https://do.co/hacktoberbrand"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          View the Hacktoberfest Brand Guidelines
-        </Button>
-      </Section>
+        <DividerRow>
+          <ContentMaster
+            size="md"
+            title={resources.sections[0].title}
+            titleTag="h3"
+          >
+            {resources.sections[0].content}
+          </ContentMaster>
+          <ContentMaster
+            size="md"
+            title={resources.sections[1].title}
+            titleTag="h3"
+          >
+            {resources.sections[1].content}
+          </ContentMaster>
+        </DividerRow>
+
+        <Divider type="doubledashed" />
+
+        <Section small>
+          <StyledPromoteSection>
+            <ContentMaster
+              size="md"
+              title={resources.sections[2].title}
+              titleTag="h3"
+            />
+            <ContentMaster size="md">
+              {resources.sections[2].content}
+            </ContentMaster>
+          </StyledPromoteSection>
+        </Section>
+
+        <Divider type="doubledashed" />
+
+        <DividerRow>
+          <ContentMaster
+            size="md"
+            title={resources.sections[3].title}
+            titleTag="h3"
+            links={resources.sections[3].links}
+          >
+            {resources.sections[3].content}
+          </ContentMaster>
+          {/* <ContentMaster
+            size="md"
+            title={resources.sections[4].title}
+            titleTag="h3"
+          >
+            {resources.sections[4].content}
+          </ContentMaster> */}
+        </DividerRow>
+
+        {/* <Divider type="doubledashed" /> */}
+      </Container>
+
+      {/* <Container inner>
+        <Section id="speakers">
+          <ContentMaster
+            size="xl"
+            title="Speakers and Facilitators"
+          >
+            Open source experts and community leaders are all in on Hacktoberfest. Find them helping contributors complete their pull/merge requests all month long in events throughout October.
+          </ContentMaster>
+        </Section>
+      </Container> */}
+
+      <Container>
+        <Divider type="pixel" />
+        <Section id="brand">
+          <SpotHeader
+            image={{
+              src: IlloHacktoberfest.src,
+              alt: ''
+            }}
+            content={{
+              size: 'xl',
+              title: 'Brand Guidelines',
+              children: 'If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines. Access them here and dive in.',
+              cta: {
+                size: 'lg',
+                target: '_blank',
+                rel: "noreferrer noopener",
+                href: 'https://do.co/hacktoberbrand',
+                children: 'View Brand Guidelines'
+              }
+            }}
+          />
+        </Section>
+      </Container>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  const events = await fetchEvents();
-  const speakers = await fetchSpeakers();
-
-  return {
-    props: {
-      events,
-      speakers,
-    },
-  };
 };
 
 export default Events;

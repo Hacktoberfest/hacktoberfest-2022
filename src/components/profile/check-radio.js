@@ -2,43 +2,52 @@ import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import { MarkdownInline } from '../markdown';
+import { body16, body20 } from 'themes/typography';
 
 export const StyledLabel = styled.label`
   display: block;
-  margin: 16px 0;
   cursor: pointer;
-  
+
   &[disabled] {
     cursor: not-allowed;
   }
-  
+
   > div {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-flow: row nowrap;
-    gap: 8px;
-    
+    gap: 16px;
+
     > input {
-      margin: 0;
+      margin: 7px 0 0;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      accent-color: ${({theme}) => theme.colors.bavarian.blue200};
     }
-    
+
     > p {
       margin: 0 !important; // Some section somewhere is using classes to get higher precedence
+      ${body20};
+      text-transform: uppercase;
+      font-weight: 600;
     }
   }
-  
+
   > p {
-    margin: 4px 0 0 !important; // Some section somewhere is using classes to get higher precedence
+    margin: 8px 0 0 !important; // Some section somewhere is using classes to get higher precedence
+    padding-left: 32px;
+    ${body16};
   }
-  
+
   p {
     a {
       text-decoration: underline;
       transition: color 0.2s ease;
-    
+
       &:hover,
       &:focus {
-        color: ${(props) => props.theme.surf};
+        text-decoration: none;
       }
     }
   }
@@ -55,7 +64,7 @@ const CheckRadio = ({ radio, title, message, disabled = false, ...props }) => {
         />
         {title && <p><MarkdownInline string={title} as={Fragment} forceNewTab /></p>}
       </div>
-      {message && <p><MarkdownInline string={message} as={'i'} forceNewTab /></p>}
+      {message && <p><MarkdownInline string={message} as={'span'} forceNewTab /></p>}
     </StyledLabel>
   );
 };

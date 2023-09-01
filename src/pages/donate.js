@@ -1,155 +1,90 @@
 import Head from 'next/head';
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { knuthShuffle } from 'knuth-shuffle';
 import styled from 'styled-components';
 
 import fetchProjects from 'lib/donate';
 
-import Button, { StyledButton } from 'components/button';
-import Collapse from 'components/collapse';
-import Section from 'components/section';
-import { PixelCoin } from 'components/pixels';
-import Hero from 'components/hero';
+import Section from 'components/Section';
 
-import { StyledList, StyledListItem, StyledSearch, StyledSubText } from './events';
+import HeroSecondary from 'components/HeroSecondary';
+import PixelFlower from 'components/pixels/PixelFlower';
+import Container from 'components/Container';
+import ContentMaster from 'components/ContentMaster';
+import Divider from 'components/Divider';
+import AccordionCouncil from 'components/AccordionCouncil';
+import ButtonMain from 'components/ButtonMain';
+import { body20 } from 'themes/typography';
 
-export const StyledProject = styled(StyledListItem)`
-  details {
-    summary {
-      @media (max-width: 600px) {
-        flex-direction: column;
-        align-items: flex-start;
-        position: relative;
+export const StyledProjects = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 48px 0;
+`;
 
-        &::before {
-          position: absolute;
-          top: 0;
-          left: 0;
-          margin: 0;
-        }
-      }
+export const StyledMoreProjects = styled.div`
+  text-align: center;
+`;
 
-      > div {
-        > p {
-          color: ${(props) =>
-            props.theme[props.color] || props.color || props.theme.text};
+export const StyledSearch = styled.div`
+  position: relative;
+  margin-top: 64px;
 
-          @media (max-width: 600px) {
-            margin-left: 48px;
-          }
-        }
+  &:has(input:focus)::before {
+    opacity: 1;
+  }
 
-        > div {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin: 8px 0;
+  &:has(input:focus)::after {
+    opacity: .3;
+  }
 
-          @media (max-width: 600px) {
-            flex-direction: column;
-            align-items: flex-start;
-          }
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out; /* stylelint-disable-line property-no-vendor-prefix */
+    mask-composite: exclude;
+    padding: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-in-out;
+  }
 
-          > img {
-            border-radius: 16px;
-            filter: ${(props) => props.theme.glowLiteDS};
-          }
+  &::before {
+    background: linear-gradient(77.9deg, #EC4237 0%, #33B6D8 100%);
+  }
 
-          > div {
-            margin: 8px 0;
+  &::after {
+    background: linear-gradient(230deg, #FFFBA4 0%, rgba(255, 251, 164, 0) 100%);
+  }
 
-            h3 {
-              margin: 0 0 16px;
-            }
-          }
-        }
-      }
+  input {
+    padding: 16px 24px;
+    width: 100%;
+    color: ${({theme}) => theme.colors.neutral.manga200};
+    ${body20};
+    border-radius: 16px;
+    border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+    background: ${({theme}) => theme.card.bg};
+    backdrop-filter: blur(5px);
+    transition: box-shadow 300ms ease-in-out;
+
+    &:focus {
+      box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
+      outline: 0;
     }
 
-    > div {
-      @media (max-width: 600px) {
-        margin: 0;
-      }
-    }
-
-    ${StyledButton} {
-      filter: ${(props) => props.theme.glowLiteDS};
-      margin: 8px;
+    &::placeholder {
+      color: ${({theme}) => theme.colors.neutral.manga200};
     }
   }
 `;
-
-export const StyledFrame = styled.iframe`
-  background: #fff;
-`;
-
-const typesToColors = {
-  opencollective: ['#1F87FF', '#170F1E'],
-  'github sponsors': ['#EA4AAA', '#170F1E'],
-};
-
-const Project = ({ project }) => {
-  const allLinks = useMemo(
-    () => (Array.isArray(project.link) ? project.link : [project.link]),
-    [project]
-  );
-  const color = useMemo(
-    () => typesToColors[project.source.toLowerCase()],
-    [project]
-  );
-
-  return (
-    <StyledProject color={color[0]}>
-      <Collapse
-        collapsed
-        title={
-          <div>
-            <p>[ {project.source} ]</p>
-            <div>
-              <img
-                src={project.icon}
-                alt=""
-                width={64}
-                height={64}
-                style={{ objectFit: 'cover' }}
-              />
-              <div>
-                <h3>{project.name}</h3>
-                <span>{project.short}</span>
-              </div>
-            </div>
-          </div>
-        }
-      >
-        {project.source === 'OpenCollective' ? (
-          <StyledFrame
-            src={allLinks[0].url}
-            width="100%"
-            height="920"
-            frameBorder="0"
-            scrolling="no"
-          />
-        ) : (
-          <p>
-            {allLinks.map((link) => (
-              <Button
-                key={link.title}
-                color_bg={color[0]}
-                color_text={color[1]}
-                as="a"
-                href={link.url}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {link.title}
-              </Button>
-            ))}
-          </p>
-        )}
-      </Collapse>
-    </StyledProject>
-  );
-};
 
 const Donate = ({ projects }) => {
   const [projectsShuffled, setProjectsShuffled] = useState([]);
@@ -174,65 +109,95 @@ const Donate = ({ projects }) => {
   return (
     <>
       <Head>
-        <title>Donate | Hacktoberfest 2022</title>
+        <title>Donate | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Donate | Hacktoberfest 2022"
+          content="Donate | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Donate | Hacktoberfest 2022"
+          content="Donate | Hacktoberfest 2023"
         />
       </Head>
 
-      <Hero
-        h="110"
-        s="5"
-        b="0.5"
-        gradientLeft="#0AFFA2"
-        gradientRight="#B5FF0A"
+      <HeroSecondary
         title="Donate"
-      >
-        <PixelCoin />
-      </Hero>
+        icon={
+          <PixelFlower
+            width="1700"
+            scale="1"
+            timing="5"
+            frames="5"
+            id="f3"
+          />
+        }
+      />
 
       <Section>
-        <StyledSubText>
-          Open-source projects keep the internet humming—but they can’t do it
-          without resources. Projects are always in need of financial support so
-          they can develop new features, cover expenses, and continue their
-          regular activities. Find a project to donate money to right here.
-        </StyledSubText>
-        <StyledSearch
-          type="text"
-          placeholder="[ Search projects... ]"
-          value={projectsSearch}
-          onChange={(e) => setProjectsSearch(e.target.value)}
-        />
-        <StyledList>
-          {projectsShuffled.length === 0 && (
-            <p>[ Sorry, there are no projects listed currently ]</p>
-          )}
-          {projectsShuffled.length > 0 && projectsList.length === 0 && (
-            <p>[ Sorry, no projects matched your search query ]</p>
-          )}
-          {projectsList.map((project) => (
-            <Project
-              key={`${project.source}:${project.name}`}
-              project={project}
-            />
-          ))}
-        </StyledList>
-        {projectsCount < projectsFiltered.length && (
-          <Button
-            special
-            onClick={() => setProjectsCount((count) => count + 3)}
+        <Container inner>
+          <ContentMaster
+            size="xl"
+            title="Find a project"
           >
-            Load More Projects
-          </Button>
-        )}
+            Open-source projects keep the internet humming—but they can’t do it without resources. Projects are always in need of financial support so they can develop new features, cover expenses, and continue their regular activities. Find a project to donate money to right here.
+          </ContentMaster>
+
+          <StyledSearch>
+            <input
+              type="text"
+              placeholder="[ Search projects... ]"
+              value={projectsSearch}
+              onChange={(e) => setProjectsSearch(e.target.value)} />
+          </StyledSearch>
+        </Container>
+
+        <Container>
+          <Section small>
+            <Divider type="doubledashed" />
+            <StyledProjects>
+              {projectsShuffled.length === 0 && (
+                <p>[ Sorry, there are no projects listed currently ]</p>
+              )}
+              {projectsShuffled.length > 0 && projectsList.length === 0 && (
+                <p>[ Sorry, no projects matched your search query ]</p>
+              )}
+              {projectsList.map((project, index) => (
+                <React.Fragment key={`${project.source}:${project.name}`}>
+                  <AccordionCouncil
+                    key={`${project.source}:${project.name}`}
+                    image={{
+                      src: project.icon,
+                      alt: `Project profile of ${project.name}`
+                    }}
+                    imageRotatation={ index % 2 ? 'left' : 'right' }
+                    title={project.name}
+                    subtitle={`[${project.source}]`}
+                    skills={project.short}
+                    iframe={project.source === 'OpenCollective' ? project.link.url : null}
+                    links={project.source !== 'OpenCollective' ? project.link : null}
+                    collapsed
+                  />
+                  {projectsList.length !== (index + 1) && (
+                    <Divider />
+                  )}
+                </React.Fragment>
+              ))}
+            </StyledProjects>
+            <Divider type="doubledashed" />
+          </Section>
+          {projectsCount < projectsFiltered.length && (
+            <StyledMoreProjects>
+              <ButtonMain
+                as="button"
+                onClick={() => setProjectsCount((count) => count + 3)}
+              >
+                Load More Projects
+              </ButtonMain>
+            </StyledMoreProjects>
+          )}
+        </Container>
       </Section>
     </>
   );

@@ -5,7 +5,7 @@ export const values = {
       title: 'Everyone is welcome',
       collapsible: true,
       collapsed: true,
-      content: 'Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome everyone who\'s already part of the open-source software community, and anyone who is interested in diving in.',
+      content: 'Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome anyone who is interested in diving in, and everyone who\'s already part of the open-source software community.',
     },
     {
       title: 'Quantity is fun, quality is key',
@@ -23,16 +23,16 @@ export const values = {
 };
 
 export const contributors = {
-  title: 'Contributors',
+  title: 'Participating in Hacktoberfest',
   sections: [
     {
       title: 'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
-        'Register anytime between September 26 and October 31',
-        'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
+        'Register anytime between **September 26** and **October 31**',
+        'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
-        'Have 4 pull/merge requests accepted between October 1 and October 31 to complete Hacktoberfest',
-        'The first 40,000 participants (maintainers and contributors) who complete Hacktoberfest can elect to receive one of two prizes: a tree planted in their name, or the Hacktoberfest 2022 t-shirt.',
+        'The first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through Tree Nation',
+        'Participants with four pull/merge requests accepted between October 1 and October 31 will receive a unique digital reward',
       ],
     },
   ],
@@ -44,36 +44,34 @@ export const resources = {
     {
       title: 'Intro to open source',
       items: [
-        'DigitalOcean: [Introduction to GitHub and Open-Source Projects](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source)',
-        'GitHub: [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)',
-        'DigitalOcean: [What is Open Source](https://www.digitalocean.com/community/tutorials/what-is-open-source)',
-        'DigitalOcean: [How to use Git](https://www.digitalocean.com/community/cheatsheets/how-to-use-git-a-reference-guide)',
+        '[Introduction to GitHub and Open-Source Projects](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source)',
+        '[How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)',
+        '[What is Open Source](https://www.digitalocean.com/community/tutorials/what-is-open-source)',
+        '[How to use Git](https://www.digitalocean.com/community/cheatsheets/how-to-use-git-a-reference-guide)',
       ],
     },
     {
       title: 'Start contributing',
       items: [
-        'Participating Hacktoberfest projects: [GitHub](https://github.com/topics/hacktoberfest)',
-        'Participating Hacktoberfest projects: [GitLab](https://gitlab.com/explore/projects/topics/hacktoberfest)',
-        'Explore projects with issues: [up-for-grabs.net](https://up-for-grabs.net/#/)',
-        'Explore projects with issues: [goodfirstissue.dev](https://goodfirstissue.dev)',
-        'Explore Hacktoberfest projects: [hacktoberfest-projects.vercel.app](https://hacktoberfest-projects.vercel.app)',
-        'GitHub repository: [first-contributions](https://github.com/firstcontributions/first-contributions)',
-        'GitHub repository: [awesome-for-beginners](https://github.com/mungell/awesome-for-beginners)',
+        '[GitHub] [Participating Hacktoberfest projects](https://github.com/topics/hacktoberfest)',
+        '[GitLab] [Participating Hacktoberfest projects](https://go.gitlab.com/ubCLKL)',
+        '[GitHub] [Explore projects with issues on up-for-grabs.net](https://up-for-grabs.net/)',
+        '[GitHub] [Explore projects with issues on firstissue.dev](https://firstissue.dev/)',
+        '[GitHub] [Explore Hacktoberfest projects on hacktoberfest-projects.vercel.app](https://hacktoberfest-projects.vercel.app)',
       ],
     },
     {
       title: 'Sharpen your skills',
       items: [
-        '[GitHub Training Kit](https://github.github.com/training-kit/)',
-        '[Understanding the GitHub Flow](https://guides.github.com/introduction/flow/)',
-        '[Getting Started With GitLab](https://about.gitlab.com/get-started/)',
-        '[An Introduction to Open Source](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source)',
-        '[How open source contributions can boost your career](https://opensource.com/article/19/5/how-get-job-doing-open-source)',
-        '[How to write the perfect pull request](https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/)',
-        '[How to write a good commit message](https://dev.to/chrissiemhrk/git-commit-message-5e21)',
-        '[Github Desktop](https://desktop.github.com/)',
-        '[Community help in our Hacktoberfest Discord server](https://discord.gg/hacktoberfest)',
+        '[GitHub] [GitHub Training Manual](https://github.github.com/training-kit/)',
+        '[GitHub] [Understanding the GitHub Flow](https://guides.github.com/introduction/flow/)',
+        '[GitLab] [Learn GitLab with tutorials](https://about.gitlab.com/get-started/)',
+        '[General] [How open source contributions can boost your career](https://opensource.com/article/19/5/how-get-job-doing-open-source)',
+        '[General] [How to write the perfect pull request](https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/)',
+        '[General] [How to write a good commit message](https://dev.to/chrissiemhrk/git-commit-message-5e21)',
+        '[General] [How to start a great OSS project](https://go.gitlab.com/Hm4BNB)',
+        '[General] [5 things for your first time contributing](https://go.gitlab.com/nlPKcN)',
+        '[General] [Community help in our Hacktoberfest Discord server](https://discord.gg/hacktoberfest)',
       ],
     }
   ],
@@ -81,17 +79,15 @@ export const resources = {
 
 export const prMrDetails = {
   title: 'Pull/Merge Request Details',
-  content: 'Here’s how we validate contributor pull/merge requests (“PR/MRs”) for Hacktoberfest',
+  content: 'Here’s how we validate contributor pull/merge requests (“**PR/MRs**”) for Hacktoberfest',
   sections: [
     {
       title: 'Your PR/MRs must be within the bounds of Hacktoberfest.',
       subtitle: 'out-of-bounds',
       items: [
         {
-          content: 'Your PR/MRs must be created between October 1 and October 31 (in any time zone, UTC-12 thru UTC+14).',
-        },
-        {
-          content: 'Your PR/MRs must be made to a public, unarchived repository.',
+          content: 'Your PR/MRs must be created between **October 1** and **October 31** (in any time zone, UTC-12 thru UTC+14).\n\n' +
+          'Your PR/MRs must be made to a public, unarchived repository.',
         },
       ],
     },
@@ -109,19 +105,13 @@ export const prMrDetails = {
       subtitle: 'spam',
       items: [
         {
-          content: 'PR/MRs that are labeled with a label containing the word “spam” by maintainers will not be counted.',
-          items: [
-            'We use the Node.js 16 RegEx engine with `/\\bspam\\b/i` to look for spam labels.',
-            'PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.',
-            'PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.',
-          ],
-        },
-        {
-          content: 'PR/MRs that our system detects as spammy will also not be counted.',
-        },
-        {
-          content: 'Any user with two or more spammy PR/MRs will be disqualified.',
-        },
+          content: 'PR/MRs that are labeled with a label containing the word “**spam**” by maintainers will not be counted.\n\n' +
+          ' - We use the Node.js 18 RegEx engine with `/\\bspam\\b/i` to look for spam labels.\n' +
+          ' - PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.\n' +
+          ' - PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.\n\n' +
+          'PR/MRs that our system detects as spammy will also not be counted.\n\n' +
+          'Any user with two or more spammy PR/MRs will be disqualified.'
+        }
       ],
     },
     {
@@ -129,11 +119,9 @@ export const prMrDetails = {
       subtitle: 'participating',
       items: [
         {
-          content: 'Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.',
-        },
-        {
-          content: 'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).',
-        },
+          content: 'Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.\n\n' +
+          'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).',
+        }
       ],
     },
     {
@@ -141,10 +129,8 @@ export const prMrDetails = {
       subtitle: 'invalid',
       items: [
         {
-          content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.',
-          items: [
-            'Specifically, we use the Node.js 16 RegEx engine with `/\\binvalid\\b/i` to look for invalid labels.',
-          ],
+          content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n\n' +
+          'Specifically, we use the Node.js 18 RegEx engine with **`/\\binvalid\\b/i`** to look for invalid labels.',
         },
       ],
     },
@@ -153,21 +139,17 @@ export const prMrDetails = {
       subtitle: 'accepted',
       items: [
         {
-          content: 'Your PR/MR must not be a draft to be considered accepted.',
-        },
-        {
-          content: 'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.',
+          content: 'Your PR/MR must not be a draft to be considered accepted.\n\n' +
+          'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.',
         },
       ],
     },
     {
-      title: 'Once your PR/MRs pass all the checks above, it will be accepted for Hacktoberfest after the 7-day review period.',
+      title: 'Once your PR/MRs pass all the checks above, it will be accepted for Hacktoberfest after the seven day review period.',
       items: [
         {
-          content: 'We continually evaluate all of the checks except the **[participating]** check. If it fails any of these checks during this time, the 7-day timer will reset. ',
-        },
-        {
-          content: 'After the 7-day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. Once accepted for Hacktoberfest, we stop checking. :party:',
+          content: 'We continually evaluate all of the checks except the **[participating]** check. If it fails any of these checks during this time, the seven day timer will reset.\n\n' +
+          'After the seven day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. Once accepted for Hacktoberfest, we stop checking. :party:',
         },
       ],
     },
@@ -176,54 +158,67 @@ export const prMrDetails = {
 
 export const spam = {
   title: 'Measures to Reduce Spam',
-  content: 'Hacktoberfest is best without spam. To reduce the number of spammy requests contributors make, we empower maintainers to label pull/merge requests as “spam” at their own discretion, all pull/merge requests you submit must be approved by project maintainer, and repos that try to game the system will be excluded from Hacktoberfest.',
+  content: 'To ensure quality contributions to Hacktoberfest, we empower maintainers to label pull/merge requests as “spam” at their own discretion, all pull/merge requests you submit must be approved by the project maintainer, and repos that try to game the system will be excluded from Hacktoberfest.',
   sections: [
     {
       title: 'Spammy pull/merge requests will be labeled as “spam.”',
-      content: 'Maintainers: label spammy requests “spam” and close them. PR/MRs labeled “spam” won’t count toward Hacktoberfest. Contributors with 2+ spammy PR/MRs are disqualified.',
+      items: [
+        {
+          content: 'Maintainers: label spammy requests “spam” and close them. PR/MRs labeled “spam” won’t count toward Hacktoberfest. Contributors with 2+ spammy PR/MRs are disqualified.',
+        }
+      ]
     },
     {
       title: 'Pull/merge requests must be approved by a maintainer.',
-      content: 'Maintainers accept PR/MRs by merging them, labeling them “hacktoberfest-accepted,” or giving them an overall approving review. Accepted PR/MRs enter a 7-day review window, during which approval can be revoked by the maintainer or by our team.',
+      items: [
+        {
+          content: 'Maintainers accept PR/MRs by merging them, labeling them “hacktoberfest-accepted,” or giving them an overall approving review. Accepted PR/MRs enter a seven day review window, during which approval can be revoked by the maintainer or by our team.',
+        }
+      ]
     },
     {
       title: 'Bad repositories will be excluded.',
-      content: 'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n' +
-        '\n' +
-        'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
+      items: [
+        {
+          content: 'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n\n' +
+          'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
+        }
+      ]
     },
     {
       title: 'Avoid submitting low-quality pull/merge requests.',
-      content: 'Hacktoberfest is about contributing meaningfully to open-source projects. Here are some examples of low-quality pull/merge requests that won’t count towards Hacktoberfest.\n' +
-        '\n' +
-        ' - Automated pull/merge requests: scripted opening pull requests to remove whitespace, fix typos or optimize images.\n' +
-        ' - Disruptive pull/merge requests: taking someone else\'s branch/commits and making a pull request.\n' +
-        ' - Anything that a project maintainer flags as spam.\n' +
-        ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
-        '\n' +
-        'Multiple pull/merge requests for the same issue that are unnecessary -for example five PR/MRs to remove a stray whitespace is not.\n',
+      items: [
+        {
+          content: 'Hacktoberfest is about contributing meaningfully to open-source projects. Here are some examples of low-quality pull/merge requests that won’t count towards Hacktoberfest.\n\n' +
+          ' - Automated pull/merge requests: scripted opening pull requests to remove whitespace, fix typos or optimize images.\n' +
+          ' - Disruptive pull/merge requests: taking someone else\'s branch/commits and making a pull request.\n' +
+          ' - Anything that a project maintainer flags as spam.\n' +
+          ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
+          ' - Multiple pull/merge requests for the same issue that are unnecessary, for example five PR/MRs to remove a stray whitespace.',
+        }
+      ]
     },
   ],
 };
 
 export const maintainers = {
   title: 'Maintainers',
+  content: 'Prepare your project for contributions by following these best practices:',
   sections: [
     {
-      content: 'Prepare your project for contributions by following these best practices: \n',
       items: [
-        'Add the “hacktoberfest” topic to your repository to **opt-in to Hacktoberfest** and indicate you’re looking for contributions.',
-        'Apply the “hacktoberfest” label to issues you want contributors to help with in your GitHub or GitLab project.',
-        'Add a CONTRIBUTING.md file with contribution guidelines to your repository.',
+        'Add the “**hacktoberfest**” topic to your repository to **opt-in to Hacktoberfest** and indicate you’re looking for contributions.',
+        'Apply the “**hacktoberfest**” label to issues you want contributors to help with in your GitHub or GitLab project.',
+        'Add a **CONTRIBUTING.md** file with contribution guidelines to your repository.',
         'Choose issues that have a well-defined scope and are self-contained.',
         'Adopt a code of conduct to create a greater sense of inclusion and community for contributors.',
-        'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “hacktoberfest-accepted” label.',
-        'Reject any spammy requests you receive by labeling them as “spam,” and any other invalid contributions by closing them or labeling them as “invalid.”',
+        'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “**hacktoberfest-accepted**” label.',
+        'Reject any spammy requests you receive by labeling them as “**spam,**” and any other invalid contributions by closing them or labeling them as “**invalid.**”',
       ],
     },
     {
       title: 'Reward for Maintainers',
-      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2022 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
+      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2023 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
         '\n' +
         ' - Merge unique PR/MRs\n' +
         ' - Provide an approving review of a PR/MR\n' +
@@ -238,108 +233,348 @@ export const maintainers = {
 
 export const faqs = {
   title: 'FAQs',
+  content: null,
   sections: [
     {
-      title: 'Swag & Shipping',
+      title: 'Do I get a reward for participating?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
       items: [
         {
-          title: 'When will I receive my t-shirt?',
-          collapsible: true,
-          collapsed: true,
-          content: 'You will receive an email once your t-shirt is shipped. Due to ongoing COVID-related disruptions and supply chain constraints we cannot guarantee a ship date, but estimate that all t-shirts will be shipped by the end of 2022.\n' +
-            '\n' +
-            'T-shirts (or the option to plant a tree) will be awarded on a first-come, first-served basis to the first 40,000 participants who successfully complete the Hacktoberfest challenge.',
-        },
+          content: 'Aside from the knowledge you’ll gain, (and the fun you’ll have) you can earn a digital reward kit courtesy of DigitalOcean and our sponsors and partners. You’ll receive your digital reward once you’ve completed four accepted pull/merge requests. Also, the first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through [Tree Nation](https://tree-nation.com/profile/hacktoberfest).',
+        }
+      ]
+    },
+    {
+      title: 'Why isn’t there a t-shirt this year?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'What t-shirt size should I order?',
-          collapsible: true,
-          collapsed: true,
-          content: 'You can reference the size charts for the t-shirts on the ordering page. Both size charts include measurements in inches, and instructions for how to measure yourself.',
-        },
+          content: 'As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it\'s no longer feasible for us to provide a free t-shirt. Nevertheless, we still want participants to have a memorable experience and receive a special memento marking their participation and the year.  Instead of a t-shirt reward, we\'re partnering with Holopin and our sponsors to provide digital rewards, making global delivery much simpler. We believe this shift will allow Hacktoberfest to continue supporting and raising awareness for open-source projects worldwide for years to come.',
+        }
+      ]
+    },
+    {
+      title: 'If you can afford to plant trees, how come you can’t afford to make t-shirts?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Why isn’t there a Women’s fit t-shirt this year?',
-          collapsible: true,
-          collapsed: true,
-          content: 'This year, we expanded our unisex t-shirt offering to two types: dark and light mode. To print two different types of t-shirt, we had to streamline the process by selecting a single t-shirt style. The t-shirt style we chose for 2022 is a tighter, more tailored fit than the t-shirts of previous years and falls somewhere between a unisex fit and a women’s fit.\n' +
-            'Would you prefer that we bring back the women’s fit t-shirt option? [Let us know](mailto:hacktoberfest@digitalocean.com)!',
-        },
+          content: 'The cost of planting trees is far less than the cost of printing t-shirts. Additionally, planting a tree helps the Earth. Fabricating t-shirts heavily utilizes natural resources and the printing, packaging and shipping have a large carbon footprint. We still want to give a gift to our participants and we believe the gift of planting a tree is a great way to show our appreciation, and help the environment.',
+        }
+      ]
+    },
+    {
+      title: 'I represent, or know of, a company that could do your t-shirt fulfillment really inexpensively.',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Tracking for my order is not active; is my tracking number correct?',
-          collapsible: true,
-          collapsed: true,
-          content: 'You may receive a tracking email 2-3 days before tracking becomes active on DHL’s website. Try again in a few days.',
-        },
+          content: 'We are aware that there are many options out there for t-shirt production and fulfillment. We have made the move away from using t-shirts as a reward in the interests of making global delivery of rewards simpler and to ensure Hacktoberfest continues supporting and raising awareness for open-source projects worldwide for years to come.',
+        }
+      ]
+    },
+    {
+      title: 'How will I receive my digital reward?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'How do I return or exchange an item?',
-          collapsible: true,
-          collapsed: true,
-          content: 'If you believe your order was shipped incorrectly, contact us with the order number from the email subject line, plus a description of the incorrect item you received.\n' +
-            '\n' +
-            'Otherwise, if it’s still within 30 days of the original purchase, follow the instructions at [kotisdesign.com/returns](https://kotisdesign.com/returns).\n' +
-            '\n' +
-            'Please note: You will be responsible for shipping the item back to us if you decide to exchange it.',
-        },
+          content: 'You will receive a notification in your Hacktoberfest profile on the Hacktoberfest website. Additionally you will receive an email from Holopin to claim your rewards. You may also receive emails from Tree Nation.',
+        }
+      ]
+    },
+    {
+      title: 'Is it possible to get stickers?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Did my t-shirt order go through?',
-          collapsible: true,
-          collapsed: true,
-          content: 'If you did not receive an order confirmation email within an hour of placing your order, we can look up your order using the email address you used.\n' +
-            '\n' +
-            'Please check your spam or junk folders first. If it’s not there, send us an email to [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) to confirm your t-shirt order.'
-        },
+          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).'
+        }
+      ]
+    },
+    {
+      title: 'I signed up for Hacktoberfest mid-October. Will pull/merge requests that I created earlier in October count?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Will I have to pay anything to receive my t-shirt/stickers?',
-          collapsible: true,
-          collapsed: true,
-          content: 'T-shirts are free of charge for participants, including shipping costs. Customs may assess duty/VAT/tax for some countries and in rare instances.',
-        },
+          content: 'Yes, all pull/merge requests created between October 1 and October 31 will count, regardless of when you register for Hacktoberfest.\n\n' +
+          'Pull/merge requests created before October 1 but merged or marked as ready for review after **do not count**.\n\n' +
+          'Pull/merge requests that are still in review after October 31 and meet the criteria will count towards your completion goal.',
+        }
+      ]
+    },
+    {
+      title: 'Do pull/merge requests made on my own repositories count?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Will I have to pay anything/custom tax/duty for the t-shirt?',
-          collapsible: true,
-          collapsed: true,
-          content: 'We write down a low enough dollar value on the mailed packages that we don’t expect any issues with customs tax, but we cannot guarantee that. You may have to pay a small fee depending on your country’s import policies. DigitalOcean and Kotis Design will not issue a refund for shipping/duty fees.',
-        },
+          content: 'Yes, but we strongly encourage you to make quality contributions to other repositories.',
+        }
+      ]
+    },
+    {
+      title: 'Do multiple pull/merge requests to the same repository count?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'What countries do you ship to?',
-          collapsible: true,
-          collapsed: true,
-          content: 'We are able to ship to all countries with the exception of the following: Russia, Belarus, Cuba, Iran, Libya, North Korea, Sierra Leone, Somalia, Sudan, Syria, and Yemen.',
-        },
+          content: 'Yes, each pull/merge request will count separately.',
+        }
+      ]
+    },
+    {
+      title: 'Do issues/commits count?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'My international order is delayed. What can I do?',
-          collapsible: true,
-          collapsed: true,
-          content: 'We recommend [contacting DHL](http://www.dhl.com/global-en/home/our-divisions/ecommerce/customer-service.html) in your country for help with clearing the package.',
-        },
+          content: 'No, only pull/merge requests count.',
+        }
+      ]
+    },
+    {
+      title: 'Do issues have to be tagged #Hacktoberfest to count?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Can I update my email address, delivery address, and/or the size of my t-shirt?',
-          collapsible: true,
-          collapsed: true,
-          content: 'Yes, as long as your item has not shipped yet we can absolutely adjust this. Please email [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) as soon as possible and make sure to include your order number as well as how we should edit your order (including the new shipping address, preferred size, or the correct email address).\n' +
-            '\n' +
-            'Unfortunately, we are unable to change this information once your items have departed from our facilities.',
-        },
+          content: 'No, pull/merge requests for Hacktoberfest do not need to be attached to a [**hacktoberfest** issue](https://github.com/search?l=&o=desc&q=label%3Ahacktoberfest+state%3Aopen&s=updated&type=Issues).',
+        }
+      ]
+    },
+    {
+      title: 'Do contributions made outside of Github or GitLab count?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Customs is asking me for an invoice; where do I find one of those?',
-          collapsible: true,
-          collapsed: true,
-          content: 'We can provide you with a commercial invoice that you can pass on to customs or the shipping company.\n' +
-            'Please email [hacktoberfest@kotisdesign.com](mailto:hacktoberfest@kotisdesign.com) and make sure you’ve listed your order number in your request so we can generate an appropriate invoice for you.',
-        },
+          content: 'Pull/merge requests must be made on either the GitHub or GitLab platform.',
+        }
+      ]
+    },
+    {
+      title: 'What should I do if I contribute to a repository that is not participating in Hacktoberfest?',
+      subtitle: 'Rules',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'I didn’t receive my Hacktoberfest 2021 t-shirt/swag.',
-          collapsible: true,
-          collapsed: true,
-          content: 'We are no longer printing 2021 t-shirts. If you did not receive your t-shirt, this means we tried to deliver multiple times unsuccessfully. We are working hard on improving the shipping process this year so that everyone receives their t-shirts. Thank you for your understanding.',
-        },
+          content: 'You can politely request that the maintainer of the project you contributed to tag your contribution with the label **hacktoberfest-accepted** . Or, add the \'hacktoberfest\' topic to the repository to opt the project into Hacktoberfest.\n\n' +
+          'Any pull/merge request with the **hacktoberfest-accepted** label, submitted to any public GitHub/GitLab repository, with or without the hacktoberfest topic, will be considered valid for Hacktoberfest.',
+        }
+      ]
+    },
+    {
+      title: 'How can I host a Hacktoberfest event?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
         {
-          title: 'Can I receive a shirt and plant a tree?',
-          collapsible: true,
-          collapsed: true,
-          content: 'Once you’ve completed Hacktoberfest, you will have the option to choose either a Hacktoberfest t-shirt OR the option to have a tree planted in your name. You will not have the option to choose both reward options.\n' +
-            'However, if you want to plant a tree on your own, you can do so [in our Tree-Nation forest](http://tree-nation.com/profile/digitalocean)!',
-        },
-      ],
+          content: 'Please visit the [Hacktoberfest Events page](/events/) to learn how to host a Hacktoberfest event.\n\n' +
+          'To create your event visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)',
+        }
+      ]
+    },
+    {
+      title: 'Can you help me promote my Hacktoberfest event?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Yes. To create your event and share it globally, visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)\n\n' +
+          'Check out the [Hacktoberfest Events](/events/) page for more information.',
+        }
+      ]
+    },
+    {
+      title: 'Why organize a Hacktoberfest-themed event?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Events are a great way to increase awareness of open source in your community, giving community members an opportunity to meet maintainers, contributors, and each other.\n\n' +
+          'Events provide opportunities to learn about the open-source ecosystem—from how to start an open-source project to marketing your project, sustaining growth, and troubleshooting and maintenance.',
+        }
+      ]
+    },
+    {
+      title: 'Who can organize a Hacktoberfest-themed event?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Anyone can organize an event as long as you celebrate open source during the event and follow the DigitalOcean [Code of Conduct](https://www.digitalocean.com/community/pages/code-of-conductco/hacktoberconduct).',
+        }
+      ]
+    },
+    {
+      title: 'How can I keep my event engaging?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Whether you\'re meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like [Icebreaker](https://icebreaker.video/) or [Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open source knowledge.',
+        }
+      ]
+    },
+    {
+      title: 'Can I host an in-person event?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Yes! We encourage all kinds of events - whether they are virtual, in-person or a hybrid.\n\n' +
+          'If you do want to hold an in-person event, there are a few things to note:\n\n' +
+          ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Organizer Event Kit](/events/#organizers) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
+          ' - Please follow the advisory guidelines of your state and local governments about gatherings in person.',
+        }
+      ]
+    },
+    {
+      title: 'My event hasn\'t been approved yet. How long until it goes live?',
+      subtitle: 'Events',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Once you have submitted an event, the Major League Hacking events team will review your listing within 1-2 business days. If any changes need to be made, you will be alerted and the review process will start over. Please note: if you submit your event within two days of the event start and that coincides with a weekend, we cannot guarantee that the event will be approved in time.',
+        }
+      ]
+    },
+    {
+      title: 'Why aren’t my draft pull/merge requests counting toward Hacktoberfest?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'For Hacktoberfest, pull/merge requests on GitHub/GitLab will not be counted until they are marked as **ready for review**:  Those marked as **draft** will not be counted.\n\n' +
+          'Please make sure to mark any draft pull requests as **ready for review** so that project maintainers can merge them.',
+        }
+      ]
+    },
+    {
+      title: 'Why is my pull/merge request in a maturing state on my profile?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'In an effort to reduce spam and help maintainers, we’ve introduced a week-long review period for all pull/merge requests. This provides a buffer window for maintainers where they can change their decision on a pull/merge request that they may have accepted, and gives our team time to review and tackle spam across the whole program. No action should be required by you, your pull/merge request will automatically count toward your Hacktoberfest progress once the seven days elapse, as long as it is still accepted by the project maintainers and follows Hacktoberfest’s rules.',
+        }
+      ]
+    },
+    {
+      title: 'My PR/MR was labeled as invalid/spam, but it isn’t. What should I do?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'If a maintainer labels your pull/merge request as **invalid** or **spam**, but you don’t believe this is correct, please begin a conversation with the maintainer of the PR and respectfully explain your position. Understand that it is ultimately up to the maintainer whether or not they think your PR/MR is legitimate, and you should respect their decision after discussing it with them.',
+        }
+      ]
+    },
+    {
+      title: 'If I made 4 pull/merge requests before October but they were merged during October, will they count towards my goal?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'No. All pull/merge requests made before the start of Hacktoberfest, September 30 10:00 am UTC, will not count.',
+        }
+      ]
+    },
+    {
+      title: 'What happens if I make a pull request before the maintainer adds a hacktoberfest topic to the repository?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'We continually check the validity of your pull/merge requests, so as soon as a maintainer opts-in the project, we’ll see this has happened and start processing your pull/merge request fully. Once we’ve seen that your PR/MR is in an opted-in project, we won’t check this again, so don’t worry if a maintainer later removes the topic again, your PR/MR will still count.',
+        }
+      ]
+    },
+    {
+      title: 'As a maintainer, how do I encourage contributions to my repos?',
+      subtitle: 'Maintainers',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'First, classify your repository with the \'hacktoberfest\' topic. This will let participants know that your repo is participating in Hacktoberfest.\n\n' +
+          'You can also create issues for anything you’d like contributors to help with, and you can add labels like **good first issue** and **help wanted** so they’re easier to discover.',
+        }
+      ]
+    },
+    {
+      title: 'As a maintainer, how should I handle spam pull/merge requests?',
+      subtitle: 'Maintainers',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'We dislike seeing spam pull/merge requests just as much as you, so please give them a **spam** label and close them. Pull/merge requests that have a label containing the word **spam** won’t be counted toward Hacktoberfest, and participants with two or more PR/MRs identified as spam will be disqualified.',
+        }
+      ]
+    },
+    {
+      title: 'As a maintainer, do I earn a digital reward for participating in Hacktoberfest?',
+      subtitle: 'Maintainers',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Whether you are a maintainer, contributor or event organizer, you are eligible to receive a digital reward kit upon completion of four accepted pull/merge requests. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.',
+        }
+      ]
+    },
+    {
+      title: 'How can I exclude my repository from Hacktoberfest?',
+      subtitle: 'Maintainers',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Hacktoberfest is an opt-in system for maintainers. Repositories must have the **hacktoberfest** topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the **hacktoberfest-accepted** label. Any repository without the **hacktoberfest** topic, and not using the label, is automatically excluded, no action required. ',
+        }
+      ]
     },
   ],
 };
+
+export const lowNoCode = {
+  title: 'Low or Non Code Contributions',
+  content: 'At its core, Hacktoberfest aims to encourage more individuals to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don\'t involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year\'s effort, we\'re committed to promoting contributions that don\'t require technical knowledge. Visit GitHub’s [The ReadMe Project](https://github.com/readme/featured/open-source-non-code-contributions) to learn more'
+}
+
+export const note = {
+  content: '**Note:** If you\'re submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution. Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n' +
+  '\n' +
+  '**For Maintainers:** [How to attract low or non-code contributions](https://www.youtube.com/live/Z7ppp_DrxyM?feature=share).'
+}

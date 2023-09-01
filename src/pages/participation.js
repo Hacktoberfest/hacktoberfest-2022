@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { Fragment } from 'react';
 import styled from 'styled-components';
 
 import {
@@ -10,66 +9,70 @@ import {
   spam,
   maintainers,
   faqs,
+  note,
+  lowNoCode,
 } from 'lib/participation';
 
-import { MarkdownInline, Markdown } from 'components/markdown';
-import { ContentSections } from 'components/content';
-import Collapse from 'components/collapse';
-import Anchor from 'components/anchor';
-import Divider from 'components/divider';
-import Section from 'components/section';
-import Hero from 'components/hero';
-import { PixelPus } from 'components/pixels';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+
+import Divider from 'components/Divider';
+import Section from 'components/Section';
 import DorknamicIsland from 'components/dorknamic-island';
-import YouTube from 'components/youtube';
+import Container from 'components/Container';
+import ContentMaster from 'components/ContentMaster';
+import ContentSide from 'components/ContentSide';
+import DividerRow from 'components/DividerRow';
+import Accordion from 'components/Accordion';
+import List from 'components/List';
+import Note from 'components/Note';
+
+import IlloPencil from 'assets/img/8bit-pencil.svg';
+import HeroSecondary from 'components/HeroSecondary';
+import PixelComputer2023 from 'components/pixels/PixelComputer2023';
+import React from 'react';
 
 const StyledPRDetails = styled.div`
-  margin: 32px 0 0;
-`;
+  margin: 16px 0 0;
 
-const StyledFAQs = styled.div`
-  h3 {
-    font-size: 48px;
-    line-height: 1.25;
-    margin: 32px 0;
-  }
-  
-  details {
-    margin: 16px 0;
-    
-    h4 {
-      font-size: 24px;
-      text-shadow: none;
-      font-weight: normal;
-      text-transform: none;
-      color: rgba(229, 225, 230, 0.75);
-    }
-    
-    p {
-      opacity: 1;
-    }
+  ${mQ(bp.desktop)} {
+    margin: 32px 0 0;
   }
 `;
 
-const StyledPREyebrow = styled.p`
-  color: ${(props) => props.theme[props.color] || props.theme.text};
-  margin: 0 !important;
+export const StyledSpacer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+
+  ${mQ(bp.desktop)} {
+    gap: 80px;
+  }
+`;
+
+const StyledValues = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  ${mQ(bp.desktop)} {
+    gap: 64px;
+  }
 `;
 
 const Participation = () => {
   return (
     <>
       <Head>
-        <title>Participation | Hacktoberfest 2022</title>
+        <title>Participation | Hacktoberfest 2023</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Participation | Hacktoberfest 2022"
+          content="Participation | Hacktoberfest 2023"
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Participation | Hacktoberfest 2022"
+          content="Participation | Hacktoberfest 2023"
         />
       </Head>
 
@@ -77,102 +80,280 @@ const Participation = () => {
         <a href="#values">Values</a>
         <a href="#contributors">Contributors</a>
         <a href="#beginner-resources">Beginner-Resources</a>
-        <a href="#pr-mr-details">Pull/Merge Request Details</a>
+        <a href="#pr-mr-details">pr-mr-details</a>
         <a href="#spam">Spam</a>
         <a href="#maintainers">Maintainers</a>
-        <a href="#faqs">Swag/Shipping FAQs</a>
+        <a href="#low-or-non-code">low-or-non-code</a>
+        <a href="#faq">FAQ</a>
       </DorknamicIsland>
 
-      <Hero
-        h="200"
-        s="10"
-        b="0.5"
-        gradientLeft="#9131ff"
-        gradientRight="#2effcd"
+      <HeroSecondary
         title="Participation"
-      >
-        <PixelPus />
-      </Hero>
+        icon={
+          <PixelComputer2023
+            width="1680"
+            scale="1"
+            timing="5"
+            frames="7"
+          />
+        }
+      />
 
-      <Section type="sub_content" id="values">
-        <Divider />
-        <Anchor href="#values" />
-        <MarkdownInline string={values.title} as="h2" />
-        <ContentSections sections={values.sections} titleAs="h5" />
-      </Section>
+      <Container>
+        <Section id="values">
+          <StyledValues>
+            <ContentMaster size="lg" eyebrow={`[${values.title}]`} />
+            {values.sections.map(value => (
+              <ContentSide key={value.title}>
+                <ContentMaster size="lg" title={value.title} />
+                <ContentMaster size="md">
+                  {value.content}
+                </ContentMaster>
+              </ContentSide>
+            ))}
+          </StyledValues>
+        </Section>
 
-      <Section type="sub_content" id="contributors">
-        <Divider />
-        <Anchor href="#contributors" />
-        <MarkdownInline string={contributors.title} as="h2" />
-        <ContentSections sections={contributors.sections} />
-      </Section>
+        <Divider type="pixel" />
+      </Container>
 
-      <Section type="sub_content" id="beginner-resources">
-        <Divider />
-        <Anchor href="#beginner-resources" />
-        <MarkdownInline string={resources.title} as="h2" />
-        <ContentSections sections={resources.sections} />
-
-        <YouTube id="nkuYH40cjo4" title="How to Do Your First Pull Request" />
-      </Section>
-
-      <Section type="sub_content" id="pr-mr-details">
-        <Divider />
-        <Anchor href="#pr-mr-details" />
-        <MarkdownInline string={prMrDetails.title} as="h2" />
-        <Markdown string={prMrDetails.content} />
-        <StyledPRDetails>
-          {prMrDetails.sections.map((section) => (
-            <Collapse
-              key={section.title}
-              title={
-                <div>
-                  {section.subtitle && (
-                    <MarkdownInline
-                      string={`[ ${section.subtitle} ]`}
-                      as={StyledPREyebrow}
-                      color="spark"
-                    />
-                  )}
-                  <MarkdownInline string={section.title} as="h4" />
-                </div>
-              }
-              collapsed
+      <Container inner>
+        <Section id="contributors">
+          <StyledSpacer>
+            <ContentMaster
+              size="xl"
+              title={contributors.title}
             >
-              <ContentSections sections={section.items} titleAs="p" />
-            </Collapse>
-          ))}
-        </StyledPRDetails>
-      </Section>
+              {contributors.sections[0].title}
+            </ContentMaster>
 
-      <Section type="sub_content" id="spam">
-        <Divider />
-        <Anchor href="#spam" />
-        <MarkdownInline string={spam.title} as="h2" />
-        <ContentSections sections={spam.sections} />
-      </Section>
+            <ContentMaster
+              size="xl"
+              list={contributors.sections[0].items}
+            />
+          </StyledSpacer>
+        </Section>
+      </Container>
 
-      <Section type="sub_content" id="maintainers">
-        <Divider />
-        <Anchor href="#maintainers" />
-        <MarkdownInline string={maintainers.title} as="h2" />
-        <ContentSections sections={maintainers.sections} />
-      </Section>
+      <Container>
+        <Divider type="doubledashed" />
+        <Section id="beginner-resources" small>
+          <ContentSide>
+            <ContentMaster
+              size="xl"
+              title={resources.title}
+            />
+            <ContentMaster
+              size="md"
+              title={resources.sections[0].title}
+              titleTag="h3"
+              list={resources.sections[0].items}
+            />
+          </ContentSide>
+        </Section>
+        <Divider type="doubledashed" />
+        <DividerRow gap="128px">
+          <ContentMaster
+            size="md"
+            title={resources.sections[1].title}
+            titleTag="h3"
+            list={resources.sections[1].items}
+          />
+          <ContentMaster
+            size="md"
+            title={resources.sections[2].title}
+            titleTag="h3"
+            list={resources.sections[2].items}
+          />
+        </DividerRow>
+        <Divider type="doubledashed" />
+      </Container>
 
-      <Section type="sub_content" id="faqs">
-        <Divider />
-        <Anchor href="#faqs" />
-        <MarkdownInline string={faqs.title} as="h2" />
-        <StyledFAQs>
-          {faqs.sections.map((section) => (
-            <Fragment key={section.title}>
-              <MarkdownInline string={section.title} as="h3" />
-              <ContentSections sections={section.items} />
-            </Fragment>
-          ))}
-        </StyledFAQs>
-      </Section>
+      <Container inner>
+        <Section id="pr-mr-details">
+          <ContentMaster
+            size="xl"
+            title={prMrDetails.title}
+          >
+            {prMrDetails.content}
+          </ContentMaster>
+          <StyledPRDetails>
+            {prMrDetails.sections.map((section, index) => (
+              <React.Fragment key={section.title}>
+                <Accordion
+                  title={section.title}
+                  subtitle={section.subtitle}
+                  collapsed
+                >
+                  <ContentMaster size="md">
+                    {section.items[0].content}
+                  </ContentMaster>
+                </Accordion>
+                {prMrDetails.sections.length !== (index + 1) && (
+                  <Divider />
+                )}
+              </React.Fragment>
+            ))}
+          </StyledPRDetails>
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+      </Container>
+
+      <Container inner>
+        <Section id="spam">
+          <ContentMaster
+            size="xl"
+            title={spam.title}
+          >
+            {spam.content}
+          </ContentMaster>
+          <StyledPRDetails>
+            {spam.sections.map((section, index) => (
+              <React.Fragment key={section.title}>
+                <Accordion
+                  title={section.title}
+                  subtitle={section.subtitle}
+                  collapsed
+                >
+                  <ContentMaster
+                    size="md"
+                    list={section.items[0].items}
+                  >
+                    {section.items[0].content}
+                  </ContentMaster>
+                </Accordion>
+                {spam.sections.length !== (index + 1) && (
+                  <Divider />
+                )}
+              </React.Fragment>
+            ))}
+          </StyledPRDetails>
+        </Section>
+      </Container>
+
+      <Container>
+        <Divider type="pixel" />
+
+        <Section id="maintainers">
+          <StyledSpacer>
+            <div style={{maxWidth: '1020px'}}>
+              <ContentMaster
+                size="xl"
+                title={maintainers.title}
+              >
+                {maintainers.content}
+              </ContentMaster>
+            </div>
+            <ContentMaster
+              size="xl"
+              listColumns="2"
+              list={maintainers.sections[0].items}
+            />
+          </StyledSpacer>
+        </Section>
+
+        <Divider type="pixel" />
+
+        <Section id="low-or-non-code">
+          <div style={{maxWidth: '1020px'}}>
+            <ContentMaster
+              size="xl"
+              title={lowNoCode.title}
+              children={lowNoCode.content}
+            />
+          </div>
+        </Section>
+
+        <Divider type="doubledashed" />
+
+        <Section small>
+          <ContentSide>
+            <ContentMaster size="xl">
+              [Low-code and non-code contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source) are an excellent way to get involved in supporting open source. Here are some examples of ways you can contribute to open-source projects:
+            </ContentMaster>
+            <ContentMaster
+              size="md"
+              title="Low-Code Contributions:"
+              titleTag="h3"
+              list={[
+                'Technical documentation',
+                'User experience testing',
+                'Technical blog post or tutorial',
+                'Case studies'
+              ]}
+            />
+          </ContentSide>
+        </Section>
+
+        <Divider type="doubledashed" />
+
+        <Section small>
+          <List
+            content={{
+              size: 'md',
+              title: 'Non-Code Contributions:',
+              titleTag: 'h3'
+            }}
+            list={[
+              'Writing',
+              'Translating',
+              'Copy editing',
+              'Talks or presentations',
+              'Event organization',
+              'Podcasts',
+              'Social media',
+              'Blog posts',
+              'Video production',
+              'Graphic design'
+            ]}
+          />
+        </Section>
+
+        <Divider type="doubledashed" />
+
+        <Section small>
+          <Note image={{
+            src: IlloPencil.src,
+            alt: ''
+          }}>
+            {note.content}
+          </Note>
+        </Section>
+
+        <Divider type="pixel" />
+      </Container>
+
+      <Container inner>
+        <Section id="faq">
+          <ContentMaster
+            size="xl"
+            title={faqs.title}
+          >
+            {faqs.content}
+          </ContentMaster>
+          <StyledPRDetails>
+            {faqs.sections.map((section, index) => (
+              <React.Fragment key={section.title}>
+                <Accordion
+                  title={section.title}
+                  subtitle={section.subtitle}
+                  collapsed
+                >
+                  <ContentMaster size="md">
+                    {section.items[0].content}
+                  </ContentMaster>
+                </Accordion>
+                {faqs.sections.length !== (index + 1) && (
+                  <Divider />
+                )}
+              </React.Fragment>
+            ))}
+          </StyledPRDetails>
+        </Section>
+      </Container>
     </>
   );
 };
