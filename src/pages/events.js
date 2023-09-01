@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React from 'react';
 import styled from 'styled-components';
 
-import { fetchEvents, fetchSpeakers, organize, organizeDisclaimer, resources } from 'lib/events';
+import { organize, organizeDisclaimer, resources } from 'lib/events';
 
 import Divider from 'components/Divider';
 import Section from 'components/Section';
@@ -274,18 +274,6 @@ const Events = () => {
       </Container>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  const events = await fetchEvents();
-  const speakers = await fetchSpeakers();
-
-  return {
-    props: {
-      events,
-      speakers,
-    },
-  };
 };
 
 export default Events;
