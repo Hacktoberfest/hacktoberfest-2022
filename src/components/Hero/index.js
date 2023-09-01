@@ -21,9 +21,7 @@ import ButtonMain from 'components/ButtonMain';
 import Sponsors from 'components/Sponsors';
 import sponsorsList from 'lib/sponsors';
 
-const Hero = props => {
-  const { children } = props;
-
+const Hero = () => {
   const [days, hours, minutes, seconds, progress] = useCountdown(
     new Date(registrationStart).getTime()
   );
