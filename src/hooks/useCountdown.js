@@ -8,13 +8,13 @@ const useCountdown = target => {
   const [seconds, setSeconds] = useState(null);
   const [progress, setProgress] = useState(null);
 
-  const currentDate = new Date();
-
-  const progressStart = new Date(launchDate);
-  const progressCurrent = Math.abs(currentDate-progressStart);
-  const progressTotal = Math.abs(target-progressStart);
-
   const setCountdown = useCallback(val => {
+    const currentDate = new Date();
+
+    const progressStart = new Date(launchDate);
+    const progressCurrent = Math.abs(currentDate-progressStart);
+    const progressTotal = Math.abs(target-progressStart);
+
     const diff = Math.max(val - currentDate, 0);
     setDays(
       Math.floor(diff / 1000 / 60 / 60 / 24)
@@ -43,7 +43,7 @@ const useCountdown = target => {
 
   useEffect(() => {
     setCountdown(target);
-    if (target < currentDate) return () => {};
+    if (target < Date.now()) return () => {};
 
     const interval = setInterval(() => {
       setCountdown(target);
