@@ -1,4 +1,7 @@
 import Frame from 'components/Frame';
+
+import logo from 'assets/img/logo-hacktoberfest--mark.svg';
+
 import {
   StyledAvatar,
   StyledAvatarContainer
@@ -10,8 +13,8 @@ const Avatar = props => {
   return (
     <StyledAvatar>
       <Frame color={color} />
-      <StyledAvatarContainer>
-        <img src={src} alt={alt} />
+      <StyledAvatarContainer $placeholder={!src}>
+        <img src={src || logo.src} alt={alt} />
       </StyledAvatarContainer>
     </StyledAvatar>
   );

@@ -3,27 +3,23 @@ import { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 
-import iconLite from 'assets/img/icon-lite.svg';
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 import { fetchUserAvatars } from 'lib/api';
 
-
-import Loader from 'components/loader';
-import Settings from 'components/profile/settings';
-import Progress from 'components/profile/progress';
-
 import useAuth from 'hooks/useAuth';
 
-import { StyledHeader, StyledHeaderContent } from './register';
+import bgProfile from 'assets/img/bg-profile.svg';
+
+import Loader from 'components/loader';
 import Section from 'components/Section';
 import Container from 'components/Container';
-import Avatar from 'components/Avatar';
-import ContentMaster from 'components/ContentMaster';
 import ButtonMain from 'components/ButtonMain';
 import Divider from 'components/Divider';
-import bgProfile from 'assets/img/bg-profile.svg';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
+import Settings from 'components/profile/settings';
+import Progress from 'components/profile/progress';
+import Header from 'components/profile/header';
 
 const opacityFade = () => keyframes`
   to {
@@ -93,46 +89,35 @@ const Profile = () => {
       {auth.loading || !loaded ? (
         <Section>
           <Container>
-            <StyledHeader>
-              <Loader message=">> Loading /usr/lib/profile..." />
-            </StyledHeader>
+            <Loader message=">> Loading /usr/lib/profile..." />
           </Container>
         </Section>
       ) : (
         <StyledProfilePage>
           <Container>
-            <StyledHeader>
-              <Avatar src={avatar || iconLite.src} alt="" />
-              <StyledHeaderContent>
-                <ContentMaster
-                  size="xl"
-                  eyebrow=">> Boot Profile..."
-                  title={`Hello, ${auth.user.name}`}
-                />
-
-                <StyledButtonGroup>
-                  {!edit && (
-                    <ButtonMain
-                      as="button"
-                      onClick={() => router.push('/profile/edit', undefined, { shallow: true })}
-                      children="Edit Info"
-                    />
-                  )}
-                  {edit && (
-                    <ButtonMain
-                      as="button"
-                      onClick={() => router.push('/profile', undefined, { shallow: true })}
-                      children="Back to Profile"
-                    />
-                  )}
+            <Header avatar={avatar} name={auth.user.name} type="Profile">
+              <StyledButtonGroup>
+                {!edit && (
                   <ButtonMain
                     as="button"
-                    onClick={() => auth.reset()}
-                    children="Logout"
+                    onClick={() => router.push('/profile/edit', undefined, { shallow: true })}
+                    children="Edit Info"
                   />
-                </StyledButtonGroup>
-              </StyledHeaderContent>
-            </StyledHeader>
+                )}
+                {edit && (
+                  <ButtonMain
+                    as="button"
+                    onClick={() => router.push('/profile', undefined, { shallow: true })}
+                    children="Back to Profile"
+                  />
+                )}
+                <ButtonMain
+                  as="button"
+                  onClick={() => auth.reset()}
+                  children="Logout"
+                />
+              </StyledButtonGroup>
+            </Header>
 
             <Divider type="pixel" />
 

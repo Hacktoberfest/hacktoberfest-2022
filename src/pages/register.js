@@ -1,58 +1,19 @@
-import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from 'styled-components';
 import Head from 'next/head';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
-
-import iconLite from 'assets/img/icon-lite.svg';
 
 import { fetchUserAvatars } from 'lib/api';
-
-import Section from 'components/Section';
-import Loader from 'components/loader';
-import Settings from 'components/profile/settings';
-import Type from 'components/type';
+import { registrationEnd, registrationStart } from 'lib/config';
 
 import useAuth from 'hooks/useAuth';
 
-import { registrationEnd, registrationStart } from '../lib/config';
+import Section from 'components/Section';
+import Loader from 'components/loader';
 import Divider from 'components/Divider';
 import Container from 'components/Container';
-import Frame from 'components/Frame';
-import { StyledAvatar } from 'components/Avatar/Avatar.styles';
 import ButtonMain from 'components/ButtonMain';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
-
-export const StyledHeader = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  padding: 128px 0 80px;
-  gap: 64px;
-
-
-  ${mQ(bp.tablet)} {
-    align-items: center;
-    flex-direction: row;
-    padding: 224px 0 80px;
-    background-size: 100% auto;
-  }
-
-  ${StyledAvatar} {
-    width: 53.82262997%;
-
-    ${mQ(bp.tablet)} {
-      width: 26.484375%;
-    }
-  }
-`;
-
-export const StyledHeaderContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-  flex-grow: 1;
-`;
+import Settings from 'components/profile/settings';
+import Header from 'components/profile/header';
 
 const Register = () => {
   const auth = useAuth();
@@ -124,36 +85,13 @@ const Register = () => {
         auth.loading ? (
           <Section>
             <Container>
-              <StyledHeader>
-                <Loader message=">> Authorization in progress..." />
-              </StyledHeader>
+              <Loader message=">> Authorization in progress..." />
             </Container>
           </Section>
         ) : (
           <>
             <Container>
-              <Section small>
-                <StyledHeader>
-                  <StyledAvatarWrapper>
-                    <Frame color="blue" />
-                    <StyledAvatar $rotate="right">
-                      <img
-                        src={avatar || iconLite.src}
-                        alt=""
-                        width={256}
-                        height={256}
-                      />
-                    </StyledAvatar>
-                  </StyledAvatarWrapper>
-
-                  <StyledHeaderContent>
-                    <Type
-                      text={`Hello, ${auth.user.name}`}
-                      prefix=">> Boot Registration:"
-                    />
-                  </StyledHeaderContent>
-                </StyledHeader>
-              </Section>
+              <Header avatar={avatar} name={auth.user.name} type="Registration" />
 
               <Divider type="pixel" />
 

@@ -6,27 +6,31 @@ const typingAnim = () => keyframes`
   }
 `;
 
-const StyledType = styled.p`
-  display: flex;
-  flex-flow: row wrap;
-  gap: 1ch;
-  max-width: 100%;
+const StyledType = styled.span`
+  white-space: nowrap;
+
+  &,
+  span {
+    display: inline-block;
+    max-width: 100%;
+  }
 
   span {
-    white-space: nowrap;
     overflow: hidden;
-    width: ${(props) => props.width}ch;
-    animation: ${typingAnim} 1.5s steps(${(props) => props.width});
-    max-width: 100%;
+    width: ${({ $width }) => $width}ch;
+    animation: ${typingAnim} 1.5s steps(${({ $width }) => $width});
   }
 
   &:after {
     content: '_';
+    position: relative;
+    top: -.5ch;
+    left: .25ch;
   }
 `;
 
 const Type = ({ text, prefix = '' }) => (
-  <StyledType width={text.length}>
+  <StyledType $width={text.length}>
     {prefix}
     <span>{text}</span>
   </StyledType>
