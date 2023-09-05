@@ -1,5 +1,8 @@
 import { useRouter } from 'next/router';
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
+
+import { body20, headline48 } from 'themes/typography';
 
 import {
   createRegistration,
@@ -16,12 +19,10 @@ import { providerMap, registrationStart, trackingEnd } from 'lib/config';
 import Form from 'components/form';
 import Loader from 'components/loader';
 import Section from 'components/Section';
-
-import styled from 'styled-components';
-import MetadataFields from './metadata-fields';
 import ButtonMain from 'components/ButtonMain';
 import Divider from 'components/Divider';
-import { body20, headline48 } from 'themes/typography';
+
+import MetadataFields from './metadata-fields';
 
 const StyledFormSectionTitle = styled.h2`
   ${headline48};
@@ -189,7 +190,9 @@ const Settings = ({ auth, isEdit = false }) => {
       // Get the user's current metadata (or none if this is registration)
       const currentMetadata = isEdit ? auth.registration.metadata : {};
 
-      // Store default values for each metadata item, preferring the user's exising value
+      console.log(currentMetadata);
+
+      // Store default values for each metadata item, preferring the user's existing value
       setData((prev) => ({
         ...prev,
         metadata: {
@@ -198,11 +201,13 @@ const Settings = ({ auth, isEdit = false }) => {
             (obj, item) => ({
               ...obj,
               [item.name]:
-                item.datatype === 'boolean'
-                  ? currentMetadata[item.name]?.value === 'true'
-                  : item.datatype === 'string'
-                  ? currentMetadata[item.name]?.value || ''
-                  : currentMetadata[item.name]?.value || null,
+                !item.required && (currentMetadata[item.name]?.value === undefined || currentMetadata[item.name]?.value === null)
+                  ? null
+                  : item.datatype === 'boolean'
+                    ? currentMetadata[item.name]?.value === 'true'
+                    : item.datatype === 'string'
+                      ? currentMetadata[item.name]?.value || ''
+                      : currentMetadata[item.name]?.value || null,
             }),
             {}
           ),

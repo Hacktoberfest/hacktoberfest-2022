@@ -9,3 +9,30 @@ export const pullRequestStates = {
 };
 
 export const pullRequestValidation = 'For more information about how exactly we validate PR/MRs for contributors, check the [details on our participation page](/participation#pr-mr-details).';
+
+export const employmentRoles = [
+  'Back-end Developer',
+  'Full-stack Developer',
+  'Front-end Developer',
+  'Founder, Owner or C-suite Executive (CEO, CTO, etc.)',
+  'Mobile Developer',
+  'Desktop Applications Developer',
+  'Systems Architect',
+  'System Administrator (SysAdmin)',
+  'Systems Reliability Engineer',
+  'Database Administrator',
+  'Designer',
+  'DevOps Specialist',
+  'QA or Test Developer',
+  'Software Development Consultant',
+  'Engineering Manager',
+  'Embedded Applications or Devices Developer',
+  'Game or Graphics Developer',
+  'Product Manager',
+  'Data Scientist or Analyst',
+  'Open Source Contributor',
+  'Freelance Consultant',
+  'Educator or Academic Researcher',
+  'Marketing or Sales Professional',
+  'Other',
+];

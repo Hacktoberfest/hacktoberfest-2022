@@ -1,29 +1,83 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import countryList from 'country-list';
+import styled from 'styled-components';
 
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import { body24, body18, headline48 } from 'themes/typography';
+
+import { employmentRoles } from 'lib/profile';
+
+import Input from 'components/Input';
+import Select from 'components/Select';
+import Divider from 'components/Divider';
 
 import CheckRadio from './check-radio';
 import EmailWarning from './email-warning';
-import Input from 'components/Input';
-import Select from 'components/Select';
-import styled from 'styled-components';
-import Divider from 'components/Divider';
-import { body24, headline48 } from 'themes/typography';
 
-// Override ISO 3166-1 for some countries
+const StyledFormSection = styled.div`
+  display: flex;
+  gap: 48px;
+  flex-direction: column;
+  padding: 80px 0;
+`;
+
+const StyledFormSectionTitle = styled.h2`
+  ${headline48};
+`;
+
+const StyledFormGroup = styled.fieldset`
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+  legend {
+    padding: 0;
+    margin: 0 0 48px;
+    display: block;
+    width: 100%;
+    ${body24};
+
+    small,
+    span {
+      color: ${({ theme }) => theme.colors.neutral.manga300};
+      ${body18};
+    }
+
+    span {
+      display: block;
+    }
+  }
+`;
+
+const StyledFormRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+
+  ${mQ(bp.tablet)} {
+    grid-template-columns: repeat(${({$columns}) => $columns}, minmax(0, 1fr));
+    gap: 64px;
+    align-items: flex-start;
+  }
+`;
+
+const dropdownEmployment = [[
+  '',
+  'Prefer not to say',
+]].concat(employmentRoles.map(role => [role, role]));
+
 const countryOverrides = {
   tw: 'Taiwan',
-}
+};
 
-const countries = [{
+const dropdownCountries = [{
   code: '',
   name: 'Prefer not to say',
 }].concat(
   Object.entries(countryList.getCodeList())
     .map(([ code, name ]) => ({ code, name: countryOverrides[code] || name }))
     .sort((a, b) => a.name.localeCompare(b.name)),
-);
+).map(country => [country.code, country.name]);
 
 const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled = false }) => {
   const [ fields, setFields ] = useState({});
@@ -91,43 +145,6 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
   // Check the opt-out checkbox automatically based on opt-in states
   const marketingOptedOut = useMemo(() => fields.marketing?.every(key => !value.metadata[key.name]), [ fields, value ]);
 
-  const StyledFormSection = styled.div`
-    display: flex;
-    gap: 48px;
-    flex-direction: column;
-    padding: 80px 0;
-  `;
-
-  const StyledFormSectionTitle = styled.h2`
-    ${headline48};
-  `;
-
-  const StyledFormGroup = styled.fieldset`
-    margin: 0;
-    border: 0;
-    padding: 0;
-
-    legend {
-      padding: 0;
-      margin: 0 0 48px;
-      display: block;
-      width: 100%;
-      ${body24};
-    }
-  `;
-
-  const StyledFormRow = styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 32px;
-
-    ${mQ(bp.tablet)} {
-      grid-template-columns: repeat(${({$columns}) => $columns}, minmax(0, 1fr));
-      gap: 64px;
-      align-items: flex-start;
-    }
-  `;
-
   return (
     <>
       <StyledFormSection>
@@ -156,16 +173,19 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
           )}
         </StyledFormRow>
 
-        {showEmail && (
-          <EmailWarning email={value.email} hasHolopin={value.metadata['operational-holopin']} />
-        )}
-
-        <Divider />
+        {showEmail && <EmailWarning email={value.email} />}
 
         {!!fields.role && (
           <>
+            <Divider />
             <StyledFormGroup>
-              <legend>How will you be participating? (select all that apply)</legend>
+              <legend>
+                How will you be participating?
+                {" "}
+                <small>[optional]</small>
+                <span>Select all that apply</span>
+              </legend>
+
               <StyledFormRow $columns={3}>
                 {fields.role.map(meta => (
                   <CheckRadio
@@ -180,14 +200,19 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
                 ))}
               </StyledFormRow>
             </StyledFormGroup>
-            <Divider />
           </>
         )}
 
         {!!fields.stage && (
           <>
+            <Divider />
             <StyledFormGroup>
-              <legend>What is your experience level?</legend>
+              <legend>
+                What is your experience level?
+                {" "}
+                <small>[optional]</small>
+              </legend>
+
               <StyledFormRow $columns={3}>
                 {fields.stage.map(meta => (
                   <CheckRadio
@@ -208,14 +233,20 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
                 ))}
               </StyledFormRow>
             </StyledFormGroup>
-            <Divider />
           </>
         )}
 
         {!!fields.type && (
           <>
+            <Divider />
             <StyledFormGroup>
-              <legend>How would you like to contribute? (select all that apply)</legend>
+              <legend>
+                How would you like to contribute?
+                {" "}
+                <small>[optional]</small>
+                <span>Select all that apply</span>
+              </legend>
+
               <StyledFormRow $columns={2}>
                 {fields.type.map(meta => (
                   <CheckRadio
@@ -230,51 +261,107 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
                 ))}
               </StyledFormRow>
             </StyledFormGroup>
-            <Divider />
           </>
         )}
 
-        {!!fields.country && (
-          <StyledFormGroup>
-            <legend>What country are you participating from?</legend>
+        {!!fields.demographic && fields.demographic.map(meta => (
+          <Fragment key={meta.name}>
+            <Divider />
+            <StyledFormGroup>
+              <legend>
+                {meta.title}
+                {!meta.required && (
+                  <>
+                    {" "}
+                    <small>[optional]</small>
+                  </>
+                )}
+              </legend>
 
-            <Select
-              name="country"
-              label="Country name"
-              value={value.metadata.country || ''}
-              onChange={e => updateMetadata({ country: e.target.value })}
-              disabled={disabled}
-              items={countries.map(country => [country.code, country.name])}
-            />
-          </StyledFormGroup>
-        )}
+              {meta.datatype === 'boolean' && (
+                <StyledFormRow $columns={2}>
+                  <CheckRadio
+                    title="Yes"
+                    name={meta.name}
+                    value="yes"
+                    radio
+                    onChange={() => updateMetadata({ [meta.name]: true })}
+                    checked={value.metadata[meta.name] === true}
+                    disabled={disabled}
+                    required={meta.required}
+                  />
+
+                  <CheckRadio
+                    title="No"
+                    name={meta.name}
+                    value="no"
+                    radio
+                    onChange={() => updateMetadata({ [meta.name]: false })}
+                    checked={value.metadata[meta.name] === false}
+                    disabled={disabled}
+                    required={meta.required}
+                  />
+                </StyledFormRow>
+              )}
+
+              {meta.datatype === 'string' && meta.name === 'demographic-employment' && (
+                <Select
+                  name={meta.name}
+                  label={meta.message}
+                  value={value.metadata[meta.name] || ''}
+                  onChange={e => updateMetadata({ [meta.name]: e.target.value })}
+                  disabled={disabled}
+                  required={meta.required}
+                  items={dropdownEmployment}
+                />
+              )}
+
+              {meta.datatype === 'string' && meta.name === 'demographic-country' && (
+                <Select
+                  name={meta.name}
+                  label={meta.message}
+                  value={value.metadata[meta.name] || ''}
+                  onChange={e => updateMetadata({ [meta.name]: e.target.value })}
+                  disabled={disabled}
+                  required={meta.required}
+                  items={dropdownCountries}
+                />
+              )}
+            </StyledFormGroup>
+          </Fragment>
+        ))}
       </StyledFormSection>
-
 
       {!!fields.operational && (
         <>
           <Divider type="doubledashed" />
           <StyledFormSection>
             <StyledFormSectionTitle>Operational opt-ins</StyledFormSectionTitle>
-            {fields.operational.map(meta => (
-              <Fragment key={meta.name}>
-                <CheckRadio
-                  title={meta.title}
-                  message={meta.message}
-                  name={meta.name}
-                  onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
-                  checked={value.metadata[meta.name]}
-                  disabled={disabled}
-                />
-                {!!(meta.name === 'operational-holopin' && value.metadata[meta.name]) && (
-                  <EmailWarning email={value.email} hasHolopin />
-                )}
-              </Fragment>
-            ))}
+            <StyledFormGroup>
+              <legend>
+                Do you wish to accept operational opt-ins?
+                {" "}
+                <small>[optional]</small>
+                <span>Select all that apply</span>
+              </legend>
+              
+              <StyledFormRow $columns={2}>
+                {fields.operational.map(meta => (
+                  <CheckRadio
+                    key={meta.name}
+                    title={meta.title}
+                    message={meta.message}
+                    name={meta.name}
+                    onChange={e => updateMetadata({ [meta.name]: e.target.checked })}
+                    checked={value.metadata[meta.name]}
+                    disabled={disabled}
+                  />
+                ))}
+              </StyledFormRow>
+            </StyledFormGroup>
           </StyledFormSection>
         </>
       )}
-
 
       {!!fields.marketing && (
         <>
@@ -282,7 +369,13 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
           <StyledFormSection>
             <StyledFormSectionTitle>Marketing opt-ins</StyledFormSectionTitle>
             <StyledFormGroup>
-              <legend>Do you wish to accept marketing opt-ins? (select all that apply) [optional]</legend>
+              <legend>
+                Do you wish to accept marketing opt-ins?
+                {" "}
+                <small>[optional]</small>
+                <span>Select all that apply</span>
+              </legend>
+
               <StyledFormRow $columns={2}>
                 {fields.marketing.map(meta => (
                   <CheckRadio
@@ -316,7 +409,11 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
           <StyledFormSection>
             <StyledFormSectionTitle>Rules &amp; terms</StyledFormSectionTitle>
             <StyledFormGroup>
-              <legend>You must accept terms and conditions to participate. [required]</legend>
+              <legend>
+                You must accept terms and conditions to participate.
+                {" "}
+                <small>[required]</small>
+              </legend>
 
               <StyledFormRow $columns={2}>
                 {fields.agree.map(meta => (
