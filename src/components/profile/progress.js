@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import styled, { keyframes, useTheme } from 'styled-components';
 
-import { fetchGiftCodes, fetchPullRequests, triggerIngest } from 'lib/api';
+import { fetchGiftCodes, fetchPullRequests, triggerUserIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
 
 import Loader from 'components/loader';
@@ -132,7 +132,7 @@ const Progress = ({ auth }) => {
       );
 
       // Trigger a PR ingest in the background, ignoring the result and any errors
-      triggerIngest(auth.user.id, auth.token).catch(() => {});
+      triggerUserIngest(auth.user.id, auth.token).catch(() => {});
 
       // Show the page
       setLoaded(true);
