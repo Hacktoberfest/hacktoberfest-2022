@@ -35,5 +35,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# JetBrains
+# IDEs
 /.idea
+/.vscode
