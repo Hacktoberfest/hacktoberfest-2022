@@ -116,6 +116,15 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
+                    href="https://hachyderm.io/@hacktoberfest"
+                    target="_blank"
+                    rel="me noreferrer noopener"
+                  >
+                    Mastodon
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="https://bsky.app/profile/hacktoberfest.com"
                     target="_blank"
                     rel="me noreferrer noopener"
