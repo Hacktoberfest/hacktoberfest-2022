@@ -18,17 +18,15 @@ const Sponsors = props => {
       <StyledSponsorsList>
         {sponsors.map((sponsor) => (
           <a
-          key={sponsor.name}
-          href={sponsor.url}
-          target="_blank"
-          rel="noreferrer noopener"
+            key={sponsor.title}
+            {...sponsor.link}
           >
             <img
-              src={sponsor.image}
-              alt={`${sponsor.name} logo`}
-              width={128 * (sponsor.scaleFactor || 1)}
+              src={sponsor.hero.image}
+              alt={`${sponsor.title} logo`}
+              width={128 * (sponsor.hero.scaleFactor || 1)}
               height={'100%'}
-              />
+            />
           </a>
         ))}
       </StyledSponsorsList>
