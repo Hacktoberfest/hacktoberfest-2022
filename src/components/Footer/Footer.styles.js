@@ -47,7 +47,7 @@ export const StyledFooterLogo = styled.div`
 
 export const StyledFooterContent = styled.div`
   ${mQ(bp.desktop)} {
-    padding: 32px 0 0;
+    padding: 32px 0;
   }
 `;
 

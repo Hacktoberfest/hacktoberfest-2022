@@ -1,4 +1,9 @@
 import Link from 'next/link';
+
+import Container from 'components/Container';
+
+import hacktoberfestLogomark from 'assets/img/logo-hacktoberfest--logomark.svg';
+
 import {
   StyledFooter,
   StyledFooterContent,
@@ -9,9 +14,6 @@ import {
   StyledFooterLinksTitle,
   StyledFooterBackground
 } from './Footer.styles';
-import Container from 'components/Container';
-
-import hacktoberfestLogomark from 'assets/img/logo-hacktoberfest--logomark.svg';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -107,9 +109,27 @@ const Footer = () => {
                   <a
                     href="https://twitter.com/hacktoberfest"
                     target="_blank"
-                    rel="noreferrer noopener"
+                    rel="me noreferrer noopener"
                   >
                     X (Twitter)
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://hachyderm.io/@hacktoberfest"
+                    target="_blank"
+                    rel="me noreferrer noopener"
+                  >
+                    Mastodon
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://bsky.app/profile/hacktoberfest.com"
+                    target="_blank"
+                    rel="me noreferrer noopener"
+                  >
+                    Bluesky
                   </a>
                 </li>
                 <li>
