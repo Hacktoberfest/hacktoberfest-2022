@@ -216,7 +216,7 @@ const Events = () => {
 
         <Divider type="doubledashed" />
 
-        <DividerRow>
+        <Section small>
           <ContentMaster
             size="md"
             title={resources.sections[3].title}
@@ -225,28 +225,8 @@ const Events = () => {
           >
             {resources.sections[3].content}
           </ContentMaster>
-          {/* <ContentMaster
-            size="md"
-            title={resources.sections[4].title}
-            titleTag="h3"
-          >
-            {resources.sections[4].content}
-          </ContentMaster> */}
-        </DividerRow>
-
-        {/* <Divider type="doubledashed" /> */}
-      </Container>
-
-      {/* <Container inner>
-        <Section id="speakers">
-          <ContentMaster
-            size="xl"
-            title="Speakers and Facilitators"
-          >
-            Open source experts and community leaders are all in on Hacktoberfest. Find them helping contributors complete their pull/merge requests all month long in events throughout October.
-          </ContentMaster>
         </Section>
-      </Container> */}
+      </Container>
 
       <Container>
         <Divider type="pixel" />
