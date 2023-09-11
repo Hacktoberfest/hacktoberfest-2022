@@ -61,7 +61,6 @@ const Events = () => {
       <DorknamicIsland>
         <a href="#events">Events</a>
         <a href="#organizers">Organizers</a>
-        <a href="#speakers">Speakers</a>
         <a href="#resources">Resources</a>
         <a href="#brand">Brand Guidelines</a>
       </DorknamicIsland>
