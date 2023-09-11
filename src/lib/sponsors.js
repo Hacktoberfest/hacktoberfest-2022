@@ -220,7 +220,7 @@ export const partners = [
     link: {
       target: '_blank',
       rel: "noreferrer noopener",
-      href: 'https://dagshub.com/lp/hacktoberfest-2023?utm_source=digital_ocean&utm_medium=website&utm_campaign=hacktoberfest_2023',
+      href: 'http://hf.co',
       title: 'Visit Hugging Face'
     },
   },
