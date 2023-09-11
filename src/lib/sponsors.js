@@ -125,13 +125,13 @@ export const partners = [
     title: 'Major League Hacking',
     content: 'Major League Hacking (MLH) is the official student hackathon league. Each year, we power over 300 weekend-long invention competitions that inspire innovation, cultivate communities and teach computer science skills to more than 500,000 developers around the world. MLH is an engaged and passionate maker community, consisting of the next generation of technology leaders and entrepreneurs. MLH has been a community first, mission driven organization from the beginning. We measure our success by the number of hackers we empower, and we want to keep it that way. That’s why we made it official and became a Certified B Corporation in 2016. B Corps are for-profit enterprises that are legally required to consider the impact of their decisions on their community, not just their shareholders.\n\n' +
     ' - Have a question about MLH? Head over to [our FAQ](https://mlh.io/faq) to find some answers to common questions.\n' +
-    ' - GHW website: [https://hackp.ac/mlh-hacktoberfest](https://hackp.ac/mlh-hacktoberfest)\n' +
-    ' - GHW Open Source landing page: [https://hackp.ac/ghw-opensource](https://hackp.ac/ghw-opensource)\n' +
-    ' - GHW Open Source registration page: [https://hackp.ac/ghw-opensource-registration](https://hackp.ac/ghw-opensource-registration)',
+    ' - Global Hack Week website: [https://hackp.ac/mlh-hacktoberfest](https://hackp.ac/mlh-hacktoberfest)\n' +
+    ' - Global Hack Week Open Source landing page: [https://hackp.ac/ghw-opensource](https://hackp.ac/ghw-opensource)\n' +
+    ' - Global Hack Week Open Source registration page: [https://hackp.ac/ghw-opensource-registration](https://hackp.ac/ghw-opensource-registration)',
     link: {
       target: '_blank',
       rel: "noreferrer noopener",
-      href: 'https://mlh.io/',
+      href: 'https://hackp.ac/visit-mlh-hacktoberfest',
       title: 'Visit Major League Hacking'
     },
   },
