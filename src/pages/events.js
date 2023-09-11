@@ -92,12 +92,12 @@ const Events = () => {
               links: [{
                 id: 'global-event-link-1',
                 target: '_blank',
-                href: 'https://organize.mlh.io/host/hacktoberfest-2023',
+                href: 'https://hackp.ac/hacktoberfest-organizehq',
                 children: 'Create New Event'
               }, {
                 id: 'global-event-link-2',
                 target: '_blank',
-                href: 'https://events.mlh.io/series/hacktoberfest-2023',
+                href: 'https://hackp.ac/hacktoberfest-ohqlandingpage',
                 children: 'View All Events'
               }]
             }}

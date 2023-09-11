@@ -39,8 +39,8 @@ export const organize = {
 };
 
 export const organizeDisclaimer = {
-  content: '[Go here](https://organize.mlh.io/host/hacktoberfest-2023) to set up your event and share it with the community.\n\n' +
-    'To view all Hacktoberfest events, visit [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)\n\n' +
+  content: 'Go to [Major League Hacking](https://hackp.ac/hacktoberfest-organizehq) to set up your event and share it with the community.\n\n' +
+    'To view all Hacktoberfest events, visit the Major League Hacking [Hacktoberfest Events page](https://hackp.ac/hacktoberfest-ohqlandingpage)\n\n' +
     'Facilitate the event, making sure to create an open, inclusive, and welcoming atmosphere.\n\n' +
     'Share special moments on social media using #hacktoberfest or #hacktoberfest2023 and tagging [@hacktoberfest](https://twitter.com/hacktoberfest). (**Remember to ask attendees for permission to use their photos**.)'
 }
@@ -62,7 +62,7 @@ export const resources = {
       title: 'How to promote your event',
       collapsible: true,
       collapsed: true,
-      content: '- Post your event on the Major League Hacking Hacktoberfest [Events page](https://organize.mlh.io/host/hacktoberfest-2023).\n' +
+      content: '- Post your event on the Major League Hacking [Hacktoberfest Events page](https://hackp.ac/hacktoberfest-organizehq).\n' +
         '- Remind your attendees to RSVP\n' +
         '- Share the event via email, social networks, and events websites. Consider posting on channels that are popular with developers and open source enthusiasts in your area, such as Meetup, Eventbrite, Twitter, etc..\n' +
         '- Tag [@hacktoberfest](https://twitter.com/hacktoberfest), #hacktoberfest, #hacktoberfest2023, #hacktoberfest10\n' +
