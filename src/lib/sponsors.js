@@ -25,11 +25,11 @@ export const founders = [
   {
     image: foundersDigitalOcean.src,
     title: 'DigitalOcean',
-    content: 'DigitalOcean simplifies cloud computing so businesses can spend more time creating software that changes the world. With its mission-critical infrastructure and fully managed offerings, DigitalOcean helps developers at startups and small and medium-sized businesses (SMBs) rapidly build, deploy and scale, whether creating a digital presence or building digital products. DigitalOcean combines the power of simplicity, security, community and customer support so customers can spend less time managing their infrastructure and more time building innovative applications that drive business growth. For more information, visit [digitalocean.com](http://digitalocean.com/).',
+    content: 'DigitalOcean simplifies cloud computing so businesses can spend more time creating software that changes the world. With its mission-critical infrastructure and fully managed offerings, DigitalOcean helps developers at startups and small and medium-sized businesses (SMBs) rapidly build, deploy and scale, whether creating a digital presence or building digital products. DigitalOcean combines the power of simplicity, security, community, and customer support so customers can spend less time managing their infrastructure and more time building innovative applications that drive business growth. For more information, visit [digitalocean.com](https://www.digitalocean.com).',
     link: {
       target: '_blank',
       rel: "noreferrer noopener",
-      href: 'http://digitalocean.com',
+      href: 'https://www.digitalocean.com',
       title: 'Visit DigitalOcean'
     },
     hero: {
