@@ -212,7 +212,7 @@ const Home = () => {
               children: 'MLH Global Hack Week'
             }]}
           >
-            We’re teaming up with Major League Hacking for Global Hack Week! Join the Hacktoberfest Guild, win daily challenges!
+            We’re teaming up with Major League Hacking for Global Hack Week! Complete Open-Source themed daily challenges and enjoy live streamed workshops.
           </SpotCard>
         </DividerRow>
 

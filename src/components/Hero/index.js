@@ -19,7 +19,7 @@ import { useMemo } from 'react';
 import { registrationEnd, registrationStart } from 'lib/config';
 import ButtonMain from 'components/ButtonMain';
 import Sponsors from 'components/Sponsors';
-import sponsorsList from 'lib/sponsors';
+import { founders } from 'lib/sponsors';
 
 const Hero = () => {
   const [days, hours, minutes, seconds, progress] = useCountdown(
@@ -48,7 +48,7 @@ const Hero = () => {
             open source!
           </StyledHeroTitle>
           <StyledHeroPresented>
-            <Sponsors title="Presented by" sponsors={sponsorsList.presented} />
+            <Sponsors title="Presented by" sponsors={founders} />
           </StyledHeroPresented>
         </StyledHeroContent>
         <StyledHeroCountdown>

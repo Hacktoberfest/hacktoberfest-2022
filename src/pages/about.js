@@ -7,32 +7,34 @@ import {
   digitalRewards,
   advisoryCouncil,
   council,
+  sharing
+} from 'lib/about';
+import {
   founders,
   contributors,
   sustainer,
   partners,
-  sharing
-} from 'lib/about';
+} from 'lib/sponsors';
+
+import IlloLeafs from 'assets/img/8bit-leafs.svg';
 
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import { headline48 } from 'themes/typography';
+
 import Divider from 'components/Divider';
 import Section from 'components/Section';
 import DorknamicIsland from 'components/dorknamic-island';
-import YouTube from '../components/youtube';
 import HeroSecondary from 'components/HeroSecondary';
 import PixelLogo from 'components/pixels/PixelLogo';
 import ContentMaster from 'components/ContentMaster';
 import Container from 'components/Container';
 import Marquee from 'components/Marquee';
 import SpotHeader from 'components/SpotHeader';
-
-import IlloLeafs from 'assets/img/8bit-leafs.svg';
 import AccordionCouncil from 'components/AccordionCouncil';
 import DividerRow from 'components/DividerRow';
 import HeartCallout from 'components/HeartCallout';
 import PixelHearts from 'components/pixels/PixelHearts';
 import AccordionSponsor from 'components/AccordionSponsor';
-import { headline48 } from 'themes/typography';
 import Wistia from 'components/Wistia';
 
 const StyledCouncilMembers = styled.div`

@@ -61,7 +61,6 @@ const Events = () => {
       <DorknamicIsland>
         <a href="#events">Events</a>
         <a href="#organizers">Organizers</a>
-        <a href="#speakers">Speakers</a>
         <a href="#resources">Resources</a>
         <a href="#brand">Brand Guidelines</a>
       </DorknamicIsland>
@@ -93,12 +92,12 @@ const Events = () => {
               links: [{
                 id: 'global-event-link-1',
                 target: '_blank',
-                href: 'https://organize.mlh.io/host/hacktoberfest-2023',
+                href: 'https://hackp.ac/hacktoberfest-organizehq',
                 children: 'Create New Event'
               }, {
                 id: 'global-event-link-2',
                 target: '_blank',
-                href: 'https://events.mlh.io/series/hacktoberfest-2023',
+                href: 'https://hackp.ac/hacktoberfest-ohqlandingpage',
                 children: 'View All Events'
               }]
             }}
@@ -217,7 +216,7 @@ const Events = () => {
 
         <Divider type="doubledashed" />
 
-        <DividerRow>
+        <Section small>
           <ContentMaster
             size="md"
             title={resources.sections[3].title}
@@ -226,28 +225,8 @@ const Events = () => {
           >
             {resources.sections[3].content}
           </ContentMaster>
-          {/* <ContentMaster
-            size="md"
-            title={resources.sections[4].title}
-            titleTag="h3"
-          >
-            {resources.sections[4].content}
-          </ContentMaster> */}
-        </DividerRow>
-
-        {/* <Divider type="doubledashed" /> */}
-      </Container>
-
-      {/* <Container inner>
-        <Section id="speakers">
-          <ContentMaster
-            size="xl"
-            title="Speakers and Facilitators"
-          >
-            Open source experts and community leaders are all in on Hacktoberfest. Find them helping contributors complete their pull/merge requests all month long in events throughout October.
-          </ContentMaster>
         </Section>
-      </Container> */}
+      </Container>
 
       <Container>
         <Divider type="pixel" />
