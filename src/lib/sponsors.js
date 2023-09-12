@@ -44,7 +44,7 @@ export const founders = [
     link: {
       target: '_blank',
       rel: "noreferrer noopener",
-      href: 'https://bit.ly/3rN5YuG',
+      href: 'https://bit.ly/3QXPxq1',
       title: 'Visit ILLA Cloud'
     },
     hero: {
