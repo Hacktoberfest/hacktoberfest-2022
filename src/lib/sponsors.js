@@ -59,7 +59,7 @@ export const founders = [
     link: {
       target: '_blank',
       rel: "noreferrer noopener",
-      href: 'http://hacktoberfest.appwrite.io',
+      href: 'https://apwr.dev/485T4bQ',
       title: 'Visit Appwrite'
     },
     hero: {
