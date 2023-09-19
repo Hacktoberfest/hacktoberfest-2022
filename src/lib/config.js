@@ -12,7 +12,7 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Controlling access to registration page
  *   - Controlling access to report page
  */
-export const registrationStart = process.env.REGISTRATION_START || '2023-09-26T18:00:00Z';
+export const registrationStart = process.env.REGISTRATION_START || '2023-09-01T18:00:00Z';
 
 /**
  * Used for:
