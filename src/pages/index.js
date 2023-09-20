@@ -234,10 +234,10 @@ const Home = () => {
             Join forces in virtual and in-person events to get your pull/merge requests done as a team, learn new skills, and meet lifelong friends. This year we’re partnering with Major League Hacking to help the community connect.
           </ContentMaster>
 
-          {/* <Events
+          <Events
             title="Event_Info.exe"
             events={events}
-          /> */}
+          />
         </Section>
       </Container>
 

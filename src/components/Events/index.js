@@ -25,10 +25,10 @@ const Events = props => {
             <Event
               eyebrow={`[${event.location}]`}
               title={event.title}
+              content={event.content}
               date={event.date}
               time={event.time}
               rsvp={event.rsvp}
-              format={event.format.join(', ')}
             />
             <Divider />
           </li>
