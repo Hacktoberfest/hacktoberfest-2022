@@ -224,20 +224,20 @@ const Home = () => {
           <ContentMaster
             align="center"
             size="xl"
-            title="Events All Month Long"
+            title="Event Spotlight"
             cta={{
               size: 'lg',
               href: "/events",
               children: 'Learn more'
             }}
           >
-            Join forces in virtual and in-person events to get your pull/merge requests done as a team, learn new skills, and meet lifelong friends. This year we’re partnering with Major League Hacking to help the community connect.
+            No Hacktoberfest is complete without joining the community to learn and explore together. Save the dates and come connect!
           </ContentMaster>
 
-          {/* <Events
-            title="Event_Info.exe"
+          <Events
+            title="Featured Events"
             events={events}
-          /> */}
+          />
         </Section>
       </Container>
 
