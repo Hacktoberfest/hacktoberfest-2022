@@ -346,10 +346,11 @@ const Settings = ({ auth, isEdit = false }) => {
         success={success && 'Your Hacktoberfest registration has been saved.'}
         error={error}
       >
+        <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
+        
         {isEdit && (
           <>
             <Section small>
-              <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
               <StyledButtonGroup>
                 {Object.keys(providerMap).map((provider) => (
                   <Fragment key={provider}>

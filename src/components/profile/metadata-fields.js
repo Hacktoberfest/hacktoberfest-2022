@@ -148,8 +148,6 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
   return (
     <>
       <StyledFormSection>
-        <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
-
         <StyledFormRow $columns={2}>
           <Input
             name="name"
