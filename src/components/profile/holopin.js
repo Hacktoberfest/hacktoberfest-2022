@@ -1,27 +1,30 @@
+import Avatar from 'components/Avatar';
 import { useMemo } from 'react';
 import styled from 'styled-components';
+import { body16, body24 } from 'themes/typography';
 
 const StyledCode = styled.li`
-  position: relative;
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 24px;
   padding: 8px 0;
-  box-shadow: 0px 1px 0px rgba(229, 225, 230, 0.25);
   
   &:last-of-type {
-    margin: 0 0 16px;
+    margin: 0 0 32px;
   }
-  
-  p {
-    margin: 4px 0 0;
-  }
+`;
+
+const StyledMessage = styled.p`
+  margin: 0 0 8px;
+  ${body24}
 `;
 
 const StyledWarning = styled.p`
-  font-size: 0.75rem;
-  font-style: italic;
-  opacity: 0.8;
+  ${body16}
 `;
 
-const Holopin = ({ code, reason, from = null }) => {
+const Holopin = ({ code, reason, from = null, item = 'a badge', action = 'unlocked', claim = 'https://www.holopin.io/claim' }) => {
+  // Attempt to extract the claim ID from the payload
   const id = useMemo(() => {
     try {
       return JSON.parse(code.code).data.id;
@@ -30,28 +33,38 @@ const Holopin = ({ code, reason, from = null }) => {
     }
   }, [code]);
 
+  // Hash the content of reason/item/from to generate a color
+  const color = useMemo(() => {
+    const idx = Math.abs(`${reason}${item}${from}`.split('').reduce((hash, char) => (((hash << 5) - hash) + char.charCodeAt(0)) | 0)) % 3;
+    return ['gold', 'blue', 'red'][idx];
+  }, [reason, item, from]);
+
   return (
     <StyledCode>
-      <p>
-        You've been awarded a Holopin badge
-        {from && ` from ${from}`}
-        {' '}
-        for {reason}!
-      </p>
-      {id && (
-        <StyledWarning>
-          Lost the email to claim your badge?
+      <Avatar color={color} />
+
+      <div>
+        <StyledMessage>
+          You've {action} {item} on Holopin
+          {from && ` from ${from}`}
           {' '}
-          <a
-            href={`https://www.holopin.io/claim/${id}`}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Claim it directly
-          </a>
-          .
-        </StyledWarning>
-      )}
+          <b>for {reason}</b>!
+        </StyledMessage>
+        {id && (
+          <StyledWarning>
+            Lost the email to claim it?
+            {' '}
+            <a
+              href={`${claim.replace(/\/+$/, '')}/${id}`}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Claim it now
+            </a>
+            .
+          </StyledWarning>
+        )}
+      </div>
     </StyledCode>
   );
 };
