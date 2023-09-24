@@ -26,7 +26,7 @@ import MetadataFields from './metadata-fields';
 
 const StyledFormSectionTitle = styled.h2`
   ${headline48};
-  margin: 0 0 48px;
+  margin: 0 0 -48px;
 `;
 
 const StyledButtonGroup = styled.div`
