@@ -8,13 +8,13 @@ const TreeNation = ({ code }) => {
 
   // Attempt to extract the claim/certificate links from the payload
   const [claim, certificate] = useMemo(() => {
-    if (!code) return null;
+    if (!code) return [null, null];
 
     try {
       const data = JSON.parse(code.code).trees[0];
       return [data.collect_url, data.certificate_url];
     } catch {
-      return null;
+      return [null, null];
     }
   }, [code]);
 
