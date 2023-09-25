@@ -190,8 +190,6 @@ const Settings = ({ auth, isEdit = false }) => {
       // Get the user's current metadata (or none if this is registration)
       const currentMetadata = isEdit ? auth.registration.metadata : {};
 
-      console.log(currentMetadata);
-
       // Store default values for each metadata item, preferring the user's existing value
       setData((prev) => ({
         ...prev,
