@@ -13,8 +13,9 @@ import Divider from 'components/Divider';
 import PullRequest from 'components/PullRequest';
 
 import EmailWarning from './email-warning';
-import Holopin from './holopin';
-import TreeNation from './tree-nation';
+import Holopin from './rewards/holopin';
+import TreeNation from './rewards/tree-nation';
+import RewardKit from './rewards/reward-kit';
 
 const StyledProgressWrapper = styled.div`
   display: flex;
@@ -214,6 +215,8 @@ const Progress = ({ auth }) => {
 
       {/* Handle a user that has a no-reply email selected */}
       <EmailWarning email={auth.user.email} />
+
+      <RewardKit code={giftCodes['holopin-reward-kit']} />
 
       {Object.keys(giftCodes).some((type) =>
         type.startsWith('holopin-level-') || type === 'holopin-registered-badge'

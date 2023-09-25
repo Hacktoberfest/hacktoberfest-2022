@@ -1,7 +1,10 @@
-import Avatar from 'components/Avatar';
+
 import { useMemo } from 'react';
 import styled from 'styled-components';
+
 import { body16, body24 } from 'themes/typography';
+
+import Avatar from 'components/Avatar';
 
 const StyledCode = styled.li`
   display: grid;
@@ -39,6 +42,8 @@ const Holopin = ({ code, reason, from = null, item = 'a badge', action = 'unlock
     return ['gold', 'blue', 'red'][idx];
   }, [reason, item, from]);
 
+  if (!id) return null;
+
   return (
     <StyledCode>
       <Avatar color={color} />
@@ -50,20 +55,19 @@ const Holopin = ({ code, reason, from = null, item = 'a badge', action = 'unlock
           {' '}
           <b>for {reason}</b>!
         </StyledMessage>
-        {id && (
-          <StyledWarning>
-            Lost the email to claim it?
-            {' '}
-            <a
-              href={`${claim.replace(/\/+$/, '')}/${id}`}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Claim it now
-            </a>
-            .
-          </StyledWarning>
-        )}
+        
+        <StyledWarning>
+          Lost the email to claim it?
+          {' '}
+          <a
+            href={`${claim.replace(/\/+$/, '')}/${id}`}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Claim it now
+          </a>
+          .
+        </StyledWarning>
       </div>
     </StyledCode>
   );
