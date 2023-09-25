@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import Link from 'next/link';
 
 import { body20, body24, headline48 } from 'themes/typography';
 import { fetchGiftCodes, fetchPullRequests, triggerUserIngest } from 'lib/api';
@@ -198,6 +199,15 @@ const Progress = ({ auth }) => {
           <p>
             If you submit another PR/MR that is identified as spam, you will
             be disqualified from Hacktoberfest.
+          </p>
+          <p>
+            Please make sure to review our
+            {' '}
+            <Link href="/participation#values">
+              values and resources
+            </Link>
+            {' '}
+            for how to participate in Hacktoberfest constructively.
           </p>
         </Notification>
       )}
