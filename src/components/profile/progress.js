@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { body20, body24, headline48 } from 'themes/typography';
@@ -309,12 +309,12 @@ const Progress = ({ auth }) => {
       {pullRequests.length ? (
         <StyledPullRequests>
           {pullRequests.map((pr, index) => (
-            <>
-              <PullRequest key={pr.id} data={pr} as="li" />
+            <Fragment key={pr.id}>
+              <PullRequest data={pr} as="li" />
               {pullRequests.length !== (index + 1) && (
                 <li aria-hidden><Divider /></li>
               )}
-            </>
+            </Fragment>
           ))}
         </StyledPullRequests>
       ) : hasStarted ? (
