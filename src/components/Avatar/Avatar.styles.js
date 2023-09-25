@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 const loadAvi = () => keyframes`
@@ -34,12 +34,17 @@ export const StyledAvatarContainer = styled.div`
   grid-row: 1/-1;
   grid-column: 1/-1;
   width: 84.07079646%;
+  transition: opacity 500ms ease, transform 500ms ease;
 
-  ${({ $rotate }) => $rotate === 'left' ? `
+  ${({ $placeholder }) => $placeholder && `
+    opacity: 0.5;
+  `}
+
+  ${({ $placeholder, $rotate }) => !$placeholder && ($rotate === 'left' ? `
     transform: rotate(-14deg);
   ` : `
     transform: rotate(14deg);
-  `}
+  `)}
 
   &::after {
     content: '';
@@ -55,9 +60,10 @@ export const StyledAvatarContainer = styled.div`
     height: 100%;
     object-fit: cover;
     border-radius: 16px;
-    border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+    border: 1px solid ${({ theme, $placeholder }) => $placeholder ? 'transparent' : theme.colors.neutral.manga400};
     animation ${loadAvi} 500ms 500ms ease forwards;
     transform: translateY(200px) rotate(-16deg);
     opacity: 0;
+    transition: border-color 500ms ease;
   }
 `;

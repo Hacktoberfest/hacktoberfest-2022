@@ -12,6 +12,7 @@ import {
 import TextLink from 'components/TextLink';
 import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
+import Type from 'components/type';
 
 const ContentMaster = props => {
   const {
@@ -36,7 +37,7 @@ const ContentMaster = props => {
           )}
           {title && (
             <StyledContentMasterTitle $size={size} as={titleTag}>
-              {title}
+              <Type text={title} />
             </StyledContentMasterTitle>
           )}
         </StyledContentMasterHeader>

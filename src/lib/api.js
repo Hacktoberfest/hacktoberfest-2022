@@ -43,6 +43,8 @@ export const createUserOAuth = async (userId, token, provider) => fetchEndpoint(
 
 export const removeUserOAuth = async (userId, token, provider) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/oauth/${encodeURIComponent(provider)}`, token, { method: 'DELETE' }, true, false);
 
+export const triggerUserIngest = async (userId, token) => fetchEndpoint(`/users/${encodeURIComponent(userId)}/ingest`, token, { method: 'POST' });
+
 export const fetchRegistration = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token);
 
 export const createRegistration = async (userId, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/registrations/${encodeURIComponent(userId)}`, token, {
@@ -62,8 +64,6 @@ export const fetchMetadata = async (token) => fetchEndpoint(`/events/${encodeURI
 export const fetchPullRequests = async (userId, token, exclude = []) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/pull_requests/users/${encodeURIComponent(userId)}?excludeState=${encodeURIComponent(exclude.join(','))}`, token);
 
 export const fetchGiftCodes = async (userId, token) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/gift_codes/users/${encodeURIComponent(userId)}`, token);
-
-export const triggerIngest = async (userId, token) => fetchEndpoint(`/pull_requests/users/${encodeURIComponent(userId)}/ingest`, token);
 
 export const createExcludedRepository = async (userId, token, data) => fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/excluded_repositories`, token, {
   method: 'POST',

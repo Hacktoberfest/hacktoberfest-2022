@@ -1,31 +1,21 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import styled, { keyframes, useTheme } from 'styled-components';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import styled, { useTheme } from 'styled-components';
+import Link from 'next/link';
 
-import { fetchGiftCodes, fetchPullRequests, triggerIngest } from 'lib/api';
+import { body20, body24, headline48 } from 'themes/typography';
+import { fetchGiftCodes, fetchPullRequests, triggerUserIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
 
 import Loader from 'components/loader';
 import Section from 'components/Section';
 import Notification from 'components/notification';
-
-import EmailWarning from './email-warning';
-import Holopin from './holopin';
-import GiftCode from './gift-code';
-import { body20, body24, headline48 } from 'themes/typography';
 import Divider from 'components/Divider';
 import PullRequest from 'components/PullRequest';
 
-const textAnimation = () => keyframes`
-  0% {
-    content: "oOo";
-  }
-  33% {
-    content: "ooO";
-  }
-  66% {
-    content: "Ooo";
-  }
-`;
+import EmailWarning from './email-warning';
+import Holopin from './rewards/holopin';
+import TreeNation from './rewards/tree-nation';
+import RewardKit from './rewards/reward-kit';
 
 const StyledProgressWrapper = styled.div`
   display: flex;
@@ -69,6 +59,11 @@ const StyledProgressSummary = styled.div`
     ${body24};
     color: ${({theme}) => theme.colors.bavarian.blue200};
   }
+`;
+
+const StyledCheckEmail = styled.p`
+  margin: 32px 0 0;
+  ${body20}
 `;
 
 const StyledPullRequests = styled.ul`
@@ -132,7 +127,7 @@ const Progress = ({ auth }) => {
       );
 
       // Trigger a PR ingest in the background, ignoring the result and any errors
-      triggerIngest(auth.user.id, auth.token).catch(() => {});
+      triggerUserIngest(auth.user.id, auth.token).catch(() => {});
 
       // Show the page
       setLoaded(true);
@@ -190,7 +185,7 @@ const Progress = ({ auth }) => {
             or more PR/MRs that have been identified as spam.
           </p>
           <p>
-            Due to being disqualified, you will be ineligible to recieve any
+            Due to being disqualified, you will be ineligible to receive any
             further rewards for your participation in Hacktoberfest.
           </p>
         </Notification>
@@ -206,114 +201,119 @@ const Progress = ({ auth }) => {
             If you submit another PR/MR that is identified as spam, you will
             be disqualified from Hacktoberfest.
           </p>
+          <p>
+            Please make sure to review our
+            {' '}
+            <Link href="/participation#values">
+              values and resources
+            </Link>
+            {' '}
+            for how to constructively participate in Hacktoberfest.
+          </p>
         </Notification>
       )}
 
       {/* Handle a user that has a no-reply email selected */}
-      <EmailWarning
-        email={auth.user.email}
-        hasHolopin={auth.registration.metadata['operational-holopin']?.value === 'true'}
-      />
+      <EmailWarning email={auth.user.email} />
 
-      {/* Show any gift codes the user has been awarded */}
-      {giftCodes.tshirt ? (
-        <Notification title="Rewards: Prize Kit" color={theme.colors.bavarian.gold200}>
-          <p>
-            Congratulations on completing Hacktoberfest 2023! You’ve been
-            awarded a prize kit for your participation – t-shirts are
-            available for the first 40,000 participants that complete
-            Hacktoberfest, and you can always have a tree planted in your
-            name!
-          </p>
-          <GiftCode code={giftCodes.tshirt.code} />
-          <p>
-            Head to
-            {' '}
-            <a
-              href={`https://stores.kotisdesign.com/hf22?redemption_code=${giftCodes.tshirt.code}`}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              https://stores.kotisdesign.com/hf22
-            </a>
-            {' '}
-            to redeem your code.
-          </p>
-        </Notification>
-      ) : (auth.registration.state.state.includes('contributor') && (
-        <Notification title="Rewards: Prize Kit" color={theme.colors.bavarian.gold200}>
-          <p>
-            Congratulations on completing Hacktoberfest 2023! It looks like
-            we’re all out of prizes to allocate for now (the first 40,000
-            participants to complete Hacktoberfest were eligible this year).
-            Keep an eye on your profile though, as we may allocate more
-            prizes later!
-          </p>
-        </Notification>
-      ))}
-
-      {giftCodes['dev-badge'] && (
-        <Notification title="Rewards: DEV Badge" color={theme.colors.bavarian.gold200}>
-          <p>
-            Congratulations on completing Hacktoberfest 2023!
-            You've been awarded a badge from DEV for your participation
-            that you can show off on your DEV profile.
-          </p>
-          <GiftCode code={giftCodes['dev-badge'].code} />
-          <p>
-            Make sure to register for an account on
-            {' '}
-            <a
-              href="https://dev.to/"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              DEV
-            </a>
-            , and then head to
-            {' '}
-            <a
-              href="https://shop.forem.com/products/dev-hacktoberfest-badge-2023"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              https://shop.forem.com/products/dev-hacktoberfest-badge-2023
-            </a>
-            {' '}
-            to redeem your code.
-          </p>
-        </Notification>
-      )}
+      <RewardKit code={giftCodes['holopin-reward-kit']} />
 
       {Object.keys(giftCodes).some((type) =>
-        type.startsWith('holopin')
+        type.startsWith('holopin-level-') || type === 'holopin-registered-badge'
       ) && (
-        <Notification title="Rewards: Holopin Badges" color={theme.colors.bavarian.gold200}>
+        <Notification title="Rewards: Holopin Avatar" color={theme.colors.bavarian.gold200}>
           <ul>
             {giftCodes['holopin-level-4-badge'] && (
-              <Holopin code={giftCodes['holopin-level-4-badge']} reason="completing four accepted PR/MRs" />
+              <Holopin
+                code={giftCodes['holopin-level-4-badge']}
+                reason="completing four accepted PR/MRs"
+                item="an avatar upgrade"
+                claim="https://www.holopin.io/hacktoberfest2023/claim"
+              />
             )}
             {giftCodes['holopin-level-3-badge'] && (
-              <Holopin code={giftCodes['holopin-level-3-badge']} reason="completing three accepted PR/MRs" />
+              <Holopin
+                code={giftCodes['holopin-level-3-badge']}
+                reason="completing three accepted PR/MRs"
+                item="an avatar upgrade"
+                claim="https://www.holopin.io/hacktoberfest2023/claim"
+              />
             )}
             {giftCodes['holopin-level-2-badge'] && (
-              <Holopin code={giftCodes['holopin-level-2-badge']} reason="completing two accepted PR/MRs" />
+              <Holopin
+                code={giftCodes['holopin-level-2-badge']}
+                reason="completing two accepted PR/MRs"
+                item="an avatar upgrade"
+                claim="https://www.holopin.io/hacktoberfest2023/claim"
+              />
             )}
             {giftCodes['holopin-level-1-badge'] && (
-              <Holopin code={giftCodes['holopin-level-1-badge']} reason="completing one accepted PR/MR" />
-            )}
-            {giftCodes['holopin-docker-badge'] && (
-              <Holopin code={giftCodes['holopin-docker-badge']} reason="registering for Hacktoberfest" from="Docker" />
+              <Holopin
+                code={giftCodes['holopin-level-1-badge']}
+                reason="completing your first accepted PR/MR"
+                item="an avatar upgrade"
+                claim="https://www.holopin.io/hacktoberfest2023/claim"
+              />
             )}
             {giftCodes['holopin-registered-badge'] && (
-              <Holopin code={giftCodes['holopin-registered-badge']} reason="registering for Hacktoberfest" from="DigitalOcean" />
+              <Holopin
+                code={giftCodes['holopin-registered-badge']}
+                reason="registering for Hacktoberfest"
+                item="your base avatar"
+                claim="https://www.holopin.io/hacktoberfest2023/claim"
+              />
             )}
           </ul>
 
-          <p>
-            Check your email for more information on how to claim each
-            badge.
-          </p>
+          <Divider type="doubledashed" />
+
+          <StyledCheckEmail>
+            Check your email for more information on how to claim each reward.
+          </StyledCheckEmail>
+        </Notification>
+      )}
+
+      <TreeNation code={giftCodes['tree-nation-tree']} />
+
+      {Object.keys(giftCodes).some((type) =>
+        ['holopin-digitalocean-badge', 'holopin-illa-cloud-badge', 'holopin-appwrite-badge', 'holopin-tree-badge'].includes(type)
+      ) && (
+        <Notification title="Rewards: Holopin Badges" color={theme.colors.bavarian.gold200}>
+          <ul>
+            {giftCodes['holopin-tree-badge'] && (
+              <Holopin
+                code={giftCodes['holopin-tree-badge']}
+                reason="completing your first accepted PR/MR, and having a tree planted by Hacktoberfest"
+              />
+            )}
+            {giftCodes['holopin-digitalocean-badge'] && (
+              <Holopin
+                code={giftCodes['holopin-digitalocean-badge']}
+                reason="registering for Hacktoberfest"
+                from="DigitalOcean"
+              />
+            )}
+            {giftCodes['holopin-illa-cloud-badge'] && (
+              <Holopin
+                code={giftCodes['holopin-illa-cloud-badge']}
+                reason="registering for Hacktoberfest"
+                from="ILLA Cloud"
+              />
+            )}
+            {giftCodes['holopin-appwrite-badge'] && (
+              <Holopin
+                code={giftCodes['holopin-appwrite-badge']}
+                reason="registering for Hacktoberfest"
+                from="Appwrite"
+              />
+            )}
+          </ul>
+
+          <Divider type="doubledashed" />
+
+          <StyledCheckEmail>
+            Check your email for more information on how to claim each reward.
+          </StyledCheckEmail>
         </Notification>
       )}
 
@@ -322,12 +322,12 @@ const Progress = ({ auth }) => {
       {pullRequests.length ? (
         <StyledPullRequests>
           {pullRequests.map((pr, index) => (
-            <>
-              <PullRequest key={pr.id} data={pr} as="li" />
+            <Fragment key={pr.id}>
+              <PullRequest data={pr} as="li" />
               {pullRequests.length !== (index + 1) && (
                 <li aria-hidden><Divider /></li>
               )}
-            </>
+            </Fragment>
           ))}
         </StyledPullRequests>
       ) : hasStarted ? (
@@ -346,11 +346,9 @@ const Progress = ({ auth }) => {
       <Divider type="doubledashed" />
 
       <StyledFootNote>
-        <strong>Not seeing what you expect here?</strong> Hacktoberfest profiles only show
-        contributor activity, not maintainer activity (we calculate this
-        after Hacktoberfest ends). Profiles update once every 15 minutes
-        if you're loading the page often, or once every 6 hours in the
-        background.
+        <strong>Not seeing what you expect here?</strong> Hacktoberfest profiles
+        update once every 15 minutes if you're loading the page often, or once
+        every 6 hours in the background.
       </StyledFootNote>
     </StyledProgressWrapper>
   );

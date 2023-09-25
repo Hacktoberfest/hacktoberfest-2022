@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { body24, headline32 } from 'themes/typography';
 
 const StyledNotification = styled.div`
@@ -8,38 +8,47 @@ const StyledNotification = styled.div`
   background: ${({theme}) => theme.card.bg};
   border: 1px solid ${({$color}) => $color};
   border-radius: 24px;
+  color: ${({theme}) => theme.colors.neutral.manga300};
 
-  h2 {
-    margin: 0 0 48px;
+  > h2 {
+    margin: 0 0 32px;
     ${headline32};
   }
 
-  p {
-    margin: 0 0 32px;
-    ${body24};
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-
   a {
-    color: ${({$color}) => $color};
-    text-decoration: none;
+    color: ${({theme}) => theme.colors.bavarian.blue200};
+    text-decoration: underline;
 
     &:hover,
     &:focus {
-      color: ${({$color}) => $color};
-      text-decoration: underline;
+      color: ${({theme}) => theme.colors.bavarian.blue100};
     }
   }
+
+  b {
+    color: ${({theme}) => theme.colors.bavarian.gold200};
+  }
+
+  ${({ $paragraphs }) => $paragraphs && css`
+    > p {
+      margin: 0 0 16px;
+      ${body24};
+    }
+  `}
+}
 `;
 
-const Notification = ({ title, children, color }) => (
-  <StyledNotification $color={color}>
-    <h2>{title}</h2>
-    {children}
-  </StyledNotification>
-);
+const Notification = ({ title, children, color }) => {
+  // Check if all the children are paragraphs
+  const paragraphs = children && (children.type === 'p'
+    || (Array.isArray(children) && children.every(child => child.type === 'p')));
+
+  return (
+    <StyledNotification $color={color} $paragraphs={paragraphs}>
+      <h2>{title}</h2>
+      {children}
+    </StyledNotification>
+  );
+};
 
 export default Notification;

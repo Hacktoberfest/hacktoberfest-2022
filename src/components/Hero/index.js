@@ -55,7 +55,9 @@ const Hero = () => {
           {!hasRegistrationEnded && (
             <>
               <StyledCountdownHeader>
-                The countdown to Hacktoberfest starts now!
+                {hasRegistration
+                  ? "Hacktoberfest registration is open now!"
+                  : "The countdown to Hacktoberfest starts now!"}
               </StyledCountdownHeader>
               <StyledCountdown>
                 <StyledCountdownItem>
