@@ -408,7 +408,7 @@ const MetadataFields = ({ emails, metadata, exclude, value, onChange, disabled =
             <StyledFormSectionTitle>Rules &amp; terms</StyledFormSectionTitle>
             <StyledFormGroup>
               <legend>
-                You must accept terms and conditions to participate.
+                You must accept the terms and conditions to participate.
                 {" "}
                 <small>[required]</small>
               </legend>

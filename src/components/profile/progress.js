@@ -208,7 +208,7 @@ const Progress = ({ auth }) => {
               values and resources
             </Link>
             {' '}
-            for how to participate in Hacktoberfest constructively.
+            for how to constructively participate in Hacktoberfest.
           </p>
         </Notification>
       )}
