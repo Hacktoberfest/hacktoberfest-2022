@@ -13,7 +13,7 @@ const Accordion = props => {
   return (
     <StyledAccordion open={open} onToggle={toggle}>
       <summary>
-        {subtitle && (<span>[{subtitle}]{' '}</span>)}
+        {subtitle && (<strong>[{subtitle}]{' '}</strong>)}
         {title}
       </summary>
       <div>{children}</div>
