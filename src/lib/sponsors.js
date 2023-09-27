@@ -1,6 +1,6 @@
 import foundersIlla from 'assets/img/founders/illa.png';
 import foundersHeroIlla from 'assets/img/founders/illa-hero.svg';
-import foundersAppwrite from 'assets/img/founders/appwrite.png';
+import foundersAppwrite from 'assets/img/founders/appwrite.svg';
 import foundersHeroAppwrite from 'assets/img/founders/appwrite-hero.svg';
 import foundersDigitalOcean from 'assets/img/founders/digitalocean.png';
 import foundersHeroDigitalOcean from 'assets/img/founders/digitalocean-hero.svg';
