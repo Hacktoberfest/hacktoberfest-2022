@@ -34,7 +34,6 @@ export const founders = [
     },
     hero: {
       image: foundersHeroDigitalOcean.src,
-      scaleFactor: 1.25,
     },
   },
   {
@@ -49,7 +48,6 @@ export const founders = [
     },
     hero: {
       image: foundersHeroIlla.src,
-      scaleFactor: 0.875,
     },
   },
   {
@@ -64,7 +62,6 @@ export const founders = [
     },
     hero: {
       image: foundersHeroAppwrite.src,
-      scaleFactor: 1,
     },
   },
 ];
