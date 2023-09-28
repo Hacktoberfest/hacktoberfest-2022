@@ -24,7 +24,6 @@ const Sponsors = props => {
             <img
               src={sponsor.hero.image}
               alt={`${sponsor.title} logo`}
-              width={128 * (sponsor.hero.scaleFactor || 1)}
               height={'100%'}
             />
           </a>

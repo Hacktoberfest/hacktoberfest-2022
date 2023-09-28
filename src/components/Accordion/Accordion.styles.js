@@ -31,7 +31,7 @@ export const StyledAccordion = styled.details`
       padding-right: 136px;
     }
 
-    span {
+    strong {
       color: ${({ theme }) => theme.colors.bavarian.red200};
     }
 

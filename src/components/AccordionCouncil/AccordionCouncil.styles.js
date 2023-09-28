@@ -43,10 +43,6 @@ export const StyledAccordion = styled.details`
       padding-right: 136px;
     }
 
-    span {
-      color: ${({ theme }) => theme.colors.bavarian.red200};
-    }
-
     &::-webkit-details-marker,
     &::marker {
       display: none;
