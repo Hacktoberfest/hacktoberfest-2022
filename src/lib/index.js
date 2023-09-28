@@ -1,7 +1,7 @@
 export const events = [
   {
     title: 'Hacktoberfest Kick-Off',
-    content: 'The official beginning of Hacktoberfest. Join DigitalOcean developers as we begin the month-long hacking event you\'ve been waiting for.The official beginning of Hacktoberfest. Join DigitalOcean developers and our guest speakers as we begin the month-long hacking event you\'ve been waiting for. Learn new skills, meet our sponsors, and find out what\'s new for our 10th anniversary! ',
+    content: 'The official beginning of Hacktoberfest. Join DigitalOcean developers and our guest speakers as we begin the month-long hacking event you\'ve been waiting for. Learn new skills, meet our sponsors, and find out what\'s new for our 10th anniversary!',
     location: 'Virtual',
     date: 'Oct 05',
     time: '11:00 AM Eastern Daylight Time',
