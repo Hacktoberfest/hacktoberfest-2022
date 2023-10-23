@@ -2,7 +2,7 @@ import {
   PixelWrapper
 } from '../Pixels.styles';
 
-export const PixelComputer2023 = props => {
+export const PixelComputer = props => {
   const {
     timing,
     id
@@ -1869,4 +1869,4 @@ export const PixelComputer2023 = props => {
   )
 };
 
-export default PixelComputer2023;
+export default PixelComputer;

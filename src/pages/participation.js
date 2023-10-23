@@ -28,7 +28,7 @@ import Note from 'components/Note';
 
 import IlloPencil from 'assets/img/8bit-pencil.svg';
 import HeroSecondary from 'components/HeroSecondary';
-import PixelComputer2023 from 'components/pixels/PixelComputer2023';
+import PixelComputer from 'components/pixels/PixelComputer';
 import React from 'react';
 
 const StyledPRDetails = styled.div`
@@ -89,7 +89,7 @@ const Participation = () => {
 
       <HeroSecondary
         title="Participation"
-        icon={<PixelComputer2023 timing="5" />}
+        icon={<PixelComputer timing="5" />}
       />
 
       <Container>
