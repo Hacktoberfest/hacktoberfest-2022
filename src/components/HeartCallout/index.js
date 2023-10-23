@@ -8,10 +8,11 @@ import {
 const HeartCallout = props => {
   const {
     children,
+    className
   } = props;
 
   return (
-    <StyledHeartCallout>
+    <StyledHeartCallout className={className}>
       <StyledHeartCalloutImage>
         <PixelHearts count={1} />
       </StyledHeartCalloutImage>

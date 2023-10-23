@@ -8,22 +8,23 @@ const Sponsors = props => {
   const {
     title,
     sponsors,
-    centered
+    centered,
+    large
   } = props;
 
   return (
-    <StyledSponsors>
+    <StyledSponsors $centered={centered}>
       {title && (
         <StyledSponsorsTitle>{title}</StyledSponsorsTitle>
       )}
-      <StyledSponsorsList $centered={centered}>
+      <StyledSponsorsList $centered={centered} $large={large}>
         {sponsors.map((sponsor) => (
           <a
             key={sponsor.title}
             {...sponsor.link}
           >
             <img
-              src={sponsor.hero.image}
+              src={sponsor.hero?.image}
               alt={`${sponsor.title} logo`}
               height={'100%'}
             />

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { events } from 'lib';
 import { registrationEnd, registrationStart } from 'lib/config';
 import { asList, withOrdinal } from 'lib/format';
-import { sponsors } from 'lib/sponsors';
+import { partners, sponsors } from 'lib/sponsors';
 
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
@@ -21,6 +21,7 @@ import HomeIntro from 'components/HomeIntro';
 import SupportSection from 'components/SupportSection';
 import Section from 'components/Section';
 import Events from 'components/Events';
+import Sponsors from 'components/Sponsors';
 import HeartCallout from 'components/HeartCallout';
 import PixelIntro from 'components/pixels/PixelIntro';
 
@@ -63,9 +64,8 @@ export const StyledHomeCallout = styled.div`
   background-position: 0 -35px;
 `;
 
-export const StyledHomeThanks = styled.div`
-  margin: 24px auto 0;
-  width: ${((742 / 1280) * 100)}%
+export const StyledThanksCallout = styled(HeartCallout)`
+  margin: 0 0 24px;
 `;
 
 const Home = () => {
@@ -155,25 +155,39 @@ const Home = () => {
 
       {hasRegistrationEnded ? (
         <>
-          <Container>
-            <Section>
-              <HeartCallout>
+          <Section>
+            <Container>
+              <StyledThanksCallout>
                 <ContentMaster
                   align="center"
                   size="lg"
                   title={<>Thank you to <strong>all</strong> our sponsors and community partners, we ❤️ you!</>}
                 />
-              </HeartCallout>
+              </StyledThanksCallout>
+            </Container>
 
-              <StyledHomeThanks>
-                <ContentMaster
-                  align="center"
-                  size="lg"
-                  children={`A special thank you to the great folks at ${asList(sponsors.map(({ title }) => `**${title}**`))} for their sponsorship of Hacktoberfest.`}
-                />
-              </StyledHomeThanks>
-            </Section>
+            <Container slim>
+              <ContentMaster
+                align="center"
+                size="lg"
+                children={`A special thank you to the great folks at ${asList(sponsors.map(({ title }) => `**${title}**`))} for their sponsorship of Hacktoberfest.`}
+              />
+            </Container>
+          </Section>
+          
+          <Container>
+            <Divider type="doubledashed" />
           </Container>
+
+          <Section>
+            <Container slim>
+              <Sponsors title="Sponsors" sponsors={sponsors} centered large />
+
+              <Section small>
+                <Sponsors title="Community Partners" sponsors={partners} centered />
+              </Section>
+            </Container>
+          </Section>
         </>
       ) : (
         <>

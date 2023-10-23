@@ -18,14 +18,14 @@ const heartAnimation = ({ theme }) => keyframes`
 export const StyledPixelHearts = styled.div`
   line-height: 0;
   display: flex;
+  gap: 32px;
+  justify-content: center;
 
   svg {
-    width: 100%;
     filter: drop-shadow(1px 1px 10px rgba(236, 66, 55, 0.50)) drop-shadow(-1px -1px 10px rgba(255, 251, 164, 0.50));
 
     path {
       animation: ${heartAnimation} 2000ms ease-in-out infinite;
-      fill: currentColor;
     }
   }
 
