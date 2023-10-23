@@ -348,7 +348,11 @@ const About = () => {
           <Divider type="doubledashed" />
 
           <HeartCallout>
-            {sharing.cta}
+            <ContentMaster
+              align="center"
+              size="xl"
+              children={sharing.cta}
+            />
           </HeartCallout>
         </Section>
       </Container>

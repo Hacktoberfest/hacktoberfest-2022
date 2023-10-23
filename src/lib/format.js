@@ -7,3 +7,9 @@ export const withOrdinal = value => {
   if (i === 3 && j !== 13) return `${value}rd`;
   return `${value}th`;
 };
+
+export const asList = arr => {
+  if (arr.length === 1) return arr[0];
+  if (arr.length === 2) return arr.join(' and ');
+  return `${arr.slice(0, -1).join(', ')}, and ${arr.slice(-1)}`;
+};

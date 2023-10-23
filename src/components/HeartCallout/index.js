@@ -1,9 +1,9 @@
+import PixelHearts from 'components/pixels/PixelHearts';
+
 import {
   StyledHeartCallout,
   StyledHeartCalloutImage
 } from './HeartCallout.styles';
-import ContentMaster from 'components/ContentMaster';
-import IlloHeart from 'assets/img/pixel-heart.svg';
 
 const HeartCallout = props => {
   const {
@@ -13,13 +13,13 @@ const HeartCallout = props => {
   return (
     <StyledHeartCallout>
       <StyledHeartCalloutImage>
-        <img src={IlloHeart.src} alt="" />
+        <PixelHearts count={1} />
       </StyledHeartCalloutImage>
-      <ContentMaster align="center" size="xl">
+      <div>
         {children}
-      </ContentMaster>
+      </div>
       <StyledHeartCalloutImage>
-        <img src={IlloHeart.src} alt="" />
+        <PixelHearts count={1} offset={2} />
       </StyledHeartCalloutImage>
     </StyledHeartCallout>
   );

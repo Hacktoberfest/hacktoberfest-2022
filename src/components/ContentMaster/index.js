@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
   StyledContentMaster,
   StyledContentMasterEyebrow,
@@ -9,6 +8,7 @@ import {
   StyledContentMasterCta,
   StyledContentMasterList
 } from './ContentMaster.styles';
+
 import TextLink from 'components/TextLink';
 import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
@@ -37,7 +37,7 @@ const ContentMaster = props => {
           )}
           {title && (
             <StyledContentMasterTitle $size={size} as={titleTag}>
-              <Type text={title} />
+              {typeof title === "string" ? <Type text={title} /> : title}
             </StyledContentMasterTitle>
           )}
         </StyledContentMasterHeader>

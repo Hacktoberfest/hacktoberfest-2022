@@ -105,6 +105,12 @@ export const sustainer = [
   },
 ]
 
+export const sponsors = [
+  ...founders,
+  ...contributors,
+  ...sustainer,
+];
+
 export const partners = [
   {
     image: partnersHolographic.src,

@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 const heartAnimation = ({ theme }) => keyframes`
   0% {
@@ -18,6 +17,7 @@ const heartAnimation = ({ theme }) => keyframes`
 
 export const StyledPixelHearts = styled.div`
   line-height: 0;
+  display: flex;
 
   svg {
     width: 100%;
@@ -27,13 +27,13 @@ export const StyledPixelHearts = styled.div`
       animation: ${heartAnimation} 2000ms ease-in-out infinite;
       fill: currentColor;
     }
-
-    path:nth-child(2) {
-      animation-delay: 250ms;
-    }
-
-    path:nth-child(3) {
-      animation-delay: 500ms;
-    }
   }
+
+  ${({ $count, $offset }) => [...Array($count)].map((_, i) => `
+    svg:nth-child(${i + 1}) {
+      path {
+        animation-delay: ${(i + $offset) * 250}ms;
+      }
+    }
+  `)}
 `;

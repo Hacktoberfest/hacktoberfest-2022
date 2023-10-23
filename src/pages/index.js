@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { events } from 'lib';
 import { registrationEnd, registrationStart } from 'lib/config';
-import { withOrdinal } from 'lib/format';
+import { asList, withOrdinal } from 'lib/format';
+import { sponsors } from 'lib/sponsors';
 
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
@@ -20,6 +21,7 @@ import HomeIntro from 'components/HomeIntro';
 import SupportSection from 'components/SupportSection';
 import Section from 'components/Section';
 import Events from 'components/Events';
+import HeartCallout from 'components/HeartCallout';
 import PixelIntro from 'components/pixels/PixelIntro';
 
 import IlloMLH from 'assets/img/logo-MLH.svg';
@@ -59,6 +61,11 @@ export const StyledHomeCallout = styled.div`
   background: url(${IlloPumpkin.src}) no-repeat;
   background-size: ${(537/1440)*100}% auto;
   background-position: 0 -35px;
+`;
+
+export const StyledHomeThanks = styled.div`
+  margin: 24px auto 0;
+  width: ${((742 / 1280) * 100)}%
 `;
 
 const Home = () => {
@@ -146,7 +153,29 @@ const Home = () => {
         direction="forwards"
       />
 
-      {!hasRegistrationEnded && (
+      {hasRegistrationEnded ? (
+        <>
+          <Container>
+            <Section>
+              <HeartCallout>
+                <ContentMaster
+                  align="center"
+                  size="lg"
+                  title={<>Thank you to <strong>all</strong> our sponsors and community partners, we ❤️ you!</>}
+                />
+              </HeartCallout>
+
+              <StyledHomeThanks>
+                <ContentMaster
+                  align="center"
+                  size="lg"
+                  children={`A special thank you to the great folks at ${asList(sponsors.map(({ title }) => `**${title}**`))} for their sponsorship of Hacktoberfest.`}
+                />
+              </StyledHomeThanks>
+            </Section>
+          </Container>
+        </>
+      ) : (
         <>
           <StyledHomeCallout>
             <Section>
