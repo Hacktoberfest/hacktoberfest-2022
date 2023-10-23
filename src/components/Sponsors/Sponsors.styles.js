@@ -22,8 +22,8 @@ export const StyledSponsorsList = styled.div`
   justify-content: center;
 
   ${mQ(bp.desktop)} {
-    justify-content: flex-start;
     gap: 32px;
+    ${({ $centered }) => !$centered && 'justify-content: flex-start;'}
   }
 
   a {

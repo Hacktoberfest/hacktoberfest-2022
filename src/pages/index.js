@@ -45,10 +45,12 @@ export const StyledHomeBg = styled.div`
   mask-size: 100% 100%;
 
   ${mQ(bp.desktop)} {
-    left: 0;
+    left: ${({ $offset }) => $offset ? '0%' : '-25%'};
     width: 150%;
 
-    mask-image: radial-gradient(circle at 100% 0%, #000, transparent 80%);
+    mask-image: ${({ $offset }) => $offset
+      ? 'radial-gradient(circle at 100% 0%, #000, transparent 80%)'
+      : 'radial-gradient(circle at 50% 50%, #000, transparent 40%)'};
   }
 `;
 
@@ -70,7 +72,7 @@ const Home = () => {
 
   return (
     <StyledHome>
-      <StyledHomeBg>
+      <StyledHomeBg $offset={!hasRegistrationEnded}>
         <PixelIntro timing="5" />
       </StyledHomeBg>
       

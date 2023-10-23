@@ -7,7 +7,8 @@ import {
 const Sponsors = props => {
   const {
     title,
-    sponsors
+    sponsors,
+    centered
   } = props;
 
   return (
@@ -15,7 +16,7 @@ const Sponsors = props => {
       {title && (
         <StyledSponsorsTitle>{title}</StyledSponsorsTitle>
       )}
-      <StyledSponsorsList>
+      <StyledSponsorsList $centered={centered}>
         {sponsors.map((sponsor) => (
           <a
             key={sponsor.title}

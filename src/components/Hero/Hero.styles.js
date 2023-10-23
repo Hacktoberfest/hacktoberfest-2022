@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
-import { body16, body20, headline88 } from 'themes/typography';
+import { body16, body20, body24, headline88 } from 'themes/typography';
 
 export const StyledHero = styled.div`
   text-align: center;
@@ -8,14 +8,14 @@ export const StyledHero = styled.div`
 
   ${mQ(bp.desktop)} {
     padding: 224px 0 114px;
-    text-align: left;
+    ${({ $centered }) => !$centered && 'text-align: left;'}
   }
 `;
 
 export const StyledHeroContainer = styled.div`
   ${mQ(bp.desktop)} {
     display: flex;
-    justify-content: space-between;
+    justify-content: ${({ $centered }) => $centered ? 'center' : 'space-between'};
   }
 `;
 
@@ -35,6 +35,17 @@ export const StyledHeroTitle = styled.h1`
 
   strong {
     color: ${({ theme }) => theme.colors.bavarian.gold200};
+  }
+`;
+
+export const StyledHeroSubtitle = styled.p`
+  ${body24};
+  color: ${({ theme }) => theme.colors.neutral.manga300};
+  margin: 0 0 24px;
+
+  strong {
+    color: ${({ theme }) => theme.colors.bavarian.gold200};
+    font-weight: inherit;
   }
 `;
 

@@ -2,6 +2,7 @@ import {
   StyledHero,
   StyledHeroContent,
   StyledHeroTitle,
+  StyledHeroSubtitle,
   StyledHeroPresented,
   StyledHeroCountdown,
   StyledHeroContainer,
@@ -39,26 +40,45 @@ const Hero = () => {
   const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
 
   return (
-    <StyledHero>
-      <StyledHeroContainer>
+    <StyledHero $centered={hasRegistrationEnded}>
+      <StyledHeroContainer $centered={hasRegistrationEnded}>
         <StyledHeroContent>
           <StyledHeroTitle>
-            Celebrate
-            our <strong>10th year</strong> supporting
-            open source!
+            {hasRegistrationEnded ? (
+              <>
+                Registration is <strong>closed</strong>
+              </>
+            ) : (
+              <>
+                Celebrate
+                our <strong>10th year</strong> supporting
+                open source!
+              </>
+            )}
           </StyledHeroTitle>
+
+          {hasRegistrationEnded && (
+            <StyledHeroSubtitle>
+              Thank you for making contributions to open source.
+              <br />
+              <strong>Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013}</strong> {new Date(registrationStart).getFullYear()} has now ended.
+            </StyledHeroSubtitle>
+          )}
+
           <StyledHeroPresented>
-            <Sponsors title="Presented by" sponsors={founders} />
+            <Sponsors title="Presented by" sponsors={founders} centered={hasRegistrationEnded} />
           </StyledHeroPresented>
         </StyledHeroContent>
-        <StyledHeroCountdown>
-          {!hasRegistrationEnded && (
+        
+        {!hasRegistrationEnded && (
+          <StyledHeroCountdown>
             <>
               <StyledCountdownHeader>
                 {hasRegistration
                   ? "Hacktoberfest registration is open now!"
                   : "The countdown to Hacktoberfest starts now!"}
               </StyledCountdownHeader>
+
               <StyledCountdown>
                 <StyledCountdownItem>
                   <p>
@@ -79,6 +99,7 @@ const Hero = () => {
                   </p>
                 </StyledCountdownItem>
               </StyledCountdown>
+
               <StyledCountdownLoading>
                 <StyledCountdownLoadingBorder>
                   <svg viewBox="0 0 474 36" preserveAspectRatio="none">
@@ -102,22 +123,13 @@ const Hero = () => {
                   })}
                 </StyledCountdownLoadingContainer>
               </StyledCountdownLoading>
+
               {hasRegistration && (
                 <ButtonMain href="/auth">Register now!</ButtonMain>
               )}
             </>
-          )}
-          {hasRegistrationEnded && (
-            <>
-              <br />
-              <p>
-                Thank you for making contributions to open source.
-                Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
-              </p>
-              <br />
-            </>
-          )}
-        </StyledHeroCountdown>
+          </StyledHeroCountdown>
+        )}
       </StyledHeroContainer>
     </StyledHero>
   );

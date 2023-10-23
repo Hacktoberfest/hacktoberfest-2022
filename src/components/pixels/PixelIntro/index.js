@@ -5,6 +5,7 @@ import {
 export const PixelIntro = props => {
   const {
     timing,
+    debug,
     id
   } = props;
 
@@ -16,7 +17,7 @@ export const PixelIntro = props => {
       id={id}
     >
       <svg width="5976" height="1584" viewBox="0 0 5976 1584" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* <rect width="1992" height="1584" fill="#FF0000"/> */}
+        {debug && <rect width="1992" height="1584" fill="#FF0000"/>}
         <path d="M864 552H840V528H864V552Z" fill="#14596B"/>
         <path d="M1128 1032L1152 1032L1152 1056L1128 1056L1128 1032Z" fill="#14596B"/>
         <path d="M816 576H792V552H816V576Z" fill="#14596B"/>
@@ -335,7 +336,7 @@ export const PixelIntro = props => {
         <path d="M1008 1536H1032V1512H1008V1536Z" fill="#14596B"/>
         <path d="M1008 1416H1032V1392H1008V1416Z" fill="#14596B"/>
         <path d="M984 168L960 168L960 192L984 192L984 168Z" fill="#14596B"/>
-        {/* <rect width="1992" height="1584" transform="translate(1992)" fill="#00FF00"/> */}
+        {debug && <rect width="1992" height="1584" transform="translate(1992)" fill="#00FF00"/>}
         <path d="M2856 552H2832V528H2856V552Z" fill="#14596B"/>
         <path d="M3120 1032L3144 1032L3144 1056L3120 1056L3120 1032Z" fill="#14596B"/>
         <path d="M2808 576H2784V552H2808V576Z" fill="#14596B"/>
@@ -718,7 +719,7 @@ export const PixelIntro = props => {
         <path d="M3192 504H3168V480H3192V504Z" fill="#14596B"/>
         <path d="M3288 576H3264V552H3288V576Z" fill="#14596B"/>
         <path d="M3240 528H3216V504H3240V528Z" fill="#14596B"/>
-        {/* <rect width="1992" height="1584" transform="translate(3984)" fill="#0000FF"/> */}
+        {debug && <rect width="1992" height="1584" transform="translate(3984)" fill="#0000FF"/>}
         <path d="M4848 552H4824V528H4848V552Z" fill="#14596B"/>
         <path d="M5112 1032L5136 1032L5136 1056L5112 1056L5112 1032Z" fill="#14596B"/>
         <path d="M4800 576H4776V552H4800V576Z" fill="#14596B"/>
