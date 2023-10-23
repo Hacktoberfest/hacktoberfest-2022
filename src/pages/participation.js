@@ -89,14 +89,7 @@ const Participation = () => {
 
       <HeroSecondary
         title="Participation"
-        icon={
-          <PixelComputer2023
-            width="1680"
-            scale="1"
-            timing="5"
-            frames="7"
-          />
-        }
+        icon={<PixelComputer2023 timing="5" />}
       />
 
       <Container>

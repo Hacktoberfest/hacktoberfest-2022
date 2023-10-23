@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { events } from 'lib';
 import { registrationEnd, registrationStart } from 'lib/config';
 
+import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+
 import Marquee from 'components/Marquee';
 import Hero from 'components/Hero';
 import ContentSide from 'components/ContentSide';
@@ -15,17 +17,15 @@ import SpotCard from 'components/SpotCard';
 import ContentMaster from 'components/ContentMaster';
 import HomeIntro from 'components/HomeIntro';
 import SupportSection from 'components/SupportSection';
-
 import Section from 'components/Section';
+import Events from 'components/Events';
+import PixelIntro from 'components/pixels/PixelIntro';
 
 import IlloMLH from 'assets/img/logo-MLH.svg';
 import IlloGit from 'assets/img/8bit-git.svg';
 import IlloDiscord from 'assets/img/8bit-discord.svg';
 import IlloBranch from 'assets/img/8bit-branch.svg';
 import IlloPumpkin from 'assets/img/8bit-pumpkin.svg';
-import Events from 'components/Events';
-import PixelIntro from 'components/pixels/PixelIntro';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
 export const StyledHome = styled.div`
   overflow: hidden;
@@ -35,46 +35,20 @@ export const StyledHome = styled.div`
 
 export const StyledHomeBg = styled.div`
   position: absolute;
-  top: 0;
-  width: 100%;
-  overflow: hidden;
   z-index: -1;
+
+  top: -35vw;
+  left: -100%;
+  width: 300%;
+
   mask-image: radial-gradient(circle at 50% 0%, #000, transparent 100%);
   mask-size: 100% 100%;
 
-  ${mQ(bp.tablet)} {
-    mask-image: radial-gradient(circle at 100% 0%, #000, transparent 60%);
-  }
+  ${mQ(bp.desktop)} {
+    left: 0;
+    width: 150%;
 
-  &::after {
-    content: '';
-    display: block;
-    padding-bottom: 296.53333333%;
-
-    ${mQ(bp.tablet)} {
-      padding-bottom: 103.194444444%;
-    }
-  }
-
-  > div {
-    width: 429.86666667%;
-    top: -46.33333333vw;
-    right: -178.066667vw;
-    position: absolute;
-
-    ${mQ(bp.tablet)} {
-      top: -35.48611111vw;
-      right: -58.68055556%;
-      width: 161.38888889%;
-    }
-
-    &::after {
-      padding-bottom: 75.12406948%;
-
-      ${mQ(bp.tablet)} {
-        padding-bottom: 79.51807229%;
-      }
-    }
+    mask-image: radial-gradient(circle at 100% 0%, #000, transparent 80%);
   }
 `;
 
@@ -97,13 +71,9 @@ const Home = () => {
   return (
     <StyledHome>
       <StyledHomeBg>
-        <PixelIntro
-          width="5976"
-          scale="1"
-          timing="5"
-          frames="3"
-        />
+        <PixelIntro timing="5" />
       </StyledHomeBg>
+      
       <Container>
         <Hero />
 

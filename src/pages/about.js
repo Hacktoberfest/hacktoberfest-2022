@@ -116,14 +116,7 @@ const About = () => {
 
       <HeroSecondary
         title="About"
-        icon={
-          <PixelLogo
-            width="1020"
-            scale="1"
-            timing="5"
-            frames="3"
-          />
-        }
+        icon={<PixelLogo timing="5" />}
       />
 
       <Container inner>

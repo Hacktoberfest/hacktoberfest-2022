@@ -4,19 +4,15 @@ import {
 
 export const PixelLeaf = props => {
   const {
-    scale,
-    width,
     timing,
-    frames,
     id
   } = props;
 
   return (
     <PixelWrapper
-      scale={scale}
-      width={width}
-      timing={timing}
-      frames={frames}
+      $timing={timing}
+      $frames={6}
+      $aspect={2040 / 6 / 340}
       id={id}
     >
       <svg width="2040" height="340" viewBox="0 0 2040 340" fill="none" xmlns="http://www.w3.org/2000/svg">

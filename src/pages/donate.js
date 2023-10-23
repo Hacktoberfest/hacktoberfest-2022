@@ -124,15 +124,7 @@ const Donate = ({ projects }) => {
 
       <HeroSecondary
         title="Donate"
-        icon={
-          <PixelFlower
-            width="1700"
-            scale="1"
-            timing="5"
-            frames="5"
-            id="f3"
-          />
-        }
+        icon={<PixelFlower timing="5" />}
       />
 
       <Section>
