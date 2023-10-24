@@ -4,6 +4,7 @@ import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints
 
 export const StyledSponsors = styled.div`
   position: relative;
+  ${({ $centered }) => $centered && 'text-align: center;'}
 `;
 
 export const StyledSponsorsTitle = styled.div`
@@ -22,20 +23,25 @@ export const StyledSponsorsList = styled.div`
   justify-content: center;
 
   ${mQ(bp.desktop)} {
-    justify-content: flex-start;
     gap: 32px;
+    ${({ $centered }) => !$centered && 'justify-content: flex-start;'}
   }
 
   a {
     line-height: 0;
-  }
+    min-width: ${({ $large }) => $large ? '100%' : 'calc(50% - 16px)'};
 
-  img {
-    height: 20px;
-    width: auto;
+    ${mQ(bp.largePhone)} {
+      min-width: initial;
+    }
 
-    ${mQ(bp.desktop)} {
-      height: 32px;
+    img {
+      height: ${({ $large }) => $large ? '30px' : '20px'};
+      width: auto;
+  
+      ${mQ(bp.desktop)} {
+        height: ${({ $large }) => $large ? '48px' : '32px'};
+      }
     }
   }
 `;

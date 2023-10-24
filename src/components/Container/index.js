@@ -3,9 +3,9 @@ import {
 } from './Container.styles';
 
 const Container = props => {
-  const { children, inner } = props;
+  const { children, inner, slim } = props;
   return (
-    <StyledContainer $isInner={inner}>
+    <StyledContainer $isInner={inner} $isSlim={slim}>
       {children}
     </StyledContainer>
   );

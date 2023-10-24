@@ -6,20 +6,33 @@ import foundersDigitalOcean from 'assets/img/founders/digitalocean.svg';
 import foundersHeroDigitalOcean from 'assets/img/founders/digitalocean-hero.svg';
 
 import contributorsAmplication from 'assets/img/contributors/amplication.png';
+import contributorsHeroAmplication from 'assets/img/contributors/amplication-hero.svg';
 
 import sustainersRunme from 'assets/img/sustainers/runme.png';
+import sustainersHeroRunme from 'assets/img/sustainers/runme-hero.svg';
 import sustainersOpensauced from 'assets/img/sustainers/opensauced.png';
+import sustainersHeroOpensauced from 'assets/img/sustainers/opensauced-hero.svg';
 
 import partnersTreeNation from 'assets/img/partners/tree_nation.png';
+import partnersTreeNationHero from 'assets/img/partners/tree_nation-hero.svg';
 import partnersMLH from 'assets/img/partners/mlh.png';
+import partnersMLHHero from 'assets/img/partners/mlh-hero.svg';
 import partnersHuggingFace from 'assets/img/partners/hugging_face.png';
+import partnersHuggingFaceHero from 'assets/img/partners/hugging_face-hero.svg';
 import partnersHolographic from 'assets/img/partners/holographic.png';
+import partnersHolographicHero from 'assets/img/partners/holographic-hero.svg';
 import partnersGitlab from 'assets/img/partners/gitlab.png';
+import partnersGitlabHero from 'assets/img/partners/gitlab-hero.svg';
 import partnersGithub from 'assets/img/partners/github.png';
+import partnersGithubHero from 'assets/img/partners/github-hero.svg';
 import partnersGithubEducation from 'assets/img/partners/github_education.png';
+import partnersGithubEducationHero from 'assets/img/partners/github_education-hero.svg';
 import partnersDev from 'assets/img/partners/dev.png';
+import partnersDevHero from 'assets/img/partners/dev-hero.svg';
 import partnersDagshub from 'assets/img/partners/dagshub.png';
+import partnersDagshubHero from 'assets/img/partners/dagshub-hero.svg';
 import partnersPaperspace from 'assets/img/partners/paperspace.png';
+import partnersPaperspaceHero from 'assets/img/partners/paperspace-hero.svg';
 
 export const founders = [
   {
@@ -77,6 +90,9 @@ export const contributors = [
       href: 'http://www.amplication.com/',
       title: 'Visit Amplication'
     },
+    hero: {
+      image: contributorsHeroAmplication.src,
+    },
   },
 ];
 
@@ -91,6 +107,9 @@ export const sustainer = [
       href: 'https://runme.dev/',
       title: 'Visit Runme'
     },
+    hero: {
+      image: sustainersHeroRunme.src,
+    },
   },
   {
     image: sustainersOpensauced.src,
@@ -102,8 +121,17 @@ export const sustainer = [
       href: 'https://opensauced.pizza/',
       title: 'Visit OpenSauced'
     },
+    hero: {
+      image: sustainersHeroOpensauced.src,
+    },
   },
 ]
+
+export const sponsors = [
+  ...founders,
+  ...contributors,
+  ...sustainer,
+];
 
 export const partners = [
   {
@@ -115,6 +143,9 @@ export const partners = [
       rel: "noreferrer noopener",
       href: 'https://blog.holopin.io/posts/announcing-hacktoberfest-2023',
       title: 'Read our blog post'
+    },
+    hero: {
+      image: partnersHolographicHero.src,
     },
   },
   {
@@ -131,6 +162,9 @@ export const partners = [
       href: 'https://hackp.ac/visit-mlh-hacktoberfest',
       title: 'Visit Major League Hacking'
     },
+    hero: {
+      image: partnersMLHHero.src,
+    },
   },
   {
     image: partnersTreeNation.src,
@@ -145,6 +179,9 @@ export const partners = [
       href: 'https://tree-nation.com/',
       title: 'Visit Tree Nation'
     },
+    hero: {
+      image: partnersTreeNationHero.src,
+    },
   },
   {
     image: partnersGithub.src,
@@ -155,6 +192,9 @@ export const partners = [
       rel: "noreferrer noopener",
       href: 'https://gh.io/gh-hacktoberfest',
       title: 'Visit GitHub'
+    },
+    hero: {
+      image: partnersGithubHero.src,
     },
   },
   {
@@ -167,6 +207,9 @@ export const partners = [
       rel: "noreferrer noopener",
       href: 'https://gh.io/hacktoberfest23',
       title: 'Visit GitHub Education'
+    },
+    hero: {
+      image: partnersGithubEducationHero.src,
     },
   },
   {
@@ -181,6 +224,9 @@ export const partners = [
       href: 'https://go.gitlab.com/DEBE0y',
       title: 'Visit GitLab'
     },
+    hero: {
+      image: partnersGitlabHero.src,
+    },
   },
   {
     image: partnersDev.src,
@@ -193,6 +239,9 @@ export const partners = [
       href: 'https://dev.to/?utm_source=hacktoberfest&utm_medium=hf&utm_campaign=hf2023',
       title: 'Visit DEV'
     },
+    hero: {
+      image: partnersDevHero.src,
+    },
   },
   {
     image: partnersDagshub.src,
@@ -203,6 +252,9 @@ export const partners = [
       rel: "noreferrer noopener",
       href: 'https://dagshub.com/lp/hacktoberfest-23/?utm_source=digital_ocean&utm_medium=website&utm_campaign=hacktoberfest_23',
       title: 'Visit DagsHub'
+    },
+    hero: {
+      image: partnersDagshubHero.src,
     },
   },
   {
@@ -220,6 +272,9 @@ export const partners = [
       href: 'http://hf.co',
       title: 'Visit Hugging Face'
     },
+    hero: {
+      image: partnersHuggingFaceHero.src,
+    },
   },
   {
     image: partnersPaperspace.src,
@@ -230,6 +285,9 @@ export const partners = [
       rel: "noreferrer noopener",
       href: 'https://www.paperspace.com/?utm_medium=referral&utm_source=hacktoberfest',
       title: 'Visit Paperspace'
+    },
+    hero: {
+      image: partnersPaperspaceHero.src,
     },
   },
 ];

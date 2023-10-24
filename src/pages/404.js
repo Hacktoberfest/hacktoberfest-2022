@@ -27,14 +27,7 @@ const FourOFour = () => {
           href: '/',
           children: 'Return Home',
         }}
-        icon={
-          <PixelHops
-            width="1360"
-            scale="1"
-            timing="5"
-            frames="4"
-          />
-        }
+        icon={<PixelHops timing="5" />}
       />
     </>
   );

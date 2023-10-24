@@ -67,15 +67,7 @@ const Events = () => {
 
       <HeroSecondary
         title="Events"
-        icon={
-          <PixelEvents
-            width="1020"
-            scale="1"
-            timing="5"
-            frames="3"
-            id="f3"
-          />
-        }
+        icon={<PixelEvents timing="5" />}
       />
 
       <Container>

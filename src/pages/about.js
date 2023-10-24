@@ -116,14 +116,7 @@ const About = () => {
 
       <HeroSecondary
         title="About"
-        icon={
-          <PixelLogo
-            width="1020"
-            scale="1"
-            timing="5"
-            frames="3"
-          />
-        }
+        icon={<PixelLogo timing="5" />}
       />
 
       <Container inner>
@@ -355,7 +348,11 @@ const About = () => {
           <Divider type="doubledashed" />
 
           <HeartCallout>
-            {sharing.cta}
+            <ContentMaster
+              align="center"
+              size="xl"
+              children={sharing.cta}
+            />
           </HeartCallout>
         </Section>
       </Container>

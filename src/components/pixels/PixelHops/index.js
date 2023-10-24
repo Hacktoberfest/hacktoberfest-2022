@@ -4,19 +4,15 @@ import {
 
 export const PixelHops = props => {
   const {
-    scale,
-    width,
     timing,
-    frames,
     id
   } = props;
 
   return (
     <PixelWrapper
-      scale={scale}
-      width={width}
-      timing={timing}
-      frames={frames}
+      $timing={timing}
+      $frames={4}
+      $aspect={1360 / 4 / 340}
       id={id}
     >
       <svg width="1360" height="340" viewBox="0 0 1360 340" fill="none" xmlns="http://www.w3.org/2000/svg">

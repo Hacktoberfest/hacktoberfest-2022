@@ -4,19 +4,15 @@ import {
 
 export const PixelEvents = props => {
   const {
-    scale,
-    width,
     timing,
-    frames,
     id
   } = props;
 
   return (
     <PixelWrapper
-      scale={scale}
-      width={width}
-      timing={timing}
-      frames={frames}
+      $timing={timing}
+      $frames={3}
+      $aspect={1020 / 3 / 340}
       id={id}
     >
       <svg width="1020" height="340" viewBox="0 0 1020 340" fill="none" xmlns="http://www.w3.org/2000/svg">

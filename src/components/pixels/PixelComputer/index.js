@@ -2,21 +2,17 @@ import {
   PixelWrapper
 } from '../Pixels.styles';
 
-export const PixelComputer2023 = props => {
+export const PixelComputer = props => {
   const {
-    scale,
-    width,
     timing,
-    frames,
     id
   } = props;
 
   return (
     <PixelWrapper
-      scale={scale}
-      width={width}
-      timing={timing}
-      frames={frames}
+      $timing={timing}
+      $frames={7}
+      $aspect={2380 / 7 / 340}
       id={id}
     >
       <svg width="2380" height="340" viewBox="0 0 2380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1873,4 +1869,4 @@ export const PixelComputer2023 = props => {
   )
 };
 
-export default PixelComputer2023;
+export default PixelComputer;

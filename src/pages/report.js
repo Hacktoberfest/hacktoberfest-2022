@@ -95,14 +95,7 @@ const Report = () => {
 
       <HeroSecondary
         title="Report"
-        icon={
-          <PixelLeaf
-            width="1440"
-            scale="1"
-            timing="5"
-            frames="6"
-          />
-        }
+        icon={<PixelLeaf timing="5" />}
       />
 
       <Container>

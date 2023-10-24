@@ -1,54 +1,67 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-const flickerAnimation = () => keyframes`
+const flickerAnim = keyframes`
   0% {
     opacity: 1;
   }
+
   18% {
     opacity: 1;
   }
+
   19% {
     opacity: 0;
   }
+
   20% {
     opacity: 1;
   }
+
   96% {
     opacity: 1;
   }
+
   97% {
     opacity: 0;
   }
+
   98% {
     opacity: 1;
   }
 `;
 
-const stdAnim = () => keyframes`
+const transformAnim = keyframes`
+  from {
+    transform: translate3d(0, -50%, 0);
+  }
+
   to {
-    transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, -50%, 0);
   }
 `;
 
 export const PixelWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  animation: ${flickerAnimation} 2s infinite;
-  transform: scale(${(props) => props.scale});
+  animation: ${flickerAnim} ${({ $timing }) => Math.floor(($timing - 0.5) / 2)}s infinite;
 
   &::after {
     content: '';
     display: block;
-    padding-bottom: 100%;
+    padding-bottom: calc(100% / ${({ $aspect }) => $aspect});
   }
 
   svg {
     position: absolute;
-    top: 0;
+
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+
     left: 0;
-    width: auto;
-    height: 100%;
-    animation: ${stdAnim} ${({timing, frames}) => `${timing}s steps(${frames}) infinite`};
+    width: calc(100% * ${({ $frames }) => $frames});
+    height: auto;
+
+    animation: ${transformAnim} ${({ $timing }) => $timing}s steps(${({ $frames }) => $frames}) infinite;
     shape-rendering: crispEdges;
   }
 `;

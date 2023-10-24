@@ -11,13 +11,17 @@ export const StyledHeartCallout = styled.div`
 
   ${mQ(bp.desktop)} {
     gap: 16px;
-    grid-template-columns: 1fr ${((742/1280) * 100)}% 1fr;
+    grid-template-columns: 1fr ${((742 / 1280) * 100)}% 1fr;
   }
 
   p {
     ${body32};
     font-weight: 700;
     color: ${({ theme }) => theme.colors.neutral.manga200};
+  }
+
+  strong {
+    color: ${({theme}) => theme.colors.bavarian.gold200};
   }
 `;
 
