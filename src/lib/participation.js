@@ -302,6 +302,18 @@ export const faqs = {
       ]
     },
     {
+      title: 'When do I need to claim my badges/reward kit by?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Hacktoberfest profiles close on December 15. Please make sure you’ve claimed all your Holopin badges and digital reward kit (if you completed the challenge with four accepted pull/merge requests) using the claim links on your profile (also sent via email).\n\n' +
+          'Further, if you completed Hacktoberfest, make sure you’ve claimed all the rewards you intend to use within the digital reward kit by December 15 to ensure they’re valid.',
+        }
+      ]
+    },
+    {
       title: 'I signed up for Hacktoberfest mid-October. Will pull/merge requests that I created earlier in October count?',
       subtitle: 'Rules',
       collapsible: true,
