@@ -1,10 +1,11 @@
-import { profileEnd, registrationEnd, registrationStart, trackingEnd, trackingStart } from "./config";
+import { profileEnd, registrationEnd, registrationStart, trackingEnd, trackingEndExtended, trackingStart } from "./config";
 
 const registrationStartDate = new Date(registrationStart).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
 const registrationEndDate = new Date(new Date(registrationEnd).setMinutes(-1)).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT+12' }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
 const trackingStartDate = new Date(trackingStart).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT-14' }); // TZ sign is flipped for some reason
 const trackingStartTime = new Date(trackingStart).toLocaleString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'UTC', timeZoneName: 'short' })
 const trackingEndDate = new Date(new Date(trackingEnd).setMinutes(-1)).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT+12' }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
+const trackingEndExtendedMonth = new Date(trackingEndExtended).toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
 const profileEndDate = new Date(profileEnd).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' })
 const year = new Date(registrationStart).getFullYear();
 
@@ -97,7 +98,8 @@ export const prMrDetails = {
       items: [
         {
           content: `Your PR/MRs must be created between **${trackingStartDate}** and **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14).\n\n` +
-          'Your PR/MRs must be made to a public, unarchived repository.',
+          'Your PR/MRs must be made to a public, unarchived repository.\n\n' +
+          `Pull/merge requests created before ${trackingStartDate} but merged or marked as ready for review after **do not count**.`,
         },
       ],
     },
@@ -116,9 +118,10 @@ export const prMrDetails = {
       items: [
         {
           content: 'PR/MRs that are labeled with a label containing the word “**spam**” by maintainers will not be counted.\n\n' +
-          ' - We use the Node.js 18 RegEx engine with `/\\bspam\\b/i` to look for spam labels.\n' +
+          ' - We use the Node.js RegEx engine with **`/\\bspam\\b/i`** to look for spam labels.\n' +
           ' - PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.\n' +
           ' - PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.\n\n' +
+          '&nbsp;\n\n' +
           'PR/MRs that our system detects as spammy will also not be counted.\n\n' +
           'Any user with two or more spammy PR/MRs will be disqualified.'
         }
@@ -130,7 +133,8 @@ export const prMrDetails = {
       items: [
         {
           content: 'Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.\n\n' +
-          'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).',
+          'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).\n\n' +
+          `Your PR/MR must match criteria to be considered participating before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
         }
       ],
     },
@@ -140,7 +144,7 @@ export const prMrDetails = {
       items: [
         {
           content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n\n' +
-          'Specifically, we use the Node.js 18 RegEx engine with **`/\\binvalid\\b/i`** to look for invalid labels.',
+          'Specifically, we use the Node.js RegEx engine with **`/\\binvalid\\b/i`** to look for invalid labels.',
         },
       ],
     },
@@ -150,7 +154,8 @@ export const prMrDetails = {
       items: [
         {
           content: 'Your PR/MR must not be a draft to be considered accepted.\n\n' +
-          'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.',
+          'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.\n\n' +
+          `Your PR/MR must be accepted by a maintainer before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
         },
       ],
     },
@@ -158,8 +163,9 @@ export const prMrDetails = {
       title: 'Once your PR/MRs pass all the checks above, it will be accepted for Hacktoberfest after the seven day review period.',
       items: [
         {
-          content: 'We continually evaluate all of the checks except the **[participating]** check. If it fails any of these checks during this time, the seven day timer will reset.\n\n' +
-          'After the seven day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. Once accepted for Hacktoberfest, we stop checking. :party:',
+          content: 'We continually evaluate all of the checks until your PR/MR completes the seven-day review period, except the **[participating]** check which is a one-time check. If it fails any of these checks during this time, the seven day timer will reset.\n\n' +
+          'After the seven day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. **Once accepted for Hacktoberfest, we stop checking. :party:**\n\n' +
+          `PR/MRs that are passing all checks and are still in the review period on ${trackingEndDate} can continue the seven-day review period into ${trackingEndExtendedMonth}.`,
         },
       ],
     },
@@ -330,9 +336,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: `Yes, all pull/merge requests created between ${trackingStartDate} and ${trackingEndDate} will count, regardless of when you register for Hacktoberfest.\n\n` +
-          `Pull/merge requests created before ${trackingStartDate} but merged or marked as ready for review after **do not count**.\n\n` +
-          `Pull/merge requests that are still in review after ${trackingEndDate} and meet the criteria will count towards your completion goal.`,
+          content: `Yes, all pull/merge requests created between ${trackingStartDate} and ${trackingEndDate} will count, regardless of when you register for Hacktoberfest.`,
         }
       ]
     },
