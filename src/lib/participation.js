@@ -547,6 +547,19 @@ export const faqs = {
       ]
     },
     {
+      title: 'Why hasn’t my PR/MR appeared on my profile, or updated into the correct state?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Hacktoberfest refreshes user profiles automatically in the background every six hours, fetching the latest data for all your pull/merge requests and processing them to ensure they’re in the correct state, before then processing your account itself to ensure you’re in the correct state and have the correct rewards.\n\n' +
+          'When you load your Hacktoberfest profile, we’ll also attempt to refresh your profile in the background, at a maximum rate of once every 15 minutes. Once you’ve loaded your profile to trigger this background processing, you may need to reload your profile again after a few minutes to see the updated data.\n\n' +
+          'If you make changes to a PR/MR that will affect its standing for Hacktoberfest in the final six hours of the event, you will need to load your profile and ensure the changes are reflected there, as there will be no further automatic background jobs to catch the changes.',
+        }
+      ]
+    },
+    {
       title: 'As a maintainer, how do I encourage contributions to my repos?',
       subtitle: 'Maintainers',
       collapsible: true,
