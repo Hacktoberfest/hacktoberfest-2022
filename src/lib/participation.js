@@ -560,6 +560,18 @@ export const faqs = {
       ]
     },
     {
+      title: 'Why aren’t my contributions in an SSO-protected organization updating?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Due to limitations in how GitHub handles SSO-protected organizations, even if a repository is public, accessing it requires a valid SSO session if you are a member of the organization. This same restriction extends to OAuth applications, such as Hacktoberfest, so we cannot automatically fetch SSO-protected contributions for you if you do not have an active SSO session.\n\n' +
+          'To ensure that your contributions to public repositories in an SSO-protected organization that you are a member of are tracked for Hacktoberfest, first ensure that you are signed into GitHub and have an active SSO session for the organization, such that you can access the PR/MR yourself. With the active SSO session in GitHub, load your Hacktoberfest profile to trigger a background refresh of your profile, which should allow us (via our OAuth app) to fetch the latest data for the PR/MRs.',
+        }
+      ]
+    },
+    {
       title: 'As a maintainer, how do I encourage contributions to my repos?',
       subtitle: 'Maintainers',
       collapsible: true,
