@@ -1,3 +1,13 @@
+import { profileEnd, registrationEnd, registrationStart, trackingEnd, trackingStart } from "./config";
+
+const registrationStartDate = new Date(registrationStart).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
+const registrationEndDate = new Date(new Date(registrationEnd).setMinutes(-1)).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT+12' }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
+const trackingStartDate = new Date(trackingStart).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT-14' }); // TZ sign is flipped for some reason
+const trackingStartTime = new Date(trackingStart).toLocaleString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'UTC', timeZoneName: 'short' })
+const trackingEndDate = new Date(new Date(trackingEnd).setMinutes(-1)).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT+12' }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
+const profileEndDate = new Date(profileEnd).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' })
+const year = new Date(registrationStart).getFullYear();
+
 export const values = {
   title: 'Values',
   sections: [
@@ -28,11 +38,11 @@ export const contributors = {
     {
       title: 'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
-        'Register anytime between **September 26** and **October 31**',
+        `Register anytime between **${registrationStartDate}** and **${registrationEndDate}**`,
         'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
         'The first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through Tree Nation',
-        'Participants with four pull/merge requests accepted between October 1 and October 31 will receive a unique digital reward',
+        `Participants with four pull/merge requests accepted between ${trackingStartDate} and ${trackingEndDate} will receive a unique digital reward`,
       ],
     },
   ],
@@ -86,7 +96,7 @@ export const prMrDetails = {
       subtitle: 'out-of-bounds',
       items: [
         {
-          content: 'Your PR/MRs must be created between **October 1** and **October 31** (in any time zone, UTC-12 thru UTC+14).\n\n' +
+          content: `Your PR/MRs must be created between **${trackingStartDate}** and **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14).\n\n` +
           'Your PR/MRs must be made to a public, unarchived repository.',
         },
       ],
@@ -218,7 +228,7 @@ export const maintainers = {
     },
     {
       title: 'Reward for Maintainers',
-      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2023 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
+      content: `The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest ${year} reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n` +
         '\n' +
         ' - Merge unique PR/MRs\n' +
         ' - Provide an approving review of a PR/MR\n' +
@@ -297,7 +307,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).'
+          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).',
         }
       ]
     },
@@ -308,8 +318,8 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'Hacktoberfest profiles close on December 15. Please make sure you’ve claimed all your Holopin badges and digital reward kit (if you completed the challenge with four accepted pull/merge requests) using the claim links on your profile (also sent via email).\n\n' +
-          'Further, if you completed Hacktoberfest, make sure you’ve claimed all the rewards you intend to use within the digital reward kit by December 15 to ensure they’re valid.',
+          content: `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges and digital reward kit (if you completed the challenge with four accepted pull/merge requests) using the claim links on your profile (also sent via email).\n\n` +
+          `Further, if you completed Hacktoberfest, make sure you’ve claimed all the rewards you intend to use within the digital reward kit by ${profileEndDate} to ensure they’re valid.`,
         }
       ]
     },
@@ -320,9 +330,9 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'Yes, all pull/merge requests created between October 1 and October 31 will count, regardless of when you register for Hacktoberfest.\n\n' +
-          'Pull/merge requests created before October 1 but merged or marked as ready for review after **do not count**.\n\n' +
-          'Pull/merge requests that are still in review after October 31 and meet the criteria will count towards your completion goal.',
+          content: `Yes, all pull/merge requests created between ${trackingStartDate} and ${trackingEndDate} will count, regardless of when you register for Hacktoberfest.\n\n` +
+          `Pull/merge requests created before ${trackingStartDate} but merged or marked as ready for review after **do not count**.\n\n` +
+          `Pull/merge requests that are still in review after ${trackingEndDate} and meet the criteria will count towards your completion goal.`,
         }
       ]
     },
@@ -517,7 +527,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'No. All pull/merge requests made before the start of Hacktoberfest, September 30 10:00 am UTC, will not count.',
+          content: `No. All pull/merge requests made before the start of Hacktoberfest, ${trackingStartTime}, will not count.`,
         }
       ]
     },
