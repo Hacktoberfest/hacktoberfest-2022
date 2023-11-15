@@ -14,7 +14,7 @@ import {
   fetchUserEmails,
   updateUser,
 } from 'lib/api';
-import { providerMap, registrationStart, trackingEnd } from 'lib/config';
+import { providerMap, registrationStart, trackingEndExtended } from 'lib/config';
 
 import Form from 'components/form';
 import Loader from 'components/loader';
@@ -57,7 +57,7 @@ const Settings = ({ auth, isEdit = false }) => {
   const [emails, setEmails] = useState([]);
   const [oauth, setOauth] = useState([]);
   const [metadata, setMetadata] = useState([]);
-  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEnd), []);
+  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEndExtended), []);
 
   // Track the data the user enters
   const [data, setData] = useState({

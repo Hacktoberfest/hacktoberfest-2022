@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import Head from 'next/head';
 
-import { providerMap, trackingEnd } from 'lib/config';
+import { providerMap, trackingEndExtended } from 'lib/config';
 import { createExcludedRepository } from 'lib/api';
 
 import Section from 'components/Section';
@@ -21,7 +21,7 @@ import ButtonMain from 'components/ButtonMain';
 const Report = () => {
   const auth = useAuth(false);
 
-  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEnd), []);
+  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEndExtended), []);
 
   // Track the data the user enters
   const [ provider, setProvider ] = useState(Object.keys(providerMap)[0]);

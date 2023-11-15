@@ -1,3 +1,14 @@
+import { profileEnd, registrationEnd, registrationStart, trackingEnd, trackingEndExtended, trackingStart } from "./config";
+
+const registrationStartDate = new Date(registrationStart).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
+const registrationEndDate = new Date(new Date(registrationEnd).setMinutes(-1)).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT+12' }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
+const trackingStartDate = new Date(trackingStart).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT-14' }); // TZ sign is flipped for some reason
+const trackingStartTime = new Date(trackingStart).toLocaleString('en-US', { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: 'UTC', timeZoneName: 'short' })
+const trackingEndDate = new Date(new Date(trackingEnd).setMinutes(-1)).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'Etc/GMT+12' }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
+const trackingEndExtendedMonth = new Date(trackingEndExtended).toLocaleString('en-US', { month: 'long', timeZone: 'UTC' });
+const profileEndDate = new Date(profileEnd).toLocaleString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' })
+const year = new Date(registrationStart).getFullYear();
+
 export const values = {
   title: 'Values',
   sections: [
@@ -28,11 +39,11 @@ export const contributors = {
     {
       title: 'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
-        'Register anytime between **September 26** and **October 31**',
+        `Register anytime between **${registrationStartDate}** and **${registrationEndDate}**`,
         'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
         'Project maintainers must accept your pull/merge requests for them to count toward your total',
         'The first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through Tree Nation',
-        'Participants with four pull/merge requests accepted between October 1 and October 31 will receive a unique digital reward',
+        `Participants with four pull/merge requests accepted between ${trackingStartDate} and ${trackingEndDate} will receive a unique digital reward`,
       ],
     },
   ],
@@ -86,8 +97,9 @@ export const prMrDetails = {
       subtitle: 'out-of-bounds',
       items: [
         {
-          content: 'Your PR/MRs must be created between **October 1** and **October 31** (in any time zone, UTC-12 thru UTC+14).\n\n' +
-          'Your PR/MRs must be made to a public, unarchived repository.',
+          content: `Your PR/MRs must be created between **${trackingStartDate}** and **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14).\n\n` +
+          'Your PR/MRs must be made to a public, unarchived repository.\n\n' +
+          `Pull/merge requests created before ${trackingStartDate} but merged or marked as ready for review after **do not count**.`,
         },
       ],
     },
@@ -106,9 +118,10 @@ export const prMrDetails = {
       items: [
         {
           content: 'PR/MRs that are labeled with a label containing the word “**spam**” by maintainers will not be counted.\n\n' +
-          ' - We use the Node.js 18 RegEx engine with `/\\bspam\\b/i` to look for spam labels.\n' +
+          ' - We use the Node.js RegEx engine with **`/\\bspam\\b/i`** to look for spam labels.\n' +
           ' - PR/MRs that also have the “hacktoberfest-accepted” label cannot be marked as spammy via a label.\n' +
           ' - PR/MRs that have been merged and do not have a label containing the word “invalid” cannot be marked as spammy via a label.\n\n' +
+          '&nbsp;\n\n' +
           'PR/MRs that our system detects as spammy will also not be counted.\n\n' +
           'Any user with two or more spammy PR/MRs will be disqualified.'
         }
@@ -120,7 +133,8 @@ export const prMrDetails = {
       items: [
         {
           content: 'Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.\n\n' +
-          'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).',
+          'Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).\n\n' +
+          `Your PR/MR must match criteria to be considered participating before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
         }
       ],
     },
@@ -130,7 +144,7 @@ export const prMrDetails = {
       items: [
         {
           content: 'PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n\n' +
-          'Specifically, we use the Node.js 18 RegEx engine with **`/\\binvalid\\b/i`** to look for invalid labels.',
+          'Specifically, we use the Node.js RegEx engine with **`/\\binvalid\\b/i`** to look for invalid labels.',
         },
       ],
     },
@@ -140,7 +154,8 @@ export const prMrDetails = {
       items: [
         {
           content: 'Your PR/MR must not be a draft to be considered accepted.\n\n' +
-          'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.',
+          'If your PR/MR is being accepted for Hacktoberfest via an overall approving review it must also not be closed.\n\n' +
+          `Your PR/MR must be accepted by a maintainer before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
         },
       ],
     },
@@ -148,8 +163,9 @@ export const prMrDetails = {
       title: 'Once your PR/MRs pass all the checks above, it will be accepted for Hacktoberfest after the seven day review period.',
       items: [
         {
-          content: 'We continually evaluate all of the checks except the **[participating]** check. If it fails any of these checks during this time, the seven day timer will reset.\n\n' +
-          'After the seven day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. Once accepted for Hacktoberfest, we stop checking. :party:',
+          content: 'We continually evaluate all of the checks until your PR/MR completes the seven-day review period, except the **[participating]** check which is a one-time check. If it fails any of these checks during this time, the seven day timer will reset.\n\n' +
+          'After the seven day review period completes, your PR/MR will be automatically accepted for Hacktoberfest assuming it still passes all the checks. **Once accepted for Hacktoberfest, we stop checking. :party:**\n\n' +
+          `PR/MRs that are passing all checks and are still in the review period on ${trackingEndDate} can continue the seven-day review period into ${trackingEndExtendedMonth}.`,
         },
       ],
     },
@@ -218,7 +234,7 @@ export const maintainers = {
     },
     {
       title: 'Reward for Maintainers',
-      content: 'The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest 2023 reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n' +
+      content: `The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest ${year} reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n` +
         '\n' +
         ' - Merge unique PR/MRs\n' +
         ' - Provide an approving review of a PR/MR\n' +
@@ -297,7 +313,19 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).'
+          content: 'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).',
+        }
+      ]
+    },
+    {
+      title: 'When do I need to claim my badges/reward kit by?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges and digital reward kit (if you completed the challenge with four accepted pull/merge requests) using the claim links on your profile (also sent via email).\n\n` +
+          `Further, if you completed Hacktoberfest, make sure you’ve claimed all the rewards you intend to use within the digital reward kit by ${profileEndDate} to ensure they’re valid.`,
         }
       ]
     },
@@ -308,9 +336,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'Yes, all pull/merge requests created between October 1 and October 31 will count, regardless of when you register for Hacktoberfest.\n\n' +
-          'Pull/merge requests created before October 1 but merged or marked as ready for review after **do not count**.\n\n' +
-          'Pull/merge requests that are still in review after October 31 and meet the criteria will count towards your completion goal.',
+          content: `Yes, all pull/merge requests created between ${trackingStartDate} and ${trackingEndDate} will count, regardless of when you register for Hacktoberfest.`,
         }
       ]
     },
@@ -505,7 +531,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content: 'No. All pull/merge requests made before the start of Hacktoberfest, September 30 10:00 am UTC, will not count.',
+          content: `No. All pull/merge requests made before the start of Hacktoberfest, ${trackingStartTime}, will not count.`,
         }
       ]
     },
@@ -517,6 +543,31 @@ export const faqs = {
       items: [
         {
           content: 'We continually check the validity of your pull/merge requests, so as soon as a maintainer opts-in the project, we’ll see this has happened and start processing your pull/merge request fully. Once we’ve seen that your PR/MR is in an opted-in project, we won’t check this again, so don’t worry if a maintainer later removes the topic again, your PR/MR will still count.',
+        }
+      ]
+    },
+    {
+      title: 'Why hasn’t my PR/MR appeared on my profile, or updated into the correct state?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Hacktoberfest refreshes user profiles automatically in the background every six hours, fetching the latest data for all your pull/merge requests and processing them to ensure they’re in the correct state, before then processing your account itself to ensure you’re in the correct state and have the correct rewards.\n\n' +
+          'When you load your Hacktoberfest profile, we’ll also attempt to refresh your profile in the background, at a maximum rate of once every 15 minutes. Once you’ve loaded your profile to trigger this background processing, you may need to reload your profile again after a few minutes to see the updated data.\n\n' +
+          'If you make changes to a PR/MR that will affect its standing for Hacktoberfest in the final six hours of the event, you will need to load your profile and ensure the changes are reflected there, as there will be no further automatic background jobs to catch the changes.',
+        }
+      ]
+    },
+    {
+      title: 'Why aren’t my contributions in an SSO-protected organization updating?',
+      subtitle: 'Troubleshooting',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: 'Due to limitations in how GitHub handles SSO-protected organizations, even if a repository is public, accessing it requires a valid SSO session if you are a member of the organization. This same restriction extends to OAuth applications, such as Hacktoberfest, so we cannot automatically fetch SSO-protected contributions for you if you do not have an active SSO session.\n\n' +
+          'To ensure that your contributions to public repositories in an SSO-protected organization that you are a member of are tracked for Hacktoberfest, first ensure that you are signed into GitHub and have an active SSO session for the organization, such that you can access the PR/MR yourself. With the active SSO session in GitHub, load your Hacktoberfest profile to trigger a background refresh of your profile, which should allow us (via our OAuth app) to fetch the latest data for the PR/MRs.',
         }
       ]
     },
