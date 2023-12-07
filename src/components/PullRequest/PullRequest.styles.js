@@ -19,17 +19,17 @@ export const StyledState = styled.button`
   transition: 0.2s;
   cursor: pointer;
   border-radius: 6px;
-  color: ${({theme}) => theme.colors.neutral.manga300};
-  box-shadow: inset 0 0 0 1px ${({theme}) => theme.colors.neutral.manga400};
+  color: ${({ theme }) => theme.colors.neutral.manga300};
+  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.neutral.manga400};
   background: transparent;
 
   &:hover,
   &:focus {
-    background: ${({theme}) => theme.colors.neutral.manga400};
+    background: ${({ theme }) => theme.colors.neutral.manga400};
   }
 
   div {
-    background: ${({theme}) => theme.colors.neutral.manga200};
+    background: ${({ theme }) => theme.colors.neutral.manga200};
     display: none;
     width: 600px;
     z-index: 100;
@@ -50,8 +50,8 @@ export const StyledState = styled.button`
       border-radius: 4px;
       width: 32px;
       height: 32px;
-      color: ${({theme}) => theme.colors.neutral.manga300};
-      background: ${({theme}) => theme.colors.neutral.void200};
+      color: ${({ theme }) => theme.colors.neutral.manga300};
+      background: ${({ theme }) => theme.colors.neutral.void200};
       transition: 0.2s ease;
       opacity: .5;
     }
@@ -63,10 +63,10 @@ export const StyledState = styled.button`
     }
 
     p {
-      color: ${({theme}) => theme.colors.neutral.void200};
+      color: ${({ theme }) => theme.colors.neutral.void200};
 
       a {
-        color: ${({theme}) => theme.colors.bavarian.gold300};
+        color: ${({ theme }) => theme.colors.bavarian.gold300};
         text-decoration: underline;
 
         &:hover,
@@ -104,7 +104,7 @@ export const StyledEyebrowWrapper = styled.div`
 
 export const StyledEyebrow = styled.p`
   border-radius: 8px;
-  color: ${({theme}) => theme.colors.neutral.void200};
+  color: ${({ theme }) => theme.colors.neutral.void200};
   font-size: 14px;
   font-weight: 600;
   line-height: 1.7142857143;
@@ -125,14 +125,14 @@ export const StyledInfo = styled.div`
 `;
 
 export const StyledPRTitle = styled.h3`
-  color: ${({theme}) => theme.colors.neutral.manga200};
+  color: ${({ theme }) => theme.colors.neutral.manga200};
   flex-basis: 0;
   flex-grow: 1;
   ${headline20};
 `;
 
 export const StyledPRMR = styled.p`
-  color: ${({theme}) => theme.colors.neutral.manga200};
+  color: ${({ theme }) => theme.colors.neutral.manga200};
   flex-basis: 0;
   flex-grow: 1;
   ${body20};
@@ -147,6 +147,6 @@ export const StyledPullRequest = styled.div`
   transition: 0.2s ease;
 
   ${StyledEyebrow} {
-    background: ${(props) => stateColors[props.state](props.theme)};
+    background: ${({ $state, theme }) => stateColors[$state](theme)};
   }
 `;

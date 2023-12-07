@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
-export const marqueeScroll = () => keyframes`
+export const marqueeScroll = keyframes`
   from {
     transform: translateX(0);
   }
@@ -20,7 +20,7 @@ export const MarqueeWrapper = styled.div`
 
   .marquee_content {
     animation: ${marqueeScroll} 60s linear infinite
-      ${(props) => props.direction || 'forwards'};
+      ${({ $direction }) => $direction || 'forwards'};
     display: flex;
     flex-shrink: 0;
     gap: var(--gap);

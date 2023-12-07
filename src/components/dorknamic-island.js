@@ -13,7 +13,7 @@ const loadAnimation = (x) => keyframes`
   }
 `;
 
-const flickerAnimation = () => keyframes`
+const flickerAnimation = keyframes`
   0% {
     opacity: 1;
   }
@@ -37,7 +37,7 @@ const flickerAnimation = () => keyframes`
   }
 `;
 
-const textAnimation = () => keyframes`
+const textAnimation = keyframes`
   25% {
     content: "";
   }
@@ -94,23 +94,23 @@ const StyledNav = styled.nav`
   a {
     ${body16};
     font-weight: 600;
-    color: ${({theme}) => theme.colors.neutral.manga300};
+    color: ${({ theme }) => theme.colors.neutral.manga300};
     text-transform: uppercase;
     width: auto;
 
     &:hover,
     &:focus {
-      color: ${({theme}) => theme.colors.neutral.manga200};
+      color: ${({ theme }) => theme.colors.neutral.manga200};
     }
   }
 `;
 
 const StyledIsland = styled.div`
-  background: ${({theme}) => theme.colors.neutral.void200};
+  background: ${({ theme }) => theme.colors.neutral.void200};
   width: 200px;
   max-width: 1280px;
   border-radius: 100px;
-  box-shadow: inset 0 0 0 2px ${({theme}) => theme.colors.neutral.manga400};
+  box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.neutral.manga400};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -141,7 +141,7 @@ const StyledIsland = styled.div`
 const StyledButton = styled.button`
   align-items: center;
   align-self: flex-end;
-  border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
+  border: 1px solid ${({ theme }) => theme.colors.neutral.manga400};
   border-radius: 6px;
   display: none;
   height: 40px;
@@ -163,7 +163,7 @@ const StyledButton = styled.button`
     content: '';
     width: 60%;
     height: 2px;
-    background: ${({theme}) => theme.colors.neutral.manga300};
+    background: ${({ theme }) => theme.colors.neutral.manga300};
     z-index: 2;
     transition: 200ms ease;
   }

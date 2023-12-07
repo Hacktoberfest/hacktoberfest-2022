@@ -2,7 +2,7 @@ import Link from 'next/link';
 import styled, { keyframes } from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
-const textAnimation = () => keyframes`
+const textAnimation = keyframes`
   0% {
     opacity: 0;
   }

@@ -32,7 +32,7 @@ const StyledProgressWrapper = styled.div`
 `;
 
 const StyledProgressSummary = styled.div`
-  background: ${({theme}) => theme.card.bg};
+  background: ${({ theme }) => theme.card.bg};
   backdrop-filter: blur(5px);
   border-radius: 16px;
   padding: 24px 48px;
@@ -57,7 +57,7 @@ const StyledProgressSummary = styled.div`
 
   h2 {
     ${body24};
-    color: ${({theme}) => theme.colors.bavarian.blue200};
+    color: ${({ theme }) => theme.colors.bavarian.blue200};
   }
 `;
 
@@ -76,10 +76,10 @@ const StyledFootNote = styled.p`
   margin: 0;
   ${body20};
   max-width: 1012px;
-  color: ${({theme}) => theme.colors.neutral.manga300};
+  color: ${({ theme }) => theme.colors.neutral.manga300};
 
   strong {
-    color: ${({theme}) => theme.colors.bavarian.gold200};
+    color: ${({ theme }) => theme.colors.bavarian.gold200};
   }
 `;
 

@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
-const loadAvi = () => keyframes`
+const loadAvi = keyframes`
   to {
     transform: translateY(0px) rotate(0deg);
     opacity: 1;
@@ -61,7 +61,7 @@ export const StyledAvatarContainer = styled.div`
     object-fit: cover;
     border-radius: 16px;
     border: 1px solid ${({ theme, $placeholder }) => $placeholder ? 'transparent' : theme.colors.neutral.manga400};
-    animation ${loadAvi} 500ms 500ms ease forwards;
+    animation: ${loadAvi} 500ms 500ms ease forwards;
     transform: translateY(200px) rotate(-16deg);
     opacity: 0;
     transition: border-color 500ms ease;

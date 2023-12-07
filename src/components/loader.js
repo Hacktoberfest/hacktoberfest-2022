@@ -14,8 +14,8 @@ const StyledLoader = styled.p`
   font-variant-ligatures: none;
   margin: 0;
 
-  ${({ animated }) =>
-    animated &&
+  ${({ $animated }) =>
+    $animated &&
     css`
       margin: 0;
 
@@ -60,7 +60,7 @@ const Loader = ({ message }) => {
     // <div style={{ display: 'block' }}>
     <StyledLoaderWrapper>
       <StyledLoader>{message}</StyledLoader>
-      <StyledLoader animated>{frames[frame]}</StyledLoader>
+      <StyledLoader $animated>{frames[frame]}</StyledLoader>
     </StyledLoaderWrapper>
   );
 };

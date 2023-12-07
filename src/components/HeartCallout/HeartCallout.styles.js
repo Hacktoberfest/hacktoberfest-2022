@@ -21,7 +21,7 @@ export const StyledHeartCallout = styled.div`
   }
 
   strong {
-    color: ${({theme}) => theme.colors.bavarian.gold200};
+    color: ${({ theme }) => theme.colors.bavarian.gold200};
   }
 `;
 

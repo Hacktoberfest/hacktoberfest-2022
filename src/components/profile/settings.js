@@ -35,7 +35,7 @@ const StyledButtonGroup = styled.div`
 `;
 
 const StyledButtonLink = styled.button`
-  color: ${({theme}) => theme.colors.neutral.manga300};
+  color: ${({ theme }) => theme.colors.neutral.manga300};
   ${body20};
   text-transform: uppercase;
 
@@ -44,7 +44,7 @@ const StyledButtonLink = styled.button`
   }
 
   span {
-    color: ${({theme}) => theme.colors.bavarian.blue200};
+    color: ${({ theme }) => theme.colors.bavarian.blue200};
   }
 `;
 

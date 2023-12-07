@@ -3,7 +3,7 @@ import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints
 import { headline88 } from 'themes/typography';
 import heroBg from 'assets/img/bg-hero-secondary.svg';
 
-const textAnimation = () => keyframes`
+const textAnimation = keyframes`
   25% {
     content:
       "01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001 01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001 01100110 01101111 01110010 00100000 01100001 00100000 01110011 01110101 01110010 01110000 01110010 01101001 01110011 01100101 00100001 00100001" // for a surprise!!
@@ -41,7 +41,7 @@ export const StyledHeroSecondary = styled.div`
     position: absolute;
     bottom: 0;
     left: 0;
-    color: ${({theme}) => theme.colors.neutral.manga200};
+    color: ${({ theme }) => theme.colors.neutral.manga200};
     font-size: 16px;
     line-height: 1;
     font-weight: 500;
