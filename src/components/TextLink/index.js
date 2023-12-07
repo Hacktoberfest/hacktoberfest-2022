@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
   StyledTextLink,
   StyledTextLinkArrow
@@ -12,16 +11,14 @@ const TextLink = props => {
   } = props;
 
   return (
-    <Link {...link} passHref>
-      <StyledTextLink {...link} $size={size}>
-        <span>{children}</span>
-        <StyledTextLinkArrow aria-hidden>
-          <span>›</span>
-          <span>›</span>
-          <span>›</span>
-        </StyledTextLinkArrow>
-      </StyledTextLink>
-    </Link>
+    <StyledTextLink {...link} $size={size}>
+      <span>{children}</span>
+      <StyledTextLinkArrow aria-hidden>
+        <span>›</span>
+        <span>›</span>
+        <span>›</span>
+      </StyledTextLinkArrow>
+    </StyledTextLink>
   );
 };
 

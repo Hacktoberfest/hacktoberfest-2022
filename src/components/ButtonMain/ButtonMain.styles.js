@@ -1,8 +1,9 @@
-import styled, {css} from 'styled-components';
+import Link from 'next/link';
+import styled from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 import { body16, body20 } from 'themes/typography';
 
-export const StyledButtonMain = styled.a`
+export const StyledButtonMain = styled(Link)`
   position: relative;
   display: inline-flex;
   justify-content: center;

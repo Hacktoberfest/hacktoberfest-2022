@@ -1,6 +1,6 @@
-import ButtonMain from 'components/ButtonMain';
 import { StyledButtonMain } from 'components/ButtonMain/ButtonMain.styles';
-import styled, { keyframes } from 'styled-components';
+import Link from 'next/link';
+import styled from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 import { body18 } from 'themes/typography';
 
@@ -144,7 +144,7 @@ export const StyledMobileNav = styled.div`
   }
 `;
 
-export const StyledHeaderLink = styled.a`
+export const StyledHeaderLink = styled(Link)`
   ${body18};
   position: relative;
   text-transform: uppercase;

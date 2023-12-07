@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
   StyledButtonMain
 } from './ButtonMain.styles';
@@ -15,11 +14,9 @@ const ButtonMain = props => {
   return (
     <>
       {as === 'a' ? (
-        <Link {...link} passHref>
-          <StyledButtonMain {...link} $size={size}>
-            {children}
-          </StyledButtonMain>
-        </Link>
+        <StyledButtonMain {...link} $size={size}>
+          {children}
+        </StyledButtonMain>
       ) : (
         <StyledButtonMain $size={size} onClick={onClick} as={as} {...link}>
           {children}
