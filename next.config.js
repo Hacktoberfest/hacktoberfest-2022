@@ -19,6 +19,7 @@ const getBuildId = () => {
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  output: 'export',
   generateBuildId() {
     const proposedBuildId = getBuildId();
     nextLog.info(`Using build ID: ${proposedBuildId === null
@@ -57,6 +58,5 @@ module.exports = {
     };
   },
   reactStrictMode: true,
-  swcMinify: true,
   trailingSlash: true,
 };
