@@ -37,6 +37,7 @@
     "styled-components": "^6.1.1"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.23.5",
     "babel-plugin-styled-components": "^2.1.4",
     "webpack": "^5.89.0"
   }
