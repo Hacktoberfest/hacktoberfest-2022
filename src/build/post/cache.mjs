@@ -1,5 +1,3 @@
-import fetch from 'cross-fetch';
-
 const purge = async () => {
   // Do the purge
   const resp = await fetch(

@@ -26,7 +26,6 @@
   "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
   "dependencies": {
     "country-list": "^2.3.0",
-    "cross-fetch": "^4.0.0",
     "html-react-parser": "^5.0.7",
     "knuth-shuffle": "^1.0.8",
     "markdown-it": "^13.0.2",
