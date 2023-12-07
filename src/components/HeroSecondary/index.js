@@ -4,28 +4,22 @@ import {
   StyledHeroSecondaryContainer,
   StyledHeroSecondaryContent,
   StyledHeroSecondaryTitle,
-  StyledHeroSecondaryImage
+  StyledHeroSecondaryImage,
 } from './HeroSecondary.styles';
 import Divider from 'components/Divider';
 import ButtonMain from 'components/ButtonMain';
 
-const HeroSecondary = props => {
+const HeroSecondary = (props) => {
   const { title, icon, cta } = props;
   return (
     <StyledHeroSecondary>
       <Container>
         <StyledHeroSecondaryContainer>
           <StyledHeroSecondaryContent>
-            <StyledHeroSecondaryTitle>
-              {title}
-            </StyledHeroSecondaryTitle>
-            {cta && (
-              <ButtonMain {...cta} />
-            )}
+            <StyledHeroSecondaryTitle>{title}</StyledHeroSecondaryTitle>
+            {cta && <ButtonMain {...cta} />}
           </StyledHeroSecondaryContent>
-          <StyledHeroSecondaryImage>
-            {icon }
-          </StyledHeroSecondaryImage>
+          <StyledHeroSecondaryImage>{icon}</StyledHeroSecondaryImage>
         </StyledHeroSecondaryContainer>
         <Divider type="pixelarrow" />
       </Container>

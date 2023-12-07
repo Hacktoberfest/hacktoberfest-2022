@@ -5,10 +5,10 @@ import {
   StyledCardCalloutContent,
   StyledCardCalloutTitle,
   StyledCardCalloutContainer,
-  StyledCardBackground
+  StyledCardBackground,
 } from './CardCallout.styles';
 
-const CardCallout = props => {
+const CardCallout = (props) => {
   const { children, image, title, link } = props;
   return (
     <StyledCardCallout>
@@ -18,9 +18,7 @@ const CardCallout = props => {
           <img {...image} />
         </StyledCardCalloutImage>
         <StyledCardCalloutContent>
-          <StyledCardCalloutTitle>
-            {title}
-          </StyledCardCalloutTitle>
+          <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>
           <TextLink {...link} />
         </StyledCardCalloutContent>
       </StyledCardCalloutContainer>

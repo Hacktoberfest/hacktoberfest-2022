@@ -18,7 +18,10 @@ import Header from 'components/profile/header';
 const Register = () => {
   const auth = useAuth();
 
-  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
+  const hasRegistrationEnded = useMemo(
+    () => new Date() >= new Date(registrationEnd),
+    [],
+  );
 
   // Once initial auth has completed, load the avatar (and only load it once)
   const [loaded, setLoaded] = useState(null);
@@ -33,7 +36,7 @@ const Register = () => {
       setAvatar(
         (
           await fetchUserAvatars(auth.user.id, auth.token).catch(() => {})
-        )?.[0] || null
+        )?.[0] || null,
       );
 
       // Show the page
@@ -46,7 +49,7 @@ const Register = () => {
       e.preventDefault();
       auth.reset();
     },
-    [auth.reset]
+    [auth.reset],
   );
 
   return (
@@ -68,39 +71,45 @@ const Register = () => {
       {hasRegistrationEnded ? (
         <Section>
           <p>
-            Registration is now closed, as Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
-            We look forward to seeing you for Hacktoberfest {new Date(registrationStart).getFullYear() + 1}!
+            Registration is now closed, as Hacktoberfest #
+            {new Date(registrationStart).getFullYear() - 2013}{' '}
+            {new Date(registrationStart).getFullYear()} has now ended. We look
+            forward to seeing you for Hacktoberfest{' '}
+            {new Date(registrationStart).getFullYear() + 1}!
           </p>
-          <br/>
+          <br />
           <p>
-            <i>If you've already registered for Hacktoberfest and are trying to access your profile, make sure you're authenticating with the correct account!</i>
+            <i>
+              If you've already registered for Hacktoberfest and are trying to
+              access your profile, make sure you're authenticating with the
+              correct account!
+            </i>
           </p>
-          <br/>
+          <br />
           <StyledButtonGroup>
             <ButtonMain href="/" children="Home" />
             <ButtonMain as="button" onClick={logout} children="Logout" />
           </StyledButtonGroup>
         </Section>
+      ) : auth.loading ? (
+        <Section>
+          <Container>
+            <Loader message=">> Authorization in progress..." />
+          </Container>
+        </Section>
       ) : (
-        auth.loading ? (
-          <Section>
-            <Container>
-              <Loader message=">> Authorization in progress..." />
-            </Container>
-          </Section>
-        ) : (
-          <>
-            <Container>
-              <Header avatar={avatar} name={auth.user.name} type="Registration" />
+        <>
+          <Container>
+            <Header avatar={avatar} name={auth.user.name} type="Registration" />
 
-              <Divider type="pixel" />
+            <Divider type="pixel" />
 
-              <Section small>
-                <Settings auth={auth} />
-              </Section>
-            </Container>
-          </>
-        ))}
+            <Section small>
+              <Settings auth={auth} />
+            </Section>
+          </Container>
+        </>
+      )}
     </>
   );
 };

@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { body20 } from 'themes/typography';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledSponsors = styled.div`
   position: relative;
@@ -29,18 +32,18 @@ export const StyledSponsorsList = styled.div`
 
   a {
     line-height: 0;
-    min-width: ${({ $large }) => $large ? '100%' : 'calc(50% - 16px)'};
+    min-width: ${({ $large }) => ($large ? '100%' : 'calc(50% - 16px)')};
 
     ${mQ(bp.largePhone)} {
       min-width: initial;
     }
 
     img {
-      height: ${({ $large }) => $large ? '30px' : '20px'};
+      height: ${({ $large }) => ($large ? '30px' : '20px')};
       width: auto;
-  
+
       ${mQ(bp.desktop)} {
-        height: ${({ $large }) => $large ? '48px' : '32px'};
+        height: ${({ $large }) => ($large ? '48px' : '32px')};
       }
     }
   }

@@ -22,18 +22,23 @@ export const StyledPixelHearts = styled.div`
   justify-content: center;
 
   svg {
-    filter: drop-shadow(1px 1px 10px rgba(236, 66, 55, 0.50)) drop-shadow(-1px -1px 10px rgba(255, 251, 164, 0.50));
+    filter: drop-shadow(1px 1px 10px rgba(236, 66, 55, 0.5))
+      drop-shadow(-1px -1px 10px rgba(255, 251, 164, 0.5));
 
     path {
-      animation: ${({ theme }) => heartAnimation(theme)} 2000ms ease-in-out infinite;
+      animation: ${({ theme }) => heartAnimation(theme)} 2000ms ease-in-out
+        infinite;
     }
   }
 
-  ${({ $count, $offset }) => [...Array($count)].map((_, i) => `
+  ${({ $count, $offset }) =>
+    [...Array($count)].map(
+      (_, i) => `
     svg:nth-child(${i + 1}) {
       path {
         animation-delay: ${(i + $offset) * 250}ms;
       }
     }
-  `)}
+  `,
+    )}
 `;

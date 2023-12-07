@@ -1,17 +1,9 @@
-import {
-  StyledContentSide,
-} from './ContentSide.styles';
+import { StyledContentSide } from './ContentSide.styles';
 
-const ContentSide = props => {
-  const {
-    children
-  } = props;
+const ContentSide = (props) => {
+  const { children } = props;
 
-  return (
-    <StyledContentSide>
-      {children}
-    </StyledContentSide>
-  );
+  return <StyledContentSide>{children}</StyledContentSide>;
 };
 
 export default ContentSide;

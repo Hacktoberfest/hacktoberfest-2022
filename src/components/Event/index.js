@@ -2,23 +2,11 @@ import ContentMaster from 'components/ContentMaster';
 import { StyledEvent, StyledContent, StyledRSVP } from './Event.styles';
 import { MarkdownInline } from 'components/markdown';
 
-const Event = props => {
-  const {
-    eyebrow,
-    title,
-    content,
-    date,
-    time,
-    rsvp,
-  } = props;
+const Event = (props) => {
+  const { eyebrow, title, content, date, time, rsvp } = props;
   return (
     <StyledEvent>
-      <ContentMaster
-        size="lg"
-        eyebrow={eyebrow}
-        title={title}
-        titleTag="h3"
-      />
+      <ContentMaster size="lg" eyebrow={eyebrow} title={title} titleTag="h3" />
 
       <StyledContent>
         <MarkdownInline string={content} />
@@ -30,18 +18,14 @@ const Event = props => {
       </ul>
 
       <StyledRSVP $missing={!rsvp}>
-        {rsvp
-          ? (
-            <a
-              href={rsvp.href}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {rsvp.text || 'Register'}
-            </a>
-          )
-          : 'Coming Soon'}
-        </StyledRSVP>
+        {rsvp ? (
+          <a href={rsvp.href} target="_blank" rel="noreferrer noopener">
+            {rsvp.text || 'Register'}
+          </a>
+        ) : (
+          'Coming Soon'
+        )}
+      </StyledRSVP>
     </StyledEvent>
   );
 };

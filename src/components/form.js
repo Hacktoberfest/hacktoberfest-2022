@@ -16,7 +16,7 @@ const StyledForm = styled.form`
 
 const Form = forwardRef(({ children, success, error, ...props }, ref) => {
   const theme = useTheme();
-  return(
+  return (
     <StyledForm ref={ref} {...props}>
       {success && (
         <Notification title="Success" color="#B4FF39">
@@ -32,7 +32,7 @@ const Form = forwardRef(({ children, success, error, ...props }, ref) => {
 
       {children}
     </StyledForm>
-  )
+  );
 });
 
 export default Form;

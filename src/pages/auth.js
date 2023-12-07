@@ -11,7 +11,10 @@ import Container from 'components/Container';
 import Card from 'components/Card';
 import Section from 'components/Section';
 
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 import { headline20 } from 'themes/typography';
 
@@ -42,8 +45,12 @@ const StyledP = styled.p`
 `;
 
 export const StyledAuth = styled.div`
-  background: url(${bgAuthTopRight.src}) no-repeat, url(${bgAuthBottomLeft.src}) no-repeat;
-  background-position: top right, bottom left;
+  background:
+    url(${bgAuthTopRight.src}) no-repeat,
+    url(${bgAuthBottomLeft.src}) no-repeat;
+  background-position:
+    top right,
+    bottom left;
 `;
 
 export const StyledCardRow = styled.div`
@@ -102,7 +109,7 @@ const Auth = () => {
                     bgImage={pixelFrameYellow.src}
                     image={{
                       src: logoGithub.src,
-                      alt: ''
+                      alt: '',
                     }}
                     title="Authorize with github"
                     cta={{
@@ -116,7 +123,7 @@ const Auth = () => {
                     imageRotatation="right"
                     image={{
                       src: logoGitlab.src,
-                      alt: ''
+                      alt: '',
                     }}
                     title="Authorize with gitlab"
                     cta={{

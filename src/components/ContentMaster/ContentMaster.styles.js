@@ -1,6 +1,18 @@
-import styled, {css} from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
-import { body16, body20, body24, headline20, headline32, headline48, headline56, headline88 } from 'themes/typography';
+import styled, { css } from 'styled-components';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
+import {
+  body16,
+  body20,
+  body24,
+  headline20,
+  headline32,
+  headline48,
+  headline56,
+  headline88,
+} from 'themes/typography';
 
 export const StyledContentMaster = styled.div`
   position: relative;
@@ -107,7 +119,9 @@ export const StyledContentMasterList = styled.ul`
   list-style-type: disc;
   padding-left: 20px;
 
-  ${({ $columns }) => $columns === '2' ? `
+  ${({ $columns }) =>
+    $columns === '2'
+      ? `
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -116,7 +130,8 @@ export const StyledContentMasterList = styled.ul`
       column-count: 2;
       column-gap: 64px;
     }
-  `: `
+  `
+      : `
     display: flex;
     flex-direction: column;
     gap: 16px;

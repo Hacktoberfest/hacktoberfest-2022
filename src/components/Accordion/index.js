@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  StyledAccordion
-} from './Accordion.styles';
+import { StyledAccordion } from './Accordion.styles';
 
-const Accordion = props => {
+const Accordion = (props) => {
   const { title, subtitle, collapsed, children } = props;
 
   const [open, setOpen] = useState(!collapsed);
@@ -13,7 +11,7 @@ const Accordion = props => {
   return (
     <StyledAccordion open={open} onToggle={toggle}>
       <summary>
-        {subtitle && (<strong>[{subtitle}]{' '}</strong>)}
+        {subtitle && <strong>[{subtitle}] </strong>}
         {title}
       </summary>
       <div>{children}</div>

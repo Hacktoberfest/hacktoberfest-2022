@@ -1,7 +1,10 @@
 import { StyledButtonMain } from 'components/ButtonMain/ButtonMain.styles';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { body18 } from 'themes/typography';
 
 export const StyledHeader = styled.header`
@@ -17,7 +20,11 @@ export const StyledHeader = styled.header`
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, ${({ theme }) => theme.colors.neutral.void200} 0%, rgba(15, 9, 19, 0) 100%);
+    background: linear-gradient(
+      180deg,
+      ${({ theme }) => theme.colors.neutral.void200} 0%,
+      rgba(15, 9, 19, 0) 100%
+    );
   }
 
   ${mQ(bp.desktop)} {
@@ -165,7 +172,9 @@ export const StyledHeaderLink = styled(Link)`
   }
 
   &:hover {
-    text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
+    text-shadow:
+      1px 1px 10px rgba(236, 66, 55, 0.5),
+      -1px -1px 10px rgba(255, 251, 164, 0.5);
     color: ${({ theme }) => theme.colors.neutral.manga200};
 
     &::after {
@@ -197,20 +206,26 @@ export const StyledHeaderToggle = styled.button`
   }
 
   &::before {
-    ${({ $isOpen }) => $isOpen ? `
+    ${({ $isOpen }) =>
+      $isOpen
+        ? `
       top: calc(50%);
       transform: translate(-50%) rotate(45deg);
-    ` : `
+    `
+        : `
       top: calc(50% - 4px);
       transform: translate(-50%);
     `}
   }
 
   &::after {
-    ${({ $isOpen }) => $isOpen ? `
+    ${({ $isOpen }) =>
+      $isOpen
+        ? `
       top: calc(50%);
       transform: translate(-50%) rotate(-45deg);
-    ` : `
+    `
+        : `
       top: calc(50% + 4px);
       transform: translate(-50%);
     `}

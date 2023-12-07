@@ -1,5 +1,8 @@
-import styled, {keyframes} from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import styled, { keyframes } from 'styled-components';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { body20 } from 'themes/typography';
 
 const rotateAnimation = keyframes`
@@ -80,7 +83,9 @@ export const StyledAccordion = styled.details`
     &:hover {
       &::after {
         color: ${({ theme }) => theme.colors.bavarian.blue200};
-        text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
+        text-shadow:
+          1px 1px 10px rgba(236, 66, 55, 0.5),
+          -1px -1px 10px rgba(255, 251, 164, 0.5);
         letter-spacing: 4px;
         text-indent: 4px;
         transform: translateY(-50%);
@@ -169,9 +174,12 @@ export const StyledAccordionImage = styled.div`
   width: 100%;
   width: 83.33333333%;
 
-  ${({ $rotate }) => $rotate === 'left' ? `
+  ${({ $rotate }) =>
+    $rotate === 'left'
+      ? `
     transform: rotate(-14deg);
-  ` : `
+  `
+      : `
     transform: rotate(14deg);
   `}
 

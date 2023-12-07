@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { body32 } from 'themes/typography';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledHeartCallout = styled.div`
   display: grid;
@@ -11,7 +14,7 @@ export const StyledHeartCallout = styled.div`
 
   ${mQ(bp.desktop)} {
     gap: 16px;
-    grid-template-columns: 1fr ${((742 / 1280) * 100)}% 1fr;
+    grid-template-columns: 1fr ${(742 / 1280) * 100}% 1fr;
   }
 
   p {
@@ -30,6 +33,7 @@ export const StyledHeartCalloutImage = styled.div`
     display: block;
     margin: 0 auto;
     max-width: 130px;
-    filter: drop-shadow(1px 1px 10px rgba(236, 66, 55, 0.50)) drop-shadow(-1px -1px 10px rgba(255, 251, 164, 0.50));
+    filter: drop-shadow(1px 1px 10px rgba(236, 66, 55, 0.5))
+      drop-shadow(-1px -1px 10px rgba(255, 251, 164, 0.5));
   }
 `;

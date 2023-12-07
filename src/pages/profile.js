@@ -3,7 +3,10 @@ import { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import styled, { keyframes } from 'styled-components';
 
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 import { fetchUserAvatars } from 'lib/api';
 
@@ -47,7 +50,10 @@ const Profile = () => {
   const router = useRouter();
 
   // Track if we're in the edit view
-  const edit = useMemo(() => /\/profile\/edit\/?/.test(router.asPath), [router.asPath]);
+  const edit = useMemo(
+    () => /\/profile\/edit\/?/.test(router.asPath),
+    [router.asPath],
+  );
 
   // Once initial auth has completed, load the avatar (and only load it once)
   const [loaded, setLoaded] = useState(null);
@@ -62,7 +68,7 @@ const Profile = () => {
       setAvatar(
         (
           await fetchUserAvatars(auth.user.id, auth.token).catch(() => {})
-        )?.[0] || null
+        )?.[0] || null,
       );
 
       // Show the page
@@ -100,14 +106,18 @@ const Profile = () => {
                 {!edit && (
                   <ButtonMain
                     as="button"
-                    onClick={() => router.push('/profile/edit', undefined, { shallow: true })}
+                    onClick={() =>
+                      router.push('/profile/edit', undefined, { shallow: true })
+                    }
                     children="Edit Info"
                   />
                 )}
                 {edit && (
                   <ButtonMain
                     as="button"
-                    onClick={() => router.push('/profile', undefined, { shallow: true })}
+                    onClick={() =>
+                      router.push('/profile', undefined, { shallow: true })
+                    }
                     children="Back to Profile"
                   />
                 )}
@@ -123,7 +133,11 @@ const Profile = () => {
 
             <Section small>
               <StyledProgressWrapper>
-                {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
+                {edit ? (
+                  <Settings auth={auth} isEdit />
+                ) : (
+                  <Progress auth={auth} />
+                )}
               </StyledProgressWrapper>
             </Section>
           </Container>

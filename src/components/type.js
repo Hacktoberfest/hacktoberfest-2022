@@ -31,14 +31,14 @@ const Type = ({ text }) => {
     if (!elm) return;
 
     const observer = new IntersectionObserver(
-      entries => {
+      (entries) => {
         if (entries[0].isIntersecting && !progressTimer.current) {
           progressTimer.current = setInterval(() => {
-            setProgress(current => current + 1);
+            setProgress((current) => current + 1);
           }, interval);
         }
       },
-      { threshold: 0.25 }
+      { threshold: 0.25 },
     );
     observer.observe(elm);
 

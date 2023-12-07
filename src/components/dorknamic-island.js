@@ -2,7 +2,10 @@ import styled, { keyframes } from 'styled-components';
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { body16 } from 'themes/typography';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 const loadAnimation = (x) => keyframes`
   from {

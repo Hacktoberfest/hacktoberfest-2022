@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { body16, body20 } from 'themes/typography';
 
 export const StyledButtonMain = styled(Link)`
@@ -14,7 +17,9 @@ export const StyledButtonMain = styled(Link)`
   transition: box-shadow 300ms ease-in-out;
 
   ${({ $size }) => $size === 'lg' && body20};
-  ${({ $size }) => $size === 'lg' && `
+  ${({ $size }) =>
+    $size === 'lg' &&
+    `
     padding: 12px 20px;
 
     ${mQ(bp.desktop)} {
@@ -23,7 +28,9 @@ export const StyledButtonMain = styled(Link)`
   `};
 
   ${({ $size }) => $size === 'sm' && body16};
-  ${({ $size }) => $size === 'sm' && `
+  ${({ $size }) =>
+    $size === 'sm' &&
+    `
     padding: 12px 20px;
   `};
 
@@ -35,25 +42,36 @@ export const StyledButtonMain = styled(Link)`
     border-radius: inherit;
     border: 1px solid transparent;
     background-color: ${({ theme }) => theme.colors.neutral.manga400};
-    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }
 
   &:hover {
-    text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
-    background: ${({theme}) => theme.card.bg};
-    box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
+    text-shadow:
+      1px 1px 10px rgba(236, 66, 55, 0.5),
+      -1px -1px 10px rgba(255, 251, 164, 0.5);
+    background: ${({ theme }) => theme.card.bg};
+    box-shadow:
+      1px 1px 10px 0px rgba(236, 66, 55, 0.5),
+      -1px -1px 10px 0px rgba(255, 251, 164, 0.5);
     backdrop-filter: blur(5px);
     color: ${({ theme }) => theme.colors.neutral.manga200};
 
     &::before {
-      background: linear-gradient(77.9deg, #EC4237 0%, #33B6D8 100%) border-box;
+      background: linear-gradient(77.9deg, #ec4237 0%, #33b6d8 100%) border-box;
     }
 
     &::after {
-      background: linear-gradient(230deg, #FFFBA4 0%, rgba(255, 251, 164, 0) 100%) border-box;
-      opacity: .3;
+      background: linear-gradient(
+          230deg,
+          #fffba4 0%,
+          rgba(255, 251, 164, 0) 100%
+        )
+        border-box;
+      opacity: 0.3;
     }
   }
 `;

@@ -12,7 +12,7 @@ import {
   StyledCountdownLoading,
   StyledCountdownLoadingContainer,
   StyledCountdownLoadingItem,
-  StyledCountdownLoadingBorder
+  StyledCountdownLoadingBorder,
 } from './Hero.styles';
 
 import useCountdown from 'hooks/useCountdown';
@@ -24,20 +24,25 @@ import { founders } from 'lib/sponsors';
 
 const Hero = () => {
   const [days, hours, minutes, seconds, progress] = useCountdown(
-    new Date(registrationStart).getTime()
+    new Date(registrationStart).getTime(),
   );
 
   const progressBarSegments = 17;
-  const progressBarPercentage = Math.floor((progressBarSegments * progress) / 100);
+  const progressBarPercentage = Math.floor(
+    (progressBarSegments * progress) / 100,
+  );
 
   const hasRegistration = useMemo(
     () =>
       new Date() >= new Date(registrationStart) &&
       new Date() < new Date(registrationEnd),
-    []
+    [],
   );
 
-  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
+  const hasRegistrationEnded = useMemo(
+    () => new Date() >= new Date(registrationEnd),
+    [],
+  );
 
   return (
     <StyledHero $centered={hasRegistrationEnded}>
@@ -50,9 +55,7 @@ const Hero = () => {
               </>
             ) : (
               <>
-                Celebrate
-                our <strong>10th year</strong> supporting
-                open source!
+                Celebrate our <strong>10th year</strong> supporting open source!
               </>
             )}
           </StyledHeroTitle>
@@ -61,22 +64,30 @@ const Hero = () => {
             <StyledHeroSubtitle>
               Thank you for making contributions to open source.
               <br />
-              <strong>Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013}</strong> {new Date(registrationStart).getFullYear()} has now ended.
+              <strong>
+                Hacktoberfest #
+                {new Date(registrationStart).getFullYear() - 2013}
+              </strong>{' '}
+              {new Date(registrationStart).getFullYear()} has now ended.
             </StyledHeroSubtitle>
           )}
 
           <StyledHeroPresented>
-            <Sponsors title="Presented by" sponsors={founders} centered={hasRegistrationEnded} />
+            <Sponsors
+              title="Presented by"
+              sponsors={founders}
+              centered={hasRegistrationEnded}
+            />
           </StyledHeroPresented>
         </StyledHeroContent>
-        
+
         {!hasRegistrationEnded && (
           <StyledHeroCountdown>
             <>
               <StyledCountdownHeader>
                 {hasRegistration
-                  ? "Hacktoberfest registration is open now!"
-                  : "The countdown to Hacktoberfest starts now!"}
+                  ? 'Hacktoberfest registration is open now!'
+                  : 'The countdown to Hacktoberfest starts now!'}
               </StyledCountdownHeader>
 
               <StyledCountdown>
@@ -104,22 +115,27 @@ const Hero = () => {
                 <StyledCountdownLoadingBorder>
                   <svg viewBox="0 0 474 36" preserveAspectRatio="none">
                     <rect
-                          x=".5"
-                          y=".5"
-                          width="473"
-                          height="35"
-                          rx="8"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeDasharray="6,6"
-                          vectorEffect="non-scaling-stroke"
+                      x=".5"
+                      y=".5"
+                      width="473"
+                      height="35"
+                      rx="8"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeDasharray="6,6"
+                      vectorEffect="non-scaling-stroke"
                     />
                   </svg>
                 </StyledCountdownLoadingBorder>
                 <StyledCountdownLoadingContainer>
                   {Array.from(Array(progressBarSegments), (el, i) => {
-                    return <StyledCountdownLoadingItem key={i} $complete={i < progressBarPercentage} />
+                    return (
+                      <StyledCountdownLoadingItem
+                        key={i}
+                        $complete={i < progressBarPercentage}
+                      />
+                    );
                   })}
                 </StyledCountdownLoadingContainer>
               </StyledCountdownLoading>

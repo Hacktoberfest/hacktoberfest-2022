@@ -1,10 +1,7 @@
 import ContentMaster from 'components/ContentMaster';
-import {
-  StyledSpotHeader,
-  StyledSpotHeaderImage
-} from './SpotHeader.styles';
+import { StyledSpotHeader, StyledSpotHeaderImage } from './SpotHeader.styles';
 
-const SpotHeader = props => {
+const SpotHeader = (props) => {
   const { image, content } = props;
   return (
     <StyledSpotHeader>

@@ -1,4 +1,4 @@
-export const withOrdinal = value => {
+export const withOrdinal = (value) => {
   const i = value % 10;
   const j = value % 100;
 
@@ -8,7 +8,7 @@ export const withOrdinal = value => {
   return `${value}th`;
 };
 
-export const asList = arr => {
+export const asList = (arr) => {
   if (arr.length === 1) return arr[0];
   if (arr.length === 2) return arr.join(' and ');
   return `${arr.slice(0, -1).join(', ')}, and ${arr.slice(-1)}`;

@@ -7,18 +7,16 @@ import {
   digitalRewards,
   advisoryCouncil,
   council,
-  sharing
+  sharing,
 } from 'lib/about';
-import {
-  founders,
-  contributors,
-  sustainer,
-  partners,
-} from 'lib/sponsors';
+import { founders, contributors, sustainer, partners } from 'lib/sponsors';
 
 import IlloLeafs from 'assets/img/8bit-leafs.svg';
 
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { headline48 } from 'themes/typography';
 
 import Divider from 'components/Divider';
@@ -51,7 +49,7 @@ export const StyledBlogSection = styled.div`
 
   ${mQ(bp.desktop)} {
     gap: 24px;
-    grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
+    grid-template-columns: ${(339 / 1280) * 100}% ${(917 / 1280) * 100}%;
   }
 `;
 
@@ -114,18 +112,11 @@ const About = () => {
         <a href="#hacktoberfest-love">Hacktoberfest Love</a>
       </DorknamicIsland>
 
-      <HeroSecondary
-        title="About"
-        icon={<PixelLogo timing="5" />}
-      />
+      <HeroSecondary title="About" icon={<PixelLogo timing="5" />} />
 
       <Container inner>
         <Section>
-          <ContentMaster
-            align="center"
-            size="xl"
-            title={intro.title}
-          >
+          <ContentMaster align="center" size="xl" title={intro.title}>
             {intro.content}
           </ContentMaster>
 
@@ -133,27 +124,17 @@ const About = () => {
         </Section>
 
         <Section id="lore">
-          <ContentMaster
-            size="xl"
-            title={lore.title}
-          >
+          <ContentMaster size="xl" title={lore.title}>
             {lore.content}
           </ContentMaster>
         </Section>
       </Container>
 
-      <Marquee
-        text1="New for 2023"
-        text2="New for 2023"
-        direction="forwards"
-      />
+      <Marquee text1="New for 2023" text2="New for 2023" direction="forwards" />
 
       <Container inner>
         <Section id="digital-rewards">
-          <ContentMaster
-            size="xl"
-            title={digitalRewards.title}
-          >
+          <ContentMaster size="xl" title={digitalRewards.title}>
             {digitalRewards.content}
           </ContentMaster>
         </Section>
@@ -165,10 +146,7 @@ const About = () => {
 
       <Section id="council">
         <Container inner>
-          <ContentMaster
-            size="xl"
-            title={advisoryCouncil.title}
-          >
+          <ContentMaster size="xl" title={advisoryCouncil.title}>
             {advisoryCouncil.content}
           </ContentMaster>
         </Container>
@@ -179,12 +157,12 @@ const About = () => {
               <AccordionCouncil
                 key={member.name}
                 filled
-                frame={colors[(Math.floor(Math.random() * colors.length))]}
+                frame={colors[Math.floor(Math.random() * colors.length)]}
                 image={{
                   src: member.image,
-                  alt: `Profile image of ${member.name}`
+                  alt: `Profile image of ${member.name}`,
                 }}
-                imageRotatation={ index % 2 ? 'left' : 'right' }
+                imageRotatation={index % 2 ? 'left' : 'right'}
                 title={member.name}
                 subtitle={`[${member.role}]`}
                 skills={member.skills}
@@ -205,85 +183,78 @@ const About = () => {
           <SpotHeader
             image={{
               src: IlloLeafs.src,
-              alt: ''
+              alt: '',
             }}
             content={{
               size: 'xl',
               title: 'Our Sponsors & Partners',
-              children: 'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them!'
+              children:
+                'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them!',
             }}
           />
 
-          <StyledSponsorsListTitle>
-            Founder
-          </StyledSponsorsListTitle>
+          <StyledSponsorsListTitle>Founder</StyledSponsorsListTitle>
 
           <StyledSponsorsList>
             {founders.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
-                frame={colors[(Math.floor(Math.random() * colors.length))]}
+                frame={colors[Math.floor(Math.random() * colors.length)]}
                 image={{ src: item.image, alt: '' }}
-                imageRotatation={ index % 2 ? 'left' : 'right' }
+                imageRotatation={index % 2 ? 'left' : 'right'}
                 title={item.title}
-                link={{children: item.link.title, ...item.link}}
+                link={{ children: item.link.title, ...item.link }}
                 children={item.content}
                 collapsed
               />
             ))}
           </StyledSponsorsList>
 
-          <StyledSponsorsListTitle>
-            Contributor
-          </StyledSponsorsListTitle>
+          <StyledSponsorsListTitle>Contributor</StyledSponsorsListTitle>
 
           <StyledSponsorsList>
             {contributors.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
-                frame={colors[(Math.floor(Math.random() * colors.length))]}
+                frame={colors[Math.floor(Math.random() * colors.length)]}
                 image={{ src: item.image, alt: '' }}
-                imageRotatation={ index % 2 ? 'left' : 'right' }
+                imageRotatation={index % 2 ? 'left' : 'right'}
                 title={item.title}
-                link={{children: item.link.title, ...item.link}}
+                link={{ children: item.link.title, ...item.link }}
                 children={item.content}
                 collapsed
               />
             ))}
           </StyledSponsorsList>
 
-          <StyledSponsorsListTitle>
-            Sustainer
-          </StyledSponsorsListTitle>
+          <StyledSponsorsListTitle>Sustainer</StyledSponsorsListTitle>
 
           <StyledSponsorsList>
             {sustainer.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
-                frame={colors[(Math.floor(Math.random() * colors.length))]}
+                frame={colors[Math.floor(Math.random() * colors.length)]}
                 image={{ src: item.image, alt: '' }}
-                imageRotatation={ index % 2 ? 'left' : 'right' }
+                imageRotatation={index % 2 ? 'left' : 'right'}
                 title={item.title}
-                link={{children: item.link.title, ...item.link}}
+                link={{ children: item.link.title, ...item.link }}
                 children={item.content}
                 collapsed
               />
             ))}
           </StyledSponsorsList>
 
-          <StyledSponsorsListTitle>
-            Our Partners:
-          </StyledSponsorsListTitle>
+          <StyledSponsorsListTitle>Our Partners:</StyledSponsorsListTitle>
 
           <StyledSponsorsList>
             {partners.map((item, index) => (
               <AccordionSponsor
                 key={item.title}
-                frame={colors[(Math.floor(Math.random() * colors.length))]}
+                frame={colors[Math.floor(Math.random() * colors.length)]}
                 image={{ src: item.image, alt: '' }}
-                imageRotatation={ index % 2 ? 'left' : 'right' }
+                imageRotatation={index % 2 ? 'left' : 'right'}
                 title={item.title}
-                link={{children: item.link.title, ...item.link}}
+                link={{ children: item.link.title, ...item.link }}
                 children={item.content}
                 collapsed
               />
@@ -300,7 +271,7 @@ const About = () => {
           </StyledHacktoberfestLove>
 
           <Section small>
-            <div style={{maxWidth: '1012px'}}>
+            <div style={{ maxWidth: '1012px' }}>
               <ContentMaster
                 size="md"
                 titleTag="h3"
@@ -338,21 +309,14 @@ const About = () => {
                 title={sharing.blog.title}
               />
 
-              <ContentMaster
-                size="lg"
-                children={sharing.blog.content}
-              />
+              <ContentMaster size="lg" children={sharing.blog.content} />
             </StyledBlogSection>
           </Section>
 
           <Divider type="doubledashed" />
 
           <HeartCallout>
-            <ContentMaster
-              align="center"
-              size="xl"
-              children={sharing.cta}
-            />
+            <ContentMaster align="center" size="xl" children={sharing.cta} />
           </HeartCallout>
         </Section>
       </Container>

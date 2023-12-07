@@ -13,7 +13,8 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Controlling access to report page
  *   - Participation page information
  */
-export const registrationStart = process.env.REGISTRATION_START || '2023-09-26T12:00:00Z';
+export const registrationStart =
+  process.env.REGISTRATION_START || '2023-09-26T12:00:00Z';
 
 /**
  * Used for:
@@ -21,14 +22,16 @@ export const registrationStart = process.env.REGISTRATION_START || '2023-09-26T1
  *   - Toggling copy for profile access in nav
  *   - Participation page information
  */
-export const registrationEnd = process.env.REGISTRATION_END || '2023-11-01T12:00:00Z';
+export const registrationEnd =
+  process.env.REGISTRATION_END || '2023-11-01T12:00:00Z';
 
 /**
  * Used for:
  *   - Toggling no PR/MR messaging on profile
  *   - Participation page information
  */
-export const trackingStart = process.env.TRACKING_START || '2023-09-30T10:00:00Z';
+export const trackingStart =
+  process.env.TRACKING_START || '2023-09-30T10:00:00Z';
 
 /**
  * Used for:
@@ -41,7 +44,8 @@ export const trackingEnd = process.env.TRACKING_END || '2023-11-01T12:00:00Z';
  *   - Controlling access to report page
  *   - Controlling access to profile edit page
  */
-export const trackingEndExtended = process.env.TRACKING_END_EXTENDED || '2023-11-08T12:00:00Z';
+export const trackingEndExtended =
+  process.env.TRACKING_END_EXTENDED || '2023-11-08T12:00:00Z';
 
 /**
  * Used for:

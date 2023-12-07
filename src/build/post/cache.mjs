@@ -1,7 +1,9 @@
 const purge = async () => {
   // Do the purge
   const resp = await fetch(
-    `https://api.cloudflare.com/client/v4/zones/${encodeURIComponent(process.env.CLOUDFLARE_ZONE_ID)}/purge_cache`,
+    `https://api.cloudflare.com/client/v4/zones/${encodeURIComponent(
+      process.env.CLOUDFLARE_ZONE_ID,
+    )}/purge_cache`,
     {
       method: 'POST',
       headers: {
@@ -16,8 +18,13 @@ const purge = async () => {
 
   // Check the response
   const body = await resp.text().catch(() => '');
-  if (!resp.ok) throw new Error(`Cloudflare API error: ${resp.status} ${resp.statusText}: ${body}`);
-  console.log(`Cloudflare API response: ${resp.status} ${resp.statusText}: ${body}`);
+  if (!resp.ok)
+    throw new Error(
+      `Cloudflare API error: ${resp.status} ${resp.statusText}: ${body}`,
+    );
+  console.log(
+    `Cloudflare API response: ${resp.status} ${resp.statusText}: ${body}`,
+  );
 };
 
 const cache = async () => {

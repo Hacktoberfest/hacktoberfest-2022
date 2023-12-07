@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 import Avatar from 'components/Avatar';
 import { StyledAvatar } from 'components/Avatar/Avatar.styles';
@@ -11,7 +14,6 @@ const StyledHeader = styled.div`
   flex-direction: column;
   padding: 128px 0 80px;
   gap: 64px;
-
 
   ${mQ(bp.tablet)} {
     align-items: center;

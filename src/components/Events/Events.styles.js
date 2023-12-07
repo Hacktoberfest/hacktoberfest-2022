@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { headline32 } from 'themes/typography';
 
 export const StyledEvents = styled.div`

@@ -4,13 +4,12 @@ import {
   StyledSupportSectionContainer,
   StyledSupportSectionContent,
   StyledSupportSectionCallout,
-  StyledSupportSectionHearts
+  StyledSupportSectionHearts,
 } from './SupportSection.styles';
 import CardCallout from 'components/CardCallout';
 import PixelHearts from 'components/pixels/PixelHearts';
 
-
-const SupportSection = props => {
+const SupportSection = (props) => {
   const { children, title, callout } = props;
   return (
     <StyledSupportSection>

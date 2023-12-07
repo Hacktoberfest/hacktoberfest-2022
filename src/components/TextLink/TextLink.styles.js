@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import styled, { keyframes } from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 const textAnimation = keyframes`
   0% {
@@ -20,7 +23,9 @@ export const StyledTextLinkArrow = styled.span`
   line-height: 1;
 
   > span {
-    transition: opacity 300ms ease-in-out, color 300ms ease-in-out;
+    transition:
+      opacity 300ms ease-in-out,
+      color 300ms ease-in-out;
 
     &:nth-child(2),
     &:nth-child(3) {
@@ -46,46 +51,63 @@ export const StyledTextLink = styled(Link)`
   color: ${({ theme }) => theme.colors.neutral.manga300};
   font-weight: 600;
   text-transform: uppercase;
-  transition: color 300ms ease-in-out, text-shadow 300ms ease-in-out;
+  transition:
+    color 300ms ease-in-out,
+    text-shadow 300ms ease-in-out;
 
   ${mQ(bp.desktop)} {
     width: auto;
     display: inline-flex;
   }
 
-  ${({ $size }) => $size === 'lg' && (`
+  ${({ $size }) =>
+    $size === 'lg' &&
+    `
     font-size: 20px;
     line-height: 30px;
-  `)};
+  `};
 
-  ${({ $size }) => $size === 'sm' && (`
+  ${({ $size }) =>
+    $size === 'sm' &&
+    `
     font-size: 16px;
     line-height: 26px;
-  `)};
+  `};
 
   &::before {
     content: '';
     aspect-ratio: 1/1;
     display: block;
     background-color: ${({ theme }) => theme.colors.bavarian.blue100};
-    transition: background-color 300ms ease-in-out, transform 300ms ease-in-out, box-shdadow 300ms ease-in-out;
+    transition:
+      background-color 300ms ease-in-out,
+      transform 300ms ease-in-out,
+      box-shdadow 300ms ease-in-out;
     flex-shrink: 0;
-    ${({ $size }) => $size === 'lg' && (`
+    ${({ $size }) =>
+      $size === 'lg' &&
+      `
       width: 10px;
-    `)};
-    ${({ $size }) => $size === 'sm' && (`
+    `};
+    ${({ $size }) =>
+      $size === 'sm' &&
+      `
       width: 8px;
-    `)};
+    `};
   }
 
   &:hover {
     color: ${({ theme }) => theme.colors.neutral.manga200};
-    text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
+    text-shadow:
+      1px 1px 10px rgba(236, 66, 55, 0.5),
+      -1px -1px 10px rgba(255, 251, 164, 0.5);
 
     &::before {
       background-color: ${({ theme }) => theme.colors.bavarian.blue200};
       transform: scale(1.2);
-      box-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
+      box-shadow:
+        1px 1px 10px rgba(236, 66, 55, 0.5),
+        -1px -1px 10px rgba(255, 251, 164, 0.5);
     }
 
     ${StyledTextLinkArrow} {

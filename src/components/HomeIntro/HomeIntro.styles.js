@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledHomeIntro = styled.div`
   padding: 80px 0;
@@ -24,7 +27,7 @@ export const StyledHomeIntroContainer = styled.div`
 
     ${mQ(bp.desktop)} {
       display: block;
-      margin-right: ${(146/1280)*100}%;
+      margin-right: ${(146 / 1280) * 100}%;
     }
   }
 
@@ -44,7 +47,7 @@ export const StyledHomeIntroContent = styled.div`
   ${mQ(bp.desktop)} {
     max-width: 608px;
   }
-`
+`;
 export const StyledHomeIntroCallout = styled.div`
   ${mQ(bp.desktop)} {
     max-width: 608px;

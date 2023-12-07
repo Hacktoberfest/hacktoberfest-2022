@@ -45,7 +45,7 @@ const Loader = ({ message }) => {
         '[==  ]',
         '[=   ]',
       ].map((item) => item.replace(/ /g, '\u00A0')),
-    []
+    [],
   );
   const [frame, setFrame] = useState(0);
 

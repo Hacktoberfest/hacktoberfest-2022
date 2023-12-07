@@ -21,27 +21,21 @@ const TreeNation = ({ code }) => {
   if (!claim || !certificate) return null;
 
   return (
-    <Notification title="Rewards: Tree-Nation Tree" color={theme.colors.bavarian.gold200}>
+    <Notification
+      title="Rewards: Tree-Nation Tree"
+      color={theme.colors.bavarian.gold200}
+    >
       <p>
-        Congratulations on completing your first accepted PR/MR!
-        As a thank you, <b>we've planted a tree on your behalf</b> with Tree-Nation.
+        Congratulations on completing your first accepted PR/MR! As a thank you,{' '}
+        <b>we've planted a tree on your behalf</b> with Tree-Nation.
       </p>
 
       <p>
-        <a
-          href={claim}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
+        <a href={claim} target="_blank" rel="noreferrer noopener">
           Claim your tree
         </a>
-        , or view your
-        {' '}
-        <a
-          href={certificate}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
+        , or view your{' '}
+        <a href={certificate} target="_blank" rel="noreferrer noopener">
           tree planting certificate
         </a>
         .

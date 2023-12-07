@@ -1,10 +1,16 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { darkTheme, liteTheme, mainTheme } from 'themes/themes';
 
 const ThemeContext = createContext(() =>
-  console.error('Attempted to set theme outside of ThemeContext')
+  console.error('Attempted to set theme outside of ThemeContext'),
 );
 
 export const useThemeToggle = () => useContext(ThemeContext);
@@ -24,7 +30,7 @@ export const Theme = ({ children }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={{...mainTheme}}>
+    <ThemeProvider theme={{ ...mainTheme }}>
       <ThemeContext.Provider value={themeToggler}>
         {children}
       </ThemeContext.Provider>

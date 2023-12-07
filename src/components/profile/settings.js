@@ -1,5 +1,12 @@
 import { useRouter } from 'next/router';
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import styled from 'styled-components';
 
 import { body20, headline48 } from 'themes/typography';
@@ -14,7 +21,11 @@ import {
   fetchUserEmails,
   updateUser,
 } from 'lib/api';
-import { providerMap, registrationStart, trackingEndExtended } from 'lib/config';
+import {
+  providerMap,
+  registrationStart,
+  trackingEndExtended,
+} from 'lib/config';
 
 import Form from 'components/form';
 import Loader from 'components/loader';
@@ -57,7 +68,10 @@ const Settings = ({ auth, isEdit = false }) => {
   const [emails, setEmails] = useState([]);
   const [oauth, setOauth] = useState([]);
   const [metadata, setMetadata] = useState([]);
-  const hasTrackingEnded = useMemo(() => new Date() >= new Date(trackingEndExtended), []);
+  const hasTrackingEnded = useMemo(
+    () => new Date() >= new Date(trackingEndExtended),
+    [],
+  );
 
   // Track the data the user enters
   const [data, setData] = useState({
@@ -79,9 +93,9 @@ const Settings = ({ auth, isEdit = false }) => {
             ...obj,
             [item.provider]: item,
           }),
-          {}
-        )
-      )
+          {},
+        ),
+      ),
     );
   }, [auth.user?.id, auth.token]);
 
@@ -94,17 +108,17 @@ const Settings = ({ auth, isEdit = false }) => {
       const link = await createUserOAuth(
         auth.user.id,
         auth.token,
-        provider
+        provider,
       ).catch(async (err) => {
         const data = await err.response.json().catch(() => null);
         console.error(err, data);
         setError(
-          `An unknown error occurred while linking your ${providerMap[provider]} account. Please try again later.`
+          `An unknown error occurred while linking your ${providerMap[provider]} account. Please try again later.`,
         );
       });
       window.location.href = link.redirect;
     },
-    [auth.user?.id, auth.token]
+    [auth.user?.id, auth.token],
   );
 
   // Handle unlinking OAuth accounts
@@ -115,7 +129,7 @@ const Settings = ({ auth, isEdit = false }) => {
 
       if (
         !confirm(
-          `Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`
+          `Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`,
         )
       )
         return;
@@ -125,17 +139,20 @@ const Settings = ({ auth, isEdit = false }) => {
           const data = await err.response.json().catch(() => null);
           console.error(err, data);
           setError(
-            `An unknown error occurred while unlinking your ${providerMap[provider]} account. Please try again later.`
+            `An unknown error occurred while unlinking your ${providerMap[provider]} account. Please try again later.`,
           );
-        }
+        },
       );
       await fetchOAuth();
     },
-    [auth.user?.id, auth.token]
+    [auth.user?.id, auth.token],
   );
 
   // Check if we have multiple OAuth accounts linked (unlinking is disabled if not)
-  const hasMultipleOAuth = useMemo(() => Object.keys(oauth).length > 1, [oauth]);
+  const hasMultipleOAuth = useMemo(
+    () => Object.keys(oauth).length > 1,
+    [oauth],
+  );
 
   // Load the data we need to render
   useEffect(() => {
@@ -159,14 +176,14 @@ const Settings = ({ auth, isEdit = false }) => {
           data?.message === 'Could not locate any verified emails for user'
         ) {
           setError(
-            'No verified emails could be located. Please ensure you have a verified email on your GitHub/GitLab account.'
+            'No verified emails could be located. Please ensure you have a verified email on your GitHub/GitLab account.',
           );
           return;
         }
 
         // If emails fail to load, show an error and stop early
         setError(
-          'An error occurred while fetching your email addresses. If you previously participated in Hacktoberfest with both GitHub and GitLab linked, try authenticating again with the other.'
+          'An error occurred while fetching your email addresses. If you previously participated in Hacktoberfest with both GitHub and GitLab linked, try authenticating again with the other.',
         );
         setLoaded(true);
         setSubmitting(true); // Disable everything
@@ -177,7 +194,9 @@ const Settings = ({ auth, isEdit = false }) => {
       setData((prev) => ({
         ...prev,
         name: auth.user.name,
-        email: currentEmails.includes(auth.user.email) ? auth.user.email : currentEmails[0],
+        email: currentEmails.includes(auth.user.email)
+          ? auth.user.email
+          : currentEmails[0],
       }));
 
       // Fetch the user's linked OAuth accounts
@@ -199,7 +218,9 @@ const Settings = ({ auth, isEdit = false }) => {
             (obj, item) => ({
               ...obj,
               [item.name]:
-                !item.required && (currentMetadata[item.name]?.value === undefined || currentMetadata[item.name]?.value === null)
+                !item.required &&
+                (currentMetadata[item.name]?.value === undefined ||
+                  currentMetadata[item.name]?.value === null)
                   ? null
                   : item.datatype === 'boolean'
                     ? currentMetadata[item.name]?.value === 'true'
@@ -207,7 +228,7 @@ const Settings = ({ auth, isEdit = false }) => {
                       ? currentMetadata[item.name]?.value || ''
                       : currentMetadata[item.name]?.value || null,
             }),
-            {}
+            {},
           ),
         },
       }));
@@ -246,9 +267,13 @@ const Settings = ({ auth, isEdit = false }) => {
 
       try {
         // Update the user name/email if needed
-        const userChanged = data.name !== auth.user.name || data.email !== auth.user.email;
+        const userChanged =
+          data.name !== auth.user.name || data.email !== auth.user.email;
         if (userChanged)
-          await updateUser(auth.user.id, auth.token, { name: data.name, email: data.email });
+          await updateUser(auth.user.id, auth.token, {
+            name: data.name,
+            email: data.email,
+          });
 
         // Create/update the registration
         const registrationHandler = isEdit
@@ -274,7 +299,7 @@ const Settings = ({ auth, isEdit = false }) => {
           data?.message === 'User is excluded from registering for given event'
         ) {
           setError(
-            `Sorry, you've been disqualified from Hacktoberfest and cannot register.`
+            `Sorry, you've been disqualified from Hacktoberfest and cannot register.`,
           );
           return;
         }
@@ -283,21 +308,21 @@ const Settings = ({ auth, isEdit = false }) => {
           data?.message === 'User has previously registered for given event'
         ) {
           setError(
-            `Sorry, you've already registered for this event before and cannot register again.`
+            `Sorry, you've already registered for this event before and cannot register again.`,
           );
           return;
         }
 
         // Handle unknown errors
         setError(
-          'An unknown error occurred while saving your registration. Please try again later.'
+          'An unknown error occurred while saving your registration. Please try again later.',
         );
       } finally {
         setSubmitting(false);
         top.current?.scrollIntoView();
       }
     },
-    [submitting, data, auth, isEdit]
+    [submitting, data, auth, isEdit],
   );
 
   const logout = useCallback(
@@ -305,7 +330,7 @@ const Settings = ({ auth, isEdit = false }) => {
       e.preventDefault();
       auth.reset();
     },
-    [auth.reset]
+    [auth.reset],
   );
 
   // Don't render anything until we have the data we need
@@ -330,11 +355,13 @@ const Settings = ({ auth, isEdit = false }) => {
       {hasTrackingEnded && (
         <>
           <p>
-            It is no longer possible to edit your profile for this year, as Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013} {new Date(registrationStart).getFullYear()} has now ended.
+            It is no longer possible to edit your profile for this year, as
+            Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013}{' '}
+            {new Date(registrationStart).getFullYear()} has now ended.
           </p>
-          <br/>
-          <hr/>
-          <br/>
+          <br />
+          <hr />
+          <br />
         </>
       )}
 
@@ -345,7 +372,7 @@ const Settings = ({ auth, isEdit = false }) => {
         error={error}
       >
         <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
-        
+
         {isEdit && (
           <>
             <Section small>
@@ -359,7 +386,8 @@ const Settings = ({ auth, isEdit = false }) => {
                           type="button"
                           disabled={hasTrackingEnded}
                         >
-                          Unlink {providerMap[provider]} account: <span>@{oauth[provider].providerUsername}</span>
+                          Unlink {providerMap[provider]} account:{' '}
+                          <span>@{oauth[provider].providerUsername}</span>
                         </StyledButtonLink>
                       ) : (
                         <StyledButtonLink
@@ -367,7 +395,8 @@ const Settings = ({ auth, isEdit = false }) => {
                           type="button"
                           disabled
                         >
-                          {providerMap[provider]} linked: <span>@{oauth[provider].providerUsername}</span>
+                          {providerMap[provider]} linked:{' '}
+                          <span>@{oauth[provider].providerUsername}</span>
                         </StyledButtonLink>
                       )
                     ) : (
@@ -398,11 +427,7 @@ const Settings = ({ auth, isEdit = false }) => {
 
         <StyledButtonGroup $align="center">
           {!isEdit && (
-            <ButtonMain
-              size="lg"
-              as="button"
-              onClick={logout}
-            >
+            <ButtonMain size="lg" as="button" onClick={logout}>
               Logout
             </ButtonMain>
           )}

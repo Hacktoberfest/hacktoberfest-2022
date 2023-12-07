@@ -1,5 +1,8 @@
 import styled, { keyframes } from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledSupportSection = styled.div`
   padding: 80px 0;
