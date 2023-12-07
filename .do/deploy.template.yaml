@@ -29,7 +29,7 @@ spec:
       source_dir: /
 
   static_sites:
-    - build_command: npm run export
+    - build_command: npm run build
       environment_slug: node-js
       envs:
         - key: BASE_URL

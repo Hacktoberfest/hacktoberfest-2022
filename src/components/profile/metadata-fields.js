@@ -55,7 +55,7 @@ const StyledFormRow = styled.div`
   gap: 32px;
 
   ${mQ(bp.tablet)} {
-    grid-template-columns: repeat(${({$columns}) => $columns}, minmax(0, 1fr));
+    grid-template-columns: repeat(${({ $columns }) => $columns}, minmax(0, 1fr));
     gap: 64px;
     align-items: flex-start;
   }

@@ -43,25 +43,23 @@ const Header = () => {
       <StyledHeader>
         <StyledHeaderContainer>
           <StyledHeaderLogo>
-            <Link href="/" passHref>
-              <a>
-                <img src={hacktoberfestLogo.src} alt="Hacktoberfest 10" />
-              </a>
+            <Link href="/">
+              <img src={hacktoberfestLogo.src} alt="Hacktoberfest" />
             </Link>
           </StyledHeaderLogo>
           <StyledHeaderNav>
-            <Link href="/participation" passHref>
-              <StyledHeaderLink>Participation</StyledHeaderLink>
-            </Link>
-            <Link href="/events" passHref>
-              <StyledHeaderLink>Events</StyledHeaderLink>
-            </Link>
-            <Link href="/donate" passHref>
-              <StyledHeaderLink>Donate</StyledHeaderLink>
-            </Link>
-            <Link href="/about" passHref>
-              <StyledHeaderLink>About</StyledHeaderLink>
-            </Link>
+            <StyledHeaderLink href="/participation">
+              Participation
+            </StyledHeaderLink>
+            <StyledHeaderLink href="/events">
+              Events
+            </StyledHeaderLink>
+            <StyledHeaderLink href="/donate">
+              Donate
+            </StyledHeaderLink>
+            <StyledHeaderLink href="/about">
+              About
+            </StyledHeaderLink>
             <StyledHeaderLink
               href="https://discord.gg/hacktoberfest"
               target="_blank"
@@ -92,18 +90,18 @@ const Header = () => {
             </StyledHeaderToggle>
           </StyledMobileHeader>
           <StyledMobileNav>
-            <Link href="/participation" passHref>
-              <StyledHeaderLink>Participation</StyledHeaderLink>
-            </Link>
-            <Link href="/events" passHref>
-              <StyledHeaderLink>Events</StyledHeaderLink>
-            </Link>
-            <Link href="/donate" passHref>
-              <StyledHeaderLink>Donate</StyledHeaderLink>
-            </Link>
-            <Link href="/about" passHref>
-              <StyledHeaderLink>About</StyledHeaderLink>
-            </Link>
+            <StyledHeaderLink href="/participation">
+              Participation
+            </StyledHeaderLink>
+            <StyledHeaderLink href="/events">
+              Events
+            </StyledHeaderLink>
+            <StyledHeaderLink href="/donate">
+              Donate
+            </StyledHeaderLink>
+            <StyledHeaderLink href="/about">
+              About
+            </StyledHeaderLink>
             <StyledHeaderLink
               href="https://discord.gg/hacktoberfest"
               target="_blank"

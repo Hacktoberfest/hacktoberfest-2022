@@ -1,7 +1,8 @@
+import Link from 'next/link';
 import styled, { keyframes } from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 
-const textAnimation = () => keyframes`
+const textAnimation = keyframes`
   0% {
     opacity: 0;
   }
@@ -36,7 +37,7 @@ export const StyledTextLinkArrow = styled.span`
   }
 `;
 
-export const StyledTextLink = styled.a`
+export const StyledTextLink = styled(Link)`
   display: flex;
   /* grid-template-columns: 10px minmax(min-content, 1fr) 44px; */
   width: 100%;

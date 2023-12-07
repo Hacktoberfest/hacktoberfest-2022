@@ -2,7 +2,7 @@ import styled, {keyframes} from 'styled-components';
 import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
 import { headline32 } from 'themes/typography';
 
-const rotateAnimation = () => keyframes`
+const rotateAnimation = keyframes`
   0% {
     transform: scale(1) rotate(0deg);
   }
@@ -53,7 +53,7 @@ export const StyledAccordion = styled.details`
       letter-spacing: 2px;
       font-weight: 700;
       text-indent: 2px;
-      content: '${(props) => (props.open ? '[-]' : '[+]')}';
+      content: '${({ open }) => (open ? '[-]' : '[+]')}';
       transition:
         letter-spacing 0.2s ease 0.2s,
         text-indent 0.2s ease 0.2s,
@@ -74,7 +74,7 @@ export const StyledAccordion = styled.details`
         text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
         letter-spacing: 4px;
         text-indent: 4px;
-        animation: ${rotateAnimation()} 0.2s linear;
+        animation: ${rotateAnimation} 0.2s linear;
 
         @media (prefers-reduced-motion) {
           animation-play-state: paused;
@@ -93,7 +93,7 @@ export const StyledAccordion = styled.details`
 
       &:hover {
         &::before {
-          color: ${({theme}) => theme.colors.bavarian.blue200};
+          color: ${({ theme }) => theme.colors.bavarian.blue200};
           letter-spacing: 1px;
           text-indent: 1px;
           animation: none;

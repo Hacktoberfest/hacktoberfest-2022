@@ -1,5 +1,3 @@
-import fetch from 'cross-fetch';
-
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 if (!BASE_URL) throw new Error('BASE_URL must be set for API calls');
 

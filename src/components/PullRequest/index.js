@@ -36,8 +36,7 @@ const PullRequest = ({ data, as }) => {
   return (
     <StyledPullRequest
       as={as}
-      state={data.state.state}
-      provider={data.provider}
+      $state={data.state.state}
     >
       <StyledEyebrowWrapper>
         <StyledEyebrow>

@@ -22,7 +22,7 @@ import logoGitlab from 'assets/img/logo-gitlab.svg';
 import pixelFrameYellow from 'assets/img/pixel-frame-yellow.svg';
 import pixelFrameBlue from 'assets/img/pixel-frame-blue.svg';
 
-const typingAnim = () => keyframes`
+const typingAnim = keyframes`
   from {
     width: 0ch;
   }

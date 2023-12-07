@@ -10,8 +10,7 @@
     "build": "npm run build:custom && npm run build:next",
     "build:custom": "node src/build/index.mjs",
     "build:next": "next build",
-    "postbuild": "node src/build/post/index.mjs",
-    "export": "npm run build && next export"
+    "postbuild": "node src/build/post/index.mjs"
   },
   "repository": {
     "type": "git",
@@ -26,19 +25,19 @@
   },
   "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
   "dependencies": {
-    "country-list": "^2.2.0",
-    "cross-fetch": "^3.1.5",
-    "html-react-parser": "^3.0.4",
+    "country-list": "^2.3.0",
+    "html-react-parser": "^5.0.7",
     "knuth-shuffle": "^1.0.8",
-    "markdown-it": "^13.0.1",
-    "next": "12.2.4",
+    "markdown-it": "^13.0.2",
+    "next": "14.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sitemap": "^7.1.1",
-    "styled-components": "^5.3.11"
+    "styled-components": "^6.1.1"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.23.5",
     "babel-plugin-styled-components": "^2.1.4",
-    "webpack": "^5.74.0"
+    "webpack": "^5.89.0"
   }
 }

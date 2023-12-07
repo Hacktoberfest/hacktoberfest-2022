@@ -11,7 +11,7 @@ const parse = (html, forceNewTab = false) => htmlReactParser(html, {
             attribs.target = '_blank';
             attribs.rel = 'noopener noreferrer';
           }
-          return <Link href={attribs.href} passHref><a {...attribs}>{domToReact(children)}</a></Link>;
+          return <Link {...attribs}>{domToReact(children)}</Link>;
         }
     },
 });

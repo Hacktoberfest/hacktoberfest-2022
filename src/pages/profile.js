@@ -21,7 +21,7 @@ import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
 import Header from 'components/profile/header';
 
-const opacityFade = () => keyframes`
+const opacityFade = keyframes`
   to {
     opacity: 1;
   }
