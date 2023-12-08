@@ -36,7 +36,7 @@ export const StyledSearch = styled.div`
   }
 
   &:has(input:focus)::after {
-    opacity: .3;
+    opacity: 0.3;
   }
 
   &::before,
@@ -47,7 +47,9 @@ export const StyledSearch = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 16px;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out; /* stylelint-disable-line property-no-vendor-prefix */
     mask-composite: exclude;
     padding: 1px;
@@ -57,31 +59,37 @@ export const StyledSearch = styled.div`
   }
 
   &::before {
-    background: linear-gradient(77.9deg, #EC4237 0%, #33B6D8 100%);
+    background: linear-gradient(77.9deg, #ec4237 0%, #33b6d8 100%);
   }
 
   &::after {
-    background: linear-gradient(230deg, #FFFBA4 0%, rgba(255, 251, 164, 0) 100%);
+    background: linear-gradient(
+      230deg,
+      #fffba4 0%,
+      rgba(255, 251, 164, 0) 100%
+    );
   }
 
   input {
     padding: 16px 24px;
     width: 100%;
-    color: ${({theme}) => theme.colors.neutral.manga200};
+    color: ${({ theme }) => theme.colors.neutral.manga200};
     ${body20};
     border-radius: 16px;
-    border: 1px solid ${({theme}) => theme.colors.neutral.manga400};
-    background: ${({theme}) => theme.card.bg};
+    border: 1px solid ${({ theme }) => theme.colors.neutral.manga400};
+    background: ${({ theme }) => theme.card.bg};
     backdrop-filter: blur(5px);
     transition: box-shadow 300ms ease-in-out;
 
     &:focus {
-      box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
+      box-shadow:
+        1px 1px 10px 0px rgba(236, 66, 55, 0.5),
+        -1px -1px 10px 0px rgba(255, 251, 164, 0.5);
       outline: 0;
     }
 
     &::placeholder {
-      color: ${({theme}) => theme.colors.neutral.manga200};
+      color: ${({ theme }) => theme.colors.neutral.manga200};
     }
   }
 `;
@@ -94,15 +102,15 @@ const Donate = ({ projects }) => {
   const projectsFiltered = useMemo(
     () =>
       projectsShuffled.filter((project) =>
-        project.name.toLowerCase().includes(projectsSearch.toLowerCase())
+        project.name.toLowerCase().includes(projectsSearch.toLowerCase()),
       ),
-    [projectsShuffled, projectsSearch]
+    [projectsShuffled, projectsSearch],
   );
 
   const [projectsCount, setProjectsCount] = useState(3);
   const projectsList = useMemo(
     () => projectsFiltered.slice(0, projectsCount),
-    [projectsFiltered, projectsCount]
+    [projectsFiltered, projectsCount],
   );
   useEffect(() => setProjectsCount(3), [projectsFiltered]);
 
@@ -122,18 +130,15 @@ const Donate = ({ projects }) => {
         />
       </Head>
 
-      <HeroSecondary
-        title="Donate"
-        icon={<PixelFlower timing="5" />}
-      />
+      <HeroSecondary title="Donate" icon={<PixelFlower timing="5" />} />
 
       <Section>
         <Container inner>
-          <ContentMaster
-            size="xl"
-            title="Find a project"
-          >
-            Open-source projects keep the internet humming—but they can’t do it without resources. Projects are always in need of financial support so they can develop new features, cover expenses, and continue their regular activities. Find a project to donate money to right here.
+          <ContentMaster size="xl" title="Find a project">
+            Open-source projects keep the internet humming—but they can’t do it
+            without resources. Projects are always in need of financial support
+            so they can develop new features, cover expenses, and continue their
+            regular activities. Find a project to donate money to right here.
           </ContentMaster>
 
           <StyledSearch>
@@ -141,7 +146,8 @@ const Donate = ({ projects }) => {
               type="text"
               placeholder="[ Search projects... ]"
               value={projectsSearch}
-              onChange={(e) => setProjectsSearch(e.target.value)} />
+              onChange={(e) => setProjectsSearch(e.target.value)}
+            />
           </StyledSearch>
         </Container>
 
@@ -161,19 +167,23 @@ const Donate = ({ projects }) => {
                     key={`${project.source}:${project.name}`}
                     image={{
                       src: project.icon,
-                      alt: `Project profile of ${project.name}`
+                      alt: `Project profile of ${project.name}`,
                     }}
-                    imageRotatation={ index % 2 ? 'left' : 'right' }
+                    imageRotatation={index % 2 ? 'left' : 'right'}
                     title={project.name}
                     subtitle={`[${project.source}]`}
                     skills={project.short}
-                    iframe={project.source === 'OpenCollective' ? project.link.url : null}
-                    links={project.source !== 'OpenCollective' ? project.link : null}
+                    iframe={
+                      project.source === 'OpenCollective'
+                        ? project.link.url
+                        : null
+                    }
+                    links={
+                      project.source !== 'OpenCollective' ? project.link : null
+                    }
                     collapsed
                   />
-                  {projectsList.length !== (index + 1) && (
-                    <Divider />
-                  )}
+                  {projectsList.length !== index + 1 && <Divider />}
                 </React.Fragment>
               ))}
             </StyledProjects>

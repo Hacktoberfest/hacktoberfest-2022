@@ -1,6 +1,12 @@
-import { registrationStart } from "./config"
+import { registrationStart } from './config';
 
-export const reportTitle = 'Found a repository that doesn\'t follow the values of Hacktoberfest? Let us know and we\'ll review it.';
+export const reportTitle =
+  "Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.";
 
-export const reportEnded = `We are no longer accepting new repository reports, as Hacktoberfest #${new Date(registrationStart).getFullYear() - 2013} ${new Date(registrationStart).getFullYear()} has now ended.\n` +
-`We look forward to seeing you for Hacktoberfest ${new Date(registrationStart).getFullYear() + 1}!`;
+export const reportEnded =
+  `We are no longer accepting new repository reports, as Hacktoberfest #${
+    new Date(registrationStart).getFullYear() - 2013
+  } ${new Date(registrationStart).getFullYear()} has now ended.\n` +
+  `We look forward to seeing you for Hacktoberfest ${
+    new Date(registrationStart).getFullYear() + 1
+  }!`;

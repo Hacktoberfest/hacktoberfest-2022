@@ -1,4 +1,7 @@
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { css } from 'styled-components';
 
 export const headline88 = css`

@@ -18,7 +18,7 @@ const StyledYouTube = styled.div`
   }
 `;
 
-const YouTube = ({ id, title = "" }) => (
+const YouTube = ({ id, title = '' }) => (
   <StyledYouTube>
     <iframe
       src={`https://www.youtube-nocookie.com/embed/${id}?modestbranding=1&rel=0`}

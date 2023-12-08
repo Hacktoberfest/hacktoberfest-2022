@@ -13,7 +13,10 @@ import {
   lowNoCode,
 } from 'lib/participation';
 
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 import Divider from 'components/Divider';
 import Section from 'components/Section';
@@ -96,12 +99,10 @@ const Participation = () => {
         <Section id="values">
           <StyledValues>
             <ContentMaster size="lg" eyebrow={`[${values.title}]`} />
-            {values.sections.map(value => (
+            {values.sections.map((value) => (
               <ContentSide key={value.title}>
                 <ContentMaster size="lg" title={value.title} />
-                <ContentMaster size="md">
-                  {value.content}
-                </ContentMaster>
+                <ContentMaster size="md">{value.content}</ContentMaster>
               </ContentSide>
             ))}
           </StyledValues>
@@ -113,17 +114,11 @@ const Participation = () => {
       <Container inner>
         <Section id="contributors">
           <StyledSpacer>
-            <ContentMaster
-              size="xl"
-              title={contributors.title}
-            >
+            <ContentMaster size="xl" title={contributors.title}>
               {contributors.sections[0].title}
             </ContentMaster>
 
-            <ContentMaster
-              size="xl"
-              list={contributors.sections[0].items}
-            />
+            <ContentMaster size="xl" list={contributors.sections[0].items} />
           </StyledSpacer>
         </Section>
       </Container>
@@ -132,10 +127,7 @@ const Participation = () => {
         <Divider type="doubledashed" />
         <Section id="beginner-resources" small>
           <ContentSide>
-            <ContentMaster
-              size="xl"
-              title={resources.title}
-            />
+            <ContentMaster size="xl" title={resources.title} />
             <ContentMaster
               size="md"
               title={resources.sections[0].title}
@@ -164,10 +156,7 @@ const Participation = () => {
 
       <Container inner>
         <Section id="pr-mr-details">
-          <ContentMaster
-            size="xl"
-            title={prMrDetails.title}
-          >
+          <ContentMaster size="xl" title={prMrDetails.title}>
             {prMrDetails.content}
           </ContentMaster>
           <StyledPRDetails>
@@ -182,9 +171,7 @@ const Participation = () => {
                     {section.items[0].content}
                   </ContentMaster>
                 </Accordion>
-                {prMrDetails.sections.length !== (index + 1) && (
-                  <Divider />
-                )}
+                {prMrDetails.sections.length !== index + 1 && <Divider />}
               </React.Fragment>
             ))}
           </StyledPRDetails>
@@ -197,10 +184,7 @@ const Participation = () => {
 
       <Container inner>
         <Section id="spam">
-          <ContentMaster
-            size="xl"
-            title={spam.title}
-          >
+          <ContentMaster size="xl" title={spam.title}>
             {spam.content}
           </ContentMaster>
           <StyledPRDetails>
@@ -211,16 +195,11 @@ const Participation = () => {
                   subtitle={section.subtitle}
                   collapsed
                 >
-                  <ContentMaster
-                    size="md"
-                    list={section.items[0].items}
-                  >
+                  <ContentMaster size="md" list={section.items[0].items}>
                     {section.items[0].content}
                   </ContentMaster>
                 </Accordion>
-                {spam.sections.length !== (index + 1) && (
-                  <Divider />
-                )}
+                {spam.sections.length !== index + 1 && <Divider />}
               </React.Fragment>
             ))}
           </StyledPRDetails>
@@ -232,11 +211,8 @@ const Participation = () => {
 
         <Section id="maintainers">
           <StyledSpacer>
-            <div style={{maxWidth: '1020px'}}>
-              <ContentMaster
-                size="xl"
-                title={maintainers.title}
-              >
+            <div style={{ maxWidth: '1020px' }}>
+              <ContentMaster size="xl" title={maintainers.title}>
                 {maintainers.content}
               </ContentMaster>
             </div>
@@ -251,7 +227,7 @@ const Participation = () => {
         <Divider type="pixel" />
 
         <Section id="low-or-non-code">
-          <div style={{maxWidth: '1020px'}}>
+          <div style={{ maxWidth: '1020px' }}>
             <ContentMaster
               size="xl"
               title={lowNoCode.title}
@@ -265,7 +241,11 @@ const Participation = () => {
         <Section small>
           <ContentSide>
             <ContentMaster size="xl">
-              [Low-code and non-code contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source) are an excellent way to get involved in supporting open source. Here are some examples of ways you can contribute to open-source projects:
+              [Low-code and non-code
+              contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source)
+              are an excellent way to get involved in supporting open source.
+              Here are some examples of ways you can contribute to open-source
+              projects:
             </ContentMaster>
             <ContentMaster
               size="md"
@@ -275,7 +255,7 @@ const Participation = () => {
                 'Technical documentation',
                 'User experience testing',
                 'Technical blog post or tutorial',
-                'Case studies'
+                'Case studies',
               ]}
             />
           </ContentSide>
@@ -288,7 +268,7 @@ const Participation = () => {
             content={{
               size: 'md',
               title: 'Non-Code Contributions:',
-              titleTag: 'h3'
+              titleTag: 'h3',
             }}
             list={[
               'Writing',
@@ -300,7 +280,7 @@ const Participation = () => {
               'Social media',
               'Blog posts',
               'Video production',
-              'Graphic design'
+              'Graphic design',
             ]}
           />
         </Section>
@@ -308,10 +288,12 @@ const Participation = () => {
         <Divider type="doubledashed" />
 
         <Section small>
-          <Note image={{
-            src: IlloPencil.src,
-            alt: ''
-          }}>
+          <Note
+            image={{
+              src: IlloPencil.src,
+              alt: '',
+            }}
+          >
             {note.content}
           </Note>
         </Section>
@@ -321,10 +303,7 @@ const Participation = () => {
 
       <Container inner>
         <Section id="faq">
-          <ContentMaster
-            size="xl"
-            title={faqs.title}
-          >
+          <ContentMaster size="xl" title={faqs.title}>
             {faqs.content}
           </ContentMaster>
           <StyledPRDetails>
@@ -339,9 +318,7 @@ const Participation = () => {
                     {section.items[0].content}
                   </ContentMaster>
                 </Accordion>
-                {faqs.sections.length !== (index + 1) && (
-                  <Divider />
-                )}
+                {faqs.sections.length !== index + 1 && <Divider />}
               </React.Fragment>
             ))}
           </StyledPRDetails>

@@ -29,19 +29,24 @@ const StyledNotification = styled.div`
     color: ${({ theme }) => theme.colors.bavarian.gold200};
   }
 
-  ${({ $paragraphs }) => $paragraphs && css`
-    > p {
-      margin: 0 0 16px;
-      ${body24};
-    }
-  `}
+  ${({ $paragraphs }) =>
+    $paragraphs &&
+    css`
+      > p {
+        margin: 0 0 16px;
+        ${body24};
+      }
+    `}
 }
 `;
 
 const Notification = ({ title, children, color }) => {
   // Check if all the children are paragraphs
-  const paragraphs = children && (children.type === 'p'
-    || (Array.isArray(children) && children.every(child => child.type === 'p')));
+  const paragraphs =
+    children &&
+    (children.type === 'p' ||
+      (Array.isArray(children) &&
+        children.every((child) => child.type === 'p')));
 
   return (
     <StyledNotification $color={color} $paragraphs={paragraphs}>

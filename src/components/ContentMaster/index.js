@@ -6,7 +6,7 @@ import {
   StyledContentMasterBody,
   StyledContentMasterLinks,
   StyledContentMasterCta,
-  StyledContentMasterList
+  StyledContentMasterList,
 } from './ContentMaster.styles';
 
 import TextLink from 'components/TextLink';
@@ -14,7 +14,7 @@ import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
 import Type from 'components/type';
 
-const ContentMaster = props => {
+const ContentMaster = (props) => {
   const {
     eyebrow,
     title,
@@ -25,7 +25,7 @@ const ContentMaster = props => {
     list,
     listColumns,
     links,
-    cta
+    cta,
   } = props;
 
   return (
@@ -33,11 +33,13 @@ const ContentMaster = props => {
       {(eyebrow || title) && (
         <StyledContentMasterHeader>
           {eyebrow && (
-            <StyledContentMasterEyebrow $size={size}>{eyebrow}</StyledContentMasterEyebrow>
+            <StyledContentMasterEyebrow $size={size}>
+              {eyebrow}
+            </StyledContentMasterEyebrow>
           )}
           {title && (
             <StyledContentMasterTitle $size={size} as={titleTag}>
-              {typeof title === "string" ? <Type text={title} /> : title}
+              {typeof title === 'string' ? <Type text={title} /> : title}
             </StyledContentMasterTitle>
           )}
         </StyledContentMasterHeader>
@@ -50,14 +52,14 @@ const ContentMaster = props => {
       )}
       {list && (
         <StyledContentMasterList $columns={listColumns}>
-          {list.map(item => (
+          {list.map((item) => (
             <MarkdownInline key={item} string={item} as="li" />
           ))}
         </StyledContentMasterList>
       )}
       {links && (
         <StyledContentMasterLinks>
-          {links.map(link => (
+          {links.map((link) => (
             <li key={link.id}>
               <TextLink size="lg" {...link} />
             </li>

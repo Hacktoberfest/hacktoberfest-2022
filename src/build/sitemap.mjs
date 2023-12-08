@@ -50,10 +50,13 @@ const sitemap = async () => {
 
   // Write the URLs and get the sitemap data
   Readable.from(urls).pipe(stream);
-  const sitemap = await streamToPromise(stream).then(data => data.toString());
+  const sitemap = await streamToPromise(stream).then((data) => data.toString());
 
   // Write the sitemap out
-  await writeFile(new URL('../../public/sitemap.xml', import.meta.url), sitemap);
+  await writeFile(
+    new URL('../../public/sitemap.xml', import.meta.url),
+    sitemap,
+  );
 };
 
 export default sitemap;

@@ -2,13 +2,10 @@ import Frame from 'components/Frame';
 
 import logo from 'assets/img/logo-hacktoberfest--mark.svg';
 
-import {
-  StyledAvatar,
-  StyledAvatarContainer
-} from './Avatar.styles';
+import { StyledAvatar, StyledAvatarContainer } from './Avatar.styles';
 
-const Avatar = props => {
-  const { src, alt, color = "blue" } = props;
+const Avatar = (props) => {
+  const { src, alt, color = 'blue' } = props;
 
   return (
     <StyledAvatar>

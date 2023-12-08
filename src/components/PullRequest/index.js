@@ -15,14 +15,14 @@ import {
   StyledInfo,
   StyledPullRequest,
   StyledPRTitle,
-  StyledPRMR
+  StyledPRMR,
 } from './PullRequest.styles';
 import ButtonMain from 'components/ButtonMain';
 
 const PullRequest = ({ data, as }) => {
   // Get countdown for waiting PRs
   const [days, hours, minutes, seconds] = useCountdown(
-    new Date(data.state.timestamp || 0).getTime() + prWaitingTime
+    new Date(data.state.timestamp || 0).getTime() + prWaitingTime,
   );
 
   const [open, setOpen] = useState(false);
@@ -34,10 +34,7 @@ const PullRequest = ({ data, as }) => {
   }, [router.pathname]);
 
   return (
-    <StyledPullRequest
-      as={as}
-      $state={data.state.state}
-    >
+    <StyledPullRequest as={as} $state={data.state.state}>
       <StyledEyebrowWrapper>
         <StyledEyebrow>
           {' '}

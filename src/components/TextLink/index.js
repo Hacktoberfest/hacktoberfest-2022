@@ -1,14 +1,7 @@
-import {
-  StyledTextLink,
-  StyledTextLinkArrow
-} from './TextLink.styles';
+import { StyledTextLink, StyledTextLinkArrow } from './TextLink.styles';
 
-const TextLink = props => {
-  const {
-    children,
-    size = 'sm',
-    ...link
-  } = props;
+const TextLink = (props) => {
+  const { children, size = 'sm', ...link } = props;
 
   return (
     <StyledTextLink {...link} $size={size}>

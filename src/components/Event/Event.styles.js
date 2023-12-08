@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledEvent = styled.div`
   display: grid;
@@ -20,4 +23,4 @@ export const StyledContent = styled.div`
 export const StyledRSVP = styled.p`
   align-self: end;
   ${({ $missing }) => $missing && `font-style: italic;`}
-`
+`;

@@ -18,15 +18,18 @@ const RewardKit = ({ code }) => {
   if (!id) return null;
 
   return (
-    <Notification title="Rewards: Digital Reward Kit" color={theme.colors.bavarian.gold200}>
+    <Notification
+      title="Rewards: Digital Reward Kit"
+      color={theme.colors.bavarian.gold200}
+    >
       <p>
-        Congratulations on completing Hacktoberfest!
-        You've <b>unlocked a digital reward kit</b> from the sponsors of Hacktoberfest.
+        Congratulations on completing Hacktoberfest! You've{' '}
+        <b>unlocked a digital reward kit</b> from the sponsors of Hacktoberfest.
       </p>
 
       <p>
-        Thank you for your contributions to open source.
-        We hope you'll continue to contribute to more projects, and we hope to see you next year!
+        Thank you for your contributions to open source. We hope you'll continue
+        to contribute to more projects, and we hope to see you next year!
       </p>
 
       <p>
@@ -36,8 +39,7 @@ const RewardKit = ({ code }) => {
           rel="noreferrer noopener"
         >
           Claim your reward kit
-        </a>
-        {' '}
+        </a>{' '}
         via Holopin.
       </p>
     </Notification>

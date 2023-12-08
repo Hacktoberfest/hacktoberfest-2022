@@ -1,8 +1,6 @@
-import {
-  StyledSection
-} from './Section.styles';
+import { StyledSection } from './Section.styles';
 
-const Section = props => {
+const Section = (props) => {
   const { children, id, small } = props;
   return (
     <StyledSection id={id} $small={small}>

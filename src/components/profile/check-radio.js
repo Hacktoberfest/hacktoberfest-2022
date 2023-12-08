@@ -62,9 +62,17 @@ const CheckRadio = ({ radio, title, message, disabled = false, ...props }) => {
           disabled={disabled}
           {...props}
         />
-        {title && <p><MarkdownInline string={title} as={Fragment} forceNewTab /></p>}
+        {title && (
+          <p>
+            <MarkdownInline string={title} as={Fragment} forceNewTab />
+          </p>
+        )}
       </div>
-      {message && <p><MarkdownInline string={message} as={'span'} forceNewTab /></p>}
+      {message && (
+        <p>
+          <MarkdownInline string={message} as={'span'} forceNewTab />
+        </p>
+      )}
     </StyledLabel>
   );
 };

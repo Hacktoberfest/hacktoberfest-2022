@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { headline32 } from 'themes/typography';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledCard = styled.div`
   display: flex;
@@ -19,9 +22,12 @@ export const StyledCardImage = styled.div`
   position: relative;
   width: 100%;
 
-  ${({ $rotate }) => $rotate === 'left' ? `
+  ${({ $rotate }) =>
+    $rotate === 'left'
+      ? `
     transform: rotate(-14deg);
-  ` : `
+  `
+      : `
     transform: rotate(14deg);
   `}
 
@@ -36,9 +42,12 @@ export const StyledCardImage = styled.div`
     transform: translate(-50%, -50%);
     width: 120%;
 
-    ${({ $rotate }) => $rotate === 'left' ? `
+    ${({ $rotate }) =>
+      $rotate === 'left'
+        ? `
       transform: translate(-50%, -50%) rotate(14deg) ;
-    ` : `
+    `
+        : `
       transform: translate(-50%, -50%) rotate(-14deg) ;
     `}
   }
@@ -90,7 +99,9 @@ export const StyledCardBG = styled.div`
     content: '';
     position: absolute;
     inset: 0;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out; /* stylelint-disable-line property-no-vendor-prefix */
     mask-composite: exclude;
     padding: 1px;
@@ -98,11 +109,15 @@ export const StyledCardBG = styled.div`
   }
 
   &::before {
-    background: linear-gradient(77.9deg, #EC4237 0%, #33B6D8 100%);
+    background: linear-gradient(77.9deg, #ec4237 0%, #33b6d8 100%);
   }
 
   &::after {
-    background: linear-gradient(230deg, #FFFBA4 0%, rgba(255, 251, 164, 0) 100%);
-    opacity: .3;
+    background: linear-gradient(
+      230deg,
+      #fffba4 0%,
+      rgba(255, 251, 164, 0) 100%
+    );
+    opacity: 0.3;
   }
 `;

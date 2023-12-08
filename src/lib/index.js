@@ -1,7 +1,8 @@
 export const events = [
   {
     title: 'Hacktoberfest Kick-Off',
-    content: 'The official beginning of Hacktoberfest. Join DigitalOcean developers and our guest speakers as we begin the month-long hacking event you\'ve been waiting for. Learn new skills, meet our sponsors, and find out what\'s new for our 10th anniversary!',
+    content:
+      "The official beginning of Hacktoberfest. Join DigitalOcean developers and our guest speakers as we begin the month-long hacking event you've been waiting for. Learn new skills, meet our sponsors, and find out what's new for our 10th anniversary!",
     location: 'Virtual',
     date: 'Oct 05',
     time: '11:00 AM Eastern Daylight Time',
@@ -11,7 +12,8 @@ export const events = [
   },
   {
     title: 'Hacktoberfest Satellite Session #1',
-    content: 'Find out what\'s new in open-source developer tools. Join in the conversation and get the scoop from industry insiders and influencers.',
+    content:
+      "Find out what's new in open-source developer tools. Join in the conversation and get the scoop from industry insiders and influencers.",
     location: 'Virtual',
     date: 'Oct 06',
     time: '12:00 PM Eastern Daylight Time',
@@ -21,7 +23,8 @@ export const events = [
   },
   {
     title: 'Global Hack Week Open Source Workshops',
-    content: 'Explore workshops with DigitalOcean, Illa Cloud, and Appwrite at Major League Hacking\'s Global Hack Week Open Source Other ',
+    content:
+      "Explore workshops with DigitalOcean, Illa Cloud, and Appwrite at Major League Hacking's Global Hack Week Open Source Other ",
     location: 'Virtual',
     date: 'Oct 16 + 17',
     time: '',
@@ -32,7 +35,8 @@ export const events = [
   },
   {
     title: 'Hacktoberfest Satellite Session #2',
-    content: 'AI is exploding. Meet industry insiders and influencers. Participate in a roundtable discussion on the future of AI and Open Source.',
+    content:
+      'AI is exploding. Meet industry insiders and influencers. Participate in a roundtable discussion on the future of AI and Open Source.',
     location: 'Virtual',
     date: 'Oct 26',
     time: '4:00 PM Pacific Daylight Time',

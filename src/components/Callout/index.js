@@ -1,11 +1,9 @@
 import Container from 'components/Container';
-import {
-  StyledCallout
-} from './Callout.styles';
+import { StyledCallout } from './Callout.styles';
 import ButtonMain from 'components/ButtonMain';
 import { MarkdownInline } from 'components/markdown';
 
-const Callout = props => {
+const Callout = (props) => {
   const { children, link } = props;
   return (
     <StyledCallout {...props}>

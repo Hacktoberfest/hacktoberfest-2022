@@ -9,4 +9,5 @@ export const breakpoints = {
   xLargeDesktop: 1660,
 };
 
-export const determineMediaQuery = (size, limit = 'min', unit = 'px') => `@media only screen and (${limit}-width: ${size}${unit})`;
+export const determineMediaQuery = (size, limit = 'min', unit = 'px') =>
+  `@media only screen and (${limit}-width: ${size}${unit})`;

@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledDividerRow = styled.div`
   position: relative;
@@ -20,7 +23,13 @@ export const StyledDividerRow = styled.div`
       transform: translateX(-50%);
       width: 1px;
       height: calc(100% - 128px);
-      background-image: linear-gradient(0deg, ${({ theme }) => theme.colors.neutral.manga400}, ${({ theme }) => theme.colors.neutral.manga400} 50%, transparent 50%, transparent 100%);
+      background-image: linear-gradient(
+        0deg,
+        ${({ theme }) => theme.colors.neutral.manga400},
+        ${({ theme }) => theme.colors.neutral.manga400} 50%,
+        transparent 50%,
+        transparent 100%
+      );
       background-size: 1px 12px;
       background-position: 0 -50%;
     }

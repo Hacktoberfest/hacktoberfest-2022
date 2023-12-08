@@ -22,21 +22,25 @@ module.exports = {
   output: 'export',
   generateBuildId() {
     const proposedBuildId = getBuildId();
-    nextLog.info(`Using build ID: ${proposedBuildId === null
-        ? 'auto-generated'
-        : `'${proposedBuildId}'`}`);
+    nextLog.info(
+      `Using build ID: ${
+        proposedBuildId === null ? 'auto-generated' : `'${proposedBuildId}'`
+      }`,
+    );
     return proposedBuildId;
   },
   webpack(config) {
-    config.plugins.push(new EnvironmentPlugin({
-      BASE_URL: '',
-      API_BASE_URL: '',
-      API_EVENT_ID: '',
-      REGISTRATION_START: '',
-      REGISTRATION_END: '',
-      TRACKING_START: '',
-      PROFILE_END: '',
-    }));
+    config.plugins.push(
+      new EnvironmentPlugin({
+        BASE_URL: '',
+        API_BASE_URL: '',
+        API_EVENT_ID: '',
+        REGISTRATION_START: '',
+        REGISTRATION_END: '',
+        TRACKING_START: '',
+        PROFILE_END: '',
+      }),
+    );
     config.module.rules.push({
       test: /\.(eot|woff2?|zip)/,
       type: 'asset/resource',

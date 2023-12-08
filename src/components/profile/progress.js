@@ -46,10 +46,12 @@ const StyledProgressSummary = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: destination-out; /* stylelint-disable-line property-no-vendor-prefix */
     mask-composite: exclude;
-    background: linear-gradient(77.9deg, #EC4237 0%, #33B6D8 100%);
+    background: linear-gradient(77.9deg, #ec4237 0%, #33b6d8 100%);
     padding: 1px;
     border-radius: inherit;
     pointer-events: none;
@@ -102,16 +104,16 @@ const Progress = ({ auth }) => {
       const rawPullRequests = await fetchPullRequests(
         auth.user.id,
         auth.token,
-        ['out-of-bounds']
+        ['out-of-bounds'],
       ).then((data) =>
         data.filter(
-          (pr) => pr.state?.state && pr.state.state !== 'out-of-bounds'
-        )
+          (pr) => pr.state?.state && pr.state.state !== 'out-of-bounds',
+        ),
       );
       setPullRequests(
         rawPullRequests.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        )
+          (a, b) => new Date(b.created_at) - new Date(a.created_at),
+        ),
       );
 
       // Fetch the user's gift codes
@@ -122,8 +124,8 @@ const Progress = ({ auth }) => {
             ...obj,
             [code.type]: code,
           }),
-          {}
-        )
+          {},
+        ),
       );
 
       // Trigger a PR ingest in the background, ignoring the result and any errors
@@ -138,11 +140,11 @@ const Progress = ({ auth }) => {
   const hasStarted = useMemo(() => new Date() >= new Date(trackingStart), []);
   const acceptedCount = useMemo(
     () => pullRequests.filter((pr) => pr.state.state === 'accepted').length,
-    [pullRequests]
+    [pullRequests],
   );
   const waitingCount = useMemo(
     () => pullRequests.filter((pr) => pr.state.state === 'waiting').length,
-    [pullRequests]
+    [pullRequests],
   );
 
   // Don't render anything until we have the data we need
@@ -167,9 +169,7 @@ const Progress = ({ auth }) => {
           {!!waitingCount && (
             <>
               {' '}
-              <span>
-                [{waitingCount.toLocaleString()} waiting]
-              </span>
+              <span>[{waitingCount.toLocaleString()} waiting]</span>
             </>
           )}
         </h2>
@@ -179,10 +179,13 @@ const Progress = ({ auth }) => {
 
       {/* Handle a user that has been disqualified */}
       {auth.registration.state.state.includes('disqualified') && (
-        <Notification title="Disqualification" color={theme.colors.bavarian.red200}>
+        <Notification
+          title="Disqualification"
+          color={theme.colors.bavarian.red200}
+        >
           <p>
-            You have been disqualified from Hacktoberfest for submitting two
-            or more PR/MRs that have been identified as spam.
+            You have been disqualified from Hacktoberfest for submitting two or
+            more PR/MRs that have been identified as spam.
           </p>
           <p>
             Due to being disqualified, you will be ineligible to receive any
@@ -193,22 +196,19 @@ const Progress = ({ auth }) => {
 
       {/* Handle a user that has been disqualified */}
       {auth.registration.state.state.includes('warning') && (
-        <Notification title="Warning: Disqualification" color={theme.colors.bavarian.red200}>
+        <Notification
+          title="Warning: Disqualification"
+          color={theme.colors.bavarian.red200}
+        >
+          <p>You have had a PR/MR identified as spam.</p>
           <p>
-            You have had a PR/MR identified as spam.
+            If you submit another PR/MR that is identified as spam, you will be
+            disqualified from Hacktoberfest.
           </p>
           <p>
-            If you submit another PR/MR that is identified as spam, you will
-            be disqualified from Hacktoberfest.
-          </p>
-          <p>
-            Please make sure to review our
-            {' '}
-            <Link href="/participation#values">
-              values and resources
-            </Link>
-            {' '}
-            for how to constructively participate in Hacktoberfest.
+            Please make sure to review our{' '}
+            <Link href="/participation#values">values and resources</Link> for
+            how to constructively participate in Hacktoberfest.
           </p>
         </Notification>
       )}
@@ -218,10 +218,15 @@ const Progress = ({ auth }) => {
 
       <RewardKit code={giftCodes['holopin-reward-kit']} />
 
-      {Object.keys(giftCodes).some((type) =>
-        type.startsWith('holopin-level-') || type === 'holopin-registered-badge'
+      {Object.keys(giftCodes).some(
+        (type) =>
+          type.startsWith('holopin-level-') ||
+          type === 'holopin-registered-badge',
       ) && (
-        <Notification title="Rewards: Holopin Avatar" color={theme.colors.bavarian.gold200}>
+        <Notification
+          title="Rewards: Holopin Avatar"
+          color={theme.colors.bavarian.gold200}
+        >
           <ul>
             {giftCodes['holopin-level-4-badge'] && (
               <Holopin
@@ -276,9 +281,17 @@ const Progress = ({ auth }) => {
       <TreeNation code={giftCodes['tree-nation-tree']} />
 
       {Object.keys(giftCodes).some((type) =>
-        ['holopin-digitalocean-badge', 'holopin-illa-cloud-badge', 'holopin-appwrite-badge', 'holopin-tree-badge'].includes(type)
+        [
+          'holopin-digitalocean-badge',
+          'holopin-illa-cloud-badge',
+          'holopin-appwrite-badge',
+          'holopin-tree-badge',
+        ].includes(type),
       ) && (
-        <Notification title="Rewards: Holopin Badges" color={theme.colors.bavarian.gold200}>
+        <Notification
+          title="Rewards: Holopin Badges"
+          color={theme.colors.bavarian.gold200}
+        >
           <ul>
             {giftCodes['holopin-tree-badge'] && (
               <Holopin
@@ -324,22 +337,24 @@ const Progress = ({ auth }) => {
           {pullRequests.map((pr, index) => (
             <Fragment key={pr.id}>
               <PullRequest data={pr} as="li" />
-              {pullRequests.length !== (index + 1) && (
-                <li aria-hidden><Divider /></li>
+              {pullRequests.length !== index + 1 && (
+                <li aria-hidden>
+                  <Divider />
+                </li>
               )}
             </Fragment>
           ))}
         </StyledPullRequests>
       ) : hasStarted ? (
         <p>
-          Uh oh! You haven't made any pull/merge requests yet. Submit your
-          first contribution to a participating project to get started with
+          Uh oh! You haven't made any pull/merge requests yet. Submit your first
+          contribution to a participating project to get started with
           Hacktoberfest!
         </p>
       ) : (
         <p>
-          Hacktoberfest has not yet begun, hold off on those pull/merge
-          requests until October so they can count!
+          Hacktoberfest has not yet begun, hold off on those pull/merge requests
+          until October so they can count!
         </p>
       )}
 

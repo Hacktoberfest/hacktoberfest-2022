@@ -23,7 +23,10 @@ import Accordion from 'components/Accordion';
 import ContentMaster from 'components/ContentMaster';
 import DividerRow from 'components/DividerRow';
 
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 export const StyledAccordionGroup = styled.div`
   display: flex;
@@ -37,7 +40,7 @@ export const StyledPromoteSection = styled.div`
   gap: 24px;
 
   ${mQ(bp.tablet)} {
-    grid-template-columns: ${(339/1280) * 100}% ${(917/1280) * 100}%;
+    grid-template-columns: ${(339 / 1280) * 100}% ${(917 / 1280) * 100}%;
   }
 `;
 
@@ -65,33 +68,34 @@ const Events = () => {
         <a href="#brand">Brand Guidelines</a>
       </DorknamicIsland>
 
-      <HeroSecondary
-        title="Events"
-        icon={<PixelEvents timing="5" />}
-      />
+      <HeroSecondary title="Events" icon={<PixelEvents timing="5" />} />
 
       <Container>
         <Section id="events">
           <SpotHeader
             image={{
               src: IlloDOPumpkin.src,
-              alt: ''
+              alt: '',
             }}
             content={{
               size: 'xl',
               title: 'Global Events',
-              children: 'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether your event is in-person, virtual or a combination of both, make sure you let the community know about it! Set up and share your Hacktoberfest event with the community.  Register for a Major League Hacking account and start creating your event today!',
-              links: [{
-                id: 'global-event-link-1',
-                target: '_blank',
-                href: 'https://hackp.ac/hacktoberfest-organizehq',
-                children: 'Create New Event'
-              }, {
-                id: 'global-event-link-2',
-                target: '_blank',
-                href: 'https://hackp.ac/hacktoberfest-ohqlandingpage',
-                children: 'View All Events'
-              }]
+              children:
+                'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether your event is in-person, virtual or a combination of both, make sure you let the community know about it! Set up and share your Hacktoberfest event with the community.  Register for a Major League Hacking account and start creating your event today!',
+              links: [
+                {
+                  id: 'global-event-link-1',
+                  target: '_blank',
+                  href: 'https://hackp.ac/hacktoberfest-organizehq',
+                  children: 'Create New Event',
+                },
+                {
+                  id: 'global-event-link-2',
+                  target: '_blank',
+                  href: 'https://hackp.ac/hacktoberfest-ohqlandingpage',
+                  children: 'View All Events',
+                },
+              ],
             }}
           />
 
@@ -105,17 +109,18 @@ const Events = () => {
           <SpotHeader
             image={{
               src: IlloShip.src,
-              alt: ''
+              alt: '',
             }}
             content={{
               size: 'xl',
               title: 'Event Organizers',
-              children: 'Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.',
+              children:
+                'Here are all the resources you need to plan and host a successful Hacktoberfest event. We encourage virtual events and have included a collection of tips and tricks that will help you keep participants engaged.',
               cta: {
                 size: 'lg',
                 href: eventKitZip,
-                children: 'Download the Event Kit'
-              }
+                children: 'Download the Event Kit',
+              },
             }}
           />
         </Section>
@@ -125,22 +130,16 @@ const Events = () => {
       <Container inner>
         <Section>
           <StyledAccordionGroup>
-            <ContentMaster
-              size="xl"
-              title={organize.title}
-            />
+            <ContentMaster size="xl" title={organize.title} />
 
             <div>
               {organize.sections.map((section, index) => (
                 <React.Fragment key={section.title}>
-                  <Accordion
-                    title={section.title}
-                    collapsed
-                  >
+                  <Accordion title={section.title} collapsed>
                     {section.items && (
-                    <ContentMaster size="md">
-                      {section.items[0]}
-                    </ContentMaster>
+                      <ContentMaster size="md">
+                        {section.items[0]}
+                      </ContentMaster>
                     )}
                   </Accordion>
                   <Divider />
@@ -161,13 +160,13 @@ const Events = () => {
           <SpotHeader
             image={{
               src: IlloBeer.src,
-              alt: ''
+              alt: '',
             }}
             content={{
               size: 'xl',
               eyebrow: resources.eyebrow,
               title: resources.title,
-              children: resources.content
+              children: resources.content,
             }}
           />
         </Section>
@@ -226,19 +225,20 @@ const Events = () => {
           <SpotHeader
             image={{
               src: IlloHacktoberfest.src,
-              alt: ''
+              alt: '',
             }}
             content={{
               size: 'xl',
               title: 'Brand Guidelines',
-              children: 'If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines. Access them here and dive in.',
+              children:
+                'If you plan to use the Hacktoberfest brand in promotional material, you’ll need to abide by our brand use guidelines. Access them here and dive in.',
               cta: {
                 size: 'lg',
                 target: '_blank',
-                rel: "noreferrer noopener",
+                rel: 'noreferrer noopener',
                 href: 'https://do.co/hacktoberbrand',
-                children: 'View Brand Guidelines'
-              }
+                children: 'View Brand Guidelines',
+              },
             }}
           />
         </Section>

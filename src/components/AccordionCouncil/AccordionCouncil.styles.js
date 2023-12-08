@@ -1,5 +1,8 @@
-import styled, {keyframes} from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import styled, { keyframes } from 'styled-components';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { body16, body20 } from 'themes/typography';
 
 const rotateAnimation = keyframes`
@@ -17,7 +20,9 @@ const rotateAnimation = keyframes`
 `;
 
 export const StyledAccordion = styled.details`
-  ${({ $isFilled, theme }) => $isFilled && (`
+  ${({ $isFilled, theme }) =>
+    $isFilled &&
+    `
     border-radius: 40px;
     border: 1px solid ${theme.colors.neutral.manga400};
     padding: 48px 24px;
@@ -27,7 +32,7 @@ export const StyledAccordion = styled.details`
     ${mQ(bp.tablet)} {
       padding: 48px 64px;
     }
-  `)};
+  `};
 
   summary {
     position: relative;
@@ -67,13 +72,15 @@ export const StyledAccordion = styled.details`
         text-shadow 0.2s ease 0.2s,
         color 0.4s ease;
 
-      ${({ $isFilled }) => $isFilled ? (`
+      ${({ $isFilled }) =>
+        $isFilled
+          ? `
         top: 0;
 
         ${mQ(bp.tablet)} {
           top: 50%;
         }`
-      ) : (`top: 18px;`)};
+          : `top: 18px;`};
 
       ${mQ(bp.tablet)} {
         width: 72px;
@@ -87,7 +94,9 @@ export const StyledAccordion = styled.details`
     &:hover {
       &::after {
         color: ${({ theme }) => theme.colors.bavarian.blue200};
-        text-shadow: 1px 1px 10px rgba(236, 66, 55, 0.50), -1px -1px 10px rgba(255, 251, 164, 0.50);
+        text-shadow:
+          1px 1px 10px rgba(236, 66, 55, 0.5),
+          -1px -1px 10px rgba(255, 251, 164, 0.5);
         letter-spacing: 4px;
         text-indent: 4px;
         transform: translateY(-50%);
@@ -145,7 +154,7 @@ export const StyledAccordionHeader = styled.div`
     grid-template-columns: 240px 1fr;
     gap: 64px;
 
-    ${({ $isFilled }) => $isFilled && (`align-items: center;`)};
+    ${({ $isFilled }) => $isFilled && `align-items: center;`};
   }
 `;
 
@@ -179,9 +188,12 @@ export const StyledAccordionImage = styled.div`
   width: 100%;
   width: 83.33333333%;
 
-  ${({ $rotate }) => $rotate === 'left' ? `
+  ${({ $rotate }) =>
+    $rotate === 'left'
+      ? `
     transform: rotate(-14deg);
-  ` : `
+  `
+      : `
     transform: rotate(14deg);
   `}
 

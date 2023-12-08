@@ -1,10 +1,7 @@
 import ContentMaster from 'components/ContentMaster';
-import {
-  StyledListWrapper,
-  StyledList
-} from './List.styles';
+import { StyledListWrapper, StyledList } from './List.styles';
 
-const List = props => {
+const List = (props) => {
   const { content, list } = props;
   return (
     <StyledListWrapper>

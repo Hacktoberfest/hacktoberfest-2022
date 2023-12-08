@@ -4,14 +4,14 @@ import {
   StyledAccordionImage,
   StyledAccordionImageWrapper,
   StyledAccordionHeader,
-  StyledAccordionLink
+  StyledAccordionLink,
 } from './AccordionSponsor.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
 import Frame from 'components/Frame';
 import TextLink from 'components/TextLink';
 
-const AccordionSponsor = props => {
+const AccordionSponsor = (props) => {
   const {
     filled,
     image,
@@ -22,7 +22,7 @@ const AccordionSponsor = props => {
     collapsed,
     link,
     children,
-    skills
+    skills,
   } = props;
 
   const [open, setOpen] = useState(!collapsed);
@@ -39,18 +39,13 @@ const AccordionSponsor = props => {
               <img {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster
-            size="md"
-            title={title}
-          >
+          <ContentMaster size="md" title={title}>
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>
       </summary>
       <div>
-        {children && (
-          <Markdown string={children} />
-        )}
+        {children && <Markdown string={children} />}
 
         {link && (
           <StyledAccordionLink>

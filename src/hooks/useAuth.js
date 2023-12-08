@@ -6,12 +6,17 @@ import { profileEnd, registrationEnd, registrationStart } from 'lib/config';
 
 const useAuth = (redirect = true) => {
   // Check if auth is active
-  const active = useMemo(() => new Date() >= new Date(registrationStart) && new Date() < new Date(profileEnd), []);
+  const active = useMemo(
+    () =>
+      new Date() >= new Date(registrationStart) &&
+      new Date() < new Date(profileEnd),
+    [],
+  );
 
   // Track key data about the user and their registration
-  const [ token, setToken ] = useState(null);
-  const [ user, setUser ] = useState(null);
-  const [ registration, setRegistration ] = useState(null);
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
+  const [registration, setRegistration] = useState(null);
 
   /**
    * Logic to handle updating our route based on state changes
@@ -19,11 +24,14 @@ const useAuth = (redirect = true) => {
 
   // Track what auth state we're in: 'loading', '', 'auth', 'register', 'profile'
   // Values map to expected routes, except loading
-  const [ state, setState ] = useState('loading');
+  const [state, setState] = useState('loading');
 
   // Track if we're still loading the state we expect to be in
   const router = useRouter();
-  const loading = useMemo(() => state === 'loading' || (redirect && router.pathname !== `/${state}`), [ state, redirect, router.pathname ]);
+  const loading = useMemo(
+    () => state === 'loading' || (redirect && router.pathname !== `/${state}`),
+    [state, redirect, router.pathname],
+  );
 
   // Ensure we're on the right page that matches the state we're in
   useEffect(() => {
@@ -41,14 +49,14 @@ const useAuth = (redirect = true) => {
 
     // Otherwise, redirect to the right page
     router.push(`/${state}`).then();
-  }, [ state, router.pathname, redirect, router.push ]);
+  }, [state, router.pathname, redirect, router.push]);
 
   /**
    * Logic to handle updating our state based on loading changes
    */
 
   // Track what we've loaded via the effect chain
-  const [ loaded, setLoaded ] = useState({
+  const [loaded, setLoaded] = useState({
     token: false,
     user: false,
     registration: false,
@@ -83,7 +91,7 @@ const useAuth = (redirect = true) => {
 
     // Otherwise, we're good to go to profile
     setState('profile');
-  }, [ loaded, state, token, user, registration ]);
+  }, [loaded, state, token, user, registration]);
 
   /**
    * Logic to handle updating our token based on router changes
@@ -107,7 +115,7 @@ const useAuth = (redirect = true) => {
 
     // No token
     return null;
-  }, [ router?.asPath, router?.replace ]);
+  }, [router?.asPath, router?.replace]);
 
   // Allow the token to be reset, which will cascade to the rest of the state
   const reset = useCallback(() => {
@@ -125,40 +133,45 @@ const useAuth = (redirect = true) => {
     }
 
     // Track that we've attempted to load the token
-    setLoaded(prev => ({ ...prev, token: true }));
+    setLoaded((prev) => ({ ...prev, token: true }));
     console.log('useAuth: token loaded');
-  }, [ getToken ]);
+  }, [getToken]);
 
   // Whenever the token changes, store it
   useEffect(() => {
     if (token) localStorage.setItem('token', token);
     if (!token && loaded.token) localStorage.removeItem('token');
-  }, [ token, loaded.token ]);
+  }, [token, loaded.token]);
 
   /**
    * Logic to handle updating our user based on token changes
    */
 
   // Fetch the user from the API, identified by their token
-  const getUser = useCallback(async (silent = false) => {
-    if (!silent) {
-      setState('loading');
-      setLoaded(prev => ({ ...prev, user: false }));
-    }
-    console.log('useAuth: user loading', token);
-
-    // Fetch the user from /users/@me
-    setUser(await fetchUser('@me', token).catch(e => {
-      // If we get a 401, the token is invalid
-      if (e.status === 401) {
-        reset();
-        return;
+  const getUser = useCallback(
+    async (silent = false) => {
+      if (!silent) {
+        setState('loading');
+        setLoaded((prev) => ({ ...prev, user: false }));
       }
+      console.log('useAuth: user loading', token);
 
-      throw e;
-    }));
-    setLoaded(prev => ({ ...prev, user: true }));
-  }, [ token, reset ]);
+      // Fetch the user from /users/@me
+      setUser(
+        await fetchUser('@me', token).catch((e) => {
+          // If we get a 401, the token is invalid
+          if (e.status === 401) {
+            reset();
+            return;
+          }
+
+          throw e;
+        }),
+      );
+      setLoaded((prev) => ({ ...prev, user: true }));
+    },
+    [token, reset],
+  );
 
   // When the token changes, fetch the user
   useEffect(() => {
@@ -171,42 +184,47 @@ const useAuth = (redirect = true) => {
         await getUser();
       } else {
         setUser(null);
-        setLoaded(prev => ({ ...prev, user: true }));
+        setLoaded((prev) => ({ ...prev, user: true }));
       }
 
       console.log('useAuth: user loaded');
     })();
-  }, [ loaded.token, getUser ]);
+  }, [loaded.token, getUser]);
 
   /**
    * Logic to handle updating our registration based on user changes
    */
 
   // Fetch the registration from the API
-  const getRegistration = useCallback(async (silent = false) => {
-    if (!silent) {
-      setState('loading');
-      setLoaded(prev => ({ ...prev, registration: false }));
-    }
-    console.log('useAuth: registration loading', user.id, token);
-
-    // Fetch the registration from /events/:id/registrations/:id
-    setRegistration(await fetchRegistration(user.id, token).catch(e => {
-      // If we get a 401, the token is invalid
-      if (e.status === 401) {
-        reset();
-        return null;
+  const getRegistration = useCallback(
+    async (silent = false) => {
+      if (!silent) {
+        setState('loading');
+        setLoaded((prev) => ({ ...prev, registration: false }));
       }
+      console.log('useAuth: registration loading', user.id, token);
 
-      // If we get a 404, the user has no registration
-      if (e.status === 404) {
-        return null;
-      }
+      // Fetch the registration from /events/:id/registrations/:id
+      setRegistration(
+        await fetchRegistration(user.id, token).catch((e) => {
+          // If we get a 401, the token is invalid
+          if (e.status === 401) {
+            reset();
+            return null;
+          }
 
-      throw e;
-    }));
-    setLoaded(prev => ({ ...prev, registration: true }));
-  }, [ token, user?.id, reset ]);
+          // If we get a 404, the user has no registration
+          if (e.status === 404) {
+            return null;
+          }
+
+          throw e;
+        }),
+      );
+      setLoaded((prev) => ({ ...prev, registration: true }));
+    },
+    [token, user?.id, reset],
+  );
 
   // When the user ID changes, fetch the registration
   useEffect(() => {
@@ -219,12 +237,12 @@ const useAuth = (redirect = true) => {
         await getRegistration();
       } else {
         setRegistration(null);
-        setLoaded(prev => ({ ...prev, registration: true }));
+        setLoaded((prev) => ({ ...prev, registration: true }));
       }
 
       console.log('useAuth: registration loaded');
     })();
-  }, [ loaded.user, getRegistration ]);
+  }, [loaded.user, getRegistration]);
 
   // Expose everything
   return {

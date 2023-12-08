@@ -1,5 +1,8 @@
-import styled, {keyframes} from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import styled, { keyframes } from 'styled-components';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { headline88 } from 'themes/typography';
 import heroBg from 'assets/img/bg-hero-secondary.svg';
 
@@ -49,7 +52,12 @@ export const StyledHeroSecondary = styled.div`
     position: absolute;
     text-align: center;
     width: 100%;
-    background: linear-gradient(90deg, rgba(236, 66, 55, 0.30) 0%, rgba(255, 251, 164, 0.30) 66.15%, rgba(51, 182, 216, 0.30) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(236, 66, 55, 0.3) 0%,
+      rgba(255, 251, 164, 0.3) 66.15%,
+      rgba(51, 182, 216, 0.3) 100%
+    );
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -139,7 +147,12 @@ export const StyledHeroSecondaryImage = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     width: 200%;
-    background: radial-gradient(circle at 50% 50%, ${({ theme }) => theme.colors.neutral.void200}, ${({ theme }) => theme.colors.neutral.void200} 40%, transparent 90%);
+    background: radial-gradient(
+      circle at 50% 50%,
+      ${({ theme }) => theme.colors.neutral.void200},
+      ${({ theme }) => theme.colors.neutral.void200} 40%,
+      transparent 90%
+    );
     height: 200%;
   }
 `;

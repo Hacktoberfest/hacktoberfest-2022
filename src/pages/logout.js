@@ -8,7 +8,7 @@ import Loader from 'components/loader';
 import useAuth from 'hooks/useAuth';
 
 const Logout = () => {
-  const [ redirect, setRedirect ] = useState(false);
+  const [redirect, setRedirect] = useState(false);
   const auth = useAuth(redirect);
 
   useEffect(() => {
@@ -16,14 +16,22 @@ const Logout = () => {
       auth.reset();
       setRedirect(true);
     }
-  }, [ auth.loading ]);
+  }, [auth.loading]);
 
   return (
     <>
       <Head>
         <title>Logout | Hacktoberfest 2023</title>
-        <meta name="twitter:title" key="twitterTitle" content="Logout | Hacktoberfest 2023" />
-        <meta property="og:title" key="opengraphTitle" content="Logout | Hacktoberfest 2023" />
+        <meta
+          name="twitter:title"
+          key="twitterTitle"
+          content="Logout | Hacktoberfest 2023"
+        />
+        <meta
+          property="og:title"
+          key="opengraphTitle"
+          content="Logout | Hacktoberfest 2023"
+        />
       </Head>
 
       <Section type="sub_content">

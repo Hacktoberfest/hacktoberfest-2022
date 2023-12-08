@@ -1,28 +1,18 @@
 import {
   StyledSponsors,
   StyledSponsorsTitle,
-  StyledSponsorsList
+  StyledSponsorsList,
 } from './Sponsors.styles';
 
-const Sponsors = props => {
-  const {
-    title,
-    sponsors,
-    centered,
-    large
-  } = props;
+const Sponsors = (props) => {
+  const { title, sponsors, centered, large } = props;
 
   return (
     <StyledSponsors $centered={centered}>
-      {title && (
-        <StyledSponsorsTitle>{title}</StyledSponsorsTitle>
-      )}
+      {title && <StyledSponsorsTitle>{title}</StyledSponsorsTitle>}
       <StyledSponsorsList $centered={centered} $large={large}>
         {sponsors.map((sponsor) => (
-          <a
-            key={sponsor.title}
-            {...sponsor.link}
-          >
+          <a key={sponsor.title} {...sponsor.link}>
             <img
               src={sponsor.hero?.image}
               alt={`${sponsor.title} logo`}

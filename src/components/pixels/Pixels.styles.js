@@ -43,7 +43,8 @@ const transformAnim = keyframes`
 export const PixelWrapper = styled.div`
   position: relative;
   overflow: hidden;
-  animation: ${flickerAnim} ${({ $timing }) => Math.floor(($timing - 0.5) / 2)}s infinite;
+  animation: ${flickerAnim} ${({ $timing }) => Math.floor(($timing - 0.5) / 2)}s
+    infinite;
 
   &::after {
     content: '';
@@ -61,7 +62,8 @@ export const PixelWrapper = styled.div`
     width: calc(100% * ${({ $frames }) => $frames});
     height: auto;
 
-    animation: ${transformAnim} ${({ $timing }) => $timing}s steps(${({ $frames }) => $frames}) infinite;
+    animation: ${transformAnim} ${({ $timing }) => $timing}s
+      steps(${({ $frames }) => $frames}) infinite;
     shape-rendering: crispEdges;
   }
 `;

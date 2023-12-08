@@ -4,14 +4,14 @@ import {
   StyledAccordionImage,
   StyledAccordionImageWrapper,
   StyledAccordionHeader,
-  StyledAccordionLinks
+  StyledAccordionLinks,
 } from './AccordionCouncil.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
 import { useTheme } from 'styled-components';
 import Frame from 'components/Frame';
 
-const AccordionCouncil = props => {
+const AccordionCouncil = (props) => {
   const {
     filled,
     frame,
@@ -24,7 +24,7 @@ const AccordionCouncil = props => {
     links,
     children,
     iframe,
-    skills
+    skills,
   } = props;
 
   const [open, setOpen] = useState(!collapsed);
@@ -41,29 +41,19 @@ const AccordionCouncil = props => {
               <img {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster
-            size="lg"
-            eyebrow={subtitle}
-            title={title}
-          >
+          <ContentMaster size="lg" eyebrow={subtitle} title={title}>
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>
       </summary>
       <div>
-        {children && (
-          <Markdown string={children} />
-        )}
+        {children && <Markdown string={children} />}
 
         {links && (
           <StyledAccordionLinks>
             {links.map((link) => (
               <li key={link.title}>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
+                <a href={link.url} target="_blank" rel="noreferrer noopener">
                   {link.title}
                 </a>
               </li>
@@ -74,7 +64,7 @@ const AccordionCouncil = props => {
         {iframe && (
           <iframe
             src={iframe}
-            style={{backgroundColor: '#fff'}}
+            style={{ backgroundColor: '#fff' }}
             width="100%"
             height="920"
             frameBorder="0"

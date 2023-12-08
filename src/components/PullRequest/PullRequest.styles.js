@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { body20, headline20 } from 'themes/typography';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 const stateColors = {
   excluded: (theme) => theme.colors.bavarian.blue200,
@@ -53,7 +56,7 @@ export const StyledState = styled.button`
       color: ${({ theme }) => theme.colors.neutral.manga300};
       background: ${({ theme }) => theme.colors.neutral.void200};
       transition: 0.2s ease;
-      opacity: .5;
+      opacity: 0.5;
     }
 
     &:hover {

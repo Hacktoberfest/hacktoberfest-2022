@@ -10,7 +10,10 @@
     "build": "npm run build:custom && npm run build:next",
     "build:custom": "node src/build/index.mjs",
     "build:next": "next build",
-    "postbuild": "node src/build/post/index.mjs"
+    "postbuild": "node src/build/post/index.mjs",
+    "format": "prettier --write --ignore-unknown .",
+    "test": "prettier --check --ignore-unknown .",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -38,6 +41,9 @@
   "devDependencies": {
     "@babel/runtime": "^7.23.5",
     "babel-plugin-styled-components": "^2.1.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.1.0",
     "webpack": "^5.89.0"
   }
 }

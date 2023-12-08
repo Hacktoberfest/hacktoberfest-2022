@@ -14,7 +14,7 @@ import {
   StyledMobileContainer,
   StyledMobileNav,
   StyledHeaderLink,
-  StyledHeaderToggle
+  StyledHeaderToggle,
 } from './Header.styles';
 
 import hacktoberfestLogo from 'assets/img/logo-hacktoberfest--horizontal.svg';
@@ -33,10 +33,13 @@ const Header = () => {
     () =>
       new Date() >= new Date(registrationStart) &&
       new Date() < new Date(profileEnd),
-    []
+    [],
   );
 
-  const hasRegistrationEnded = useMemo(() => new Date() >= new Date(registrationEnd), []);
+  const hasRegistrationEnded = useMemo(
+    () => new Date() >= new Date(registrationEnd),
+    [],
+  );
 
   return (
     <>
@@ -51,15 +54,9 @@ const Header = () => {
             <StyledHeaderLink href="/participation">
               Participation
             </StyledHeaderLink>
-            <StyledHeaderLink href="/events">
-              Events
-            </StyledHeaderLink>
-            <StyledHeaderLink href="/donate">
-              Donate
-            </StyledHeaderLink>
-            <StyledHeaderLink href="/about">
-              About
-            </StyledHeaderLink>
+            <StyledHeaderLink href="/events">Events</StyledHeaderLink>
+            <StyledHeaderLink href="/donate">Donate</StyledHeaderLink>
+            <StyledHeaderLink href="/about">About</StyledHeaderLink>
             <StyledHeaderLink
               href="https://discord.gg/hacktoberfest"
               target="_blank"
@@ -72,9 +69,7 @@ const Header = () => {
                 {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
               </ButtonMain>
             )}
-            <StyledHeaderToggle onClick={toggle}>
-              Menu
-            </StyledHeaderToggle>
+            <StyledHeaderToggle onClick={toggle}>Menu</StyledHeaderToggle>
           </StyledHeaderNav>
         </StyledHeaderContainer>
       </StyledHeader>
@@ -93,15 +88,9 @@ const Header = () => {
             <StyledHeaderLink href="/participation">
               Participation
             </StyledHeaderLink>
-            <StyledHeaderLink href="/events">
-              Events
-            </StyledHeaderLink>
-            <StyledHeaderLink href="/donate">
-              Donate
-            </StyledHeaderLink>
-            <StyledHeaderLink href="/about">
-              About
-            </StyledHeaderLink>
+            <StyledHeaderLink href="/events">Events</StyledHeaderLink>
+            <StyledHeaderLink href="/donate">Donate</StyledHeaderLink>
+            <StyledHeaderLink href="/about">About</StyledHeaderLink>
             <StyledHeaderLink
               href="https://discord.gg/hacktoberfest"
               target="_blank"

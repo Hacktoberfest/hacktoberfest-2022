@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import { breakpoints as bp, determineMediaQuery as mQ } from 'themes/breakpoints';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { body16, body20, body24, headline88 } from 'themes/typography';
 
 export const StyledHero = styled.div`
@@ -15,7 +18,8 @@ export const StyledHero = styled.div`
 export const StyledHeroContainer = styled.div`
   ${mQ(bp.desktop)} {
     display: flex;
-    justify-content: ${({ $centered }) => $centered ? 'center' : 'space-between'};
+    justify-content: ${({ $centered }) =>
+      $centered ? 'center' : 'space-between'};
   }
 `;
 
@@ -94,7 +98,9 @@ export const StyledCountdownItem = styled.div`
 export const StyledCountdownLoading = styled.div`
   /* border: 2px dashed ${({ theme }) => theme.colors.bavarian.gold200}; */
   border-radius: 8px;
-  box-shadow: 1px 1px 10px 0px rgba(236, 66, 55, 0.50), -1px -1px 10px 0px rgba(255, 251, 164, 0.50);
+  box-shadow:
+    1px 1px 10px 0px rgba(236, 66, 55, 0.5),
+    -1px -1px 10px 0px rgba(255, 251, 164, 0.5);
   padding: 10px;
   margin: 0 0 32px;
   position: relative;
@@ -127,7 +133,10 @@ export const StyledCountdownLoadingContainer = styled.div`
 `;
 
 export const StyledCountdownLoadingItem = styled.div`
-  background: ${({ $complete, theme }) => $complete ? theme.gradients.metal.blueLight : theme.colors.neutral.manga400};
+  background: ${({ $complete, theme }) =>
+    $complete
+      ? theme.gradients.metal.blueLight
+      : theme.colors.neutral.manga400};
   flex-grow: 1;
   flex-basis: 0;
 `;

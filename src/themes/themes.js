@@ -21,18 +21,19 @@ export const mainTheme = {
       red200: '#EC4237',
       red300: '#A3180F',
       red400: '#460A07',
-    }
+    },
   },
   gradients: {
     metal: {
       blueDark: '',
-      blueLight: 'linear-gradient(180deg, #B2E3F0 0%, #EFEDEF 48.44%, #0C3640 48.45%, #33B6D8 100%)',
+      blueLight:
+        'linear-gradient(180deg, #B2E3F0 0%, #EFEDEF 48.44%, #0C3640 48.45%, #33B6D8 100%)',
       wordmarkGold: '',
       logomarkGoldLight: '',
       logomarkGoldDark: '',
       wordmarkVoid: '',
-      wordmarkManga: ''
-    }
+      wordmarkManga: '',
+    },
   },
   card: {
     stroke: '',
@@ -41,13 +42,13 @@ export const mainTheme = {
   border: {
     active: '',
     cards: '',
-  }
+  },
 };
 
 const GlobalStyle = createGlobalStyle`
   body {
     background: ${({ theme }) => theme.colors.neutral.void200};
-    color: ${({theme}) => theme.colors.neutral.manga200};
+    color: ${({ theme }) => theme.colors.neutral.manga200};
   }
 
   h1, h2, h3, h4, h5, h6, p, label {
@@ -55,12 +56,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${({theme}) => theme.colors.bavarian.blue200};
+    color: ${({ theme }) => theme.colors.bavarian.blue200};
     transition: color 0.2s ease;
 
     &:hover,
     &:focus-visible {
-      color: ${({theme}) => theme.colors.bavarian.blue300};
+      color: ${({ theme }) => theme.colors.bavarian.blue300};
     }
   }
 `;

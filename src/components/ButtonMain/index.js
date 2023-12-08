@@ -1,15 +1,7 @@
-import {
-  StyledButtonMain
-} from './ButtonMain.styles';
+import { StyledButtonMain } from './ButtonMain.styles';
 
-const ButtonMain = props => {
-  const {
-    children,
-    as = "a",
-    size = 'sm',
-    onClick,
-    ...link
-  } = props;
+const ButtonMain = (props) => {
+  const { children, as = 'a', size = 'sm', onClick, ...link } = props;
 
   return (
     <>
