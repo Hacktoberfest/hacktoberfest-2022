@@ -20,6 +20,16 @@ const getBuildId = () => {
 /** @type {import('next').NextConfig} */
 module.exports = {
   output: 'export',
+  compiler: {
+    styledComponents: {
+      displayName: true,
+      ssr: true,
+      fileName: true,
+      cssProp: true,
+      minify: true,
+      transpileTemplateLiterals: true,
+    },
+  },
   generateBuildId() {
     const proposedBuildId = getBuildId();
     nextLog.info(
