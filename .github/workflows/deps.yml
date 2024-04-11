@@ -1,0 +1,83 @@
+name: Dependencies
+
+on:
+  workflow_dispatch:
+    inputs:
+      minor_args:
+        description: Additional arguments for minor updates
+        required: false
+        type: string
+      major_args:
+        description: Additional arguments for major updates
+        required: false
+        type: string
+  schedule:
+    - cron: '0 0 * * 2'
+  push:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create branch
+        id: branch
+        run: |
+          BRANCH="update-deps/$(date '+%Y-%m-%d')"
+          git switch -c $BRANCH
+          git config user.name hacktoberfest-team
+          git config user.email hacktoberfest@digitalocean.com
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Install NPM check updates
+        run: npm install -g npm-check-updates
+
+      - name: Minor dependency updates
+        id: minor
+        run: ./.github/workflows/deps.sh minor npm-check-updates --target minor --upgrade --install always ${{ github.event.inputs.minor_args }}
+
+      - name: Major dependency updates
+        id: major
+        run: ./.github/workflows/deps.sh major npm-check-updates --target latest --upgrade --install always ${{ github.event.inputs.major_args }}
+
+      - name: Dependency vulnerability updates
+        id: vulns
+        run: ./.github/workflows/deps.sh vulns npm audit fix --audit-level none
+
+      - name: De-duplicate dependency updates
+        id: dupes
+        run: ./.github/workflows/deps.sh dupes npm dedupe
+
+      - name: Push changes
+        if: steps.minor.outputs.committed == 'true' || steps.major.outputs.committed == 'true' || steps.vulns.outputs.committed == 'true' || steps.dupes.outputs.committed == 'true'
+        run: git push origin ${{ steps.branch.outputs.branch }}
+
+      - name: Create PR
+        if: steps.minor.outputs.committed == 'true' || steps.major.outputs.committed == 'true' || steps.vulns.outputs.committed == 'true' || steps.dupes.outputs.committed == 'true'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.ACCOUNT_TOKEN }}
+          script: |
+            await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Dependency updates',
+              head: ${{ toJSON(steps.branch.outputs.branch) }},
+              base: context.ref,
+              body: '${{ steps.major.outputs.committed == 'true' && '> [!CAUTION]' || '> [!WARNING]' }}\n> This PR was created by automation to update dependencies.\n> Please ensure the updates are thoroughly reviewed for any breaking changes.\n> If breaking changes are present, code fixes (or downgrades) should be pushed to this branch before merging.',
+            });
