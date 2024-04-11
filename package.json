@@ -13,7 +13,7 @@
     "postbuild": "node src/build/post/index.mjs",
     "format": "prettier --write --ignore-unknown .",
     "test": "prettier --check --ignore-unknown .",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
