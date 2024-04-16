@@ -40,7 +40,7 @@ jobs:
           BRANCH="update-deps/$(date '+%Y-%m-%d')"
           git switch -c $BRANCH
           git config user.name hacktoberfest-team
-          git config user.email hacktoberfest@digitalocean.com
+          git config user.email support@hacktoberfest.com
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
 
       - name: Install NPM check updates
