@@ -96,3 +96,11 @@ The production website is deployed whenever a new commit is pushed to the
 `production` branch, which maintainers can do locally using
 `make deploy-production`. The staging website is deployed from the `staging`
 branch, which maintainers can use `make deploy-staging` for.
+
+## License
+
+Subject to the exceptions below and in the LICENSE, the code for the website is
+released under the [Apache License 2.0](LICENSE.md).
+
+Please note that Hacktoberfest is a registered trademark of DigitalOcean, and
+the Hacktoberfest brand is not released under this license.
