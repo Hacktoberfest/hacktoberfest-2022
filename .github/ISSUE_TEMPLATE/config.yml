@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Hacktoberfest Discord
+    url: https://discord.gg/hacktoberfest
+    about: Need help with Hacktoberfest? Ask the community in our Discord server.
