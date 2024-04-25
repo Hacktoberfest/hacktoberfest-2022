@@ -19,21 +19,21 @@ built with [Next.js](https://nextjs.org).
 ## Contributing
 
 If you're looking to contribute to the website, please take a look through the
-open issues to see what needs to be done. If you've found something you think
-needs a change, please open an issue first to discuss it with the maintainers.
-We generally will not accept pull requests without an associated issue that has
-been discussed.
+open issues to see what needs to be done. If you've discovered something you
+think needs a change that is not covered by an existing issue, please open an
+issue first to discuss it with the maintainers. We generally will not accept
+pull requests without an associated issue that has been discussed.
 
-While the website is open-source, we won't be able to accept all changes. We're
-looking for changes that improve the user experience on the site, or fix
-bugs/typos. We're not looking for changes that modifying the branding or change
-how Hacktoberfest as a whole operates.
+While the website is open-source, we are unable to accept all changes. We're
+looking for changes that improve the user experience on the site or fix
+bugs/typos. We're not looking for changes that modify the branding or change
+how Hacktoberfest operates as a whole.
 
 ## Configuration
 
 The website uses a [`config.js`](src/lib/config.js) file to store common
 configuration values. When developing, you may need to change these values to
-view different states of the website. These can be changed in the file itself,
+view different states of the website. These can be changed in the file itself
 or by setting the equivalent environment variables.
 
 Primarily, these variables control the "state" of the site, such as whether
@@ -41,25 +41,25 @@ registration is open. Hacktoberfest follows a timeline of events, impacting the
 state of the site:
 
 - Pre-registration:
-  The site can be accessed, but the registration/profile flow is unavailable.
+  The site can be accessed but the registration/profile flow is unavailable.
 
 - Registration start:
-  The registration/profile flow is available, but PR/MRs are not being tracked.
+  The registration/profile flow is available, but PR/MRs are not tracked.
 
 - Tracking start:
-  New PR/MRs are being tracked, the core state of the site during Hacktoberfest.
+  New PR/MRs are tracked. This is the core state of Hacktoberfest.
 
 - Registration end:
-  New registrations are not accepted, but existing profiles can be accessed.
+  New registrations are not accepted but existing profiles can be accessed.
 
 - Tracking end:
-  New PR/MRs are not tracked, but changes to existing ones are still tracked.
+  New PR/MRs are not tracked but changes to existing ones are still tracked.
 
 - Tracking end extended:
-  All PR/MRs are no longer tracked, but the profile flow is still available.
+  All PR/MRs are no longer tracked but the profile flow is still available.
 
 - Profile end:
-  The profile flow is no longer available, but the site can still be accessed.
+  The profile flow is no longer available but the site can still be accessed.
 
 ## Profile API
 
@@ -82,7 +82,7 @@ some environment variables will need to be set:
 To be able to load registration and anything beyond, you'll need a valid event
 ID. To see what events are available to you, you can start the development
 server without the ID set. Once started, complete the authentication flow, and
-grab your API token from the browser's local storage. You can then use this
+grab your API token from your browser's local storage. You can then use this
 token to manually call the `/events` endpoint to see what events are available.
 
 ## Deployment
@@ -95,7 +95,7 @@ handle traffic, ensuring high availability.
 The production website is deployed whenever a new commit is pushed to the
 `production` branch, which maintainers can do locally using
 `make deploy-production`. The staging website is deployed from the `staging`
-branch, which maintainers can use `make deploy-staging` for.
+branch, for which maintainers can use `make deploy-staging`.
 
 ## License
 

@@ -1,6 +1,6 @@
 ## What should this PR do?
 
-<!-- Write a quick bullet point summary of the changes this PR should be making. -->
+<!-- Write a quick bullet point summary of the changes this PR proposes to make. -->
 <!-- Make sure to explain briefly what each change is and why each change is being made. -->
 
 ## What issue does this relate to?

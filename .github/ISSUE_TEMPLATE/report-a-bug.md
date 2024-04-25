@@ -5,12 +5,12 @@ about: Found a bug in the Hacktoberfest website?
 
 <!-- Don't put anything inside this block, as it won't be included in the issue.
 
-If you are reporting a bug, please follow the following steps:
+If you are reporting a bug, please follow these steps:
 
 1.  Fill out the template in full.
       This will help us understand the situation in which the bug occurred.
 
-2.  Make sure not to write between the arrows, as anything there will be hidden.
+2.  Make sure not to write between the arrows as anything there will be hidden.
 
 3.  Delete this line and all above lines before posting your issue! -->
 
