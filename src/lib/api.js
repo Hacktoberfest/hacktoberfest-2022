@@ -1,11 +1,20 @@
-const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
-if (!BASE_URL) throw new Error('BASE_URL must be set for API calls');
+const BASE_URL = () => {
+  const val = (process.env.BASE_URL || '').replace(/\/*$/, '');
+  if (!val) throw new Error('BASE_URL must be set for API calls');
+  return val;
+};
 
-const API_BASE_URL = (process.env.API_BASE_URL || '').replace(/\/*$/, '');
-if (!API_BASE_URL) throw new Error('API_BASE_URL must be set for API calls');
+const API_BASE_URL = () => {
+  const val = (process.env.API_BASE_URL || '').replace(/\/*$/, '');
+  if (!val) throw new Error('API_BASE_URL must be set for API calls');
+  return val;
+};
 
-const API_EVENT_ID = process.env.API_EVENT_ID;
-if (!API_EVENT_ID) throw new Error('API_EVENT_ID must be set for API calls');
+const API_EVENT_ID = () => {
+  const val = process.env.API_EVENT_ID;
+  if (!val) throw new Error('API_EVENT_ID must be set for API calls');
+  return val;
+};
 
 const fetchEndpoint = async (
   endpoint,
@@ -14,7 +23,7 @@ const fetchEndpoint = async (
   ok = true,
   json = true,
 ) => {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+  const response = await fetch(`${API_BASE_URL()}${endpoint}`, {
     ...options,
     ...(token
       ? {
@@ -39,11 +48,11 @@ const fetchEndpoint = async (
 };
 
 export const oauth = (provider) =>
-  `${API_BASE_URL}/users/oauth/${encodeURIComponent(
+  `${API_BASE_URL()}/users/oauth/${encodeURIComponent(
     provider,
   )}?success_redirect=${encodeURIComponent(
-    `${BASE_URL}/auth`,
-  )}&error_redirect=${encodeURIComponent(`${BASE_URL}/auth`)}`;
+    `${BASE_URL()}/auth`,
+  )}&error_redirect=${encodeURIComponent(`${BASE_URL()}/auth`)}`;
 
 export const fetchUser = async (userId, token) =>
   fetchEndpoint(`/users/${encodeURIComponent(userId)}`, token);
@@ -69,8 +78,8 @@ export const createUserOAuth = async (userId, token, provider) =>
     `/users/${encodeURIComponent(userId)}/oauth/${encodeURIComponent(
       provider,
     )}?success_redirect=${encodeURIComponent(
-      `${BASE_URL}/auth`,
-    )}&error_redirect=${encodeURIComponent(`${BASE_URL}/auth`)}`,
+      `${BASE_URL()}/auth`,
+    )}&error_redirect=${encodeURIComponent(`${BASE_URL()}/auth`)}`,
     token,
   );
 
@@ -93,7 +102,7 @@ export const triggerUserIngest = async (userId, token) =>
 export const fetchRegistration = async (userId, token) =>
   fetchEndpoint(
     `/events/${encodeURIComponent(
-      API_EVENT_ID,
+      API_EVENT_ID(),
     )}/registrations/${encodeURIComponent(userId)}`,
     token,
   );
@@ -101,7 +110,7 @@ export const fetchRegistration = async (userId, token) =>
 export const createRegistration = async (userId, token, data) =>
   fetchEndpoint(
     `/events/${encodeURIComponent(
-      API_EVENT_ID,
+      API_EVENT_ID(),
     )}/registrations/${encodeURIComponent(userId)}`,
     token,
     {
@@ -114,7 +123,7 @@ export const createRegistration = async (userId, token, data) =>
 export const updateRegistration = async (userId, token, data) =>
   fetchEndpoint(
     `/events/${encodeURIComponent(
-      API_EVENT_ID,
+      API_EVENT_ID(),
     )}/registrations/${encodeURIComponent(userId)}`,
     token,
     {
@@ -125,12 +134,15 @@ export const updateRegistration = async (userId, token, data) =>
   );
 
 export const fetchMetadata = async (token) =>
-  fetchEndpoint(`/events/${encodeURIComponent(API_EVENT_ID)}/metadata`, token);
+  fetchEndpoint(
+    `/events/${encodeURIComponent(API_EVENT_ID())}/metadata`,
+    token,
+  );
 
 export const fetchPullRequests = async (userId, token, exclude = []) =>
   fetchEndpoint(
     `/events/${encodeURIComponent(
-      API_EVENT_ID,
+      API_EVENT_ID(),
     )}/pull_requests/users/${encodeURIComponent(
       userId,
     )}?excludeState=${encodeURIComponent(exclude.join(','))}`,
@@ -140,14 +152,14 @@ export const fetchPullRequests = async (userId, token, exclude = []) =>
 export const fetchGiftCodes = async (userId, token) =>
   fetchEndpoint(
     `/events/${encodeURIComponent(
-      API_EVENT_ID,
+      API_EVENT_ID(),
     )}/gift_codes/users/${encodeURIComponent(userId)}`,
     token,
   );
 
 export const createExcludedRepository = async (userId, token, data) =>
   fetchEndpoint(
-    `/events/${encodeURIComponent(API_EVENT_ID)}/excluded_repositories`,
+    `/events/${encodeURIComponent(API_EVENT_ID())}/excluded_repositories`,
     token,
     {
       method: 'POST',

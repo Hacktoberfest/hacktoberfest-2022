@@ -27,6 +27,7 @@
     "url": "https://github.com/Hacktoberfest/hacktoberfest-2022/issues"
   },
   "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
+  "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "country-list": "^2.3.0",
     "html-react-parser": "^5.1.10",
