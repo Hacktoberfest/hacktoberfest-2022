@@ -56,3 +56,17 @@ spec:
       routes:
         - path: /
       source_dir: /
+
+  ingress:
+    rules:
+      - component:
+          name: hacktoberfest-production-nyc
+        match:
+          path:
+            prefix: /
+      - match:
+          path:
+            prefix: /security.txt
+        redirect:
+          redirect_code: 301
+          uri: /.well-known/security.txt
