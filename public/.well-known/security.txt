@@ -1,0 +1,15 @@
+Contact: https://app.intigriti.com/programs/digitalocean/digitalocean
+Contact: mailto:security@digitalocean.com
+
+Policy: https://app.intigriti.com/programs/digitalocean/digitalocean
+Encryption: https://github.com/digitalocean/security/blob/main/README.md
+
+Acknowledgments: https://app.intigriti.com/programs/digitalocean/digitalocean/leaderboard
+Preferred-Languages: en
+
+Canonical: https://www.digitalocean.com/.well-known/security.txt
+Canonical: https://cloud.digitalocean.com/.well-known/security.txt
+Canonical: https://hacktoberfest.com/.well-known/security.txt
+
+Hiring: https://www.digitalocean.com/careers
+Expires: 2025-04-05T04:00:00.000Z
