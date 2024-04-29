@@ -48,11 +48,15 @@ jobs:
 
       - name: Minor dependency updates
         id: minor
-        run: ./.github/workflows/deps.sh minor npm-check-updates --target minor --upgrade --install always ${{ github.event.inputs.minor_args }}
+        run: echo "$ADDITIONAL" | xargs ./.github/workflows/deps.sh minor npm-check-updates --target minor --upgrade --install always
+        env:
+          ADDITIONAL: ${{ github.event.inputs.minor_args }}
 
       - name: Major dependency updates
         id: major
-        run: ./.github/workflows/deps.sh major npm-check-updates --target latest --upgrade --install always ${{ github.event.inputs.major_args }}
+        run: echo "$ADDITIONAL" | xargs ./.github/workflows/deps.sh major npm-check-updates --target latest --upgrade --install always
+        env:
+          ADDITIONAL: ${{ github.event.inputs.major_args }}
 
       - name: Dependency vulnerability updates
         id: vulns
