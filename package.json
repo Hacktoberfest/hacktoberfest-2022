@@ -33,7 +33,7 @@
     "html-react-parser": "^5.1.10",
     "knuth-shuffle": "^1.0.8",
     "markdown-it": "^14.1.0",
-    "next": "^14.2.4",
+    "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sitemap": "^8.0.0",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
-    "prettier": "^3.3.2",
-    "webpack": "^5.92.1"
+    "prettier": "^3.3.3",
+    "webpack": "^5.93.0"
   }
 }
