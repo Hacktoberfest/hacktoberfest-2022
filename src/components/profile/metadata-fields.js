@@ -16,12 +16,12 @@ import Divider from 'components/Divider';
 
 import CheckRadio from './check-radio';
 import EmailWarning from './email-warning';
+import Section from 'components/Section';
 
 const StyledFormSection = styled.div`
   display: flex;
-  gap: 48px;
+  gap: 60px;
   flex-direction: column;
-  padding: 80px 0;
 `;
 
 const StyledFormSectionTitle = styled.h2`
@@ -42,7 +42,7 @@ const StyledFormGroup = styled.fieldset`
 
     small,
     span {
-      color: ${({ theme }) => theme.colors.neutral.manga300};
+      color: ${({ theme }) => theme.colors.black};
       ${body18};
     }
 
@@ -75,7 +75,7 @@ const countryOverrides = {
   tw: 'Taiwan',
 };
 
-const dropdownCountries = [
+export const dropdownCountries = [
   {
     code: '',
     name: 'Prefer not to say',
@@ -181,201 +181,205 @@ const MetadataFields = ({
 
   return (
     <>
-      <StyledFormSection>
-        <StyledFormRow $columns={2}>
-          <Input
-            name="name"
-            label="Name"
-            value={value.name}
-            onChange={(e) => onChange({ ...value, name: e.target.value })}
-            disabled={disabled}
-            required
-          />
+      <Section>
+        <StyledFormSection>
+          <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
 
-          {showEmail && (
-            <Select
-              name="email"
-              label="Email"
-              value={value.email}
-              onChange={(e) => onChange({ ...value, email: e.target.value })}
+          <StyledFormRow $columns={2}>
+            <Input
+              name="name"
+              label="Name"
+              value={value.name}
+              onChange={(e) => onChange({ ...value, name: e.target.value })}
               disabled={disabled}
               required
-              items={emails.map((email) => [email, email])}
             />
-          )}
-        </StyledFormRow>
 
-        {showEmail && <EmailWarning email={value.email} />}
+            {showEmail && (
+              <Select
+                name="email"
+                label="Email"
+                value={value.email}
+                onChange={(e) => onChange({ ...value, email: e.target.value })}
+                disabled={disabled}
+                required
+                items={emails.map((email) => [email, email])}
+              />
+            )}
+          </StyledFormRow>
 
-        {!!fields.role && (
-          <>
-            <Divider />
-            <StyledFormGroup>
-              <legend>
-                How will you be participating? <small>[optional]</small>
-                <span>Select all that apply</span>
-              </legend>
+          {showEmail && <EmailWarning email={value.email} />}
 
-              <StyledFormRow $columns={3}>
-                {fields.role.map((meta) => (
-                  <CheckRadio
-                    key={meta.name}
-                    title={meta.title}
-                    message={meta.message}
-                    name={meta.name}
-                    onChange={(e) =>
-                      updateMetadata({ [meta.name]: e.target.checked })
-                    }
-                    checked={value.metadata[meta.name]}
-                    disabled={disabled}
-                  />
-                ))}
-              </StyledFormRow>
-            </StyledFormGroup>
-          </>
-        )}
-
-        {!!fields.stage && (
-          <>
-            <Divider />
-            <StyledFormGroup>
-              <legend>
-                What is your experience level? <small>[optional]</small>
-              </legend>
-
-              <StyledFormRow $columns={3}>
-                {fields.stage.map((meta) => (
-                  <CheckRadio
-                    key={meta.name}
-                    title={meta.title}
-                    message={meta.message}
-                    radio
-                    name="stage"
-                    id="stage"
-                    value={meta.name}
-                    onChange={(e) =>
-                      updateMetadata(
-                        fields.stage.reduce(
-                          (obj, item) => ({
-                            ...obj,
-                            [item.name]:
-                              meta.name === item.name && e.target.checked,
-                          }),
-                          {},
-                        ),
-                      )
-                    }
-                    checked={value.metadata[meta.name]}
-                    disabled={disabled}
-                  />
-                ))}
-              </StyledFormRow>
-            </StyledFormGroup>
-          </>
-        )}
-
-        {!!fields.type && (
-          <>
-            <Divider />
-            <StyledFormGroup>
-              <legend>
-                How would you like to contribute? <small>[optional]</small>
-                <span>Select all that apply</span>
-              </legend>
-
-              <StyledFormRow $columns={2}>
-                {fields.type.map((meta) => (
-                  <CheckRadio
-                    key={meta.name}
-                    title={meta.title}
-                    message={meta.message}
-                    name={meta.name}
-                    onChange={(e) =>
-                      updateMetadata({ [meta.name]: e.target.checked })
-                    }
-                    checked={value.metadata[meta.name]}
-                    disabled={disabled}
-                  />
-                ))}
-              </StyledFormRow>
-            </StyledFormGroup>
-          </>
-        )}
-
-        {!!fields.demographic &&
-          fields.demographic.map((meta) => (
-            <Fragment key={meta.name}>
+          {!!fields.role && (
+            <>
               <Divider />
               <StyledFormGroup>
                 <legend>
-                  {meta.title}
-                  {!meta.required && (
-                    <>
-                      {' '}
-                      <small>[optional]</small>
-                    </>
-                  )}
+                  How will you be participating? <small>[optional]</small>
+                  <span>Select all that apply</span>
                 </legend>
 
-                {meta.datatype === 'boolean' && (
-                  <StyledFormRow $columns={2}>
+                <StyledFormRow $columns={3}>
+                  {fields.role.map((meta) => (
                     <CheckRadio
-                      title="Yes"
+                      key={meta.name}
+                      title={meta.title}
+                      message={meta.message}
                       name={meta.name}
-                      value="yes"
-                      radio
-                      onChange={() => updateMetadata({ [meta.name]: true })}
-                      checked={value.metadata[meta.name] === true}
-                      disabled={disabled}
-                      required={meta.required}
-                    />
-
-                    <CheckRadio
-                      title="No"
-                      name={meta.name}
-                      value="no"
-                      radio
-                      onChange={() => updateMetadata({ [meta.name]: false })}
-                      checked={value.metadata[meta.name] === false}
-                      disabled={disabled}
-                      required={meta.required}
-                    />
-                  </StyledFormRow>
-                )}
-
-                {meta.datatype === 'string' &&
-                  meta.name === 'demographic-employment' && (
-                    <Select
-                      name={meta.name}
-                      label={meta.message}
-                      value={value.metadata[meta.name] || ''}
                       onChange={(e) =>
-                        updateMetadata({ [meta.name]: e.target.value })
+                        updateMetadata({ [meta.name]: e.target.checked })
                       }
+                      checked={value.metadata[meta.name]}
                       disabled={disabled}
-                      required={meta.required}
-                      items={dropdownEmployment}
                     />
-                  )}
-
-                {meta.datatype === 'string' &&
-                  meta.name === 'demographic-country' && (
-                    <Select
-                      name={meta.name}
-                      label={meta.message}
-                      value={value.metadata[meta.name] || ''}
-                      onChange={(e) =>
-                        updateMetadata({ [meta.name]: e.target.value })
-                      }
-                      disabled={disabled}
-                      required={meta.required}
-                      items={dropdownCountries}
-                    />
-                  )}
+                  ))}
+                </StyledFormRow>
               </StyledFormGroup>
-            </Fragment>
-          ))}
-      </StyledFormSection>
+            </>
+          )}
+
+          {!!fields.stage && (
+            <>
+              <Divider />
+              <StyledFormGroup>
+                <legend>
+                  What is your experience level? <small>[optional]</small>
+                </legend>
+
+                <StyledFormRow $columns={3}>
+                  {fields.stage.map((meta) => (
+                    <CheckRadio
+                      key={meta.name}
+                      title={meta.title}
+                      message={meta.message}
+                      radio
+                      name="stage"
+                      id="stage"
+                      value={meta.name}
+                      onChange={(e) =>
+                        updateMetadata(
+                          fields.stage.reduce(
+                            (obj, item) => ({
+                              ...obj,
+                              [item.name]:
+                                meta.name === item.name && e.target.checked,
+                            }),
+                            {},
+                          ),
+                        )
+                      }
+                      checked={value.metadata[meta.name]}
+                      disabled={disabled}
+                    />
+                  ))}
+                </StyledFormRow>
+              </StyledFormGroup>
+            </>
+          )}
+
+          {!!fields.type && (
+            <>
+              <Divider />
+              <StyledFormGroup>
+                <legend>
+                  How would you like to contribute? <small>[optional]</small>
+                  <span>Select all that apply</span>
+                </legend>
+
+                <StyledFormRow $columns={2}>
+                  {fields.type.map((meta) => (
+                    <CheckRadio
+                      key={meta.name}
+                      title={meta.title}
+                      message={meta.message}
+                      name={meta.name}
+                      onChange={(e) =>
+                        updateMetadata({ [meta.name]: e.target.checked })
+                      }
+                      checked={value.metadata[meta.name]}
+                      disabled={disabled}
+                    />
+                  ))}
+                </StyledFormRow>
+              </StyledFormGroup>
+            </>
+          )}
+
+          {!!fields.demographic &&
+            fields.demographic.map((meta) => (
+              <Fragment key={meta.name}>
+                <Divider />
+                <StyledFormGroup>
+                  <legend>
+                    {meta.title}
+                    {!meta.required && (
+                      <>
+                        {' '}
+                        <small>[optional]</small>
+                      </>
+                    )}
+                  </legend>
+
+                  {meta.datatype === 'boolean' && (
+                    <StyledFormRow $columns={2}>
+                      <CheckRadio
+                        title="Yes"
+                        name={meta.name}
+                        value="yes"
+                        radio
+                        onChange={() => updateMetadata({ [meta.name]: true })}
+                        checked={value.metadata[meta.name] === true}
+                        disabled={disabled}
+                        required={meta.required}
+                      />
+
+                      <CheckRadio
+                        title="No"
+                        name={meta.name}
+                        value="no"
+                        radio
+                        onChange={() => updateMetadata({ [meta.name]: false })}
+                        checked={value.metadata[meta.name] === false}
+                        disabled={disabled}
+                        required={meta.required}
+                      />
+                    </StyledFormRow>
+                  )}
+
+                  {meta.datatype === 'string' &&
+                    meta.name === 'demographic-employment' && (
+                      <Select
+                        name={meta.name}
+                        label={meta.message}
+                        value={value.metadata[meta.name] || ''}
+                        onChange={(e) =>
+                          updateMetadata({ [meta.name]: e.target.value })
+                        }
+                        disabled={disabled}
+                        required={meta.required}
+                        items={dropdownEmployment}
+                      />
+                    )}
+
+                  {meta.datatype === 'string' &&
+                    meta.name === 'demographic-country' && (
+                      <Select
+                        name={meta.name}
+                        label={meta.message}
+                        value={value.metadata[meta.name] || ''}
+                        onChange={(e) =>
+                          updateMetadata({ [meta.name]: e.target.value })
+                        }
+                        disabled={disabled}
+                        required={meta.required}
+                        items={dropdownCountries}
+                      />
+                    )}
+                </StyledFormGroup>
+              </Fragment>
+            ))}
+        </StyledFormSection>
+      </Section>
 
       {!!fields.operational && (
         <>
@@ -412,41 +416,43 @@ const MetadataFields = ({
       {!!fields.marketing && (
         <>
           <Divider type="doubledashed" />
-          <StyledFormSection>
-            <StyledFormSectionTitle>Marketing opt-ins</StyledFormSectionTitle>
-            <StyledFormGroup>
-              <legend>
-                Do you wish to accept marketing opt-ins?{' '}
-                <small>[optional]</small>
-                <span>Select all that apply</span>
-              </legend>
+          <Section>
+            <StyledFormSection>
+              <StyledFormSectionTitle>Marketing opt-ins</StyledFormSectionTitle>
+              <StyledFormGroup>
+                <legend>
+                  Do you wish to accept marketing opt-ins?{' '}
+                  <small>[optional]</small>
+                  <span>Select all that apply</span>
+                </legend>
 
-              <StyledFormRow $columns={2}>
-                {fields.marketing.map((meta) => (
+                <StyledFormRow $columns={2}>
+                  {fields.marketing.map((meta) => (
+                    <CheckRadio
+                      key={meta.name}
+                      title={meta.title}
+                      message={meta.message}
+                      name={meta.name}
+                      onChange={(e) =>
+                        updateMetadata({ [meta.name]: e.target.checked })
+                      }
+                      checked={value.metadata[meta.name]}
+                      disabled={disabled}
+                    />
+                  ))}
+
                   <CheckRadio
-                    key={meta.name}
-                    title={meta.title}
-                    message={meta.message}
-                    name={meta.name}
-                    onChange={(e) =>
-                      updateMetadata({ [meta.name]: e.target.checked })
-                    }
-                    checked={value.metadata[meta.name]}
+                    title="Don't Email Me"
+                    message="I do not wish to receive any marketing updates from Hacktoberfest’s partners."
+                    name="marketing-disabled"
+                    onChange={marketingOptOut}
+                    checked={marketingOptedOut}
                     disabled={disabled}
                   />
-                ))}
-
-                <CheckRadio
-                  title="Don't Email Me"
-                  message="I do not wish to receive any marketing updates from Hacktoberfest’s partners."
-                  name="marketing-disabled"
-                  onChange={marketingOptOut}
-                  checked={marketingOptedOut}
-                  disabled={disabled}
-                />
-              </StyledFormRow>
-            </StyledFormGroup>
-          </StyledFormSection>
+                </StyledFormRow>
+              </StyledFormGroup>
+            </StyledFormSection>
+          </Section>
         </>
       )}
 

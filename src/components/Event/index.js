@@ -1,27 +1,45 @@
 import ContentMaster from 'components/ContentMaster';
-import { StyledEvent, StyledContent, StyledRSVP } from './Event.styles';
+import {
+  StyledEvent,
+  StyledEventContent,
+  StyledContent,
+  StyledRSVP,
+} from './Event.styles';
 import { MarkdownInline } from 'components/markdown';
+import ButtonMain from 'components/ButtonMain';
 
 const Event = (props) => {
-  const { eyebrow, title, content, date, time, rsvp } = props;
+  const { eyebrow, title, content, date, time, rsvp, buttonVariant } = props;
   return (
     <StyledEvent>
-      <ContentMaster size="lg" eyebrow={eyebrow} title={title} titleTag="h3" />
+      <StyledEventContent>
+        <ContentMaster
+          size="lg"
+          eyebrow={eyebrow}
+          title={title}
+          titleTag="h3"
+          hasCaret={false}
+        />
 
-      <StyledContent>
-        <MarkdownInline string={content} />
-      </StyledContent>
+        <StyledContent>
+          <MarkdownInline string={content} />
 
-      <ul>
-        {date && <li>Date: {date}</li>}
-        {time && <li>Time: {time}</li>}
-      </ul>
-
+          <ul>
+            {date && <li>Date: {date}</li>}
+            {time && <li>Time: {time}</li>}
+          </ul>
+        </StyledContent>
+      </StyledEventContent>
       <StyledRSVP $missing={!rsvp}>
         {rsvp ? (
-          <a href={rsvp.href} target="_blank" rel="noreferrer noopener">
+          <ButtonMain
+            variant={buttonVariant ? buttonVariant : 'primary-black'}
+            href={rsvp.href}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             {rsvp.text || 'Register'}
-          </a>
+          </ButtonMain>
         ) : (
           'Coming Soon'
         )}

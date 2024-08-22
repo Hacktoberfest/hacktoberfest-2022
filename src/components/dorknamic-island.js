@@ -16,30 +16,6 @@ const loadAnimation = (x) => keyframes`
   }
 `;
 
-const flickerAnimation = keyframes`
-  0% {
-    opacity: 1;
-  }
-  18% {
-    opacity: 1;
-  }
-  19% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 1;
-  }
-  96% {
-    opacity: 1;
-  }
-  97% {
-    opacity: 0;
-  }
-  98% {
-    opacity: 1;
-  }
-`;
-
 const textAnimation = keyframes`
   25% {
     content: "";
@@ -56,12 +32,10 @@ const textAnimation = keyframes`
 `;
 
 const StyledInit = styled.p`
-  font-family: 'JetBrains Mono', monospace;
-  font-variant-ligatures: none;
   width: 68px;
   user-select: none;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 500;
 
   &:after {
     content: '...';
@@ -96,24 +70,25 @@ const StyledNav = styled.nav`
 
   a {
     ${body16};
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.neutral.manga300};
+    font-weight: 500;
     text-transform: uppercase;
     width: auto;
+    text-decoration: none;
+    line-height: 30px;
 
     &:hover,
     &:focus {
-      color: ${({ theme }) => theme.colors.neutral.manga200};
+      text-decoration: underline;
     }
   }
 `;
 
 const StyledIsland = styled.div`
-  background: ${({ theme }) => theme.colors.neutral.void200};
+  background: ${({ theme }) => theme.colors.darkGreen};
   width: 200px;
   max-width: 1280px;
   border-radius: 100px;
-  box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.neutral.manga400};
+  box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.green};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,7 +119,7 @@ const StyledIsland = styled.div`
 const StyledButton = styled.button`
   align-items: center;
   align-self: flex-end;
-  border: 1px solid ${({ theme }) => theme.colors.neutral.manga400};
+  border: 1px solid ${({ theme }) => theme.colors.green};
   border-radius: 6px;
   display: none;
   height: 40px;
@@ -166,7 +141,7 @@ const StyledButton = styled.button`
     content: '';
     width: 60%;
     height: 2px;
-    background: ${({ theme }) => theme.colors.neutral.manga300};
+    background: ${({ theme }) => theme.colors.green};
     z-index: 2;
     transition: 200ms ease;
   }
@@ -196,6 +171,7 @@ const StyledWrapper = styled.div`
   --bez: cubic-bezier(0.5, 0, 0.5, 1.5);
   --bez2: cubic-bezier(0.5, -0.5, 0.2, 1.6);
   width: 100%;
+  color: ${({ theme }) => theme.colors.typography};
   display: flex;
   justify-content: center;
   position: fixed;
@@ -251,7 +227,7 @@ const DorknamicIsland = (props) => {
           wrapper.current.style.top = '40px';
           wrapper.current.style.bottom = 'auto';
           hamburger.current.style.display = 'none';
-          island.current.style.padding = '24px 40px';
+          island.current.style.padding = '30px 40px';
           setOpen(false);
         } else {
           if (wrapper.current.classList.contains('top') === true) {
@@ -265,7 +241,7 @@ const DorknamicIsland = (props) => {
           setOpen(true);
         }
 
-        island.current.style.borderRadius = '16px';
+        island.current.style.borderRadius = '24px';
         island.current.style.width = '100%';
 
         init.current.style.display = 'none';

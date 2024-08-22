@@ -23,11 +23,8 @@ export const StyledAccordion = styled.details`
   ${({ $isFilled, theme }) =>
     $isFilled &&
     `
-    border-radius: 40px;
-    border: 1px solid ${theme.colors.neutral.manga400};
+    border: 1px solid ${theme.colors.black};
     padding: 48px 24px;
-    background: ${theme.card.bg};
-    backdrop-filter: blur(5px);
 
     ${mQ(bp.tablet)} {
       padding: 48px 64px;
@@ -38,7 +35,6 @@ export const StyledAccordion = styled.details`
     position: relative;
     list-style: none;
     cursor: pointer;
-    color: ${({ theme }) => theme.colors.neutral.manga200};
 
     ${mQ(bp.tablet)} {
       padding-right: 60px;
@@ -61,9 +57,9 @@ export const StyledAccordion = styled.details`
       width: 44px;
       position: absolute;
       right: 0;
-      color: ${({ theme }) => theme.colors.neutral.manga300};
+      color: ${({ theme }) => theme.colors.black};
       letter-spacing: 2px;
-      font-weight: 700;
+      font-weight: 500;
       text-indent: 2px;
       content: '${({ open }) => (open ? '[-]' : '[+]')}';
       transition:
@@ -93,10 +89,10 @@ export const StyledAccordion = styled.details`
 
     &:hover {
       &::after {
-        color: ${({ theme }) => theme.colors.bavarian.blue200};
+        color: ${({ theme }) => theme.colors.deepPink};
         text-shadow:
-          1px 1px 10px rgba(236, 66, 55, 0.5),
-          -1px -1px 10px rgba(255, 251, 164, 0.5);
+          1px 1px 10px ${({ theme }) => theme.colors.pink},
+          -1px -1px 10px ${({ theme }) => theme.colors.pink};
         letter-spacing: 4px;
         text-indent: 4px;
         transform: translateY(-50%);
@@ -104,25 +100,6 @@ export const StyledAccordion = styled.details`
 
         @media (prefers-reduced-motion) {
           animation-play-state: paused;
-        }
-      }
-    }
-  }
-
-  &[open] {
-    summary {
-      &::before {
-        letter-spacing: 4px;
-        text-indent: 4px;
-        transition-delay: 0s;
-      }
-
-      &:hover {
-        &::before {
-          color: ${({ theme }) => theme.colors.bavarian.blue200};
-          letter-spacing: 1px;
-          text-indent: 1px;
-          animation: none;
         }
       }
     }
@@ -149,6 +126,8 @@ export const StyledAccordion = styled.details`
 `;
 
 export const StyledAccordionHeader = styled.div`
+  color: ${({ theme }) => theme.colors.black};
+
   ${mQ(bp.tablet)} {
     display: grid;
     grid-template-columns: 240px 1fr;
@@ -171,13 +150,6 @@ export const StyledAccordionImageWrapper = styled.div`
     margin-bottom: 0;
     width: 100%;
   }
-
-  svg {
-    grid-row: 1/-1;
-    grid-column: 1/-1;
-    width: 100%;
-    height: auto;
-  }
 `;
 
 export const StyledAccordionImage = styled.div`
@@ -188,14 +160,23 @@ export const StyledAccordionImage = styled.div`
   width: 100%;
   width: 83.33333333%;
 
-  ${({ $rotate }) =>
-    $rotate === 'left'
-      ? `
-    transform: rotate(-14deg);
-  `
-      : `
-    transform: rotate(14deg);
-  `}
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    background-color: ${({ theme }) => theme.colors.deepPink};
+    clip-path: polygon(
+      0 0,
+      calc(100% - 20px) 0,
+      100% 20px,
+      100% 100%,
+      20px 100%,
+      0 calc(100% - 20px)
+    );
+  }
 
   &::after {
     content: '';
@@ -210,9 +191,8 @@ export const StyledAccordionImage = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 16px;
-    border: 1px solid ${({ theme }) => theme.colors.neutral.manga400};
-    background-color: #000;
+    border: 1px solid ${({ theme }) => theme.colors.typography};
+    background-color: #fff;
   }
 `;
 

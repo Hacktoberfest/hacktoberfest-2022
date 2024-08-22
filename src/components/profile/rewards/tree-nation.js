@@ -21,10 +21,7 @@ const TreeNation = ({ code }) => {
   if (!claim || !certificate) return null;
 
   return (
-    <Notification
-      title="Rewards: Tree-Nation Tree"
-      color={theme.colors.bavarian.gold200}
-    >
+    <Notification title="Rewards: Tree-Nation Tree" color={theme.colors.black}>
       <p>
         Congratulations on completing your first accepted PR/MR! As a thank you,{' '}
         <b>we've planted a tree on your behalf</b> with Tree-Nation.

@@ -1,24 +1,16 @@
-import foundersIlla from 'assets/img/founders/illa.svg';
-import foundersHeroIlla from 'assets/img/founders/illa-hero.svg';
-import foundersAppwrite from 'assets/img/founders/appwrite.svg';
-import foundersHeroAppwrite from 'assets/img/founders/appwrite-hero.svg';
 import foundersDigitalOcean from 'assets/img/founders/digitalocean.svg';
 import foundersHeroDigitalOcean from 'assets/img/founders/digitalocean-hero.svg';
 
-import contributorsAmplication from 'assets/img/contributors/amplication.png';
-import contributorsHeroAmplication from 'assets/img/contributors/amplication-hero.svg';
+import advocatesTwilio from 'assets/img/advocates/twilio.svg';
+import advocatesHeroTwilio from 'assets/img/advocates/twilio-hero.svg';
+import advocatesCloudflare from 'assets/img/advocates/cloudflare.svg';
+import advocatesHeroCloudflare from 'assets/img/advocates/cloudflare-hero.svg';
 
-import sustainersRunme from 'assets/img/sustainers/runme.png';
-import sustainersHeroRunme from 'assets/img/sustainers/runme-hero.svg';
-import sustainersOpensauced from 'assets/img/sustainers/opensauced.png';
-import sustainersHeroOpensauced from 'assets/img/sustainers/opensauced-hero.svg';
+import sustainersQuira from 'assets/img/sustainers/quira.svg';
+import sustainersHeroQuira from 'assets/img/sustainers/quira-hero.svg';
 
-import partnersTreeNation from 'assets/img/partners/tree_nation.png';
-import partnersTreeNationHero from 'assets/img/partners/tree_nation-hero.svg';
 import partnersMLH from 'assets/img/partners/mlh.png';
 import partnersMLHHero from 'assets/img/partners/mlh-hero.svg';
-import partnersHuggingFace from 'assets/img/partners/hugging_face.png';
-import partnersHuggingFaceHero from 'assets/img/partners/hugging_face-hero.svg';
 import partnersHolographic from 'assets/img/partners/holographic.png';
 import partnersHolographicHero from 'assets/img/partners/holographic-hero.svg';
 import partnersGitlab from 'assets/img/partners/gitlab.png';
@@ -27,12 +19,6 @@ import partnersGithub from 'assets/img/partners/github.png';
 import partnersGithubHero from 'assets/img/partners/github-hero.svg';
 import partnersGithubEducation from 'assets/img/partners/github_education.png';
 import partnersGithubEducationHero from 'assets/img/partners/github_education-hero.svg';
-import partnersDev from 'assets/img/partners/dev.png';
-import partnersDevHero from 'assets/img/partners/dev-hero.svg';
-import partnersDagshub from 'assets/img/partners/dagshub.png';
-import partnersDagshubHero from 'assets/img/partners/dagshub-hero.svg';
-import partnersPaperspace from 'assets/img/partners/paperspace.png';
-import partnersPaperspaceHero from 'assets/img/partners/paperspace-hero.svg';
 
 export const founders = [
   {
@@ -50,90 +36,59 @@ export const founders = [
       image: foundersHeroDigitalOcean.src,
     },
   },
-  {
-    image: foundersIlla.src,
-    title: 'ILLA Cloud',
-    content:
-      'ILLA Cloud is an open source low-code developer tool with AI Agent features.',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://bit.ly/3QXPxq1',
-      title: 'Visit ILLA Cloud',
-    },
-    hero: {
-      image: foundersHeroIlla.src,
-    },
-  },
-  {
-    image: foundersAppwrite.src,
-    title: 'Appwrite',
-    content:
-      'Appwrite is a backend platform for developing Web, Mobile, and Flutter applications. Built with the open source community and optimized for developer experience in the coding languages you love.',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://apwr.dev/485T4bQ',
-      title: 'Visit Appwrite',
-    },
-    hero: {
-      image: foundersHeroAppwrite.src,
-    },
-  },
 ];
 
-export const contributors = [
+export const advocate = [
   {
-    image: contributorsAmplication.src,
-    title: 'Amplication',
-    content:
-      'Amplication is the most flexible open-source backend development platform that saves engineers from repetitive coding tasks and long development cycles. Amplication accelerates development of any application, generating fully-functioning backend in minutes while solving production delaying issues.',
+    image: advocatesTwilio.src,
+    title: 'Twilio',
+    content: 'Need content',
     link: {
       target: '_blank',
       rel: 'noreferrer noopener',
-      href: 'http://www.amplication.com/',
-      title: 'Visit Amplication',
+      href: 'https://www.twilio.com',
+      title: 'Visit Twilio',
     },
     hero: {
-      image: contributorsHeroAmplication.src,
+      image: advocatesHeroTwilio.src,
+    },
+  },
+  {
+    image: advocatesCloudflare.src,
+    title: 'Cloudflare',
+    content:
+      "Cloudflare, Inc. is the leading connectivity cloud company on a mission to help build a better Internet. It empowers organizations to create an application modernization and AI strategy to consume, build, protect, and defend at scale. Cloudflare's developer platform gives you a rich ecosystem of foundational technology built on open source and open standards. Your architecture choices shouldn't be tied to a single vendor ecosystem. When you have the freedom to choose, you're freed from costly cloud bills, sys-admin challenges, and configuration hassles freeing you to build the next big thing.",
+    link: {
+      target: '_blank',
+      rel: 'noreferrer noopener',
+      href: 'https://www.cloudflare.com/developer-platform/products/',
+      title: 'Visit Cloudflare',
+    },
+    hero: {
+      image: advocatesHeroCloudflare.src,
     },
   },
 ];
 
 export const sustainer = [
   {
-    image: sustainersRunme.src,
-    title: 'Runme',
+    image: sustainersQuira.src,
+    title: 'Quira',
     content:
-      'Runme is an open source project that enables devs to run markdown documentation as an interactive runbook, either in VS Code or the terminal. You can also avoid bit-rot by testing your markdown in CI/CD and enjoy a number of integrations to get better UX for the services and infrastructure your repo interfaces with.',
+      'Quira designs asynchronous online challenges that reward you for contributing to open source. Want to take your Hacktoberfest experience to the next level? Visit [https://quira.sh/](https://quira.sh/) and join our community of over fifty thousand contributors, creators, and tinkerers, who are learning new skills and earning rewards by playing with the dev-tools of the future.',
     link: {
       target: '_blank',
       rel: 'noreferrer noopener',
-      href: 'https://runme.dev/',
-      title: 'Visit Runme',
+      href: 'https://quira.sh/',
+      title: 'Visit Quira',
     },
     hero: {
-      image: sustainersHeroRunme.src,
-    },
-  },
-  {
-    image: sustainersOpensauced.src,
-    title: 'OpenSauced',
-    content:
-      'OpenSauced provides a path to your next contribution. Join the global community of open source developers sharing highlights of their contributions and receiving recommendations for projects to work on.',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://opensauced.pizza/',
-      title: 'Visit OpenSauced',
-    },
-    hero: {
-      image: sustainersHeroOpensauced.src,
+      image: sustainersHeroQuira.src,
     },
   },
 ];
 
-export const sponsors = [...founders, ...contributors, ...sustainer];
+export const sponsors = [...founders, ...advocate, ...sustainer];
 
 export const partners = [
   {
@@ -155,11 +110,11 @@ export const partners = [
     image: partnersMLH.src,
     title: 'Major League Hacking',
     content:
-      'Major League Hacking (MLH) is the official student hackathon league. Each year, we power over 300 weekend-long invention competitions that inspire innovation, cultivate communities and teach computer science skills to more than 500,000 developers around the world. MLH is an engaged and passionate maker community, consisting of the next generation of technology leaders and entrepreneurs. MLH has been a community first, mission driven organization from the beginning. We measure our success by the number of hackers we empower, and we want to keep it that way. That’s why we made it official and became a Certified B Corporation in 2016. B Corps are for-profit enterprises that are legally required to consider the impact of their decisions on their community, not just their shareholders.\n\n' +
+      'Founded in 2013, Major League Hacking (MLH) is the global student hacker community and a Public Benefit Corporation that empowers the next generation of technology creators with programs that help them build real world skills and learn about leading developer platforms and APIs in a community oriented environment. Each year, MLH facilitates hundreds of weekend-long invention competitions called hackathons, supports campus clubs and meetups, trains developers on in-depth skills in the MLH Fellowship, and hosts thousands of developers from around the world in the monthly series of Global Hack Week events. These programs serve more than 150,000 developers a year across 90 countries.\n\n' +
       ' - Have a question about MLH? Head over to [our FAQ](https://mlh.io/faq) to find some answers to common questions.\n' +
-      ' - Global Hack Week website: [https://hackp.ac/mlh-hacktoberfest](https://hackp.ac/mlh-hacktoberfest)\n' +
-      ' - Global Hack Week Open Source landing page: [https://hackp.ac/ghw-opensource](https://hackp.ac/ghw-opensource)\n' +
-      ' - Global Hack Week Open Source registration page: [https://hackp.ac/ghw-opensource-registration](https://hackp.ac/ghw-opensource-registration)',
+      ' - Global Hack Week website: [https://mlh.link/mlh-hacktoberfest](https://mlh.link/mlh-hacktoberfest)\n' +
+      ' - Global Hack Week Open Source landing page: [https://mlh.link/ghw-opensource](https://mlh.link/ghw-opensource)\n' +
+      ' - Global Hack Week Open Source registration page: [https://mlh.link/ghw-opensource-registration](https://mlh.link/ghw-opensource-registration)',
     link: {
       target: '_blank',
       rel: 'noreferrer noopener',
@@ -168,24 +123,6 @@ export const partners = [
     },
     hero: {
       image: partnersMLHHero.src,
-    },
-  },
-  {
-    image: partnersTreeNation.src,
-    title: 'Tree Nation',
-    content:
-      'Our mission is to reforest the world. Planting trees has been proven to be one of the most efficient solutions to fight Climate Change. Thanks to our reforestation and conservation projects we help to restore forests, create jobs, support local communities and protect biodiversity. Through the Tree-Nation platform we aim to bring a technological solution to the problem of Deforestation, responsible for about 17% of all Climate Change emissions. We want to use technology to make tree planting easy and provide support, advice and solutions to citizens and companies to help them transition towards a sustainable future. With 85% of all terrestrial species living in tropical forests, whose existences are intrinsically bound to the forests, their habitat, we care to restore and preserve the biodiversity to help avoid a mass extinction. To learn more, visit:\n\n' +
-      ' - [https://tree-nation.com/projects](https://tree-nation.com/projects)\n' +
-      ' - [https://tree-nation.com/about-us](https://tree-nation.com/about-us)\n' +
-      ' - [https://tree-nation.com/why-plant-trees](https://tree-nation.com/why-plant-trees)',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://tree-nation.com/',
-      title: 'Visit Tree Nation',
-    },
-    hero: {
-      image: partnersTreeNationHero.src,
     },
   },
   {
@@ -223,9 +160,9 @@ export const partners = [
     image: partnersGitlab.src,
     title: 'GitLab',
     content:
-      'GitLab is the most comprehensive AI-powered DevSecOps platform for software innovation. GitLab enables organizations to increase developer productivity, improve operational efficiency, reduce security and compliance risk, and accelerate digital transformation. More than 30 million registered users and more than 50% of the Fortune 100 trust GitLab to ship better, more secure software faster.\n' +
-      ' - [Contribute to GitLab](https://go.gitlab.com/n5kZ02)\n' +
-      ' - [Browse the GitLab project](https://go.gitlab.com/eXuRd0)',
+      'GitLab is the most comprehensive AI-powered DevSecOps platform for software innovation. GitLab enables organizations to increase developer productivity, improve operational efficiency, reduce security and compliance risk, and accelerate digital transformation. More than 30 million registered users and more than 50% of the Fortune 100 trust GitLab to ship better, more secure software faster. Join 4,000+ contributors in GitLab’s open source community.\n' +
+      ' - [Contribute to GitLab](https://about.gitlab.com/community/contribute/)\n' +
+      ' - [Browse the GitLab project](https://gitlab.com/gitlab-org/gitlab)',
     link: {
       target: '_blank',
       rel: 'noreferrer noopener',
@@ -234,72 +171,6 @@ export const partners = [
     },
     hero: {
       image: partnersGitlabHero.src,
-    },
-  },
-  {
-    image: partnersDev.src,
-    title: 'DEV',
-    content:
-      'DEV is an inclusive community of software developers sharing coding resources and advice. DEV is built on [Forem](https://forem.com/), an open source software we designed to empower communities.\n\n' +
-      '[DEV Pro Tools](https://pro.forem.tools/?utm_source=hacktoberfest&utm_medium=hf&utm_campaign=hf2023) unlocks advanced functionality for DEV Organization pages. Organizations can get advanced analytics, exclusive advertising access, and adjustable CTAs on your articles. Access is currently for organizations, with plans to welcome individual accounts later in 2023.',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://dev.to/?utm_source=hacktoberfest&utm_medium=hf&utm_campaign=hf2023',
-      title: 'Visit DEV',
-    },
-    hero: {
-      image: partnersDevHero.src,
-    },
-  },
-  {
-    image: partnersDagshub.src,
-    title: 'DagsHub',
-    content:
-      'DagsHub is where people build machine learning projects. A centralized platform to host all ML project components such as code, data, models, experiments, annotations, and more with zero DevOps required. Built on top of popular open-source tools, DagsHub does the heavy lifting for you, so you can focus on creating better models.',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://dagshub.com/lp/hacktoberfest-23/?utm_source=digital_ocean&utm_medium=website&utm_campaign=hacktoberfest_23',
-      title: 'Visit DagsHub',
-    },
-    hero: {
-      image: partnersDagshubHero.src,
-    },
-  },
-  {
-    image: partnersHuggingFace.src,
-    title: 'Hugging Face',
-    content:
-      'Hugging Face is the ML community platform where people collaborate on sharing models, datasets, and ML apps. The community can find hundreds of thousands of models for all kinds of tasks, such as image and text generation, build their ML portfolios, and find open-source tools to train, share and deploy their own models.\n\n' +
-      'Want to contribute to Hugging Face? Contributions to these repositories are always welcome:\n\n' +
-      ' - [https://github.com/huggingface/transformers/](https://github.com/huggingface/transformers/)\n' +
-      ' - [https://github.com/huggingface/datasets](https://github.com/huggingface/datasets)\n' +
-      ' - [https://github.com/huggingface/diffusers](https://github.com/huggingface/diffusers)\n' +
-      ' - [https://github.com/huggingface/peft](https://github.com/huggingface/peft)',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'http://hf.co',
-      title: 'Visit Hugging Face',
-    },
-    hero: {
-      image: partnersHuggingFaceHero.src,
-    },
-  },
-  {
-    image: partnersPaperspace.src,
-    title: 'Paperspace',
-    content:
-      'Paperspace, a leading provider of cloud infrastructure for highly scalable GPU-accelerated applications, is [now part of DigitalOcean](https://www.digitalocean.com/blog/paperspace-joins-digitalocean). Paperspace brings a host of new compute potential to DigitalOcean’s offerings, which means you get even more reliability and a platform from which to access cloud GPU-powered machines for nearly any task. Get the power to train deep learning models, build next-gen applications, and run resource-intensive projects like Stable Diffusion or LLaMA—the future is at your fingertips with [Paperspace by DigitalOcean](http://paperspace.com/?utm_medium=referral&utm_source=hacktoberfest).',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://www.paperspace.com/?utm_medium=referral&utm_source=hacktoberfest',
-      title: 'Visit Paperspace',
-    },
-    hero: {
-      image: partnersPaperspaceHero.src,
     },
   },
 ];

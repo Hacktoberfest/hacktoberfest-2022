@@ -23,14 +23,12 @@ export const StyledLabel = styled.label`
       width: 16px;
       height: 16px;
       flex-shrink: 0;
-      accent-color: ${({ theme }) => theme.colors.bavarian.blue200};
+      accent-color: ${({ theme }) => theme.colors.deepPink};
     }
 
     > p {
       margin: 0 !important; // Some section somewhere is using classes to get higher precedence
       ${body20};
-      text-transform: uppercase;
-      font-weight: 600;
     }
   }
 

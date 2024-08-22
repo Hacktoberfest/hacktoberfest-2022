@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
@@ -11,7 +11,7 @@ import {
   headline32,
   headline48,
   headline56,
-  headline88,
+  headline90,
 } from 'themes/typography';
 
 export const StyledContentMaster = styled.div`
@@ -33,21 +33,25 @@ export const StyledContentMasterHeader = styled.div`
 `;
 
 export const StyledContentMasterEyebrow = styled.p`
-  color: ${({ theme }) => theme.colors.bavarian.red200};
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: lowercase;
 
   ${({ $size }) => ($size === 'xl' || $size === 'lg') && body20};
   ${({ $size }) => ($size === 'md' || $size === 'sm') && body16};
 `;
 
 export const StyledContentMasterTitle = styled.h2`
-  font-weight: 800;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.neutral.manga200};
+  font-weight: 400;
   margin: 0;
+  color: ${({ $hasCaret, theme }) =>
+    $hasCaret ? theme.colors.cream : 'inherit'};
 
-  ${({ $size }) => $size === 'xl2' && headline88};
+  strong {
+    color: ${({ theme }) => theme.colors.green};
+    font-weight: 400;
+  }
+
+  ${({ $size }) => $size === 'xl2' && headline90};
   ${({ $size }) => $size === 'xl' && headline56};
   ${({ $size }) => $size === 'lg' && headline48};
   ${({ $size }) => $size === 'md' && headline32};
@@ -55,15 +59,16 @@ export const StyledContentMasterTitle = styled.h2`
 `;
 
 export const StyledContentMasterBody = styled.div`
-  color: ${({ theme }) => theme.colors.neutral.manga300};
-
   p,
   li {
-    ${({ $size }) => $size === 'xl2' && body24};
-    ${({ $size }) => $size === 'xl' && body24};
-    ${({ $size }) => $size === 'lg' && body24};
-    ${({ $size }) => $size === 'md' && body20};
-    ${({ $size }) => $size === 'sm' && body16};
+    ${body16};
+    ${mQ(bp.desktop)} {
+      ${({ $size }) => $size === 'xl2' && body24};
+      ${({ $size }) => $size === 'xl' && body20};
+      ${({ $size }) => $size === 'lg' && body24};
+      ${({ $size }) => $size === 'md' && body20};
+      ${({ $size }) => $size === 'sm' && body16};
+    }
   }
 
   p {
@@ -87,17 +92,14 @@ export const StyledContentMasterBody = styled.div`
   }
 
   strong {
-    color: ${({ theme }) => theme.colors.bavarian.gold200};
     font-weight: 700;
   }
 
   a {
-    color: ${({ theme }) => theme.colors.bavarian.blue200};
     text-decoration: underline;
     text-underline-offset: 4px;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.bavarian.blue200};
       text-decoration: none;
     }
   }
@@ -112,7 +114,7 @@ export const StyledContentMasterLinks = styled.ul`
 `;
 
 export const StyledContentMasterCta = styled.div`
-  padding: 24px 0 0;
+  padding: 0;
 `;
 
 export const StyledContentMasterList = styled.ul`
@@ -138,22 +140,21 @@ export const StyledContentMasterList = styled.ul`
   `};
 
   li {
-    ${body20};
-    color: ${({ theme }) => theme.colors.neutral.manga300};
+    ${body16};
+    ${mQ(bp.desktop)} {
+      ${body20};
+    }
   }
 
   strong {
-    color: ${({ theme }) => theme.colors.bavarian.gold200};
     font-weight: 700;
   }
 
   a {
-    color: ${({ theme }) => theme.colors.bavarian.blue200};
     text-decoration: underline;
     text-underline-offset: 4px;
 
     &:hover {
-      color: ${({ theme }) => theme.colors.bavarian.blue200};
       text-decoration: none;
     }
   }

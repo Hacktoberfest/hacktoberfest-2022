@@ -2,6 +2,21 @@ import { createGlobalStyle } from 'styled-components';
 
 export const mainTheme = {
   colors: {
+    darkGreen: '#183717',
+    green: '#50DA4C',
+    lightGreen: '#D8FFD8',
+    paleGreen: '#ADEDAD',
+
+    pink: '#FF8BFF',
+    deepPink: '#C401C4',
+    lightPink: '#FFDBFF',
+
+    black: '#1C1C1C',
+    light: '#FEFDF8',
+    cream: '#F3F0E0',
+    typography: '#F3F0E0',
+    error: '#EC4237',
+
     neutral: {
       manga200: '#EFEDEF',
       manga300: '#C3BCC3',
@@ -23,32 +38,12 @@ export const mainTheme = {
       red400: '#460A07',
     },
   },
-  gradients: {
-    metal: {
-      blueDark: '',
-      blueLight:
-        'linear-gradient(180deg, #B2E3F0 0%, #EFEDEF 48.44%, #0C3640 48.45%, #33B6D8 100%)',
-      wordmarkGold: '',
-      logomarkGoldLight: '',
-      logomarkGoldDark: '',
-      wordmarkVoid: '',
-      wordmarkManga: '',
-    },
-  },
-  card: {
-    stroke: '',
-    bg: 'linear-gradient(156deg, rgba(239, 237, 239, 0.04) 0%, rgba(0, 0, 0, 0.04) 92.30%)',
-  },
-  border: {
-    active: '',
-    cards: '',
-  },
 };
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background: ${({ theme }) => theme.colors.neutral.void200};
-    color: ${({ theme }) => theme.colors.neutral.manga200};
+    background: ${({ theme }) => theme.colors.cream};
+    color: ${({ theme }) => theme.colors.dark};
   }
 
   h1, h2, h3, h4, h5, h6, p, label {
@@ -56,12 +51,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${({ theme }) => theme.colors.bavarian.blue200};
+    text-decoration: underline;
     transition: color 0.2s ease;
 
     &:hover,
     &:focus-visible {
-      color: ${({ theme }) => theme.colors.bavarian.blue300};
+      text-decoration: none;
     }
   }
 `;

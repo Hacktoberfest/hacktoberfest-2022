@@ -49,45 +49,35 @@ const profileEndDate = new Date(profileEnd).toLocaleString('en-US', {
 });
 const year = new Date(registrationStart).getFullYear();
 
-export const values = {
-  title: 'Values',
-  sections: [
-    {
-      title: 'Everyone is welcome',
-      collapsible: true,
-      collapsed: true,
-      content:
-        "Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome anyone who is interested in diving in, and everyone who's already part of the open-source software community.",
-    },
-    {
-      title: 'Quantity is fun, quality is key',
-      collapsible: true,
-      collapsed: true,
-      content:
-        'Participating in Hacktoberfest leads to personal growth, professional opportunities, and community building. But it all begins with meaningful contributions to open-source software. We’re committed to prioritizing quality contributions as outlined in our participation rules.',
-    },
-    {
-      title: 'Short-term action, long-term impact',
-      collapsible: true,
-      collapsed: true,
-      content:
-        'In the open-source community, we stand on the shoulders of project maintainers and those who came before us. Your participation has a lasting effect on people and technology long after October. Your participation helps build the future of the internet.',
-    },
-  ],
-};
+export const values = [
+  {
+    title: 'Everyone is welcome',
+    content:
+      "Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome anyone who is interested in diving in, and everyone who's already part of the open-source software community.",
+  },
+  {
+    title: 'Quantity is fun, quality is key',
+    content:
+      'Participating in Hacktoberfest leads to personal growth, professional opportunities, and community building. But it all begins with meaningful contributions to open-source software. We’re committed to prioritizing quality contributions as outlined in our participation rules.',
+  },
+  {
+    title: 'Short-term action, long-term impact',
+    content:
+      'In the open-source community, we stand on the shoulders of project maintainers and those who came before us. Your participation has a lasting effect on people and technology long after October. Your participation helps build the future of the internet.',
+  },
+];
 
 export const contributors = {
   title: 'Participating in Hacktoberfest',
   sections: [
     {
-      title:
+      content:
         'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
         `Register anytime between **${registrationStartDate}** and **${registrationEndDate}**`,
-        'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
-        'Project maintainers must accept your pull/merge requests for them to count toward your total',
-        'The first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through Tree Nation',
-        `Participants with four pull/merge requests accepted between ${trackingStartDate} and ${trackingEndDate} will receive a unique digital reward`,
+        'Pull/merge requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
+        `Aim to submit four high-quality pull/merge requests between ${trackingStartDate} and ${trackingEndDate}, with project maintainers accepting your pull/merge requests for them to count toward your total`,
+        'You’ll unlock a digital badge when you register for Hacktoberfest, and level it up with each of your four pull/merge requests accepted during Hacktoberfest',
       ],
     },
   ],
@@ -271,7 +261,7 @@ export const spam = {
             " - Disruptive pull/merge requests: taking someone else's branch/commits and making a pull request.\n" +
             ' - Anything that a project maintainer flags as spam.\n' +
             ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
-            ' - Multiple pull/merge requests for the same issue that are unnecessary, for example five PR/MRs to remove a stray whitespace.',
+            ' - Multiple pull/merge requests for the same issue that are unnecessary, for example four PR/MRs to remove a stray whitespace.',
         },
       ],
     },
@@ -294,18 +284,54 @@ export const maintainers = {
         'Reject any spammy requests you receive by labeling them as “**spam,**” and any other invalid contributions by closing them or labeling them as “**invalid.**”',
       ],
     },
+  ],
+};
+
+export const lowNoCode = {
+  title: 'Low or Non Code Contributions',
+  content:
+    "At its core, Hacktoberfest aims to encourage more people to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don't involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year's effort, we're committed to promoting contributions that don't require technical knowledge. Visit GitHub’s [The ReadMe Project](https://github.com/readme/featured/open-source-non-code-contributions) to learn more",
+  sections: [
     {
-      title: 'Reward for Maintainers',
+      title: 'Low or Non Code Contributions',
       content:
-        `The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest ${year} reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n` +
+        '[Low-code and non-code contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source) are an excellent way to get involved in supporting open source. Here are some examples of ways you can contribute to open-source projects:',
+      lists: [
+        'Technical documentation',
+        'User experience testing',
+        'Technical blog post or tutorial',
+        'Case studies',
+      ],
+    },
+    {
+      title: 'Non-Code Contributions:',
+      lists: [
+        'Writing',
+        'Translating',
+        'Copy editing',
+        'Talks or presentations',
+        'Event organization',
+        'Podcasts',
+        'Social media',
+        'Blog posts',
+        'Video production',
+        'Graphic design',
+      ],
+    },
+  ],
+};
+
+export const note = {
+  sections: [
+    {
+      content:
+        "**Note:** If you're submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution.",
+    },
+    {
+      content:
+        'Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n' +
         '\n' +
-        ' - Merge unique PR/MRs\n' +
-        ' - Provide an approving review of a PR/MR\n' +
-        ' - Add the “hacktoberfest-accepted” label\n' +
-        ' - Add any label with the word “invalid” or “spam”\n' +
-        '\n' +
-        '\n' +
-        '_*Reward kits are limited; we will reach out to qualifying maintainers who are selected to receive a Reward Kit after Hacktoberfest ends._',
+        '**For Maintainers:** [How to attract low or non-code contributions](https://www.youtube.com/live/Z7ppp_DrxyM?feature=share).',
     },
   ],
 };
@@ -719,17 +745,4 @@ export const faqs = {
       ],
     },
   ],
-};
-
-export const lowNoCode = {
-  title: 'Low or Non Code Contributions',
-  content:
-    "At its core, Hacktoberfest aims to encourage more individuals to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don't involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year's effort, we're committed to promoting contributions that don't require technical knowledge. Visit GitHub’s [The ReadMe Project](https://github.com/readme/featured/open-source-non-code-contributions) to learn more",
-};
-
-export const note = {
-  content:
-    "**Note:** If you're submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution. Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n" +
-    '\n' +
-    '**For Maintainers:** [How to attract low or non-code contributions](https://www.youtube.com/live/Z7ppp_DrxyM?feature=share).',
 };

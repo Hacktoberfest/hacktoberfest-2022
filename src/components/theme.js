@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { darkTheme, liteTheme, mainTheme } from 'themes/themes';
+import { mainTheme } from 'themes/themes';
 
 const ThemeContext = createContext(() =>
   console.error('Attempted to set theme outside of ThemeContext'),

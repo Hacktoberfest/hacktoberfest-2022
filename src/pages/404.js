@@ -1,22 +1,23 @@
 import Head from 'next/head';
 
 import HeroSecondary from 'components/HeroSecondary';
-import PixelHops from 'components/pixels/PixelHops';
+import ascii404 from 'assets/img/ascii-404.svg';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const FourOFour = () => {
   return (
     <>
       <Head>
-        <title>404 | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('404')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Report | Hacktoberfest 2023"
+          content={createMetaTitle('404')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Report | Hacktoberfest 2023"
+          content={createMetaTitle('404')}
         />
       </Head>
 
@@ -26,8 +27,11 @@ const FourOFour = () => {
           size: 'lg',
           href: '/',
           children: 'Return Home',
+          variant: 'primary-green',
         }}
-        icon={<PixelHops timing="5" />}
+        icon={<img src={ascii404.src} alt="" />}
+        reverse
+        includeDivider={false}
       />
     </>
   );

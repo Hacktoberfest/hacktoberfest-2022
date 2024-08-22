@@ -27,7 +27,6 @@ export const StyledAccordion = styled.details`
     list-style: none;
     cursor: pointer;
     ${headline32};
-    color: ${({ theme }) => theme.colors.neutral.manga200};
     padding-right: 60px;
 
     ${mQ(bp.desktop)} {
@@ -35,7 +34,7 @@ export const StyledAccordion = styled.details`
     }
 
     strong {
-      color: ${({ theme }) => theme.colors.bavarian.red200};
+      color: ${({ theme }) => theme.colors.green};
     }
 
     &::-webkit-details-marker,
@@ -52,7 +51,6 @@ export const StyledAccordion = styled.details`
       position: absolute;
       top: 0;
       right: 0;
-      color: ${({ theme }) => theme.colors.neutral.manga300};
       letter-spacing: 2px;
       font-weight: 700;
       text-indent: 2px;
@@ -73,35 +71,22 @@ export const StyledAccordion = styled.details`
 
     &:hover {
       &::after {
-        color: ${({ theme }) => theme.colors.bavarian.blue200};
-        text-shadow:
-          1px 1px 10px rgba(236, 66, 55, 0.5),
-          -1px -1px 10px rgba(255, 251, 164, 0.5);
         letter-spacing: 4px;
         text-indent: 4px;
         animation: ${rotateAnimation} 0.2s linear;
 
+        ${({ $isDark, theme }) =>
+          $isDark
+            ? `
+          color: ${theme.colors.green};
+        `
+            : `
+          color: ${theme.colors.deepPink};
+          text-shadow: -1px -1px 10px ${theme.colors.pink};
+        `}
+
         @media (prefers-reduced-motion) {
           animation-play-state: paused;
-        }
-      }
-    }
-  }
-
-  &[open] {
-    summary {
-      &::before {
-        letter-spacing: 4px;
-        text-indent: 4px;
-        transition-delay: 0s;
-      }
-
-      &:hover {
-        &::before {
-          color: ${({ theme }) => theme.colors.bavarian.blue200};
-          letter-spacing: 1px;
-          text-indent: 1px;
-          animation: none;
         }
       }
     }

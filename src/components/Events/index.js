@@ -1,18 +1,13 @@
 import Event from 'components/Event';
-import {
-  StyledEvents,
-  StyledEventsTitle,
-  StyledEventsLink,
-} from './Events.styles';
+import { StyledEvents, StyledEventsLink } from './Events.styles';
 import Divider from 'components/Divider';
 import ButtonMain from 'components/ButtonMain';
 
 const Events = (props) => {
-  const { title, events, link } = props;
+  const { events, link } = props;
 
   return (
     <StyledEvents>
-      {title && <StyledEventsTitle>{title}</StyledEventsTitle>}
       <ul>
         {events.map((event) => (
           <li key={event.title}>

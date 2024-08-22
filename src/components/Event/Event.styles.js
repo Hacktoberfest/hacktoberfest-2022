@@ -6,21 +6,44 @@ import {
 
 export const StyledEvent = styled.div`
   display: grid;
-  gap: 12px 24px;
+  gap: 64px;
   grid-template-columns: minmax(0, 1fr);
-  padding: 48px 0;
 
   ${mQ(bp.desktop)} {
     gap: 32px 64px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr max-content;
+  }
+`;
+
+export const StyledEventContent = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
+
+  ${mQ(bp.desktop)} {
+    gap: 64px;
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
 export const StyledContent = styled.div`
-  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: 1lh;
+
+  ${mQ(bp.desktop)} {
+    padding-top: 40px;
+  }
 `;
 
 export const StyledRSVP = styled.p`
-  align-self: end;
   ${({ $missing }) => $missing && `font-style: italic;`}
+
+  ${mQ(bp.desktop)} {
+    text-align: right;
+  }
+
+  a {
+    width: auto;
+  }
 `;

@@ -3,54 +3,56 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import { headline56 } from 'themes/typography';
 
 export const StyledHomeIntro = styled.div`
-  padding: 80px 0;
+  background-color: ${({ theme }) => theme.colors.darkGreen};
+  color: ${({ theme }) => theme.colors.typography};
+  padding: 70px 0;
+  position: relative;
 
   ${mQ(bp.desktop)} {
-    padding: 32px 0 144px;
-  }
-`;
-
-export const StyledHomeIntroContainer = styled.div`
-  align-items: flex-start;
-  display: flex;
-  margin: 0 0 48px;
-  flex-direction: column;
-
-  ${mQ(bp.desktop)} {
-    flex-direction: row;
+    padding: 140px 0;
   }
 
-  > *:first-child {
+  > img {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: rotate(90deg) translateX(-100%);
+    transform-origin: 0 100%;
     display: none;
 
     ${mQ(bp.desktop)} {
       display: block;
-      margin-right: ${(146 / 1280) * 100}%;
     }
   }
+`;
 
-  > *:last-child {
-    ${mQ(bp.desktop - 1, 'max')} {
-      order: -1;
-      margin: 0 auto 48px;
-    }
+export const StyledHomeIntroContainer = styled.div`
+  max-width: 1328px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  gap: 64px;
+  grid-template-columns: 1fr;
 
-    ${mQ(bp.desktop)} {
-      margin-left: auto;
-    }
+  ${mQ(bp.desktop)} {
+    grid-template-columns: 1fr calc((608 / 1280) * 100%);
   }
 `;
 
 export const StyledHomeIntroContent = styled.div`
   ${mQ(bp.desktop)} {
-    max-width: 608px;
-  }
-`;
-export const StyledHomeIntroCallout = styled.div`
-  ${mQ(bp.desktop)} {
-    max-width: 608px;
+    max-width: 474px;
     margin-left: auto;
   }
+
+  h2 {
+    ${headline56};
+  }
+`;
+
+export const StyledHomeIntroCallout = styled.div`
+  color: ${({ theme }) => theme.colors.black};
 `;

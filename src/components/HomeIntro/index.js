@@ -5,27 +5,34 @@ import {
   StyledHomeIntroCallout,
   StyledHomeIntroContainer,
 } from './HomeIntro.styles';
-import Arrow from 'components/Arrow';
-import { useTheme } from 'styled-components';
-import CardCallout from 'components/CardCallout';
 
-const HomeIntro = (props) => {
-  const theme = useTheme();
-  const { children, callout } = props;
+import Countdown from 'components/Countdown';
+import dots from 'assets/img/dots.svg';
 
+const HomeIntro = () => {
   return (
     <StyledHomeIntro>
       <StyledHomeIntroContainer>
-        <Arrow direction="right" color={theme.colors.bavarian.gold100} />
         <StyledHomeIntroContent>
-          <ContentMaster size="xl">{children}</ContentMaster>
+          <ContentMaster
+            title={
+              <>
+                It’s that time of year again. <strong>Hacktoberfest</strong> is
+                nearly upon us!
+              </>
+            }
+            size="xl"
+          >
+            Prepare your projects, brace yourself for action—registration opens
+            September 23, 2024.
+          </ContentMaster>
         </StyledHomeIntroContent>
-        <Arrow />
-      </StyledHomeIntroContainer>
 
-      <StyledHomeIntroCallout>
-        <CardCallout {...callout} />
-      </StyledHomeIntroCallout>
+        <StyledHomeIntroCallout>
+          <Countdown />
+        </StyledHomeIntroCallout>
+      </StyledHomeIntroContainer>
+      <img src={dots.src} alt="" />
     </StyledHomeIntro>
   );
 };

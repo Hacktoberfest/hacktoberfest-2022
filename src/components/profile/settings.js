@@ -34,28 +34,33 @@ import ButtonMain from 'components/ButtonMain';
 import Divider from 'components/Divider';
 
 import MetadataFields from './metadata-fields';
+import { StyledSectionSpacing } from 'styles/sharedStyles';
 
 const StyledFormSectionTitle = styled.h2`
   ${headline48};
-  margin: 0 0 -48px;
 `;
 
 const StyledButtonGroup = styled.div`
   display: flex;
   gap: 48px;
+  justify-content: ${({ $align }) => ($align ? $align : 'flex-start')};
 `;
 
 const StyledButtonLink = styled.button`
-  color: ${({ theme }) => theme.colors.neutral.manga300};
   ${body20};
-  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.black};
 
   &:hover {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.colors.deepPink};
+
+    span {
+      text-decoration: none;
+    }
   }
 
   span {
-    color: ${({ theme }) => theme.colors.bavarian.blue200};
+    text-decoration: underline;
+    color: ${({ theme }) => theme.colors.deepPink};
   }
 `;
 
@@ -371,47 +376,50 @@ const Settings = ({ auth, isEdit = false }) => {
         success={success && 'Your Hacktoberfest registration has been saved.'}
         error={error}
       >
-        <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
-
         {isEdit && (
           <>
-            <Section small>
-              <StyledButtonGroup>
-                {Object.keys(providerMap).map((provider) => (
-                  <Fragment key={provider}>
-                    {oauth[provider] ? (
-                      hasMultipleOAuth && router.query.unlink === 'enabled' ? (
+            <Section>
+              <StyledSectionSpacing>
+                <StyledFormSectionTitle>Linked accounts</StyledFormSectionTitle>
+                <StyledButtonGroup>
+                  {Object.keys(providerMap).map((provider) => (
+                    <Fragment key={provider}>
+                      {oauth[provider] ? (
+                        hasMultipleOAuth &&
+                        router.query.unlink === 'enabled' ? (
+                          <StyledButtonLink
+                            onClick={(e) => unlinkOAuth(e, provider)}
+                            type="button"
+                            disabled={hasTrackingEnded}
+                          >
+                            Unlink {providerMap[provider]} account:{' '}
+                            <span>@{oauth[provider].providerUsername}</span>
+                          </StyledButtonLink>
+                        ) : (
+                          <StyledButtonLink
+                            onClick={(e) => e.preventDefault()}
+                            type="button"
+                            disabled
+                          >
+                            {providerMap[provider]} linked:{' '}
+                            <span>@{oauth[provider].providerUsername}</span>
+                          </StyledButtonLink>
+                        )
+                      ) : (
                         <StyledButtonLink
-                          onClick={(e) => unlinkOAuth(e, provider)}
+                          onClick={(e) => linkOAuth(e, provider)}
                           type="button"
                           disabled={hasTrackingEnded}
                         >
-                          Unlink {providerMap[provider]} account:{' '}
-                          <span>@{oauth[provider].providerUsername}</span>
+                          Link {providerMap[provider]} account
                         </StyledButtonLink>
-                      ) : (
-                        <StyledButtonLink
-                          onClick={(e) => e.preventDefault()}
-                          type="button"
-                          disabled
-                        >
-                          {providerMap[provider]} linked:{' '}
-                          <span>@{oauth[provider].providerUsername}</span>
-                        </StyledButtonLink>
-                      )
-                    ) : (
-                      <StyledButtonLink
-                        onClick={(e) => linkOAuth(e, provider)}
-                        type="button"
-                        disabled={hasTrackingEnded}
-                      >
-                        Link {providerMap[provider]} account
-                      </StyledButtonLink>
-                    )}
-                  </Fragment>
-                ))}
-              </StyledButtonGroup>
+                      )}
+                    </Fragment>
+                  ))}
+                </StyledButtonGroup>
+              </StyledSectionSpacing>
             </Section>
+
             <Divider type="doubledashed" />
           </>
         )}
@@ -425,24 +433,26 @@ const Settings = ({ auth, isEdit = false }) => {
           disabled={hasTrackingEnded || submitting}
         />
 
-        <StyledButtonGroup $align="center">
-          {!isEdit && (
-            <ButtonMain size="lg" as="button" onClick={logout}>
-              Logout
-            </ButtonMain>
-          )}
-          {!!metadata.length && (
-            <ButtonMain
-              size="lg"
-              as="button"
-              type="submit"
-              disabled={hasTrackingEnded || submitting}
-              onClick={submit}
-            >
-              {isEdit ? 'Save' : 'Register'}
-            </ButtonMain>
-          )}
-        </StyledButtonGroup>
+        <Section small>
+          <StyledButtonGroup $align="center">
+            {!isEdit && (
+              <ButtonMain size="lg" as="button" onClick={logout}>
+                Logout
+              </ButtonMain>
+            )}
+            {!!metadata.length && (
+              <ButtonMain
+                size="lg"
+                as="button"
+                type="submit"
+                disabled={hasTrackingEnded || submitting}
+                onClick={submit}
+              >
+                {isEdit ? 'Save' : 'Register'}
+              </ButtonMain>
+            )}
+          </StyledButtonGroup>
+        </Section>
       </Form>
     </>
   );

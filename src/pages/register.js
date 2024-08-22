@@ -14,6 +14,7 @@ import ButtonMain from 'components/ButtonMain';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
 import Settings from 'components/profile/settings';
 import Header from 'components/profile/header';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const Register = () => {
   const auth = useAuth();
@@ -55,16 +56,16 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>Register | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Register')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Register | Hacktoberfest 2023"
+          content={createMetaTitle('Register')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Register | Hacktoberfest 2023"
+          content={createMetaTitle('Register')}
         />
       </Head>
 
@@ -102,7 +103,7 @@ const Register = () => {
           <Container>
             <Header avatar={avatar} name={auth.user.name} type="Registration" />
 
-            <Divider type="pixel" />
+            <Divider type="doubledashed" />
 
             <Section small>
               <Settings auth={auth} />

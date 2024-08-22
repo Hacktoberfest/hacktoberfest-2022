@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   StyledAccordion,
   StyledAccordionImage,
@@ -8,22 +8,11 @@ import {
 } from './AccordionSponsor.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
-import Frame from 'components/Frame';
 import TextLink from 'components/TextLink';
 
 const AccordionSponsor = (props) => {
-  const {
-    filled,
-    image,
-    frame,
-    imageRotatation = 'left',
-    bgImage,
-    title,
-    collapsed,
-    link,
-    children,
-    skills,
-  } = props;
+  const { filled, image, bgImage, title, collapsed, link, children, skills } =
+    props;
 
   const [open, setOpen] = useState(!collapsed);
   useEffect(() => setOpen(!collapsed), [collapsed]);
@@ -34,12 +23,11 @@ const AccordionSponsor = (props) => {
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
           <StyledAccordionImageWrapper $bgImage={bgImage}>
-            <Frame color={frame} />
-            <StyledAccordionImage $rotate={imageRotatation}>
+            <StyledAccordionImage>
               <img {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster size="md" title={title}>
+          <ContentMaster size="md" title={title} hasCaret={false}>
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>

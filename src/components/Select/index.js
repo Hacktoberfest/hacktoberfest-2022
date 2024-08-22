@@ -1,12 +1,12 @@
 import { StyledSelectLabel, StyledSelect } from './Select.styles';
 
 const Select = (props) => {
-  const { name, label, items, ...select } = props;
+  const { name, label, items, isDark, ...select } = props;
 
   return (
     <div>
       <StyledSelectLabel htmlFor={name}>{label}</StyledSelectLabel>
-      <StyledSelect>
+      <StyledSelect $isDark={isDark}>
         <select id={name} name={name} {...select}>
           {items.map(([key, value]) => (
             <option key={key} value={key}>

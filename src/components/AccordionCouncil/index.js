@@ -8,8 +8,6 @@ import {
 } from './AccordionCouncil.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
-import { useTheme } from 'styled-components';
-import Frame from 'components/Frame';
 
 const AccordionCouncil = (props) => {
   const {
@@ -36,12 +34,16 @@ const AccordionCouncil = (props) => {
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
           <StyledAccordionImageWrapper $bgImage={bgImage}>
-            <Frame color={frame} />
             <StyledAccordionImage $rotate={imageRotatation}>
               <img {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster size="lg" eyebrow={subtitle} title={title}>
+          <ContentMaster
+            size="lg"
+            eyebrow={subtitle}
+            title={title}
+            hasCaret={false}
+          >
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>

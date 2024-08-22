@@ -11,10 +11,22 @@ export const StyledSection = styled.div`
     padding: 64px 0;
   `
       : `
-    padding: 80px 0;
+    padding: 70px 0;
 
     ${mQ(bp.desktop)} {
-      padding: 144px 0;
+      padding: 140px 0;
     }
   `};
+
+  background-color: ${({ $bgColor }) => ($bgColor ? $bgColor : 'transparent')};
+  color: ${({ $color, theme }) => ($color ? $color : theme.colors.dark)};
+
+  :where(&) a {
+    color: ${({ $linkColor, $isDark, theme }) =>
+      $linkColor
+        ? $linkColor
+        : $isDark
+          ? theme.colors.green
+          : theme.colors.deepPink};
+  }
 `;
