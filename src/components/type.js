@@ -15,9 +15,12 @@ const srOnly = {
 
 const StyledType = styled.span`
   background-image: ${({ $backgroundColor }) =>
-    `linear-gradient(to bottom, transparent, transparent 14%, ${$backgroundColor} 14%, ${$backgroundColor})`};
+    `linear-gradient(to bottom, transparent, transparent 10%, ${$backgroundColor} 10%, ${$backgroundColor} 90%, transparent 90%)`};
   position: relative;
   min-width: 1ch;
+  -webkit-box-decoration-break: clone;
+  padding: 0 8px;
+  box-decoration-break: clone;
 
   ${({ $prefix, $prefixColor }) =>
     $prefix &&
@@ -108,13 +111,7 @@ const Type = ({
         $prefixColor={prefixColor}
       >
         {text.slice(0, progress)}
-        {cursor && (
-          <span
-            style={{ position: 'absolute', right: '-1ch', color: cursorColor }}
-          >
-            _
-          </span>
-        )}
+        {cursor && <span style={{ color: cursorColor }}>_</span>}
       </StyledType>
       {!done && <span style={{ opacity: 0 }}>{text.slice(progress)}</span>}
 

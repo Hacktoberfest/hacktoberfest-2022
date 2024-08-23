@@ -89,11 +89,7 @@ const Participation = () => {
               {values.map((value, index) => (
                 <>
                   <ContentSide key={value.title}>
-                    <ContentMaster
-                      size="xl"
-                      title={value.title}
-                      titleCursorColor={theme.colors.black}
-                    />
+                    <ContentMaster size="xl" title={value.title} />
                     <ContentMaster size="md">{value.content}</ContentMaster>
                   </ContentSide>
                   {index + 1 !== values.length && (
@@ -130,11 +126,7 @@ const Participation = () => {
         <Container>
           <StyledParticipationSection>
             <ContentSide>
-              <ContentMaster
-                size="xl"
-                title={resources.title}
-                titleCursorColor={theme.colors.black}
-              />
+              <ContentMaster size="xl" title={resources.title} />
               <ContentMaster
                 size="md"
                 title={resources.sections[0].title}
@@ -202,11 +194,7 @@ const Participation = () => {
 
       <Section id="spam">
         <Container>
-          <ContentMaster
-            size="xl"
-            title={spam.title}
-            titleCursorColor={theme.colors.black}
-          >
+          <ContentMaster size="xl" title={spam.title}>
             {spam.content}
           </ContentMaster>
           <StyledPRDetails>
@@ -242,11 +230,7 @@ const Participation = () => {
       >
         <Container>
           <StyledParticipationSection>
-            <ContentMaster
-              size="xl"
-              title={maintainers.title}
-              titleCursorColor={theme.colors.black}
-            >
+            <ContentMaster size="xl" title={maintainers.title}>
               {maintainers.content}
             </ContentMaster>
             <ContentMaster
@@ -322,11 +306,7 @@ const Participation = () => {
 
       <Section id="faq">
         <Container>
-          <ContentMaster
-            size="xl"
-            title={faqs.title}
-            titleCursorColor={theme.colors.black}
-          >
+          <ContentMaster size="xl" title={faqs.title}>
             {faqs.content}
           </ContentMaster>
           <StyledPRDetails>

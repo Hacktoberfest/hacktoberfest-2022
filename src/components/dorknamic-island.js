@@ -88,7 +88,7 @@ const StyledIsland = styled.div`
   width: 200px;
   max-width: 1280px;
   border-radius: 100px;
-  box-shadow: inset 0 0 0 2px ${({ theme }) => theme.colors.green};
+  box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.green};
   display: flex;
   align-items: center;
   justify-content: space-between;

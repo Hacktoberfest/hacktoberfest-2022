@@ -126,7 +126,6 @@ const Home = () => {
                 <ContentMaster
                   size="xl2"
                   title="Preptember"
-                  titleCursorColor={theme.colors.black}
                   cta={{
                     href: '/participation',
                     children: 'How to Participate',
@@ -248,11 +247,7 @@ const Home = () => {
           <Container>
             <StyledHomeEvents>
               <ContentSide>
-                <ContentMaster
-                  size="xl2"
-                  title="Event Spotlight"
-                  titleCursorColor={theme.colors.black}
-                />
+                <ContentMaster size="xl2" title="Event Spotlight" />
 
                 <ContentMaster
                   size="xl"
@@ -287,11 +282,7 @@ const Home = () => {
       <Section>
         <Container>
           <ContentSide>
-            <ContentMaster
-              size="xl2"
-              title="Support Open Source"
-              titleCursorColor={theme.colors.black}
-            >
+            <ContentMaster size="xl2" title="Support Open Source">
               {
                 'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost. [Learn more and apply now.](https://www.digitalocean.com/open-source/credits-for-projects)'
               }

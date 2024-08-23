@@ -3,15 +3,12 @@ import {
   StyledHeroContent,
   StyledHeroTitle,
   StyledHeroSubtitle,
-  StyledHeroPresented,
   StyledHeroDivider,
   StyledHeroContainer,
 } from './Hero.styles';
 
 import { useMemo } from 'react';
 import { registrationEnd, registrationStart } from 'lib/config';
-import Sponsors from 'components/Sponsors';
-import { founders } from 'lib/sponsors';
 
 const Hero = () => {
   const hasRegistrationEnded = useMemo(
@@ -48,10 +45,6 @@ const Hero = () => {
                 {new Date(registrationStart).getFullYear()} has now ended.
               </StyledHeroSubtitle>
             )}
-
-            <StyledHeroPresented>
-              <Sponsors title="Presented by" sponsors={founders} centered />
-            </StyledHeroPresented>
           </StyledHeroContent>
         </StyledHeroContainer>
       </StyledHero>

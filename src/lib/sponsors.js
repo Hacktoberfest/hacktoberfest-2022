@@ -19,6 +19,10 @@ import partnersGithub from 'assets/img/partners/github.png';
 import partnersGithubHero from 'assets/img/partners/github-hero.svg';
 import partnersGithubEducation from 'assets/img/partners/github_education.png';
 import partnersGithubEducationHero from 'assets/img/partners/github_education-hero.svg';
+import partnersCNCF from 'assets/img/partners/cncf.svg';
+import partnersCNCFHero from 'assets/img/partners/cncf-hero.svg';
+import partnersOSI from 'assets/img/partners/osi.svg';
+import partnersOSIHero from 'assets/img/partners/osi-hero.svg';
 
 export const founders = [
   {
@@ -93,7 +97,7 @@ export const sponsors = [...founders, ...advocate, ...sustainer];
 export const partners = [
   {
     image: partnersHolographic.src,
-    title: 'Holographic',
+    title: 'Holopin',
     content:
       'Display, share, and issue digital badges for achievements. Showcase on GitHub, LinkedIn, and your favorite socials.',
     link: {
@@ -171,6 +175,37 @@ export const partners = [
     },
     hero: {
       image: partnersGitlabHero.src,
+    },
+  },
+  {
+    image: partnersCNCF.src,
+    title: 'CNCF',
+    content:
+      'CNCF is the open source, vendor-neutral hub of cloud native computing, hosting projects like Kubernetes and Prometheus to make cloud native universal and sustainable.\n' +
+      ' - [Contribute to CLOTributor](https://clotributor.dev/)',
+    link: {
+      target: '_blank',
+      rel: 'noreferrer noopener',
+      href: 'https://www.cncf.io/',
+      title: 'Visit CNCF',
+    },
+    hero: {
+      image: partnersCNCFHero.src,
+    },
+  },
+  {
+    image: partnersOSI.src,
+    title: 'Open Source Initiative',
+    content:
+      'Founded in 1998, the [Open Source Initiative](https://opensource.org/) (OSI) is a non-profit corporation with global scope formed to educate about and advocate for the benefits of Open Source and to build bridges among different constituencies in the Open Source community. It is the steward of the Open Source Definition, setting the foundation for the global Open Source ecosystem. Join and support the OSI mission today at [https://opensource.org/join](https://opensource.org/join).',
+    link: {
+      target: '_blank',
+      rel: 'noreferrer noopener',
+      href: 'https://www.cncf.io/',
+      title: 'Visit CNCF',
+    },
+    hero: {
+      image: partnersOSIHero.src,
     },
   },
 ];

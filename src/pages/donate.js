@@ -102,11 +102,7 @@ const Donate = ({ projects }) => {
 
       <Section>
         <Container>
-          <ContentMaster
-            size="xl"
-            title="Find a project"
-            titleCursorColor={theme.colors.black}
-          >
+          <ContentMaster size="xl" title="Find a project">
             Open-source projects keep the internet humming—but they can’t do it
             without resources. Projects are always in need of financial support
             so they can develop new features, cover expenses, and continue their

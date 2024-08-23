@@ -161,11 +161,7 @@ const Events = () => {
         <Container>
           <StyledSectionSpacing>
             <ContentSide>
-              <ContentMaster
-                size="xl"
-                title={globalEvents.title}
-                titleCursorColor={theme.colors.black}
-              />
+              <ContentMaster size="xl" title={globalEvents.title} />
               <ContentMaster links={[globalEvents.cta]}>
                 {globalEvents.content}
               </ContentMaster>
@@ -210,11 +206,7 @@ const Events = () => {
       <Section id="organizers" bgColor={theme.colors.green}>
         <Container>
           <ContentSide>
-            <ContentMaster
-              size="xl"
-              title={eventOrganizers.title}
-              titleCursorColor={theme.colors.black}
-            />
+            <ContentMaster size="xl" title={eventOrganizers.title} />
             <ContentMaster>{eventOrganizers.content}</ContentMaster>
           </ContentSide>
         </Container>
@@ -229,14 +221,6 @@ const Events = () => {
       <Section>
         <Container>
           <StyledSectionSpacing>
-            <ContentSide>
-              <ContentMaster
-                size="xl"
-                title={organize.title}
-                titleCursorColor={theme.colors.black}
-              />
-            </ContentSide>
-
             <StyledAccordionGroup>
               <div>
                 {organize.sections.map((section, index) => (
@@ -420,7 +404,6 @@ const Events = () => {
             content={{
               size: 'xl',
               title: brand.title,
-              titleCursorColor: theme.colors.black,
               children: brand.content,
               links: brand.links,
             }}

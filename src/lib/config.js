@@ -14,7 +14,7 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Participation page information
  */
 export const registrationStart =
-  process.env.REGISTRATION_START || '2024-09-23T12:00:00Z';
+  process.env.REGISTRATION_START || '2024-09-01T12:00:00Z';
 
 /**
  * Used for:
@@ -31,7 +31,7 @@ export const registrationEnd =
  *   - Participation page information
  */
 export const trackingStart =
-  process.env.TRACKING_START || '2024-09-23T10:00:00Z';
+  process.env.TRACKING_START || '2024-09-30T10:00:00Z';
 
 /**
  * Used for:

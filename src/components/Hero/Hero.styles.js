@@ -39,8 +39,6 @@ export const StyledHeroSubtitle = styled.p`
   }
 `;
 
-export const StyledHeroPresented = styled.div``;
-
 export const StyledHeroDivider = styled.div`
   line-height: 0;
   background-color: ${({ theme }) => theme.colors.green};

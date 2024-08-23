@@ -77,11 +77,7 @@ const About = () => {
       <Section id="lore">
         <Container>
           <StyledSectionSpacing>
-            <ContentMaster
-              size="xl"
-              title={lore.title}
-              titleCursorColor={theme.colors.black}
-            />
+            <ContentMaster size="xl" title={lore.title} />
 
             <ContentSide>
               <ContentMaster size="xl">{lore.content}</ContentMaster>
@@ -163,13 +159,21 @@ const About = () => {
               content={{
                 size: 'xl',
                 title: sponsorsAndPartners.title,
-                titleCursorColor: theme.colors.black,
                 children: sponsorsAndPartners.content,
               }}
             />
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="lg" title="Founder" hasCaret={false} />
+              <ContentMaster size="xl" title="Our Sponsors" hasCaret={false} />
+
+              <Divider />
+
+              <ContentMaster
+                size="lg"
+                title="Founder"
+                titleTag="h3"
+                hasCaret={false}
+              />
 
               <StyledSponsorsList>
                 {founders.map((item) => (
@@ -186,7 +190,12 @@ const About = () => {
             </StyledSectionSpacing>
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="lg" title="Advocate" hasCaret={false} />
+              <ContentMaster
+                size="lg"
+                title="Advocate"
+                titleTag="h3"
+                hasCaret={false}
+              />
 
               <StyledSponsorsList>
                 {advocate.map((item) => (
@@ -203,7 +212,12 @@ const About = () => {
             </StyledSectionSpacing>
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="lg" title="Sustainer" hasCaret={false} />
+              <ContentMaster
+                size="lg"
+                title="Sustainer"
+                titleTag="h3"
+                hasCaret={false}
+              />
 
               <StyledSponsorsList>
                 {sustainer.map((item) => (
@@ -220,7 +234,12 @@ const About = () => {
             </StyledSectionSpacing>
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="lg" title="Our Partners:" hasCaret={false} />
+              <ContentMaster
+                size="lg"
+                title="Our Partners:"
+                titleTag="h3"
+                hasCaret={false}
+              />
 
               <StyledSponsorsList>
                 {partners.map((item) => (
@@ -248,11 +267,7 @@ const About = () => {
       <Section id="rewards" bgColor={theme.colors.green}>
         <Container>
           <StyledSectionSpacing>
-            <ContentMaster
-              size="xl"
-              title={rewards.title}
-              titleCursorColor={theme.colors.black}
-            />
+            <ContentMaster size="xl" title={rewards.title} />
 
             <ContentSide>
               <ContentMaster size="xl">{rewards.content}</ContentMaster>
@@ -272,11 +287,7 @@ const About = () => {
       <Section id="council">
         <Container>
           <StyledSectionSpacing>
-            <ContentMaster
-              size="xl"
-              title={advisoryCouncil.title}
-              titleCursorColor={theme.colors.black}
-            >
+            <ContentMaster size="xl" title={advisoryCouncil.title}>
               {advisoryCouncil.content}
             </ContentMaster>
 

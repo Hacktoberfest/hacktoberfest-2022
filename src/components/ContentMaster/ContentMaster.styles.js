@@ -56,6 +56,15 @@ export const StyledContentMasterTitle = styled.h2`
   ${({ $size }) => $size === 'lg' && headline48};
   ${({ $size }) => $size === 'md' && headline32};
   ${({ $size }) => $size === 'sm' && headline20};
+
+  ${({ $isTyping, $size }) =>
+    $size === 'xl2' &&
+    $isTyping &&
+    `
+    ${mQ(bp.desktop)} {
+      line-height: 100px;
+    }
+  `};
 `;
 
 export const StyledContentMasterBody = styled.div`

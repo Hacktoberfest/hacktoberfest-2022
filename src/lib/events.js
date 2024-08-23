@@ -1,4 +1,5 @@
-import eventKitZip from 'assets/event-kit.zip';
+import brandKitZip from 'assets/brand-kit.zip';
+import brandGuidelines from 'assets/brand-guidelines.pdf';
 
 export const globalEvents = {
   title: 'Global Events',
@@ -17,7 +18,6 @@ export const eventOrganizers = {
 };
 
 export const organize = {
-  title: 'How to Organize a Hacktoberfest Event',
   sections: [
     {
       title: 'Craft an event agenda.',
@@ -101,13 +101,13 @@ export const brand = {
     {
       target: '_blank',
       rel: 'noreferrer noopener',
-      href: eventKitZip,
+      href: brandKitZip,
       children: 'Download the Hacktoberfest Brand Kit',
     },
     {
       target: '_blank',
       rel: 'noreferrer noopener',
-      href: 'https://docs.google.com/document/d/1HjkByZjDUxEib3TgOzB6Fo_Fymas-6TIa2WzbGFHXZs/edit',
+      href: brandGuidelines,
       children: 'View the Hacktoberfest Brand Guidelines',
     },
   ],
