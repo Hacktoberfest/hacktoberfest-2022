@@ -146,22 +146,22 @@ const StyledButton = styled.button`
     transition: 200ms ease;
   }
 
-  &:before {
+  &::before {
     transform: rotate(45deg);
   }
-  &:after {
+  &::after {
     transform: rotate(-45deg);
   }
 
   &[aria-selected='true'] {
-    :after,
-    :before {
+    &::after,
+    &::before {
       transform: rotate(0deg);
     }
-    :before {
+    &::before {
       margin-top: 8px;
     }
-    :after {
+    &::after {
       margin-bottom: 8px;
     }
   }
