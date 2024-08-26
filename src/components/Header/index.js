@@ -58,6 +58,8 @@ const Header = () => {
                   : hacktoberfestLogoBeige.src
               }
               alt="Hacktoberfest 11"
+              width="198"
+              height="80"
             />
           </Link>
         </StyledHeaderLogo>

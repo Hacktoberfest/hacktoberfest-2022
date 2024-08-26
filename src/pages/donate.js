@@ -97,7 +97,7 @@ const Donate = ({ projects }) => {
 
       <HeroSecondary
         title="Donate"
-        icon={<img src={asciiDonate.src} alt="" />}
+        icon={<img src={asciiDonate.src} alt="" width="608" height="608" />}
       />
 
       <Section>

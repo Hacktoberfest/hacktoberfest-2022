@@ -20,8 +20,8 @@ const SectionDivider = ({
       fill="none"
     >
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M3.67176e-06 79L112 79L112 37L241 37L241 62L339 62L339 -1.70213e-05L523 -1.0851e-07L523 100L339 100L339 100L241 100L112 100L0 100L3.67176e-06 79Z"
         fill="currentColor"
       />

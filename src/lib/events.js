@@ -6,6 +6,7 @@ export const globalEvents = {
   content:
     'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether you want to join an existing event or run your own, and whether you’re inclined to do so in-person or virtually, we’re here to support you!',
   cta: {
+    id: 'view-all-events',
     href: 'https://hackp.ac/hacktoberfest-ohqlandingpage',
     children: 'View All Events',
   },
@@ -99,12 +100,14 @@ export const brand = {
     'If you plan to use the Hacktoberfest brand in promotional material, for an event you’re hosting or for a project participating in Hacktoberfest, we ask that you use the Hacktoberfest branding provided in our brand kit, and that you make sure to follow our brand guidelines.',
   links: [
     {
+      id: 'brand-kit',
       target: '_blank',
       rel: 'noreferrer noopener',
       href: brandKitZip,
       children: 'Download the Hacktoberfest Brand Kit',
     },
     {
+      id: 'brand-guidelines',
       target: '_blank',
       rel: 'noreferrer noopener',
       href: brandGuidelines,

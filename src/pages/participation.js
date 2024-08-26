@@ -29,7 +29,7 @@ import Accordion from 'components/Accordion';
 
 import HeroSecondary from 'components/HeroSecondary';
 import asciiParticipation from 'assets/img/ascii-participation.svg';
-import React from 'react';
+import React, { Fragment } from 'react';
 import SectionDivider from 'components/SectionDivider';
 import createMetaTitle from 'lib/createMetaTitle';
 
@@ -79,7 +79,9 @@ const Participation = () => {
 
       <HeroSecondary
         title="Participation"
-        icon={<img src={asciiParticipation.src} alt="" />}
+        icon={
+          <img src={asciiParticipation.src} alt="" width="608" height="608" />
+        }
       />
 
       <Section id="values">
@@ -87,7 +89,7 @@ const Participation = () => {
           <StyledParticipationSection>
             <>
               {values.map((value, index) => (
-                <>
+                <Fragment key={value.title}>
                   <ContentSide key={value.title}>
                     <ContentMaster size="xl" title={value.title} />
                     <ContentMaster size="md">{value.content}</ContentMaster>
@@ -95,7 +97,7 @@ const Participation = () => {
                   {index + 1 !== values.length && (
                     <Divider type="doubledashed" />
                   )}
-                </>
+                </Fragment>
               ))}
             </>
           </StyledParticipationSection>

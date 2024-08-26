@@ -141,7 +141,7 @@ const Report = () => {
 
       <HeroSecondary
         title="Report"
-        icon={<img src={asciiReport.src} alt="" />}
+        icon={<img src={asciiReport.src} alt="" width="608" height="608" />}
       />
 
       <Section>

@@ -154,7 +154,7 @@ const Events = () => {
 
       <HeroSecondary
         title="Events"
-        icon={<img src={asciiEvents.src} alt="" />}
+        icon={<img src={asciiEvents.src} alt="" width="608" height="608" />}
       />
 
       <Section id="events">

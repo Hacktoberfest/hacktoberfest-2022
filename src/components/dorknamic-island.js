@@ -95,24 +95,28 @@ const StyledIsland = styled.div`
   padding: 4px 4px 4px 12px;
   pointer-events: all;
   transition: all 0.2s ease;
+`;
 
-  .shutter-wrapper {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 40px;
-    height: 100%;
-    gap: 16px;
-    justify-content: space-between;
+const StyledShutterWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 40px;
+  height: 100%;
+  gap: 16px;
+  justify-content: space-between;
 
-    &[aria-selected='true'] {
+  ${({ $isSelected }) =>
+    !$isSelected &&
+    `
+    ${mQ(bp.desktop, 'max')} {
       width: 100%;
       flex-direction: reverse;
     }
+  `}
 
-    &:after {
-      transform: rotate(-45deg);
-    }
+  &::after {
+    transform: rotate(-45deg);
   }
 `;
 
@@ -303,9 +307,9 @@ const DorknamicIsland = (props) => {
         <StyledNav ref={nav} aria-selected={open}>
           {props.children}
         </StyledNav>
-        <div className="shutter-wrapper" aria-selected={open}>
+        <StyledShutterWrapper>
           <StyledButton ref={hamburger} onClick={toggle} aria-selected={open} />
-        </div>
+        </StyledShutterWrapper>
       </StyledIsland>
     </StyledWrapper>
   );

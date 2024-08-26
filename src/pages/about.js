@@ -72,7 +72,10 @@ const About = () => {
         <a href="#council">Council</a>
       </DorknamicIsland>
 
-      <HeroSecondary title="About" icon={<img src={asciiAbout.src} alt="" />} />
+      <HeroSecondary
+        title="About"
+        icon={<img src={asciiAbout.src} alt="" width="608" height="608" />}
+      />
 
       <Section id="lore">
         <Container>

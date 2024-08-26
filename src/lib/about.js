@@ -10,6 +10,7 @@ export const lore = {
     'Each year Hacktoberfest gets a new look, but our mission remains the same… getting as many people as possible involved in open source. Thousands of people—coders and non-coders alike—have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.',
   links: [
     {
+      id: 'watch-hacktoberfest',
       href: 'https://www.youtube.com/playlist?list=PLseEp7p6EwiZgLPknY4ITJxfoo75wqxph',
       children: 'Watch Hacktoberfest brand videos from over the years',
     },

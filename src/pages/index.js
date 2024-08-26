@@ -164,7 +164,12 @@ const Home = () => {
                 title="Sponsors and Awards for 2024"
                 cta={{
                   href: '/about',
-                  children: 'Learn more',
+                  children: (
+                    <>
+                      Learn more{' '}
+                      <span class="sr-only">about hacktoberfest</span>
+                    </>
+                  ),
                   variant: 'primary-green',
                 }}
               >
@@ -172,10 +177,15 @@ const Home = () => {
                   'This year, Hacktoberfest is sponsored by DigitalOcean, Twilio, Cloudflare, and Quira. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.'
                 }
               </ContentMaster>
-              <img src={dots.src} alt="" />
+              <img src={dots.src} alt="" width="401" height="129" />
             </StyledHomeContinue>
 
-            <StyledSponsorImage src={asciiParticipation.src} alt="" />
+            <StyledSponsorImage
+              src={asciiParticipation.src}
+              alt=""
+              width="608"
+              height="608"
+            />
           </ContentSide>
         </Container>
       </Section>
@@ -253,6 +263,7 @@ const Home = () => {
                   size="xl"
                   links={[
                     {
+                      id: 'explore-events',
                       size: 'lg',
                       href: '/events',
                       children: 'Explore More Hacktoberfest Events',

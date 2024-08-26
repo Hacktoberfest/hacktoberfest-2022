@@ -29,7 +29,7 @@ const FourOFour = () => {
           children: 'Return Home',
           variant: 'primary-green',
         }}
-        icon={<img src={ascii404.src} alt="" />}
+        icon={<img src={ascii404.src} alt="" width="608" height="608" />}
         reverse
         includeDivider={false}
       />
