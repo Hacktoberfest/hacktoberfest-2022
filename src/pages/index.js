@@ -25,6 +25,7 @@ import Progress from 'components/Progress';
 import CardCallout from 'components/CardCallout';
 import SectionDivider from 'components/SectionDivider';
 import asciiParticipation from 'assets/img/ascii-participation.svg';
+import Glitch from 'components/Glitch';
 
 export const StyledHome = styled.div`
   overflow: hidden;
@@ -154,7 +155,8 @@ const Home = () => {
                 href: '/about',
                 children: (
                   <>
-                    Learn more <span class="sr-only">about hacktoberfest</span>
+                    Learn more{' '}
+                    <span className="sr-only">about hacktoberfest</span>
                   </>
                 ),
                 variant: 'primary-green',
@@ -165,11 +167,15 @@ const Home = () => {
               }
             </ContentMaster>
 
-            <StyledSponsorImage
-              src={asciiParticipation.src}
-              alt=""
-              width="608"
-              height="608"
+            <Glitch
+              image={
+                <StyledSponsorImage
+                  src={asciiParticipation.src}
+                  alt=""
+                  width="608"
+                  height="608"
+                />
+              }
             />
           </ContentSide>
         </Container>

@@ -9,6 +9,7 @@ import {
 import ButtonMain from 'components/ButtonMain';
 import { useTheme } from 'styled-components';
 import SectionDivider from 'components/SectionDivider';
+import Glitch from 'components/Glitch';
 
 const HeroSecondary = (props) => {
   const { title, icon, cta, reverse = false, includeDivider = true } = props;
@@ -21,7 +22,9 @@ const HeroSecondary = (props) => {
             <StyledHeroSecondaryTitle>{title}</StyledHeroSecondaryTitle>
             {cta && <ButtonMain {...cta} />}
           </StyledHeroSecondaryContent>
-          <StyledHeroSecondaryImage>{icon}</StyledHeroSecondaryImage>
+          <StyledHeroSecondaryImage>
+            <Glitch image={icon} />
+          </StyledHeroSecondaryImage>
         </StyledHeroSecondaryContainer>
       </Container>
       {includeDivider && (
