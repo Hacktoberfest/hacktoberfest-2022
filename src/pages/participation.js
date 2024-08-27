@@ -272,7 +272,7 @@ const Participation = () => {
             <ContentSide>
               <ContentMaster
                 size="md"
-                title={lowNoCode.sections[0].title}
+                title={<>{lowNoCode.sections[0].title}</>}
                 titleTag="h3"
                 hasCaret={false}
                 list={lowNoCode.sections[0].lists}
@@ -282,7 +282,7 @@ const Participation = () => {
 
               <ContentMaster
                 size="md"
-                title={lowNoCode.sections[1].title}
+                title={<>{lowNoCode.sections[1].title}</>}
                 titleTag="h3"
                 hasCaret={false}
                 list={lowNoCode.sections[1].lists}

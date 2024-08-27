@@ -348,7 +348,31 @@ export const faqs = {
       items: [
         {
           content:
-            'Aside from the knowledge you’ll gain, (and the fun you’ll have) you can earn a digital reward kit courtesy of DigitalOcean and our sponsors and partners. You’ll receive your digital reward once you’ve completed four accepted pull/merge requests. Also, the first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through [Tree Nation](https://tree-nation.com/profile/hacktoberfest).',
+            'Aside from the knowledge you’ll gain, (and the fun you’ll have) you’ll get a digital badge through Holopin to represent your participation in Hacktoberfest. As each of your four pull/merge requests is accepted by a maintainer, you’ll unlock a new level in your badge, letting you customize it and showing to the community your achievement.',
+        },
+      ],
+    },
+    {
+      title: 'How will I receive my digital badge?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content:
+            'You will receive a notification in your Hacktoberfest profile on the Hacktoberfest website. Additionally, you will receive an email from Holopin to claim each level of your badge.',
+        },
+      ],
+    },
+    {
+      title: 'When do I need to claim my badges by?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content:
+            'Hacktoberfest profiles close on December 15. Please make sure you’ve claimed all your Holopin badges using the claim links on your profile (also sent via email).',
         },
       ],
     },
@@ -360,70 +384,7 @@ export const faqs = {
       items: [
         {
           content:
-            "As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it's no longer feasible for us to provide a free t-shirt. Nevertheless, we still want participants to have a memorable experience and receive a special memento marking their participation and the year.  Instead of a t-shirt reward, we're partnering with Holopin and our sponsors to provide digital rewards, making global delivery much simpler. We believe this shift will allow Hacktoberfest to continue supporting and raising awareness for open-source projects worldwide for years to come.",
-        },
-      ],
-    },
-    {
-      title:
-        'If you can afford to plant trees, how come you can’t afford to make t-shirts?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'The cost of planting trees is far less than the cost of printing t-shirts. Additionally, planting a tree helps the Earth. Fabricating t-shirts heavily utilizes natural resources and the printing, packaging and shipping have a large carbon footprint. We still want to give a gift to our participants and we believe the gift of planting a tree is a great way to show our appreciation, and help the environment.',
-        },
-      ],
-    },
-    {
-      title:
-        'I represent, or know of, a company that could do your t-shirt fulfillment really inexpensively.',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'We are aware that there are many options out there for t-shirt production and fulfillment. We have made the move away from using t-shirts as a reward in the interests of making global delivery of rewards simpler and to ensure Hacktoberfest continues supporting and raising awareness for open-source projects worldwide for years to come.',
-        },
-      ],
-    },
-    {
-      title: 'How will I receive my digital reward?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'You will receive a notification in your Hacktoberfest profile on the Hacktoberfest website. Additionally you will receive an email from Holopin to claim your rewards. You may also receive emails from Tree Nation.',
-        },
-      ],
-    },
-    {
-      title: 'Is it possible to get stickers?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).',
-        },
-      ],
-    },
-    {
-      title: 'When do I need to claim my badges/reward kit by?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges and digital reward kit (if you completed the challenge with four accepted pull/merge requests) using the claim links on your profile (also sent via email).\n\n` +
-            `Further, if you completed Hacktoberfest, make sure you’ve claimed all the rewards you intend to use within the digital reward kit by ${profileEndDate} to ensure they’re valid.`,
+            "As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it's no longer feasible for us to provide a free t-shirt. Nevertheless, we still want participants to have a memorable experience and receive a special memento marking their participation and the year.  Instead of a t-shirt reward, we're partnering with Holopin to provide a digital badge to each participant, making global delivery much simpler. We believe this shift will allow Hacktoberfest to continue supporting and raising awareness for open-source projects worldwide for years to come.",
         },
       ],
     },
@@ -474,7 +435,7 @@ export const faqs = {
       ],
     },
     {
-      title: 'Do issues have to be tagged #Hacktoberfest to count?',
+      title: 'Do issues have to be tagged as Hacktoberfest to count?',
       subtitle: 'Rules',
       collapsible: true,
       collapsed: true,
@@ -486,7 +447,7 @@ export const faqs = {
       ],
     },
     {
-      title: 'Do contributions made outside of Github or GitLab count?',
+      title: 'Do contributions made outside of GitHub or GitLab count?',
       subtitle: 'Rules',
       collapsible: true,
       collapsed: true,
@@ -519,8 +480,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Please visit the [Hacktoberfest Events page](/events/) to learn how to host a Hacktoberfest event.\n\n' +
-            'To create your event visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)',
+            'Please visit the [Hacktoberfest Events](/events/) page to learn how to host and register a Hacktoberfest event.',
         },
       ],
     },
@@ -532,8 +492,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Yes. To create your event and share it globally, visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)\n\n' +
-            'Check out the [Hacktoberfest Events](/events/) page for more information.',
+            'Yes! We’ll use the information you provide when registering your event on the [Hacktoberfest Events](/events) page to publish your event to Major League Hacking for anyone to attend.',
         },
       ],
     },
@@ -558,7 +517,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Anyone can organize an event as long as you celebrate open source during the event and follow the DigitalOcean [Code of Conduct](https://www.digitalocean.com/community/pages/code-of-conductco/hacktoberconduct).',
+            'Anyone can organize an event as long as you celebrate open source during the event. Find out more about how to host and register your event on the [Hacktoberfest Events](/events/) page.',
         },
       ],
     },
@@ -570,7 +529,7 @@ export const faqs = {
       items: [
         {
           content:
-            "Whether you're meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like [Icebreaker](https://icebreaker.video/) or [Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open source knowledge.",
+            "Whether you're meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like [Icebreaker](https://icebreaker.video/) or [Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open-source knowledge.",
         },
       ],
     },
@@ -584,7 +543,7 @@ export const faqs = {
           content:
             'Yes! We encourage all kinds of events - whether they are virtual, in-person or a hybrid.\n\n' +
             'If you do want to hold an in-person event, there are a few things to note:\n\n' +
-            ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Organizer Event Kit](/events/#organizers) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
+            ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Brand Kit](/events/#brand) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
             ' - Please follow the advisory guidelines of your state and local governments about gatherings in person.',
         },
       ],
@@ -623,7 +582,7 @@ export const faqs = {
       items: [
         {
           content:
-            'In an effort to reduce spam and help maintainers, we’ve introduced a week-long review period for all pull/merge requests. This provides a buffer window for maintainers where they can change their decision on a pull/merge request that they may have accepted, and gives our team time to review and tackle spam across the whole program. No action should be required by you, your pull/merge request will automatically count toward your Hacktoberfest progress once the seven days elapse, as long as it is still accepted by the project maintainers and follows Hacktoberfest’s rules.',
+            'In an effort to reduce spam and help maintainers, all pull/merge requests go through a week-long approval period for Hacktoberfest. This provides a buffer window for maintainers where they can change their decision on a pull/merge request that they may have accepted, and gives our team time to review and tackle spam across the whole program. No action should be required by you, your pull/merge request will automatically count toward your Hacktoberfest progress once the seven days elapse, as long as it is still accepted by the project maintainers and follows Hacktoberfest’s rules.',
         },
       ],
     },
@@ -702,7 +661,7 @@ export const faqs = {
       items: [
         {
           content:
-            "First, classify your repository with the 'hacktoberfest' topic. This will let participants know that your repo is participating in Hacktoberfest.\n\n" +
+            'First, classify your repository with the **hacktoberfest** topic. This will let participants know that your repo is participating in Hacktoberfest. Check out this video on [how to apply the **hacktoberfest** topic to your repository](https://www.youtube.com/watch?v=znPdP0o79mU).\n\n' +
             'You can also create issues for anything you’d like contributors to help with, and you can add labels like **good first issue** and **help wanted** so they’re easier to discover.',
         },
       ],
@@ -728,7 +687,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Whether you are a maintainer, contributor or event organizer, you are eligible to receive a digital reward kit upon completion of four accepted pull/merge requests. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.',
+            'Whether you are a maintainer, contributor or event organizer, you are eligible to unlock the digital badges as your four pull/merge requests are accepted. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.',
         },
       ],
     },
@@ -740,7 +699,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Hacktoberfest is an opt-in system for maintainers. Repositories must have the **hacktoberfest** topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the **hacktoberfest-accepted** label. Any repository without the **hacktoberfest** topic, and not using the label, is automatically excluded, no action required. ',
+            'Hacktoberfest is an opt-in system for maintainers. Repositories must have the **hacktoberfest** topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the **hacktoberfest-accepted** label. Any repository without the **hacktoberfest** topic, and not using the label, is automatically excluded, no action required.',
         },
       ],
     },
