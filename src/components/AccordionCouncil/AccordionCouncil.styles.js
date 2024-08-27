@@ -65,7 +65,6 @@ export const StyledAccordion = styled.details`
       transition:
         letter-spacing 0.2s ease 0.2s,
         text-indent 0.2s ease 0.2s,
-        text-shadow 0.2s ease 0.2s,
         color 0.4s ease;
 
       ${({ $isFilled }) =>
@@ -90,9 +89,6 @@ export const StyledAccordion = styled.details`
     &:hover {
       &::after {
         color: ${({ theme }) => theme.colors.deepPink};
-        text-shadow:
-          1px 1px 10px ${({ theme }) => theme.colors.pink},
-          -1px -1px 10px ${({ theme }) => theme.colors.pink};
         letter-spacing: 4px;
         text-indent: 4px;
         transform: translateY(-50%);

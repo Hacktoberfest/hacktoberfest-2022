@@ -131,7 +131,7 @@ const Participation = () => {
               <ContentMaster size="xl" title={resources.title} />
               <ContentMaster
                 size="md"
-                title={resources.sections[0].title}
+                title={<>{resources.sections[0].title}</>}
                 titleTag="h3"
                 hasCaret={false}
                 list={resources.sections[0].items}
@@ -143,14 +143,14 @@ const Participation = () => {
             <DividerRow gap="128px">
               <ContentMaster
                 size="md"
-                title={resources.sections[1].title}
+                title={<>{resources.sections[1].title}</>}
                 titleTag="h3"
                 hasCaret={false}
                 list={resources.sections[1].items}
               />
               <ContentMaster
                 size="md"
-                title={resources.sections[2].title}
+                title={<>{resources.sections[2].title}</>}
                 titleTag="h3"
                 hasCaret={false}
                 list={resources.sections[2].items}

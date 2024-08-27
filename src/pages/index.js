@@ -21,7 +21,6 @@ import Section from 'components/Section';
 import Events from 'components/Events';
 import Sponsors from 'components/Sponsors';
 
-import dots from 'assets/img/dots.svg';
 import Progress from 'components/Progress';
 import CardCallout from 'components/CardCallout';
 import SectionDivider from 'components/SectionDivider';
@@ -82,17 +81,6 @@ export const StyledHomeEvents = styled.div`
   gap: 64px;
 `;
 
-export const StyledHomeContinue = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-
-  > img {
-    max-width: 401px;
-    width: 100%;
-  }
-`;
-
 export const StyledSponsorImage = styled.img`
   order: -1;
   width: 100%;
@@ -129,6 +117,7 @@ const Home = () => {
                   cta={{
                     href: '/participation',
                     children: 'How to Participate',
+                    variant: 'secondary-deep-pink',
                   }}
                 >
                   September is prep time for Hacktoberfest. Spend September
@@ -158,27 +147,23 @@ const Home = () => {
       <Section bgColor={theme.colors.black} color={theme.colors.typography}>
         <Container>
           <ContentSide>
-            <StyledHomeContinue>
-              <ContentMaster
-                size="xl2"
-                title="Sponsors and Awards for 2024"
-                cta={{
-                  href: '/about',
-                  children: (
-                    <>
-                      Learn more{' '}
-                      <span class="sr-only">about hacktoberfest</span>
-                    </>
-                  ),
-                  variant: 'primary-green',
-                }}
-              >
-                {
-                  'This year, Hacktoberfest is sponsored by DigitalOcean, Twilio, Cloudflare, and Quira. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.'
-                }
-              </ContentMaster>
-              <img src={dots.src} alt="" width="401" height="129" />
-            </StyledHomeContinue>
+            <ContentMaster
+              size="xl2"
+              title="Sponsors and Awards for 2024"
+              cta={{
+                href: '/about',
+                children: (
+                  <>
+                    Learn more <span class="sr-only">about hacktoberfest</span>
+                  </>
+                ),
+                variant: 'primary-green',
+              }}
+            >
+              {
+                'This year, Hacktoberfest is sponsored by DigitalOcean, Twilio, Cloudflare, and Quira. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.'
+              }
+            </ContentMaster>
 
             <StyledSponsorImage
               src={asciiParticipation.src}
@@ -293,9 +278,17 @@ const Home = () => {
       <Section>
         <Container>
           <ContentSide>
-            <ContentMaster size="xl2" title="Support Open Source">
+            <ContentMaster
+              size="xl2"
+              title="Support Open Source"
+              cta={{
+                href: 'https://www.digitalocean.com/open-source/credits-for-projects',
+                children: 'Learn more and apply now',
+                variant: 'secondary-deep-pink',
+              }}
+            >
               {
-                'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost. [Learn more and apply now.](https://www.digitalocean.com/open-source/credits-for-projects)'
+                'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost.'
               }
             </ContentMaster>
             <CardCallout

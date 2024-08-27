@@ -16,7 +16,7 @@ const Event = (props) => {
         <ContentMaster
           size="lg"
           eyebrow={eyebrow}
-          title={title}
+          title={<>{title}</>}
           titleTag="h3"
           hasCaret={false}
         />

@@ -1,6 +1,7 @@
 import lisa from 'assets/img/council/lisa.jpg';
 import eddie from 'assets/img/council/eddie.jpg';
 import mason from 'assets/img/council/mason.jpg';
+import bekah from 'assets/img/council/bekah.jpg';
 
 export const lore = {
   title: 'Hacktoberfest Lore',
@@ -110,6 +111,20 @@ export const council = [
       {
         title: 'Website',
         url: 'https://mason.dev/about/',
+      },
+    ],
+  },
+  {
+    name: 'Bekah Hawrot Weigel',
+    image: bekah.src,
+    role: 'Developer Experience Lead',
+    skills:
+      'Developer Experience, Community Building, Education, Course Creation, Front-End',
+    bio: 'Bekah graduated from a coding bootcamp in May of 2019 and since then has spent time as a frontend developer, started the Virtual Coffee developer community, spent time in DevRel and has continued to mom her four kids. She currently co-hosts the Virtual Coffee and Compressed FM podcasts, works as the Developer Experience Lead at OpenSauced, and lifts heavy things in her free time.',
+    links: [
+      {
+        title: 'Website',
+        url: 'https://bekahhw.com/',
       },
     ],
   },

@@ -41,7 +41,7 @@ const AccordionCouncil = (props) => {
           <ContentMaster
             size="lg"
             eyebrow={subtitle}
-            title={title}
+            title={<>{title}</>}
             hasCaret={false}
           >
             {skills}

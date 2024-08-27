@@ -7,7 +7,7 @@ export const globalEvents = {
     'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether you want to join an existing event or run your own, and whether you’re inclined to do so in-person or virtually, we’re here to support you!',
   cta: {
     id: 'view-all-events',
-    href: 'https://hackp.ac/hacktoberfest-ohqlandingpage',
+    href: 'https://events.mlh.io/series/Hacktoberfest-2024',
     children: 'View All Events',
   },
 };

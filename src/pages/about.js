@@ -45,6 +45,12 @@ export const StyledSponsorsList = styled.div`
   }
 `;
 
+export const StyledLoreContent = styled.div`
+  a {
+    color: ${({ theme }) => theme.colors.deepPink};
+  }
+`;
+
 const About = () => {
   const theme = useTheme();
 
@@ -82,12 +88,14 @@ const About = () => {
           <StyledSectionSpacing>
             <ContentMaster size="xl" title={lore.title} />
 
-            <ContentSide>
-              <ContentMaster size="xl">{lore.content}</ContentMaster>
-              <ContentMaster size="xl" links={lore.links}>
-                {lore.contentRight}
-              </ContentMaster>
-            </ContentSide>
+            <StyledLoreContent>
+              <ContentSide>
+                <ContentMaster size="xl">{lore.content}</ContentMaster>
+                <ContentMaster size="xl" links={lore.links}>
+                  {lore.contentRight}
+                </ContentMaster>
+              </ContentSide>
+            </StyledLoreContent>
           </StyledSectionSpacing>
         </Container>
       </Section>
@@ -124,7 +132,7 @@ const About = () => {
               <ContentMaster
                 size="md"
                 titleTag="h3"
-                title={sharing.blog.title}
+                title={<>{sharing.blog.title}</>}
                 children={sharing.blog.content}
                 hasCaret={false}
               />
@@ -132,7 +140,7 @@ const About = () => {
               <ContentMaster
                 size="md"
                 titleTag="h3"
-                title={sharing.social.title}
+                title={<>{sharing.social.title}</>}
                 children={sharing.social.content}
                 hasCaret={false}
               />

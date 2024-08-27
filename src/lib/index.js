@@ -30,7 +30,7 @@ export const events = [
     time: '',
     rsvp: {
       href: 'https://ghw.mlh.io/events/open-source',
-      text: 'Learn more and register',
+      text: 'Register',
     },
   },
   {

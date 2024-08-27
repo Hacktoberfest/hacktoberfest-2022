@@ -29,6 +29,7 @@ export const StyledCountdown = styled.div`
 `;
 
 export const StyledCountdownItem = styled.div`
+  color: ${({ theme }) => theme.colors.darkGreen};
   padding: 20px 0 28px;
   text-align: center;
   position: relative;

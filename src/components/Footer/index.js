@@ -147,7 +147,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="https://www.digitalocean.com/open-source/hacktoberfest#open-source-stay-up-to-date"
+                  href="https://www.digitalocean.com/open-source/hacktoberfest#stay-up-to-date"
                   target="_blank"
                   rel="noreferrer noopener"
                 >

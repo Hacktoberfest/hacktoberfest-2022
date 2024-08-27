@@ -44,6 +44,7 @@ export const StyledFooterLogo = styled.div`
   }
 
   img {
+    height: auto;
     width: 100%;
   }
 `;
@@ -89,7 +90,6 @@ export const StyledFooterLinksColumn = styled.div`
     position: relative;
     font-weight: 700;
     line-height: 1.5;
-    text-transform: uppercase;
     position: relative;
     color: ${({ theme }) => theme.colors.cream};
     text-decoration: none;

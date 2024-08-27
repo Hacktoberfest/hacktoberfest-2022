@@ -34,7 +34,7 @@ export const StyledAccordion = styled.details`
     }
 
     strong {
-      color: ${({ theme }) => theme.colors.green};
+      color: ${({ theme }) => theme.colors.deepPink};
     }
 
     &::-webkit-details-marker,
@@ -58,7 +58,6 @@ export const StyledAccordion = styled.details`
       transition:
         letter-spacing 0.2s ease 0.2s,
         text-indent 0.2s ease 0.2s,
-        text-shadow 0.2s ease 0.2s,
         color 0.4s ease;
 
       ${mQ(bp.desktop)} {
@@ -82,7 +81,6 @@ export const StyledAccordion = styled.details`
         `
             : `
           color: ${theme.colors.deepPink};
-          text-shadow: -1px -1px 10px ${theme.colors.pink};
         `}
 
         @media (prefers-reduced-motion) {

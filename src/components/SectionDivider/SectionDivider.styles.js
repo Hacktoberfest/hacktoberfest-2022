@@ -1,8 +1,4 @@
 import styled from 'styled-components';
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
 
 export const StyledSectionDivider = styled.div`
   ${({ $align, $bgColor, $fgColor, $isFlipped, theme }) => `
@@ -13,6 +9,7 @@ export const StyledSectionDivider = styled.div`
 
     svg {
       height: auto;
+      margin: -1px 0;
       width: auto;
       ${$align === 'left' && `transform: scaleX(-1)`};
       ${$align === 'right' && `margin-left: auto;`};

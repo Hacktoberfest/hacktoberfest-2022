@@ -27,7 +27,7 @@ const AccordionSponsor = (props) => {
               <img {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster size="md" title={title} hasCaret={false}>
+          <ContentMaster size="md" title={<>{title}</>} hasCaret={false}>
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>
