@@ -36,8 +36,8 @@ const HomeIntro = () => {
         </StyledHomeIntroCallout>
 
         <StyledSloth>
-          <img src={topDots.src} alt="" />
-          <img src={sloth.src} alt="" />
+          <img src={topDots.src} alt="" width="1030" height="211" />
+          <img src={sloth.src} alt="" width="520" height="235" />
         </StyledSloth>
       </StyledHomeIntroContainer>
       <img src={dots.src} alt="" />
