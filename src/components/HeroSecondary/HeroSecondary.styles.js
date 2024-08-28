@@ -4,7 +4,6 @@ import {
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 import { body32, headline90 } from 'themes/typography';
-import heroBg from 'assets/img/bg-hero-secondary.svg';
 import heroBgTop from 'assets/img/bg-hero-secondary--top.svg';
 import heroBgBottom from 'assets/img/bg-hero-secondary--bottom.svg';
 
