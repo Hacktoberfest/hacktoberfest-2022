@@ -34,7 +34,8 @@ export const StyledAccordion = styled.details`
     }
 
     strong {
-      color: ${({ theme }) => theme.colors.deepPink};
+      color: ${({ $isDark, theme }) =>
+        $isDark ? theme.colors.green : theme.colors.deepPink};
     }
 
     &::-webkit-details-marker,
