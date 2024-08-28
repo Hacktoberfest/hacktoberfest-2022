@@ -61,12 +61,14 @@ const StyledNav = styled.nav`
     flex-direction: row;
   }
 
-  &[aria-selected='true'] {
+  ${({ $isOpen }) =>
+    $isOpen &&
+    `
     opacity: 0 !important;
     visibility: hidden !important;
     height: 0 !important;
     display: none !important;
-  }
+  `}
 
   a {
     ${body16};
@@ -304,7 +306,7 @@ const DorknamicIsland = (props) => {
     <StyledWrapper ref={wrapper}>
       <StyledIsland ref={island}>
         <StyledInit ref={init}>Init</StyledInit>
-        <StyledNav ref={nav} aria-selected={open}>
+        <StyledNav ref={nav} $isOpen={open}>
           {props.children}
         </StyledNav>
         <StyledShutterWrapper>

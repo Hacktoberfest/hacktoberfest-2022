@@ -12,6 +12,8 @@ export const lore = {
   links: [
     {
       id: 'watch-hacktoberfest',
+      target: '_blank',
+      rel: 'noreferrer noopener',
       href: 'https://www.youtube.com/playlist?list=PLseEp7p6EwiZgLPknY4ITJxfoo75wqxph',
       children: 'Watch Hacktoberfest brand videos from over the years',
     },
