@@ -4,10 +4,13 @@ import {
   StyledHomeIntroContent,
   StyledHomeIntroCallout,
   StyledHomeIntroContainer,
+  StyledSloth,
 } from './HomeIntro.styles';
 
 import Countdown from 'components/Countdown';
 import dots from 'assets/img/dots.svg';
+import sloth from 'assets/img/sloan-the-sloth.svg';
+import topDots from 'assets/img/top-dots.svg';
 
 const HomeIntro = () => {
   return (
@@ -31,6 +34,11 @@ const HomeIntro = () => {
         <StyledHomeIntroCallout>
           <Countdown />
         </StyledHomeIntroCallout>
+
+        <StyledSloth>
+          <img src={topDots.src} alt="" />
+          <img src={sloth.src} alt="" />
+        </StyledSloth>
       </StyledHomeIntroContainer>
       <img src={dots.src} alt="" />
     </StyledHomeIntro>

@@ -7,7 +7,7 @@ export const mainTheme = {
     lightGreen: '#D8FFD8',
     paleGreen: '#ADEDAD',
     pink: '#FF8BFF',
-    deepPink: '#C401C4',
+    deepPink: '#A600A0',
     lightPink: '#FFDBFF',
     black: '#1C1C1C',
     light: '#FEFDF8',

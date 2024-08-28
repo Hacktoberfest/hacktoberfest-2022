@@ -4,22 +4,38 @@ import {
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 import { body32, headline90 } from 'themes/typography';
-import heroBg from 'assets/img/bg-hero-secondary.png';
+import heroBg from 'assets/img/bg-hero-secondary.svg';
+import heroBgTop from 'assets/img/bg-hero-secondary--top.svg';
+import heroBgBottom from 'assets/img/bg-hero-secondary--bottom.svg';
 
 export const StyledHeroSecondary = styled.div`
   background: ${({ theme }) => theme.colors.darkGreen};
   position: relative;
 
-  &::before {
+  &::before,
+  &::after {
     content: '';
+    display: none;
     position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: url('${heroBg.src}') no-repeat;
-    background-size: auto calc(100% + 70px);
-    background-position: 0 0;
+    height: ${(200 / 1440) * 100}vw;
+
+    ${mQ(bp.tablet)} {
+      display: block;
+    }
+  }
+
+  &::before {
+    top: 0;
+    background: url('${heroBgTop.src}') no-repeat;
+    background-size: 100% auto;
+  }
+
+  &::after {
+    bottom: ${(70 / 1440) * -100}vw;
+    background: url('${heroBgBottom.src}') no-repeat;
+    background-size: 100% auto;
   }
 `;
 

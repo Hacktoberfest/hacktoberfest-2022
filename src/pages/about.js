@@ -28,7 +28,7 @@ import DividerRow from 'components/DividerRow';
 import AccordionSponsor from 'components/AccordionSponsor';
 import ContentSide from 'components/ContentSide';
 import SectionDivider from 'components/SectionDivider';
-import asciiAbout from 'assets/img/ascii-about--test.svg';
+import asciiAbout from 'assets/img/ascii-about.svg';
 import asciiShare from 'assets/img/ascii-share.svg';
 import asciiSponsors from 'assets/img/ascii-sponsors--black.svg';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
@@ -175,12 +175,10 @@ const About = () => {
             />
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="xl" title="Our Sponsors" hasCaret={false} />
-
-              <Divider />
+              <ContentMaster size="lg" title="Our Sponsors" hasCaret={false} />
 
               <ContentMaster
-                size="lg"
+                size="md"
                 title={<>Founder</>}
                 titleTag="h3"
                 hasCaret={false}
@@ -202,7 +200,7 @@ const About = () => {
 
             <StyledSectionSpacing $isSmall={true}>
               <ContentMaster
-                size="lg"
+                size="md"
                 title={<>Advocate</>}
                 titleTag="h3"
                 hasCaret={false}
@@ -224,7 +222,7 @@ const About = () => {
 
             <StyledSectionSpacing $isSmall={true}>
               <ContentMaster
-                size="lg"
+                size="md"
                 title={<>Sustainer</>}
                 titleTag="h3"
                 hasCaret={false}
@@ -245,9 +243,7 @@ const About = () => {
             </StyledSectionSpacing>
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="xl" title="Our Partners" hasCaret={false} />
-
-              <Divider />
+              <ContentMaster size="lg" title="Our Partners" hasCaret={false} />
 
               <StyledSponsorsList>
                 {partners.map((item) => (
