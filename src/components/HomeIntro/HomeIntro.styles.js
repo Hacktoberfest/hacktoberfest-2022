@@ -76,6 +76,10 @@ export const StyledSloth = styled.div`
     grid-column: 1/-1;
   }
 
+  img {
+    height: auto;
+  }
+
   > img:nth-child(1) {
     padding: 20px 0;
     width: 100%;
