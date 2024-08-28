@@ -181,7 +181,7 @@ const About = () => {
 
               <ContentMaster
                 size="lg"
-                title="Founder"
+                title={<>Founder</>}
                 titleTag="h3"
                 hasCaret={false}
               />
@@ -203,7 +203,7 @@ const About = () => {
             <StyledSectionSpacing $isSmall={true}>
               <ContentMaster
                 size="lg"
-                title="Advocate"
+                title={<>Advocate</>}
                 titleTag="h3"
                 hasCaret={false}
               />
@@ -225,7 +225,7 @@ const About = () => {
             <StyledSectionSpacing $isSmall={true}>
               <ContentMaster
                 size="lg"
-                title="Sustainer"
+                title={<>Sustainer</>}
                 titleTag="h3"
                 hasCaret={false}
               />
@@ -245,12 +245,9 @@ const About = () => {
             </StyledSectionSpacing>
 
             <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster
-                size="lg"
-                title="Our Partners:"
-                titleTag="h3"
-                hasCaret={false}
-              />
+              <ContentMaster size="xl" title="Our Partners" hasCaret={false} />
+
+              <Divider />
 
               <StyledSponsorsList>
                 {partners.map((item) => (
