@@ -1,4 +1,4 @@
-import logo from 'assets/img/logo-hacktoberfest--mark.svg';
+import logo from 'assets/img/logo-hacktoberfest-11--mark.svg';
 
 import { StyledAvatar, StyledAvatarContainer } from './Avatar.styles';
 
