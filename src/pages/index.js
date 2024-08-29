@@ -163,9 +163,7 @@ const Home = () => {
                 variant: 'primary-green',
               }}
             >
-              {
-                'This year, Hacktoberfest is sponsored by DigitalOcean, Twilio, Cloudflare, and Quira. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.'
-              }
+              {`This year, Hacktoberfest is sponsored by ${asList(sponsors.map(({ title }) => `**${title}**`))}. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.`}
             </ContentMaster>
 
             <Glitch
