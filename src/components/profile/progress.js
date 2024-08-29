@@ -14,7 +14,6 @@ import PullRequest from 'components/PullRequest';
 
 import EmailWarning from './email-warning';
 import Holopin from './rewards/holopin';
-import TreeNation from './rewards/tree-nation';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
 import ContentMaster from 'components/ContentMaster';
 
@@ -260,57 +259,6 @@ const Progress = ({ auth }) => {
                     reason="registering for Hacktoberfest"
                     item="your base avatar"
                     claim="https://www.holopin.io/hacktoberfest2023/claim"
-                  />
-                )}
-              </ul>
-
-              <Divider />
-
-              <StyledCheckEmail>
-                Check your email for more information on how to claim each
-                reward.
-              </StyledCheckEmail>
-            </Notification>
-          )}
-
-          {Object.keys(giftCodes).some((type) =>
-            [
-              'holopin-digitalocean-badge',
-              'holopin-illa-cloud-badge',
-              'holopin-appwrite-badge',
-              'holopin-tree-badge',
-            ].includes(type),
-          ) && (
-            <Notification
-              title="Rewards: Holopin Badges"
-              color={theme.colors.black}
-            >
-              <ul>
-                {giftCodes['holopin-tree-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-tree-badge']}
-                    reason="completing your first accepted PR/MR, and having a tree planted by Hacktoberfest"
-                  />
-                )}
-                {giftCodes['holopin-digitalocean-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-digitalocean-badge']}
-                    reason="registering for Hacktoberfest"
-                    from="DigitalOcean"
-                  />
-                )}
-                {giftCodes['holopin-illa-cloud-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-illa-cloud-badge']}
-                    reason="registering for Hacktoberfest"
-                    from="ILLA Cloud"
-                  />
-                )}
-                {giftCodes['holopin-appwrite-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-appwrite-badge']}
-                    reason="registering for Hacktoberfest"
-                    from="Appwrite"
                   />
                 )}
               </ul>
