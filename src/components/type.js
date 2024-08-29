@@ -113,7 +113,11 @@ const Type = ({
         {text.slice(0, progress)}
         {cursor && <span style={{ color: cursorColor }}>_</span>}
       </StyledType>
-      {!done && <span style={{ opacity: 0 }}>{text.slice(progress)}</span>}
+      {!done && (
+        <span aria-hidden="true" style={{ opacity: 0 }}>
+          {text.slice(progress)}
+        </span>
+      )}
 
       {/* Screen readers should read the full text */}
       <span style={srOnly}>{text}</span>
