@@ -273,8 +273,6 @@ const Progress = ({ auth }) => {
             </Notification>
           )}
 
-          <TreeNation code={giftCodes['tree-nation-tree']} />
-
           {Object.keys(giftCodes).some((type) =>
             [
               'holopin-digitalocean-badge',
