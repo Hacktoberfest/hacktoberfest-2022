@@ -371,8 +371,7 @@ export const faqs = {
       collapsed: true,
       items: [
         {
-          content:
-            'Hacktoberfest profiles close on December 15. Please make sure you’ve claimed all your Holopin badges using the claim links on your profile (also sent via email).',
+          content: `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges using the claim links on your profile (also sent via email).`,
         },
       ],
     },
