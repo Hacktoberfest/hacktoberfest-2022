@@ -98,7 +98,7 @@ export const StyledAccordion = styled.details`
     padding: 24px 0 0;
 
     p {
-      ${body20};
+      ${body20}
     }
 
     ul {

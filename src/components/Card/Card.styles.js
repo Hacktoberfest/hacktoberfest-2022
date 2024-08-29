@@ -71,6 +71,6 @@ export const StyledCardContent = styled.div`
 `;
 
 export const StyledCardTitle = styled.h2`
-  ${headline32};
+  ${headline32}
   color: ${({ theme }) => theme.colors.typography};
 `;

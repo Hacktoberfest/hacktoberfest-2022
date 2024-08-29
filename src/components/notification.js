@@ -10,7 +10,7 @@ const StyledNotification = styled.div`
 
   > h2 {
     margin: 0 0 16px;
-    ${headline32};
+    ${headline32}
   }
 
   > *:last-child {
@@ -36,7 +36,7 @@ const StyledNotification = styled.div`
     css`
       > p {
         margin: 0 0 16px;
-        ${body24};
+        ${body24}
       }
     `}
 `;

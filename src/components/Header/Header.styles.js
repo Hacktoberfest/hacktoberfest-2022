@@ -80,14 +80,14 @@ export const StyledHeaderNav = styled.nav`
 `;
 
 export const StyledHeaderLink = styled(Link)`
-  ${body32};
+  ${body32}
   position: relative;
   transition: 0.1s ease;
   text-decoration: none;
   color: inherit;
 
   ${mQ(bp.desktop)} {
-    ${body16};
+    ${body16}
     text-transform: uppercase;
     font-weight: 500;
   }

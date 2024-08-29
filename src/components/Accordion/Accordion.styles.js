@@ -26,7 +26,7 @@ export const StyledAccordion = styled.details`
     position: relative;
     list-style: none;
     cursor: pointer;
-    ${headline32};
+    ${headline32}
     padding-right: 60px;
 
     ${mQ(bp.desktop)} {

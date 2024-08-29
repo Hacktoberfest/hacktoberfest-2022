@@ -53,7 +53,7 @@ export const StyledHomeIntroContent = styled.div`
   }
 
   h2 {
-    ${headline56};
+    ${headline56}
   }
 `;
 

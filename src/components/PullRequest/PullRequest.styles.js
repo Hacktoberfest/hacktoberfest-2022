@@ -106,7 +106,7 @@ export const StyledEyebrowWrapper = styled.div`
 `;
 
 export const StyledEyebrow = styled.p`
-  ${body16};
+  ${body16}
   border-radius: 8px;
   padding: 6px 14px;
 `;
@@ -126,13 +126,13 @@ export const StyledInfo = styled.div`
 export const StyledPRTitle = styled.h3`
   flex-basis: 0;
   flex-grow: 1;
-  ${body20};
+  ${body20}
 `;
 
 export const StyledPRMR = styled.p`
   flex-basis: 0;
   flex-grow: 1;
-  ${body20};
+  ${body20}
 `;
 
 export const StyledPullRequest = styled.div`

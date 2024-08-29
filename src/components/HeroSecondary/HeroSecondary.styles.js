@@ -68,12 +68,12 @@ export const StyledHeroSecondaryContent = styled.div`
 `;
 
 export const StyledHeroSecondaryTitle = styled.h1`
-  ${body32};
+  ${body32}
   color: ${({ theme }) => theme.colors.typography};
   text-align: center;
 
   ${mQ(bp.desktop)} {
-    ${headline90};
+    ${headline90}
   }
 
   &::before {

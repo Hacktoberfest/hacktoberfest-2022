@@ -28,14 +28,14 @@ export const StyledLabel = styled.label`
 
     > p {
       margin: 0 !important; // Some section somewhere is using classes to get higher precedence
-      ${body20};
+      ${body20}
     }
   }
 
   > p {
     margin: 8px 0 0 !important; // Some section somewhere is using classes to get higher precedence
     padding-left: 32px;
-    ${body16};
+    ${body16}
   }
 
   p {

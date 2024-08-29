@@ -24,13 +24,13 @@ export const StyledHeroContent = styled.div`
 `;
 
 export const StyledHeroTitle = styled.h1`
-  ${headline90};
+  ${headline90}
   color: ${({ theme }) => theme.colors.darkGreen};
   text-align: center;
 `;
 
 export const StyledHeroSubtitle = styled.p`
-  ${body24};
+  ${body24}
   color: ${({ theme }) => theme.colors.darkGreen};
   margin: 0 0 24px;
 

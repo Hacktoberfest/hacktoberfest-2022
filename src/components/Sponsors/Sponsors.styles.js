@@ -14,7 +14,7 @@ export const StyledSponsors = styled.div`
 `;
 
 export const StyledSponsorsTitle = styled.div`
-  ${body18};
+  ${body18}
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 3.6px;

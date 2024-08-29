@@ -28,7 +28,7 @@ export const StyledSelect = styled.div`
   }
 
   select {
-    ${body20};
+    ${body20}
     appearance: none;
     background: transparent;
     border: 1px solid currentColor;
@@ -60,7 +60,7 @@ export const StyledSelect = styled.div`
 `;
 
 export const StyledSelectLabel = styled.label`
-  ${body24};
+  ${body24}
   color: currentColor;
   font-weight: 500;
   display: block;

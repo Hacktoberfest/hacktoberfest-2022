@@ -57,10 +57,10 @@ export const StyledCardCalloutContent = styled.div`
 `;
 
 export const StyledCardCalloutTitle = styled.h2`
-  ${body16};
+  ${body16}
 
   ${mQ(bp.desktop)} {
-    ${body20};
+    ${body20}
   }
 `;
 

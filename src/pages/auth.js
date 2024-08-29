@@ -26,7 +26,7 @@ import createMetaTitle from 'lib/createMetaTitle';
 const StyledP = styled.p`
   display: inline-flex;
   margin: 0 0 40px;
-  ${body24};
+  ${body24}
 `;
 
 export const StyledAuth = styled.div`

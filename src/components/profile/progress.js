@@ -32,7 +32,7 @@ const StyledProgressSummary = styled.div`
   max-width: 608px;
 
   h2 {
-    ${body32};
+    ${body32}
     font-weight: 500;
     color: ${({ theme }) => theme.colors.green};
 
@@ -55,7 +55,7 @@ const StyledPullRequests = styled.ul`
 
 const StyledFootNote = styled.p`
   margin: 0;
-  ${body20};
+  ${body20}
   max-width: 1012px;
   color: ${({ theme }) => theme.colors.black};
 

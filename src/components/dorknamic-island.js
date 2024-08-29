@@ -71,7 +71,7 @@ const StyledNav = styled.nav`
   `}
 
   a {
-    ${body16};
+    ${body16}
     font-weight: 500;
     text-transform: uppercase;
     width: auto;

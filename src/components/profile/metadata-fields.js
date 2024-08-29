@@ -25,7 +25,7 @@ const StyledFormSection = styled.div`
 `;
 
 const StyledFormSectionTitle = styled.h2`
-  ${headline48};
+  ${headline48}
 `;
 
 const StyledFormGroup = styled.fieldset`
@@ -38,12 +38,12 @@ const StyledFormGroup = styled.fieldset`
     margin: 0 0 48px;
     display: block;
     width: 100%;
-    ${body24};
+    ${body24}
 
     small,
     span {
       color: ${({ theme }) => theme.colors.black};
-      ${body18};
+      ${body18}
     }
 
     span {

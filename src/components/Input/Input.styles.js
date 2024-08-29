@@ -6,7 +6,7 @@ import {
 import { body20, body24 } from 'themes/typography';
 
 export const StyledInput = styled.input`
-  ${body20};
+  ${body20}
   background: transparent;
   border: 1px solid currentColor;
   color: currentColor;
@@ -50,7 +50,7 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledInputLabel = styled.label`
-  ${body24};
+  ${body24}
   color: currentColor;
   font-weight: 500;
   display: block;

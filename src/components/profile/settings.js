@@ -37,7 +37,7 @@ import MetadataFields from './metadata-fields';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
 
 const StyledFormSectionTitle = styled.h2`
-  ${headline48};
+  ${headline48}
 `;
 
 const StyledButtonGroup = styled.div`
@@ -47,7 +47,7 @@ const StyledButtonGroup = styled.div`
 `;
 
 const StyledButtonLink = styled.button`
-  ${body20};
+  ${body20}
   color: ${({ theme }) => theme.colors.black};
 
   &:hover {

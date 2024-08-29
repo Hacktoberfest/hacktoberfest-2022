@@ -49,10 +49,10 @@ export const StyledCountdownItem = styled.div`
   }
 
   p {
-    ${body16};
+    ${body16}
 
     span {
-      ${headline90};
+      ${headline90}
       display: block;
     }
   }

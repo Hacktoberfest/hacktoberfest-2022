@@ -36,7 +36,7 @@ export const StyledSearch = styled.div`
     padding: 16px 24px;
     width: 100%;
     color: ${({ theme }) => theme.colors.black};
-    ${body20};
+    ${body20}
     border-radius: 0;
     border: 1px solid ${({ theme }) => theme.colors.black};
     background: transparent;

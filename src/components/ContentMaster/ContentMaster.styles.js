@@ -70,7 +70,8 @@ export const StyledContentMasterTitle = styled.h2`
 export const StyledContentMasterBody = styled.div`
   p,
   li {
-    ${body16};
+    ${body16}
+
     ${mQ(bp.desktop)} {
       ${({ $size }) => $size === 'xl2' && body24};
       ${({ $size }) => $size === 'xl' && body20};
@@ -149,9 +150,10 @@ export const StyledContentMasterList = styled.ul`
   `};
 
   li {
-    ${body16};
+    ${body16}
+
     ${mQ(bp.desktop)} {
-      ${body20};
+      ${body20}
     }
   }
 

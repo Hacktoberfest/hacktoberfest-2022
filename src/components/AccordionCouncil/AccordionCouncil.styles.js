@@ -108,7 +108,7 @@ export const StyledAccordion = styled.details`
 
     p {
       margin: 0 0 24px;
-      ${body20};
+      ${body20}
 
       &:last-child {
         margin-bottom: 0;
