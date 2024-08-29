@@ -11,14 +11,16 @@ export const StyledSectionDivider = styled.div`
       height: auto;
       margin: -1px 0;
       width: auto;
-      ${$align === 'left' && `transform: scaleX(-1)`};
-      ${$align === 'right' && `margin-left: auto;`};
 
       ${
-        $isFlipped &&
-        `
+        $isFlipped
+          ? `
         ${$align === 'left' && `transform: scale(-1)`};
         ${$align === 'right' && `transform: scaleY(-1); margin-left: auto;`};
+      `
+          : `
+        ${$align === 'left' && `transform: scaleX(-1)`};
+        ${$align === 'right' && `margin-left: auto;`};
       `
       }
     }
