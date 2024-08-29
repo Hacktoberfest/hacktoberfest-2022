@@ -381,38 +381,6 @@ const MetadataFields = ({
         </StyledFormSection>
       </Section>
 
-      {!!fields.operational && (
-        <>
-          <Divider type="doubledashed" />
-          <StyledFormSection>
-            <StyledFormSectionTitle>Operational opt-ins</StyledFormSectionTitle>
-            <StyledFormGroup>
-              <legend>
-                Do you wish to accept operational opt-ins?{' '}
-                <small>[optional]</small>
-                <span>Select all that apply</span>
-              </legend>
-
-              <StyledFormRow $columns={2}>
-                {fields.operational.map((meta) => (
-                  <CheckRadio
-                    key={meta.name}
-                    title={meta.title}
-                    message={meta.message}
-                    name={meta.name}
-                    onChange={(e) =>
-                      updateMetadata({ [meta.name]: e.target.checked })
-                    }
-                    checked={value.metadata[meta.name]}
-                    disabled={disabled}
-                  />
-                ))}
-              </StyledFormRow>
-            </StyledFormGroup>
-          </StyledFormSection>
-        </>
-      )}
-
       {!!fields.marketing && (
         <>
           <Divider type="doubledashed" />
