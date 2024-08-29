@@ -1,5 +1,3 @@
-import '../styles/globals.css';
-
 import Head from 'next/head';
 
 import { Theme } from 'components/theme';
