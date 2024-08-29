@@ -9,6 +9,7 @@ import heroBgBottom from 'assets/img/bg-hero-secondary--bottom.svg';
 
 export const StyledHeroSecondary = styled.div`
   background: ${({ theme }) => theme.colors.darkGreen};
+  overflow: hidden;
   position: relative;
 
   &::before,
