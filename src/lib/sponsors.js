@@ -202,8 +202,8 @@ export const partners = [
     link: {
       target: '_blank',
       rel: 'noreferrer noopener',
-      href: 'https://www.cncf.io/',
-      title: 'Visit CNCF',
+      href: 'https://opensource.org/join',
+      title: 'Visit OSI',
     },
     hero: {
       image: partnersOSIHero.src,
