@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const StyledSectionDivider = styled.div`
   ${({ $align, $bgColor, $fgColor, $isFlipped, theme }) => `
-    background-color: ${$bgColor ? $bgColor : theme.colors.typography};
-    color: ${$fgColor ? $fgColor : theme.colors.black};
+    background-color: ${$bgColor || theme.colors.typography};
+    color: ${$fgColor || theme.colors.black};
     display: flex;
     line-height: 0;
 
