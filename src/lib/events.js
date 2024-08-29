@@ -7,7 +7,7 @@ export const globalEvents = {
     'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether you want to join an existing event or run your own, and whether you’re inclined to do so in-person or virtually, we’re here to support you!',
   cta: {
     id: 'view-all-events',
-    href: 'https://events.mlh.io/series/Hacktoberfest-2024',
+    href: 'https://mlh.link/hacktoberfest2024',
     children: 'View All Events',
   },
 };
@@ -91,7 +91,14 @@ export const organizeDisclaimer = {
 export const register = {
   title: 'Register Your Event',
   content:
-    'All community events that are part of Hacktoberfest should register themselves through this form. This lets us pass your event information on to Major League Hacking so they can list your event with all the other community events this year, and lets us know about your event so that we don’t come after you for using the Hacktoberfest brand.',
+    'All community events that are part of Hacktoberfest should register themselves through Major League Hacking. This lets us list your event with all the other community events this year, and lets us know about your event so that we don’t come after you for using the Hacktoberfest brand.',
+  cta: {
+    target: '_blank',
+    rel: 'noreferrer noopener',
+    href: 'https://mlh.link/hacktoberfest2024-host',
+    children: 'Register Your Event With MLH',
+    variant: 'primary-green',
+  },
 };
 
 export const brand = {

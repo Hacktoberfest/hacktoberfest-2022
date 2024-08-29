@@ -46,7 +46,8 @@ export const advocate = [
   {
     image: advocatesTwilio.src,
     title: 'Twilio',
-    content: 'Need content',
+    content:
+      'Twilio is the industry-leading and trusted platform that efficiently powers your customer engagement innovation through SMS, voice, email, chat, and WhatsApp. Twilio participates in the open-source ecosystem with projects such as Guardrail, a code generation tool that utilizes OpenAPI/Swagger specifications with a focus on quality and maintainability.',
     link: {
       target: '_blank',
       rel: 'noreferrer noopener',

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useCallback, useRef, useState } from 'react';
+import React from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import {
@@ -34,11 +34,6 @@ import { StyledSectionSpacing } from 'styles/sharedStyles';
 import SectionDivider from 'components/SectionDivider';
 import { events } from 'lib';
 import Event from 'components/Event';
-import Form from 'components/form';
-import Select from 'components/Select';
-import Input from 'components/Input';
-import ButtonMain from 'components/ButtonMain';
-import { dropdownCountries } from 'components/profile/metadata-fields';
 
 export const StyledAccordionGroup = styled.div`
   display: flex;
@@ -62,72 +57,8 @@ export const StyledEvents = styled.ul`
   gap: 48px;
 `;
 
-export const StyledFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 60px;
-  align-items: flex-start;
-`;
-
-export const StyledFormGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 60px 64px;
-  width: 100%;
-
-  ${mQ(bp.tablet)} {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  > *:last-child {
-    grid-column: 1/-1;
-  }
-`;
-
 const Events = () => {
   const theme = useTheme();
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    country: '',
-    city: '',
-    eventName: '',
-    eventType: '',
-    eventDate: '',
-    eventTime: '',
-    eventLocation: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(null);
-  const [disabled, setDisabled] = useState(false);
-
-  // Handle form submission
-  const form = useRef();
-  const submit = useCallback(async (e) => {
-    e.preventDefault();
-    if (disabled) return;
-    setDisabled(true);
-    setError(null);
-    setSuccess(false);
-
-    if (!form.current?.reportValidity()) {
-      setDisabled(false);
-      setError('Please fill out all the fields.');
-      return;
-    }
-
-    console.log(formData);
-  }, []);
 
   return (
     <>
@@ -259,132 +190,10 @@ const Events = () => {
         <Container>
           <ContentSide>
             <ContentMaster size="xl" title={register.title} />
-            <ContentMaster size="xl">{register.content}</ContentMaster>
+            <ContentMaster size="xl" cta={register.cta}>
+              {register.content}
+            </ContentMaster>
           </ContentSide>
-        </Container>
-      </Section>
-
-      <Section bgColor={theme.colors.black} color={theme.colors.typography}>
-        <Container>
-          <Form
-            ref={form}
-            onSubmit={submit}
-            success={success && 'Something should go here'}
-            error={error}
-          >
-            <StyledFormContainer>
-              <StyledFormGrid>
-                <Input
-                  name="name"
-                  label="Name"
-                  placeholder="First and last name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  required
-                />
-
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email"
-                  placeholder="hacker@digitalocean.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  required
-                />
-
-                <Select
-                  name="country"
-                  label="Country"
-                  value={formData.country}
-                  items={dropdownCountries}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  isDark
-                  required
-                />
-
-                <Input
-                  name="city"
-                  label="City"
-                  value={formData.city}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  required
-                />
-
-                <Input
-                  name="eventName"
-                  label="Event name"
-                  placeholder="Hackathon"
-                  value={formData.eventName}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  required
-                />
-
-                <Select
-                  name="eventType"
-                  label="Event type"
-                  value={formData.eventType}
-                  items={[
-                    ['In-Person', 'In-person'],
-                    ['Virtual', 'Virtual'],
-                    ['Hybrid', 'Hybrid'],
-                  ]}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  isDark
-                  required
-                />
-
-                <Input
-                  type="date"
-                  name="eventDate"
-                  label="Event date"
-                  value={formData.eventDate}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  isDark
-                  required
-                />
-
-                <Input
-                  type="time"
-                  name="eventTime"
-                  label="Event time"
-                  value={formData.eventTime}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  isDark
-                  required
-                />
-
-                <Input
-                  name="eventLocation"
-                  label="Event location"
-                  placeholder="101 Avenue of the Americas, 10th Floor"
-                  value={formData.eventLocation}
-                  onChange={handleChange}
-                  disabled={disabled}
-                  required
-                />
-              </StyledFormGrid>
-
-              <ButtonMain
-                size="lg"
-                as="button"
-                type="submit"
-                variant="primary-green"
-                onClick={submit}
-                disabled={disabled}
-              >
-                Submit
-              </ButtonMain>
-            </StyledFormContainer>
-          </Form>
         </Container>
       </Section>
 
