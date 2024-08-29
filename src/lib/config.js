@@ -18,6 +18,13 @@ export const registrationStart =
 
 /**
  * Used for:
+ *   - Displaying the current hacktoberfest year
+ */
+export const currentHacktoberfest =
+  new Date(registrationStart).getFullYear() - 2013;
+
+/**
+ * Used for:
  *   - Controlling access to registration page
  *   - Toggling copy for profile access in nav
  *   - Participation page information

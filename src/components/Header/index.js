@@ -2,7 +2,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { profileEnd, registrationEnd, registrationStart } from 'lib/config';
+import {
+  currentHacktoberfest,
+  profileEnd,
+  registrationEnd,
+  registrationStart,
+} from 'lib/config';
 
 import {
   StyledHeader,
@@ -57,9 +62,9 @@ const Header = () => {
                   ? hacktoberfestLogoGreen.src
                   : hacktoberfestLogoBeige.src
               }
-              alt="Hacktoberfest 11"
+              alt={`Hacktoberfest ${currentHacktoberfest}`}
               width="198"
-              height="80"
+              height={80}
             />
           </Link>
         </StyledHeaderLogo>

@@ -2,7 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 
 import { fetchUserAvatars } from 'lib/api';
-import { registrationEnd, registrationStart } from 'lib/config';
+import {
+  currentHacktoberfest,
+  registrationEnd,
+  registrationStart,
+} from 'lib/config';
 
 import useAuth from 'hooks/useAuth';
 
@@ -72,8 +76,7 @@ const Register = () => {
       {hasRegistrationEnded ? (
         <Section>
           <p>
-            Registration is now closed, as Hacktoberfest #
-            {new Date(registrationStart).getFullYear() - 2013}{' '}
+            Registration is now closed, as Hacktoberfest #{currentHacktoberfest}{' '}
             {new Date(registrationStart).getFullYear()} has now ended. We look
             forward to seeing you for Hacktoberfest{' '}
             {new Date(registrationStart).getFullYear() + 1}!

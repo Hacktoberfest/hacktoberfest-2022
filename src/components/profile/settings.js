@@ -22,6 +22,7 @@ import {
   updateUser,
 } from 'lib/api';
 import {
+  currentHacktoberfest,
   providerMap,
   registrationStart,
   trackingEndExtended,
@@ -361,7 +362,7 @@ const Settings = ({ auth, isEdit = false }) => {
         <>
           <p>
             It is no longer possible to edit your profile for this year, as
-            Hacktoberfest #{new Date(registrationStart).getFullYear() - 2013}{' '}
+            Hacktoberfest #{currentHacktoberfest}{' '}
             {new Date(registrationStart).getFullYear()} has now ended.
           </p>
           <br />

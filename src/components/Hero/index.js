@@ -8,7 +8,13 @@ import {
 } from './Hero.styles';
 
 import { useMemo } from 'react';
-import { registrationEnd, registrationStart } from 'lib/config';
+import {
+  currentHacktoberfest,
+  registrationEnd,
+  registrationStart,
+} from 'lib/config';
+import ContentMaster from 'components/ContentMaster';
+import { StyledSectionSpacing } from 'styles/sharedStyles';
 
 const Hero = () => {
   const hasRegistrationEnded = useMemo(
@@ -22,7 +28,7 @@ const Hero = () => {
         <StyledHeroContainer $centered={hasRegistrationEnded}>
           <StyledHeroContent>
             <StyledHeroTitle>
-              {hasRegistrationEnded ? (
+              {!hasRegistrationEnded ? (
                 <>
                   Registration is <strong>closed</strong>
                 </>
@@ -34,15 +40,32 @@ const Hero = () => {
               )}
             </StyledHeroTitle>
 
-            {hasRegistrationEnded && (
+            {!hasRegistrationEnded && (
               <StyledHeroSubtitle>
-                Thank you for making contributions to open source.
-                <br />
-                <strong>
-                  Hacktoberfest #
-                  {new Date(registrationStart).getFullYear() - 2013}
-                </strong>{' '}
-                {new Date(registrationStart).getFullYear()} has now ended.
+                <StyledSectionSpacing>
+                  <ContentMaster
+                    size="xl2"
+                    align="center"
+                    links={[
+                      {
+                        id: 'join-the-discord-hero',
+                        href: 'http://discord.gg/hacktoberfest',
+                        children: 'Join the Discord',
+                      },
+                    ]}
+                  >
+                    {`Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest ${currentHacktoberfest}** has officially ended.\n\n` +
+                      'But don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#open-source-stay-up-to-date) to get the latest announcements about future Hacktoberfest events.\n\n' +
+                      'Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord.'}
+                  </ContentMaster>
+
+                  <ContentMaster size="xl2" align="center">
+                    A special thank you to the great folks at DigitalOcean,
+                    Twilio, Cloudflare and Quira for their sponsorship of
+                    Hacktoberfest. Thank you to ALL our Sponsors and Community
+                    Partners, we ❤️ you!
+                  </ContentMaster>
+                </StyledSectionSpacing>
               </StyledHeroSubtitle>
             )}
           </StyledHeroContent>
