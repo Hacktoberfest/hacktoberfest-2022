@@ -38,7 +38,7 @@ export const registrationEnd =
  *   - Participation page information
  */
 export const trackingStart =
-  process.env.TRACKING_START || '2024-10-01T10:00:00Z';
+  process.env.TRACKING_START || '2024-09-30T10:00:00Z';
 
 /**
  * Used for:
