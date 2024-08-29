@@ -1,17 +1,1 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-<style>
-:root {
-  --primary: #F3F0E0;
-  --secondary: #183717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --primary: #183717;
-    --secondary: #50DA4C;
-  }
-}
-</style>
-<rect width="512" height="512" fill="var(--primary)"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M154.197 359.524L184.101 388.942L124 389V124H389V184.033L359.095 154.616H154.197V359.524ZM242.841 183.353H213.618V211.913H184.949V241.136H213.618V300.244H242.841V183.353ZM271.573 300.249H183.906V329.471H271.573V300.249ZM329.921 212.631H300.699V329.521H329.921V212.631ZM300.698 241.853H271.476V271.076H300.698V241.853ZM329.922 300.298H359.144V329.521H329.922V300.298Z" fill="var(--secondary)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" fill="none"><style>:root {--primary: #F3F0E0;--secondary: #183717;}@media (prefers-color-scheme: dark) {:root {--primary: #183717;--secondary: #50DA4C;}}</style><path fill="var(--primary)" d="M0 0h512v512H0z"/><path fill="var(--secondary)" fill-rule="evenodd" d="m154.197 359.524 29.904 29.418L124 389V124h265v60.033l-29.905-29.417H154.197zm88.644-176.171h-29.223v28.56h-28.669v29.223h28.669v59.108h29.223zm28.732 116.896h-87.667v29.222h87.667zm58.348-87.618h-29.222v116.89h29.222zm-29.223 29.222h-29.222v29.223h29.222zm29.224 58.445h29.222v29.223h-29.222z" clip-rule="evenodd"/></svg>
