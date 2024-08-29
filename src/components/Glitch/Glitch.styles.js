@@ -1,12 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 
-function generateRandom(maxLimit = 500) {
-  let rand = Math.random() * maxLimit;
-
-  rand = Math.floor(rand);
-
-  return rand;
-}
+const generateRandom = (maxLimit = 500) => Math.floor(Math.random() * maxLimit);
 
 const glitchEeffect = keyframes`
   5% {
