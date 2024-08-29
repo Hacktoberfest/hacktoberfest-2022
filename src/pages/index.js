@@ -157,7 +157,7 @@ const Home = () => {
                 children: (
                   <>
                     Learn more{' '}
-                    <span className="sr-only">about hacktoberfest</span>
+                    <span className="sr-only">about Hacktoberfest</span>
                   </>
                 ),
                 variant: 'primary-green',
