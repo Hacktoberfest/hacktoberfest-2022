@@ -71,18 +71,11 @@ export const StyledAccordion = styled.details`
 
     &:hover {
       &::after {
+        animation: ${rotateAnimation} 0.2s linear;
+        color: ${({ $isDark, theme }) =>
+          $isDark ? theme.colors.green : theme.colors.deepPink};
         letter-spacing: 4px;
         text-indent: 4px;
-        animation: ${rotateAnimation} 0.2s linear;
-
-        ${({ $isDark, theme }) =>
-          $isDark
-            ? `
-          color: ${theme.colors.green};
-        `
-            : `
-          color: ${theme.colors.deepPink};
-        `}
 
         @media (prefers-reduced-motion) {
           animation-play-state: paused;
