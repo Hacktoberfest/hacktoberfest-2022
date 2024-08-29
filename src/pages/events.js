@@ -47,7 +47,7 @@ export const StyledPromoteSection = styled.div`
   gap: 24px;
 
   ${mQ(bp.tablet)} {
-    grid-template-columns: ${(339 / 1280) * 100}% ${(917 / 1280) * 100}%;
+    grid-template-columns: calc((339 / 1280) * 100%) calc((917 / 1280) * 100%);
   }
 `;
 

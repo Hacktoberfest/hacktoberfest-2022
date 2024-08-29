@@ -98,7 +98,7 @@ export const StyledSloth = styled.div`
     width: 100%;
 
     ${mQ(bp.tablet)} {
-      width: 45.37521815%;
+      width: calc((520 / 1146) * 100%);
     }
   }
 `;

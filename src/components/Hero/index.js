@@ -28,7 +28,7 @@ const Hero = () => {
         <StyledHeroContainer $centered={hasRegistrationEnded}>
           <StyledHeroContent>
             <StyledHeroTitle>
-              {!hasRegistrationEnded ? (
+              {hasRegistrationEnded ? (
                 <>
                   Registration is <strong>closed</strong>
                 </>
@@ -40,7 +40,7 @@ const Hero = () => {
               )}
             </StyledHeroTitle>
 
-            {!hasRegistrationEnded && (
+            {hasRegistrationEnded && (
               <StyledHeroSubtitle>
                 <StyledSectionSpacing>
                   <ContentMaster

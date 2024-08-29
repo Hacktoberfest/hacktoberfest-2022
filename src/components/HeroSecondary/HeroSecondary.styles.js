@@ -18,7 +18,7 @@ export const StyledHeroSecondary = styled.div`
     position: absolute;
     left: 0;
     width: 100%;
-    height: ${(200 / 1440) * 100}vw;
+    height: calc((200 / 1440) * 100vw);
 
     ${mQ(bp.tablet)} {
       display: block;
@@ -32,7 +32,7 @@ export const StyledHeroSecondary = styled.div`
   }
 
   &::after {
-    bottom: ${(70 / 1440) * -100}vw;
+    bottom: calc((70 / 1440) * -100vw);
     background: url('${heroBgBottom.src}') no-repeat;
     background-size: 100% auto;
   }
