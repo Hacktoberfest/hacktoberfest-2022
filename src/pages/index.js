@@ -146,54 +146,58 @@ const Home = () => {
 
       <SectionDivider />
 
-      <Section bgColor={theme.colors.black} color={theme.colors.typography}>
-        <Container>
-          <ContentSide>
-            <ContentMaster
-              size="xl2"
-              title={`Sponsors and Awards for ${new Date(registrationStart).getFullYear()}`}
-              cta={{
-                href: '/about',
-                children: (
-                  <>
-                    Learn more{' '}
-                    <span className="sr-only">about Hacktoberfest</span>
-                  </>
-                ),
-                variant: 'primary-green',
-              }}
-            >
-              {`This year, Hacktoberfest is sponsored by ${asList(sponsors.map(({ title }) => `**${title}**`))}. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.`}
-            </ContentMaster>
+      {!hasRegistrationEnded && (
+        <>
+          <Section bgColor={theme.colors.black} color={theme.colors.typography}>
+            <Container>
+              <ContentSide>
+                <ContentMaster
+                  size="xl2"
+                  title={`Sponsors and Awards for ${new Date(registrationStart).getFullYear()}`}
+                  cta={{
+                    href: '/about',
+                    children: (
+                      <>
+                        Learn more{' '}
+                        <span className="sr-only">about Hacktoberfest</span>
+                      </>
+                    ),
+                    variant: 'primary-green',
+                  }}
+                >
+                  {`This year, Hacktoberfest is sponsored by ${asList(sponsors.map(({ title }) => `**${title}**`))}. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.`}
+                </ContentMaster>
 
-            <Glitch
-              image={
-                <StyledSponsorImage
-                  src={asciiParticipation.src}
-                  alt=""
-                  width="608"
-                  height="608"
+                <Glitch
+                  image={
+                    <StyledSponsorImage
+                      src={asciiParticipation.src}
+                      alt=""
+                      width="608"
+                      height="608"
+                    />
+                  }
                 />
-              }
-            />
-          </ContentSide>
-        </Container>
-      </Section>
+              </ContentSide>
+            </Container>
+          </Section>
 
-      <StyledHomeDivider>
-        <svg
-          width="1440"
-          height="149"
-          viewBox="0 0 1440 149"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1440 1.52588e-05L1256.36 0V49.7521L1073.44 49.752L1003.94 49.752V50L890 50V100L691 100L691 50L555 50L555 100L2.58629e-06 100L0 149L555 149V100L691 100V149H889.357H1003.94L1073 149L1256.36 149L1440 149L1440 100.236L1440 100L1440 1.52588e-05Z"
-            fill="currentColor"
-          />
-        </svg>
-      </StyledHomeDivider>
+          <StyledHomeDivider>
+            <svg
+              width="1440"
+              height="149"
+              viewBox="0 0 1440 149"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1440 1.52588e-05L1256.36 0V49.7521L1073.44 49.752L1003.94 49.752V50L890 50V100L691 100L691 50L555 50L555 100L2.58629e-06 100L0 149L555 149V100L691 100V149H889.357H1003.94L1073 149L1256.36 149L1440 149L1440 100.236L1440 100L1440 1.52588e-05Z"
+                fill="currentColor"
+              />
+            </svg>
+          </StyledHomeDivider>
+        </>
+      )}
 
       {hasRegistrationEnded ? (
         <>
@@ -287,6 +291,8 @@ const Home = () => {
               size="xl2"
               title="Support Open Source"
               cta={{
+                target: '_blank',
+                rel: 'noreferrer noopener',
                 href: 'https://www.digitalocean.com/open-source/credits-for-projects',
                 children: 'Learn more and apply now',
                 variant: 'secondary-deep-pink',
