@@ -15,7 +15,6 @@ import PullRequest from 'components/PullRequest';
 import EmailWarning from './email-warning';
 import Holopin from './rewards/holopin';
 import TreeNation from './rewards/tree-nation';
-import RewardKit from './rewards/reward-kit';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
 import ContentMaster from 'components/ContentMaster';
 
@@ -210,8 +209,6 @@ const Progress = ({ auth }) => {
           </StyledSectionSpacing>
         </Section>
       )}
-
-      <RewardKit code={giftCodes['holopin-reward-kit']} />
 
       <Section>
         <StyledSectionSpacing $isSmall>
