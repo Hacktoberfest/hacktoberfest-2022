@@ -150,7 +150,7 @@ const Home = () => {
           <ContentSide>
             <ContentMaster
               size="xl2"
-              title="Sponsors and Awards for 2024"
+              title={`Sponsors and Awards for ${new Date(registrationStart).getFullYear()}`}
               cta={{
                 href: '/about',
                 children: (
