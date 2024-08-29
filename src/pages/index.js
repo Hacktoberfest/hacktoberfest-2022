@@ -26,6 +26,7 @@ import CardCallout from 'components/CardCallout';
 import SectionDivider from 'components/SectionDivider';
 import asciiParticipation from 'assets/img/ascii-participation.svg';
 import Glitch from 'components/Glitch';
+import { trackingStartDate } from 'lib/participation';
 
 export const StyledHome = styled.div`
   overflow: hidden;
@@ -121,12 +122,12 @@ const Home = () => {
                     variant: 'secondary-deep-pink',
                   }}
                 >
-                  September is prep time for Hacktoberfest. Spend September
+                  {`September is prep time for Hacktoberfest. Spend September
                   getting a jump start on your four pull/merge requests by
                   tracking down projects to contribute to, adding the
                   ‘hacktoberfest’ tag to your own projects, or familiarizing
                   yourself with Git so you can hit the ground running when
-                  Hacktoberfest begins on October 1.
+                  Hacktoberfest begins on ${trackingStartDate}.`}
                 </ContentMaster>
                 <CardCallout
                   title="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."

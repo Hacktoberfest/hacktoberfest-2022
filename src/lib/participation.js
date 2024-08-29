@@ -18,11 +18,14 @@ const registrationEndDate = new Date(
   day: 'numeric',
   timeZone: 'Etc/GMT+12',
 }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
-const trackingStartDate = new Date(trackingStart).toLocaleString('en-US', {
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'Etc/GMT-14',
-}); // TZ sign is flipped for some reason
+export const trackingStartDate = new Date(trackingStart).toLocaleString(
+  'en-US',
+  {
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Etc/GMT-14',
+  },
+); // TZ sign is flipped for some reason
 const trackingStartTime = new Date(trackingStart).toLocaleString('en-US', {
   month: 'long',
   day: 'numeric',
