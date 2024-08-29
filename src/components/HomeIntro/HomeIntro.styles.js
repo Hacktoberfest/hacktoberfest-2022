@@ -59,6 +59,10 @@ export const StyledHomeIntroContent = styled.div`
 
 export const StyledHomeIntroCallout = styled.div`
   color: ${({ theme }) => theme.colors.black};
+
+  a {
+    margin-left: auto;
+  }
 `;
 
 export const StyledSloth = styled.div`
