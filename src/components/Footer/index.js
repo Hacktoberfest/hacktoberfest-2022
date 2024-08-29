@@ -11,6 +11,7 @@ import {
   StyledFooterLinksColumn,
   StyledFooterLinksTitle,
 } from './Footer.styles';
+import { registrationStart } from 'lib/config';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -77,7 +78,7 @@ const Footer = () => {
                 <a
                   href={`https://news.ycombinator.com/submitlink?u=${encodeURIComponent(
                     BASE_URL,
-                  )}&t=${encodeURIComponent('Hacktoberfest 2024')}`}
+                  )}&t=${encodeURIComponent(`Hacktoberfest ${new Date(registrationStart).getFullYear()}`)}`}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
@@ -88,7 +89,7 @@ const Footer = () => {
                 <a
                   href={`https://www.reddit.com/submit?url=${encodeURIComponent(
                     BASE_URL,
-                  )}&title=${encodeURIComponent('Hacktoberfest 2024')}`}
+                  )}&title=${encodeURIComponent(`Hacktoberfest ${new Date(registrationStart).getFullYear()}`)}`}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
