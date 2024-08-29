@@ -22,6 +22,17 @@ const HomeIntro = () => {
     [],
   );
 
+  const registrationStartDate = useMemo(
+    () =>
+      new Date(registrationStart).toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }),
+    [],
+  );
+
   return (
     <StyledHomeIntro>
       <StyledHomeIntroContainer>
@@ -41,7 +52,7 @@ const HomeIntro = () => {
           >
             {hasRegistration
               ? 'Register and start contributing your four pull/merge requests today!'
-              : 'Prepare your projects, brace yourself for action—registration opens September 23, 2024.'}
+              : `Prepare your projects, brace yourself for action—registration opens ${registrationStartDate}.`}
           </ContentMaster>
         </StyledHomeIntroContent>
 
