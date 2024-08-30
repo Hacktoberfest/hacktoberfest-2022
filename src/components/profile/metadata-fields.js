@@ -75,7 +75,7 @@ const countryOverrides = {
   tw: 'Taiwan',
 };
 
-export const dropdownCountries = [
+const dropdownCountries = [
   {
     code: '',
     name: 'Prefer not to say',
@@ -209,34 +209,6 @@ const MetadataFields = ({
           </StyledFormRow>
 
           {showEmail && <EmailWarning email={value.email} />}
-
-          {!!fields.role && (
-            <>
-              <Divider />
-              <StyledFormGroup>
-                <legend>
-                  How will you be participating? <small>[optional]</small>
-                  <span>Select all that apply</span>
-                </legend>
-
-                <StyledFormRow $columns={3}>
-                  {fields.role.map((meta) => (
-                    <CheckRadio
-                      key={meta.name}
-                      title={meta.title}
-                      message={meta.message}
-                      name={meta.name}
-                      onChange={(e) =>
-                        updateMetadata({ [meta.name]: e.target.checked })
-                      }
-                      checked={value.metadata[meta.name]}
-                      disabled={disabled}
-                    />
-                  ))}
-                </StyledFormRow>
-              </StyledFormGroup>
-            </>
-          )}
 
           {!!fields.stage && (
             <>
@@ -389,9 +361,9 @@ const MetadataFields = ({
               <StyledFormSectionTitle>Marketing opt-ins</StyledFormSectionTitle>
               <StyledFormGroup>
                 <legend>
-                  Do you wish to accept marketing opt-ins?{' '}
-                  <small>[optional]</small>
-                  <span>Select all that apply</span>
+                  I opt-in to share my Hacktoberfest participation, including my
+                  name + email address + GitHub/GitLab username + progress +
+                  demographic info, with… <span>Select all that apply</span>
                 </legend>
 
                 <StyledFormRow $columns={2}>
@@ -411,7 +383,7 @@ const MetadataFields = ({
 
                   <CheckRadio
                     title="Don't Email Me"
-                    message="I do not wish to receive any marketing updates from Hacktoberfest’s partners."
+                    message="I do not wish to receive any marketing updates from Hacktoberfest’s sponsors."
                     name="marketing-disabled"
                     onChange={marketingOptOut}
                     checked={marketingOptedOut}

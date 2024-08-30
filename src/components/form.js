@@ -8,6 +8,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
+  padding: 32px 0 0;
 
   > div {
     width: 100%;
@@ -19,14 +20,14 @@ const Form = forwardRef(({ children, success, error, ...props }, ref) => {
   return (
     <StyledForm ref={ref} {...props}>
       {success && (
-        <Notification title="Success" color="#B4FF39">
-          {success.length > 0 && <p>{success}</p>}
+        <Notification title="Success" color={theme.colors.success}>
+          <p>{success}</p>
         </Notification>
       )}
 
       {error && (
         <Notification title="Error" color={theme.colors.error}>
-          {error.length > 0 && <p>{error}</p>}
+          <p>{error}</p>
         </Notification>
       )}
 

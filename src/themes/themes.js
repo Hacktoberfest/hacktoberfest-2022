@@ -22,6 +22,7 @@ export const mainTheme = {
     cream: '#F3F0E0',
     typography: '#F3F0E0',
     error: '#EC4237',
+    success: '#B4FF39',
   },
 };
 
