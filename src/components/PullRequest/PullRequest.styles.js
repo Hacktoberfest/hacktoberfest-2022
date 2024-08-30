@@ -11,7 +11,7 @@ const stateColors = {
   'not-participating': (theme) => theme.colors.black,
   invalid: (theme) => theme.colors.error,
   'not-accepted': (theme) => theme.colors.deepPink,
-  waiting: (theme) => theme.colors.deepPink,
+  waiting: (theme) => theme.colors.lightPink,
   accepted: (theme) => theme.colors.green,
 };
 
