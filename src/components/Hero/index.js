@@ -15,6 +15,8 @@ import {
 } from 'lib/config';
 import ContentMaster from 'components/ContentMaster';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
+import { sponsors } from 'lib/sponsors';
+import { asList } from 'lib/format';
 
 const Hero = () => {
   const hasRegistrationEnded = useMemo(
@@ -60,10 +62,7 @@ const Hero = () => {
                   </ContentMaster>
 
                   <ContentMaster size="xl2" align="center">
-                    A special thank you to the great folks at DigitalOcean,
-                    Twilio, Cloudflare and Quira for their sponsorship of
-                    Hacktoberfest. Thank you to ALL our Sponsors and Community
-                    Partners, we ❤️ you!
+                    {`A special thank you to the great folks at ${asList(sponsors.map(({ title }) => `${title}`))} for their sponsorship of Hacktoberfest. Thank you to ALL our Sponsors and Community Partners, we ❤️ you!`}
                   </ContentMaster>
                 </StyledSectionSpacing>
               </StyledHeroSubtitle>
