@@ -226,7 +226,7 @@ const Progress = ({ auth }) => {
                     code={giftCodes['holopin-level-4-badge']}
                     reason="completing four accepted PR/MRs"
                     item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2023/claim"
+                    claim="https://www.holopin.io/hacktoberfest2024/claim"
                   />
                 )}
                 {giftCodes['holopin-level-3-badge'] && (
@@ -234,7 +234,7 @@ const Progress = ({ auth }) => {
                     code={giftCodes['holopin-level-3-badge']}
                     reason="completing three accepted PR/MRs"
                     item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2023/claim"
+                    claim="https://www.holopin.io/hacktoberfest2024/claim"
                   />
                 )}
                 {giftCodes['holopin-level-2-badge'] && (
@@ -242,7 +242,7 @@ const Progress = ({ auth }) => {
                     code={giftCodes['holopin-level-2-badge']}
                     reason="completing two accepted PR/MRs"
                     item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2023/claim"
+                    claim="https://www.holopin.io/hacktoberfest2024/claim"
                   />
                 )}
                 {giftCodes['holopin-level-1-badge'] && (
@@ -250,7 +250,7 @@ const Progress = ({ auth }) => {
                     code={giftCodes['holopin-level-1-badge']}
                     reason="completing your first accepted PR/MR"
                     item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2023/claim"
+                    claim="https://www.holopin.io/hacktoberfest2024/claim"
                   />
                 )}
                 {giftCodes['holopin-registered-badge'] && (
@@ -258,7 +258,7 @@ const Progress = ({ auth }) => {
                     code={giftCodes['holopin-registered-badge']}
                     reason="registering for Hacktoberfest"
                     item="your base avatar"
-                    claim="https://www.holopin.io/hacktoberfest2023/claim"
+                    claim="https://www.holopin.io/hacktoberfest2024/claim"
                   />
                 )}
               </ul>
