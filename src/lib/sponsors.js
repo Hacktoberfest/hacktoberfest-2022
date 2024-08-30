@@ -1,8 +1,6 @@
 import foundersDigitalOcean from 'assets/img/founders/digitalocean.svg';
 import foundersHeroDigitalOcean from 'assets/img/founders/digitalocean-hero.svg';
 
-import advocatesTwilio from 'assets/img/advocates/twilio.svg';
-import advocatesHeroTwilio from 'assets/img/advocates/twilio-hero.svg';
 import advocatesCloudflare from 'assets/img/advocates/cloudflare.svg';
 import advocatesHeroCloudflare from 'assets/img/advocates/cloudflare-hero.svg';
 
@@ -43,21 +41,6 @@ export const founders = [
 ];
 
 export const advocate = [
-  {
-    image: advocatesTwilio.src,
-    title: 'Twilio',
-    content:
-      'Twilio is the industry-leading and trusted platform that efficiently powers your customer engagement innovation through SMS, voice, email, chat, and WhatsApp. Twilio participates in the open-source ecosystem with projects such as Guardrail, a code generation tool that utilizes OpenAPI/Swagger specifications with a focus on quality and maintainability.',
-    link: {
-      target: '_blank',
-      rel: 'noreferrer noopener',
-      href: 'https://www.twilio.com',
-      title: 'Visit Twilio',
-    },
-    hero: {
-      image: advocatesHeroTwilio.src,
-    },
-  },
   {
     image: advocatesCloudflare.src,
     title: 'Cloudflare',
