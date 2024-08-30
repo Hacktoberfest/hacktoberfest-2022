@@ -57,7 +57,7 @@ const Hero = () => {
                     ]}
                   >
                     {`Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest ${currentHacktoberfest}** has officially ended.\n\n` +
-                      'But don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#open-source-stay-up-to-date) to get the latest announcements about future Hacktoberfest events.\n\n' +
+                      'But don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#stay-up-to-date) to get the latest announcements about future Hacktoberfest events.\n\n' +
                       'Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord.'}
                   </ContentMaster>
 
