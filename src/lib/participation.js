@@ -18,11 +18,14 @@ const registrationEndDate = new Date(
   day: 'numeric',
   timeZone: 'Etc/GMT+12',
 }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
-const trackingStartDate = new Date(trackingStart).toLocaleString('en-US', {
-  month: 'long',
-  day: 'numeric',
-  timeZone: 'Etc/GMT-14',
-}); // TZ sign is flipped for some reason
+export const trackingStartDate = new Date(trackingStart).toLocaleString(
+  'en-US',
+  {
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'Etc/GMT-14',
+  },
+); // TZ sign is flipped for some reason
 const trackingStartTime = new Date(trackingStart).toLocaleString('en-US', {
   month: 'long',
   day: 'numeric',
@@ -49,45 +52,35 @@ const profileEndDate = new Date(profileEnd).toLocaleString('en-US', {
 });
 const year = new Date(registrationStart).getFullYear();
 
-export const values = {
-  title: 'Values',
-  sections: [
-    {
-      title: 'Everyone is welcome',
-      collapsible: true,
-      collapsed: true,
-      content:
-        "Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome anyone who is interested in diving in, and everyone who's already part of the open-source software community.",
-    },
-    {
-      title: 'Quantity is fun, quality is key',
-      collapsible: true,
-      collapsed: true,
-      content:
-        'Participating in Hacktoberfest leads to personal growth, professional opportunities, and community building. But it all begins with meaningful contributions to open-source software. We’re committed to prioritizing quality contributions as outlined in our participation rules.',
-    },
-    {
-      title: 'Short-term action, long-term impact',
-      collapsible: true,
-      collapsed: true,
-      content:
-        'In the open-source community, we stand on the shoulders of project maintainers and those who came before us. Your participation has a lasting effect on people and technology long after October. Your participation helps build the future of the internet.',
-    },
-  ],
-};
+export const values = [
+  {
+    title: 'Everyone is welcome',
+    content:
+      "Participants in Hacktoberfest come from all over the world and represent thousands of unique skill sets. We welcome anyone who is interested in diving in, and everyone who's already part of the open-source software community.",
+  },
+  {
+    title: 'Quantity is fun, quality is key',
+    content:
+      'Participating in Hacktoberfest leads to personal growth, professional opportunities, and community building. But it all begins with meaningful contributions to open-source software. We’re committed to prioritizing quality contributions as outlined in our participation rules.',
+  },
+  {
+    title: 'Short-term action, long-term impact',
+    content:
+      'In the open-source community, we stand on the shoulders of project maintainers and those who came before us. Your participation has a lasting effect on people and technology long after October. Your participation helps build the future of the internet.',
+  },
+];
 
 export const contributors = {
   title: 'Participating in Hacktoberfest',
   sections: [
     {
-      title:
+      content:
         'Here’s what you need to know to participate and complete Hacktoberfest:',
       items: [
         `Register anytime between **${registrationStartDate}** and **${registrationEndDate}**`,
-        'Pull requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
-        'Project maintainers must accept your pull/merge requests for them to count toward your total',
-        'The first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through Tree Nation',
-        `Participants with four pull/merge requests accepted between ${trackingStartDate} and ${trackingEndDate} will receive a unique digital reward`,
+        'Pull/merge requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
+        `Aim to submit four high-quality pull/merge requests between ${trackingStartDate} and ${trackingEndDate}, with project maintainers accepting your pull/merge requests for them to count toward your total`,
+        'You’ll unlock a digital badge when you register for Hacktoberfest, and level it up with each of your four pull/merge requests accepted during Hacktoberfest',
       ],
     },
   ],
@@ -271,7 +264,7 @@ export const spam = {
             " - Disruptive pull/merge requests: taking someone else's branch/commits and making a pull request.\n" +
             ' - Anything that a project maintainer flags as spam.\n' +
             ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
-            ' - Multiple pull/merge requests for the same issue that are unnecessary, for example five PR/MRs to remove a stray whitespace.',
+            ' - Multiple pull/merge requests for the same issue that are unnecessary, for example four PR/MRs to remove a stray whitespace.',
         },
       ],
     },
@@ -294,18 +287,54 @@ export const maintainers = {
         'Reject any spammy requests you receive by labeling them as “**spam,**” and any other invalid contributions by closing them or labeling them as “**invalid.**”',
       ],
     },
+  ],
+};
+
+export const lowNoCode = {
+  title: 'Low or Non Code Contributions',
+  content:
+    "At its core, Hacktoberfest aims to encourage more people to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don't involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year's effort, we're committed to promoting contributions that don't require technical knowledge. Visit GitHub’s [The ReadMe Project](https://github.com/readme/featured/open-source-non-code-contributions) to learn more",
+  sections: [
     {
-      title: 'Reward for Maintainers',
+      title: 'Low or Non Code Contributions',
       content:
-        `The hard work of our Maintainers is the reason Hacktoberfest exists, so we want you to have the opportunity to receive your very own Hacktoberfest ${year} reward. In order to become eligible for the opportunity to win a Reward Kit all a Maintainer will have to do is complete four or more maintainer actions on unique PR/MRs in repos participating in Hacktoberfest. Here are the Maintainer actions that qualify:\n` +
+        '[Low-code and non-code contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source) are an excellent way to get involved in supporting open source. Here are some examples of ways you can contribute to open-source projects:',
+      lists: [
+        'Technical documentation',
+        'User experience testing',
+        'Technical blog post or tutorial',
+        'Case studies',
+      ],
+    },
+    {
+      title: 'Non-Code Contributions:',
+      lists: [
+        'Writing',
+        'Translating',
+        'Copy editing',
+        'Talks or presentations',
+        'Event organization',
+        'Podcasts',
+        'Social media',
+        'Blog posts',
+        'Video production',
+        'Graphic design',
+      ],
+    },
+  ],
+};
+
+export const note = {
+  sections: [
+    {
+      content:
+        "**Note:** If you're submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution.",
+    },
+    {
+      content:
+        'Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n' +
         '\n' +
-        ' - Merge unique PR/MRs\n' +
-        ' - Provide an approving review of a PR/MR\n' +
-        ' - Add the “hacktoberfest-accepted” label\n' +
-        ' - Add any label with the word “invalid” or “spam”\n' +
-        '\n' +
-        '\n' +
-        '_*Reward kits are limited; we will reach out to qualifying maintainers who are selected to receive a Reward Kit after Hacktoberfest ends._',
+        '**For Maintainers:** [How to attract low or non-code contributions](https://www.youtube.com/live/Z7ppp_DrxyM?feature=share).',
     },
   ],
 };
@@ -322,7 +351,30 @@ export const faqs = {
       items: [
         {
           content:
-            'Aside from the knowledge you’ll gain, (and the fun you’ll have) you can earn a digital reward kit courtesy of DigitalOcean and our sponsors and partners. You’ll receive your digital reward once you’ve completed four accepted pull/merge requests. Also, the first 50,000 participants to have their first PR/MR accepted will have a tree planted in their name through [Tree Nation](https://tree-nation.com/profile/hacktoberfest).',
+            'Aside from the knowledge you’ll gain, (and the fun you’ll have) you’ll get a digital badge through Holopin to represent your participation in Hacktoberfest. As each of your four pull/merge requests is accepted by a maintainer, you’ll unlock a new level in your badge, letting you customize it and showing to the community your achievement.',
+        },
+      ],
+    },
+    {
+      title: 'How will I receive my digital badge?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content:
+            'You will receive a notification in your Hacktoberfest profile on the Hacktoberfest website. Additionally, you will receive an email from Holopin to claim each level of your badge.',
+        },
+      ],
+    },
+    {
+      title: 'When do I need to claim my badges by?',
+      subtitle: 'Rewards',
+      collapsible: true,
+      collapsed: true,
+      items: [
+        {
+          content: `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges using the claim links on your profile (also sent via email).`,
         },
       ],
     },
@@ -334,70 +386,7 @@ export const faqs = {
       items: [
         {
           content:
-            "As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it's no longer feasible for us to provide a free t-shirt. Nevertheless, we still want participants to have a memorable experience and receive a special memento marking their participation and the year.  Instead of a t-shirt reward, we're partnering with Holopin and our sponsors to provide digital rewards, making global delivery much simpler. We believe this shift will allow Hacktoberfest to continue supporting and raising awareness for open-source projects worldwide for years to come.",
-        },
-      ],
-    },
-    {
-      title:
-        'If you can afford to plant trees, how come you can’t afford to make t-shirts?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'The cost of planting trees is far less than the cost of printing t-shirts. Additionally, planting a tree helps the Earth. Fabricating t-shirts heavily utilizes natural resources and the printing, packaging and shipping have a large carbon footprint. We still want to give a gift to our participants and we believe the gift of planting a tree is a great way to show our appreciation, and help the environment.',
-        },
-      ],
-    },
-    {
-      title:
-        'I represent, or know of, a company that could do your t-shirt fulfillment really inexpensively.',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'We are aware that there are many options out there for t-shirt production and fulfillment. We have made the move away from using t-shirts as a reward in the interests of making global delivery of rewards simpler and to ensure Hacktoberfest continues supporting and raising awareness for open-source projects worldwide for years to come.',
-        },
-      ],
-    },
-    {
-      title: 'How will I receive my digital reward?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'You will receive a notification in your Hacktoberfest profile on the Hacktoberfest website. Additionally you will receive an email from Holopin to claim your rewards. You may also receive emails from Tree Nation.',
-        },
-      ],
-    },
-    {
-      title: 'Is it possible to get stickers?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            'We will not be sending free stickers to participants or for events. However, you are always welcome to purchase swag from the [DigitalOcean swag shop](https://www.digitalocean.com/blog/announcing-the-swag-shop). This year we will be awarding digital badges for each level of participation, as well as a digital reward kit. You can learn more about that [here](/about/#digital-rewards).',
-        },
-      ],
-    },
-    {
-      title: 'When do I need to claim my badges/reward kit by?',
-      subtitle: 'Rewards',
-      collapsible: true,
-      collapsed: true,
-      items: [
-        {
-          content:
-            `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges and digital reward kit (if you completed the challenge with four accepted pull/merge requests) using the claim links on your profile (also sent via email).\n\n` +
-            `Further, if you completed Hacktoberfest, make sure you’ve claimed all the rewards you intend to use within the digital reward kit by ${profileEndDate} to ensure they’re valid.`,
+            "As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it's no longer feasible for us to provide a free t-shirt. Nevertheless, we still want participants to have a memorable experience and receive a special memento marking their participation and the year.  Instead of a t-shirt reward, we're partnering with Holopin to provide a digital badge to each participant, making global delivery much simpler. We believe this shift will allow Hacktoberfest to continue supporting and raising awareness for open-source projects worldwide for years to come.",
         },
       ],
     },
@@ -448,7 +437,7 @@ export const faqs = {
       ],
     },
     {
-      title: 'Do issues have to be tagged #Hacktoberfest to count?',
+      title: 'Do issues have to be tagged as Hacktoberfest to count?',
       subtitle: 'Rules',
       collapsible: true,
       collapsed: true,
@@ -460,7 +449,7 @@ export const faqs = {
       ],
     },
     {
-      title: 'Do contributions made outside of Github or GitLab count?',
+      title: 'Do contributions made outside of GitHub or GitLab count?',
       subtitle: 'Rules',
       collapsible: true,
       collapsed: true,
@@ -493,8 +482,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Please visit the [Hacktoberfest Events page](/events/) to learn how to host a Hacktoberfest event.\n\n' +
-            'To create your event visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)',
+            'Please visit the [Hacktoberfest Events](/events/) page to learn how to host and register a Hacktoberfest event.',
         },
       ],
     },
@@ -506,8 +494,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Yes. To create your event and share it globally, visit: [https://events.mlh.io/series/hacktoberfest-2023](https://events.mlh.io/series/hacktoberfest-2023)\n\n' +
-            'Check out the [Hacktoberfest Events](/events/) page for more information.',
+            'Yes! We’ll use the information you provide when registering your event on the [Hacktoberfest Events](/events) page to publish your event to Major League Hacking for anyone to attend.',
         },
       ],
     },
@@ -532,7 +519,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Anyone can organize an event as long as you celebrate open source during the event and follow the DigitalOcean [Code of Conduct](https://www.digitalocean.com/community/pages/code-of-conductco/hacktoberconduct).',
+            'Anyone can organize an event as long as you celebrate open source during the event. Find out more about how to host and register your event on the [Hacktoberfest Events](/events/) page.',
         },
       ],
     },
@@ -544,7 +531,7 @@ export const faqs = {
       items: [
         {
           content:
-            "Whether you're meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like [Icebreaker](https://icebreaker.video/) or [Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open source knowledge.",
+            "Whether you're meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like [Icebreaker](https://icebreaker.video/) or [Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open-source knowledge.",
         },
       ],
     },
@@ -558,7 +545,7 @@ export const faqs = {
           content:
             'Yes! We encourage all kinds of events - whether they are virtual, in-person or a hybrid.\n\n' +
             'If you do want to hold an in-person event, there are a few things to note:\n\n' +
-            ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Organizer Event Kit](/events/#organizers) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
+            ' - We will not be providing swag or event kits for in-person events held this year. Do, however, check out our [Brand Kit](/events/#brand) which includes some virtual swag such as mobile or desktop wallpapers and a Git Cheat Sheet.\n\n' +
             ' - Please follow the advisory guidelines of your state and local governments about gatherings in person.',
         },
       ],
@@ -597,7 +584,7 @@ export const faqs = {
       items: [
         {
           content:
-            'In an effort to reduce spam and help maintainers, we’ve introduced a week-long review period for all pull/merge requests. This provides a buffer window for maintainers where they can change their decision on a pull/merge request that they may have accepted, and gives our team time to review and tackle spam across the whole program. No action should be required by you, your pull/merge request will automatically count toward your Hacktoberfest progress once the seven days elapse, as long as it is still accepted by the project maintainers and follows Hacktoberfest’s rules.',
+            'In an effort to reduce spam and help maintainers, all pull/merge requests go through a week-long approval period for Hacktoberfest. This provides a buffer window for maintainers where they can change their decision on a pull/merge request that they may have accepted, and gives our team time to review and tackle spam across the whole program. No action should be required by you, your pull/merge request will automatically count toward your Hacktoberfest progress once the seven days elapse, as long as it is still accepted by the project maintainers and follows Hacktoberfest’s rules.',
         },
       ],
     },
@@ -676,7 +663,7 @@ export const faqs = {
       items: [
         {
           content:
-            "First, classify your repository with the 'hacktoberfest' topic. This will let participants know that your repo is participating in Hacktoberfest.\n\n" +
+            'First, classify your repository with the **hacktoberfest** topic. This will let participants know that your repo is participating in Hacktoberfest. Check out this video on [how to apply the **hacktoberfest** topic to your repository](https://www.youtube.com/watch?v=znPdP0o79mU).\n\n' +
             'You can also create issues for anything you’d like contributors to help with, and you can add labels like **good first issue** and **help wanted** so they’re easier to discover.',
         },
       ],
@@ -702,7 +689,7 @@ export const faqs = {
       items: [
         {
           content:
-            'Whether you are a maintainer, contributor or event organizer, you are eligible to receive a digital reward kit upon completion of four accepted pull/merge requests. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.',
+            'Whether you are a maintainer, contributor or event organizer, you are eligible to unlock the digital badges as your four pull/merge requests are accepted. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.',
         },
       ],
     },
@@ -714,22 +701,9 @@ export const faqs = {
       items: [
         {
           content:
-            'Hacktoberfest is an opt-in system for maintainers. Repositories must have the **hacktoberfest** topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the **hacktoberfest-accepted** label. Any repository without the **hacktoberfest** topic, and not using the label, is automatically excluded, no action required. ',
+            'Hacktoberfest is an opt-in system for maintainers. Repositories must have the **hacktoberfest** topic to opt-in and have PR/MRs be counted, or individual PR/MRs can be labeled with the **hacktoberfest-accepted** label. Any repository without the **hacktoberfest** topic, and not using the label, is automatically excluded, no action required.',
         },
       ],
     },
   ],
-};
-
-export const lowNoCode = {
-  title: 'Low or Non Code Contributions',
-  content:
-    "At its core, Hacktoberfest aims to encourage more individuals to participate in open source and collaborate to enhance the software driving our world today. Open source projects can benefit greatly from community contributions, and there are a multitude of ways to get involved that don't involve coding skills. Whether you possess technical expertise or not, you can leverage your professional skills to support open-source projects. In line with last year's effort, we're committed to promoting contributions that don't require technical knowledge. Visit GitHub’s [The ReadMe Project](https://github.com/readme/featured/open-source-non-code-contributions) to learn more",
-};
-
-export const note = {
-  content:
-    "**Note:** If you're submitting low- or non-code content to projects, make sure to create a PR/MR to track your contribution. Although Hacktoberfest tracks all PR/MRs submitted for the event, maintainers may need to facilitate tracking of those contributions through an activity log or similar.\n" +
-    '\n' +
-    '**For Maintainers:** [How to attract low or non-code contributions](https://www.youtube.com/live/Z7ppp_DrxyM?feature=share).',
 };

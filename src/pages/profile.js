@@ -1,42 +1,25 @@
 import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
-import styled, { keyframes } from 'styled-components';
-
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
+import styled, { keyframes, useTheme } from 'styled-components';
 
 import { fetchUserAvatars } from 'lib/api';
 
 import useAuth from 'hooks/useAuth';
 
-import bgProfile from 'assets/img/bg-profile.svg';
-
 import Loader from 'components/loader';
 import Section from 'components/Section';
 import Container from 'components/Container';
 import ButtonMain from 'components/ButtonMain';
-import Divider from 'components/Divider';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
 import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
 import Header from 'components/profile/header';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const opacityFade = keyframes`
   to {
     opacity: 1;
-  }
-`;
-
-const StyledProfilePage = styled.div`
-  background: url(${bgProfile.src}) no-repeat;
-  background-position: right top;
-  background-size: 400% auto;
-
-  ${mQ(bp.tablet)} {
-    background-size: 90% auto;
   }
 `;
 
@@ -48,6 +31,8 @@ const StyledProgressWrapper = styled.div`
 const Profile = () => {
   const auth = useAuth();
   const router = useRouter();
+
+  const theme = useTheme();
 
   // Track if we're in the edit view
   const edit = useMemo(
@@ -79,69 +64,73 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>Profile | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Profile')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Profile | Hacktoberfest 2023"
+          content={createMetaTitle('Profile')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Profile | Hacktoberfest 2023"
+          content={createMetaTitle('Profile')}
         />
       </Head>
 
       {auth.loading || !loaded ? (
-        <Section>
+        <Section
+          bgColor={theme.colors.darkGreen}
+          color={theme.colors.typography}
+        >
           <Container>
-            <Loader message=">> Loading /usr/lib/profile..." />
+            <Section>
+              <Loader message=">> Loading /usr/lib/profile..." />
+            </Section>
           </Container>
         </Section>
       ) : (
-        <StyledProfilePage>
-          <Container>
-            <Header avatar={avatar} name={auth.user.name} type="Profile">
-              <StyledButtonGroup>
-                {!edit && (
-                  <ButtonMain
-                    as="button"
-                    onClick={() =>
-                      router.push('/profile/edit', undefined, { shallow: true })
-                    }
-                    children="Edit Info"
-                  />
-                )}
-                {edit && (
-                  <ButtonMain
-                    as="button"
-                    onClick={() =>
-                      router.push('/profile', undefined, { shallow: true })
-                    }
-                    children="Back to Profile"
-                  />
-                )}
+        <>
+          <Header avatar={avatar} name={auth.user.name} type="Profile">
+            <StyledButtonGroup>
+              {!edit && (
                 <ButtonMain
                   as="button"
-                  onClick={() => auth.reset()}
-                  children="Logout"
+                  onClick={() =>
+                    router.push('/profile/edit', undefined, { shallow: true })
+                  }
+                  children="Edit Info"
+                  variant="secondary-beige"
                 />
-              </StyledButtonGroup>
-            </Header>
+              )}
+              {edit && (
+                <ButtonMain
+                  as="button"
+                  onClick={() =>
+                    router.push('/profile', undefined, { shallow: true })
+                  }
+                  children="Back to Profile"
+                  variant="secondary-beige"
+                />
+              )}
+              <ButtonMain
+                as="button"
+                onClick={() => auth.reset()}
+                children="Logout"
+                variant="primary-green"
+              />
+            </StyledButtonGroup>
+          </Header>
 
-            <Divider type="pixel" />
-
-            <Section small>
-              <StyledProgressWrapper>
-                {edit ? (
-                  <Settings auth={auth} isEdit />
-                ) : (
-                  <Progress auth={auth} />
-                )}
-              </StyledProgressWrapper>
-            </Section>
+          <Container>
+            <StyledProgressWrapper>
+              {edit ? (
+                <Settings auth={auth} isEdit />
+              ) : (
+                <Progress auth={auth} />
+              )}
+            </StyledProgressWrapper>
           </Container>
-        </StyledProfilePage>
+        </>
       )}
     </>
   );

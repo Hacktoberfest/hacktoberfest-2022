@@ -14,7 +14,14 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Participation page information
  */
 export const registrationStart =
-  process.env.REGISTRATION_START || '2023-09-26T12:00:00Z';
+  process.env.REGISTRATION_START || '2024-09-23T12:00:00Z';
+
+/**
+ * Used for:
+ *   - Displaying the current hacktoberfest year
+ */
+export const currentHacktoberfest =
+  new Date(registrationStart).getFullYear() - 2013;
 
 /**
  * Used for:
@@ -23,7 +30,7 @@ export const registrationStart =
  *   - Participation page information
  */
 export const registrationEnd =
-  process.env.REGISTRATION_END || '2023-11-01T12:00:00Z';
+  process.env.REGISTRATION_END || '2024-11-01T12:00:00Z';
 
 /**
  * Used for:
@@ -31,13 +38,13 @@ export const registrationEnd =
  *   - Participation page information
  */
 export const trackingStart =
-  process.env.TRACKING_START || '2023-09-30T10:00:00Z';
+  process.env.TRACKING_START || '2024-09-30T10:00:00Z';
 
 /**
  * Used for:
  *   - Participation page information
  */
-export const trackingEnd = process.env.TRACKING_END || '2023-11-01T12:00:00Z';
+export const trackingEnd = process.env.TRACKING_END || '2024-11-01T12:00:00Z';
 
 /**
  * Used for:
@@ -45,20 +52,20 @@ export const trackingEnd = process.env.TRACKING_END || '2023-11-01T12:00:00Z';
  *   - Controlling access to profile edit page
  */
 export const trackingEndExtended =
-  process.env.TRACKING_END_EXTENDED || '2023-11-08T12:00:00Z';
+  process.env.TRACKING_END_EXTENDED || '2024-11-08T12:00:00Z';
 
 /**
  * Used for:
  *   - Displaying profile access in nav
  *   - Controlling access to auth hook
  */
-export const profileEnd = process.env.PROFILE_END || '2023-12-15T12:00:00Z';
+export const profileEnd = process.env.PROFILE_END || '2024-12-15T12:00:00Z';
 
 /**
  * Used for:
  *   - Displaying progress to registration date
  */
-export const launchDate = process.env.LAUNCH_DATE || '2023-09-01T12:00:00Z';
+export const launchDate = process.env.LAUNCH_DATE || '2024-09-01T12:00:00Z';
 
 /**
  * Used for:

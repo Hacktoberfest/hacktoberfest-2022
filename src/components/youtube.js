@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import Card, { MainWrapper } from './Card';
-
 const StyledYouTube = styled.div`
   display: flex;
   justify-content: center;

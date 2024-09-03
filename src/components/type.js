@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 const interval = 100;
 const idle = 1000;
@@ -12,7 +13,32 @@ const srOnly = {
   clip: 'rect(0, 0, 0, 0)',
 };
 
-const Type = ({ text }) => {
+const StyledType = styled.span`
+  background-image: ${({ $backgroundColor }) =>
+    `linear-gradient(to bottom, transparent, transparent 10%, ${$backgroundColor} 10%, ${$backgroundColor} 90%, transparent 90%)`};
+  position: relative;
+  min-width: 1ch;
+  -webkit-box-decoration-break: clone;
+  padding: 0 8px;
+  box-decoration-break: clone;
+
+  ${({ $prefix, $prefixColor }) =>
+    $prefix &&
+    `
+    &::before {
+      content: '${$prefix}';
+      color: ${$prefixColor ? $prefixColor : 'inherit'};
+    }
+  `}
+`;
+
+const Type = ({
+  backgroundColor = 'transparent',
+  cursorColor = 'inherit',
+  prefix = null,
+  prefixColor = null,
+  text,
+}) => {
   const ref = useRef(null);
 
   const [progress, setProgress] = useState(0);
@@ -77,11 +103,21 @@ const Type = ({ text }) => {
 
   return (
     <>
-      <span ref={ref} aria-hidden="true">
+      <StyledType
+        ref={ref}
+        aria-hidden="true"
+        $backgroundColor={backgroundColor}
+        $prefix={prefix}
+        $prefixColor={prefixColor}
+      >
         {text.slice(0, progress)}
-        {cursor && '_'}
-        {!done && <span style={{ opacity: 0 }}>{text.slice(progress)}</span>}
-      </span>
+        {cursor && <span style={{ color: cursorColor }}>_</span>}
+      </StyledType>
+      {!done && (
+        <span aria-hidden="true" style={{ opacity: 0 }}>
+          {text.slice(progress)}
+        </span>
+      )}
 
       {/* Screen readers should read the full text */}
       <span style={srOnly}>{text}</span>

@@ -42,24 +42,11 @@ const Holopin = ({
     }
   }, [code]);
 
-  // Hash the content of reason/item/from to generate a color
-  const color = useMemo(() => {
-    const idx =
-      Math.abs(
-        `${reason}${item}${from}`
-          .split('')
-          .reduce(
-            (hash, char) => ((hash << 5) - hash + char.charCodeAt(0)) | 0,
-          ),
-      ) % 3;
-    return ['gold', 'blue', 'red'][idx];
-  }, [reason, item, from]);
-
   if (!id) return null;
 
   return (
     <StyledCode>
-      <Avatar color={color} />
+      <Avatar />
 
       <div>
         <StyledMessage>

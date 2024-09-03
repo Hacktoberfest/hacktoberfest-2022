@@ -1,68 +1,158 @@
+import { Space_Grotesk } from 'next/font/google';
 import { createGlobalStyle } from 'styled-components';
+
+const SpaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['sans-serif'],
+  adjustFontFallback: false,
+});
 
 export const mainTheme = {
   colors: {
-    neutral: {
-      manga200: '#EFEDEF',
-      manga300: '#C3BCC3',
-      manga400: '#655F67',
-      void200: '#0F0913',
-    },
-    bavarian: {
-      blue100: '#B2E3F0',
-      blue200: '#33B6D8',
-      blue300: '#14596B',
-      blue400: '#0C3640',
-      gold100: '#FFFBA4',
-      gold200: '#D2B863',
-      gold300: '#AD832D',
-      gold400: '#3D2E10',
-      red100: '#F8BDB9',
-      red200: '#EC4237',
-      red300: '#A3180F',
-      red400: '#460A07',
-    },
-  },
-  gradients: {
-    metal: {
-      blueDark: '',
-      blueLight:
-        'linear-gradient(180deg, #B2E3F0 0%, #EFEDEF 48.44%, #0C3640 48.45%, #33B6D8 100%)',
-      wordmarkGold: '',
-      logomarkGoldLight: '',
-      logomarkGoldDark: '',
-      wordmarkVoid: '',
-      wordmarkManga: '',
-    },
-  },
-  card: {
-    stroke: '',
-    bg: 'linear-gradient(156deg, rgba(239, 237, 239, 0.04) 0%, rgba(0, 0, 0, 0.04) 92.30%)',
-  },
-  border: {
-    active: '',
-    cards: '',
+    darkGreen: '#183717',
+    green: '#50DA4C',
+    lightGreen: '#D8FFD8',
+    paleGreen: '#ADEDAD',
+    pink: '#FF8BFF',
+    deepPink: '#A600A0',
+    lightPink: '#FFDBFF',
+    black: '#1C1C1C',
+    light: '#FEFDF8',
+    cream: '#F3F0E0',
+    typography: '#F3F0E0',
+    error: '#EC4237',
+    success: '#B4FF39',
   },
 };
 
 const GlobalStyle = createGlobalStyle`
+  *,
+  html,
   body {
-    background: ${({ theme }) => theme.colors.neutral.void200};
-    color: ${({ theme }) => theme.colors.neutral.manga200};
+    box-sizing: border-box;
+    font-family: ${SpaceGrotesk.style.fontFamily}, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: ${({ theme }) => theme.colors.cream};
+    color: ${({ theme }) => theme.colors.dark};
+  }
+
+  ::selection {
+    background: #b4ff39;
+    color: #170f1e;
+  }
+
+  a {
+    color: inherit;
+    width: max-content;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    list-style: none outside none;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: none;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   h1, h2, h3, h4, h5, h6, p, label {
     word-wrap: break-word;
   }
 
-  a {
-    color: ${({ theme }) => theme.colors.bavarian.blue200};
-    transition: color 0.2s ease;
+  h1 {
+    font-size: 144px;
+    line-height: 100%;
+  }
 
-    &:hover,
-    &:focus-visible {
-      color: ${({ theme }) => theme.colors.bavarian.blue300};
+  h2 {
+    font-size: 88px;
+    line-height: 96px;
+  }
+
+  h3 {
+    font-size: 72px;
+    line-height: 72px;
+  }
+
+  h4 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  h5 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 28px;
+  }
+
+  h6 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 26px;
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 88px;
+      line-height: 96px;
     }
+
+    h2 {
+      font-size: 72px;
+      line-height: 72px;
+    }
+
+    h3 {
+      font-size: 32px;
+      line-height: 40px;
+    }
+
+    h4 {
+      font-size: 20px;
+      line-height: 28px;
+    }
+  }
+
+  .sr-only {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
   }
 `;
 

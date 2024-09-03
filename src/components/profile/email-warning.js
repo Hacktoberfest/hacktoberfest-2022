@@ -6,10 +6,7 @@ const EmailWarning = ({ email }) => {
 
   if (email.endsWith('@users.noreply.github.com')) {
     return (
-      <Notification
-        title="Warning: No-reply Email"
-        color={theme.colors.bavarian.red200}
-      >
+      <Notification title="Warning: No-reply Email" color={theme.colors.error}>
         <p>
           We noticed that your selected email address is a GitHub-provided
           no-reply address. If you'd like to receive email notifications,

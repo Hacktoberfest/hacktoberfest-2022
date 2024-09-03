@@ -1,5 +1,3 @@
-import '../styles/globals.css';
-
 import Head from 'next/head';
 
 import { Theme } from 'components/theme';
@@ -13,6 +11,7 @@ import { sammy } from 'lib/sammy';
 import opengraph from 'assets/img/opengraph.png';
 import favicon from 'assets/img/favicon.svg';
 import Header from 'components/Header';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -28,7 +27,7 @@ const App = ({ Component, pageProps }) => {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-        <title>Hacktoberfest 2023</title>
+        <title>{createMetaTitle()}</title>
         <meta
           name="description"
           key="description"
@@ -41,7 +40,7 @@ const App = ({ Component, pageProps }) => {
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Hacktoberfest 2023"
+          content={createMetaTitle()}
         />
         <meta
           name="twitter:description"
@@ -55,7 +54,7 @@ const App = ({ Component, pageProps }) => {
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Hacktoberfest 2023"
+          content={createMetaTitle()}
         />
         <meta
           property="og:description"

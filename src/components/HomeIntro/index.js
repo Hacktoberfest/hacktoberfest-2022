@@ -4,28 +4,79 @@ import {
   StyledHomeIntroContent,
   StyledHomeIntroCallout,
   StyledHomeIntroContainer,
+  StyledSloth,
 } from './HomeIntro.styles';
-import Arrow from 'components/Arrow';
-import { useTheme } from 'styled-components';
-import CardCallout from 'components/CardCallout';
 
-const HomeIntro = (props) => {
-  const theme = useTheme();
-  const { children, callout } = props;
+import Countdown from 'components/Countdown';
+import dots from 'assets/img/dots.svg';
+import sloth from 'assets/img/sloan-the-sloth.svg';
+import topDots from 'assets/img/top-dots.svg';
+import { useMemo } from 'react';
+import { registrationEnd, registrationStart } from 'lib/config';
+
+const HomeIntro = () => {
+  const hasRegistration = useMemo(
+    () =>
+      new Date() >= new Date(registrationStart) &&
+      new Date() < new Date(registrationEnd),
+    [],
+  );
+
+  const registrationStartDate = useMemo(
+    () =>
+      new Date(registrationStart).toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }),
+    [],
+  );
 
   return (
     <StyledHomeIntro>
       <StyledHomeIntroContainer>
-        <Arrow direction="right" color={theme.colors.bavarian.gold100} />
         <StyledHomeIntroContent>
-          <ContentMaster size="xl">{children}</ContentMaster>
+          <ContentMaster
+            title={
+              hasRegistration ? (
+                'Now’s the time; now’s the hour—Hacktoberfest is on!'
+              ) : (
+                <>
+                  It’s that time of year again. <strong>Hacktoberfest</strong>{' '}
+                  is nearly upon us!
+                </>
+              )
+            }
+            size="xl"
+          >
+            {hasRegistration
+              ? 'Register and start contributing your four pull/merge requests today!'
+              : `Prepare your projects, brace yourself for action—registration opens ${registrationStartDate}.`}
+          </ContentMaster>
         </StyledHomeIntroContent>
-        <Arrow />
-      </StyledHomeIntroContainer>
 
-      <StyledHomeIntroCallout>
-        <CardCallout {...callout} />
-      </StyledHomeIntroCallout>
+        <StyledHomeIntroCallout>
+          {hasRegistration ? (
+            <ContentMaster
+              align="right"
+              cta={{
+                children: 'Register for Hacktoberfest',
+                href: '/auth',
+                variant: 'secondary-beige',
+              }}
+            />
+          ) : (
+            <Countdown />
+          )}
+        </StyledHomeIntroCallout>
+
+        <StyledSloth>
+          <img src={topDots.src} alt="" width="1030" height="211" />
+          <img src={sloth.src} alt="" width="520" height="235" />
+        </StyledSloth>
+      </StyledHomeIntroContainer>
+      <img src={dots.src} alt="" />
     </StyledHomeIntro>
   );
 };

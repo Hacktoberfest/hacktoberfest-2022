@@ -6,6 +6,7 @@ import Section from 'components/Section';
 import Loader from 'components/loader';
 
 import useAuth from 'hooks/useAuth';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const Logout = () => {
   const [redirect, setRedirect] = useState(false);
@@ -21,16 +22,16 @@ const Logout = () => {
   return (
     <>
       <Head>
-        <title>Logout | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Logout')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Logout | Hacktoberfest 2023"
+          content={createMetaTitle('Logout')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Logout | Hacktoberfest 2023"
+          content={createMetaTitle('Logout')}
         />
       </Head>
 

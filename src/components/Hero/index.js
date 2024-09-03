@@ -3,151 +3,92 @@ import {
   StyledHeroContent,
   StyledHeroTitle,
   StyledHeroSubtitle,
-  StyledHeroPresented,
-  StyledHeroCountdown,
+  StyledHeroDivider,
   StyledHeroContainer,
-  StyledCountdown,
-  StyledCountdownItem,
-  StyledCountdownHeader,
-  StyledCountdownLoading,
-  StyledCountdownLoadingContainer,
-  StyledCountdownLoadingItem,
-  StyledCountdownLoadingBorder,
 } from './Hero.styles';
 
-import useCountdown from 'hooks/useCountdown';
 import { useMemo } from 'react';
-import { registrationEnd, registrationStart } from 'lib/config';
-import ButtonMain from 'components/ButtonMain';
-import Sponsors from 'components/Sponsors';
-import { founders } from 'lib/sponsors';
+import {
+  currentHacktoberfest,
+  registrationEnd,
+  registrationStart,
+} from 'lib/config';
+import ContentMaster from 'components/ContentMaster';
+import { StyledSectionSpacing } from 'styles/sharedStyles';
+import { sponsors } from 'lib/sponsors';
+import { asList } from 'lib/format';
 
 const Hero = () => {
-  const [days, hours, minutes, seconds, progress] = useCountdown(
-    new Date(registrationStart).getTime(),
-  );
-
-  const progressBarSegments = 17;
-  const progressBarPercentage = Math.floor(
-    (progressBarSegments * progress) / 100,
-  );
-
-  const hasRegistration = useMemo(
-    () =>
-      new Date() >= new Date(registrationStart) &&
-      new Date() < new Date(registrationEnd),
-    [],
-  );
-
   const hasRegistrationEnded = useMemo(
     () => new Date() >= new Date(registrationEnd),
     [],
   );
 
   return (
-    <StyledHero $centered={hasRegistrationEnded}>
-      <StyledHeroContainer $centered={hasRegistrationEnded}>
-        <StyledHeroContent>
-          <StyledHeroTitle>
-            {hasRegistrationEnded ? (
-              <>
-                Registration is <strong>closed</strong>
-              </>
-            ) : (
-              <>
-                Celebrate our <strong>10th year</strong> supporting open source!
-              </>
-            )}
-          </StyledHeroTitle>
-
-          {hasRegistrationEnded && (
-            <StyledHeroSubtitle>
-              Thank you for making contributions to open source.
-              <br />
-              <strong>
-                Hacktoberfest #
-                {new Date(registrationStart).getFullYear() - 2013}
-              </strong>{' '}
-              {new Date(registrationStart).getFullYear()} has now ended.
-            </StyledHeroSubtitle>
-          )}
-
-          <StyledHeroPresented>
-            <Sponsors
-              title="Presented by"
-              sponsors={founders}
-              centered={hasRegistrationEnded}
-            />
-          </StyledHeroPresented>
-        </StyledHeroContent>
-
-        {!hasRegistrationEnded && (
-          <StyledHeroCountdown>
-            <>
-              <StyledCountdownHeader>
-                {hasRegistration
-                  ? 'Hacktoberfest registration is open now!'
-                  : 'The countdown to Hacktoberfest starts now!'}
-              </StyledCountdownHeader>
-
-              <StyledCountdown>
-                <StyledCountdownItem>
-                  <p>
-                    <span>{days}</span>
-                    Days
-                  </p>
-                </StyledCountdownItem>
-                <StyledCountdownItem>
-                  <p>
-                    <span>{hours}</span>
-                    Hours
-                  </p>
-                </StyledCountdownItem>
-                <StyledCountdownItem>
-                  <p>
-                    <span>{minutes}</span>
-                    Minutes
-                  </p>
-                </StyledCountdownItem>
-              </StyledCountdown>
-
-              <StyledCountdownLoading>
-                <StyledCountdownLoadingBorder>
-                  <svg viewBox="0 0 474 36" preserveAspectRatio="none">
-                    <rect
-                      x=".5"
-                      y=".5"
-                      width="473"
-                      height="35"
-                      rx="8"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeDasharray="6,6"
-                      vectorEffect="non-scaling-stroke"
-                    />
-                  </svg>
-                </StyledCountdownLoadingBorder>
-                <StyledCountdownLoadingContainer>
-                  {Array.from(Array(progressBarSegments), (el, i) => {
-                    return (
-                      <StyledCountdownLoadingItem
-                        key={i}
-                        $complete={i < progressBarPercentage}
-                      />
-                    );
-                  })}
-                </StyledCountdownLoadingContainer>
-              </StyledCountdownLoading>
-
-              {hasRegistration && (
-                <ButtonMain href="/auth">Register now!</ButtonMain>
+    <>
+      <StyledHero $centered={hasRegistrationEnded}>
+        <StyledHeroContainer $centered={hasRegistrationEnded}>
+          <StyledHeroContent>
+            <StyledHeroTitle>
+              {hasRegistrationEnded ? (
+                <>
+                  Registration is <strong>closed</strong>
+                </>
+              ) : (
+                <>
+                  A month-long <strong>celebration</strong> of all things
+                  open-source
+                </>
               )}
-            </>
-          </StyledHeroCountdown>
-        )}
-      </StyledHeroContainer>
-    </StyledHero>
+            </StyledHeroTitle>
+
+            {hasRegistrationEnded && (
+              <StyledHeroSubtitle>
+                <StyledSectionSpacing>
+                  <ContentMaster
+                    size="xl2"
+                    align="center"
+                    links={[
+                      {
+                        id: 'join-the-discord-hero',
+                        href: 'http://discord.gg/hacktoberfest',
+                        children: 'Join the Discord',
+                      },
+                    ]}
+                  >
+                    {`Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest ${currentHacktoberfest}** has officially ended.\n\n` +
+                      'But don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#stay-up-to-date) to get the latest announcements about future Hacktoberfest events.\n\n' +
+                      'Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord.'}
+                  </ContentMaster>
+
+                  <ContentMaster size="xl2" align="center">
+                    {`A special thank you to the great folks at ${asList(sponsors.map(({ title }) => `${title}`))} for their sponsorship of Hacktoberfest. Thank you to ALL our Sponsors and Community Partners, we ❤️ you!`}
+                  </ContentMaster>
+                </StyledSectionSpacing>
+              </StyledHeroSubtitle>
+            )}
+          </StyledHeroContent>
+        </StyledHeroContainer>
+      </StyledHero>
+
+      <StyledHeroDivider>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="1440"
+          height="144"
+          viewBox="0 0 1440 144"
+          fill="none"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M214 1.87085e-05V80H285V109H419V80L627 80V19.5091L763.086 19.5091V80H889.801V55.3599L1003.94 55.3599V110.233L1073.44 110.233V29.7522L1256 29.7522V3.44969e-06L1440 1.87085e-05V144H0V0L214 1.87085e-05ZM627 144V80.2358L763 80.2358V144L627 144Z"
+            fill="#183717"
+          />
+          <path d="M419 80L285 80V50L419 50V80Z" fill="#183717" />
+        </svg>
+      </StyledHeroDivider>
+    </>
   );
 };
 

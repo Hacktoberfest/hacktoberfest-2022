@@ -6,23 +6,34 @@ import {
   StyledHeroSecondaryTitle,
   StyledHeroSecondaryImage,
 } from './HeroSecondary.styles';
-import Divider from 'components/Divider';
 import ButtonMain from 'components/ButtonMain';
+import { useTheme } from 'styled-components';
+import SectionDivider from 'components/SectionDivider';
+import Glitch from 'components/Glitch';
 
 const HeroSecondary = (props) => {
-  const { title, icon, cta } = props;
+  const { title, icon, cta, reverse = false, includeDivider = true } = props;
+  const theme = useTheme();
   return (
     <StyledHeroSecondary>
       <Container>
-        <StyledHeroSecondaryContainer>
+        <StyledHeroSecondaryContainer $reverse={reverse}>
           <StyledHeroSecondaryContent>
             <StyledHeroSecondaryTitle>{title}</StyledHeroSecondaryTitle>
             {cta && <ButtonMain {...cta} />}
           </StyledHeroSecondaryContent>
-          <StyledHeroSecondaryImage>{icon}</StyledHeroSecondaryImage>
+          <StyledHeroSecondaryImage>
+            <Glitch image={icon} />
+          </StyledHeroSecondaryImage>
         </StyledHeroSecondaryContainer>
-        <Divider type="pixelarrow" />
       </Container>
+      {includeDivider && (
+        <SectionDivider
+          align="left"
+          bgColor="transparent"
+          fgColor={theme.colors.typography}
+        />
+      )}
     </StyledHeroSecondary>
   );
 };

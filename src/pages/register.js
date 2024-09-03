@@ -2,7 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 
 import { fetchUserAvatars } from 'lib/api';
-import { registrationEnd, registrationStart } from 'lib/config';
+import {
+  currentHacktoberfest,
+  registrationEnd,
+  registrationStart,
+} from 'lib/config';
 
 import useAuth from 'hooks/useAuth';
 
@@ -14,6 +18,7 @@ import ButtonMain from 'components/ButtonMain';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
 import Settings from 'components/profile/settings';
 import Header from 'components/profile/header';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const Register = () => {
   const auth = useAuth();
@@ -55,24 +60,23 @@ const Register = () => {
   return (
     <>
       <Head>
-        <title>Register | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Register')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Register | Hacktoberfest 2023"
+          content={createMetaTitle('Register')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Register | Hacktoberfest 2023"
+          content={createMetaTitle('Register')}
         />
       </Head>
 
       {hasRegistrationEnded ? (
         <Section>
           <p>
-            Registration is now closed, as Hacktoberfest #
-            {new Date(registrationStart).getFullYear() - 2013}{' '}
+            Registration is now closed, as Hacktoberfest #{currentHacktoberfest}{' '}
             {new Date(registrationStart).getFullYear()} has now ended. We look
             forward to seeing you for Hacktoberfest{' '}
             {new Date(registrationStart).getFullYear() + 1}!
@@ -102,7 +106,7 @@ const Register = () => {
           <Container>
             <Header avatar={avatar} name={auth.user.name} type="Registration" />
 
-            <Divider type="pixel" />
+            <Divider type="doubledashed" />
 
             <Section small>
               <Settings auth={auth} />

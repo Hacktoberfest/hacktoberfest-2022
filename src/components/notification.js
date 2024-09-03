@@ -3,30 +3,32 @@ import { body24, headline32 } from 'themes/typography';
 
 const StyledNotification = styled.div`
   width: 100%;
-  padding: 48px;
+  padding: 40px;
   transition: 0.2s ease;
-  background: ${({ theme }) => theme.card.bg};
   border: 1px solid ${({ $color }) => $color};
-  border-radius: 24px;
-  color: ${({ theme }) => theme.colors.neutral.manga300};
+  color: currentColor;
 
   > h2 {
-    margin: 0 0 32px;
-    ${headline32};
+    margin: 0 0 16px;
+    ${headline32}
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
   }
 
   a {
-    color: ${({ theme }) => theme.colors.bavarian.blue200};
+    color: ${({ theme }) => theme.colors.deepPink};
     text-decoration: underline;
 
     &:hover,
     &:focus {
-      color: ${({ theme }) => theme.colors.bavarian.blue100};
+      text-decoration: none;
     }
   }
 
   b {
-    color: ${({ theme }) => theme.colors.bavarian.gold200};
+    font-weight: 500;
   }
 
   ${({ $paragraphs }) =>
@@ -34,10 +36,9 @@ const StyledNotification = styled.div`
     css`
       > p {
         margin: 0 0 16px;
-        ${body24};
+        ${body24}
       }
     `}
-}
 `;
 
 const Notification = ({ title, children, color }) => {

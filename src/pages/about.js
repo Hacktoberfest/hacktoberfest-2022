@@ -1,73 +1,38 @@
 import Head from 'next/head';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import {
-  intro,
   lore,
-  digitalRewards,
   advisoryCouncil,
   council,
   sharing,
+  rewards,
+  sponsorsAndPartners,
 } from 'lib/about';
-import { founders, contributors, sustainer, partners } from 'lib/sponsors';
-
-import IlloLeafs from 'assets/img/8bit-leafs.svg';
+import { founders, sustainer, partners, advocate } from 'lib/sponsors';
 
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { headline48 } from 'themes/typography';
 
 import Divider from 'components/Divider';
 import Section from 'components/Section';
 import DorknamicIsland from 'components/dorknamic-island';
 import HeroSecondary from 'components/HeroSecondary';
-import PixelLogo from 'components/pixels/PixelLogo';
 import ContentMaster from 'components/ContentMaster';
 import Container from 'components/Container';
-import Marquee from 'components/Marquee';
 import SpotHeader from 'components/SpotHeader';
 import AccordionCouncil from 'components/AccordionCouncil';
 import DividerRow from 'components/DividerRow';
-import HeartCallout from 'components/HeartCallout';
-import PixelHearts from 'components/pixels/PixelHearts';
 import AccordionSponsor from 'components/AccordionSponsor';
-import Wistia from 'components/Wistia';
-
-const StyledCouncilMembers = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin: 80px 0 0;
-`;
-
-export const StyledBlogSection = styled.div`
-  display: grid;
-  gap: 16px;
-  grid-template-columns: minmax(0, 1fr);
-
-  ${mQ(bp.desktop)} {
-    gap: 24px;
-    grid-template-columns: ${(339 / 1280) * 100}% ${(917 / 1280) * 100}%;
-  }
-`;
-
-export const StyledHacktoberfestLove = styled.div`
-  display: flex;
-  gap: 32px;
-  flex-direction: column;
-
-  ${mQ(bp.desktop)} {
-    justify-content: space-between;
-    gap: 80px;
-    flex-direction: row;
-
-    > div:first-child {
-      max-width: 762px;
-    }
-  }
-`;
+import ContentSide from 'components/ContentSide';
+import SectionDivider from 'components/SectionDivider';
+import asciiAbout from 'assets/img/ascii-about.svg';
+import asciiShare from 'assets/img/ascii-share.svg';
+import asciiSponsors from 'assets/img/ascii-sponsors--black.svg';
+import { StyledSectionSpacing } from 'styles/sharedStyles';
+import createMetaTitle from 'lib/createMetaTitle';
 
 export const StyledSponsorsList = styled.div`
   display: grid;
@@ -80,246 +45,278 @@ export const StyledSponsorsList = styled.div`
   }
 `;
 
-export const StyledSponsorsListTitle = styled.h2`
-  margin: 64px 0 48px;
-  ${headline48};
+export const StyledLoreContent = styled.div`
+  a {
+    color: ${({ theme }) => theme.colors.deepPink};
+  }
 `;
 
-const colors = ['gold', 'blue', 'red'];
-
 const About = () => {
+  const theme = useTheme();
+
   return (
     <>
       <Head>
-        <title>About | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('About')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="About | Hacktoberfest 2023"
+          content={createMetaTitle('About')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="About | Hacktoberfest 2023"
+          content={createMetaTitle('About')}
         />
       </Head>
 
       <DorknamicIsland>
         <a href="#lore">Lore</a>
-        <a href="#digital-rewards">Digital Rewards</a>
-        <a href="#council">Council</a>
+        <a href="#love">Love</a>
         <a href="#sponsors">Sponsors</a>
-        <a href="#hacktoberfest-love">Hacktoberfest Love</a>
+        <a href="#rewards">Rewards</a>
+        <a href="#council">Council</a>
       </DorknamicIsland>
 
-      <HeroSecondary title="About" icon={<PixelLogo timing="5" />} />
+      <HeroSecondary
+        title="About"
+        icon={<img src={asciiAbout.src} alt="" width="608" height="608" />}
+      />
 
-      <Container inner>
-        <Section>
-          <ContentMaster align="center" size="xl" title={intro.title}>
-            {intro.content}
-          </ContentMaster>
-
-          <Wistia id="3vikqzhoj5" />
-        </Section>
-
-        <Section id="lore">
-          <ContentMaster size="xl" title={lore.title}>
-            {lore.content}
-          </ContentMaster>
-        </Section>
-      </Container>
-
-      <Marquee text1="New for 2023" text2="New for 2023" direction="forwards" />
-
-      <Container inner>
-        <Section id="digital-rewards">
-          <ContentMaster size="xl" title={digitalRewards.title}>
-            {digitalRewards.content}
-          </ContentMaster>
-        </Section>
-      </Container>
-
-      <Container>
-        <Divider type="pixel" />
-      </Container>
-
-      <Section id="council">
-        <Container inner>
-          <ContentMaster size="xl" title={advisoryCouncil.title}>
-            {advisoryCouncil.content}
-          </ContentMaster>
-        </Container>
-
+      <Section id="lore">
         <Container>
-          <StyledCouncilMembers>
-            {council.map((member, index) => (
-              <AccordionCouncil
-                key={member.name}
-                filled
-                frame={colors[Math.floor(Math.random() * colors.length)]}
-                image={{
-                  src: member.image,
-                  alt: `Profile image of ${member.name}`,
-                }}
-                imageRotatation={index % 2 ? 'left' : 'right'}
-                title={member.name}
-                subtitle={`[${member.role}]`}
-                skills={member.skills}
-                links={member.links}
-                collapsed
-              >
-                {member.bio}
-              </AccordionCouncil>
-            ))}
-          </StyledCouncilMembers>
+          <StyledSectionSpacing>
+            <ContentMaster size="xl" title={lore.title} />
+
+            <StyledLoreContent>
+              <ContentSide>
+                <ContentMaster size="xl">{lore.content}</ContentMaster>
+                <ContentMaster size="xl" links={lore.links}>
+                  {lore.contentRight}
+                </ContentMaster>
+              </ContentSide>
+            </StyledLoreContent>
+          </StyledSectionSpacing>
         </Container>
       </Section>
 
-      <Container>
-        <Divider type="pixel" />
+      <SectionDivider
+        align="right"
+        bgColor={theme.colors.typography}
+        fgColor={theme.colors.black}
+      />
 
-        <Section id="sponsors">
-          <SpotHeader
-            image={{
-              src: IlloLeafs.src,
-              alt: '',
-            }}
-            content={{
-              size: 'xl',
-              title: 'Our Sponsors & Partners',
-              children:
-                'Hacktoberfest could not happen without the generous support of our sponsors and partners. We invite you to learn more about them!',
-            }}
-          />
+      <Section
+        id="love"
+        bgColor={theme.colors.black}
+        isDark
+        color={theme.colors.typography}
+      >
+        <Container>
+          <StyledSectionSpacing>
+            <SpotHeader
+              image={{
+                src: asciiShare.src,
+                alt: '',
+              }}
+              content={{
+                size: 'xl',
+                title: sharing.share.title,
+                children: sharing.share.content,
+              }}
+            />
 
-          <StyledSponsorsListTitle>Founder</StyledSponsorsListTitle>
+            <Divider type="doubledashed" />
 
-          <StyledSponsorsList>
-            {founders.map((item, index) => (
-              <AccordionSponsor
-                key={item.title}
-                frame={colors[Math.floor(Math.random() * colors.length)]}
-                image={{ src: item.image, alt: '' }}
-                imageRotatation={index % 2 ? 'left' : 'right'}
-                title={item.title}
-                link={{ children: item.link.title, ...item.link }}
-                children={item.content}
-                collapsed
-              />
-            ))}
-          </StyledSponsorsList>
-
-          <StyledSponsorsListTitle>Contributor</StyledSponsorsListTitle>
-
-          <StyledSponsorsList>
-            {contributors.map((item, index) => (
-              <AccordionSponsor
-                key={item.title}
-                frame={colors[Math.floor(Math.random() * colors.length)]}
-                image={{ src: item.image, alt: '' }}
-                imageRotatation={index % 2 ? 'left' : 'right'}
-                title={item.title}
-                link={{ children: item.link.title, ...item.link }}
-                children={item.content}
-                collapsed
-              />
-            ))}
-          </StyledSponsorsList>
-
-          <StyledSponsorsListTitle>Sustainer</StyledSponsorsListTitle>
-
-          <StyledSponsorsList>
-            {sustainer.map((item, index) => (
-              <AccordionSponsor
-                key={item.title}
-                frame={colors[Math.floor(Math.random() * colors.length)]}
-                image={{ src: item.image, alt: '' }}
-                imageRotatation={index % 2 ? 'left' : 'right'}
-                title={item.title}
-                link={{ children: item.link.title, ...item.link }}
-                children={item.content}
-                collapsed
-              />
-            ))}
-          </StyledSponsorsList>
-
-          <StyledSponsorsListTitle>Our Partners:</StyledSponsorsListTitle>
-
-          <StyledSponsorsList>
-            {partners.map((item, index) => (
-              <AccordionSponsor
-                key={item.title}
-                frame={colors[Math.floor(Math.random() * colors.length)]}
-                image={{ src: item.image, alt: '' }}
-                imageRotatation={index % 2 ? 'left' : 'right'}
-                title={item.title}
-                link={{ children: item.link.title, ...item.link }}
-                children={item.content}
-                collapsed
-              />
-            ))}
-          </StyledSponsorsList>
-        </Section>
-
-        <Divider type="pixel" />
-
-        <Section id="hacktoberfest-love">
-          <StyledHacktoberfestLove>
-            <ContentMaster size="xl2" title={sharing.intro} />
-            <PixelHearts />
-          </StyledHacktoberfestLove>
-
-          <Section small>
-            <div style={{ maxWidth: '1012px' }}>
+            <DividerRow gap="128px">
               <ContentMaster
                 size="md"
                 titleTag="h3"
-                title={sharing.share.title}
-                children={sharing.share.content}
+                title={<>{sharing.blog.title}</>}
+                children={sharing.blog.content}
+                hasCaret={false}
               />
-            </div>
-          </Section>
 
-          <Divider type="doubledashed" />
-
-          <DividerRow gap="128px">
-            <ContentMaster
-              size="md"
-              titleTag="h3"
-              title={sharing.video.title}
-              children={sharing.video.content}
-            />
-
-            <ContentMaster
-              size="md"
-              titleTag="h3"
-              title={sharing.social.title}
-              children={sharing.social.content}
-            />
-          </DividerRow>
-
-          <Divider type="doubledashed" />
-
-          <Section small>
-            <StyledBlogSection>
               <ContentMaster
                 size="md"
                 titleTag="h3"
-                title={sharing.blog.title}
+                title={<>{sharing.social.title}</>}
+                children={sharing.social.content}
+                hasCaret={false}
+              />
+            </DividerRow>
+
+            <ContentMaster align="center" size="xl2">
+              {sharing.cta}
+            </ContentMaster>
+          </StyledSectionSpacing>
+        </Container>
+      </Section>
+
+      <SectionDivider
+        bgColor={theme.colors.typography}
+        fgColor={theme.colors.black}
+        isFlipped
+      />
+
+      <Section id="sponsors">
+        <Container>
+          <StyledSectionSpacing>
+            <SpotHeader
+              image={{
+                src: asciiSponsors.src,
+                alt: '',
+              }}
+              content={{
+                size: 'xl',
+                title: sponsorsAndPartners.title,
+                children: sponsorsAndPartners.content,
+              }}
+            />
+
+            <StyledSectionSpacing $isSmall={true}>
+              <ContentMaster size="lg" title="Our Sponsors" hasCaret={false} />
+
+              <ContentMaster
+                size="md"
+                title={<>Founder</>}
+                titleTag="h3"
+                hasCaret={false}
               />
 
-              <ContentMaster size="lg" children={sharing.blog.content} />
-            </StyledBlogSection>
-          </Section>
+              <StyledSponsorsList>
+                {founders.map((item) => (
+                  <AccordionSponsor
+                    key={item.title}
+                    image={{ src: item.image, alt: '' }}
+                    title={item.title}
+                    link={{ children: item.link.title, ...item.link }}
+                    children={item.content}
+                    collapsed
+                  />
+                ))}
+              </StyledSponsorsList>
+            </StyledSectionSpacing>
 
-          <Divider type="doubledashed" />
+            <StyledSectionSpacing $isSmall={true}>
+              <ContentMaster
+                size="md"
+                title={<>Advocate</>}
+                titleTag="h3"
+                hasCaret={false}
+              />
 
-          <HeartCallout>
-            <ContentMaster align="center" size="xl" children={sharing.cta} />
-          </HeartCallout>
-        </Section>
-      </Container>
+              <StyledSponsorsList>
+                {advocate.map((item) => (
+                  <AccordionSponsor
+                    key={item.title}
+                    image={{ src: item.image, alt: '' }}
+                    title={item.title}
+                    link={{ children: item.link.title, ...item.link }}
+                    children={item.content}
+                    collapsed
+                  />
+                ))}
+              </StyledSponsorsList>
+            </StyledSectionSpacing>
+
+            <StyledSectionSpacing $isSmall={true}>
+              <ContentMaster
+                size="md"
+                title={<>Sustainer</>}
+                titleTag="h3"
+                hasCaret={false}
+              />
+
+              <StyledSponsorsList>
+                {sustainer.map((item) => (
+                  <AccordionSponsor
+                    key={item.title}
+                    image={{ src: item.image, alt: '' }}
+                    title={item.title}
+                    link={{ children: item.link.title, ...item.link }}
+                    children={item.content}
+                    collapsed
+                  />
+                ))}
+              </StyledSponsorsList>
+            </StyledSectionSpacing>
+
+            <StyledSectionSpacing $isSmall={true}>
+              <ContentMaster size="lg" title="Our Partners" hasCaret={false} />
+
+              <StyledSponsorsList>
+                {partners.map((item) => (
+                  <AccordionSponsor
+                    key={item.title}
+                    image={{ src: item.image, alt: '' }}
+                    title={item.title}
+                    link={{ children: item.link.title, ...item.link }}
+                    children={item.content}
+                    collapsed
+                  />
+                ))}
+              </StyledSponsorsList>
+            </StyledSectionSpacing>
+          </StyledSectionSpacing>
+        </Container>
+      </Section>
+
+      <SectionDivider
+        bgColor={theme.colors.green}
+        fgColor={theme.colors.typography}
+        isFlipped
+      />
+
+      <Section id="rewards" bgColor={theme.colors.green}>
+        <Container>
+          <StyledSectionSpacing>
+            <ContentMaster size="xl" title={rewards.title} />
+
+            <ContentSide>
+              <ContentMaster size="xl">{rewards.content}</ContentMaster>
+
+              <ContentMaster size="xl">{rewards.contentRight}</ContentMaster>
+            </ContentSide>
+          </StyledSectionSpacing>
+        </Container>
+      </Section>
+
+      <SectionDivider
+        align="right"
+        bgColor={theme.colors.green}
+        fgColor={theme.colors.typography}
+      />
+
+      <Section id="council">
+        <Container>
+          <StyledSectionSpacing>
+            <ContentMaster size="xl" title={advisoryCouncil.title}>
+              {advisoryCouncil.content}
+            </ContentMaster>
+
+            <StyledSectionSpacing $isSmall>
+              {council.map((member, index) => (
+                <AccordionCouncil
+                  key={member.name}
+                  filled
+                  image={{
+                    src: member.image,
+                    alt: `Profile image of ${member.name}`,
+                  }}
+                  title={member.name}
+                  subtitle={`[${member.role}]`}
+                  skills={member.skills}
+                  links={member.links}
+                  collapsed
+                >
+                  {member.bio}
+                </AccordionCouncil>
+              ))}
+            </StyledSectionSpacing>
+          </StyledSectionSpacing>
+        </Container>
+      </Section>
     </>
   );
 };

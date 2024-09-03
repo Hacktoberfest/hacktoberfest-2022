@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import {
   values,
@@ -26,13 +26,12 @@ import ContentMaster from 'components/ContentMaster';
 import ContentSide from 'components/ContentSide';
 import DividerRow from 'components/DividerRow';
 import Accordion from 'components/Accordion';
-import List from 'components/List';
-import Note from 'components/Note';
 
-import IlloPencil from 'assets/img/8bit-pencil.svg';
 import HeroSecondary from 'components/HeroSecondary';
-import PixelComputer from 'components/pixels/PixelComputer';
-import React from 'react';
+import asciiParticipation from 'assets/img/ascii-participation.svg';
+import React, { Fragment } from 'react';
+import SectionDivider from 'components/SectionDivider';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const StyledPRDetails = styled.div`
   margin: 16px 0 0;
@@ -42,40 +41,28 @@ const StyledPRDetails = styled.div`
   }
 `;
 
-export const StyledSpacer = styled.div`
+const StyledParticipationSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 64px;
-
-  ${mQ(bp.desktop)} {
-    gap: 80px;
-  }
-`;
-
-const StyledValues = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-
-  ${mQ(bp.desktop)} {
-    gap: 64px;
-  }
+  gap: 60px;
 `;
 
 const Participation = () => {
+  const theme = useTheme();
+
   return (
     <>
       <Head>
-        <title>Participation | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Participation')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Participation | Hacktoberfest 2023"
+          content={createMetaTitle('Participation')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Participation | Hacktoberfest 2023"
+          content={createMetaTitle('Participation')}
         />
       </Head>
 
@@ -92,70 +79,96 @@ const Participation = () => {
 
       <HeroSecondary
         title="Participation"
-        icon={<PixelComputer timing="5" />}
+        icon={
+          <img src={asciiParticipation.src} alt="" width="608" height="608" />
+        }
       />
 
-      <Container>
-        <Section id="values">
-          <StyledValues>
-            <ContentMaster size="lg" eyebrow={`[${values.title}]`} />
-            {values.sections.map((value) => (
-              <ContentSide key={value.title}>
-                <ContentMaster size="lg" title={value.title} />
-                <ContentMaster size="md">{value.content}</ContentMaster>
-              </ContentSide>
-            ))}
-          </StyledValues>
-        </Section>
+      <Section id="values">
+        <Container>
+          <StyledParticipationSection>
+            <>
+              {values.map((value, index) => (
+                <Fragment key={value.title}>
+                  <ContentSide key={value.title}>
+                    <ContentMaster size="xl" title={value.title} />
+                    <ContentMaster size="md">{value.content}</ContentMaster>
+                  </ContentSide>
+                  {index + 1 !== values.length && (
+                    <Divider type="doubledashed" />
+                  )}
+                </Fragment>
+              ))}
+            </>
+          </StyledParticipationSection>
+        </Container>
+      </Section>
 
-        <Divider type="pixel" />
-      </Container>
+      <SectionDivider align="right" />
 
-      <Container inner>
-        <Section id="contributors">
-          <StyledSpacer>
-            <ContentMaster size="xl" title={contributors.title}>
-              {contributors.sections[0].title}
-            </ContentMaster>
-
-            <ContentMaster size="xl" list={contributors.sections[0].items} />
-          </StyledSpacer>
-        </Section>
-      </Container>
-
-      <Container>
-        <Divider type="doubledashed" />
-        <Section id="beginner-resources" small>
+      <Section
+        id="contributors"
+        bgColor={theme.colors.black}
+        color={theme.colors.typography}
+        isDark
+      >
+        <Container>
           <ContentSide>
-            <ContentMaster size="xl" title={resources.title} />
-            <ContentMaster
-              size="md"
-              title={resources.sections[0].title}
-              titleTag="h3"
-              list={resources.sections[0].items}
-            />
+            <ContentMaster size="xl" title={contributors.title} />
+            <ContentMaster size="xl" list={contributors.sections[0].items}>
+              {contributors.sections[0].content}
+            </ContentMaster>
           </ContentSide>
-        </Section>
-        <Divider type="doubledashed" />
-        <DividerRow gap="128px">
-          <ContentMaster
-            size="md"
-            title={resources.sections[1].title}
-            titleTag="h3"
-            list={resources.sections[1].items}
-          />
-          <ContentMaster
-            size="md"
-            title={resources.sections[2].title}
-            titleTag="h3"
-            list={resources.sections[2].items}
-          />
-        </DividerRow>
-        <Divider type="doubledashed" />
-      </Container>
+        </Container>
+      </Section>
 
-      <Container inner>
-        <Section id="pr-mr-details">
+      <SectionDivider align="left" isFlipped />
+
+      <Section id="beginner-resources">
+        <Container>
+          <StyledParticipationSection>
+            <ContentSide>
+              <ContentMaster size="xl" title={resources.title} />
+              <ContentMaster
+                size="md"
+                title={<>{resources.sections[0].title}</>}
+                titleTag="h3"
+                hasCaret={false}
+                list={resources.sections[0].items}
+              />
+            </ContentSide>
+
+            <Divider type="doubledashed" />
+
+            <DividerRow gap="128px">
+              <ContentMaster
+                size="md"
+                title={<>{resources.sections[1].title}</>}
+                titleTag="h3"
+                hasCaret={false}
+                list={resources.sections[1].items}
+              />
+              <ContentMaster
+                size="md"
+                title={<>{resources.sections[2].title}</>}
+                titleTag="h3"
+                hasCaret={false}
+                list={resources.sections[2].items}
+              />
+            </DividerRow>
+          </StyledParticipationSection>
+        </Container>
+      </Section>
+
+      <SectionDivider align="right" />
+
+      <Section
+        id="pr-mr-details"
+        bgColor={theme.colors.black}
+        color={theme.colors.typography}
+        isDark
+      >
+        <Container>
           <ContentMaster size="xl" title={prMrDetails.title}>
             {prMrDetails.content}
           </ContentMaster>
@@ -163,6 +176,7 @@ const Participation = () => {
             {prMrDetails.sections.map((section, index) => (
               <React.Fragment key={section.title}>
                 <Accordion
+                  isDark
                   title={section.title}
                   subtitle={section.subtitle}
                   collapsed
@@ -175,15 +189,13 @@ const Participation = () => {
               </React.Fragment>
             ))}
           </StyledPRDetails>
-        </Section>
-      </Container>
+        </Container>
+      </Section>
 
-      <Container>
-        <Divider type="pixel" />
-      </Container>
+      <SectionDivider align="left" isFlipped />
 
-      <Container inner>
-        <Section id="spam">
+      <Section id="spam">
+        <Container>
           <ContentMaster size="xl" title={spam.title}>
             {spam.content}
           </ContentMaster>
@@ -203,106 +215,99 @@ const Participation = () => {
               </React.Fragment>
             ))}
           </StyledPRDetails>
-        </Section>
-      </Container>
+        </Container>
+      </Section>
 
-      <Container>
-        <Divider type="pixel" />
+      <SectionDivider
+        align="left"
+        isFlipped
+        bgColor={theme.colors.green}
+        fgColor={theme.colors.typography}
+      />
 
-        <Section id="maintainers">
-          <StyledSpacer>
-            <div style={{ maxWidth: '1020px' }}>
-              <ContentMaster size="xl" title={maintainers.title}>
-                {maintainers.content}
-              </ContentMaster>
-            </div>
+      <Section
+        id="maintainers"
+        bgColor={theme.colors.green}
+        color={theme.colors.black}
+      >
+        <Container>
+          <StyledParticipationSection>
+            <ContentMaster size="xl" title={maintainers.title}>
+              {maintainers.content}
+            </ContentMaster>
             <ContentMaster
               size="xl"
               listColumns="2"
               list={maintainers.sections[0].items}
             />
-          </StyledSpacer>
-        </Section>
+          </StyledParticipationSection>
+        </Container>
+      </Section>
 
-        <Divider type="pixel" />
+      <SectionDivider
+        align="right"
+        bgColor={theme.colors.green}
+        fgColor={theme.colors.black}
+      />
 
-        <Section id="low-or-non-code">
-          <div style={{ maxWidth: '1020px' }}>
-            <ContentMaster
-              size="xl"
-              title={lowNoCode.title}
-              children={lowNoCode.content}
-            />
-          </div>
-        </Section>
+      <Section
+        id="low-or-non-code"
+        bgColor={theme.colors.black}
+        color={theme.colors.typography}
+        linkColor={theme.colors.pink}
+      >
+        <Container>
+          <StyledParticipationSection>
+            <ContentSide>
+              <ContentMaster
+                size="xl"
+                title={lowNoCode.title}
+                prefixColor={theme.colors.pink}
+              />
+              <ContentMaster size="xl" children={lowNoCode.content} />
+            </ContentSide>
 
-        <Divider type="doubledashed" />
+            <Divider type="doubledashed" />
 
-        <Section small>
-          <ContentSide>
-            <ContentMaster size="xl">
-              [Low-code and non-code
-              contributions](https://opensource.com/article/22/8/non-code-contribution-powers-open-source)
-              are an excellent way to get involved in supporting open source.
-              Here are some examples of ways you can contribute to open-source
-              projects:
-            </ContentMaster>
-            <ContentMaster
-              size="md"
-              title="Low-Code Contributions:"
-              titleTag="h3"
-              list={[
-                'Technical documentation',
-                'User experience testing',
-                'Technical blog post or tutorial',
-                'Case studies',
-              ]}
-            />
-          </ContentSide>
-        </Section>
+            <ContentSide>
+              <ContentMaster
+                size="md"
+                title={<>{lowNoCode.sections[0].title}</>}
+                titleTag="h3"
+                hasCaret={false}
+                list={lowNoCode.sections[0].lists}
+              >
+                {lowNoCode.sections[0].content}
+              </ContentMaster>
 
-        <Divider type="doubledashed" />
+              <ContentMaster
+                size="md"
+                title={<>{lowNoCode.sections[1].title}</>}
+                titleTag="h3"
+                hasCaret={false}
+                list={lowNoCode.sections[1].lists}
+              />
+            </ContentSide>
 
-        <Section small>
-          <List
-            content={{
-              size: 'md',
-              title: 'Non-Code Contributions:',
-              titleTag: 'h3',
-            }}
-            list={[
-              'Writing',
-              'Translating',
-              'Copy editing',
-              'Talks or presentations',
-              'Event organization',
-              'Podcasts',
-              'Social media',
-              'Blog posts',
-              'Video production',
-              'Graphic design',
-            ]}
-          />
-        </Section>
+            <Divider type="doubledashed" />
 
-        <Divider type="doubledashed" />
+            <ContentSide>
+              <ContentMaster size="md">
+                {note.sections[0].content}
+              </ContentMaster>
 
-        <Section small>
-          <Note
-            image={{
-              src: IlloPencil.src,
-              alt: '',
-            }}
-          >
-            {note.content}
-          </Note>
-        </Section>
+              <ContentMaster size="md">
+                {note.sections[1].content}
+              </ContentMaster>
+            </ContentSide>
+          </StyledParticipationSection>
+        </Container>
+      </Section>
 
-        <Divider type="pixel" />
-      </Container>
+      <SectionDivider align="left" isFlipped />
 
-      <Container inner>
-        <Section id="faq">
+      <Section id="faq">
+        <Container>
           <ContentMaster size="xl" title={faqs.title}>
             {faqs.content}
           </ContentMaster>
@@ -322,8 +327,8 @@ const Participation = () => {
               </React.Fragment>
             ))}
           </StyledPRDetails>
-        </Section>
-      </Container>
+        </Container>
+      </Section>
     </>
   );
 };

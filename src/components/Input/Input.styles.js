@@ -3,22 +3,19 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body20 } from 'themes/typography';
+import { body20, body24 } from 'themes/typography';
 
 export const StyledInput = styled.input`
-  ${body20};
-  background: ${({ theme }) => theme.card.bg};
-  backdrop-filter: blur(5px);
-  border: 0;
-  border-radius: 12px;
-  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.neutral.manga400};
-  color: ${({ theme }) => theme.colors.neutral.manga200};
+  ${body20}
+  background: transparent;
+  border: 1px solid currentColor;
+  color: currentColor;
+  font-weight: 500;
   margin: 0;
   padding: 12px 24px;
   width: 100%;
 
   ${mQ(bp.desktop)} {
-    border-radius: 16px;
     padding: 16px 24px;
   }
 
@@ -27,18 +24,35 @@ export const StyledInput = styled.input`
   }
 
   &:focus-visible {
-    outline: 1px solid ${({ theme }) => theme.colors.neutral.manga200};
-    outline-offset: -6px;
+    outline: 0;
+    box-shadow: ${({ theme }) =>
+      `-1px -1px 10px 0px ${theme.colors.deepPink}, 1px 1px 10px 0px ${theme.colors.deepPink}`};
+    color: ${({ theme }) => theme.colors.deepPink};
+  }
+
+  &:user-invalid:not(:placeholder-shown) {
+    box-shadow: ${({ theme }) =>
+      `-1px -1px 10px 0px ${theme.colors.error}, 1px 1px 10px 0px ${theme.colors.error}`};
+    border-color: ${({ theme }) => theme.colors.error};
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.neutral.manga300};
+    color: currentColor;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    ${({ $isDark }) =>
+      $isDark &&
+      `
+      filter: invert(1);
+    `}
   }
 `;
 
 export const StyledInputLabel = styled.label`
-  ${body20};
-  color: ${({ theme }) => theme.colors.neutral.manga300};
+  ${body24}
+  color: currentColor;
+  font-weight: 500;
   display: block;
   margin: 0 0 8px;
 `;

@@ -1,40 +1,28 @@
-import { StyledButtonMain } from 'components/ButtonMain/ButtonMain.styles';
 import Link from 'next/link';
 import styled from 'styled-components';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body18 } from 'themes/typography';
+import { body16, body18, body32, headline32 } from 'themes/typography';
 
 export const StyledHeader = styled.header`
   padding: 12px 0;
-  position: absolute;
+  position: ${({ $isOpen }) => ($isOpen ? 'fixed' : 'absolute')};
   top: 0;
   left: 0;
   width: 100%;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.neutral.manga400};
   z-index: 100;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      180deg,
-      ${({ theme }) => theme.colors.neutral.void200} 0%,
-      rgba(15, 9, 19, 0) 100%
-    );
-  }
+  color: ${({ $isHome, theme }) =>
+    $isHome ? theme.colors.darkGreen : theme.colors.typography};
 
   ${mQ(bp.desktop)} {
     padding: 40px 0;
-    border-bottom: 0;
+    position: absolute;
   }
 `;
 
 export const StyledHeaderContainer = styled.div`
-  position: relative;
   max-width: 1328px;
   margin: 0 auto;
   padding: 0 16px;
@@ -49,13 +37,14 @@ export const StyledHeaderContainer = styled.div`
 
 export const StyledHeaderLogo = styled.div`
   line-height: 0;
+  z-index: 5;
 
   img {
     width: auto;
     height: 40px;
 
     ${mQ(bp.desktop)} {
-      height: 64px;
+      height: 80px;
     }
   }
 `;
@@ -63,101 +52,53 @@ export const StyledHeaderLogo = styled.div`
 export const StyledHeaderNav = styled.nav`
   display: flex;
   flex-grow: 1;
-  align-items: center;
-  gap: 32px;
+  gap: 30px;
+
+  ${mQ(bp.desktop)} {
+    align-items: center;
+    gap: 32px;
+  }
+
+  ${mQ(bp.desktop - 1, 'max')} {
+    position: absolute;
+    inset: 0;
+    width: 100dvw;
+    height: 100dvh;
+    color: ${({ theme }) => theme.colors.green};
+    display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
+    padding: 120px 24px 64px;
+    flex-direction: column;
+    background-color: ${({ theme }) => theme.colors.darkGreen};
+    overflow: scroll;
+  }
 
   > *:first-child {
-    margin-left: auto;
-  }
-
-  ${StyledButtonMain} {
-    margin-left: auto;
-  }
-
-  > button {
-    margin-left: auto;
-  }
-
-  a {
-    @media (max-width: 964px) {
-      display: none;
+    ${mQ(bp.desktop)} {
+      margin-left: auto;
     }
-  }
-
-  .menu_toggle {
-    display: none;
-
-    @media (max-width: 964px) {
-      display: block;
-    }
-  }
-`;
-
-export const StyledMobileHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-export const StyledMobileWrapper = styled.div`
-  background: ${({ theme }) => theme.colors.neutral.void200};
-  display: block;
-  height: 100%;
-  left: 0;
-  opacity: 0;
-  padding: 12px 0;
-  position: fixed;
-  top: 0;
-  transition: 0.5s ease;
-  visibility: hidden;
-  width: 100%;
-  z-index: 500;
-
-  &[aria-selected='true'] {
-    opacity: 1;
-    visibility: visible;
-  }
-`;
-
-export const StyledMobileContainer = styled.div`
-  max-width: 1328px;
-  margin: 0 auto;
-  padding: 0 16px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-export const StyledMobileNav = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 48px 0;
-  flex-grow: 1;
-
-  a {
-    display: block;
-    width: 100%;
-    padding: 16px 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.neutral.manga300};
-  }
-
-  ${StyledButtonMain} {
-    margin-top: auto;
-    text-align: center;
-    border-bottom: 0;
   }
 `;
 
 export const StyledHeaderLink = styled(Link)`
-  ${body18};
+  ${body32}
   position: relative;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: ${({ theme }) => theme.colors.neutral.manga300};
-  transition: 0.1s ease;
+  text-decoration: none;
+  color: inherit;
+
+  ${mQ(bp.desktop)} {
+    ${body16}
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  &::before {
+    content: '>';
+    color: ${({ theme }) => theme.colors.pink};
+
+    ${mQ(bp.desktop)} {
+      display: none;
+    }
+  }
 
   &::after {
     content: '';
@@ -166,17 +107,12 @@ export const StyledHeaderLink = styled(Link)`
     left: 0;
     width: 100%;
     height: 2px;
-    background: ${({ theme }) => theme.colors.neutral.manga200};
+    background: currentColor;
     transform: scaleX(0);
     transition: transform 300ms ease-in-out;
   }
 
   &:hover {
-    text-shadow:
-      1px 1px 10px rgba(236, 66, 55, 0.5),
-      -1px -1px 10px rgba(255, 251, 164, 0.5);
-    color: ${({ theme }) => theme.colors.neutral.manga200};
-
     &::after {
       transform: scaleX(1);
     }
@@ -189,6 +125,8 @@ export const StyledHeaderToggle = styled.button`
   width: 32px;
   height: 32px;
   position: relative;
+  z-index: 5;
+  margin-left: auto;
 
   ${mQ(bp.desktop)} {
     display: none;
@@ -202,7 +140,11 @@ export const StyledHeaderToggle = styled.button`
     left: 50%;
     width: 75%;
     height: 2px;
-    background-color: ${({ theme }) => theme.colors.neutral.manga300};
+    background-color: ${({ $isOpen, $isHome, theme }) =>
+      $isHome && !$isOpen ? theme.colors.darkGreen : theme.colors.pink};
+    transition:
+      transform 500ms ease-in-out,
+      top 500ms ease-in-out;
   }
 
   &::before {

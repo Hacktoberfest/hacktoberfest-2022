@@ -4,15 +4,13 @@ import {
   StyledCardImage,
   StyledCardContent,
   StyledCardTitle,
-  StyledCardBG,
 } from './Card.styles';
 
 const Card = (props) => {
-  const { image, imageRotatation = 'left', bgImage, title, cta } = props;
+  const { image, title, cta } = props;
   return (
     <StyledCard>
-      <StyledCardBG />
-      <StyledCardImage $rotate={imageRotatation} $bgImage={bgImage}>
+      <StyledCardImage>
         <img {...image} />
       </StyledCardImage>
       <StyledCardContent>

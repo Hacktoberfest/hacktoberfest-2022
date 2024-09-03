@@ -9,7 +9,6 @@ import Loader from 'components/loader';
 import Form from 'components/form';
 
 import useAuth from 'hooks/useAuth';
-import PixelLeaf from 'components/pixels/PixelLeaf';
 import HeroSecondary from 'components/HeroSecondary';
 import Container from 'components/Container';
 import ContentMaster from 'components/ContentMaster';
@@ -17,6 +16,8 @@ import { reportEnded, reportTitle } from 'lib/report';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import ButtonMain from 'components/ButtonMain';
+import createMetaTitle from 'lib/createMetaTitle';
+import asciiReport from 'assets/img/ascii-report.svg';
 
 const Report = () => {
   const auth = useAuth(false);
@@ -125,31 +126,34 @@ const Report = () => {
   return (
     <>
       <Head>
-        <title>Report | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Report')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Report | Hacktoberfest 2023"
+          content={createMetaTitle('Report')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Report | Hacktoberfest 2023"
+          content={createMetaTitle('Report')}
         />
       </Head>
 
-      <HeroSecondary title="Report" icon={<PixelLeaf timing="5" />} />
+      <HeroSecondary
+        title="Report"
+        icon={<img src={asciiReport.src} alt="" width="608" height="608" />}
+      />
 
-      <Container>
-        <Section small>
+      <Section>
+        <Container>
           {!hasTrackingEnded && (
-            <ContentMaster size="xl" children={reportTitle} />
+            <ContentMaster size="xl2" children={reportTitle} />
           )}
 
           {hasTrackingEnded ? (
-            <ContentMaster size="xl" children={reportEnded} />
+            <ContentMaster size="xl2" children={reportEnded} />
           ) : !auth.active ? (
-            <ContentMaster size="xl">
+            <ContentMaster size="xl2">
               Coming soon: The ability to report repositories will be available
               when registration opens.
             </ContentMaster>
@@ -158,9 +162,10 @@ const Report = () => {
           ) : auth.state !== 'profile' ? (
             <Section small>
               <ContentMaster
-                size="xl"
+                size="xl2"
                 cta={{
                   href: '/auth',
+                  variant: 'secondary-deep-pink',
                   children: 'Start Hacking',
                 }}
               >
@@ -191,7 +196,7 @@ const Report = () => {
                 <Input
                   name="repository"
                   label="Repository"
-                  placeholder="owner/target"
+                  placeholder="Owner/Target"
                   value={repository}
                   onChange={(e) => setRepository(e.target.value)}
                   disabled={submitting}
@@ -202,6 +207,7 @@ const Report = () => {
                   size="lg"
                   as="button"
                   type="submit"
+                  variant="secondary-deep-pink"
                   onClick={submit}
                   disabled={submitting}
                 >
@@ -210,8 +216,8 @@ const Report = () => {
               </Form>
             </>
           )}
-        </Section>
-      </Container>
+        </Container>
+      </Section>
     </>
   );
 };

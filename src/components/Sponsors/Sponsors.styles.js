@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { body20 } from 'themes/typography';
+import { body18 } from 'themes/typography';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
@@ -8,14 +8,17 @@ import {
 export const StyledSponsors = styled.div`
   position: relative;
   ${({ $centered }) => $centered && 'text-align: center;'}
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 `;
 
 export const StyledSponsorsTitle = styled.div`
-  margin: 0 0 16px;
-  ${body20};
-  font-weight: 600;
+  ${body18}
+  font-weight: 500;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.bavarian.red200};
+  letter-spacing: 3.6px;
+  color: ${({ theme }) => theme.colors.darkGreen};
 `;
 
 export const StyledSponsorsList = styled.div`
@@ -38,9 +41,14 @@ export const StyledSponsorsList = styled.div`
       min-width: initial;
     }
 
+    background-color: white;
+    border-radius: 30px;
+    padding: 14px 24px;
+
     img {
       height: ${({ $large }) => ($large ? '30px' : '20px')};
       width: auto;
+      filter: brightness(0);
 
       ${mQ(bp.desktop)} {
         height: ${({ $large }) => ($large ? '48px' : '32px')};

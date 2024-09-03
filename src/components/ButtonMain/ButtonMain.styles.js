@@ -4,76 +4,100 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body16, body20 } from 'themes/typography';
+import { body16 } from 'themes/typography';
 
 export const StyledButtonMain = styled(Link)`
+  ${body16}
+  line-height: 30px;
+  font-weight: 500;
   position: relative;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  border-radius: 16px;
+  border-radius: 40px;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.neutral.manga300};
-  transition: box-shadow 300ms ease-in-out;
+  text-decoration: none;
+  transition:
+    color 300ms ease-in-out,
+    background-color 300ms ease-in-out;
+  padding: 12px 30px;
+  width: 100%;
+  text-align: center;
 
-  ${({ $size }) => $size === 'lg' && body20};
-  ${({ $size }) =>
-    $size === 'lg' &&
+  ${mQ(bp.tablet)} {
+    width: auto;
+    padding: 16px 40px;
+  }
+
+  ${({ $variant, theme }) =>
+    $variant === 'primary' &&
     `
-    padding: 12px 20px;
+    background-color: ${theme.colors.black};
+    color: ${theme.colors.green};
 
-    ${mQ(bp.desktop)} {
-      padding: 18px 26px;
+    &:hover {
+      background-color: ${theme.colors.darkGreen};
     }
   `};
 
-  ${({ $size }) => $size === 'sm' && body16};
-  ${({ $size }) =>
-    $size === 'sm' &&
+  ${({ $variant, theme }) =>
+    $variant === 'primary-black' &&
     `
-    padding: 12px 20px;
+    background-color: ${theme.colors.black};
+    color: ${theme.colors.typography};
+
+    &:hover {
+      background-color: ${theme.colors.darkGreen};
+    }
   `};
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    border: 1px solid transparent;
-    background-color: ${({ theme }) => theme.colors.neutral.manga400};
-    -webkit-mask:
-      linear-gradient(#fff 0 0) padding-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
+  ${({ $variant, theme }) =>
+    $variant === 'primary-green' &&
+    `
+    background-color: ${theme.colors.green};
+    color: ${theme.colors.black};
 
-  &:hover {
-    text-shadow:
-      1px 1px 10px rgba(236, 66, 55, 0.5),
-      -1px -1px 10px rgba(255, 251, 164, 0.5);
-    background: ${({ theme }) => theme.card.bg};
-    box-shadow:
-      1px 1px 10px 0px rgba(236, 66, 55, 0.5),
-      -1px -1px 10px 0px rgba(255, 251, 164, 0.5);
-    backdrop-filter: blur(5px);
-    color: ${({ theme }) => theme.colors.neutral.manga200};
 
-    &::before {
-      background: linear-gradient(77.9deg, #ec4237 0%, #33b6d8 100%) border-box;
+    &:hover {
+      background-color: ${theme.colors.lightGreen};
     }
+  `};
 
-    &::after {
-      background: linear-gradient(
-          230deg,
-          #fffba4 0%,
-          rgba(255, 251, 164, 0) 100%
-        )
-        border-box;
-      opacity: 0.3;
+  ${({ $variant, theme }) =>
+    $variant === 'secondary-deep-pink' &&
+    `
+    background-color: ${theme.colors.deepPink};
+    color: ${theme.colors.typography};
+
+    &:hover {
+      background-color: ${theme.colors.lightPink};
+      color: ${theme.colors.black};
     }
-  }
+  `};
+
+  ${({ $variant, theme }) =>
+    $variant === 'secondary-pink' &&
+    `
+    background-color: ${theme.colors.pink};
+    color: ${theme.colors.black};
+
+
+    &:hover {
+      background-color: ${theme.colors.lightPink};
+    }
+  `};
+
+  ${({ $variant, theme }) =>
+    $variant === 'secondary-beige' &&
+    `
+    background-color: ${theme.colors.typography};
+    color: ${theme.colors.black};
+
+
+    &:hover {
+      background-color: ${theme.colors.light};
+    }
+  `};
 `;
 
 export const StyledButtonGroup = styled.div`

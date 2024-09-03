@@ -17,19 +17,4 @@ export const StyledSpotHeader = styled.div`
 
 export const StyledSpotHeaderImage = styled.div`
   position: relative;
-
-  &::after {
-    content: '';
-    display: block;
-    padding-bottom: 100%;
-  }
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
 `;

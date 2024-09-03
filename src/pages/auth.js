@@ -16,41 +16,23 @@ import {
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 
-import { headline20 } from 'themes/typography';
+import { body24 } from 'themes/typography';
 
-import bgAuthTopRight from 'assets/img/bg-auth-topright.svg';
-import bgAuthBottomLeft from 'assets/img/bg-auth-bottomleft.svg';
 import logoGithub from 'assets/img/logo-github.svg';
 import logoGitlab from 'assets/img/logo-gitlab.svg';
-import pixelFrameYellow from 'assets/img/pixel-frame-yellow.svg';
-import pixelFrameBlue from 'assets/img/pixel-frame-blue.svg';
-
-const typingAnim = keyframes`
-  from {
-    width: 0ch;
-  }
-`;
+import Type from 'components/type';
+import createMetaTitle from 'lib/createMetaTitle';
 
 const StyledP = styled.p`
-  display: flex;
+  display: inline-flex;
   margin: 0 0 40px;
-  ${headline20};
-
-  span {
-    white-space: nowrap;
-    overflow: hidden;
-    width: ${(props) => props.width}ch;
-    animation: ${typingAnim} 1.5s steps(${(props) => props.width});
-  }
+  ${body24}
 `;
 
 export const StyledAuth = styled.div`
-  background:
-    url(${bgAuthTopRight.src}) no-repeat,
-    url(${bgAuthBottomLeft.src}) no-repeat;
-  background-position:
-    top right,
-    bottom left;
+  background: ${({ theme }) => theme.colors.darkGreen};
+  color: ${({ theme }) => theme.colors.typography};
+  padding: 68px 0;
 `;
 
 export const StyledCardRow = styled.div`
@@ -71,21 +53,21 @@ const Auth = () => {
   return (
     <>
       <Head>
-        <title>Auth | Hacktoberfest 2023</title>
+        <title>{createMetaTitle('Auth')}</title>
         <meta
           name="twitter:title"
           key="twitterTitle"
-          content="Auth | Hacktoberfest 2023"
+          content={createMetaTitle('Auth')}
         />
         <meta
           property="og:title"
           key="opengraphTitle"
-          content="Auth | Hacktoberfest 2023"
+          content={createMetaTitle('Auth')}
         />
       </Head>
       <StyledAuth>
-        <Container>
-          <Section>
+        <Section>
+          <Container>
             {auth.loading ? (
               <div>
                 <Loader message=">> Authorization in progress..." />
@@ -102,11 +84,11 @@ const Auth = () => {
                   </p>
                 )}
                 <StyledP width="25">
-                  {'>>'} Boot dialogue: <span>Initiating Pilot protocol</span>_
+                  {'>>'} Boot dialogue: 
+                  <Type text="Initiating Pilot protocol" />
                 </StyledP>
                 <StyledCardRow>
                   <Card
-                    bgImage={pixelFrameYellow.src}
                     image={{
                       src: logoGithub.src,
                       alt: '',
@@ -115,11 +97,11 @@ const Auth = () => {
                     cta={{
                       href: oauth('github'),
                       children: 'initiate',
+                      variant: 'primary-green',
                     }}
                   />
 
                   <Card
-                    bgImage={pixelFrameBlue.src}
                     imageRotatation="right"
                     image={{
                       src: logoGitlab.src,
@@ -129,13 +111,14 @@ const Auth = () => {
                     cta={{
                       href: oauth('gitlab'),
                       children: 'initiate',
+                      variant: 'primary-green',
                     }}
                   />
                 </StyledCardRow>
               </>
             )}
-          </Section>
-        </Container>
+          </Container>
+        </Section>
       </StyledAuth>
     </>
   );

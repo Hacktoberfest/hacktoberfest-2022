@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { events } from 'lib';
 import { registrationEnd, registrationStart } from 'lib/config';
-import { asList, withOrdinal } from 'lib/format';
+import { asList } from 'lib/format';
 import { partners, sponsors } from 'lib/sponsors';
 
 import {
@@ -11,28 +11,22 @@ import {
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 
-import Marquee from 'components/Marquee';
 import Hero from 'components/Hero';
 import ContentSide from 'components/ContentSide';
-import Callout from 'components/Callout';
 import Divider from 'components/Divider';
 import Container from 'components/Container';
-import DividerRow from 'components/DividerRow';
-import SpotCard from 'components/SpotCard';
 import ContentMaster from 'components/ContentMaster';
 import HomeIntro from 'components/HomeIntro';
-import SupportSection from 'components/SupportSection';
 import Section from 'components/Section';
 import Events from 'components/Events';
 import Sponsors from 'components/Sponsors';
-import HeartCallout from 'components/HeartCallout';
-import PixelIntro from 'components/pixels/PixelIntro';
 
-import IlloMLH from 'assets/img/logo-MLH.svg';
-import IlloGit from 'assets/img/8bit-git.svg';
-import IlloDiscord from 'assets/img/8bit-discord.svg';
-import IlloBranch from 'assets/img/8bit-branch.svg';
-import IlloPumpkin from 'assets/img/8bit-pumpkin.svg';
+import Progress from 'components/Progress';
+import CardCallout from 'components/CardCallout';
+import SectionDivider from 'components/SectionDivider';
+import asciiParticipation from 'assets/img/ascii-participation.svg';
+import Glitch from 'components/Glitch';
+import { trackingStartDate } from 'lib/participation';
 
 export const StyledHome = styled.div`
   overflow: hidden;
@@ -62,23 +56,44 @@ export const StyledHomeBg = styled.div`
   }
 `;
 
-export const StyledHomeCallout = styled.div`
-  background: url(${IlloPumpkin.src}) no-repeat;
-  background-size: ${(537 / 1440) * 100}% auto;
-  background-position: 0 -35px;
+export const StyledHomeDivider = styled.div`
+  line-height: 0;
+  color: ${({ theme }) => theme.colors.green};
+  background-color: ${({ theme }) => theme.colors.black};
+
+  svg {
+    transform: translateY(1px) translateX(calc((259 / 375) * -100vw));
+    width: calc((800 / 375) * 100%);
+    height: auto;
+
+    ${mQ(bp.tablet)} {
+      width: 100%;
+      transform: translateY(1px);
+    }
+  }
 `;
 
-export const StyledThanksCallout = styled(HeartCallout)`
+export const StyledThanksCallout = styled.div`
   margin: 0 0 24px;
 `;
 
+export const StyledHomeEvents = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+`;
+
+export const StyledSponsorImage = styled.img`
+  order: -1;
+  width: 100%;
+
+  ${mQ(bp.desktop)} {
+    order: unset;
+  }
+`;
+
 const Home = () => {
-  const hasRegistration = useMemo(
-    () =>
-      new Date() >= new Date(registrationStart) &&
-      new Date() < new Date(registrationEnd),
-    [],
-  );
+  const theme = useTheme();
 
   const hasRegistrationEnded = useMemo(
     () => new Date() >= new Date(registrationEnd),
@@ -87,86 +102,102 @@ const Home = () => {
 
   return (
     <StyledHome>
-      <StyledHomeBg $offset={!hasRegistrationEnded}>
-        <PixelIntro timing="5" />
-      </StyledHomeBg>
+      <Hero />
 
-      <Container>
-        <Hero />
+      <HomeIntro />
 
-        <HomeIntro
-          callout={{
-            title:
-              'Join other members of the open-source community on the Hacktoberfest Discord.',
-            link: {
-              href: 'https://discord.gg/hacktoberfest',
-              target: '_blank',
-              rel: 'noreferrer noopener',
-              children: 'Join the discord',
-            },
-            image: {
-              src: IlloDiscord.src,
-              alt: '',
-            },
-          }}
-        >
-          {hasRegistrationEnded
-            ? 'Keep contributing to open source. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#open-source-stay-up-to-date) to get the latest announcements.'
-            : `This year marks the ${withOrdinal(
-                new Date(registrationStart).getFullYear() - 2013,
-              )} anniversary of Hacktoberfest, and we're calling on your support! Whether it&apos;s your first time participating—or your tenth—it&apos;s almost time to hack out four pristine pull/merge requests as we continue our month of support for open source.`}
-        </HomeIntro>
+      <Progress />
 
-        {!hasRegistrationEnded && (
-          <>
-            <Divider type="pixel" />
-
-            <Section>
+      {!hasRegistrationEnded && (
+        <>
+          <Section>
+            <Container>
               <ContentSide>
-                <ContentMaster size="xl" title="Preptember" />
                 <ContentMaster
-                  size="md"
-                  links={[
-                    {
-                      id: 'preptember-link-1',
-                      children: 'Get the Event Kit',
-                      href: '/events#organizers',
-                    },
-                    {
-                      id: 'preptember-link-2',
-                      children: 'How to Participate',
-                      href: '/participation',
-                    },
-                  ]}
+                  size="xl2"
+                  title="Preptember"
+                  cta={{
+                    href: '/participation',
+                    children: 'How to Participate',
+                    variant: 'secondary-deep-pink',
+                  }}
                 >
-                  September is the perfect time to prepare for Hacktoberfest.
-                  Get a jump start by finding projects to contribute to, adding
-                  the **‘hacktoberfest’** tag to your projects, or familiarizing
-                  yourself with Git.
+                  {`September is prep time for Hacktoberfest. Spend September
+                  getting a jump start on your four pull/merge requests by
+                  tracking down projects to contribute to, adding the
+                  ‘hacktoberfest’ tag to your own projects, or familiarizing
+                  yourself with Git so you can hit the ground running when
+                  Hacktoberfest begins on ${trackingStartDate}.`}
                 </ContentMaster>
+                <CardCallout
+                  title="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."
+                  link={{
+                    href: 'https://discord.gg/hacktoberfest',
+                    target: '_blank',
+                    rel: 'noreferrer noopener',
+                    children: 'Join the Discord',
+                  }}
+                />
               </ContentSide>
-            </Section>
-          </>
-        )}
-      </Container>
+            </Container>
+          </Section>
+        </>
+      )}
 
-      <Marquee
-        text1={
-          hasRegistration
-            ? "It's time to hack"
-            : hasRegistrationEnded
-              ? `See you for ${new Date(registrationStart).getFullYear() + 1}`
-              : 'Prepare to hack'
-        }
-        text2={
-          hasRegistration
-            ? 'Get in the repo, Hacker!'
-            : hasRegistrationEnded
-              ? 'Keep contributing!'
-              : `New for ${new Date(registrationStart).getFullYear()}`
-        }
-        direction="forwards"
-      />
+      <SectionDivider />
+
+      {!hasRegistrationEnded && (
+        <>
+          <Section bgColor={theme.colors.black} color={theme.colors.typography}>
+            <Container>
+              <ContentSide>
+                <ContentMaster
+                  size="xl2"
+                  title={`Sponsors and Awards for ${new Date(registrationStart).getFullYear()}`}
+                  cta={{
+                    href: '/about',
+                    children: (
+                      <>
+                        Learn more{' '}
+                        <span className="sr-only">about Hacktoberfest</span>
+                      </>
+                    ),
+                    variant: 'primary-green',
+                  }}
+                >
+                  {`This year, Hacktoberfest is sponsored by ${asList(sponsors.map(({ title }) => `**${title}**`))}. We thank them for their ongoing support of open source ❤️\n\nWhen Hacktoberfest started in 2014, 676 participants showed up to contribute. In 2023, nearly 98,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year you’ll get an evolving digital badge for participating.`}
+                </ContentMaster>
+
+                <Glitch
+                  image={
+                    <StyledSponsorImage
+                      src={asciiParticipation.src}
+                      alt=""
+                      width="608"
+                      height="608"
+                    />
+                  }
+                />
+              </ContentSide>
+            </Container>
+          </Section>
+
+          <StyledHomeDivider>
+            <svg
+              width="1440"
+              height="149"
+              viewBox="0 0 1440 149"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1440 1.52588e-05L1256.36 0V49.7521L1073.44 49.752L1003.94 49.752V50L890 50V100L691 100L691 50L555 50L555 100L2.58629e-06 100L0 149L555 149V100L691 100V149H889.357H1003.94L1073 149L1256.36 149L1440 149L1440 100.236L1440 100L1440 1.52588e-05Z"
+                fill="currentColor"
+              />
+            </svg>
+          </StyledHomeDivider>
+        </>
+      )}
 
       {hasRegistrationEnded ? (
         <>
@@ -216,116 +247,71 @@ const Home = () => {
           </Section>
         </>
       ) : (
-        <>
-          <StyledHomeCallout>
-            <Section>
-              <Callout
-                link={{
-                  children: 'Learn more',
-                  href: '/about#digital-rewards',
-                }}
-              >
-                **Hacktoberfest has grown from 676 participants in 2014 to
-                nearly 147,000 participants last year. To help ensure
-                Hacktoberfest can be sustained for another decade, this year
-                we’re moving away from a free t-shirt reward to a digital
-                reward.**
-              </Callout>
-            </Section>
-          </StyledHomeCallout>
-
+        <Section bgColor={theme.colors.green} color={theme.colors.dark}>
           <Container>
-            <Divider type="doubledashed" />
+            <StyledHomeEvents>
+              <ContentSide>
+                <ContentMaster size="xl2" title="Event Spotlight" />
 
-            <DividerRow>
-              <SpotCard
-                image={{
-                  src: IlloGit.src,
-                  alt: '',
-                }}
-                links={[
-                  {
-                    id: 'spot-card-1',
-                    href: '/about#hacktoberfest-love',
-                    children: 'Share your love for Hacktoberfest',
-                  },
-                ]}
-              >
-                This year we’re celebrating 10 years of open source love and we
-                want to hear your Hacktoberfest story!
-              </SpotCard>
-              <SpotCard
-                image={{
-                  style: {
-                    objectFit: 'contain',
-                  },
-                  src: IlloMLH.src,
-                  alt: '',
-                }}
-                links={[
-                  {
-                    id: 'spot-card-2',
-                    href: 'https://ghw.mlh.io/events/open-source',
-                    target: '_blank',
-                    rel: 'noreferrer noopener',
-                    children: 'MLH Global Hack Week',
-                  },
-                ]}
-              >
-                We’re teaming up with Major League Hacking for Global Hack Week!
-                Complete Open-Source themed daily challenges and enjoy live
-                streamed workshops.
-              </SpotCard>
-            </DividerRow>
+                <ContentMaster
+                  size="xl"
+                  links={[
+                    {
+                      id: 'explore-events',
+                      size: 'lg',
+                      href: '/events',
+                      children: 'Explore More Hacktoberfest Events',
+                    },
+                  ]}
+                >
+                  Events that bring the community together to learn and explore
+                  are a cornerstone of Hacktoberfest. Save these dates and come
+                  connect with other lovers of open source!
+                </ContentMaster>
+              </ContentSide>
 
-            <Divider type="doubledashed" />
+              <Divider type="doubledashed" />
+
+              <Events events={events} />
+            </StyledHomeEvents>
           </Container>
-
-          <Container inner>
-            <Section>
-              <ContentMaster
-                align="center"
-                size="xl"
-                title="Event Spotlight"
-                cta={{
-                  size: 'lg',
-                  href: '/events',
-                  children: 'Learn more',
-                }}
-              >
-                No Hacktoberfest is complete without joining the community to
-                learn and explore together. Save the dates and come connect!
-              </ContentMaster>
-
-              <Events title="Featured Events" events={events} />
-            </Section>
-          </Container>
-        </>
+        </Section>
       )}
 
-      <Container>
-        <Divider type="pixel" />
+      <SectionDivider
+        align="right"
+        bgColor={theme.colors.green}
+        fgColor={theme.colors.cream}
+      />
 
-        <SupportSection
-          title="Support Open Source"
-          callout={{
-            title:
-              'You have skills that can help keep these projects continue running—let’s get to it.',
-            link: {
-              href: '/donate',
-              children: 'Donate to open source projects',
-            },
-            image: {
-              src: IlloBranch.src,
-              alt: '',
-            },
-          }}
-        >
-          Open source projects, maintained by community-minded coders, make the
-          modern internet function. Supporting that essential work, and the
-          folks behind it, is what Hacktoberfest is all about.
-        </SupportSection>
-      </Container>
+      <Section>
+        <Container>
+          <ContentSide>
+            <ContentMaster
+              size="xl2"
+              title="Support Open Source"
+              cta={{
+                target: '_blank',
+                rel: 'noreferrer noopener',
+                href: 'https://www.digitalocean.com/open-source/credits-for-projects',
+                children: 'Learn more and apply now',
+                variant: 'secondary-deep-pink',
+              }}
+            >
+              {
+                'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost.'
+              }
+            </ContentMaster>
+            <CardCallout
+              title="You have skills that can help keep these projects continue running—let’s get to it."
+              link={{
+                href: '/donate',
+                children: 'Donate To Open Source Projects',
+              }}
+            />
+          </ContentSide>
+        </Container>
+      </Section>
     </StyledHome>
   );
 };

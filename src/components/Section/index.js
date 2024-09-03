@@ -1,12 +1,24 @@
 import { StyledSection } from './Section.styles';
 
-const Section = (props) => {
-  const { children, id, small } = props;
-  return (
-    <StyledSection id={id} $small={small}>
-      {children}
-    </StyledSection>
-  );
-};
+const Section = ({
+  children,
+  id,
+  small,
+  bgColor,
+  color,
+  isDark = false,
+  linkColor = null,
+}) => (
+  <StyledSection
+    id={id}
+    $small={small}
+    $bgColor={bgColor}
+    $color={color}
+    $isDark={isDark}
+    $linkColor={linkColor}
+  >
+    {children}
+  </StyledSection>
+);
 
 export default Section;

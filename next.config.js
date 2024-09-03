@@ -52,7 +52,7 @@ module.exports = {
       }),
     );
     config.module.rules.push({
-      test: /\.(eot|woff2?|zip)/,
+      test: /\.(eot|woff2?|zip|pdf)/,
       type: 'asset/resource',
     });
     return config;

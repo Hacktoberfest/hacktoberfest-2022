@@ -6,8 +6,9 @@ import Notification from './notification';
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 48px;
   align-items: flex-start;
+  gap: 32px;
+  padding: 32px 0 0;
 
   > div {
     width: 100%;
@@ -19,13 +20,13 @@ const Form = forwardRef(({ children, success, error, ...props }, ref) => {
   return (
     <StyledForm ref={ref} {...props}>
       {success && (
-        <Notification title="Success" color="#B4FF39">
+        <Notification title="Success" color={theme.colors.success}>
           <p>{success}</p>
         </Notification>
       )}
 
       {error && (
-        <Notification title="Error" color={theme.colors.bavarian.red200}>
+        <Notification title="Error" color={theme.colors.error}>
           <p>{error}</p>
         </Notification>
       )}

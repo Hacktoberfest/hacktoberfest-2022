@@ -7,23 +7,18 @@ import {
   StyledCardCalloutContainer,
   StyledCardBackground,
 } from './CardCallout.styles';
+import ButtonMain from 'components/ButtonMain';
 
-const CardCallout = (props) => {
-  const { children, image, title, link } = props;
-  return (
-    <StyledCardCallout>
-      <StyledCardBackground />
-      <StyledCardCalloutContainer>
-        <StyledCardCalloutImage>
-          <img {...image} />
-        </StyledCardCalloutImage>
-        <StyledCardCalloutContent>
-          <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>
-          <TextLink {...link} />
-        </StyledCardCalloutContent>
-      </StyledCardCalloutContainer>
-    </StyledCardCallout>
-  );
-};
+const CardCallout = ({ title, link }) => (
+  <StyledCardCallout>
+    <StyledCardBackground />
+    <StyledCardCalloutContainer>
+      <StyledCardCalloutContent>
+        <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>
+        <ButtonMain {...link} />
+      </StyledCardCalloutContent>
+    </StyledCardCalloutContainer>
+  </StyledCardCallout>
+);
 
 export default CardCallout;
