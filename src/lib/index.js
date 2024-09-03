@@ -12,9 +12,9 @@ export const events = [
   {
     title: 'Hacktoberfest Bengaluru Meetup: A Day of Open Source Collaboration',
     content: `Join us for an exciting in-person meetup in Bengaluru as part of Hacktoberfest ${new Date(registrationStart).getFullYear()}, hosted by DigitalOcean! This event brings together developers, tech enthusiasts, and open-source advocates to connect, collaborate, and learn from one another in an interactive, hands-on sessions`,
-    location: 'Virtual',
+    location: 'In Person',
     date: 'Oct 10',
-    time: '11:30 PM Eastern Daylight Time',
+    time: '11:30 AM India Standard Time',
   },
   {
     title: `Closing the Hack: Hacktoberfest ${new Date(registrationStart).getFullYear()} Finale and Highlights`,
