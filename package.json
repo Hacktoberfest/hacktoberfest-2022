@@ -30,18 +30,18 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "country-list": "^2.3.0",
-    "html-react-parser": "^5.1.13",
+    "html-react-parser": "^5.1.15",
     "knuth-shuffle": "^1.0.8",
     "markdown-it": "^14.1.0",
-    "next": "^14.2.6",
+    "next": "^14.2.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sitemap": "^8.0.0",
-    "styled-components": "^6.1.12"
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
     "husky": "^9.1.5",
-    "lint-staged": "^15.2.9",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "webpack": "^5.94.0"
   }
