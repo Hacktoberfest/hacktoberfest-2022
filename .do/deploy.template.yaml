@@ -68,5 +68,97 @@ spec:
           path:
             prefix: /security.txt
         redirect:
+          authority: hacktoberfest.com
           redirect_code: 301
           uri: /.well-known/security.txt
+      - match:
+          path:
+            prefix: /values
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /participation/#values
+      - match:
+          path:
+            prefix: /contributors
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /participation/#contributors
+      - match:
+          path:
+            prefix: /resources
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /participation/#beginner-resources
+      - match:
+          path:
+            prefix: /spam
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /participation/#spam
+      - match:
+          path:
+            prefix: /maintainers
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /participation/#maintainers
+      - match:
+          path:
+            prefix: /faq
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /participation/#faq
+      - match:
+          path:
+            prefix: /organizers
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /events/#organizers
+      - match:
+          path:
+            prefix: /brand
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /events/#brand
+      - match:
+          path:
+            prefix: /lore
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /about/#lore
+      - match:
+          path:
+            prefix: /love
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /about/#love
+      - match:
+          path:
+            prefix: /sponsors
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /about/#sponsors
+      - match:
+          path:
+            prefix: /rewards
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /about/#rewards
+      - match:
+          path:
+            prefix: /council
+        redirect:
+          authority: hacktoberfest.com
+          redirect_code: 302
+          uri: /about/#council
