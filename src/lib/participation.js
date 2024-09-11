@@ -104,7 +104,7 @@ export const resources = {
         '[GitHub] [Participating Hacktoberfest projects](https://github.com/topics/hacktoberfest)',
         '[GitLab] [Participating Hacktoberfest projects](https://go.gitlab.com/ubCLKL)',
         '[GitHub] [Explore projects with issues on up-for-grabs.net](https://up-for-grabs.net/)',
-        '[GitHub] [Explore projects with issues on firstissue.dev](https://firstissue.dev/)',
+        '[GitHub] [Explore projects with issues on goodfirstissue.dev](https://goodfirstissue.dev/)',
         '[GitHub] [Explore Hacktoberfest projects on hacktoberfest-projects.vercel.app](https://hacktoberfest-projects.vercel.app)',
       ],
     },
