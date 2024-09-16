@@ -8,19 +8,28 @@ export const events = [
     location: 'Virtual',
     date: 'Oct 01',
     time: '10:00 AM Eastern Daylight Time',
+    rsvp: {
+      href: 'https://events.mlh.io/events/11641-from-code-to-community-hacktoberfest-2024-begins',
+    },
   },
   {
     title: 'Hacktoberfest Bengaluru Meetup: A Day of Open Source Collaboration',
     content: `Join us for an exciting in-person meetup in Bengaluru as part of Hacktoberfest ${new Date(registrationStart).getFullYear()}, hosted by DigitalOcean! This event brings together developers, tech enthusiasts, and open-source advocates to connect, collaborate, and learn from one another in an interactive, hands-on sessions`,
     location: 'In Person',
-    date: 'Oct 10',
-    time: '11:30 AM India Standard Time',
+    date: 'Oct 12',
+    time: '11:00 AM India Standard Time',
+    rsvp: {
+      href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
+    },
   },
   {
     title: `Closing the Hack: Hacktoberfest ${new Date(registrationStart).getFullYear()} Finale and Highlights`,
     content: `Join us on October 31 for the Hacktoberfest ${new Date(registrationStart).getFullYear()} virtual wrap-up session, where we celebrate a month of coding, collaboration, and community. This finale event brings together speakers, participants, and contributors from around the globe to reflect on the achievements, share insights, and look forward to the future of open source.`,
     location: 'Virtual',
     date: 'Oct 31',
-    time: '',
+    time: '11:30 AM Eastern Daylight Time',
+    rsvp: {
+      href: 'https://events.mlh.io/events/11643-closing-the-hack-hacktoberfest-2024-finale-and-highlights',
+    },
   },
 ];
