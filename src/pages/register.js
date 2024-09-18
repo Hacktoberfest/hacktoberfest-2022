@@ -12,7 +12,6 @@ import useAuth from 'hooks/useAuth';
 
 import Section from 'components/Section';
 import Loader from 'components/loader';
-import Divider from 'components/Divider';
 import Container from 'components/Container';
 import ButtonMain from 'components/ButtonMain';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
@@ -103,14 +102,10 @@ const Register = () => {
         </Section>
       ) : (
         <>
+          <Header avatar={avatar} name={auth.user.name} type="Registration" />
+
           <Container>
-            <Header avatar={avatar} name={auth.user.name} type="Registration" />
-
-            <Divider type="doubledashed" />
-
-            <Section small>
-              <Settings auth={auth} />
-            </Section>
+            <Settings auth={auth} />
           </Container>
         </>
       )}

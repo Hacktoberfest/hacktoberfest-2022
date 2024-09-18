@@ -20,7 +20,7 @@ import Section from 'components/Section';
 
 const StyledFormSection = styled.div`
   display: flex;
-  gap: 60px;
+  gap: 48px;
   flex-direction: column;
 `;
 
@@ -181,7 +181,7 @@ const MetadataFields = ({
 
   return (
     <>
-      <Section>
+      <Section small>
         <StyledFormSection>
           <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
 
@@ -356,7 +356,7 @@ const MetadataFields = ({
       {!!fields.marketing && (
         <>
           <Divider type="doubledashed" />
-          <Section>
+          <Section small>
             <StyledFormSection>
               <StyledFormSectionTitle>Marketing opt-ins</StyledFormSectionTitle>
               <StyledFormGroup>
@@ -399,32 +399,34 @@ const MetadataFields = ({
       {!!fields.agree && (
         <>
           <Divider type="doubledashed" />
-          <StyledFormSection>
-            <StyledFormSectionTitle>Rules &amp; terms</StyledFormSectionTitle>
-            <StyledFormGroup>
-              <legend>
-                You must accept the terms and conditions to participate.{' '}
-                <small>[required]</small>
-              </legend>
+          <Section small>
+            <StyledFormSection>
+              <StyledFormSectionTitle>Rules &amp; terms</StyledFormSectionTitle>
+              <StyledFormGroup>
+                <legend>
+                  You must accept the terms and conditions to participate.{' '}
+                  <small>[required]</small>
+                </legend>
 
-              <StyledFormRow $columns={2}>
-                {fields.agree.map((meta) => (
-                  <CheckRadio
-                    key={meta.name}
-                    title={meta.title}
-                    message={meta.message}
-                    name={meta.name}
-                    onChange={(e) =>
-                      updateMetadata({ [meta.name]: e.target.checked })
-                    }
-                    checked={value.metadata[meta.name]}
-                    disabled={disabled}
-                    required
-                  />
-                ))}
-              </StyledFormRow>
-            </StyledFormGroup>
-          </StyledFormSection>
+                <StyledFormRow $columns={2}>
+                  {fields.agree.map((meta) => (
+                    <CheckRadio
+                      key={meta.name}
+                      title={meta.title}
+                      message={meta.message}
+                      name={meta.name}
+                      onChange={(e) =>
+                        updateMetadata({ [meta.name]: e.target.checked })
+                      }
+                      checked={value.metadata[meta.name]}
+                      disabled={disabled}
+                      required
+                    />
+                  ))}
+                </StyledFormRow>
+              </StyledFormGroup>
+            </StyledFormSection>
+          </Section>
         </>
       )}
       <Divider type="doubledashed" />

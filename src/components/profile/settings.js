@@ -379,7 +379,7 @@ const Settings = ({ auth, isEdit = false }) => {
       >
         {isEdit && (
           <>
-            <Section>
+            <Section small>
               <StyledSectionSpacing>
                 <StyledFormSectionTitle>Linked accounts</StyledFormSectionTitle>
                 <StyledButtonGroup>
@@ -420,7 +420,6 @@ const Settings = ({ auth, isEdit = false }) => {
                 </StyledButtonGroup>
               </StyledSectionSpacing>
             </Section>
-
             <Divider type="doubledashed" />
           </>
         )}

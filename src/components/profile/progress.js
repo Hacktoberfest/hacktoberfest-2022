@@ -137,7 +137,7 @@ const Progress = ({ auth }) => {
   // Render the user's progress
   return (
     <StyledProgressWrapper>
-      <Section>
+      <Section small>
         <StyledSectionSpacing $isSmall>
           <ContentMaster
             title="Progress"
@@ -209,13 +209,13 @@ const Progress = ({ auth }) => {
         </Section>
       )}
 
-      <Section>
-        <StyledSectionSpacing $isSmall>
-          {Object.keys(giftCodes).some(
-            (type) =>
-              type.startsWith('holopin-level-') ||
-              type === 'holopin-registered-badge',
-          ) && (
+      {Object.keys(giftCodes).some(
+        (type) =>
+          type.startsWith('holopin-level-') ||
+          type === 'holopin-registered-badge',
+      ) && (
+        <Section small>
+          <StyledSectionSpacing $isSmall>
             <Notification
               title="Rewards: Holopin Avatar"
               color={theme.colors.black}
@@ -270,13 +270,13 @@ const Progress = ({ auth }) => {
                 reward.
               </StyledCheckEmail>
             </Notification>
-          )}
-        </StyledSectionSpacing>
-      </Section>
+          </StyledSectionSpacing>
+        </Section>
+      )}
 
       <Divider type="doubledashed" />
 
-      <Section>
+      <Section small>
         <StyledSectionSpacing $isSmall>
           <ContentMaster
             title="Pull/Merge Requests"

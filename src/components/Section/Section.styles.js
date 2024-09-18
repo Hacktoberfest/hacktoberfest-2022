@@ -8,10 +8,10 @@ export const StyledSection = styled.div`
   ${({ $small }) =>
     $small
       ? `
-    padding: 64px 0;
+    padding: 80px 0;
   `
       : `
-    padding: 70px 0;
+    padding: 80px 0;
 
     ${mQ(bp.desktop)} {
       padding: 140px 0;
