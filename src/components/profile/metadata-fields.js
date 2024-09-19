@@ -363,7 +363,8 @@ const MetadataFields = ({
                 <legend>
                   I opt-in to share my Hacktoberfest participation, including my
                   name + email address + GitHub/GitLab username + progress +
-                  demographic info, with… <span>Select all that apply</span>
+                  demographic info, with… <small>[optional]</small>{' '}
+                  <span>Select all that apply</span>
                 </legend>
 
                 <StyledFormRow $columns={2}>
@@ -371,7 +372,6 @@ const MetadataFields = ({
                     <CheckRadio
                       key={meta.name}
                       title={meta.title}
-                      message={meta.message}
                       name={meta.name}
                       onChange={(e) =>
                         updateMetadata({ [meta.name]: e.target.checked })
