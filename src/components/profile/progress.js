@@ -2,7 +2,7 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import Link from 'next/link';
 
-import { body20, body32 } from 'themes/typography';
+import { body20, body24, body32 } from 'themes/typography';
 import { fetchGiftCodes, fetchPullRequests, triggerUserIngest } from 'lib/api';
 import { trackingStart } from 'lib/config';
 
@@ -41,8 +41,8 @@ const StyledProgressSummary = styled.div`
 `;
 
 const StyledCheckEmail = styled.p`
-  margin: 32px 0 0;
-  ${body20}
+  margin: 40px 0 0;
+  ${body24}
 `;
 
 const StyledPullRequests = styled.ul`
@@ -216,10 +216,7 @@ const Progress = ({ auth }) => {
       ) && (
         <Section small>
           <StyledSectionSpacing $isSmall>
-            <Notification
-              title="Rewards: Holopin Avatar"
-              color={theme.colors.black}
-            >
+            <Notification title="Holopin Badges" color={theme.colors.black}>
               <ul>
                 {giftCodes['holopin-level-4-badge'] && (
                   <Holopin
@@ -263,11 +260,9 @@ const Progress = ({ auth }) => {
                 )}
               </ul>
 
-              <Divider />
-
               <StyledCheckEmail>
                 Check your email for more information on how to claim each
-                reward.
+                badge.
               </StyledCheckEmail>
             </Notification>
           </StyledSectionSpacing>

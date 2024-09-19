@@ -9,11 +9,7 @@ const StyledCode = styled.li`
   display: grid;
   grid-template-columns: 64px 1fr;
   gap: 24px;
-  padding: 8px 0;
-
-  &:last-of-type {
-    margin: 0 0 32px;
-  }
+  padding: 32px 0;
 `;
 
 const StyledMessage = styled.p`
