@@ -93,7 +93,7 @@ const Auth = () => {
                       src: logoGithub.src,
                       alt: '',
                     }}
-                    title="Authorize with github"
+                    title="Authorize with GitHub"
                     cta={{
                       href: oauth('github'),
                       children: 'initiate',
@@ -107,7 +107,7 @@ const Auth = () => {
                       src: logoGitlab.src,
                       alt: '',
                     }}
-                    title="Authorize with gitlab"
+                    title="Authorize with GitLab"
                     cta={{
                       href: oauth('gitlab'),
                       children: 'initiate',

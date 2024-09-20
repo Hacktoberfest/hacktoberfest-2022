@@ -146,6 +146,8 @@ export const StyledPullRequest = styled.div`
   ${StyledEyebrow} {
     background: ${({ $state, theme }) => stateColors[$state](theme)};
     color: ${({ $state, theme }) =>
-      $state === 'accepted' ? theme.colors.black : theme.colors.typography};
+      $state === 'accepted' || $state === 'waiting'
+        ? theme.colors.black
+        : theme.colors.typography};
   }
 `;
