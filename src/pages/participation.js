@@ -33,6 +33,12 @@ import React, { Fragment } from 'react';
 import SectionDivider from 'components/SectionDivider';
 import createMetaTitle from 'lib/createMetaTitle';
 
+const StyledStackedContent = styled.div`
+  > * {
+    margin: 32px 0 0;
+  }
+`;
+
 const StyledPRDetails = styled.div`
   margin: 16px 0 0;
 
@@ -119,6 +125,16 @@ const Participation = () => {
               {contributors.sections[0].content}
             </ContentMaster>
           </ContentSide>
+
+          {contributors.sections.length > 1 && (
+            <StyledStackedContent>
+              {contributors.sections.slice(1).map((section, idx) => (
+                <ContentMaster key={idx} size="xl" list={section.items}>
+                  {section.content}
+                </ContentMaster>
+              ))}
+            </StyledStackedContent>
+          )}
         </Container>
       </Section>
 

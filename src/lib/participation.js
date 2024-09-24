@@ -83,6 +83,10 @@ export const contributors = {
         'You’ll unlock a digital badge when you register for Hacktoberfest, and level it up with each of your four pull/merge requests accepted during Hacktoberfest',
       ],
     },
+    {
+      content:
+        'Join the [Hacktoberfest Discord server](https://discord.gg/hacktoberfest) to meet other participants and [share your Hacktoberfest love](/about#love) with a blog or post on socials.',
+    },
   ],
 };
 
@@ -119,7 +123,6 @@ export const resources = {
         '[General] [How to write a good commit message](https://dev.to/chrissiemhrk/git-commit-message-5e21)',
         '[General] [How to start a great OSS project](https://go.gitlab.com/Hm4BNB)',
         '[General] [5 things for your first time contributing](https://go.gitlab.com/nlPKcN)',
-        '[General] [Community help in our Hacktoberfest Discord server](https://discord.gg/hacktoberfest)',
       ],
     },
   ],
