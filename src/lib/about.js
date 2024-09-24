@@ -33,10 +33,10 @@ export const sharing = {
     content:
       "Share your Hacktoberfest experience on social media! Tag us @hacktoberfest and use the official hashtag #hacktoberfest to tell others about your favorite contributions, any swag you've received in the past (share a pic!), or a particularly memorable hack.",
   },
-  blog: {
-    title: 'Blog Post',
+  writing: {
+    title: 'Writing Challenge',
     content:
-      "If you'd like to write about your experience participating in Hacktoberfest, we encourage you to create a blog post. Our partners at DEV welcome your writings, here are some [great examples](https://dev.to/search?q=hacktoberfest). You can share how you first heard about Hacktoberfest, how being part of the community has impacted your personal or professional development, and your favorite or most useful hack. Creativity is welcome! Once your blog post is live, let us know by tagging us in your social media posts about it.",
+      "If you'd like to write about your experience participating in Hacktoberfest either as a contributor or a maintainer, we encourage you to participate in [DEV’s Hacktoberfest Writing Challenge](https://dev.to/challenges/hacktoberfest). Our partners at DEV welcome your writing, offering everyone who submits a post during the challenge a special Writing Challenge badge on their site. Plus, the best posts from the challenge will win a 6-month DEV++ Membership, an exclusive badge, and a gift from the DEV shop. You can share how you first heard about Hacktoberfest, how being part of the community has impacted your personal or professional development, or what projects you’ve been working on—here are some [great examples](https://dev.to/search?q=hacktoberfest). Once your post is live, let us know by tagging us in your social posts about it.",
   },
   cta: "We look forward to hearing from you and seeing how you've been part of the **Hacktoberfest community**!",
 };
