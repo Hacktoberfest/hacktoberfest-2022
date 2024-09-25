@@ -132,8 +132,8 @@ const About = () => {
               <ContentMaster
                 size="md"
                 titleTag="h3"
-                title={<>{sharing.blog.title}</>}
-                children={sharing.blog.content}
+                title={<>{sharing.writing.title}</>}
+                children={sharing.writing.content}
                 hasCaret={false}
               />
 

@@ -21,6 +21,8 @@ import partnersCNCF from 'assets/img/partners/cncf.svg';
 import partnersCNCFHero from 'assets/img/partners/cncf-hero.svg';
 import partnersOSI from 'assets/img/partners/osi.svg';
 import partnersOSIHero from 'assets/img/partners/osi-hero.svg';
+import partnersDEV from 'assets/img/partners/dev.png';
+import partnersDEVHero from 'assets/img/partners/dev-hero.svg';
 
 export const founders = [
   {
@@ -190,6 +192,22 @@ export const partners = [
     },
     hero: {
       image: partnersOSIHero.src,
+    },
+  },
+  {
+    image: partnersDEV.src,
+    title: 'DEV',
+    content:
+      'DEV is a community of software developers getting together to help one another out. The software industry relies on collaboration and networked learning, and DEV provides a place for that to happen.\n' +
+      ' - Participate in the [Hacktoberfest Writing Challenge](https://dev.to/challenges/hacktoberfest)',
+    link: {
+      target: '_blank',
+      rel: 'noreferrer noopener',
+      href: 'https://dev.to',
+      title: 'Visit DEV',
+    },
+    hero: {
+      image: partnersDEVHero.src,
     },
   },
 ];
