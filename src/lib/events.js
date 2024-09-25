@@ -15,7 +15,7 @@ export const globalEvents = {
 export const eventOrganizers = {
   title: 'Event Organizers',
   content:
-    'If you’re looking to host a community event as part of Hacktoberfest, here are all the resources you need to plan and host it. Hacktoberfest is primarily online, but we encourage people to run both virtual and in-person events (be sure to abide by local health and safety regulations). Here are a collection of tips and tricks that will help you keep participants engaged. Make sure to let the community know that you’re running an event by registering it with Hacktoberfest and MLH using the form below.',
+    'If you’re looking to host a community event as part of Hacktoberfest, here are all the resources you need to plan and host it, as well as some tips and tricks that will help you keep participants engaged. Hacktoberfest is primarily online, but we encourage people to run both virtual and in-person events (following any local health and safety regulations). Make sure to let the community know that you’re running an event by registering it with Hacktoberfest and MLH using the form linked below.',
 };
 
 export const organize = {
@@ -60,7 +60,7 @@ export const organize = {
       collapsible: true,
       collapsed: true,
       items: [
-        '- Use the form on this page to [register your event](#register) with the Hacktoberfest team. Once you’ve submitted the form, we’ll pass this information on to MLH so your event is listed alongside all the others run by the community.\n\n' +
+        '- Use the form linked below to [register your event](#register) with Hacktoberfest and MLH so your event can be listed alongside all the others run by the community.\n\n' +
           '- You can then share the MLH listing for your event with your community so that they can RSVP for the event.\n\n' +
           '- Registering your event also grants you permission to use the Hacktoberfest brand (following the [brand guidelines](#brand)) when promoting your event.',
       ],
