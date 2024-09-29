@@ -50,10 +50,20 @@ const StyledCardRow = styled.div`
   }
 `;
 
+const errorMap = {
+  'InvalidCredentials: Account already exists with matching email address':
+    'An account already exists with the email address you are trying to use. If you have participated in a previous year, please use the same GitHub/Gitlab account as before to log in.',
+};
+
 const Auth = () => {
   const auth = useAuth();
   const router = useRouter();
   const theme = useTheme();
+
+  const error =
+    router.query.error_code && router.query.error_message
+      ? `${router.query.error_code}: ${router.query.error_message}`
+      : null;
 
   return (
     <>
@@ -79,13 +89,19 @@ const Auth = () => {
               </div>
             ) : (
               <>
-                {!!(router.query.error_code && router.query.error_message) && (
+                {error && (
                   <StyledNotification title="Error" color={theme.colors.error}>
                     <p>
-                      An error occurred while authenticating you. <br />
-                      <code>
-                        {router.query.error_code}: {router.query.error_message}
-                      </code>
+                      An error occurred while authenticating you.{' '}
+                      {errorMap[error] || (
+                        <>
+                          <br />
+                          <code>
+                            {router.query.error_code}:{' '}
+                            {router.query.error_message}
+                          </code>
+                        </>
+                      )}
                     </p>
                   </StyledNotification>
                 )}
