@@ -1,27 +1,31 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import styled, { keyframes } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import Loader from 'components/loader';
+import Container from 'components/Container';
+import Card from 'components/Card';
+import Section from 'components/Section';
+import Notification from 'components/notification';
+import Type from 'components/type';
 
 import useAuth from 'hooks/useAuth';
 
 import { oauth } from 'lib/api';
-import Container from 'components/Container';
-import Card from 'components/Card';
-import Section from 'components/Section';
+import createMetaTitle from 'lib/createMetaTitle';
 
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-
 import { body24 } from 'themes/typography';
 
 import logoGithub from 'assets/img/logo-github.svg';
 import logoGitlab from 'assets/img/logo-gitlab.svg';
-import Type from 'components/type';
-import createMetaTitle from 'lib/createMetaTitle';
+
+const StyledNotification = styled(Notification)`
+  margin: 0 0 40px;
+`;
 
 const StyledP = styled.p`
   display: inline-flex;
@@ -29,13 +33,13 @@ const StyledP = styled.p`
   ${body24}
 `;
 
-export const StyledAuth = styled.div`
+const StyledAuth = styled.div`
   background: ${({ theme }) => theme.colors.darkGreen};
   color: ${({ theme }) => theme.colors.typography};
   padding: 68px 0;
 `;
 
-export const StyledCardRow = styled.div`
+const StyledCardRow = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 32px;
@@ -49,6 +53,7 @@ export const StyledCardRow = styled.div`
 const Auth = () => {
   const auth = useAuth();
   const router = useRouter();
+  const theme = useTheme();
 
   return (
     <>
@@ -75,13 +80,14 @@ const Auth = () => {
             ) : (
               <>
                 {!!(router.query.error_code && router.query.error_message) && (
-                  <p>
-                    <strong>ERROR: Authentication process failed.</strong>
-                    <br />
-                    <code>
-                      {router.query.error_code}: {router.query.error_message}
-                    </code>
-                  </p>
+                  <StyledNotification title="Error" color={theme.colors.error}>
+                    <p>
+                      An error occurred while authenticating you. <br />
+                      <code>
+                        {router.query.error_code}: {router.query.error_message}
+                      </code>
+                    </p>
+                  </StyledNotification>
                 )}
                 <StyledP width="25">
                   {'>>'} Boot dialogue: 
