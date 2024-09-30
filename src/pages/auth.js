@@ -52,7 +52,7 @@ const StyledCardRow = styled.div`
 
 const errorMap = {
   'InvalidCredentials: Account already exists with matching email address':
-    'An account already exists with the email address you are trying to use. If you have participated in a previous year, please use the same GitHub/Gitlab account as before to log in.',
+    'An account already exists with the email address you are trying to use. If you have participated in a previous year, please use the same GitHub/GitLab account as before to log in.',
 };
 
 const Auth = () => {
