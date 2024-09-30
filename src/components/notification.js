@@ -41,7 +41,7 @@ const StyledNotification = styled.div`
     `}
 `;
 
-const Notification = ({ title, children, color }) => {
+const Notification = ({ title, children, color, className }) => {
   // Check if all the children are paragraphs
   const paragraphs =
     children &&
@@ -50,7 +50,11 @@ const Notification = ({ title, children, color }) => {
         children.every((child) => child.type === 'p')));
 
   return (
-    <StyledNotification $color={color} $paragraphs={paragraphs}>
+    <StyledNotification
+      $color={color}
+      $paragraphs={paragraphs}
+      className={className}
+    >
       <h2>{title}</h2>
       {children}
     </StyledNotification>
