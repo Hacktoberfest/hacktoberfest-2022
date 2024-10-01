@@ -7,21 +7,21 @@ import advocatesHeroCloudflare from 'assets/img/advocates/cloudflare-hero.svg';
 import sustainersQuira from 'assets/img/sustainers/quira.svg';
 import sustainersHeroQuira from 'assets/img/sustainers/quira-hero.svg';
 
-import partnersMLH from 'assets/img/partners/mlh.png';
+import partnersMLH from 'assets/img/partners/mlh.svg';
 import partnersMLHHero from 'assets/img/partners/mlh-hero.svg';
-import partnersHolographic from 'assets/img/partners/holographic.png';
+import partnersHolographic from 'assets/img/partners/holographic.svg';
 import partnersHolographicHero from 'assets/img/partners/holographic-hero.svg';
-import partnersGitlab from 'assets/img/partners/gitlab.png';
+import partnersGitlab from 'assets/img/partners/gitlab.svg';
 import partnersGitlabHero from 'assets/img/partners/gitlab-hero.svg';
-import partnersGithub from 'assets/img/partners/github.png';
+import partnersGithub from 'assets/img/partners/github.svg';
 import partnersGithubHero from 'assets/img/partners/github-hero.svg';
-import partnersGithubEducation from 'assets/img/partners/github_education.png';
+import partnersGithubEducation from 'assets/img/partners/github_education.svg';
 import partnersGithubEducationHero from 'assets/img/partners/github_education-hero.svg';
 import partnersCNCF from 'assets/img/partners/cncf.svg';
 import partnersCNCFHero from 'assets/img/partners/cncf-hero.svg';
 import partnersOSI from 'assets/img/partners/osi.svg';
 import partnersOSIHero from 'assets/img/partners/osi-hero.svg';
-import partnersDEV from 'assets/img/partners/dev.png';
+import partnersDEV from 'assets/img/partners/dev.svg';
 import partnersDEVHero from 'assets/img/partners/dev-hero.svg';
 
 export const founders = [
