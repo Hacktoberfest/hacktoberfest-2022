@@ -19,7 +19,7 @@ const cursorStyle = {
   background: 'inherit',
   left: 'calc(100% - 3px)',
   bottom: '0px',
-  'line-height': '1.27',
+  'line-height': '1.28',
 };
 
 const StyledType = styled.span`
