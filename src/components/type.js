@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 const interval = 100;
-const idle = 1;
+const idle = 1000;
 
 const srOnly = {
   position: 'absolute',
@@ -13,14 +13,14 @@ const srOnly = {
   clip: 'rect(0, 0, 0, 0)',
 };
 
-const cursorStyle = {
-  color: 'inherit',
-  position: 'absolute',
-  background: 'inherit',
-  left: 'calc(100% - 3px)',
-  bottom: '0px',
-  'line-height': '1.28',
-};
+const StyledCursor = styled.span`
+  color: inherit;
+  position: absolute;
+  background: inherit;
+  left: calc(100% - 3px);
+  bottom: 0px;
+  line-height: 1.28;
+`;
 
 const StyledType = styled.span`
   background-image: ${({ $backgroundColor }) =>
@@ -120,7 +120,7 @@ const Type = ({
         $prefixColor={prefixColor}
       >
         {text.slice(0, progress)}
-        {cursor && <span style={cursorStyle}>_</span>}
+        {cursor && <StyledCursor>_</StyledCursor>}
       </StyledType>
       {!done && (
         <span aria-hidden="true" style={{ opacity: 0 }}>
