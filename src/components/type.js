@@ -17,9 +17,8 @@ const cursorStyle = {
   color: 'inherit',
   position: 'absolute',
   background: 'inherit',
-  left: 'calc(100% -3px)',
+  left: 'calc(100% - 3px)',
   bottom: '0px',
-  color: 'inherit',
   'line-height': '1.27',
 };
 
