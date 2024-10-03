@@ -4,22 +4,21 @@ import styled from 'styled-components';
 const interval = 100;
 const idle = 1000;
 
-const srOnly = {
-  position: 'absolute',
-  width: '1px',
-  height: '1px',
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-};
+const ScreenReader = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+`;
 
 const StyledCursor = styled.span`
   color: inherit;
-  position: absolute;
   background: inherit;
-  left: calc(100% - 3px);
-  bottom: 0px;
-  line-height: 1.28;
+  margin-left: -1ch;
+  left: 1ch;
+  position: relative;
 `;
 
 const StyledType = styled.span`
@@ -129,7 +128,7 @@ const Type = ({
       )}
 
       {/* Screen readers should read the full text */}
-      <span style={srOnly}>{text}</span>
+      <ScreenReader>{text}</ScreenReader>
     </>
   );
 };
