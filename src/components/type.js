@@ -4,14 +4,22 @@ import styled from 'styled-components';
 const interval = 100;
 const idle = 1000;
 
-const srOnly = {
-  position: 'absolute',
-  width: '1px',
-  height: '1px',
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-};
+const ScreenReader = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+`;
+
+const StyledCursor = styled.span`
+  color: inherit;
+  background: inherit;
+  margin-left: -1ch;
+  left: 1ch;
+  position: relative;
+`;
 
 const StyledType = styled.span`
   background-image: ${({ $backgroundColor }) =>
@@ -111,7 +119,7 @@ const Type = ({
         $prefixColor={prefixColor}
       >
         {text.slice(0, progress)}
-        {cursor && <span style={{ color: cursorColor }}>_</span>}
+        {cursor && <StyledCursor>_</StyledCursor>}
       </StyledType>
       {!done && (
         <span aria-hidden="true" style={{ opacity: 0 }}>
@@ -120,7 +128,7 @@ const Type = ({
       )}
 
       {/* Screen readers should read the full text */}
-      <span style={srOnly}>{text}</span>
+      <ScreenReader>{text}</ScreenReader>
     </>
   );
 };
