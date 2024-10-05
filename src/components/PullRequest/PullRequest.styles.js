@@ -124,13 +124,13 @@ export const StyledInfo = styled.div`
   }
 `;
 
-export const StyledPRTitle = styled.h3`
+export const StyledTitle = styled.h3`
   flex-basis: 0;
   flex-grow: 1;
   ${body20}
 `;
 
-export const StyledPRMR = styled.p`
+export const StyledDetails = styled.p`
   flex-basis: 0;
   flex-grow: 1;
   ${body20}

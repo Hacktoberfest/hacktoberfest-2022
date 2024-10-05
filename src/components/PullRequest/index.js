@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 
 import { MarkdownInline } from 'components/markdown';
+import ButtonMain from 'components/ButtonMain';
 
 import useCountdown from 'hooks/useCountdown';
 
@@ -14,10 +15,9 @@ import {
   StyledEyebrow,
   StyledInfo,
   StyledPullRequest,
-  StyledPRTitle,
-  StyledPRMR,
+  StyledTitle,
+  StyledDetails,
 } from './PullRequest.styles';
-import ButtonMain from 'components/ButtonMain';
 
 const PullRequest = ({ data, as }) => {
   // Get countdown for waiting PRs
@@ -63,14 +63,14 @@ const PullRequest = ({ data, as }) => {
         </StyledState>
       </StyledEyebrowWrapper>
       <StyledInfo>
-        <StyledPRTitle>
+        <StyledTitle>
           <span>Title: </span> {data.title}
-        </StyledPRTitle>
-        <StyledPRMR>
+        </StyledTitle>
+        <StyledDetails>
           <span>{providerMap[data.provider].prName}: </span> {data.target}
           {providerMap[data.provider].referenceCharacter}
           {data.number}
-        </StyledPRMR>
+        </StyledDetails>
         <ButtonMain
           href={data.url}
           target="_blank"
