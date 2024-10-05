@@ -4,6 +4,7 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import ButtonMain from 'components/ButtonMain';
 
 const stateColors = {
   excluded: (theme) => theme.colors.black,
@@ -136,13 +137,12 @@ export const StyledDetails = styled.p`
   ${body20}
 `;
 
-export const StyledPullRequest = styled.div`
+export const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
   position: relative;
   width: 100%;
-  transition: 0.2s ease;
 
   ${StyledEyebrow} {
     background: ${({ $state, theme }) => stateColors[$state](theme)};
@@ -150,5 +150,21 @@ export const StyledPullRequest = styled.div`
       $state === 'accepted' || $state === 'waiting'
         ? theme.colors.black
         : theme.colors.typography};
+  }
+`;
+
+export const StyledButton = styled(ButtonMain)`
+  white-space: nowrap;
+`;
+
+export const StyledPullRequest = styled.div`
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  ${mQ(bp.tablet)} {
+    gap: 64px;
+    flex-direction: row;
   }
 `;
