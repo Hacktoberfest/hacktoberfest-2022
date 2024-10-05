@@ -46,9 +46,19 @@ const PullRequest = ({ data, as }) => {
           ?
           <div>
             <MarkdownInline
-              string={pullRequestStates[data.state.state].description}
+              string={pullRequestStates[
+                data.state.state
+              ].description.replaceAll(
+                '${pr}',
+                providerMap[data.provider].prName,
+              )}
             />
-            <MarkdownInline string={pullRequestValidation} />
+            <MarkdownInline
+              string={pullRequestValidation.replaceAll(
+                '${pr}',
+                providerMap[data.provider].prName,
+              )}
+            />
           </div>
         </StyledState>
       </StyledEyebrowWrapper>
