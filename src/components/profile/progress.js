@@ -212,14 +212,16 @@ const Progress = ({ auth }) => {
             {Math.min(acceptedCount, 4).toLocaleString()}
             {acceptedCount > 4
               ? ` + ${(acceptedCount - 4).toLocaleString()}`
-              : ''}{' '}
-            <span>/</span> 4
-            {!!waitingCount && (
+              : ''}
+            {waitingCount > 0 ? (
               <>
                 {' '}
-                <span>[{waitingCount.toLocaleString()} in review]</span>
+                <span>+ {waitingCount.toLocaleString()} (in review)</span>
               </>
-            )}
+            ) : (
+              ''
+            )}{' '}
+            <span>/</span> 4
           </StyledCount>
         </StyledProgressSummary>
       </Section>
