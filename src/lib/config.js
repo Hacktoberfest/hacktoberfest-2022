@@ -70,10 +70,12 @@ export const launchDate = process.env.LAUNCH_DATE || '2024-09-01T12:00:00Z';
 /**
  * Used for:
  *   - Displaying nice names for PR/MR providers
+ *   - Showing the correct reference character on profile page
+ *   - Showing the correct name for PR/MR on the profile page
  *   - Provider selection on report page
  *   - Providers in profile link/unlinking
  */
 export const providerMap = Object.freeze({
-  github: 'GitHub',
-  gitlab: 'GitLab',
+  github: { name: 'GitHub', referenceCharacter: '#', prName: 'PR' },
+  gitlab: { name: 'GitLab', referenceCharacter: '!', prName: 'MR' },
 });

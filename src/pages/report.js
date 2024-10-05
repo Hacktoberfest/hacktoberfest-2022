@@ -73,7 +73,7 @@ const Report = () => {
               `Could not locate repository name '${repository}' with provider ${provider}`
           ) {
             setError(
-              `The repository name you provided could not be found on ${providerMap[provider]}.`,
+              `The repository name you provided could not be found on ${providerMap[provider].name}.`,
             );
             return;
           }
@@ -82,7 +82,7 @@ const Report = () => {
             data?.message === 'User is not authorized with provider'
           ) {
             setError(
-              `You need to link a ${providerMap[provider]} account to your registration to report repositories from that provider.`,
+              `You need to link a ${providerMap[provider].name} account to your registration to report repositories from that provider.`,
             );
             return;
           }
@@ -188,7 +188,9 @@ const Report = () => {
                   name="provider"
                   label="Provider"
                   value={provider}
-                  items={Object.entries(providerMap)}
+                  items={Object.entries(providerMap).map(
+                    ([provider, { name }]) => [provider, name],
+                  )}
                   onChange={(e) => setProvider(e.target.value)}
                   disabled={submitting}
                   required
