@@ -23,20 +23,17 @@ const StyledProgressWrapper = styled.div`
 `;
 
 const StyledProgressSummary = styled.div`
+  ${body32}
   background: ${({ theme }) => theme.colors.darkGreen};
   border-radius: 16px;
+  color: ${({ theme }) => theme.colors.green};
+  font-weight: 500;
   padding: 24px 48px;
   text-align: center;
   max-width: 608px;
 
-  h2 {
-    ${body32}
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.green};
-
-    span {
-      color: ${({ theme }) => theme.colors.typography};
-    }
+  span {
+    color: ${({ theme }) => theme.colors.typography};
   }
 `;
 
@@ -146,19 +143,17 @@ const Progress = ({ auth }) => {
             size="lg"
           />
           <StyledProgressSummary>
-            <h2>
-              {Math.min(acceptedCount, 4).toLocaleString()}
-              {acceptedCount > 4
-                ? ` + ${(acceptedCount - 4).toLocaleString()}`
-                : ''}{' '}
-              <span>/</span> 4
-              {!!waitingCount && (
-                <>
-                  {' '}
-                  <span>[{waitingCount.toLocaleString()} waiting]</span>
-                </>
-              )}
-            </h2>
+            {Math.min(acceptedCount, 4).toLocaleString()}
+            {acceptedCount > 4
+              ? ` + ${(acceptedCount - 4).toLocaleString()}`
+              : ''}{' '}
+            <span>/</span> 4
+            {!!waitingCount && (
+              <>
+                {' '}
+                <span>[{waitingCount.toLocaleString()} in review]</span>
+              </>
+            )}
           </StyledProgressSummary>
         </StyledSectionSpacing>
       </Section>
