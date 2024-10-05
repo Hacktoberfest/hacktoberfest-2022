@@ -59,13 +59,15 @@ const PullRequest = ({ data, as }) => {
           <span>Title: </span> {data.title}
         </StyledPRTitle>
         <StyledPRMR>
-          <span>PR/MR: </span> {data.target}#{data.number}
+          <span>{providerMap[data.provider].prName}: </span> {data.target}
+          {providerMap[data.provider].referenceCharacter}
+          {data.number}
         </StyledPRMR>
         <ButtonMain
           href={data.url}
           target="_blank"
           rel="noreferrer"
-          children={`View on ${providerMap[data.provider]}`}
+          children={`View on ${providerMap[data.provider].name}`}
         />
       </StyledInfo>
     </StyledPullRequest>

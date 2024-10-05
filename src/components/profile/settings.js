@@ -119,7 +119,7 @@ const Settings = ({ auth, isEdit = false }) => {
         const data = await err.response.json().catch(() => null);
         console.error(err, data);
         setError(
-          `An unknown error occurred while linking your ${providerMap[provider]} account. Please try again later.`,
+          `An unknown error occurred while linking your ${providerMap[provider].name} account. Please try again later.`,
         );
       });
       window.location.href = link.redirect;
@@ -135,7 +135,7 @@ const Settings = ({ auth, isEdit = false }) => {
 
       if (
         !confirm(
-          `Are you sure you want to unlink your ${providerMap[provider]} account from your Hacktoberfest registration?`,
+          `Are you sure you want to unlink your ${providerMap[provider].name} account from your Hacktoberfest registration?`,
         )
       )
         return;
@@ -145,7 +145,7 @@ const Settings = ({ auth, isEdit = false }) => {
           const data = await err.response.json().catch(() => null);
           console.error(err, data);
           setError(
-            `An unknown error occurred while unlinking your ${providerMap[provider]} account. Please try again later.`,
+            `An unknown error occurred while unlinking your ${providerMap[provider].name} account. Please try again later.`,
           );
         },
       );
@@ -393,7 +393,7 @@ const Settings = ({ auth, isEdit = false }) => {
                             type="button"
                             disabled={hasTrackingEnded}
                           >
-                            Unlink {providerMap[provider]} account:{' '}
+                            Unlink {providerMap[provider].name} account:{' '}
                             <span>@{oauth[provider].providerUsername}</span>
                           </StyledButtonLink>
                         ) : (
@@ -402,7 +402,7 @@ const Settings = ({ auth, isEdit = false }) => {
                             type="button"
                             disabled
                           >
-                            {providerMap[provider]} linked:{' '}
+                            {providerMap[provider].name} linked:{' '}
                             <span>@{oauth[provider].providerUsername}</span>
                           </StyledButtonLink>
                         )
@@ -412,7 +412,7 @@ const Settings = ({ auth, isEdit = false }) => {
                           type="button"
                           disabled={hasTrackingEnded}
                         >
-                          Link {providerMap[provider]} account
+                          Link {providerMap[provider].name} account
                         </StyledButtonLink>
                       )}
                     </Fragment>
