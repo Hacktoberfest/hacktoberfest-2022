@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import styled from 'styled-components';
 
-import Divider from 'components/Divider';
 import Section from 'components/Section';
+import Container from 'components/Container';
 import Loader from 'components/loader';
 
 import useAuth from 'hooks/useAuth';
 import createMetaTitle from 'lib/createMetaTitle';
+
+const StyledLogout = styled.div`
+  background: ${({ theme }) => theme.colors.darkGreen};
+  color: ${({ theme }) => theme.colors.typography};
+  padding: 68px 0;
+`;
 
 const Logout = () => {
   const [redirect, setRedirect] = useState(false);
@@ -35,10 +42,13 @@ const Logout = () => {
         />
       </Head>
 
-      <Section type="sub_content">
-        <Divider />
-        <Loader message=">> Loading /usr/lib/logout..." />
-      </Section>
+      <StyledLogout>
+        <Section>
+          <Container>
+            <Loader message=">> Loading /usr/lib/logout..." />
+          </Container>
+        </Section>
+      </StyledLogout>
     </>
   );
 };
