@@ -108,6 +108,7 @@ export const StyledEyebrowWrapper = styled.div`
 export const StyledEyebrow = styled.p`
   ${body16}
   border-radius: 8px;
+  font-variant-numeric: tabular-nums;
   padding: 6px 14px;
 `;
 
