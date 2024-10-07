@@ -580,7 +580,8 @@ export const faqs = {
       ],
     },
     {
-      title: 'Why is my pull/merge request in a maturing state on my profile?',
+      title:
+        'Why is my accepted pull/merge request showing as in review on my profile?',
       subtitle: 'Troubleshooting',
       collapsible: true,
       collapsed: true,

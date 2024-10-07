@@ -28,7 +28,6 @@ const StyledNotification = styled(Notification)`
 `;
 
 const StyledP = styled.p`
-  display: inline-flex;
   margin: 0 0 40px;
   ${body24}
 `;
@@ -84,9 +83,7 @@ const Auth = () => {
         <Section>
           <Container>
             {auth.loading ? (
-              <div>
-                <Loader message=">> Authorization in progress..." />
-              </div>
+              <Loader message=">> Authorization in progress..." />
             ) : (
               <>
                 {error && (
@@ -105,8 +102,8 @@ const Auth = () => {
                     </p>
                   </StyledNotification>
                 )}
-                <StyledP width="25">
-                  {'>>'} Boot dialogue: 
+                <StyledP>
+                  {'>>'} Boot dialogue:{' '}
                   <Type text="Initiating Pilot protocol" />
                 </StyledP>
                 <StyledCardRow>

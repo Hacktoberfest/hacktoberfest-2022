@@ -1,42 +1,80 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled, { keyframes, useTheme } from 'styled-components';
 import Link from 'next/link';
 
-import { body20, body24, body32 } from 'themes/typography';
-import { fetchGiftCodes, fetchPullRequests, triggerUserIngest } from 'lib/api';
-import { trackingStart } from 'lib/config';
+import { body16, body20, body24, body32 } from 'themes/typography';
+import {
+  fetchUserOAuth,
+  fetchGiftCodes,
+  fetchPullRequests,
+  triggerUserIngest,
+} from 'lib/api';
+import { providerMap, trackingStart } from 'lib/config';
+
+import { StyledSectionSpacing } from 'styles/sharedStyles';
 
 import Loader from 'components/loader';
 import Section from 'components/Section';
 import Notification from 'components/notification';
 import Divider from 'components/Divider';
 import PullRequest from 'components/PullRequest';
+import ContentMaster from 'components/ContentMaster';
 
 import EmailWarning from './email-warning';
 import Holopin from './rewards/holopin';
-import { StyledSectionSpacing } from 'styles/sharedStyles';
-import ContentMaster from 'components/ContentMaster';
 
 const StyledProgressWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const StyledProgressSummary = styled.div`
+// Fade in after the 'progress' typing animation
+const trackingFade = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 0.75;
+  }
+`;
+
+const StyledTracking = styled.div`
+  align-items: baseline;
+  display: flex;
+  flex-flow: row wrap;
+
+  :not(p) {
+    flex-grow: 1;
+  }
+
+  p {
+    ${body16}
+    opacity: 0;
+    padding: 0 8px;
+
+    animation: ${trackingFade} ease 500ms;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+  }
+`;
+
+const StyledProgressSummary = styled(StyledSectionSpacing)`
+  max-width: 608px;
+`;
+
+const StyledCount = styled.p`
+  ${body32}
   background: ${({ theme }) => theme.colors.darkGreen};
   border-radius: 16px;
+  color: ${({ theme }) => theme.colors.green};
+  font-weight: 500;
   padding: 24px 48px;
   text-align: center;
-  max-width: 608px;
 
-  h2 {
-    ${body32}
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.green};
-
-    span {
-      color: ${({ theme }) => theme.colors.typography};
-    }
+  span {
+    color: ${({ theme }) => theme.colors.typography};
   }
 `;
 
@@ -66,6 +104,7 @@ const Progress = ({ auth }) => {
   // Track the data we need to render
   const [loaded, setLoaded] = useState(false);
   const loading = useRef(false);
+  const [oauth, setOauth] = useState([]);
   const [pullRequests, setPullRequests] = useState([]);
   const [giftCodes, setGiftCodes] = useState([]);
   const theme = useTheme();
@@ -77,20 +116,28 @@ const Progress = ({ auth }) => {
     loading.current = true;
 
     (async () => {
+      // Fetch the user's OAuth providers
+      const rawOauth = await fetchUserOAuth(auth.user.id, auth.token);
+      setOauth(
+        rawOauth.reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.provider]: item,
+          }),
+          {},
+        ),
+      );
+
       // Fetch the user's pull requests
       const rawPullRequests = await fetchPullRequests(
         auth.user.id,
         auth.token,
         ['out-of-bounds'],
-      ).then((data) =>
-        data.filter(
-          (pr) => pr.state?.state && pr.state.state !== 'out-of-bounds',
-        ),
       );
       setPullRequests(
-        rawPullRequests.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at),
-        ),
+        rawPullRequests
+          .filter((pr) => pr.state?.state && pr.state.state !== 'out-of-bounds')
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
       );
 
       // Fetch the user's gift codes
@@ -124,8 +171,6 @@ const Progress = ({ auth }) => {
     [pullRequests],
   );
 
-  const hasError = useMemo;
-
   // Don't render anything until we have the data we need
   if (!loaded)
     return (
@@ -138,29 +183,47 @@ const Progress = ({ auth }) => {
   return (
     <StyledProgressWrapper>
       <Section small>
-        <StyledSectionSpacing $isSmall>
-          <ContentMaster
-            title="Progress"
-            titleAs="h2"
-            hasCaret={false}
-            size="lg"
-          />
-          <StyledProgressSummary>
-            <h2>
-              {Math.min(acceptedCount, 4).toLocaleString()}
-              {acceptedCount > 4
-                ? ` + ${(acceptedCount - 4).toLocaleString()}`
-                : ''}{' '}
-              <span>/</span> 4
-              {!!waitingCount && (
-                <>
-                  {' '}
-                  <span>[{waitingCount.toLocaleString()} waiting]</span>
-                </>
-              )}
-            </h2>
-          </StyledProgressSummary>
-        </StyledSectionSpacing>
+        <StyledProgressSummary $isSmall>
+          <StyledTracking>
+            <ContentMaster
+              title="Progress"
+              titleAs="h2"
+              hasCaret={false}
+              size="lg"
+            />
+
+            <p>
+              (Tracking{' '}
+              {[
+                ...new Set(
+                  Object.keys(oauth).map((p) => providerMap[p].prName),
+                ),
+              ].join('/')}
+              s for{' '}
+              {[
+                ...new Set(
+                  Object.values(oauth).map((o) => `@${o.providerUsername}`),
+                ),
+              ].join('/')}
+              )
+            </p>
+          </StyledTracking>
+          <StyledCount>
+            {Math.min(acceptedCount, 4).toLocaleString()}
+            {acceptedCount > 4
+              ? ` + ${(acceptedCount - 4).toLocaleString()}`
+              : ''}
+            {waitingCount > 0 ? (
+              <>
+                {' '}
+                <span>+ {waitingCount.toLocaleString()} (in review)</span>
+              </>
+            ) : (
+              ''
+            )}{' '}
+            <span>/</span> 4
+          </StyledCount>
+        </StyledProgressSummary>
       </Section>
 
       <Divider type="doubledashed" />

@@ -14,10 +14,11 @@ import {
   StyledEyebrow,
   StyledInfo,
   StyledPullRequest,
-  StyledPRTitle,
-  StyledPRMR,
+  StyledTitle,
+  StyledDetails,
+  StyledContainer,
+  StyledButton,
 } from './PullRequest.styles';
-import ButtonMain from 'components/ButtonMain';
 
 const PullRequest = ({ data, as }) => {
   // Get countdown for waiting PRs
@@ -34,42 +35,52 @@ const PullRequest = ({ data, as }) => {
   }, [router.pathname]);
 
   return (
-    <StyledPullRequest as={as} $state={data.state.state}>
-      <StyledEyebrowWrapper>
-        <StyledEyebrow>
-          {' '}
-          {data.state.state}
-          {data.state.state === 'waiting' && (
-            <>
-              {' '}
-              [{days}:{hours}:{minutes}:{seconds}]
-            </>
-          )}
-        </StyledEyebrow>
-        <StyledState onClick={toggle} aria-selected={open}>
-          ?
-          <div>
-            <MarkdownInline string={pullRequestStates[data.state.state]} />
-            <MarkdownInline string={pullRequestValidation} />
-          </div>
-        </StyledState>
-      </StyledEyebrowWrapper>
-      <StyledInfo>
-        <StyledPRTitle>
-          <span>Title: </span> {data.title}
-        </StyledPRTitle>
-        <StyledPRMR>
-          <span>{providerMap[data.provider].prName}: </span> {data.target}
-          {providerMap[data.provider].referenceCharacter}
-          {data.number}
-        </StyledPRMR>
-        <ButtonMain
-          href={data.url}
-          target="_blank"
-          rel="noreferrer"
-          children={`View on ${providerMap[data.provider].name}`}
-        />
-      </StyledInfo>
+    <StyledPullRequest as={as}>
+      <StyledContainer $state={data.state.state}>
+        <StyledEyebrowWrapper>
+          <StyledEyebrow>
+            {pullRequestStates[data.state.state].title.replace(
+              '${timer}',
+              `${days}:${hours}:${minutes}:${seconds}`,
+            )}
+          </StyledEyebrow>
+          <StyledState onClick={toggle} aria-selected={open}>
+            ?
+            <div>
+              <MarkdownInline
+                string={pullRequestStates[
+                  data.state.state
+                ].description.replaceAll(
+                  '${pr}',
+                  providerMap[data.provider].prName,
+                )}
+              />
+              <MarkdownInline
+                string={pullRequestValidation.replaceAll(
+                  '${pr}',
+                  providerMap[data.provider].prName,
+                )}
+              />
+            </div>
+          </StyledState>
+        </StyledEyebrowWrapper>
+        <StyledInfo>
+          <StyledTitle>
+            <span>Title: </span> {data.title}
+          </StyledTitle>
+          <StyledDetails>
+            <span>{providerMap[data.provider].prName}: </span> {data.target}
+            {providerMap[data.provider].referenceCharacter}
+            {data.number}
+          </StyledDetails>
+        </StyledInfo>
+      </StyledContainer>
+      <StyledButton
+        href={data.url}
+        target="_blank"
+        rel="noreferrer"
+        children={`View on ${providerMap[data.provider].name}`}
+      />
     </StyledPullRequest>
   );
 };
