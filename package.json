@@ -30,10 +30,10 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "country-list": "^2.3.0",
-    "html-react-parser": "^5.1.16",
+    "html-react-parser": "^5.1.18",
     "knuth-shuffle": "^1.0.8",
     "markdown-it": "^14.1.0",
-    "next": "^14.2.13",
+    "next": "^14.2.14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sitemap": "^8.0.0",
