@@ -252,7 +252,7 @@ export const spam = {
       items: [
         {
           content:
-            'PR/MRs should be useful to maintainers. Repos that encourage simplistic PR/MRs (like adding a name or profile to a list or arbitrarily curating content) will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n\n' +
+            'PR/MRs should be useful to maintainers and be meaningful contributions to open-source software. Repositories that are created specifically for Hacktoberfest that do not benefit the wider open-source community, or repositories that encourage overly simplistic and inconsequential contributions such as adding a name or profile to a list or adding random content to a repo such as algorithms, will be excluded from Hacktoberfest. Remember: quantity is fun, quality is key.\n\n' +
             'Found a repository that you think doesn’t follow our values? [Report it to us and we’ll take a look](/report).',
         },
       ],
