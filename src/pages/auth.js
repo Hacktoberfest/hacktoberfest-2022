@@ -50,8 +50,19 @@ const StyledCardRow = styled.div`
 `;
 
 const errorMap = {
-  'InvalidCredentials: Account already exists with matching email address':
-    'An account already exists with the email address you are trying to use. If you have participated in a previous year, please use the same GitHub/GitLab account as before to log in.',
+  'InvalidCredentials: Account already exists with matching email address': (
+    <>
+      A Hacktoberfest account already exists with the email address you are
+      trying to use.
+      <br />
+      <br />
+      If you have participated in a previous year of Hacktoberfest, please make
+      sure to use the same GitHub/GitLab account as before to log in. If you're
+      looking to link accounts from both GitHub and GitLab, sign in with the
+      account that you've used previously for Hacktoberfest and then link the
+      other account under the edit profile view.
+    </>
+  ),
 };
 
 const Auth = () => {
