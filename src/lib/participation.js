@@ -110,6 +110,7 @@ export const resources = {
         '[GitHub] [Explore projects with issues on up-for-grabs.net](https://up-for-grabs.net/)',
         '[GitHub] [Explore projects with issues on goodfirstissue.dev](https://goodfirstissue.dev/)',
         '[GitHub] [Explore Hacktoberfest projects on hacktoberfest-projects.vercel.app](https://hacktoberfest-projects.vercel.app)',
+        '[GitHub] [Explore Hacktoberfest projects on ContribHub.com](https://contribhub.com)',
       ],
     },
     {
