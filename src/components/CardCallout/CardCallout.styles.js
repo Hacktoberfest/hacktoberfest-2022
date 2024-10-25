@@ -64,6 +64,14 @@ export const StyledCardCalloutTitle = styled.h2`
   }
 `;
 
+export const StyledCardCalloutBody = styled.p`
+  ${body16}
+
+  ${mQ(bp.desktop)} {
+    ${body20}
+  }
+`;
+
 export const StyledCardBackground = styled.div`
   inset: var(--offset);
   background-color: ${({ theme }) => theme.colors.green};

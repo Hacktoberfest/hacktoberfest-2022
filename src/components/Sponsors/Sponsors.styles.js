@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { body18 } from 'themes/typography';
+import { headline32, headline56 } from 'themes/typography';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
@@ -10,48 +10,47 @@ export const StyledSponsors = styled.div`
   ${({ $centered }) => $centered && 'text-align: center;'}
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 60px;
+  max-width: 1125px;
+  width: 100%;
+  margin: 0 auto;
 `;
 
-export const StyledSponsorsTitle = styled.div`
-  ${body18}
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 3.6px;
-  color: ${({ theme }) => theme.colors.darkGreen};
+export const StyledSponsorsTitle = styled.h2`
+  ${({ $large }) => ($large ? headline56 : headline32)};
+  color: white;
 `;
 
 export const StyledSponsorsList = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
   justify-content: center;
-
-  ${mQ(bp.desktop)} {
-    gap: 32px;
-    ${({ $centered }) => !$centered && 'justify-content: flex-start;'}
-  }
+  gap: 60px 40px;
+  flex-wrap: wrap;
 
   a {
     line-height: 0;
-    min-width: ${({ $large }) => ($large ? '100%' : 'calc(50% - 16px)')};
+    display: block;
+    width: 100%;
+    background-color: white;
+    padding: 46px 24px;
 
-    ${mQ(bp.largePhone)} {
-      min-width: initial;
+    ${mQ(bp.tablet)} {
+      width: calc((100% / 2) - 40px);
     }
 
-    background-color: white;
-    border-radius: 30px;
-    padding: 14px 24px;
+    ${mQ(bp.desktop)} {
+      width: calc((100% / 3) - 40px);
+    }
 
     img {
       height: ${({ $large }) => ($large ? '30px' : '20px')};
+      max-width: 210px;
+      object-fit: contain;
       width: auto;
       filter: brightness(0);
 
       ${mQ(bp.desktop)} {
-        height: ${({ $large }) => ($large ? '48px' : '32px')};
+        height: 50px;
       }
     }
   }

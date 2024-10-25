@@ -2,7 +2,12 @@ import { useMemo } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { events } from 'lib';
-import { registrationEnd, registrationStart } from 'lib/config';
+import {
+  registrationEnd,
+  registrationStart,
+  trackingEnd,
+  trackingEndExtended,
+} from 'lib/config';
 import { asList } from 'lib/format';
 import { partners, sponsors } from 'lib/sponsors';
 
@@ -20,6 +25,7 @@ import HomeIntro from 'components/HomeIntro';
 import Section from 'components/Section';
 import Events from 'components/Events';
 import Sponsors from 'components/Sponsors';
+import asciiShare from 'assets/img/ascii-share--black.svg';
 
 import Progress from 'components/Progress';
 import CardCallout from 'components/CardCallout';
@@ -27,6 +33,10 @@ import SectionDivider from 'components/SectionDivider';
 import asciiParticipation from 'assets/img/ascii-participation.svg';
 import Glitch from 'components/Glitch';
 import { trackingStartDate } from 'lib/participation';
+import Link from 'next/link';
+import SpotHeader from 'components/SpotHeader';
+import { StyledSectionSpacing } from 'styles/sharedStyles';
+import HeroSecondary from 'components/HeroSecondary';
 
 export const StyledHome = styled.div`
   overflow: hidden;
@@ -102,52 +112,67 @@ const Home = () => {
 
   return (
     <StyledHome>
-      <Hero />
-
-      <HomeIntro />
-
-      <Progress />
+      {hasRegistrationEnded ? (
+        <HeroSecondary
+          title="Registration Is Closed"
+          body="Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest #11** has officially ended."
+        />
+      ) : (
+        <Hero />
+      )}
 
       {!hasRegistrationEnded && (
         <>
-          <Section>
-            <Container>
-              <ContentSide>
-                <ContentMaster
-                  size="xl2"
-                  title="Preptember"
-                  cta={{
-                    href: '/participation',
-                    children: 'How to Participate',
-                    variant: 'secondary-deep-pink',
-                  }}
-                >
-                  {`September is prep time for Hacktoberfest. Spend September
-                  getting a jump start on your four pull/merge requests by
-                  tracking down projects to contribute to, adding the
-                  ‘hacktoberfest’ tag to your own projects, or familiarizing
-                  yourself with Git so you can hit the ground running when
-                  Hacktoberfest begins on ${trackingStartDate}.`}
-                </ContentMaster>
-                <CardCallout
-                  title="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."
-                  link={{
-                    href: 'https://discord.gg/hacktoberfest',
-                    target: '_blank',
-                    rel: 'noreferrer noopener',
-                    children: 'Join the Discord',
-                  }}
-                />
-              </ContentSide>
-            </Container>
-          </Section>
+          <HomeIntro />
+          <Progress />
         </>
       )}
 
-      <SectionDivider />
+      <Section>
+        <Container>
+          <ContentSide>
+            <ContentMaster
+              size="xl2"
+              title={
+                hasRegistrationEnded ? 'Sign up for updates' : 'Preptember'
+              }
+              cta={
+                hasRegistrationEnded
+                  ? null
+                  : {
+                      href: '/participation',
+                      children: 'How to Participate',
+                      variant: 'secondary-deep-pink',
+                    }
+              }
+            >
+              {`${
+                hasRegistrationEnded
+                  ? `But don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#stay-up-to-date) to get the latest announcements about future Hacktoberfest events.`
+                  : `September is prep time for Hacktoberfest. Spend September
+              getting a jump start on your four pull/merge requests by
+              tracking down projects to contribute to, adding the
+              ‘hacktoberfest’ tag to your own projects, or familiarizing
+              yourself with Git so you can hit the ground running when
+              Hacktoberfest begins on ${trackingStartDate}.`
+              }`}
+            </ContentMaster>
+            <CardCallout
+              title="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."
+              link={{
+                href: 'https://discord.gg/hacktoberfest',
+                target: '_blank',
+                rel: 'noreferrer noopener',
+                children: 'Join the Discord',
+              }}
+            />
+          </ContentSide>
+        </Container>
+      </Section>
 
       {!hasRegistrationEnded && (
         <>
+          <SectionDivider />
           <Section bgColor={theme.colors.black} color={theme.colors.typography}>
             <Container>
               <ContentSide>
@@ -201,109 +226,122 @@ const Home = () => {
 
       {hasRegistrationEnded ? (
         <>
-          <Section>
-            <Container>
-              <StyledThanksCallout>
-                <ContentMaster
-                  align="center"
-                  size="lg"
-                  title={
-                    <>
-                      Thank you to <strong>all</strong> our sponsors and
-                      community partners, we ❤️ you!
-                    </>
-                  }
-                />
-              </StyledThanksCallout>
-            </Container>
+          <SectionDivider
+            isFlipped
+            bgColor={theme.colors.green}
+            fgColor={theme.colors.cream}
+          />
 
-            <Container slim>
-              <ContentMaster
-                align="center"
-                size="lg"
-                children={`A special thank you to the great folks at ${asList(
-                  sponsors.map(({ title }) => `**${title}**`),
-                )} for their sponsorship of Hacktoberfest.`}
+          <Section bgColor={theme.colors.green}>
+            <Container>
+              <SpotHeader
+                image={{
+                  src: asciiShare.src,
+                  alt: '',
+                }}
+                content={{
+                  size: 'xl',
+                  title: 'Thank you to all our Sponsors and Community Partners',
+                  children: `A special thank you to the great folks at ${asList(
+                    sponsors.map(({ title }) => `**${title}**`),
+                  )} for their sponsorship of Hacktoberfest. Thank you to ALL our Sponsors and Community Partners, we ❤️ you!`,
+                }}
               />
             </Container>
           </Section>
 
-          <Container>
-            <Divider type="doubledashed" />
-          </Container>
+          <SectionDivider
+            align="right"
+            bgColor={theme.colors.green}
+            fgColor={theme.colors.black}
+          />
 
-          <Section>
-            <Container slim>
-              <Sponsors title="Sponsors" sponsors={sponsors} centered large />
+          <Section bgColor={theme.colors.black}>
+            <Container>
+              <StyledSectionSpacing>
+                <Sponsors title="Sponsors" sponsors={sponsors} centered large />
 
-              <Section small>
                 <Sponsors
                   title="Community Partners"
                   sponsors={partners}
                   centered
                 />
-              </Section>
+              </StyledSectionSpacing>
             </Container>
           </Section>
+          <SectionDivider
+            isFlipped
+            bgColor={theme.colors.cream}
+            fgColor={theme.colors.black}
+          />
         </>
       ) : (
-        <Section bgColor={theme.colors.green} color={theme.colors.dark}>
-          <Container>
-            <StyledHomeEvents>
-              <ContentSide>
-                <ContentMaster size="xl2" title="Event Spotlight" />
+        <>
+          <Section bgColor={theme.colors.green} color={theme.colors.dark}>
+            <Container>
+              <StyledHomeEvents>
+                <ContentSide>
+                  <ContentMaster size="xl2" title="Event Spotlight" />
 
-                <ContentMaster
-                  size="xl"
-                  links={[
-                    {
-                      id: 'explore-events',
-                      size: 'lg',
-                      href: '/events',
-                      children: 'Explore More Hacktoberfest Events',
-                    },
-                  ]}
-                >
-                  Events that bring the community together to learn and explore
-                  are a cornerstone of Hacktoberfest. Save these dates and come
-                  connect with other lovers of open source!
-                </ContentMaster>
-              </ContentSide>
+                  <ContentMaster
+                    size="xl"
+                    links={[
+                      {
+                        id: 'explore-events',
+                        size: 'lg',
+                        href: '/events',
+                        children: 'Explore More Hacktoberfest Events',
+                      },
+                    ]}
+                  >
+                    Events that bring the community together to learn and
+                    explore are a cornerstone of Hacktoberfest. Save these dates
+                    and come connect with other lovers of open source!
+                  </ContentMaster>
+                </ContentSide>
 
-              <Divider type="doubledashed" />
+                <Divider type="doubledashed" />
 
-              <Events events={events} />
-            </StyledHomeEvents>
-          </Container>
-        </Section>
+                <Events events={events} />
+              </StyledHomeEvents>
+            </Container>
+          </Section>
+          <SectionDivider
+            align="right"
+            bgColor={theme.colors.green}
+            fgColor={theme.colors.cream}
+          />
+        </>
       )}
-
-      <SectionDivider
-        align="right"
-        bgColor={theme.colors.green}
-        fgColor={theme.colors.cream}
-      />
 
       <Section>
         <Container>
           <ContentSide>
-            <ContentMaster
-              size="xl2"
-              title="Support Open Source"
-              cta={{
-                target: '_blank',
-                rel: 'noreferrer noopener',
-                href: 'https://www.digitalocean.com/open-source/credits-for-projects',
-                children: 'Learn more and apply now',
-                variant: 'secondary-deep-pink',
-              }}
-            >
+            <ContentMaster size="xl2" title="Support Open Source">
               {
-                'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost.'
+                'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.'
               }
             </ContentMaster>
             <CardCallout
-              title="You have skills that can help keep these projects continue running—let’s get to it."
+              body={
+                <>
+                  DigitalOcean is proud to support open-source projects of all
+                  kinds. We offer credit grants to projects, assist with
+                  development, infrastructure, and testing, so open-source
+                  projects like yours can get a boost.{' '}
+                  <Link
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    href="https://www.digitalocean.com/open-source/credits-for-projects"
+                  >
+                    Learn more and apply now
+                  </Link>
+                  <br />
+                  <br />
+                  You have skills that can help keep these projects continue
+                  running—let’s get to it.
+                </>
+              }
               link={{
                 href: '/donate',
                 children: 'Donate To Open Source Projects',
