@@ -41,21 +41,22 @@ export const StyledHeroSecondary = styled.div`
 
 export const StyledHeroSecondaryContainer = styled.div`
   display: flex;
-  justify-content: space-between;
   gap: 40px;
   flex-direction: column;
   align-items: center;
   padding: 144px 0 138px;
+  justify-content: ${({ $hasIcon }) => ($hasIcon ? 'space-between' : 'center')};
+  text-align: ${({ $hasIcon }) => ($hasIcon ? 'left' : 'center')};
 
   ${mQ(bp.desktop)} {
     flex-direction: ${({ $reverse }) => ($reverse ? 'row-reverse' : 'row')};
     gap: 64px;
-    padding: 190px 0 50px;
+    padding: ${({ $hasIcon }) => ($hasIcon ? '190px 0 50px' : '288px 0 148px')};
   }
 `;
 
 export const StyledHeroSecondaryContent = styled.div`
-  max-width: 765px;
+  max-width: ${({ $hasIcon }) => ($hasIcon ? '768px' : '1240px')};
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -64,7 +65,7 @@ export const StyledHeroSecondaryContent = styled.div`
   z-index: 5;
 
   ${mQ(bp.desktop)} {
-    align-items: flex-start;
+    align-items: ${({ $hasIcon }) => ($hasIcon ? 'flex-start' : 'center')};
   }
 `;
 
@@ -84,6 +85,16 @@ export const StyledHeroSecondaryTitle = styled.h1`
 
   ${mQ(bp.desktop)} {
     text-align: left;
+  }
+`;
+
+export const StyledHeroSecondarybody = styled.div`
+  max-width: 694px;
+  margin: 0 auto;
+  color: white;
+
+  strong {
+    color: ${({ theme }) => theme.colors.pink};
   }
 `;
 
