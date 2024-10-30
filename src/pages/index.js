@@ -5,8 +5,7 @@ import { events } from 'lib';
 import {
   registrationEnd,
   registrationStart,
-  trackingEnd,
-  trackingEndExtended,
+  currentHacktoberfest,
 } from 'lib/config';
 import { asList } from 'lib/format';
 import { partners, sponsors } from 'lib/sponsors';
@@ -115,7 +114,7 @@ const Home = () => {
       {hasRegistrationEnded ? (
         <HeroSecondary
           title="Registration Is Closed"
-          body="Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest #11** has officially ended."
+          body={`Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest #${currentHacktoberfest}** has officially ended.`}
         />
       ) : (
         <Hero />
