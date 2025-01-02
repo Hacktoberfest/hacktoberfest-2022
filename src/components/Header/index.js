@@ -52,13 +52,13 @@ const Header = () => {
   const isHome = path === '/';
 
   return (
-    <StyledHeader $isHome={isHome} $isOpen={open}>
+    <StyledHeader $isHome={isHome && !hasRegistrationEnded} $isOpen={open}>
       <StyledHeaderContainer>
         <StyledHeaderLogo>
           <Link href="/">
             <img
               src={
-                isHome && !open
+                isHome && !hasRegistrationEnded && !open
                   ? hacktoberfestLogoGreen.src
                   : hacktoberfestLogoBeige.src
               }
@@ -87,7 +87,11 @@ const Header = () => {
             <ButtonMain
               href="/auth"
               passHref
-              variant={isHome ? 'primary-black' : 'secondary-pink'}
+              variant={
+                isHome && !hasRegistrationEnded
+                  ? 'primary-black'
+                  : 'secondary-pink'
+              }
             >
               {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
             </ButtonMain>

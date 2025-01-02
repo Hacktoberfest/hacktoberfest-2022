@@ -74,7 +74,7 @@ export const StyledContentMasterBody = styled.div`
 
     ${mQ(bp.desktop)} {
       ${({ $size }) => $size === 'xl2' && body24};
-      ${({ $size }) => $size === 'xl' && body20};
+      ${({ $size }) => $size === 'xl' && body24};
       ${({ $size }) => $size === 'lg' && body24};
       ${({ $size }) => $size === 'md' && body20};
       ${({ $size }) => $size === 'sm' && body16};
