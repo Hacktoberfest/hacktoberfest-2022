@@ -25,6 +25,20 @@ const AccordionCouncil = (props) => {
     skills,
   } = props;
 
+  const [iframeHeight, setIframeHeight] = useState(0);
+
+  useEffect(() => {
+    const fetchIframeHeight = (event) => {
+      if (event.origin === 'https://opencollective.com') {
+        if (event.data?.size?.height) {
+          setIframeHeight(event.data.size.height);
+        }
+      }
+    };
+
+    window.addEventListener('message', fetchIframeHeight);
+  }, []);
+
   const [open, setOpen] = useState(!collapsed);
   useEffect(() => setOpen(!collapsed), [collapsed]);
   const toggle = useCallback((evt) => setOpen(evt.target.open), []);
@@ -68,7 +82,7 @@ const AccordionCouncil = (props) => {
             src={iframe}
             style={{ backgroundColor: '#fff' }}
             width="100%"
-            height="920"
+            height={iframeHeight > 0 ? iframeHeight : 920}
             frameBorder="0"
             scrolling="no"
           />
