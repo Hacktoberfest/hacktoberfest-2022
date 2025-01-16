@@ -84,7 +84,6 @@ const AccordionCouncil = (props) => {
             width="100%"
             height={iframeHeight > 0 ? iframeHeight : 920}
             frameBorder="0"
-            scrolling="no"
           />
         )}
       </div>
