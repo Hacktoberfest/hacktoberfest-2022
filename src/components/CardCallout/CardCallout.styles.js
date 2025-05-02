@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 import { textBase, textXl } from 'themes/typography';
 
 export const StyledCardCallout = styled.div`
@@ -11,21 +15,18 @@ export const StyledCardCalloutContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 32px 40px 40px 40px;
+  padding: 24px 32px 32px 32px;
   position: relative;
+
+  ${mQ(bp.tablet)} {
+    padding: 32px 40px 40px 40px;
+  }
 `;
 
 export const StyledCardCalloutWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-`;
-
-export const StyledCardCalloutContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: flex-start;
 
   > img {
     width: 48px;
@@ -35,6 +36,13 @@ export const StyledCardCalloutContent = styled.div`
         rgb(from ${({ theme }) => theme.colors2025.melrose} r g b / 0.65)
     );
   }
+`;
+
+export const StyledCardCalloutContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
 `;
 
 export const StyledCardCalloutTitle = styled.h2`

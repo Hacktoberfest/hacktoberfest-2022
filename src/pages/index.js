@@ -100,7 +100,7 @@ export const StyledHero = styled.div`
   h1 {
     --shadowAlpha: 0.5;
     animation: ${blinkExpand} 1333ms ease-in-out forwards;
-    text-shadow: 0px 0px 15px
+    text-shadow: 0px 0px 10px
       rgb(
         from ${({ theme }) => theme.colors2025.space.dust} r g b /
           var(--shadowAlpha)
