@@ -8,7 +8,7 @@ import { textSm } from 'themes/typography';
 export const StyledFooter = styled.footer`
   display: grid;
   gap: 40px 0;
-  grid-column: full;
+  grid-column: full !important;
   grid-template-columns: subgrid;
   padding: 128px 0 80px 0;
   position: relative;
