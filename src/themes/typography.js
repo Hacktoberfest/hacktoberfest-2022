@@ -125,7 +125,6 @@ export const headline1 = css`
     font-size: 56px;
     line-height: 64px; /* 114.286% */
     letter-spacing: -2.24px;
-    font-weight: 700;
   }
 `;
 

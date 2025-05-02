@@ -17,6 +17,7 @@ export const StyledInputContainer = styled.div`
     height: 1px;
     width: 100%;
     background-color: ${({ theme }) => theme.colors2025.eastBay};
+    transition: opacity 300ms ease-in-out;
   }
 
   &::before {

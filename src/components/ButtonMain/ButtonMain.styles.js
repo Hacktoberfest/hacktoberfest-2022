@@ -38,6 +38,7 @@ export const StyledButtonMain = styled(Link)`
 
       &:hover {
         background: linear-gradient(270deg, ${theme.colors2025.melrose} 0%, ${theme.colors2025.blueViolet} 100%);
+        box-shadow: 0 0 0 1px transparent;
 
         ${StyledCorners} {
           inset: 0;

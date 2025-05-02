@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { textBase, textSm } from 'themes/typography';
 
-export const StyledInputContainer = styled.div``;
+export const StyledInputContainer = styled.div`
+  position: relative;
+`;
 
 export const StyledSelect = styled.div`
   display: flex;
@@ -18,6 +20,7 @@ export const StyledSelect = styled.div`
     height: 1px;
     width: 100%;
     background-color: ${({ theme }) => theme.colors2025.eastBay};
+    transition: opacity 300ms ease-in-out;
   }
 
   &::before {
@@ -59,6 +62,7 @@ export const StyledSelect = styled.div`
     transition: 0.4s;
     width: 100%;
     outline: 0;
+    cursor: pointer;
 
     @supports (appearance: base-select) {
       appearance: base-select;
@@ -75,11 +79,15 @@ export const StyledSelect = styled.div`
     &:open::picker-icon {
       rotate: 180deg;
     }
+
+    &:has(option:checked:disabled) {
+      color: ${({ theme }) => theme.colors2025.blueViolet};
+    }
   }
 
   ::picker(select) {
     border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
-    border-radius: 8px;
+    border-radius: 16px;
     background: ${({ theme }) => theme.colors2025.void};
     opacity: 0;
     transition: all 0.4s allow-discrete;
@@ -88,6 +96,7 @@ export const StyledSelect = styled.div`
   }
 
   option {
+    ${textBase};
     position: relative;
     color: ${({ theme }) => theme.colors2025.space.dust};
     padding: 8px 12px;
@@ -100,12 +109,15 @@ export const StyledSelect = styled.div`
 
     &:hover,
     &:focus {
-      background: ${({ theme }) => theme.colors2025.space.dust};
-      color: ${({ theme }) => theme.colors2025.void};
+      background: rgb(
+        from ${({ theme }) => theme.colors2025.melrose} r g b / 0.08
+      );
+      color: ${({ theme }) => theme.colors2025.space.white};
     }
 
     &:checked {
-      font-weight: bold;
+      background-color: ${({ theme }) => theme.colors2025.eastBay};
+      color: ${({ theme }) => theme.colors2025.space.white};
     }
   }
 
@@ -120,6 +132,7 @@ export const StyledSelect = styled.div`
     background: ${({ theme }) => theme.colors2025.eastBay};
     transform: translateY(-50%);
     border-radius: 50%;
+    opacity: 0;
   }
 
   ::picker(select):popover-open {

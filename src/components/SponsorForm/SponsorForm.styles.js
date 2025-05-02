@@ -3,6 +3,7 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import { textBase, textXl } from 'themes/typography';
 
 export const StyledFormSection = styled.div`
   padding: 24px 32px 32px;
@@ -49,4 +50,20 @@ export const StyledSubmitWrapper = styled.div`
     `
     transform: scaleY(0);
   `};
+`;
+
+export const StyledFormHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  h3 {
+    ${textXl};
+    font-weight: 700;
+    color: ${({ theme }) => theme.colors2025.space.white};
+  }
+
+  p {
+    ${textBase};
+  }
 `;

@@ -42,7 +42,7 @@ export const StyledContentMasterEyebrow = styled.p`
 export const StyledContentMasterTitle = styled.h2`
   margin: 0;
   color: ${({ theme }) => theme.colors2025.space.white};
-  text-shadow: 0px 0px 15px
+  text-shadow: 0px 0px 10px
     rgb(from ${({ theme }) => theme.colors2025.space.dust} r g b / 0.5);
 
   ${({ $size }) => $size === 'xl2' && headline1};

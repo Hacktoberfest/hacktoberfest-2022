@@ -139,7 +139,7 @@ export const StyledPoweredBy = styled.div`
   font-weight: 700;
   justify-content: center;
   margin-top: 40px;
-  text-shadow: 0 0 15px rgba(194, 194, 255, 0.5);
+  text-shadow: 0 0 8px rgba(194, 194, 255, 0.5);
 
   ${mQ(bp.tablet)} {
     flex-direction: row;
@@ -149,7 +149,7 @@ export const StyledPoweredBy = styled.div`
     max-width: 240px;
     width: 100%;
     height: auto;
-    filter: drop-shadow(0 0 15px rgba(194, 194, 255, 0.5));
+    filter: drop-shadow(0 0 8px rgba(194, 194, 255, 0.5));
   }
 `;
 
@@ -291,7 +291,7 @@ const Home = () => {
             <Container>
               <StyledList>
                 <li>
-                  <h3>Reach a highly engaged group of developers.</h3>
+                  <h3>Reach highly engaged developers</h3>
                   <p>
                     Showcase your brand across our global platform, Discord,
                     GitHub/GitLab integrations, and the websites of thousands of

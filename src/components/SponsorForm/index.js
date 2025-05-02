@@ -6,6 +6,7 @@ import {
   StyledFormContent,
   StyledFormThanks,
   StyledSubmitWrapper,
+  StyledFormHeader,
 } from './SponsorForm.styles';
 import Input from 'components/Input';
 import Select from 'components/Select';
@@ -93,14 +94,14 @@ const SponsorForm = () => {
         </StyledFormThanks>
       ) : (
         <>
-          <ContentMaster
-            align="left"
-            title="We’d love for you to be a part of Hacktoberfest!"
-            size="sm"
-          >
-            Fill out the form and a Hacktoberfest team member will reach out
-            with more sponsorship information.
-          </ContentMaster>
+          <StyledFormHeader>
+            <h3>We’d love for you to be a part of Hacktoberfest!</h3>
+
+            <p>
+              Fill out the form and a Hacktoberfest team member will reach out
+              with more sponsorship information.
+            </p>
+          </StyledFormHeader>
           <Form
             ref={form}
             onSubmit={submit}
@@ -140,15 +141,15 @@ const SponsorForm = () => {
 
               <Select
                 name="tiers"
-                label="Field-label goes here"
+                label="Sponsor tier"
                 value={data.tiers || ''}
                 onChange={(e) => handleChange('tiers', e.target.value)}
                 placeholder={'Sponsorship tiers'}
                 required
                 items={[
-                  ['tier1', 'Tier 1'],
-                  ['tier2', 'Tier 2'],
-                  ['tier3', 'Tier 3'],
+                  ['Title Sponsor', 'Title Sponsor'],
+                  ['Founder Tier', 'Founder Tier'],
+                  ['Maintainer Tier', 'Maintainer Tier'],
                 ]}
               />
             </StyledFormContent>

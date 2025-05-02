@@ -4,20 +4,24 @@ import {
   StyledCardCalloutTitle,
   StyledCardCalloutBody,
   StyledCardCalloutContainer,
+  StyledCardCalloutWrap,
+  StyledCardCalloutLink,
 } from './CardCallout.styles';
 import ButtonMain from 'components/ButtonMain';
 
 const CardCallout = ({ icon, title, body, link }) => (
   <StyledCardCallout>
     <StyledCardCalloutContainer>
-      <StyledCardCalloutContent>
+      <StyledCardCalloutWrap>
         {icon}
-        {title && <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>}
-        {body && <StyledCardCalloutBody>{body}</StyledCardCalloutBody>}
-      </StyledCardCalloutContent>
-      <div>
+        <StyledCardCalloutContent>
+          {title && <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>}
+          {body && <StyledCardCalloutBody>{body}</StyledCardCalloutBody>}
+        </StyledCardCalloutContent>
+      </StyledCardCalloutWrap>
+      <StyledCardCalloutLink>
         <ButtonMain {...link} />
-      </div>
+      </StyledCardCalloutLink>
     </StyledCardCalloutContainer>
   </StyledCardCallout>
 );

@@ -11,10 +11,9 @@ const RevealSection = ({ children, id }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // if (entry.isIntersecting) {
-        //   setIsVisible(true);
-        // }
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
       },
       { threshold: 0.1 },
     );

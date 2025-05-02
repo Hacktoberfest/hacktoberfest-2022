@@ -42,6 +42,7 @@ export const StyledCornersWrapper = styled.div`
 `;
 
 export const StyledSection = styled.div`
+  color: ${({ theme }) => theme.colors2025.space.white};
   max-width: 860px;
   margin: 0 auto;
   padding: 16px 24px;

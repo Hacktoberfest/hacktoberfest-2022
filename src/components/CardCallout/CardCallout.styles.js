@@ -1,21 +1,24 @@
 import styled from 'styled-components';
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-import { body16, body20, textBase, textXl } from 'themes/typography';
+import { textBase, textXl } from 'themes/typography';
 
 export const StyledCardCallout = styled.div`
   border-radius: 16px;
   box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors2025.eastBay};
+  display: flex;
 `;
 
 export const StyledCardCalloutContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
   padding: 32px 40px 40px 40px;
   position: relative;
+`;
+
+export const StyledCardCalloutWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 export const StyledCardCalloutContent = styled.div`
@@ -28,7 +31,7 @@ export const StyledCardCalloutContent = styled.div`
     width: 48px;
     height: 48px;
     filter: drop-shadow(
-      0px 0px 10px
+      0px 0px 4px
         rgb(from ${({ theme }) => theme.colors2025.melrose} r g b / 0.65)
     );
   }
@@ -67,4 +70,8 @@ export const StyledCardCalloutBody = styled.p`
       transform: scaleX(1);
     }
   }
+`;
+
+export const StyledCardCalloutLink = styled.div`
+  margin-top: auto;
 `;

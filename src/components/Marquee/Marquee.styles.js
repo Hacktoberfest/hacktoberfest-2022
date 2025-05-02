@@ -1,5 +1,10 @@
 import styled, { keyframes } from 'styled-components';
 
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
+
 export const marqueeScroll = keyframes`
   from {
     transform: translateX(0);
@@ -18,7 +23,7 @@ const BaseMarqueeWrapper = styled.div`
   user-select: none;
 
   .marquee_content {
-    animation: ${marqueeScroll} 60s linear infinite
+    animation: ${marqueeScroll} 80s linear infinite
       ${({ $direction }) => $direction || 'forwards'};
     display: flex;
     flex-shrink: 0;
@@ -33,15 +38,21 @@ const BaseMarqueeWrapper = styled.div`
     li {
       display: flex;
       align-items: center;
-      font-size: 88px;
       font-style: italic;
       font-weight: 800;
+      font-size: 64px;
       line-height: 1.2954545455;
-      letter-spacing: -2.64px;
+      letter-spacing: -1.92px;
       text-transform: uppercase;
       color: transparent;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: ${({ theme }) => theme.colors2025.blueViolet};
+
+      ${mQ(bp.desktop)} {
+        font-size: 88px;
+        line-height: 1.2954545455;
+        letter-spacing: -2.64px;
+      }
 
       span {
         width: 68px;

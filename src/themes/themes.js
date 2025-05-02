@@ -86,7 +86,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     background-image: url(${bgGrain.src});
     background-size: 200px 200px;
-    opacity: .25;
+    opacity: .18;
     pointer-events: none;
     z-index: 0;
   }
