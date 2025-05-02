@@ -1,58 +1,78 @@
 import styled from 'styled-components';
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-import { body20, body24 } from 'themes/typography';
+
+import { textBase, textSm } from 'themes/typography';
+
+export const StyledInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background-color: ${({ theme }) => theme.colors2025.eastBay};
+  }
+
+  &::before {
+    background: linear-gradient(
+      90deg,
+      ${({ theme }) => theme.colors2025.blueViolet} 0%,
+      ${({ theme }) => theme.colors2025.melrose} 100%
+    );
+    opacity: 0;
+  }
+
+  &::after {
+    background-color: ${({ theme }) => theme.colors2025.eastBay};
+  }
+
+  &:has(input:hover, input:focus-visible) {
+    &::before {
+      opacity: 1;
+    }
+
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  &:has(input:user-invalid:not(:placeholder-shown)) {
+    &::after {
+      background-color: ${({ theme }) => theme.colors2025.error};
+    }
+  }
+`;
 
 export const StyledInput = styled.input`
-  ${body20}
+  ${textBase}
   background: transparent;
-  border: 1px solid currentColor;
-  color: currentColor;
-  font-weight: 500;
+  border: 0;
+  color: ${({ theme }) => theme.colors2025.space.white};
   margin: 0;
-  padding: 12px 24px;
+  padding: 8px 0;
   width: 100%;
-
-  ${mQ(bp.desktop)} {
-    padding: 16px 24px;
-  }
 
   &:focus {
     outline: 0;
   }
 
-  &:focus-visible {
-    outline: 0;
-    box-shadow: ${({ theme }) =>
-      `-1px -1px 10px 0px ${theme.colors.deepPink}, 1px 1px 10px 0px ${theme.colors.deepPink}`};
-    color: ${({ theme }) => theme.colors.deepPink};
-  }
-
-  &:user-invalid:not(:placeholder-shown) {
-    box-shadow: ${({ theme }) =>
-      `-1px -1px 10px 0px ${theme.colors.error}, 1px 1px 10px 0px ${theme.colors.error}`};
-    border-color: ${({ theme }) => theme.colors.error};
-  }
-
   &::placeholder {
-    color: currentColor;
-  }
-
-  &::-webkit-calendar-picker-indicator {
-    ${({ $isDark }) =>
-      $isDark &&
-      `
-      filter: invert(1);
-    `}
+    color: ${({ theme }) => theme.colors2025.blueViolet};
   }
 `;
 
 export const StyledInputLabel = styled.label`
-  ${body24}
-  color: currentColor;
-  font-weight: 500;
+  ${textSm};
+  color: ${({ theme }) => theme.colors2025.space.white};
   display: block;
-  margin: 0 0 8px;
+
+  span {
+    color: ${({ theme }) => theme.colors2025.error};
+  }
 `;

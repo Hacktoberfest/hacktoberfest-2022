@@ -154,4 +154,16 @@ const Auth = () => {
   );
 };
 
+export const getStaticProps = async () => {
+  const shouldRender404 = true;
+
+  if (shouldRender404) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return { props: {} };
+};
+
 export default Auth;

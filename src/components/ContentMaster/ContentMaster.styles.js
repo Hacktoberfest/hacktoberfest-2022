@@ -6,12 +6,14 @@ import {
 import {
   body16,
   body20,
-  body24,
-  headline20,
-  headline32,
-  headline48,
-  headline56,
-  headline90,
+  headline1,
+  headline2,
+  headline3,
+  headline4,
+  headline5,
+  textBase,
+  textLg,
+  textXl,
 } from 'themes/typography';
 
 export const StyledContentMaster = styled.div`
@@ -33,56 +35,36 @@ export const StyledContentMasterHeader = styled.div`
 `;
 
 export const StyledContentMasterEyebrow = styled.p`
-  font-weight: 600;
-  text-transform: lowercase;
-
   ${({ $size }) => ($size === 'xl' || $size === 'lg') && body20};
   ${({ $size }) => ($size === 'md' || $size === 'sm') && body16};
 `;
 
 export const StyledContentMasterTitle = styled.h2`
-  font-weight: 400;
   margin: 0;
-  color: ${({ $hasCaret, theme }) =>
-    $hasCaret ? theme.colors.cream : 'inherit'};
+  color: ${({ theme }) => theme.colors2025.space.white};
+  text-shadow: 0px 0px 15px
+    rgb(from ${({ theme }) => theme.colors2025.space.dust} r g b / 0.5);
 
-  strong {
-    color: ${({ theme }) => theme.colors.green};
-    font-weight: 400;
-  }
-
-  ${({ $size }) => $size === 'xl2' && headline90};
-  ${({ $size }) => $size === 'xl' && headline56};
-  ${({ $size }) => $size === 'lg' && headline48};
-  ${({ $size }) => $size === 'md' && headline32};
-  ${({ $size }) => $size === 'sm' && headline20};
-
-  ${({ $isTyping, $size }) =>
-    $size === 'xl2' &&
-    $isTyping &&
-    `
-    ${mQ(bp.desktop)} {
-      line-height: 100px;
-    }
-  `};
+  ${({ $size }) => $size === 'xl2' && headline1};
+  ${({ $size }) => $size === 'xl' && headline2};
+  ${({ $size }) => $size === 'lg' && headline3};
+  ${({ $size }) => $size === 'md' && headline4};
+  ${({ $size }) => $size === 'sm' && headline5};
 `;
 
 export const StyledContentMasterBody = styled.div`
   p,
   li {
-    ${body16}
+    ${textBase}
 
     ${mQ(bp.desktop)} {
-      ${({ $size }) => $size === 'xl2' && body24};
-      ${({ $size }) => $size === 'xl' && body24};
-      ${({ $size }) => $size === 'lg' && body24};
-      ${({ $size }) => $size === 'md' && body20};
-      ${({ $size }) => $size === 'sm' && body16};
+      ${({ $size }) => $size === 'xl2' && textLg};
+      ${({ $size }) => $size === 'xl' && textXl};
     }
   }
 
   p {
-    margin: 0 0 24px;
+    margin: 0 0 1lh;
 
     &:last-child {
       margin-bottom: 0;

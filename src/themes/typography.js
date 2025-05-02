@@ -113,3 +113,107 @@ export const body16 = css`
   font-weight: 400;
   line-height: 26px; /* 162.5% */
 `;
+
+export const headline1 = css`
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 50px; /* 125% */
+  letter-spacing: -1.2px;
+
+  ${mQ(bp.desktop)} {
+    font-size: 56px;
+    line-height: 64px; /* 114.286% */
+    letter-spacing: -2.24px;
+    font-weight: 700;
+  }
+`;
+
+export const headline2 = css`
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 40px; /* 125% */
+  letter-spacing: -0.96px;
+
+  ${mQ(bp.desktop)} {
+    font-size: 48px;
+    line-height: normal;
+    letter-spacing: -1.44px;
+  }
+`;
+
+/* H3-40 */
+export const headline3 = css`
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 40px; /* 125% */
+  letter-spacing: -0.96px;
+
+  ${mQ(bp.desktop)} {
+    font-size: 40px;
+    line-height: 50px; /* 125% */
+    letter-spacing: -1.2px;
+  }
+`;
+
+/* H4-32 */
+export const headline4 = css`
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: -0.72px;
+
+  ${mQ(bp.desktop)} {
+    font-size: 32px;
+    line-height: 40px; /* 125% */
+    letter-spacing: -0.96px;
+  }
+`;
+
+/* H5-24 */
+export const headline5 = css`
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 30px; /* 125% */
+  letter-spacing: -0.72px;
+`;
+
+/* Text-XL/24-Regular */
+export const textXl = css`
+  font-family: 'Atkinson Hyperlegible';
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.48px;
+`;
+
+/* Text-Lg/18-Regular */
+export const textLg = css`
+  font-family: 'Atkinson Hyperlegible';
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.18px;
+`;
+
+/* Text-Base/16-Regular */
+export const textBase = css`
+  font-family: 'Atkinson Hyperlegible';
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: 0.16px;
+`;
+
+/* Text-Sm/14-Regular */
+export const textSm = css`
+  font-family: 'Atkinson Hyperlegible';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2857142857;
+  letter-spacing: 0.14px;
+`;

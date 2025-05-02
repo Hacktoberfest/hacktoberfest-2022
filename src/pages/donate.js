@@ -182,6 +182,14 @@ const Donate = ({ projects }) => {
 };
 
 export const getStaticProps = async () => {
+  const shouldRender404 = true;
+
+  if (shouldRender404) {
+    return {
+      notFound: true,
+    };
+  }
+
   const projects = await fetchProjects();
 
   return {

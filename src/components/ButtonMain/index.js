@@ -1,10 +1,11 @@
+import Corners from 'components/Corners';
 import { StyledButtonMain } from './ButtonMain.styles';
 
 const ButtonMain = (props) => {
   const {
     children,
     as = 'a',
-    variant = 'primary-black',
+    variant = 'primary',
     size = 'sm',
     onClick,
     ...link
@@ -15,6 +16,7 @@ const ButtonMain = (props) => {
       {as === 'a' ? (
         <StyledButtonMain {...link} $variant={variant} $size={size}>
           {children}
+          {variant === 'primary' && <Corners />}
         </StyledButtonMain>
       ) : (
         <StyledButtonMain
@@ -25,6 +27,7 @@ const ButtonMain = (props) => {
           {...link}
         >
           {children}
+          {variant === 'primary' && <Corners />}
         </StyledButtonMain>
       )}
     </>
