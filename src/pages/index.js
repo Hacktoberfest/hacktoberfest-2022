@@ -21,6 +21,7 @@ import Marquee from 'components/Marquee';
 import RevealSection from 'components/RevealSection';
 import { textLg, textXl } from 'themes/typography';
 import SponsorForm from 'components/SponsorForm';
+import sponsorshipProspectus from 'assets/hacktoberfest2025-sponsorship_prospectus.pdf';
 
 const parallaxScroll = keyframes`
   from { transform: translateY(0); }
@@ -364,8 +365,9 @@ const Home = () => {
               title="Download the 2025 Sponsor Prospectus"
               body="Get all the details on packages, audience insights, and opportunities."
               link={{
-                href: '/',
+                href: sponsorshipProspectus,
                 children: 'Download',
+                download: true,
               }}
             />
             <CardCallout
