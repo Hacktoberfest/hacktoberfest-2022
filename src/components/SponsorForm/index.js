@@ -7,25 +7,37 @@ import {
   StyledFormThanks,
   StyledSubmitWrapper,
   StyledFormHeader,
+  StyledFormWrapper,
 } from './SponsorForm.styles';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import ButtonMain from 'components/ButtonMain';
 import logoHacktoberfest from 'assets/img/logo-hacktoberfest-11--submitted.svg';
 import Image from 'next/image';
+import useMarketo from 'hooks/useMarketo';
 
 const SponsorForm = () => {
   const ref = useRef();
   const form = useRef();
+  const formId = 1892;
+
+  useMarketo({
+    formId: formId,
+    callback: () => {},
+  });
 
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState({
-    name: '',
-    company: '',
-    email: '',
-    tiers: '',
+    FirstName: '',
+    Email: '',
+    Company__c: '',
+    Country__c: 'us',
+    hacktoberfestSponsorTier: '',
+    utm_campaign__c: '',
+    utm_medium__c: '',
+    utm_source__c: '',
   });
 
   const handleChange = (field, value) => {
@@ -35,43 +47,22 @@ const SponsorForm = () => {
     }));
   };
 
-  const submit = useCallback(
-    async (e) => {
-      e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-      setSubmitting(true);
-      setError(null);
-      setSuccess(false);
+    setSubmitting(true);
+    setSuccess(false);
 
-      try {
-        const response = await fetch('/api/sponsor', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to submit the form');
-        }
-
-        const result = await response.json();
-        console.log('Form submitted successfully:', result);
-
-        setSuccess(true);
-      } catch (err) {
-        console.error('Error submitting form:', err);
-        setError(
-          'An error occurred while submitting your sponsorship request. Please try again later.',
-        );
-      } finally {
+    window.MktoForms2.getForm(formId)
+      .vals(data)
+      .onSuccess(() => {
         setSubmitting(false);
-        form.current?.scrollIntoView();
-      }
-    },
-    [data],
-  );
+        setSuccess(true);
+
+        return false;
+      })
+      .submit();
+  };
 
   return (
     <StyledFormSection ref={ref}>
@@ -102,69 +93,76 @@ const SponsorForm = () => {
               with more sponsorship information.
             </p>
           </StyledFormHeader>
-          <Form
-            ref={form}
-            onSubmit={submit}
-            success={
-              success && 'Your Hacktoberfest registration has been saved.'
-            }
-            error={error}
-          >
-            <StyledFormContent>
-              <Input
-                name="name"
-                label="Name"
-                value={data.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                placeholder="Full name"
-                required
-              />
 
-              <Input
-                name="company"
-                label="Company"
-                value={data.company}
-                onChange={(e) => handleChange('company', e.target.value)}
-                placeholder="Company name"
-                required
-              />
+          <form id={`mktoForm_${formId}`} aria-hidden="true" />
 
-              <Input
-                name="email"
-                label="Email address"
-                type="email"
-                value={data.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="Email address"
-                required
-              />
+          <StyledFormWrapper>
+            <Form
+              ref={form}
+              onSubmit={handleSubmit}
+              success={
+                success && 'Your Hacktoberfest registration has been saved.'
+              }
+              error={error}
+            >
+              <StyledFormContent>
+                <Input
+                  name="FirstName"
+                  label="Name"
+                  value={data.name}
+                  onChange={(e) => handleChange('FirstName', e.target.value)}
+                  placeholder="Full name"
+                  required
+                />
 
-              <Select
-                name="tiers"
-                label="Sponsor tier"
-                value={data.tiers || ''}
-                onChange={(e) => handleChange('tiers', e.target.value)}
-                placeholder={'Sponsorship tiers'}
-                required
-                items={[
-                  ['Title Sponsor', 'Title Sponsor'],
-                  ['Founder Tier', 'Founder Tier'],
-                  ['Maintainer Tier', 'Maintainer Tier'],
-                ]}
-              />
-            </StyledFormContent>
+                <Input
+                  name="Company__c"
+                  label="Company"
+                  value={data.company}
+                  onChange={(e) => handleChange('Company__c', e.target.value)}
+                  placeholder="Company name"
+                  required
+                />
 
-            <StyledSubmitWrapper $isSuccess={success}>
-              <ButtonMain
-                as="button"
-                type="submit"
-                variant={submitting ? 'is-loading' : 'primary'}
-                disabled={submitting}
-              >
-                {submitting ? 'Submitting' : 'Submit'}
-              </ButtonMain>
-            </StyledSubmitWrapper>
-          </Form>
+                <Input
+                  name="Email"
+                  label="Email address"
+                  type="email"
+                  value={data.email}
+                  onChange={(e) => handleChange('Email', e.target.value)}
+                  placeholder="Email address"
+                  required
+                />
+
+                <Select
+                  name="hacktoberfestSponsorTier"
+                  label="Sponsor tier"
+                  value={data.hacktoberfestSponsorTier || ''}
+                  onChange={(e) =>
+                    handleChange('hacktoberfestSponsorTier', e.target.value)
+                  }
+                  placeholder={'Sponsorship tiers'}
+                  required
+                  items={[
+                    ['Title Sponsor', 'Title Sponsor'],
+                    ['Founder Tier', 'Founder Tier'],
+                    ['Maintainer Tier', 'Maintainer Tier'],
+                  ]}
+                />
+              </StyledFormContent>
+
+              <StyledSubmitWrapper $isSuccess={success}>
+                <ButtonMain
+                  as="button"
+                  type="submit"
+                  variant={submitting ? 'is-loading' : 'primary'}
+                  disabled={submitting}
+                >
+                  {submitting ? 'Submitting' : 'Submit'}
+                </ButtonMain>
+              </StyledSubmitWrapper>
+            </Form>
+          </StyledFormWrapper>
         </>
       )}
     </StyledFormSection>

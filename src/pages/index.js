@@ -346,12 +346,9 @@ const Home = () => {
               title="Interested in sponsoring Hacktoberfest?"
               size="lg"
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eu
-              dui justo. Vivamus ultrices vulputate placerat. Suspendisse
-              consectetur tempor augue eget lacinia. Donec finibus in sem
-              commodo dapibus. Nam a augue sed ex ullamcorper vestibulum vitae a
-              lacus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Cras eu dui justo.
+              Help to bring Hacktoberfest 2025 to open-source lovers all over
+              the world! When you become a Hacktoberfest sponsor, you’re helping
+              to secure open source projects now and into the future.
             </ContentMaster>
 
             <SponsorForm />

@@ -21,7 +21,9 @@ export const StyledFormSection = styled.div`
   ${mQ(bp.tablet)} {
     padding: 32px 40px 40px;
   }
+`;
 
+export const StyledFormWrapper = styled.div`
   form {
     display: flex;
     flex-direction: column;
