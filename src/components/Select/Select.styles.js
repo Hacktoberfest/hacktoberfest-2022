@@ -93,15 +93,19 @@ export const StyledSelect = styled.div`
     transition: all 0.4s allow-discrete;
     left: 0;
     top: calc(anchor(bottom) + 12px);
+    max-height: 260px;
   }
 
   option {
     ${textBase};
-    position: relative;
-    color: ${({ theme }) => theme.colors2025.space.dust};
-    padding: 8px 12px;
-    transition: 0.4s;
     border-bottom: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+    color: ${({ theme }) => theme.colors2025.space.dust};
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 12px;
+    position: relative;
+    transition: 0.4s;
 
     &:last-child {
       border-bottom: none;
@@ -118,6 +122,10 @@ export const StyledSelect = styled.div`
     &:checked {
       background-color: ${({ theme }) => theme.colors2025.eastBay};
       color: ${({ theme }) => theme.colors2025.space.white};
+    }
+
+    svg {
+      flex-shrink: 0;
     }
   }
 

@@ -24,8 +24,8 @@ export const StyledCustomLink = styled(Link)`
       position: absolute;
       top: 0;
       right: 0;
-      width: 5px;
-      height: 5px;
+      width: 4px;
+      height: 4px;
       border: 1px solid currentColor;
       border-left: 0;
       border-bottom: 0;

@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import countryList from 'country-list';
 import Form from 'components/form';
 import ContentMaster from 'components/ContentMaster';
 import {
@@ -15,6 +16,18 @@ import ButtonMain from 'components/ButtonMain';
 import logoHacktoberfest from 'assets/img/logo-hacktoberfest-11--submitted.svg';
 import Image from 'next/image';
 import useMarketo from 'hooks/useMarketo';
+import * as flags from 'components/icons/flags';
+
+const FlagIcon = ({ countryCode }) => {
+  const key = `Flag${countryCode.toUpperCase()}`;
+  const Flag = flags[key];
+
+  if (!Flag) {
+    return <span>🏳️</span>;
+  }
+
+  return <Flag size="16" />;
+};
 
 const SponsorForm = () => {
   const ref = useRef();
@@ -33,12 +46,24 @@ const SponsorForm = () => {
     FirstName: '',
     Email: '',
     Company__c: '',
-    Country__c: 'us',
+    Country__c: '',
     hacktoberfestSponsorTier: '',
     utm_campaign__c: '',
     utm_medium__c: '',
     utm_source__c: '',
   });
+
+  const countryOverrides = {
+    tw: 'Taiwan',
+  };
+
+  const dropdownCountries = Object.entries(countryList.getCodeList())
+    .map(([code, name]) => ({
+      value: code,
+      label: countryOverrides[code] || name,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .map((country) => [country.value, country.label]);
 
   const handleChange = (field, value) => {
     setData((prevData) => ({
@@ -132,6 +157,22 @@ const SponsorForm = () => {
                   onChange={(e) => handleChange('Email', e.target.value)}
                   placeholder="Email address"
                   required
+                />
+
+                <Select
+                  name="country"
+                  label="Country"
+                  value={data.Country__c || ''}
+                  onChange={(e) => handleChange('Country__c', e.target.value)}
+                  placeholder={'Select your country'}
+                  required
+                  items={dropdownCountries.map(([value, label]) => [
+                    value,
+                    <>
+                      <FlagIcon countryCode={value} />
+                      {label}
+                    </>,
+                  ])}
                 />
 
                 <Select
