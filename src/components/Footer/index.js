@@ -38,8 +38,8 @@ const Footer = () => {
               <img
                 src={hacktoberfestLogomark.src}
                 alt="Hacktoberfest"
-                width="1028"
-                height="410"
+                width="280"
+                height="36"
               />
             </StyledFooterLogo>
 
