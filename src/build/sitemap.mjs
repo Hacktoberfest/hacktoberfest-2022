@@ -13,6 +13,7 @@ const sitemap = async () => {
       priority: 1,
       changefreq: 'daily',
     },
+    // Temporarily disable pages while we work on them
     // {
     //   url: '/participation',
     //   lastmod: new Date().toISOString(),

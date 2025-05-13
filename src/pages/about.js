@@ -322,6 +322,7 @@ const About = () => {
 };
 
 export const getStaticProps = async () => {
+  // This page is not yet ready for public access, so we will return a 404
   const shouldRender404 = true;
 
   if (shouldRender404) {
