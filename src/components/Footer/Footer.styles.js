@@ -3,45 +3,59 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import { textSm } from 'themes/typography';
 
 export const StyledFooter = styled.footer`
-  background-color: ${({ theme }) => theme.colors.darkGreen};
-  color: ${({ theme }) => theme.colors.cream};
   display: grid;
-  grid-template-columns: 1fr;
-  padding-bottom: 70px;
+  gap: 40px 0;
+  grid-column: full !important;
+  grid-template-columns: subgrid;
+  padding: 128px 0 80px 0;
+  position: relative;
 
   ${mQ(bp.tablet)} {
-    grid-template-rows: max-content max-content;
-    grid-template-columns: calc((1028 / 1440) * 100%) 1fr;
+    gap: 80px 0;
+    padding: 168px 0 128px 0;
   }
 
-  ${mQ(bp.desktop)} {
-    padding-bottom: 0;
+  > * {
+    grid-column: main-start / main-end;
+  }
+
+  &::before {
+    background: ${({ theme }) =>
+      `radial-gradient(169.98% 55.24% at 50% 100%, ${theme.colors2025.eastBay} 0%, rgb(from ${theme.colors2025.void} r g b / 0) 100%)`};
+    bottom: 0;
+    content: '';
+    height: 100%;
+    grid-column: full !important;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+
+    ${mQ(bp.tablet)} {
+      background: ${({ theme }) =>
+        `radial-gradient(78.21% 78.21% at 50% 100%, ${theme.colors2025.eastBay} 0%, rgb(from ${theme.colors2025.void} r g b / 0) 100%)`};
+    }
   }
 `;
 
 export const StyledFooterContainer = styled.div`
-  padding: 43px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: space-between;
 
   ${mQ(bp.tablet)} {
-    grid-column: 1/-1;
-  }
-
-  ${mQ(bp.desktop)} {
-    padding: 50px calc((199.86 / 1440) * 100%) 76px calc((451.69 / 1440) * 100%);
+    flex-direction: row;
   }
 `;
 
 export const StyledFooterLogo = styled.div`
-  width: 100%;
-  transform: translateY(-1px);
+  max-width: 280px;
   position: relative;
-  width: calc((340 / 375) * 100%);
-
-  ${mQ(bp.tablet)} {
-    width: 100%;
-  }
+  width: 100%;
 
   img {
     height: auto;
@@ -50,27 +64,29 @@ export const StyledFooterLogo = styled.div`
 `;
 
 export const StyledFooterContent = styled.div`
-  padding: 0 24px;
-  order: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 
-  ${mQ(bp.desktop)} {
-    place-content: flex-end;
-    padding: 0 0 calc((90 / 412) * 100%);
-    order: unset;
+  ${mQ(bp.tablet)} {
+    max-width: 416px;
+    width: 100%;
   }
 
   p {
-    text-transform: uppercase;
+    ${textSm};
   }
 `;
 
 export const StyledFooterLinks = styled.nav`
   display: grid;
-  gap: 64px;
+  gap: 32px;
   grid-template-columns: minmax(0, 1fr);
 
   ${mQ(bp.tablet)} {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 416px;
+    width: 100%;
   }
 `;
 
@@ -82,60 +98,53 @@ export const StyledFooterLinksColumn = styled.div`
   ul {
     display: flex;
     flex-direction: column;
+    gap: 12px;
   }
 
-  a {
-    display: inline-block;
-    font-size: 20px;
-    position: relative;
-    font-weight: 700;
-    line-height: 1.5;
-    position: relative;
-    color: ${({ theme }) => theme.colors.cream};
-    text-decoration: none;
-    transition: color 300ms ease-in-out;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: ${({ theme }) => theme.colors.cream};
-      transform: scaleX(0);
-      transition: transform 300ms ease-in-out;
-    }
-
-    &:hover {
-      &::after {
-        transform: scaleX(1);
-      }
-    }
+  li {
+    line-height: 0;
   }
 `;
 
 export const StyledFooterLinksTitle = styled.h3`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  font-size: 20px;
-  position: relative;
+  ${textSm};
+  border-bottom: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+  color: ${({ theme }) => theme.colors2025.blueViolet};
   font-weight: 700;
-  line-height: 1.5;
+  padding-bottom: 8px;
   text-transform: uppercase;
+`;
 
-  &::after {
-    content: '';
-    width: 100%;
-    height: 2px;
-    background-image: linear-gradient(
-      90deg,
-      currentColor,
-      currentColor 25%,
-      transparent 25%,
-      transparent 100%
-    );
-    background-size: 8px 2px;
+export const StyledFooterCopyright = styled.ul`
+  display: flex;
+  gap: 12px;
+  flex-direction: column-reverse;
+
+  ${mQ(bp.tablet)} {
+    align-items: flex-end;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  > li {
+    ${textSm};
+
+    &:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 28px;
+
+      ${mQ(bp.tablet)} {
+        margin-right: auto;
+        margin-top: 0;
+      }
+
+      img {
+        height: auto;
+        max-width: 160px;
+        width: 100%;
+      }
+    }
   }
 `;

@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import { body24, headline32 } from 'themes/typography';
+import { headline32, textLg } from 'themes/typography';
 
 const StyledNotification = styled.div`
   width: 100%;
-  padding: 40px;
+  padding: 24px;
   transition: 0.2s ease;
   border: 1px solid ${({ $color }) => $color};
   color: currentColor;
@@ -11,6 +11,7 @@ const StyledNotification = styled.div`
   > h2 {
     margin: 0 0 16px;
     ${headline32}
+    font-weight: 700;
   }
 
   > *:last-child {
@@ -36,7 +37,7 @@ const StyledNotification = styled.div`
     css`
       > p {
         margin: 0 0 16px;
-        ${body24}
+        ${textLg}
       }
     `}
 `;

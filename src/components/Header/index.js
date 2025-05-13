@@ -1,106 +1,63 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import {
-  currentHacktoberfest,
-  profileEnd,
-  registrationEnd,
-  registrationStart,
-} from 'lib/config';
+import { currentHacktoberfest, trackingStart } from 'lib/config';
 
 import {
   StyledHeader,
   StyledHeaderContainer,
+  StyledHeaderDate,
   StyledHeaderLogo,
-  StyledHeaderNav,
-  StyledHeaderLink,
-  StyledHeaderToggle,
 } from './Header.styles';
 
-import hacktoberfestLogoGreen from 'assets/img/logo-hacktoberfest-11--green.svg';
-import hacktoberfestLogoBeige from 'assets/img/logo-hacktoberfest-11--beige.svg';
-import ButtonMain from 'components/ButtonMain';
+import hacktoberfestLogo from 'assets/img/logo-hacktoberfest-12--nav.svg';
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
-  const toggle = useCallback(() => setOpen((state) => !state), []);
-
-  const router = useRouter();
-
-  const path = useMemo(
-    () => new URL(router.asPath, 'http://localhost').pathname,
-    [router.asPath],
-  );
-
-  useEffect(() => {
-    setOpen(false);
-  }, [router.pathname]);
-
-  const hasProfile = useMemo(
-    () =>
-      new Date() >= new Date(registrationStart) &&
-      new Date() < new Date(profileEnd),
-    [],
-  );
-
-  const hasRegistrationEnded = useMemo(
-    () => new Date() >= new Date(registrationEnd),
-    [],
-  );
-
-  const isHome = path === '/';
-
   return (
-    <StyledHeader $isHome={isHome && !hasRegistrationEnded} $isOpen={open}>
+    <StyledHeader>
       <StyledHeaderContainer>
         <StyledHeaderLogo>
           <Link href="/">
             <img
-              src={
-                isHome && !hasRegistrationEnded && !open
-                  ? hacktoberfestLogoGreen.src
-                  : hacktoberfestLogoBeige.src
-              }
+              src={hacktoberfestLogo.src}
               alt={`Hacktoberfest ${currentHacktoberfest}`}
-              width="198"
-              height={80}
+              width={261}
+              height={33}
             />
           </Link>
         </StyledHeaderLogo>
 
-        <StyledHeaderNav $isOpen={open}>
-          <StyledHeaderLink href="/participation">
+        {/* <StyledHeaderNav $isOpen={open}>
+          <CustomLink href="/participation">
             Participation
-          </StyledHeaderLink>
-          <StyledHeaderLink href="/events">Events</StyledHeaderLink>
-          <StyledHeaderLink href="/donate">Donate</StyledHeaderLink>
-          <StyledHeaderLink href="/about">About</StyledHeaderLink>
-          <StyledHeaderLink
+          </CustomLink>
+          <CustomLink href="/events">Events</CustomLink>
+          <CustomLink href="/donate">Donate</CustomLink>
+          <CustomLink href="/about">About</CustomLink>
+          <CustomLink
             href="https://discord.gg/hacktoberfest"
             target="_blank"
             rel="noreferrer noopener"
           >
-            Join Discord
-          </StyledHeaderLink>
+            Discord
+          </CustomLink>
           {hasProfile && (
             <ButtonMain
               href="/auth"
               passHref
-              variant={
-                isHome && !hasRegistrationEnded
-                  ? 'primary-black'
-                  : 'secondary-pink'
-              }
+              variant="primary"
             >
               {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
             </ButtonMain>
           )}
-        </StyledHeaderNav>
+        </StyledHeaderNav> */}
 
-        <StyledHeaderToggle $isHome={isHome} $isOpen={open} onClick={toggle}>
+        <StyledHeaderDate>
+          [Oct 1-31, {new Date(trackingStart).getFullYear()}]
+        </StyledHeaderDate>
+
+        {/* <StyledHeaderToggle $isOpen={open} onClick={toggle}>
           Menu
-        </StyledHeaderToggle>
+        </StyledHeaderToggle> */}
       </StyledHeaderContainer>
     </StyledHeader>
   );
