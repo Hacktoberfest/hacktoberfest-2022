@@ -3,78 +3,83 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body16, body20 } from 'themes/typography';
+import { textBase, textXl } from 'themes/typography';
 
 export const StyledCardCallout = styled.div`
-  --offset: 0;
-  --square: 28, 28, 28;
-
-  padding: var(--offset);
-  position: relative;
-  color: ${({ theme }) => theme.colors.dark};
-  isolation: isolate;
-
-  ${mQ(bp.desktop)} {
-    --offset: 24px;
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      background: linear-gradient(
-        90deg,
-        rgba(var(--square), 1) 0%,
-        rgba(var(--square), 1) calc(0% + var(--offset)),
-        rgba(var(--square), 0) calc(0% + var(--offset)),
-        rgba(var(--square), 0) calc(100% - var(--offset)),
-        rgba(var(--square), 1) calc(100% - var(--offset))
-      );
-      width: 100%;
-      height: var(--offset);
-      left: 0;
-    }
-
-    &::before {
-      top: 0;
-    }
-
-    &::after {
-      bottom: 0;
-    }
-  }
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors2025.eastBay};
+  display: flex;
 `;
 
 export const StyledCardCalloutContainer = styled.div`
-  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 24px 32px 32px 32px;
   position: relative;
+
+  ${mQ(bp.tablet)} {
+    padding: 32px 40px 40px 40px;
+  }
+`;
+
+export const StyledCardCalloutWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  > img {
+    width: 48px;
+    height: 48px;
+    filter: drop-shadow(
+      0px 0px 4px
+        rgb(from ${({ theme }) => theme.colors2025.melrose} r g b / 0.65)
+    );
+  }
 `;
 
 export const StyledCardCalloutContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
   align-items: flex-start;
 `;
 
 export const StyledCardCalloutTitle = styled.h2`
-  ${body16}
-
-  ${mQ(bp.desktop)} {
-    ${body20}
-  }
+  ${textXl}
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors2025.space.white};
 `;
 
 export const StyledCardCalloutBody = styled.p`
-  ${body16}
+  ${textBase}
 
-  ${mQ(bp.desktop)} {
-    ${body20}
+  a {
+    position: relative;
+    display: inline-block;
+    color: ${({ theme }) => theme.colors2025.lavendar};
+    text-decoration: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background-color: ${({ theme }) => theme.colors2025.lavendar};
+      bottom: 0;
+      left: 0;
+      transform-origin: right;
+      transform: scaleX(0);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    &:hover::before {
+      transform-origin: left;
+      transform: scaleX(1);
+    }
   }
 `;
 
-export const StyledCardBackground = styled.div`
-  inset: var(--offset);
-  background-color: ${({ theme }) => theme.colors.green};
-  content: '';
-  position: absolute;
+export const StyledCardCalloutLink = styled.div`
+  margin-top: auto;
 `;

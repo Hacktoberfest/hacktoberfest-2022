@@ -1,20 +1,22 @@
-import { StyledInputLabel, StyledInput } from './Input.styles';
+import {
+  StyledInputLabel,
+  StyledInput,
+  StyledInputContainer,
+} from './Input.styles';
 
-const Input = (props) => {
-  const { name, label, type = 'text', isDark, ...input } = props;
-
-  return (
-    <div>
-      <StyledInputLabel htmlFor={name}>{label}</StyledInputLabel>
-      <StyledInput
-        id={name}
-        name={name}
-        type={type}
-        $isDark={isDark}
-        {...input}
-      />
-    </div>
-  );
-};
+const Input = ({ name, label, type = 'text', required = false, ...input }) => (
+  <StyledInputContainer>
+    <StyledInputLabel htmlFor={name}>
+      {label} {required && <span>*</span>}
+    </StyledInputLabel>
+    <StyledInput
+      id={name}
+      name={name}
+      type={type}
+      required={required}
+      {...input}
+    />
+  </StyledInputContainer>
+);
 
 export default Input;

@@ -1,24 +1,27 @@
-import TextLink from 'components/TextLink';
 import {
   StyledCardCallout,
-  StyledCardCalloutImage,
   StyledCardCalloutContent,
   StyledCardCalloutTitle,
   StyledCardCalloutBody,
   StyledCardCalloutContainer,
-  StyledCardBackground,
+  StyledCardCalloutWrap,
+  StyledCardCalloutLink,
 } from './CardCallout.styles';
 import ButtonMain from 'components/ButtonMain';
 
-const CardCallout = ({ title, body, link }) => (
+const CardCallout = ({ icon, title, body, link }) => (
   <StyledCardCallout>
-    <StyledCardBackground />
     <StyledCardCalloutContainer>
-      <StyledCardCalloutContent>
-        {title && <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>}
-        {body && <StyledCardCalloutBody>{body}</StyledCardCalloutBody>}
+      <StyledCardCalloutWrap>
+        {icon}
+        <StyledCardCalloutContent>
+          {title && <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>}
+          {body && <StyledCardCalloutBody>{body}</StyledCardCalloutBody>}
+        </StyledCardCalloutContent>
+      </StyledCardCalloutWrap>
+      <StyledCardCalloutLink>
         <ButtonMain {...link} />
-      </StyledCardCalloutContent>
+      </StyledCardCalloutLink>
     </StyledCardCalloutContainer>
   </StyledCardCallout>
 );

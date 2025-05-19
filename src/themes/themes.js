@@ -1,5 +1,11 @@
-import { Space_Grotesk } from 'next/font/google';
+import {
+  Space_Grotesk,
+  Atkinson_Hyperlegible,
+  Atkinson_Hyperlegible_Mono,
+} from 'next/font/google';
 import { createGlobalStyle } from 'styled-components';
+import bgGrain from 'assets/img/bg-grain.png';
+import bgFooter from 'assets/img/bg-footer.svg';
 
 const SpaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -8,7 +14,31 @@ const SpaceGrotesk = Space_Grotesk({
   adjustFontFallback: false,
 });
 
+const AtkinsonHyperlegible = Atkinson_Hyperlegible({
+  subsets: ['latin'],
+  display: 'swap',
+  fallback: ['sans-serif'],
+  adjustFontFallback: false,
+  weight: ['400', '700'],
+});
+
 export const mainTheme = {
+  colors2025: {
+    void: '#1C1C3F',
+    space: {
+      white: '#FFFFFF',
+      gray: '#F2F4F7',
+      dust: '#D0CCE3',
+      haze: '#5E577C',
+    },
+    melrose: '#C2C2FF',
+    lavendar: '#A0A0FF',
+    blueViolet: '#5A5AB5',
+    eastBay: '#403F7D',
+    typography: '#D0CCE3',
+    error: '#FF4C6C',
+    success: '#B4FF39',
+  },
   colors: {
     darkGreen: '#183717',
     green: '#50DA4C',
@@ -31,7 +61,7 @@ const GlobalStyle = createGlobalStyle`
   html,
   body {
     box-sizing: border-box;
-    font-family: ${SpaceGrotesk.style.fontFamily}, sans-serif;
+    font-family: ${AtkinsonHyperlegible.style.fontFamily}, sans-serif;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -40,8 +70,25 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${({ theme }) => theme.colors.cream};
-    color: ${({ theme }) => theme.colors.dark};
+    position: relative;
+    background-color: ${({ theme }) => theme.colors2025.void};
+    background-image: url(${bgFooter.src});
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: 1786px auto;
+    color: ${({ theme }) => theme.colors2025.space.dust};
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url(${bgGrain.src});
+    background-size: 200px 200px;
+    opacity: .18;
+    pointer-events: none;
+    z-index: 0;
   }
 
   ::selection {
@@ -117,7 +164,8 @@ const GlobalStyle = createGlobalStyle`
   p {
     font-size: 16px;
     font-weight: 400;
-    line-height: 26px;
+    line-height: 1.25;
+    letter-spacing: 0.16px;
   }
 
   @media (max-width: 600px) {

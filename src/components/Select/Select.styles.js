@@ -1,68 +1,167 @@
 import styled from 'styled-components';
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-import { body20, body24 } from 'themes/typography';
+import { textBase, textSm } from 'themes/typography';
+
+export const StyledInputContainer = styled.div`
+  position: relative;
+`;
 
 export const StyledSelect = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   position: relative;
 
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background-color: ${({ theme }) => theme.colors2025.eastBay};
+    transition: opacity 300ms ease-in-out;
+  }
+
   &::before {
+    background: linear-gradient(
+      90deg,
+      ${({ theme }) => theme.colors2025.blueViolet} 0%,
+      ${({ theme }) => theme.colors2025.melrose} 100%
+    );
+    opacity: 0;
+  }
+
+  &::after {
+    background-color: ${({ theme }) => theme.colors2025.eastBay};
+  }
+
+  &:has(select:hover, select:focus-visible, select:focus-within) {
+    &::before {
+      opacity: 1;
+    }
+
+    &::after {
+      opacity: 0;
+    }
+  }
+
+  ::picker(select) {
+    @supports (appearance: base-select) {
+      appearance: base-select;
+    }
+  }
+
+  select {
+    ${textBase};
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: ${({ theme }) => theme.colors2025.space.white};
+    padding: 8px 0;
+    transition: 0.4s;
+    width: 100%;
+    outline: 0;
+    cursor: pointer;
+
+    @supports (appearance: base-select) {
+      appearance: base-select;
+    }
+
+    &::picker-icon {
+      content: '';
+      background-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.82666 8.51074L10.2461 12.9302L11.13 12.0463L6.71054 7.62686L5.82666 8.51074Z' fill='%23F2F4F7'/%3E%3Cpath d='M10.2461 12.9307L14.6655 8.51125L13.7816 7.62736L9.36221 12.0468L10.2461 12.9307Z' fill='%23F2F4F7'/%3E%3C/svg%3E");
+      width: 21px;
+      height: 21px;
+      transition: 0.4s rotate;
+    }
+
+    &:open::picker-icon {
+      rotate: 180deg;
+    }
+
+    &:has(option:checked:disabled) {
+      color: ${({ theme }) => theme.colors2025.blueViolet};
+    }
+  }
+
+  ::picker(select) {
+    border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+    border-radius: 16px;
+    background: ${({ theme }) => theme.colors2025.void};
+    opacity: 0;
+    transition: all 0.4s allow-discrete;
+    left: 0;
+    top: calc(anchor(bottom) + 12px);
+    max-height: 260px;
+  }
+
+  option {
+    ${textBase};
+    border-bottom: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+    color: ${({ theme }) => theme.colors2025.space.dust};
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 12px;
+    position: relative;
+    transition: 0.4s;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgb(
+        from ${({ theme }) => theme.colors2025.melrose} r g b / 0.08
+      );
+      color: ${({ theme }) => theme.colors2025.space.white};
+    }
+
+    &:checked {
+      background-color: ${({ theme }) => theme.colors2025.eastBay};
+      color: ${({ theme }) => theme.colors2025.space.white};
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  option::checkmark {
+    order: 1;
     content: '';
     position: absolute;
     top: 50%;
     right: 24px;
+    width: 8px;
+    height: 8px;
+    background: ${({ theme }) => theme.colors2025.eastBay};
     transform: translateY(-50%);
-    background: url('data:image/svg+xml,<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.50563 10.2556C7.05481 9.70646 7.94519 9.70646 8.49437 10.2556L15 16.7613L21.5056 10.2556C22.0548 9.70646 22.9452 9.70646 23.4944 10.2556C24.0435 10.8048 24.0435 11.6952 23.4944 12.2444L15.9944 19.7444C15.4452 20.2935 14.5548 20.2935 14.0056 19.7444L6.50563 12.2444C5.95646 11.6952 5.95646 10.8048 6.50563 10.2556Z" fill="%231c1c1c"/></svg>');
-    width: 30px;
-    height: 30px;
-    z-index: 1;
-    pointer-events: none;
-
-    ${({ $isDark }) =>
-      $isDark &&
-      `
-      filter: invert(1);
-    `}
+    border-radius: 50%;
+    opacity: 0;
   }
 
-  select {
-    ${body20}
-    appearance: none;
-    background: transparent;
-    border: 1px solid currentColor;
-    color: currentColor;
-    font-weight: 500;
-    margin: 0;
-    padding: 12px 78px 12px 24px;
-    width: 100%;
+  ::picker(select):popover-open {
+    opacity: 1;
+  }
 
-    ${mQ(bp.desktop)} {
-      padding: 16px 78px 16px 24px;
+  @starting-style {
+    ::picker(select):popover-open {
+      opacity: 0;
     }
-
-    &:focus {
-      outline: 0;
-    }
-
-    &:focus-visible {
-      outline: 0;
-      box-shadow: ${({ theme }) =>
-        `-1px -1px 10px 0px ${theme.colors.deepPink}, 1px 1px 10px 0px ${theme.colors.deepPink}`};
-      color: ${({ theme }) => theme.colors.deepPink};
-    }
-
-    &::placeholder {
-      color: currentColor;
-    }
+  }
+  ::picker(select) {
   }
 `;
 
 export const StyledSelectLabel = styled.label`
-  ${body24}
-  color: currentColor;
-  font-weight: 500;
+  ${textSm};
+  color: ${({ theme }) => theme.colors2025.space.white};
   display: block;
-  margin: 0 0 8px;
+
+  span {
+    color: ${({ theme }) => theme.colors2025.error};
+  }
 `;

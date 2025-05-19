@@ -224,4 +224,17 @@ const Report = () => {
   );
 };
 
+export const getStaticProps = async () => {
+  // This page is not yet ready for public access, so we will return a 404
+  const shouldRender404 = true;
+
+  if (shouldRender404) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return { props: {} };
+};
+
 export default Report;

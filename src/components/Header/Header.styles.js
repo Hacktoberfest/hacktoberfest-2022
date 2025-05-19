@@ -1,37 +1,40 @@
-import Link from 'next/link';
 import styled from 'styled-components';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body16, body18, body32, headline32 } from 'themes/typography';
 
 export const StyledHeader = styled.header`
-  padding: 12px 0;
-  position: ${({ $isOpen }) => ($isOpen ? 'fixed' : 'absolute')};
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 100;
-  color: ${({ $isHome, theme }) =>
-    $isHome ? theme.colors.darkGreen : theme.colors.typography};
+  color: ${({ theme }) => theme.colors2025.space.white};
 
-  ${mQ(bp.desktop)} {
-    padding: 40px 0;
-    position: absolute;
+  ${mQ(bp.tablet)} {
+    top: 24px;
+    padding: 12px 24px;
   }
 `;
 
 export const StyledHeaderContainer = styled.div`
-  max-width: 1328px;
+  max-width: 1088px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+  background-color: rgb(
+    from ${({ theme }) => theme.colors2025.void} r g b / 0.15
+  );
+  backdrop-filter: blur(15px);
 
-  ${mQ(bp.desktop)} {
-    padding: 0 24px;
+  ${mQ(bp.tablet)} {
+    border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+    border-radius: 16px;
+    padding: 16px 26px;
   }
 `;
 
@@ -41,10 +44,10 @@ export const StyledHeaderLogo = styled.div`
 
   img {
     width: auto;
-    height: 40px;
+    height: 24px;
 
-    ${mQ(bp.desktop)} {
-      height: 80px;
+    ${mQ(bp.tablet)} {
+      height: 32px;
     }
   }
 `;
@@ -77,45 +80,9 @@ export const StyledHeaderNav = styled.nav`
       margin-left: auto;
     }
   }
-`;
 
-export const StyledHeaderLink = styled(Link)`
-  ${body32}
-  position: relative;
-  text-decoration: none;
-  color: inherit;
-
-  ${mQ(bp.desktop)} {
-    ${body16}
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  &::before {
-    content: '>';
-    color: ${({ theme }) => theme.colors.pink};
-
-    ${mQ(bp.desktop)} {
-      display: none;
-    }
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: currentColor;
-    transform: scaleX(0);
-    transition: transform 300ms ease-in-out;
-  }
-
-  &:hover {
-    &::after {
-      transform: scaleX(1);
-    }
+  a {
+    color: ${({ theme }) => theme.colors2025.space.white};
   }
 `;
 
@@ -172,4 +139,10 @@ export const StyledHeaderToggle = styled.button`
       transform: translate(-50%);
     `}
   }
+`;
+
+export const StyledHeaderDate = styled.p`
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 700;
+  text-transform: uppercase;
 `;
