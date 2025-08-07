@@ -395,6 +395,8 @@ const StyledPartnerLogos = styled.div`
 const StyledDivider = styled(Divider)`
   color: ${({ theme }) => theme.colors2025.eastBay};
   display: none;
+  grid-column: full-start / full-end;
+  width: 100%;
 
   ${mQ(bp.desktop)} {
     display: block;

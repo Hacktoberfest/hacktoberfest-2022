@@ -15,7 +15,8 @@ export const StyledFooter = styled.footer`
 
   ${mQ(bp.tablet)} {
     gap: 80px 0;
-    padding: 168px 0 128px 0;
+    padding: 168px 0
+      ${({ $isEasterEggVisible }) => ($isEasterEggVisible ? 0 : '128px')} 0;
   }
 
   > * {
@@ -154,6 +155,7 @@ export const StyledSvg = styled.svg`
 
   ${mQ(bp.largeDesktop)} {
     display: block;
+    grid-column: full-start / full-end;
     margin: 0 auto;
   }
 `;
