@@ -1,7 +1,9 @@
 import { StyledContainer } from './Container.styles';
 
-const Container = ({ children, inner = false }) => (
-  <StyledContainer $isInner={inner}>{children}</StyledContainer>
+const Container = ({ children, inner = false, ...props }) => (
+  <StyledContainer {...props} $isInner={inner}>
+    {children}
+  </StyledContainer>
 );
 
 export default Container;

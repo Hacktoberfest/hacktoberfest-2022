@@ -6,6 +6,11 @@ import {
 import { textBase, textXl } from 'themes/typography';
 
 export const StyledCardCallout = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0) 0%,
+    rgb(from ${({ theme }) => theme.colors2025.blueViolet} r g b / 0.15) 100%
+  );
   border-radius: 16px;
   box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors2025.eastBay};
   display: flex;
@@ -15,11 +20,11 @@ export const StyledCardCalloutContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 24px 32px 32px 32px;
+  padding: 32px;
   position: relative;
 
   ${mQ(bp.tablet)} {
-    padding: 32px 40px 40px 40px;
+    padding: 40px;
   }
 `;
 

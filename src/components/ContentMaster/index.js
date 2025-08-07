@@ -25,10 +25,11 @@ const ContentMaster = (props) => {
     listColumns,
     links,
     cta,
+    ...rest
   } = props;
 
   return (
-    <StyledContentMaster $align={align}>
+    <StyledContentMaster $align={align} {...rest}>
       {(eyebrow || title) && (
         <StyledContentMasterHeader>
           {eyebrow && (

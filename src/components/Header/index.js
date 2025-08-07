@@ -1,17 +1,27 @@
 import Link from 'next/link';
 
-import { currentHacktoberfest, trackingStart } from 'lib/config';
+import { currentHacktoberfest, registrationStart } from 'lib/config';
 
 import {
   StyledHeader,
   StyledHeaderContainer,
-  StyledHeaderDate,
   StyledHeaderLogo,
+  StyledHeaderNav,
+  StyledHeaderToggle,
 } from './Header.styles';
 
 import hacktoberfestLogo from 'assets/img/logo-hacktoberfest-12--nav.svg';
+import CustomLink from '../CustomLink';
+import ButtonMain from '../ButtonMain';
+import useCountdown from '../../hooks/useCountdown';
+import { useMemo } from 'react';
 
 const Header = () => {
+  const hasRegistrationStarted = useMemo(
+    () => new Date() >= new Date(registrationStart),
+    [],
+  );
+
   return (
     <StyledHeader>
       <StyledHeaderContainer>
@@ -26,38 +36,48 @@ const Header = () => {
           </Link>
         </StyledHeaderLogo>
 
-        {/* <StyledHeaderNav $isOpen={open}>
-          <CustomLink href="/participation">
-            Participation
-          </CustomLink>
-          <CustomLink href="/events">Events</CustomLink>
-          <CustomLink href="/donate">Donate</CustomLink>
-          <CustomLink href="/about">About</CustomLink>
-          <CustomLink
-            href="https://discord.gg/hacktoberfest"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Discord
-          </CustomLink>
-          {hasProfile && (
-            <ButtonMain
-              href="/auth"
-              passHref
-              variant="primary"
+        {/*<StyledHeaderNav $isOpen={open}>*/}
+        <StyledHeaderNav>
+          <div>
+            <CustomLink $isTopNav href="/participation">
+              Participation
+            </CustomLink>
+            <CustomLink $isTopNav href="/events">
+              Events
+            </CustomLink>
+            <CustomLink $isTopNav href="/donate">
+              Donate
+            </CustomLink>
+            <CustomLink $isTopNav href="/about">
+              About
+            </CustomLink>
+            <CustomLink
+              $isTopNav
+              href="https://discord.gg/hacktoberfest"
+              target="_blank"
+              rel="noreferrer noopener"
             >
-              {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}
+              Discord
+            </CustomLink>
+          </div>
+          {/*{hasProfile && (*/}
+          {/*  <ButtonMain*/}
+          {/*    href="/auth"*/}
+          {/*    passHref*/}
+          {/*    variant="primary"*/}
+          {/*  >*/}
+          {/*    {hasRegistrationEnded ? 'View Profile' : 'Start Hacking'}*/}
+          {/*  </ButtonMain>*/}
+          {/*)}*/}
+          {hasRegistrationStarted && (
+            <ButtonMain href="/auth" passHref variant="primary">
+              Start Hacking
             </ButtonMain>
           )}
-        </StyledHeaderNav> */}
+        </StyledHeaderNav>
 
-        <StyledHeaderDate>
-          [Oct 1-31, {new Date(trackingStart).getFullYear()}]
-        </StyledHeaderDate>
-
-        {/* <StyledHeaderToggle $isOpen={open} onClick={toggle}>
-          Menu
-        </StyledHeaderToggle> */}
+        {/*<StyledHeaderToggle $isOpen={open} onClick={toggle}>*/}
+        <StyledHeaderToggle>Menu</StyledHeaderToggle>
       </StyledHeaderContainer>
     </StyledHeader>
   );

@@ -148,3 +148,12 @@ export const StyledFooterCopyright = styled.ul`
     }
   }
 `;
+
+export const StyledSvg = styled.svg`
+  display: none;
+
+  ${mQ(bp.largeDesktop)} {
+    display: block;
+    margin: 0 auto;
+  }
+`;

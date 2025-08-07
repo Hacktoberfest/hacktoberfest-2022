@@ -119,7 +119,11 @@ const SponsorForm = () => {
             </p>
           </StyledFormHeader>
 
-          <form id={`mktoForm_${formId}`} aria-hidden="true" />
+          <form
+            id={`mktoForm_${formId}`}
+            aria-hidden="true"
+            style={{ display: 'none', width: '100%' }}
+          />
 
           <StyledFormWrapper>
             <Form

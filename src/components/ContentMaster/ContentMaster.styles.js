@@ -88,12 +88,9 @@ export const StyledContentMasterBody = styled.div`
   }
 
   a {
+    color: ${({ theme }) => theme.colors2025.lavendar};
     text-decoration: underline;
     text-underline-offset: 4px;
-
-    &:hover {
-      text-decoration: none;
-    }
   }
 `;
 

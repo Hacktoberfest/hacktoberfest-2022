@@ -8,6 +8,7 @@ import {
   StyledCardCalloutLink,
 } from './CardCallout.styles';
 import ButtonMain from 'components/ButtonMain';
+import TextLink from '../TextLink';
 
 const CardCallout = ({ icon, title, body, link }) => (
   <StyledCardCallout>
@@ -19,9 +20,11 @@ const CardCallout = ({ icon, title, body, link }) => (
           {body && <StyledCardCalloutBody>{body}</StyledCardCalloutBody>}
         </StyledCardCalloutContent>
       </StyledCardCalloutWrap>
-      <StyledCardCalloutLink>
-        <ButtonMain {...link} />
-      </StyledCardCalloutLink>
+      {link && (
+        <StyledCardCalloutLink>
+          <TextLink {...link} />
+        </StyledCardCalloutLink>
+      )}
     </StyledCardCalloutContainer>
   </StyledCardCallout>
 );

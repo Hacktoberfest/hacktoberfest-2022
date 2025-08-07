@@ -1,4 +1,4 @@
-import { StyledTextLink, StyledTextLinkArrow } from './TextLink.styles';
+import { StyledTextLink } from './TextLink.styles';
 
 const TextLink = (props) => {
   const { children, size = 'sm', ...link } = props;
@@ -6,11 +6,12 @@ const TextLink = (props) => {
   return (
     <StyledTextLink {...link} $size={size}>
       <span>{children}</span>
-      <StyledTextLinkArrow aria-hidden>
-        <span>›</span>
-        <span>›</span>
-        <span>›</span>
-      </StyledTextLinkArrow>
+      <svg viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M14.668 6.36751V5.03418H14.0013V3.70085H13.3346V3.03418H12.668V2.36751H11.3346V1.70085H10.0013V1.03418H6.0013V1.70085H4.66797V2.36751H3.33464V3.03418H2.66797V3.70085H2.0013V5.03418H1.33464V6.36751H0.667969V10.3675H1.33464V11.7008H2.0013V13.0342H2.66797V13.7008H3.33464V14.3675H4.66797V15.0342H6.0013V15.7008H10.0013V15.0342H11.3346V14.3675H12.668V13.7008H13.3346V13.0342H14.0013V11.7008H14.668V10.3675H15.3346V6.36751H14.668ZM10.668 9.70085H10.0013V10.3675H9.33463V11.0342H8.66797V11.7008H8.0013V9.03418H4.0013V7.70085H8.0013V5.03418H8.66797V5.70085H9.33463V6.36751H10.0013V7.03418H10.668V7.70085H11.3346V9.03418H10.668V9.70085Z"
+          fill="currentColor"
+        />
+      </svg>
     </StyledTextLink>
   );
 };

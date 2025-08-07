@@ -1,4 +1,3 @@
-import Corners from 'components/Corners';
 import { StyledCorners } from 'components/Corners/Corners.styles';
 import Link from 'next/link';
 import styled, { css, keyframes } from 'styled-components';
