@@ -17,7 +17,7 @@ import amd from 'assets/img/sponsors/amd.svg';
 import cloudNative from 'assets/img/partners/cloud-native.svg';
 import dev from 'assets/img/partners/dev.svg';
 import github from 'assets/img/partners/github.svg';
-import githubEducation from 'assets/img/partners/github-education.svg';
+import githubEducation from 'assets/img/partners/github-education.png';
 import gitlab from 'assets/img/partners/gitlab.svg';
 import holopin from 'assets/img/partners/holopin.svg';
 import mlh from 'assets/img/partners/mlh.svg';
