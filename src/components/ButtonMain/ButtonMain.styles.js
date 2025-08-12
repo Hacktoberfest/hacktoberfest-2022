@@ -43,7 +43,7 @@ export const StyledButtonMain = styled(Link)`
         width: 32px;
         padding: 0;
       `
-      }
+      };
 
       &:hover {
         background: linear-gradient(270deg, ${theme.colors2025.melrose} 0%, ${theme.colors2025.blueViolet} 100%);
