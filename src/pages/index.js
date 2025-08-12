@@ -302,7 +302,7 @@ const StyledPartnerLogos = styled.div`
 
     :nth-child(3) {
       max-height: 12px;
-      max-width: 150px;
+      max-width: 63px;
       min-width: 62px;
 
       ${mQ(bp.desktop)} {
