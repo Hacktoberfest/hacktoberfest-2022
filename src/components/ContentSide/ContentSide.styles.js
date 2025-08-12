@@ -11,7 +11,9 @@ export const StyledContentSide = styled.div`
   gap: 24px;
 
   ${mQ(bp.desktop)} {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 64px;
+    ${({ $align }) => $align === 'center' && 'align-items: center;'}
+    grid-template-columns: minmax(auto, ${({ $size }) =>
+      $size === 'small' ? 0 : '400px'}) 1fr;
+    gap: ${({ $size }) => ($size === 'small' ? '16px' : '48px')};
   }
 `;

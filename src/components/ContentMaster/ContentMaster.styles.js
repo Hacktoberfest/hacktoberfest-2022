@@ -61,6 +61,8 @@ export const StyledContentMasterBody = styled.div`
       ${({ $size }) => $size === 'xl2' && textLg};
       ${({ $size }) => $size === 'xl' && textXl};
     }
+
+    ${({ $color }) => $color && `color: ${$color};`}
   }
 
   p {
@@ -71,11 +73,23 @@ export const StyledContentMasterBody = styled.div`
     }
   }
 
-  ul {
+  ul,
+  ol {
     display: flex;
     gap: 16px;
     flex-direction: column;
+    padding-left: 20px;
+  }
+
+  ul {
     list-style-type: disc;
+  }
+
+  ol ol {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style-type: lower-alpha;
     padding-left: 20px;
   }
 
@@ -107,7 +121,7 @@ export const StyledContentMasterCta = styled.div`
 `;
 
 export const StyledContentMasterList = styled.ul`
-  list-style-type: disc;
+  list-style-type: square;
   padding-left: 20px;
 
   ${({ $columns }) =>
@@ -120,6 +134,14 @@ export const StyledContentMasterList = styled.ul`
       display: block;
       column-count: 2;
       column-gap: 64px;
+      
+      li {
+        margin-bottom: 16px;
+      }
+      
+      li:nth-child(4), li:last-child {
+        margin-bottom: 0;
+      }
     }
   `
       : `
@@ -130,10 +152,6 @@ export const StyledContentMasterList = styled.ul`
 
   li {
     ${body16}
-
-    ${mQ(bp.desktop)} {
-      ${body20}
-    }
   }
 
   strong {

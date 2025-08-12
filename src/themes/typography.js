@@ -31,14 +31,14 @@ export const headline90 = css`
 `;
 
 export const headline56 = css`
-  font-size: 36px;
+  font-size: 40px;
   font-style: normal;
   font-weight: 400;
-  line-height: 40px; /* 111.111% */
+  line-height: 50px; /* 125% */
 
   ${mQ(bp.desktop)} {
     font-size: 56px;
-    line-height: 60px; /* 107.143% */
+    line-height: 64px; /* 114.286% */
   }
 `;
 

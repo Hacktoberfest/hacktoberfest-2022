@@ -47,4 +47,21 @@ export const StyledDivider = styled.div`
       top: 0;
     }
   `};
+
+  ${({ $type }) =>
+    $type === 'solid' &&
+    `
+    height: 1px;
+
+    &::before {
+      background-image: linear-gradient(90deg, currentColor, currentColor 100%);
+
+      content: '';
+      position: absolute;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      top: 0;
+    }
+  `};
 `;

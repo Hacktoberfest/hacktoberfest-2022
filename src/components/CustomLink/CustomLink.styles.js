@@ -7,6 +7,7 @@ import { StyledCorners } from 'components/Corners/Corners.styles';
 export const StyledCustomLink = styled(Link)`
   ${textSm};
   color: ${({ theme }) => theme.colors2025.lavendar};
+  display: inline-flex;
   position: relative;
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 700;
@@ -71,6 +72,16 @@ export const StyledCustomLinkContent = styled.div`
       border: 1px solid currentColor;
       border-left: 0;
       border-bottom: 0;
+      transition: transform 300ms ease-in-out;
+      transform: translateX(0);
     }
+    
+    &:hover,
+    &:focus {
+      &::after {
+        transform: translateX(5px);
+      }
+    }
+
   `};
 `;

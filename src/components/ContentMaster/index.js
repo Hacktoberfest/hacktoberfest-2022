@@ -25,6 +25,7 @@ const ContentMaster = (props) => {
     listColumns,
     links,
     cta,
+    bodyColor,
     ...rest
   } = props;
 
@@ -45,7 +46,7 @@ const ContentMaster = (props) => {
         </StyledContentMasterHeader>
       )}
       {children && (
-        <StyledContentMasterBody $size={size}>
+        <StyledContentMasterBody $color={bodyColor} $size={size}>
           <Markdown string={children} />
         </StyledContentMasterBody>
       )}
