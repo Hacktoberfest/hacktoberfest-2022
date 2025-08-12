@@ -182,26 +182,8 @@ export const StyledPoweredByLogo = styled(Image)`
   height: auto;
   filter: drop-shadow(0 0 8px rgba(194, 194, 255, 0.5));
 
-  &:last-of-type {
-    max-width: 74px;
-  }
-
   ${mQ(bp.desktop)} {
     max-width: 137px;
-
-    &:last-of-type {
-      max-width: 64px;
-    }
-  }
-`;
-
-export const StyledColumns = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-
-  ${mQ(bp.tablet)} {
-    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
@@ -248,16 +230,6 @@ const StyledLogoContainer = styled.div`
   }
 
   &:first-of-type {
-    max-height: 19px;
-    max-width: 308px;
-    min-width: 112px;
-
-    ${mQ(bp.desktop)} {
-      max-height: 51px;
-    }
-  }
-
-  &:last-of-type {
     max-height: 28px;
     max-width: 192px;
     min-width: 101px;
@@ -626,12 +598,6 @@ const Home = () => {
                   width={161}
                   height={29}
                 />
-                <StyledPoweredByLogo
-                  src={amd}
-                  alt="AMD"
-                  width={74}
-                  height={23}
-                />
               </StyledPoweredBy>
             </StyledHeroContent>
           </Container>
@@ -661,9 +627,6 @@ const Home = () => {
                   titleAs="h3"
                 />
                 <StyledSponsorLogos>
-                  <StyledLogoContainer>
-                    <Image src={logoDigitalOcean} alt="DigitalOcean" />
-                  </StyledLogoContainer>
                   <StyledLogoContainer>
                     <Image src={amd} alt="AMD" />
                   </StyledLogoContainer>

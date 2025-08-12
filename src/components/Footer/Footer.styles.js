@@ -4,6 +4,7 @@ import {
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 import { textSm } from 'themes/typography';
+import Image from 'next/image';
 
 export const StyledFooter = styled.footer`
   display: grid;
@@ -150,12 +151,35 @@ export const StyledFooterCopyright = styled.ul`
   }
 `;
 
-export const StyledSvg = styled.svg`
+export const StyledEasterEggContainer = styled.div`
   display: none;
 
   ${mQ(bp.largeDesktop)} {
     display: block;
     grid-column: full-start / full-end;
     margin: 0 auto;
+    position: relative;
   }
+`;
+
+export const StyledAlienContainer = styled.div`
+  top: ${({ $isVisible }) => ($isVisible ? '50%' : '-283px')};
+  opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition:
+    top 1s ease-out,
+    opacity 1s ease-out;
+`;
+
+export const StyledFlagImage = styled(Image)`
+  left: ${({ $isVisible }) => ($isVisible ? '172px' : '0')};
+  opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition:
+    left 1s ease-out,
+    opacity 1s ease-out;
 `;
