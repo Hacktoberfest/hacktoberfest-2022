@@ -87,7 +87,7 @@ const bubbleUp = keyframes`
 export const StyledHome = styled.div`
   position: relative;
   isolation: isolate;
-  overflow-x: hidden;
+  overflow: hidden;
 `;
 
 export const StyledHero = styled.div`
