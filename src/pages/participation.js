@@ -98,7 +98,7 @@ const StyledDesktopCardCallout = styled(CardCallout)`
   display: none !important;
 
   ${mQ(bp.desktop)} {
-    display: flex;
+    display: flex !important;
   }
 `;
 
