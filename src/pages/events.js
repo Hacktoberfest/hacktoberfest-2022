@@ -40,6 +40,11 @@ export const StyledEvents = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 48px;
+  padding: 0;
+
+  ul {
+    padding: 0;
+  }
 `;
 
 const StyledDivider = styled(Divider)`
@@ -76,6 +81,32 @@ const StyledBrandHeader = styled.div`
     flex-direction: column;
     gap: 32px;
     width: 304px;
+  }
+`;
+
+const StyledContentMaster = styled(ContentMaster)`
+  text-align: left;
+
+  ${mQ(bp.desktop)} {
+    text-align: center;
+  }
+`;
+
+const StyledMobileAccordionSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  ${mQ(bp.desktop)} {
+    display: none;
+  }
+`;
+
+const StyledDesktopCardCallout = styled(CardCallout)`
+  display: none !important;
+
+  ${mQ(bp.desktop)} {
+    display: flex;
   }
 `;
 
@@ -144,15 +175,32 @@ const Events = () => {
           <Container>
             <StyledSectionSpacing>
               <Container inner>
-                <ContentMaster
-                  align="center"
-                  size="lg"
-                  title={eventOrganizers.title}
-                >
+                <StyledContentMaster size="lg" title={eventOrganizers.title}>
                   {eventOrganizers.content}
-                </ContentMaster>
+                </StyledContentMaster>
               </Container>
-              <CardCallout
+              <StyledMobileAccordionSection>
+                <StyledContentMaster
+                  size="lg"
+                  title={organize.title}
+                  $collapsTopPadding
+                />
+                {organize.sections.map((section, index) => (
+                  <React.Fragment key={section.title}>
+                    <Accordion title={section.title} collapsed>
+                      {section.items && (
+                        <ContentMaster size="md">
+                          {section.items[0]}
+                        </ContentMaster>
+                      )}
+                    </Accordion>
+                    {index !== organize.sections.length - 1 && (
+                      <StyledDivider type="solid" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </StyledMobileAccordionSection>
+              <StyledDesktopCardCallout
                 title={<ContentMaster size="lg" title={organize.title} />}
                 bodyGap="lg"
               >
@@ -170,21 +218,21 @@ const Events = () => {
                     )}
                   </React.Fragment>
                 ))}
-              </CardCallout>
+              </StyledDesktopCardCallout>
             </StyledSectionSpacing>
           </Container>
         </Section>
 
         <Section id="register">
           <StyledContainer inner>
-            <ContentMaster
+            <StyledContentMaster
               align="center"
               size="lg"
               title={register.title}
               cta={register.cta}
             >
               {register.content}
-            </ContentMaster>
+            </StyledContentMaster>
             <StyledCornersWrapper>
               <Corners />
             </StyledCornersWrapper>
