@@ -45,7 +45,6 @@ export const mainTheme = {
 };
 
 const GlobalStyle = createGlobalStyle`
-  *,
   html,
   body {
     box-sizing: border-box;

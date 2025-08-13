@@ -15,6 +15,7 @@ export const StyledHeader = styled.header`
   ${mQ(bp.tablet)} {
     top: 24px;
     padding: 12px 24px;
+    width: calc(100% - 48px);
   }
 `;
 
@@ -86,63 +87,15 @@ export const StyledHeaderNav = styled.nav`
   }
 `;
 
-export const StyledHeaderToggle = styled.button`
-  overflow: hidden;
-  text-indent: -9999px;
-  width: 32px;
-  height: 32px;
-  position: relative;
-  z-index: 5;
+export const StyledHeaderToggle = styled.div`
   margin-left: auto;
 
   ${mQ(bp.desktop)} {
     display: none;
   }
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 75%;
-    height: 2px;
-    background-color: ${({ $isOpen, $isHome, theme }) =>
-      $isHome && !$isOpen ? theme.colors.darkGreen : theme.colors.pink};
-    transition:
-      transform 500ms ease-in-out,
-      top 500ms ease-in-out;
+  svg {
+    width: 16px;
+    height: 10px;
   }
-
-  &::before {
-    ${({ $isOpen }) =>
-      $isOpen
-        ? `
-      top: calc(50%);
-      transform: translate(-50%) rotate(45deg);
-    `
-        : `
-      top: calc(50% - 4px);
-      transform: translate(-50%);
-    `}
-  }
-
-  &::after {
-    ${({ $isOpen }) =>
-      $isOpen
-        ? `
-      top: calc(50%);
-      transform: translate(-50%) rotate(-45deg);
-    `
-        : `
-      top: calc(50% + 4px);
-      transform: translate(-50%);
-    `}
-  }
-`;
-
-export const StyledHeaderDate = styled.p`
-  font-family: 'Atkinson Hyperlegible Mono';
-  font-weight: 700;
-  text-transform: uppercase;
 `;

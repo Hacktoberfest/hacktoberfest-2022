@@ -77,7 +77,17 @@ const Header = () => {
         </StyledHeaderNav>
 
         {/*<StyledHeaderToggle $isOpen={open} onClick={toggle}>*/}
-        <StyledHeaderToggle>Menu</StyledHeaderToggle>
+        <StyledHeaderToggle>
+          <ButtonMain as="button" size="xs" onClick={() => {}}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 10"
+              fill="none"
+            >
+              <path d="M16 10H0V9H16V10ZM16 1H0V0H16V1Z" fill="white" />
+            </svg>
+          </ButtonMain>
+        </StyledHeaderToggle>
       </StyledHeaderContainer>
     </StyledHeader>
   );
