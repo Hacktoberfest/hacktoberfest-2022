@@ -7,20 +7,18 @@ import {
   eventOrganizers,
   globalEvents,
   organize,
-  organizeDisclaimer,
   register,
 } from 'lib/events';
 
 import Divider from 'components/Divider';
 import Section from 'components/Section';
-import DorknamicIsland from 'components/dorknamic-island';
 
 import HeroSecondary from 'components/HeroSecondary';
 import SpotHeader from 'components/SpotHeader';
 import Container from 'components/Container';
 
-import asciiEvents from 'assets/img/ascii-events.svg';
-import asciiBrandKit from 'assets/img/ascii-brandkit.svg';
+import hero from 'assets/img/heroes/events.svg';
+import potion from 'assets/img/potion.svg';
 import Accordion from 'components/Accordion';
 import ContentMaster from 'components/ContentMaster';
 
@@ -31,30 +29,54 @@ import {
 import createMetaTitle from 'lib/createMetaTitle';
 import ContentSide from 'components/ContentSide';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
-import SectionDivider from 'components/SectionDivider';
 import { events } from 'lib';
 import Event from 'components/Event';
-
-export const StyledAccordionGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 48px;
-`;
-
-export const StyledPromoteSection = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-
-  ${mQ(bp.tablet)} {
-    grid-template-columns: calc((339 / 1280) * 100%) calc((917 / 1280) * 100%);
-  }
-`;
+import Image from 'next/image';
+import Layout from '../components/Layout';
+import CardCallout from '../components/CardCallout';
+import Corners from '../components/Corners';
 
 export const StyledEvents = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 48px;
+`;
+
+const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+`;
+
+const StyledSectionDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+  width: 100%;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+  }
+`;
+
+const StyledContainer = styled(Container)`
+  position: relative;
+`;
+
+const StyledCornersWrapper = styled.div`
+  display: none;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+  }
+`;
+
+const StyledBrandHeader = styled.div`
+  display: flex;
+  gap: 16px;
+
+  ${mQ(bp.desktop)} {
+    flex-direction: column;
+    gap: 32px;
+    width: 304px;
+  }
 `;
 
 const Events = () => {
@@ -76,84 +98,64 @@ const Events = () => {
         />
       </Head>
 
-      <DorknamicIsland>
-        <a href="#events">Events</a>
-        <a href="#organizers">Organizers</a>
-        <a href="#register">Register</a>
-        <a href="#brand">Brand Guidelines</a>
-      </DorknamicIsland>
+      <HeroSecondary title="Events" icon={<Image src={hero} alt="" />} />
 
-      <HeroSecondary
-        title="Events"
-        icon={<img src={asciiEvents.src} alt="" width="608" height="608" />}
-      />
+      <Layout>
+        <Section id="events">
+          <Container>
+            <StyledSectionSpacing $isSmall>
+              <ContentSide>
+                <ContentMaster size="lg" title={globalEvents.title} />
+                <ContentMaster links={[globalEvents.cta]}>
+                  {globalEvents.content}
+                </ContentMaster>
+              </ContentSide>
 
-      <Section id="events">
-        <Container>
-          <StyledSectionSpacing>
-            <ContentSide>
-              <ContentMaster size="xl" title={globalEvents.title} />
-              <ContentMaster links={[globalEvents.cta]}>
-                {globalEvents.content}
-              </ContentMaster>
-            </ContentSide>
+              <StyledDivider type="solid" />
 
-            <Divider type="doubledashed" />
-
-            <StyledEvents>
-              {events.map((event, index) => (
-                <React.Fragment key={event.title}>
-                  <li>
-                    <Event
-                      eyebrow={`[${event.location}]`}
-                      title={event.title}
-                      content={event.content}
-                      date={event.date}
-                      time={event.time}
-                      rsvp={event.rsvp}
-                      buttonVariant="secondary-deep-pink"
-                    />
-                  </li>
-                  {index !== events.length - 1 && (
-                    <li aria-hidden>
-                      <Divider />
+              <StyledEvents>
+                {events.map((event, index) => (
+                  <React.Fragment key={event.title}>
+                    <li>
+                      <Event
+                        location={event.location}
+                        title={event.title}
+                        content={event.content}
+                        date={event.date}
+                        time={event.time}
+                        rsvp={event.rsvp}
+                      />
                     </li>
-                  )}
-                </React.Fragment>
-              ))}
-            </StyledEvents>
+                    {index !== events.length - 1 && (
+                      <li aria-hidden>
+                        <StyledDivider type="solid" />
+                      </li>
+                    )}
+                  </React.Fragment>
+                ))}
+              </StyledEvents>
+            </StyledSectionSpacing>
+          </Container>
+        </Section>
 
-            <Divider type="doubledashed" />
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
+        <StyledSectionDivider />
 
-      <SectionDivider
-        bgColor={theme.colors.green}
-        fgColor={theme.colors.typography}
-        isFlipped
-      />
-
-      <Section id="organizers" bgColor={theme.colors.green}>
-        <Container>
-          <ContentSide>
-            <ContentMaster size="xl" title={eventOrganizers.title} />
-            <ContentMaster>{eventOrganizers.content}</ContentMaster>
-          </ContentSide>
-        </Container>
-      </Section>
-
-      <SectionDivider
-        align="right"
-        bgColor={theme.colors.green}
-        fgColor={theme.colors.typography}
-      />
-
-      <Section>
-        <Container>
-          <StyledSectionSpacing>
-            <StyledAccordionGroup>
-              <div>
+        <Section id="organizers">
+          <Container>
+            <StyledSectionSpacing>
+              <Container inner>
+                <ContentMaster
+                  align="center"
+                  size="lg"
+                  title={eventOrganizers.title}
+                >
+                  {eventOrganizers.content}
+                </ContentMaster>
+              </Container>
+              <CardCallout
+                title={<ContentMaster size="lg" title={organize.title} />}
+                bodyGap="lg"
+              >
                 {organize.sections.map((section, index) => (
                   <React.Fragment key={section.title}>
                     <Accordion title={section.title} collapsed>
@@ -163,77 +165,48 @@ const Events = () => {
                         </ContentMaster>
                       )}
                     </Accordion>
-                    <Divider />
+                    {index !== organize.sections.length - 1 && (
+                      <StyledDivider type="solid" />
+                    )}
                   </React.Fragment>
                 ))}
-              </div>
+              </CardCallout>
+            </StyledSectionSpacing>
+          </Container>
+        </Section>
 
-              <ContentMaster size="xl">
-                {organizeDisclaimer.content}
-              </ContentMaster>
-            </StyledAccordionGroup>
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
-
-      <SectionDivider
-        align="right"
-        bgColor={theme.colors.typography}
-        fgColor={theme.colors.black}
-      />
-
-      <Section
-        id="register"
-        bgColor={theme.colors.black}
-        color={theme.colors.typography}
-      >
-        <Container>
-          <ContentSide>
-            <ContentMaster size="xl" title={register.title} />
-            <ContentMaster size="xl" cta={register.cta}>
+        <Section id="register">
+          <StyledContainer inner>
+            <ContentMaster
+              align="center"
+              size="lg"
+              title={register.title}
+              cta={register.cta}
+            >
               {register.content}
             </ContentMaster>
-          </ContentSide>
-        </Container>
-      </Section>
+            <StyledCornersWrapper>
+              <Corners />
+            </StyledCornersWrapper>
+          </StyledContainer>
+        </Section>
 
-      <SectionDivider
-        bgColor={theme.colors.typography}
-        fgColor={theme.colors.black}
-        isFlipped
-      />
+        <StyledSectionDivider type="solid" />
 
-      <Section id="brand">
-        <Container>
-          <SpotHeader
-            image={{
-              src: asciiBrandKit.src,
-              alt: '',
-            }}
-            content={{
-              size: 'xl',
-              title: brand.title,
-              children: brand.content,
-              links: brand.links,
-            }}
-          />
-        </Container>
-      </Section>
+        <Section id="brand">
+          <Container inner>
+            <ContentSide size="small">
+              <StyledBrandHeader>
+                <ContentMaster size="lg" title={brand.title} />
+                <Image src={potion} alt="" />
+              </StyledBrandHeader>
+              <CardCallout body={brand.content} link={brand.link} />
+            </ContentSide>
+          </Container>
+        </Section>
+      </Layout>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  // This page is not yet ready for public access, so we will return a 404
-  const shouldRender404 = true;
-
-  if (shouldRender404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return { props: {} };
 };
 
 export default Events;

@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { textSm } from 'themes/typography';
+import { textBase, textLg, textSm } from 'themes/typography';
 
 import { StyledCorners } from 'components/Corners/Corners.styles';
 
 export const StyledCustomLink = styled(Link)`
   ${textSm};
+  ${({ $size }) => $size === 'lg' && textBase};
   color: ${({ theme }) => theme.colors2025.lavendar};
   display: inline-flex;
   position: relative;

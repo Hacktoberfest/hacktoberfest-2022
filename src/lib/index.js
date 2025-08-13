@@ -2,34 +2,47 @@ import { registrationStart } from './config';
 
 export const events = [
   {
-    title: `From Code to Community: Hacktoberfest ${new Date(registrationStart).getFullYear()} Begins!`,
+    title: 'Hacktoberfest kick-off',
     content:
-      'The official kickoff of Hacktoberfest, hosted by DigitalOcean, where open-source advocates come together to celebrate a month of code, collaboration, and community. This session is packed with insightful talks and hands-on demonstrations, featuring expert speakers from various domains who will share their knowledge on the latest tech trends, AI advancements, and open-source contributions. Learn about the integration of AI with cloud technology and see how powerful tools like LLMs and GPUs are being utilized to enhance developer workflows and open-source projects.',
+      'The official start of Hacktoberfest! Join DigitalOcean developers and our guest speakers as we begin our month-long hacking event. Learn new skills, meet our sponsors, and support open-source projects! ',
     location: 'Virtual',
-    date: 'Oct 01',
-    time: '10:00 AM Eastern Daylight Time',
+    date: 'Oct 05',
+    time: '11:00 AM Eastern Daylight Time',
     rsvp: {
       href: 'https://events.mlh.io/events/11641-from-code-to-community-hacktoberfest-2024-begins',
     },
   },
   {
-    title: 'Hacktoberfest Bengaluru Meetup: A Day of Open Source Collaboration',
-    content: `Join us for an exciting in-person meetup in Bengaluru as part of Hacktoberfest ${new Date(registrationStart).getFullYear()}, hosted by DigitalOcean! This event brings together developers, tech enthusiasts, and open-source advocates to connect, collaborate, and learn from one another in an interactive, hands-on sessions`,
-    location: 'In Person',
-    date: 'Oct 12',
-    time: '11:00 AM India Standard Time',
+    title: 'Hacktoberfest satellite session #1',
+    content:
+      'Find out what’s new in open-source developer tools. Join in the conversation and get the scoop from industry insiders and influencers.',
+    location: 'TBA',
+    date: 'TBA',
+    time: 'TBA',
     rsvp: {
       href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
     },
   },
   {
-    title: `Closing the Hack: Hacktoberfest ${new Date(registrationStart).getFullYear()} Finale and Highlights`,
-    content: `Join us on October 31 for the Hacktoberfest ${new Date(registrationStart).getFullYear()} virtual wrap-up session, where we celebrate a month of coding, collaboration, and community. This finale event brings together speakers, participants, and contributors from around the globe to reflect on the achievements, share insights, and look forward to the future of open source.`,
-    location: 'Virtual',
-    date: 'Oct 31',
-    time: '11:30 AM Eastern Daylight Time',
+    title: 'Hacktoberfest satellite session #2',
+    content:
+      'Explore workshops with DigitalOcean, Illa Cloud and Appwrite at Major League Hacking’s Global Hack Week Open Source',
+    location: 'TBA',
+    date: 'TBA',
+    time: 'TBA',
     rsvp: {
-      href: 'https://events.mlh.io/events/11643-closing-the-hack-hacktoberfest-2024-finale-and-highlights',
+      href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
+    },
+  },
+  {
+    title: 'Hacktoberfest satellite session #3',
+    content:
+      'AI is exploding (complimentary). Meet industry insiders and influencers. Participate in a roundtable discussion on the future of AI and Open Source.',
+    location: 'TBA',
+    date: 'TBA',
+    time: 'TBA',
+    rsvp: {
+      href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
     },
   },
 ];

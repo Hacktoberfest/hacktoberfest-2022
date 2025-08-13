@@ -12,6 +12,7 @@ import {
 import TextLink from 'components/TextLink';
 import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
+import CustomLink from '../CustomLink';
 
 const ContentMaster = (props) => {
   const {
@@ -61,7 +62,11 @@ const ContentMaster = (props) => {
         <StyledContentMasterLinks>
           {links.map((link) => (
             <li key={link.id}>
-              <TextLink size="lg" {...link} />
+              {link.target === '_blank' ? (
+                <CustomLink size="lg" {...link} />
+              ) : (
+                <TextLink size="lg" {...link} />
+              )}
             </li>
           ))}
         </StyledContentMasterLinks>

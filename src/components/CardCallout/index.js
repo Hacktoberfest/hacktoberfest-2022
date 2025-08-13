@@ -10,6 +10,7 @@ import {
 } from './CardCallout.styles';
 import ButtonMain from 'components/ButtonMain';
 import TextLink from '../TextLink';
+import CustomLink from '../CustomLink';
 
 const CardCallout = ({
   icon,
@@ -38,7 +39,11 @@ const CardCallout = ({
       </StyledCardCalloutWrapContainer>
       {link && (
         <StyledCardCalloutLink>
-          <TextLink {...link} />
+          {link.target === '_blank' ? (
+            <CustomLink {...link} />
+          ) : (
+            <TextLink {...link} />
+          )}
         </StyledCardCalloutLink>
       )}
     </StyledCardCalloutContainer>
