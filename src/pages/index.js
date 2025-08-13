@@ -87,6 +87,7 @@ const bubbleUp = keyframes`
 export const StyledHome = styled.div`
   position: relative;
   isolation: isolate;
+  overflow-x: hidden;
 `;
 
 export const StyledHero = styled.div`
@@ -569,7 +570,7 @@ const Home = () => {
           sponsorsObserver.disconnect();
         }
       },
-      { threshold: 1, rootMargin: '-200px' },
+      { threshold: 1 },
     );
 
     const openSourceIconsObserver = new IntersectionObserver(
