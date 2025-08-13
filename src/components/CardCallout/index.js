@@ -7,8 +7,8 @@ import {
   StyledCardCalloutWrap,
   StyledCardCalloutLink,
 } from './CardCallout.styles';
-import ButtonMain from 'components/ButtonMain';
 import TextLink from '../TextLink';
+import CustomLink from '../CustomLink';
 
 const CardCallout = ({ icon, title, body, link }) => (
   <StyledCardCallout>
