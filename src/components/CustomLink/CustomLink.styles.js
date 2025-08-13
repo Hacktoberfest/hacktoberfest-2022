@@ -18,6 +18,7 @@ export const StyledCustomLink = styled(Link)`
   ${({ $isTopNav }) =>
     $isTopNav &&
     `
+      letter-spacing: normal;
       padding: 12px 16px;
       ${StyledCorners} {
         inset: 0;

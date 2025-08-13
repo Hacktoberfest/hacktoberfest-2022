@@ -38,7 +38,11 @@ const CardCallout = ({
       </StyledCardCalloutWrapContainer>
       {link && (
         <StyledCardCalloutLink>
-          <TextLink {...link} />
+          {link.target === '_blank' ? (
+            <CustomLink size="lg" {...link} />
+          ) : (
+            <TextLink {...link} />
+          )}
         </StyledCardCalloutLink>
       )}
     </StyledCardCalloutContainer>

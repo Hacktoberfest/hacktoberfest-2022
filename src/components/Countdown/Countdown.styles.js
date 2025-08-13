@@ -67,18 +67,16 @@ export const StyledCountdownItem = styled.div`
       font-size: 28px;
       margin-bottom: 16px;
       padding: 9px 14px;
-      width: 68px;
 
-      ${({ $isActive }) =>
+      ${({ $isActive, theme }) =>
         $isActive &&
         `
         text-shadow: 0px 0px 10px
-          rgb(from ${({ theme }) => theme.colors2025.space.dust} r g b / 0.5);
+          rgb(from ${theme.colors2025.space.dust} r g b / 0.5);
         `}
 
       ${mQ(bp.desktop)} {
         padding: 16px 24px;
-        width: 116px;
       }
     }
   }

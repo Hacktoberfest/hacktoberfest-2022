@@ -17,11 +17,12 @@ import amd from 'assets/img/sponsors/amd.svg';
 import cloudNative from 'assets/img/partners/cloud-native.svg';
 import dev from 'assets/img/partners/dev.svg';
 import github from 'assets/img/partners/github.svg';
-import githubEducation from 'assets/img/partners/github-education.png';
+import githubEducation from 'assets/img/partners/github_education.png';
 import gitlab from 'assets/img/partners/gitlab.svg';
 import holopin from 'assets/img/partners/holopin.svg';
 import mlh from 'assets/img/partners/mlh.svg';
 import opensource from 'assets/img/partners/opensource.svg';
+import auth0 from 'assets/img/sponsors/auth0.svg';
 import globe from 'assets/img/globe.svg';
 import opensourceIcon from 'assets/img/icons/opensource.svg';
 
@@ -35,6 +36,7 @@ import ButtonMain from '../components/ButtonMain';
 import Divider from '../components/Divider';
 import SideBySide from '../components/SideBySide';
 import Corners from '../components/Corners';
+import { StyledCornersWrapper } from '../components/RevealSection/RevealSection.styles';
 
 const parallaxScroll = keyframes`
   from { transform: translateY(0); }
@@ -78,7 +80,7 @@ const bubbleUp = keyframes`
     opacity: 0;
   }
   100% {
-    transform: translateY(-500px);
+    transform: translateY(-400px);
   }
 `;
 
@@ -164,7 +166,7 @@ export const StyledPoweredBy = styled.div`
   align-items: center;
   color: ${({ theme }) => theme.colors2025.space.white};
   display: flex;
-  gap: 16px;
+  gap: 8px;
   flex-direction: row;
   font-weight: 700;
   justify-content: center;
@@ -177,13 +179,21 @@ export const StyledPoweredBy = styled.div`
 `;
 
 export const StyledPoweredByLogo = styled(Image)`
-  max-width: 120px;
+  max-width: 111px;
   width: 100%;
   height: auto;
   filter: drop-shadow(0 0 8px rgba(194, 194, 255, 0.5));
 
+  &:last-of-type {
+    max-width: 44px;
+  }
+
   ${mQ(bp.desktop)} {
     max-width: 137px;
+
+    &:last-of-type {
+      max-width: 55px;
+    }
   }
 `;
 
@@ -208,6 +218,7 @@ export const StyledSponsorSection = styled.div`
 `;
 
 export const StyledSponsorLogos = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: row;
   gap: 35px;
@@ -215,7 +226,7 @@ export const StyledSponsorLogos = styled.div`
   width: 100%;
 
   ${mQ(bp.desktop)} {
-    gap: 80px;
+    gap: 65px;
   }
 `;
 
@@ -230,12 +241,32 @@ const StyledLogoContainer = styled.div`
   }
 
   &:first-of-type {
-    max-height: 28px;
-    max-width: 192px;
-    min-width: 101px;
+    max-height: 33px;
+    max-width: 146px;
+    min-width: 78px;
 
     ${mQ(bp.desktop)} {
-      max-height: 54px;
+      max-height: 62px;
+    }
+  }
+
+  &:nth-of-type(2) {
+    max-height: 43px;
+    max-width: 210px;
+    min-width: 112px;
+
+    ${mQ(bp.desktop)} {
+      max-height: 79px;
+    }
+  }
+
+  &:last-of-type {
+    max-height: 30px;
+    max-width: 199px;
+    min-width: 106px;
+
+    ${mQ(bp.desktop)} {
+      max-height: 48px;
     }
   }
 `;
@@ -247,6 +278,10 @@ const StyledHeroContent = styled.div`
 
   ${mQ(bp.tablet)} {
     gap: 32px;
+  }
+
+  p {
+    margin-bottom: 0;
   }
 `;
 
@@ -279,18 +314,13 @@ const StyledPartnerLogos = styled.div`
     gap: 40px;
   }
 
+  img {
+    width: auto;
+    height: auto;
+  }
+
   &:first-of-type {
     :first-child {
-      max-height: 25px;
-      max-width: 100px;
-      min-width: 25px;
-
-      ${mQ(bp.desktop)} {
-        max-height: 42px;
-      }
-    }
-
-    :nth-child(2) {
       max-height: 22px;
       max-width: 134px;
       min-width: 60px;
@@ -300,18 +330,18 @@ const StyledPartnerLogos = styled.div`
       }
     }
 
-    :nth-child(3) {
-      max-height: 12px;
-      max-width: 63px;
+    :nth-child(2) {
+      max-height: 18px;
+      max-width: 172px;
       min-width: 62px;
 
       ${mQ(bp.desktop)} {
-        max-height: 29px;
+        max-height: 33px;
       }
     }
 
     :last-child {
-      max-height: 13px;
+      max-height: 15px;
       max-width: 137px;
       min-width: 60px;
 
@@ -323,12 +353,12 @@ const StyledPartnerLogos = styled.div`
 
   &:last-of-type {
     :first-child {
-      max-height: 25px;
+      max-height: 18px;
       max-width: 143px;
       min-width: 62px;
 
       ${mQ(bp.desktop)} {
-        max-height: 10px;
+        max-height: 25px;
       }
     }
 
@@ -394,6 +424,16 @@ const StyledEventGrid = styled.div`
   ${mQ(bp.desktop)} {
     gap: 56px;
     grid-template-columns: repeat(2, 1fr);
+    margin-top: 56px;
+  }
+`;
+
+const StyledEventCTA = styled.div`
+  display: flex;
+  margin-top: 32px;
+
+  ${mQ(bp.desktop)} {
+    justify-content: center;
     margin-top: 56px;
   }
 `;
@@ -484,6 +524,14 @@ const StyledOpenSourceIcon = styled(Image)`
   }
 `;
 
+const StyledCornersContainer = styled.div`
+  display: none;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+  }
+`;
+
 const Home = () => {
   const hasRegistrationStarted = useMemo(
     () => new Date() >= new Date(registrationStart),
@@ -521,7 +569,7 @@ const Home = () => {
           sponsorsObserver.disconnect();
         }
       },
-      { threshold: 0.8 },
+      { threshold: 1, rootMargin: '-200px' },
     );
 
     const openSourceIconsObserver = new IntersectionObserver(
@@ -598,6 +646,13 @@ const Home = () => {
                   width={161}
                   height={29}
                 />
+                and
+                <StyledPoweredByLogo
+                  src={mlh}
+                  alt="MLH"
+                  width={44}
+                  height={19}
+                />
               </StyledPoweredBy>
             </StyledHeroContent>
           </Container>
@@ -607,12 +662,12 @@ const Home = () => {
           <Marquee
             text1={'Hacktoberfest 2025'}
             text2={'Hacktoberfest 2025'}
-            direction="reverse"
+            direction="forwards"
           />
           <Marquee
             text1={'Get ready to ship'}
             text2={'Support Open Source'}
-            direction="forwards"
+            direction="reverse"
           />
         </Section>
 
@@ -628,6 +683,12 @@ const Home = () => {
                 />
                 <StyledSponsorLogos>
                   <StyledLogoContainer>
+                    <Image src={mlh} alt="MLH" />
+                  </StyledLogoContainer>
+                  <StyledLogoContainer>
+                    <Image src={auth0} alt="Auth0" />
+                  </StyledLogoContainer>
+                  <StyledLogoContainer>
                     <Image src={amd} alt="AMD" />
                   </StyledLogoContainer>
                 </StyledSponsorLogos>
@@ -641,7 +702,6 @@ const Home = () => {
                 />
                 <StyledPartnerContainer>
                   <StyledPartnerLogos>
-                    <Image src={mlh} alt="Major League Hacking" />
                     <Image src={github} alt="Github" />
                     <Image src={githubEducation} alt="Github Education" />
                     <Image src={gitlab} alt="GitLab" />
@@ -677,13 +737,14 @@ const Home = () => {
                   body="September is prep time for Hacktoberfest. Spend September getting a jump start on your four pull/merge requests by tracking down projects to contribute to, adding the ‘hacktoberfest’ tag to your own projects, or familiarizing yourself with Git so you can hit the ground running when Hacktoberfest begins on October 1."
                   link={{
                     children: 'HOW TO PARTICIPATE',
-                    href: '/',
+                    href: '/participate',
                   }}
                 />
                 <CardCallout
                   body="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."
                   link={{
                     children: 'JOIN THE DISCORD',
+                    target: '_blank',
                     href: 'https://discord.com/invite/hacktoberfest',
                   }}
                 />
@@ -815,6 +876,11 @@ const Home = () => {
                 }
               />
             </StyledEventGrid>
+            <StyledEventCTA>
+              <ButtonMain as="a" href="/events">
+                Explore More Hacktoberfest Events
+              </ButtonMain>
+            </StyledEventCTA>
           </Container>
         </Section>
 
@@ -836,7 +902,10 @@ const Home = () => {
               }
             </ContentMaster>
 
-            <Corners />
+            <StyledCornersContainer>
+              <Corners />
+            </StyledCornersContainer>
+
             <StyledOpenSourceIcon
               src={opensourceIcon}
               alt=""

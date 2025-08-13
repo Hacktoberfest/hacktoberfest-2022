@@ -24,7 +24,7 @@ export const StyledTextLink = styled(Link)`
   display: inline-flex;
   width: 100%;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 700;
   text-decoration: none;
@@ -56,8 +56,18 @@ export const StyledTextLink = styled(Link)`
     }
   }
 
+  &:hover {
+  }
+
   &:hover,
   &:focus {
+    ${({ theme }) =>
+      `
+        color: ${theme.colors2025.space.white};
+        text-shadow: 0 0 5px
+          rgb(from ${theme.colors2025.space.white} r g b / 0.5);
+      `}
+
     path {
       &:nth-child(1) {
         transform: translateX(5px);
