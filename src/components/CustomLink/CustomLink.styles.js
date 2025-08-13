@@ -8,7 +8,6 @@ export const StyledCustomLink = styled(Link)`
   ${textSm};
   ${({ $size }) => $size === 'lg' && textBase};
   color: ${({ theme }) => theme.colors2025.lavendar};
-  display: inline-flex;
   position: relative;
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 700;
@@ -19,6 +18,7 @@ export const StyledCustomLink = styled(Link)`
   ${({ $isTopNav }) =>
     $isTopNav &&
     `
+      letter-spacing: normal;
       padding: 12px 16px;
       ${StyledCorners} {
         inset: 0;

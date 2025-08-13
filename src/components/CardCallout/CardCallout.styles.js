@@ -20,12 +20,13 @@ export const StyledCardCalloutContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  width: 100%;
   padding: 32px;
   position: relative;
+  width: 100%;
 
   ${mQ(bp.tablet)} {
     padding: 40px;
+    width: calc(100% - 80px);
   }
 `;
 

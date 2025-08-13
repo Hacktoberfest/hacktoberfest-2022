@@ -38,7 +38,7 @@ import scrollMore from 'assets/img/8-bit-down.svg';
 import resource from 'assets/img/resource.svg';
 import curvedArrow from 'assets/img/curved-arrow.svg';
 import TextLink from '../components/TextLink';
-import { headline5 } from '../themes/typography';
+import { headline5, textLg, textXl } from '../themes/typography';
 import globe from '../assets/img/globe.svg';
 
 const bounceAnimation = keyframes`
@@ -79,6 +79,29 @@ const StyledLowOrNoCodenSection = styled.div`
   }
 `;
 
+const StyledMobileAccordionSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  padding: 64px 0;
+
+  ${({ $collapsTopPadding }) => $collapsTopPadding && `padding-top: 0;`}
+  ${({ $collapsBottomPadding }) =>
+    $collapsBottomPadding && `padding-bottom: 0;`}
+
+  ${mQ(bp.desktop)} {
+    display: none;
+  }
+`;
+
+const StyledDesktopCardCallout = styled(CardCallout)`
+  display: none !important;
+
+  ${mQ(bp.desktop)} {
+    display: flex;
+  }
+`;
+
 const StyledFAQSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,6 +117,7 @@ const StyledFAQContainer = styled.div`
 const StyledFAQTitle = styled.h5`
   ${headline5};
   color: ${({ theme }) => theme.colors2025.blueViolet};
+  margin: 0;
 `;
 
 const StyledValueTitle = styled.div`
@@ -109,7 +133,11 @@ const StyledDivider = styled(Divider)`
 
 const StyledSectionDivider = styled(Divider)`
   color: ${({ theme }) => theme.colors2025.eastBay};
-  display: none;
+  ${({ $showOnMobile }) =>
+    !$showOnMobile &&
+    `
+    display: none;
+  `}
   grid-column: full-start / full-end;
   width: 100%;
 
@@ -169,6 +197,14 @@ const StyledResourceItem = styled.div`
 const StyledResourceList = styled.ul`
   list-style-type: square;
   padding-left: 20px;
+
+  li {
+    padding: 4px 0;
+  }
+
+  li::marker {
+    color: ${({ theme }) => theme.colors2025.lavendar};
+  }
 `;
 
 const StyledSection = styled(Section)`
@@ -193,6 +229,35 @@ const StyledScrollMoreSection = styled.div`
     img {
       animation: ${bounceAnimation} 2s ease-in-out infinite;
     }
+  }
+`;
+
+const StyledHeaderContainer = styled.div`
+  width: 190px;
+  margin: 0 auto;
+`;
+
+const StyledContentMaster = styled(ContentMaster)`
+  h3 {
+    text-shadow: none;
+    ${textLg};
+    font-weight: 700;
+
+    ${mQ(bp.desktop)} {
+      ${textXl}
+    }
+  }
+
+  li::marker {
+    color: ${({ theme }) => theme.colors2025.melrose};
+  }
+`;
+
+const StyledContentSide = styled(ContentSide)`
+  gap: 16px;
+
+  ${mQ(bp.desktop)} {
+    gap: 48px;
   }
 `;
 
@@ -273,11 +338,13 @@ const Participation = () => {
         <Section id="values">
           <Container>
             <StyledParticipationSection>
-              <ContentMaster title="Values" size="lg" align="center" />
+              <StyledHeaderContainer>
+                <ContentMaster title="Values" size="lg" />
+              </StyledHeaderContainer>
               <>
                 {values.map((value, index) => (
                   <Fragment key={value.title}>
-                    <ContentSide key={value.title}>
+                    <StyledContentSide key={value.title}>
                       <ContentSide align="center" size="small">
                         <Image src={value.icon} alt="" width={40} height={40} />
                         <StyledValueTitle>
@@ -287,7 +354,7 @@ const Participation = () => {
                         </StyledValueTitle>
                       </ContentSide>
                       <ContentMaster size="md">{value.content}</ContentMaster>
-                    </ContentSide>
+                    </StyledContentSide>
                     <StyledDivider type="solid" />
                   </Fragment>
                 ))}
@@ -307,13 +374,13 @@ const Participation = () => {
               </ContentMaster>
               <CardCallout
                 body={
-                  <ContentMaster
+                  <StyledContentMaster
                     bodyColor={theme.colors2025.space.white}
                     size="xl2"
                     list={contributors.items}
                   >
                     {`**${contributors.content}**`}
-                  </ContentMaster>
+                  </StyledContentMaster>
                 }
               />
             </ContentSide>
@@ -355,9 +422,33 @@ const Participation = () => {
           </Container>
         </StyledRelativeSection>
 
+        <StyledSectionDivider $showOnMobile={true} />
+
         <StyledSection id="pr-mr-details">
           <Container>
-            <CardCallout
+            <StyledMobileAccordionSection
+              $collapsBottomPadding
+              $collapsTopPadding
+            >
+              <StyledPRDetails>
+                <ContentMaster size="lg" title={prMrDetails.title}>
+                  {prMrDetails.content}
+                </ContentMaster>
+                {prMrDetails.sections.map((section) => (
+                  <React.Fragment key={section.title}>
+                    <StyledDivider type="solid" />
+                    <Accordion
+                      title={section.title}
+                      subtitle={section.subtitle}
+                      collapsed
+                    >
+                      <ContentMaster size="md"></ContentMaster>
+                    </Accordion>
+                  </React.Fragment>
+                ))}
+              </StyledPRDetails>
+            </StyledMobileAccordionSection>
+            <StyledDesktopCardCallout
               smallBody
               title={<ContentMaster size="lg" title={prMrDetails.title} />}
               body={
@@ -380,7 +471,7 @@ const Participation = () => {
                   </React.Fragment>
                 ))}
               </StyledPRDetails>
-            </CardCallout>
+            </StyledDesktopCardCallout>
           </Container>
         </StyledSection>
 
@@ -390,7 +481,33 @@ const Participation = () => {
 
         <Section id="spam">
           <Container>
-            <CardCallout
+            <StyledMobileAccordionSection $collapsTopPadding>
+              <StyledPRDetails>
+                <ContentMaster size="lg" title={spam.title}>
+                  {spam.content}
+                </ContentMaster>
+                {spam.sections.map((section) => (
+                  <React.Fragment key={section.title}>
+                    <StyledDivider type="solid" />
+                    <Accordion
+                      title={section.title}
+                      subtitle={section.subtitle}
+                      collapsed
+                    >
+                      <ContentMaster size="md">
+                        {section.items[0].content}
+                      </ContentMaster>
+                      {section.items[0].link && (
+                        <TextLink href={section.items[0].link.href}>
+                          {section.items[0].link.text}
+                        </TextLink>
+                      )}
+                    </Accordion>
+                  </React.Fragment>
+                ))}
+              </StyledPRDetails>
+            </StyledMobileAccordionSection>
+            <StyledDesktopCardCallout
               smallBody
               title={<ContentMaster size="lg" title={spam.title} />}
               body={<ContentMaster size="lg">{spam.content}</ContentMaster>}
@@ -416,11 +533,11 @@ const Participation = () => {
                   </React.Fragment>
                 ))}
               </StyledPRDetails>
-            </CardCallout>
+            </StyledDesktopCardCallout>
           </Container>
         </Section>
 
-        <StyledSectionDivider />
+        <StyledSectionDivider $showOnMobile={true} />
 
         <Section id="maintainers">
           <Container>
@@ -437,7 +554,7 @@ const Participation = () => {
           </Container>
         </Section>
 
-        <StyledSectionDivider />
+        <StyledSectionDivider $showOnMobile={true} />
 
         <StyledRelativeSection id="low-or-non-code" ref={lowCodeRef}>
           <Container>
@@ -461,7 +578,7 @@ const Participation = () => {
               <StyledDivider type="solid" />
 
               <ContentSide>
-                <ContentMaster
+                <StyledContentMaster
                   size="md"
                   title={<>{lowNoCode.sections[0].title}</>}
                   titleTag="h3"
@@ -469,9 +586,9 @@ const Participation = () => {
                   list={lowNoCode.sections[0].lists}
                 >
                   {lowNoCode.sections[0].content}
-                </ContentMaster>
+                </StyledContentMaster>
 
-                <ContentMaster
+                <StyledContentMaster
                   size="md"
                   title={<>{lowNoCode.sections[1].title}</>}
                   titleTag="h3"
@@ -493,7 +610,32 @@ const Participation = () => {
 
         <Section id="faq" size="none">
           <Container>
-            <CardCallout
+            <StyledMobileAccordionSection>
+              <ContentMaster size="lg" title={faqs.title} />
+              {faqs.sections.map((section) => (
+                <React.Fragment key={section.title}>
+                  <StyledFAQSection>
+                    <StyledFAQTitle>{section.title}</StyledFAQTitle>
+                    <StyledFAQContainer>
+                      {section.questions.map((item, index) => (
+                        <React.Fragment key={item.question}>
+                          <Accordion title={item.question} collapsed>
+                            <ContentMaster size="md">
+                              {item.answer}
+                            </ContentMaster>
+                          </Accordion>
+                          {section.questions.length !== index + 1 && (
+                            <StyledDivider type="solid" />
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </StyledFAQContainer>
+                  </StyledFAQSection>
+                </React.Fragment>
+              ))}
+            </StyledMobileAccordionSection>
+
+            <StyledDesktopCardCallout
               bodyGap="xl"
               title={<ContentMaster size="lg" title={faqs.title} />}
             >
@@ -518,7 +660,7 @@ const Participation = () => {
                   </StyledFAQSection>
                 </React.Fragment>
               ))}
-            </CardCallout>
+            </StyledDesktopCardCallout>
           </Container>
         </Section>
       </Layout>

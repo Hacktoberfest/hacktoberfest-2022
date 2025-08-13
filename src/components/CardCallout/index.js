@@ -8,7 +8,6 @@ import {
   StyledCardCalloutLink,
   StyledCardCalloutWrapContainer,
 } from './CardCallout.styles';
-import ButtonMain from 'components/ButtonMain';
 import TextLink from '../TextLink';
 import CustomLink from '../CustomLink';
 
@@ -20,8 +19,9 @@ const CardCallout = ({
   smallBody,
   bodyGap,
   children,
+  ...props
 }) => (
-  <StyledCardCallout>
+  <StyledCardCallout {...props}>
     <StyledCardCalloutContainer>
       <StyledCardCalloutWrapContainer $bodyGap={bodyGap}>
         <StyledCardCalloutWrap>
@@ -40,7 +40,7 @@ const CardCallout = ({
       {link && (
         <StyledCardCalloutLink>
           {link.target === '_blank' ? (
-            <CustomLink {...link} />
+            <CustomLink size="lg" {...link} />
           ) : (
             <TextLink {...link} />
           )}

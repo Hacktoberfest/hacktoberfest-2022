@@ -118,6 +118,11 @@ export const StyledContentMasterLinks = styled.ul`
 
 export const StyledContentMasterCta = styled.div`
   padding: 0;
+  text-align: left;
+
+  ${mQ(bp.desktop)} {
+    text-align: center;
+  }
 `;
 
 export const StyledContentMasterList = styled.ul`
