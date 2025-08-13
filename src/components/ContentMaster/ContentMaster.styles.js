@@ -82,7 +82,7 @@ export const StyledContentMasterBody = styled.div`
   }
 
   ul {
-    list-style-type: disc;
+    list-style-type: square;
   }
 
   ol ol {

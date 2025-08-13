@@ -10,4 +10,6 @@ export const StyledLayout = styled.div`
   > * {
     grid-column: main-start / main-end;
   }
+
+  overflow-x: hidden;
 `;

@@ -248,7 +248,7 @@ export const prMrDetails = {
           content:
             '1. Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.\n\n' +
             '2. Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).\n\n' +
-            `Your PR/MR must match criteria to be considered participating before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
+            `3. Your PR/MR must match criteria to be considered participating before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
         },
       ],
     },
@@ -341,7 +341,7 @@ export const maintainers = {
   sections: [
     {
       items: [
-        'Add the “**hacktoberfest**” topic to your repository to **opt-in to Hacktoberfest** and indicate you’re looking for contributions.',
+        'Add the “hacktoberfest” topic to your repository to opt-in to Hacktoberfest and indicate you’re looking for contributions.',
         'Apply the “**hacktoberfest**” label to issues you want contributors to help with in your GitHub or GitLab project.',
         'Add a **CONTRIBUTING.md** file with contribution guidelines to your repository.',
         'Choose issues that have a well-defined scope and are self-contained.',
@@ -454,7 +454,7 @@ export const faqs = {
         {
           question: 'Do issues have to be tagged as Hacktoberfest to count?',
           answer:
-            'No, pull/merge requests for Hacktoberfest do not need to be attached to a [**hacktoberfest** issue](https://github.com/search?l=&o=desc&q=label%3Ahacktoberfest+state%3Aopen&s=updated&type=Issues).',
+            'No, pull/merge requests for Hacktoberfest do not need to be attached to a [hacktoberfest issue](https://github.com/search?l=&o=desc&q=label%3Ahacktoberfest+state%3Aopen&s=updated&type=Issues).',
         },
         {
           question: 'Do contributions made outside of GitHub or GitLab count?',
@@ -508,17 +508,10 @@ export const faqs = {
             ' - Please follow the advisory guidelines of your state and local governments about gatherings in person.',
         },
         {
-          title:
+          question:
             "My event hasn't been approved yet. How long until it goes live?",
-          subtitle: 'Events',
-          collapsible: true,
-          collapsed: true,
-          items: [
-            {
-              content:
-                'Once you have submitted an event, the Major League Hacking events team will review your listing within 1-2 business days. If any changes need to be made, you will be alerted and the review process will start over. Please note: if you submit your event within two days of the event start and that coincides with a weekend, we cannot guarantee that the event will be approved in time.',
-            },
-          ],
+          answer:
+            'Once you have submitted an event, the Major League Hacking events team will review your listing within 1-2 business days. If any changes need to be made, you will be alerted and the review process will start over. Please note: if you submit your event within two days of the event start and that coincides with a weekend, we cannot guarantee that the event will be approved in time.',
         },
       ],
     },
@@ -579,7 +572,7 @@ export const faqs = {
           question:
             'As a maintainer, how do I encourage contributions to my repos?',
           answer:
-            'First, classify your repository with the **hacktoberfest** topic. This will let participants know that your repo is participating in Hacktoberfest. Check out this video on [how to apply the **hacktoberfest** topic to your repository](https://www.youtube.com/watch?v=znPdP0o79mU).\n\n' +
+            'First, classify your repository with the **hacktoberfest** topic. This will let participants know that your repo is participating in Hacktoberfest. Check out this video on [how to apply the hacktoberfest topic to your repository](https://www.youtube.com/watch?v=znPdP0o79mU).\n\n' +
             'You can also create issues for anything you’d like contributors to help with, and you can add labels like **good first issue** and **help wanted** so they’re easier to discover.',
         },
         {

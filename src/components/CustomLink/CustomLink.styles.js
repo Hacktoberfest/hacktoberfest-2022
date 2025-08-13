@@ -7,7 +7,6 @@ import { StyledCorners } from 'components/Corners/Corners.styles';
 export const StyledCustomLink = styled(Link)`
   ${textSm};
   color: ${({ theme }) => theme.colors2025.lavendar};
-  display: inline-flex;
   position: relative;
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 700;

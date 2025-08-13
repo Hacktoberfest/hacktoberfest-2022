@@ -102,7 +102,7 @@ export const StyledAccordion = styled.details`
     }
 
     ul {
-      list-style-type: disc;
+      list-style-type: square;
       padding-left: 20px;
     }
   }

@@ -19,8 +19,9 @@ const CardCallout = ({
   smallBody,
   bodyGap,
   children,
+  ...props
 }) => (
-  <StyledCardCallout>
+  <StyledCardCallout {...props}>
     <StyledCardCalloutContainer>
       <StyledCardCalloutWrapContainer $bodyGap={bodyGap}>
         <StyledCardCalloutWrap>
