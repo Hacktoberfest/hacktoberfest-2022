@@ -60,13 +60,14 @@ export const StyledContentMasterBody = styled.div`
   p,
   li {
     ${textBase}
-
-    ${mQ(bp.desktop)} {
-      ${({ $size }) => $size === 'xl2' && textLg};
-      ${({ $size }) => $size === 'xl' && textXl};
-    }
+    ${({ $size }) => $size === 'xl2' && textLg};
+    ${({ $size }) => $size === 'xl' && textXl};
 
     ${({ $color }) => $color && `color: ${$color};`}
+  }
+
+  ul > li::marker {
+    color: ${({ theme }) => theme.colors2025.melrose};
   }
 
   p {
@@ -83,6 +84,7 @@ export const StyledContentMasterBody = styled.div`
     gap: 16px;
     flex-direction: column;
     padding-left: 20px;
+    margin: 0;
   }
 
   ul {
@@ -133,6 +135,7 @@ export const StyledContentMasterCta = styled.div`
 export const StyledContentMasterList = styled.ul`
   list-style-type: square;
   padding-left: 20px;
+  margin: 0;
 
   ${({ $columns }) =>
     $columns === '2'

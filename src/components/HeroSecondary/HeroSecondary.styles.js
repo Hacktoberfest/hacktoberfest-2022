@@ -32,7 +32,6 @@ export const StyledHeroSecondaryContainer = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  padding: 28px 0;
   text-align: center;
 `;
 
@@ -53,6 +52,7 @@ export const StyledHeroSecondaryTitle = styled.h1`
   text-align: center;
   text-shadow: 0px 0px 10px
     rgb(from ${({ theme }) => theme.colors2025.space.dust} r g b / 0.5);
+  margin: 0;
 `;
 
 export const StyledHeroSecondarybody = styled.div`

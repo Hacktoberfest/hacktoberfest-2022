@@ -22,7 +22,7 @@ export const StyledCardCalloutContainer = styled.div`
   gap: 32px;
   padding: 32px;
   position: relative;
-  width: 100%;
+  width: calc(100% - 64px);
 
   ${mQ(bp.tablet)} {
     padding: 40px;
@@ -75,13 +75,12 @@ export const StyledCardCalloutBody = styled.div`
   ${textBase};
 
   margin: 0;
+  width: 100%;
 
   ${({ $smallBody }) => $smallBody && 'max-width: 752px;'}
   a {
     position: relative;
-    display: inline-block;
     color: ${({ theme }) => theme.colors2025.lavendar};
-    text-decoration: none;
 
     &::before {
       content: '';
