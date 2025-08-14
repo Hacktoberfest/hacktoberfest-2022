@@ -13,6 +13,7 @@ import {
   headline5,
   textBase,
   textLg,
+  textSm,
   textXl,
 } from 'themes/typography';
 
@@ -24,6 +25,7 @@ export const StyledContentMaster = styled.div`
   text-align: left;
 
   ${mQ(bp.desktop)} {
+    gap: 12px;
     text-align: ${({ $align }) => $align};
   }
 
@@ -35,12 +37,16 @@ export const StyledContentMaster = styled.div`
 export const StyledContentMasterHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+
+  ${mQ(bp.desktop)} {
+    gap: 12px;
+  }
 `;
 
 export const StyledContentMasterEyebrow = styled.p`
-  ${({ $size }) => ($size === 'xl' || $size === 'lg') && body20};
-  ${({ $size }) => ($size === 'md' || $size === 'sm') && body16};
+  ${textSm};
+  text-transform: uppercase;
 `;
 
 export const StyledContentMasterTitle = styled.h2`
