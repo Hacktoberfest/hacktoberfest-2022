@@ -196,6 +196,7 @@ const StyledResourceItem = styled.div`
 
 const StyledResourceList = styled.ul`
   list-style-type: square;
+  margin: 0;
   padding-left: 20px;
 
   li {
@@ -234,7 +235,10 @@ const StyledScrollMoreSection = styled.div`
 
 const StyledHeaderContainer = styled.div`
   width: 190px;
-  margin: 0 auto;
+
+  ${mQ(bp.desktop)} {
+    margin: 0 auto;
+  }
 `;
 
 const StyledContentMaster = styled(ContentMaster)`
@@ -244,7 +248,8 @@ const StyledContentMaster = styled(ContentMaster)`
     font-weight: 700;
 
     ${mQ(bp.desktop)} {
-      ${textXl}
+      ${textXl};
+      font-weight: 700;
     }
   }
 
@@ -442,7 +447,9 @@ const Participation = () => {
                       subtitle={section.subtitle}
                       collapsed
                     >
-                      <ContentMaster size="md"></ContentMaster>
+                      <ContentMaster size="md">
+                        {section.items[0].content}
+                      </ContentMaster>
                     </Accordion>
                   </React.Fragment>
                 ))}
@@ -545,7 +552,7 @@ const Participation = () => {
               <ContentMaster size="xl" title={maintainers.title}>
                 {maintainers.content}
               </ContentMaster>
-              <ContentMaster
+              <StyledContentMaster
                 size="xl"
                 listColumns="2"
                 list={maintainers.sections[0].items}

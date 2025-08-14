@@ -46,6 +46,7 @@ export const StyledCountdownItem = styled.div`
     font-size: 12px;
     font-weight: 700;
     text-align: center;
+    margin: 0;
 
     ${({ $isActive, theme }) =>
       !$isActive &&
@@ -124,4 +125,5 @@ export const StyledLoaderContent = styled.div`
   mask-repeat: no-repeat;
   max-width: 100%;
   width: ${({ $progress }) => `${$progress || 0}%`};
+  transition: width 1s ease-out;
 `;

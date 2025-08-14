@@ -80,7 +80,7 @@ const bubbleUp = keyframes`
     opacity: 0;
   }
   100% {
-    transform: translateY(-400px);
+    transform: translateY(-650px);
   }
 `;
 
@@ -354,12 +354,12 @@ const StyledPartnerLogos = styled.div`
 
   &:last-of-type {
     :first-child {
-      max-height: 18px;
+      max-height: 10px;
       max-width: 143px;
-      min-width: 62px;
+      min-width: 64px;
 
       ${mQ(bp.desktop)} {
-        max-height: 25px;
+        max-height: 23px;
       }
     }
 
@@ -452,6 +452,7 @@ const StyledSpotlightList = styled.span`
 `;
 
 const StyledSection = styled(Section)`
+  overflow: hidden;
   position: relative;
 `;
 
@@ -482,7 +483,7 @@ const StyledSponsorsGlobeImage = styled(Image)`
     display: block;
     opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
     position: absolute;
-    right: ${({ $isVisible }) => ($isVisible ? '-40%' : '-55%')};
+    right: ${({ $isVisible }) => ($isVisible ? '-30%' : '-55%')};
     top: 13%;
     transition:
       right 1s ease-out,
@@ -501,26 +502,26 @@ const StyledOpenSourceIcon = styled(Image)`
     display: block;
     opacity: 0;
     position: absolute;
-    top: 100%;
+    top: 105%;
 
     &:nth-of-type(1) {
       animation-delay: 0.1s;
-      left: -10%;
+      left: 10%;
     }
 
     &:nth-of-type(2) {
       animation-delay: 0.7s;
-      left: 10%;
+      left: 20%;
     }
 
     &:nth-of-type(3) {
       animation-delay: 0.3s;
-      left: 90%;
+      left: 60%;
     }
 
     &:nth-of-type(4) {
       animation-delay: 0.5s;
-      left: 110%;
+      left: 70%;
     }
   }
 `;
@@ -887,7 +888,7 @@ const Home = () => {
 
         <StyledDivider />
 
-        <StyledSection ref={openSourceIconsRef}>
+        <StyledSection isFullWidth ref={openSourceIconsRef}>
           <StyledContainer inner>
             <ContentMaster
               title="Support Open Source"
@@ -906,36 +907,36 @@ const Home = () => {
             <StyledCornersContainer>
               <Corners />
             </StyledCornersContainer>
-
-            <StyledOpenSourceIcon
-              src={opensourceIcon}
-              alt=""
-              width={144}
-              height={131}
-              $isVisible={iconsVisible}
-            />
-            <StyledOpenSourceIcon
-              src={opensourceIcon}
-              alt=""
-              width={144}
-              height={131}
-              $isVisible={iconsVisible}
-            />
-            <StyledOpenSourceIcon
-              src={opensourceIcon}
-              alt=""
-              width={144}
-              height={131}
-              $isVisible={iconsVisible}
-            />
-            <StyledOpenSourceIcon
-              src={opensourceIcon}
-              alt=""
-              width={144}
-              height={131}
-              $isVisible={iconsVisible}
-            />
           </StyledContainer>
+
+          <StyledOpenSourceIcon
+            src={opensourceIcon}
+            alt=""
+            width={144}
+            height={131}
+            $isVisible={iconsVisible}
+          />
+          <StyledOpenSourceIcon
+            src={opensourceIcon}
+            alt=""
+            width={144}
+            height={131}
+            $isVisible={iconsVisible}
+          />
+          <StyledOpenSourceIcon
+            src={opensourceIcon}
+            alt=""
+            width={144}
+            height={131}
+            $isVisible={iconsVisible}
+          />
+          <StyledOpenSourceIcon
+            src={opensourceIcon}
+            alt=""
+            width={144}
+            height={131}
+            $isVisible={iconsVisible}
+          />
         </StyledSection>
 
         <StyledDivider />

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledCorners = styled.div`
-  --corner-size: 5px;
-  --border-width: 1px;
+  --corner-size: ${({ size }) => size || 5}px;
+  --border-width: ${({ width }) => width || 1}px;
   --full-width: calc(var(--corner-size) + var(--border-width));
 
   position: absolute;

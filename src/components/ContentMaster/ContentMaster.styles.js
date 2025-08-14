@@ -19,9 +19,13 @@ import {
 export const StyledContentMaster = styled.div`
   position: relative;
   display: flex;
-  gap: 24px;
+  gap: 16px;
   flex-direction: column;
-  text-align: ${({ $align }) => $align};
+  text-align: left;
+
+  ${mQ(bp.desktop)} {
+    text-align: ${({ $align }) => $align};
+  }
 
   > *:last-child {
     margin-bottom: 0;
@@ -56,13 +60,14 @@ export const StyledContentMasterBody = styled.div`
   p,
   li {
     ${textBase}
-
-    ${mQ(bp.desktop)} {
-      ${({ $size }) => $size === 'xl2' && textLg};
-      ${({ $size }) => $size === 'xl' && textXl};
-    }
+    ${({ $size }) => $size === 'xl2' && textLg};
+    ${({ $size }) => $size === 'xl' && textXl};
 
     ${({ $color }) => $color && `color: ${$color};`}
+  }
+
+  ul > li::marker {
+    color: ${({ theme }) => theme.colors2025.melrose};
   }
 
   p {
@@ -79,6 +84,7 @@ export const StyledContentMasterBody = styled.div`
     gap: 16px;
     flex-direction: column;
     padding-left: 20px;
+    margin: 0;
   }
 
   ul {
@@ -117,6 +123,7 @@ export const StyledContentMasterLinks = styled.ul`
 `;
 
 export const StyledContentMasterCta = styled.div`
+  margin-top: 16px;
   padding: 0;
   text-align: left;
 
@@ -128,6 +135,7 @@ export const StyledContentMasterCta = styled.div`
 export const StyledContentMasterList = styled.ul`
   list-style-type: square;
   padding-left: 20px;
+  margin: 0;
 
   ${({ $columns }) =>
     $columns === '2'

@@ -22,7 +22,7 @@ export const StyledCardCalloutContainer = styled.div`
   gap: 32px;
   padding: 32px;
   position: relative;
-  width: 100%;
+  width: calc(100% - 64px);
 
   ${mQ(bp.tablet)} {
     padding: 40px;
@@ -67,6 +67,7 @@ export const StyledCardCalloutContent = styled.div`
 
 export const StyledCardCalloutTitle = styled.h2`
   ${textXl};
+  margin: 0;
   font-weight: 700;
   color: ${({ theme }) => theme.colors2025.space.white};
 `;
@@ -74,12 +75,13 @@ export const StyledCardCalloutTitle = styled.h2`
 export const StyledCardCalloutBody = styled.div`
   ${textBase};
 
+  margin: 0;
+  width: 100%;
+
   ${({ $smallBody }) => $smallBody && 'max-width: 752px;'}
   a {
     position: relative;
-    display: inline-block;
     color: ${({ theme }) => theme.colors2025.lavendar};
-    text-decoration: none;
 
     &::before {
       content: '';
