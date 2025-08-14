@@ -19,9 +19,13 @@ import {
 export const StyledContentMaster = styled.div`
   position: relative;
   display: flex;
-  gap: 24px;
+  gap: 16px;
   flex-direction: column;
-  text-align: ${({ $align }) => $align};
+  text-align: left;
+
+  ${mQ(bp.desktop)} {
+    text-align: ${({ $align }) => $align};
+  }
 
   > *:last-child {
     margin-bottom: 0;
@@ -117,6 +121,7 @@ export const StyledContentMasterLinks = styled.ul`
 `;
 
 export const StyledContentMasterCta = styled.div`
+  margin-top: 16px;
   padding: 0;
   text-align: left;
 

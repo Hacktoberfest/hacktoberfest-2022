@@ -74,7 +74,7 @@ const Countdown = () => {
                 SECONDS
               </p>
             </StyledCountdownItem>
-            <Corners />
+            <Corners props={{ size: 10, width: 3 }} />
           </StyledCountdown>
         </>
       )}
