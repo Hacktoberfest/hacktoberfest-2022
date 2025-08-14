@@ -51,13 +51,16 @@ export const StyledCardCalloutContent = styled.div`
 `;
 
 export const StyledCardCalloutTitle = styled.h2`
-  ${textXl}
+  ${textXl};
+  margin: 0;
   font-weight: 700;
   color: ${({ theme }) => theme.colors2025.space.white};
 `;
 
 export const StyledCardCalloutBody = styled.p`
-  ${textBase}
+  ${textBase};
+
+  margin: 0;
 
   a {
     position: relative;

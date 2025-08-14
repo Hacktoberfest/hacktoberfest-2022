@@ -30,6 +30,7 @@ const BaseMarqueeWrapper = styled.div`
     gap: var(--gap);
     justify-content: space-around;
     min-width: 100%;
+    margin: 0;
 
     @media (prefers-reduced-motion) {
       animation-play-state: paused;

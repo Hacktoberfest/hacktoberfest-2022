@@ -13,7 +13,8 @@ const clipAnimate = keyframes`
 `;
 
 export const StyledButtonMain = styled(Link)`
-  ${textSm}
+  ${textSm};
+  font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 700;
   position: relative;
   display: inline-flex;
@@ -26,6 +27,8 @@ export const StyledButtonMain = styled(Link)`
     background-color 300ms ease-in-out;
   padding: 12px 16px;
   text-align: center;
+  line-height: normal;
+  letter-spacing: normal;
 
   ${({ $variant, theme }) =>
     $variant === 'primary' &&
