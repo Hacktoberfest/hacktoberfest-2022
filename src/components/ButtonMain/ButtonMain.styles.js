@@ -30,6 +30,32 @@ export const StyledButtonMain = styled(Link)`
   line-height: normal;
   letter-spacing: normal;
 
+  ${({ $isExternal }) =>
+    $isExternal &&
+    `
+    &::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: 8px;
+      width: 4px;
+      height: 4px;
+      border: 1px solid currentColor;
+      border-left: 0;
+      border-bottom: 0;
+      transition: transform 300ms ease-in-out;
+      transform: translateX(0);
+    }
+    
+    &:hover,
+    &:focus {
+      &::after {
+        transform: translateX(5px);
+      }
+    }
+
+  `};
+
   ${({ $variant, $size, theme }) =>
     $variant === 'primary' &&
     `

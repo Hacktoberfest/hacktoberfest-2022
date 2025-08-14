@@ -7,7 +7,7 @@ import { textXl } from '../../themes/typography';
 
 export const StyledEvent = styled.div`
   display: grid;
-  gap: 64px;
+  gap: 32px;
   grid-template-columns: minmax(0, 1fr);
 
   ${mQ(bp.desktop)} {
@@ -18,6 +18,7 @@ export const StyledEvent = styled.div`
 
 export const StyledEventHeading = styled.span`
   ${textXl};
+  font-weight: 700;
 `;
 
 export const StyledEventContent = styled.div`

@@ -14,7 +14,6 @@ import Divider from 'components/Divider';
 import Section from 'components/Section';
 
 import HeroSecondary from 'components/HeroSecondary';
-import SpotHeader from 'components/SpotHeader';
 import Container from 'components/Container';
 
 import hero from 'assets/img/heroes/events.svg';
@@ -41,9 +40,15 @@ export const StyledEvents = styled.ul`
   flex-direction: column;
   gap: 48px;
   padding: 0;
+  margin: 0;
 
   ul {
     padding: 0;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
   }
 `;
 
@@ -74,13 +79,23 @@ const StyledCornersWrapper = styled.div`
 `;
 
 const StyledBrandHeader = styled.div`
+  align-items: flex-start;
   display: flex;
   gap: 16px;
+
+  img {
+    width: 128px;
+    height: auto;
+  }
 
   ${mQ(bp.desktop)} {
     flex-direction: column;
     gap: 32px;
     width: 304px;
+
+    img {
+      width: 200px;
+    }
   }
 `;
 
@@ -204,6 +219,7 @@ const Events = () => {
                 title={<ContentMaster size="lg" title={organize.title} />}
                 bodyGap="lg"
               >
+                <StyledDivider type="solid" />
                 {organize.sections.map((section, index) => (
                   <React.Fragment key={section.title}>
                     <Accordion title={section.title} collapsed>
@@ -239,7 +255,7 @@ const Events = () => {
           </StyledContainer>
         </Section>
 
-        <StyledSectionDivider type="solid" />
+        <StyledDivider type="solid" />
 
         <Section id="brand">
           <Container inner>

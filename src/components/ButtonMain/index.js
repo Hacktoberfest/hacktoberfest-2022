@@ -14,7 +14,12 @@ const ButtonMain = (props) => {
   return (
     <>
       {as === 'a' ? (
-        <StyledButtonMain {...link} $variant={variant} $size={size}>
+        <StyledButtonMain
+          {...link}
+          $variant={variant}
+          $size={size}
+          $isExternal={link.target === '_blank'}
+        >
           {children}
           {variant === 'primary' && <Corners />}
         </StyledButtonMain>
