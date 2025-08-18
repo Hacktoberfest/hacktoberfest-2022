@@ -1,18 +1,28 @@
 import { StyledCustomLink, StyledCustomLinkContent } from './CustomLink.styles';
 import Corners from '../Corners';
 
-const CustomLink = ({ children, href, icon, target, $isTopNav, ...props }) => (
+const CustomLink = ({
+  children,
+  href,
+  icon,
+  iconSize,
+  target,
+  isTopNav,
+  showExternal = true,
+  ...props
+}) => (
   <StyledCustomLink
-    $isTopNav={$isTopNav}
+    $isTopNav={isTopNav}
+    $iconSize={iconSize}
     target={target}
     href={href}
     {...props}
   >
-    <StyledCustomLinkContent $isExternal={target === '_blank'}>
+    <StyledCustomLinkContent $isExternal={showExternal && target === '_blank'}>
       {icon}
       {children}
     </StyledCustomLinkContent>
-    {$isTopNav && <Corners />}
+    {isTopNav && <Corners />}
   </StyledCustomLink>
 );
 

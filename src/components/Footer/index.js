@@ -17,7 +17,6 @@ import { registrationStart } from 'lib/config';
 import Layout from 'components/Layout';
 import CustomLink from 'components/CustomLink';
 import {
-  BlueSkyIcon,
   DiscordIcon,
   EmailIcon,
   FacebookIcon,
@@ -31,7 +30,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import earth from 'assets/img/easter-egg/earth.svg';
 import alien from 'assets/img/easter-egg/alien.svg';
+
 import flag from 'assets/img/easter-egg/flag.svg';
+import brandGuidelines from 'assets/brand-guidelines.pdf';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -220,26 +221,6 @@ const Footer = () => {
                   </li>
                   <li>
                     <CustomLink
-                      icon={<BlueSkyIcon />}
-                      href="https://bsky.app/profile/hacktoberfest.com"
-                      target="_blank"
-                      rel="me noreferrer noopener"
-                    >
-                      Bluesky
-                    </CustomLink>
-                  </li>
-                  <li>
-                    <CustomLink
-                      icon={<RedditIcon />}
-                      href="https://reddit.com/r/hacktoberfest"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      Reddit
-                    </CustomLink>
-                  </li>
-                  <li>
-                    <CustomLink
                       icon={<EmailIcon />}
                       href="https://www.digitalocean.com/open-source/hacktoberfest#stay-up-to-date"
                       target="_blank"
@@ -285,7 +266,40 @@ const Footer = () => {
               </CustomLink>
             </li>
             <li>
-              <CustomLink href="/events#brand">Brand Guidelines</CustomLink>
+              <CustomLink
+                showExternal={false}
+                iconSize="sm"
+                target="_blank"
+                href={brandGuidelines}
+              >
+                Brand Guidelines
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 12 13"
+                  fill="none"
+                >
+                  <g clipPath="url(#clip0_5372_8423)">
+                    <path
+                      d="M11 10.8994H1V12.3994H11V10.8994Z"
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M10 4.89941V5.89941H9.5V6.39941H9V6.89941H8.5V7.39941H8V7.89941H7.5V8.39941H7V8.89941H6.5V9.39941H5.5V8.89941H5V8.39941H4.5V7.89941H4V7.39941H3.5V6.89941H3V6.39941H2.5V5.89941H2V4.89941H2.5V4.39941H3.5V4.89941H4V5.39941H4.5V5.89941H5V1.39941H7V5.89941H7.5V5.39941H8V4.89941H8.5V4.39941H9.5V4.89941H10Z"
+                      fill="currentColor"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_5372_8423">
+                      <rect
+                        width="12"
+                        height="12"
+                        fill="white"
+                        transform="translate(0 0.899414)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </CustomLink>
             </li>
           </StyledFooterCopyright>
           {isHomePage && isFooterVisible && (
