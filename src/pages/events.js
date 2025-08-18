@@ -34,13 +34,18 @@ import Image from 'next/image';
 import Layout from '../components/Layout';
 import CardCallout from '../components/CardCallout';
 import Corners from '../components/Corners';
+import TextLink from '../components/TextLink';
 
 export const StyledEvents = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 48px;
   padding: 0;
-  margin: 0;
+  margin: 0 0 32px;
+
+  ${mQ(bp.desktop)} {
+    margin-bottom: 80px;
+  }
 
   ul {
     padding: 0;
@@ -125,6 +130,11 @@ const StyledDesktopCardCallout = styled(CardCallout)`
   }
 `;
 
+const StyledTextLink = styled(TextLink)`
+  margin: 0 auto;
+  text-transform: uppercase;
+`;
+
 const Events = () => {
   const theme = useTheme();
 
@@ -180,6 +190,10 @@ const Events = () => {
                   </React.Fragment>
                 ))}
               </StyledEvents>
+
+              <StyledTextLink href="#" target="_blank">
+                Explore Hacktoberfest live streams
+              </StyledTextLink>
             </StyledSectionSpacing>
           </Container>
         </Section>

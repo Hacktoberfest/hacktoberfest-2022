@@ -5,23 +5,26 @@ const CustomLink = ({
   children,
   href,
   icon,
+  iconSize,
   target,
   size,
-  $isTopNav,
+  isTopNav,
+  showExternal = true,
   ...props
 }) => (
   <StyledCustomLink
-    $isTopNav={$isTopNav}
+    $isTopNav={isTopNav}
+    $iconSize={iconSize}
     target={target}
     href={href}
     $size={size}
     {...props}
   >
-    <StyledCustomLinkContent $isExternal={target === '_blank'}>
+    <StyledCustomLinkContent $isExternal={showExternal && target === '_blank'}>
       {icon}
       {children}
     </StyledCustomLinkContent>
-    {$isTopNav && <Corners />}
+    {isTopNav && <Corners />}
   </StyledCustomLink>
 );
 

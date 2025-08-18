@@ -17,7 +17,6 @@ import { registrationStart } from 'lib/config';
 import Layout from 'components/Layout';
 import CustomLink from 'components/CustomLink';
 import {
-  BlueSkyIcon,
   DiscordIcon,
   EmailIcon,
   FacebookIcon,
@@ -31,7 +30,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import earth from 'assets/img/easter-egg/earth.svg';
 import alien from 'assets/img/easter-egg/alien.svg';
+
 import flag from 'assets/img/easter-egg/flag.svg';
+import brandGuidelines from 'assets/brand-guidelines.pdf';
+import { DownloadIcon } from '../icons/Download';
 
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
@@ -220,26 +222,6 @@ const Footer = () => {
                   </li>
                   <li>
                     <CustomLink
-                      icon={<BlueSkyIcon />}
-                      href="https://bsky.app/profile/hacktoberfest.com"
-                      target="_blank"
-                      rel="me noreferrer noopener"
-                    >
-                      Bluesky
-                    </CustomLink>
-                  </li>
-                  <li>
-                    <CustomLink
-                      icon={<RedditIcon />}
-                      href="https://reddit.com/r/hacktoberfest"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                    >
-                      Reddit
-                    </CustomLink>
-                  </li>
-                  <li>
-                    <CustomLink
                       icon={<EmailIcon />}
                       href="https://www.digitalocean.com/open-source/hacktoberfest#stay-up-to-date"
                       target="_blank"
@@ -285,7 +267,15 @@ const Footer = () => {
               </CustomLink>
             </li>
             <li>
-              <CustomLink href="/events#brand">Brand Guidelines</CustomLink>
+              <CustomLink
+                showExternal={false}
+                iconSize="sm"
+                target="_blank"
+                href={brandGuidelines}
+              >
+                Brand Guidelines
+                <DownloadIcon />
+              </CustomLink>
             </li>
           </StyledFooterCopyright>
           {isHomePage && isFooterVisible && (
