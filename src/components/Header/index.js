@@ -39,20 +39,20 @@ const Header = () => {
         {/*<StyledHeaderNav $isOpen={open}>*/}
         <StyledHeaderNav>
           <div>
-            <CustomLink $isTopNav href="/participation">
+            <CustomLink isTopNav href="/participation">
               Participation
             </CustomLink>
-            <CustomLink $isTopNav href="/events">
+            <CustomLink isTopNav href="/events">
               Events
             </CustomLink>
-            <CustomLink $isTopNav href="/donate">
+            <CustomLink isTopNav href="/donate">
               Donate
             </CustomLink>
-            <CustomLink $isTopNav href="/about">
+            <CustomLink isTopNav href="/about">
               About
             </CustomLink>
             <CustomLink
-              $isTopNav
+              isTopNav
               href="https://discord.gg/hacktoberfest"
               target="_blank"
               rel="noreferrer noopener"

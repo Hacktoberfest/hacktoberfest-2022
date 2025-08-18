@@ -49,6 +49,16 @@ export const StyledCustomLink = styled(Link)`
     height: 16px;
     flex-shrink: 0;
   }
+
+  ${({ $iconSize }) =>
+    $iconSize &&
+    $iconSize === 'sm' &&
+    `
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    `}
 `;
 
 export const StyledCustomLinkContent = styled.div`
