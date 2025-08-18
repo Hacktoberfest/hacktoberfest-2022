@@ -10,6 +10,7 @@ import {
 } from './CardCallout.styles';
 import TextLink from '../TextLink';
 import CustomLink from '../CustomLink';
+import { DownloadIcon } from '../icons/Download';
 
 const CardCallout = ({
   icon,
@@ -40,7 +41,10 @@ const CardCallout = ({
       {link && (
         <StyledCardCalloutLink>
           {link.target === '_blank' ? (
-            <CustomLink size="lg" {...link} />
+            <CustomLink showExternal={!link.isDownload} size="lg" {...link}>
+              {link.children}
+              {link.isDownload && <DownloadIcon />}
+            </CustomLink>
           ) : (
             <TextLink {...link} />
           )}

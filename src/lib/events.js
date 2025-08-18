@@ -1,5 +1,4 @@
 import brandKitZip from 'assets/brand-kit.zip';
-import brandGuidelines from 'assets/brand-guidelines.pdf';
 
 export const globalEvents = {
   title: 'Global Events',
@@ -112,6 +111,8 @@ export const brand = {
     target: '_blank',
     rel: 'noreferrer noopener',
     href: brandKitZip,
+    isDownload: true,
+    iconSize: 'lg',
     children: 'DOWNLOAD BRAND KIT',
   },
 };

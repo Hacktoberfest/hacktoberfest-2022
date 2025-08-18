@@ -60,6 +60,16 @@ export const StyledCustomLink = styled(Link)`
         height: 12px;
       }
     `}
+
+  ${({ $iconSize }) =>
+    $iconSize &&
+    $iconSize === 'lg' &&
+    `
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    `}
 `;
 
 export const StyledCustomLinkContent = styled.div`
