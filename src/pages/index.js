@@ -28,7 +28,7 @@ import opensourceIcon from 'assets/img/icons/opensource.svg';
 
 import Image from 'next/image';
 import Marquee from 'components/Marquee';
-import { textSm, textBase } from 'themes/typography';
+import { textBase, textLg } from 'themes/typography';
 import Countdown from '../components/Countdown';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { registrationStart } from '../lib/config';
@@ -36,7 +36,7 @@ import ButtonMain from '../components/ButtonMain';
 import Divider from '../components/Divider';
 import SideBySide from '../components/SideBySide';
 import Corners from '../components/Corners';
-import { StyledCornersWrapper } from '../components/RevealSection/RevealSection.styles';
+import heroAnimation from 'assets/img/heroicon-animation.gif';
 
 const parallaxScroll = keyframes`
   from { transform: translateY(0); }
@@ -163,7 +163,7 @@ export const StyledHeroImage = styled.div`
 `;
 
 export const StyledPoweredBy = styled.div`
-  ${textSm};
+  ${textLg};
   align-items: center;
   color: ${({ theme }) => theme.colors2025.space.white};
   display: flex;
@@ -180,20 +180,20 @@ export const StyledPoweredBy = styled.div`
 `;
 
 export const StyledPoweredByLogo = styled(Image)`
-  max-width: 111px;
+  max-width: 135px;
   width: 100%;
   height: auto;
   filter: drop-shadow(0 0 8px rgba(194, 194, 255, 0.5));
 
   &:last-of-type {
-    max-width: 44px;
+    max-width: 54px;
   }
 
   ${mQ(bp.desktop)} {
-    max-width: 137px;
+    max-width: 202px;
 
     &:last-of-type {
-      max-width: 55px;
+      max-width: 87px;
     }
   }
 `;
@@ -222,12 +222,12 @@ export const StyledSponsorLogos = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
-  gap: 35px;
+  gap: 32px;
   justify-content: center;
   width: 100%;
 
   ${mQ(bp.desktop)} {
-    gap: 65px;
+    gap: 59px;
   }
 `;
 
@@ -242,37 +242,28 @@ const StyledLogoContainer = styled.div`
   }
 
   &:first-of-type {
-    max-height: 33px;
-    max-width: 146px;
-    min-width: 78px;
+    max-height: 39px;
+    max-width: 190px;
+    min-width: 102px;
 
     ${mQ(bp.desktop)} {
-      max-height: 62px;
-    }
-  }
-
-  &:nth-of-type(2) {
-    max-height: 43px;
-    max-width: 210px;
-    min-width: 112px;
-
-    ${mQ(bp.desktop)} {
-      max-height: 79px;
+      max-height: 72px;
     }
   }
 
   &:last-of-type {
-    max-height: 30px;
-    max-width: 199px;
-    min-width: 106px;
+    max-height: 24px;
+    max-width: 180px;
+    min-width: 97px;
 
     ${mQ(bp.desktop)} {
-      max-height: 48px;
+      max-height: 43px;
     }
   }
 `;
 
 const StyledHeroContent = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -618,6 +609,9 @@ const Home = () => {
           <StyledHeroImage />
           <Container inner>
             <StyledHeroContent>
+              {hasRegistrationStarted && (
+                <Image src={heroAnimation} alt="" width={186} height={93} />
+              )}
               <ContentMaster
                 align="center"
                 title="A month-long celebration of all things open-source"
@@ -661,6 +655,43 @@ const Home = () => {
         </StyledHero>
 
         <Section isFullWidth size="md">
+          {/*  This svg is used to create a shadow effect on the text. */}
+          <svg width="0" height="0" style={{ position: 'absolute' }}>
+            <defs>
+              <filter
+                id="outerShadow"
+                x="-50%"
+                y="-50%"
+                width="200%"
+                height="200%"
+              >
+                <feGaussianBlur
+                  in="SourceAlpha"
+                  stdDeviation="5"
+                  result="blur"
+                />
+                <feOffset in="blur" dx="0" dy="0" result="offsetBlur" />
+                <feComposite
+                  in="offsetBlur"
+                  in2="SourceAlpha"
+                  operator="out"
+                  result="shadowOuter"
+                />
+                <feColorMatrix
+                  in="shadowOuter"
+                  type="matrix"
+                  values="0 0 0 0 0.7607
+                0 0 0 0 0.7607
+                0 0 0 0 1
+                0 0 0 0.15 0"
+                  result="shadow"
+                />
+                <feMerge>
+                  <feMergeNode in="shadow" />
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
           <Marquee
             text1={'Hacktoberfest 2025'}
             text2={'Hacktoberfest 2025'}
@@ -684,9 +715,6 @@ const Home = () => {
                   titleAs="h3"
                 />
                 <StyledSponsorLogos>
-                  <StyledLogoContainer>
-                    <Image src={mlh} alt="MLH" />
-                  </StyledLogoContainer>
                   <StyledLogoContainer>
                     <Image src={auth0} alt="Auth0" />
                   </StyledLogoContainer>
@@ -774,7 +802,7 @@ const Home = () => {
               }}
             >
               {
-                'This year, Hacktoberfest is sponsored by [TBA]. We thank them for their ongoing support of open source ❤️ \n\nWhen DigitalOcean started Hacktoberfest in 2014, 676 participants showed up to contribute. In 2024, nearly 90,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year as well, you’ll get an evolving digital badge for participating.'
+                'his year, Hacktoberfest is sponsored by DigitalOcean and MLH. We thank them for their ongoing support of open source ❤️ \n\nWhen DigitalOcean started Hacktoberfest in 2014, 676 participants showed up to contribute. In 2024, nearly 90,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year as well, you’ll get an evolving digital badge for participating.'
               }
             </ContentMaster>
           </Container>
@@ -880,7 +908,7 @@ const Home = () => {
             </StyledEventGrid>
             <StyledEventCTA>
               <ButtonMain as="a" href="/events">
-                Explore More Hacktoberfest Events
+                See more
               </ButtonMain>
             </StyledEventCTA>
           </Container>
