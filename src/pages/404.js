@@ -19,8 +19,8 @@ const bounce = keyframes`
   0%   { top: 0; left: 25%; }
   16%  { top: 50%; left: 0; }
   32%  { top: 100%; left: 25%; transform: translateY(-100%); }
-  48%  { top: 0; left: 75%; transform: translateY(0); }
-  64% { top: 25%; left: 100%; transform: translateX(-100%); }
+  52%  { top: 0; left: 75%; transform: translateY(0); }
+  60% { top: 25%; left: 100%; transform: translateX(-100%); }
   80% { top: 100%; left: 75%; transform: translate(0, -100%); }
   100% { top: 0; left: 25%; }
 `;
@@ -41,8 +41,12 @@ const StyledHero = styled.div`
     width: 100%;
     height: 100%;
     background:
-      url(${bgHero.src}) top center / cover no-repeat,
-      linear-gradient(180deg, #1c1c3f 0%, #1c1c3f 89.84%);
+      radial-gradient(
+        85.48% 85.48% at 50% 0%,
+        ${({ theme }) => theme.colors2025.eastBay} 0%,
+        rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0) 100%
+      ),
+      url(${bgHero.src}) top center / cover no-repeat;
   }
 `;
 
