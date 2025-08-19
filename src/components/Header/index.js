@@ -90,11 +90,12 @@ const Header = () => {
           <Nav hasRegistrationStarted={hasRegistrationStarted} />
         </StyledDesktopHeaderNav>
 
-        <StyledHeaderToggle
-          $isOpen={open}
-          onClick={() => setOpen((prev) => !prev)}
-        >
-          <ButtonMain as="button" size="xs" onClick={() => {}}>
+        <StyledHeaderToggle $isOpen={open}>
+          <ButtonMain
+            as="button"
+            size="xs"
+            onClick={() => setOpen((prev) => !prev)}
+          >
             {open ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
