@@ -39,7 +39,6 @@ import resource from 'assets/img/resource.svg';
 import curvedArrow from 'assets/img/curved-arrow.svg';
 import TextLink from '../components/TextLink';
 import { headline5, textLg, textXl } from '../themes/typography';
-import globe from '../assets/img/globe.svg';
 
 const bounceAnimation = keyframes`
   0% {

@@ -12,10 +12,10 @@ import { useTheme } from 'styled-components';
 import ContentMaster from 'components/ContentMaster';
 
 const HeroSecondary = (props) => {
-  const { title, body, icon, cta } = props;
+  const { title, body, icon, cta, ...rest } = props;
   const theme = useTheme();
   return (
-    <StyledHeroSecondary>
+    <StyledHeroSecondary {...rest}>
       <Container>
         <StyledHeroSecondaryContainer>
           {icon && <StyledHeroSecondaryImage>{icon}</StyledHeroSecondaryImage>}
