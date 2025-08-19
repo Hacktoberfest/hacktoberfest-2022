@@ -3,20 +3,22 @@ import eddie from 'assets/img/council/eddie.jpg';
 import mason from 'assets/img/council/mason.jpg';
 import bekah from 'assets/img/council/bekah.jpg';
 import { registrationStart } from './config';
+import bullhorn from 'assets/img/icons/icon-pixel-bullhorn.svg';
+import heart from 'assets/img/icons/icon-pixel-heart.svg';
+import pencil from 'assets/img/icons/icon-pixel-pencil.svg';
+import holopin from 'assets/img/partners/holopin.png';
 
 export const lore = {
   title: 'Hacktoberfest Lore',
-  content:
-    'Hacktoberfest is DigitalOcean’s annual event that encourages people to contribute to open source throughout October. Much of modern tech infrastructure—including some of DigitalOcean’s own products—relies on open-source projects built and maintained by passionate people who often don’t have the staff or budgets to do much more than keep the project alive. Hacktoberfest is all about giving back to those projects, sharpening skills, and celebrating all things open source, especially the people that make open source so special.',
   contentRight:
-    'Each year Hacktoberfest gets a new look, but our mission remains the same… getting as many people as possible involved in open source. Thousands of people—coders and non-coders alike—have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.',
+    'Hacktoberfest is DigitalOcean’s annual event that encourages people to contribute to open source throughout October. Much of modern tech infrastructure—including some of DigitalOcean’s own products—relies on open-source projects built and maintained by passionate people who often don’t have the staff or budgets to do much more than keep the project alive. Hacktoberfest is all about giving back to those projects, sharpening skills, and celebrating all things open source, especially the people that make open source so special.\n\nEach year Hacktoberfest gets a new look, but our mission remains the same… getting as many people as possible involved in open source. Thousands of people—coders and non-coders alike—have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.',
   links: [
     {
       id: 'watch-hacktoberfest',
       target: '_blank',
       rel: 'noreferrer noopener',
       href: 'https://www.youtube.com/playlist?list=PLseEp7p6EwiZgLPknY4ITJxfoo75wqxph',
-      children: 'Watch Hacktoberfest brand videos from over the years',
+      children: 'Watch Hacktoberfest videos',
     },
   ],
 };
@@ -24,27 +26,29 @@ export const lore = {
 export const sharing = {
   intro: 'Hacktoberfest Love',
   share: {
-    title: 'Share your Hacktoberfest 🩷',
+    title: 'Share your Hacktoberfest',
+    titleIcon: bullhorn,
     content:
       'Hacktoberfest is an open-source celebration that brings people together from all over the world to make a positive impact on open source. If you’ve had an experience that started with Hacktoberfest and led to something bigger, we would love to hear and share your story. We’ll pick some of the stories we receive to share with the community. Pictures, videos, and links are encouraged!',
   },
   social: {
     title: 'Social Media',
+    titleIcon: heart,
     content:
       "Share your Hacktoberfest experience on social media! Tag us @hacktoberfest and use the official hashtag #hacktoberfest to tell others about your favorite contributions, any swag you've received in the past (share a pic!), or a particularly memorable hack.",
   },
   writing: {
     title: 'Writing Challenge',
+    titleIcon: pencil,
     content:
-      "If you'd like to write about your experience participating in Hacktoberfest either as a contributor or a maintainer, we encourage you to participate in [DEV’s Hacktoberfest Writing Challenge](https://dev.to/challenges/hacktoberfest). Our partners at DEV welcome your writing, offering everyone who submits a post during the challenge a special Writing Challenge badge on their site. Plus, the best posts from the challenge will win a 6-month DEV++ Membership, an exclusive badge, and a gift from the DEV shop. You can share how you first heard about Hacktoberfest, how being part of the community has impacted your personal or professional development, or what projects you’ve been working on—here are some [great examples](https://dev.to/search?q=hacktoberfest). Once your post is live, let us know by tagging us in your social posts about it.",
+      "If you'd like to write about your experience participating in Hacktoberfest either as a contributor or a maintainer, we encourage you to participate in [DEV’s Hacktoberfest Writing Challenge](https://dev.to/challenges/hacktoberfest). Our partners at DEV welcome your writing, offering everyone who submits a post during the challenge a special Writing Challenge badge on their site. Plus, the best posts from the challenge will win a 6-month DEV++ Membership, an exclusive badge, and a gift from the DEV shop. You can share how you first heard about Hacktoberfest, how being part of the community has impacted your personal or professional development, or what projects you’ve been working on—here are some [great examples](https://dev.to/search?q=hacktoberfest). Once your post is live, let us know by tagging us in your social posts about it.\n\nWe look forward to hearing from you and seeing how you've been part of the Hacktoberfest community!",
   },
-  cta: "We look forward to hearing from you and seeing how you've been part of the **Hacktoberfest community**!",
 };
 
 export const rewards = {
+  image: holopin,
   title: `${new Date(registrationStart).getFullYear()} Participation Rewards`,
-  content: `For joining in the fun this year, participants in Hacktoberfest ${new Date(registrationStart).getFullYear()} get a customizable digital badge from Holopin that gains new characteristics with each of your pull/merge requests. As each pull/merge request you submitted is accepted by maintainers, you’ll unlock a new level and customization for your badge, up to the four pull/merge requests to complete Hacktoberfest. As your skills evolve, so, too, will your badge!`,
-  contentRight: `Once Hacktoberfest ${new Date(registrationStart).getFullYear()} is complete, you’ll be able to share your badge on the Holopin Hacktoberfest Badge Board of Fame to show-off your unique badge and to celebrate your hard-won victory! You can also embed your Holopin badge board, showing off all the Hacktoberfest badges you’ve collected over the years, on your GitHub or GitLab profile.`,
+  content: `For joining in the fun this year, participants in Hacktoberfest ${new Date(registrationStart).getFullYear()} get a customizable digital badge from Holopin that gains new characteristics with each of your pull/merge requests. As each pull/merge request you submitted is accepted by maintainers, you’ll unlock a new level and customization for your badge, up to the four pull/merge requests to complete Hacktoberfest. As your skills evolve, so, too, will your badge!\n\nOnce Hacktoberfest ${new Date(registrationStart).getFullYear()} is complete, you’ll be able to share your badge on the Holopin Hacktoberfest Badge Board of Fame to show-off your unique badge and to celebrate your hard-won victory! You can also embed your Holopin badge board, showing off all the Hacktoberfest badges you’ve collected over the years, on your GitHub or GitLab profile.`,
 };
 
 export const sponsorsAndPartners = {
