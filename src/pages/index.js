@@ -442,6 +442,10 @@ const StyledSpotlightList = styled.span`
   font-weight: 700;
 `;
 
+const StyledRelativeSection = styled(Section)`
+  position: relative;
+`;
+
 const StyledSection = styled(Section)`
   overflow: hidden;
   position: relative;
@@ -752,7 +756,7 @@ const Home = () => {
         </Section>
         <StyledDivider />
 
-        <StyledSection ref={preptemberRef}>
+        <StyledRelativeSection ref={preptemberRef}>
           <Container>
             <StyledPreptemberGlobeImage
               src={globe}
@@ -781,9 +785,9 @@ const Home = () => {
               </StyledGrid>
             </SideBySide>
           </Container>
-        </StyledSection>
+        </StyledRelativeSection>
 
-        <StyledSection ref={sponsorsRef}>
+        <StyledRelativeSection ref={sponsorsRef}>
           <Container>
             <StyledSponsorsGlobeImage
               src={globe}
@@ -806,7 +810,7 @@ const Home = () => {
               }
             </ContentMaster>
           </Container>
-        </StyledSection>
+        </StyledRelativeSection>
 
         <StyledDivider />
 

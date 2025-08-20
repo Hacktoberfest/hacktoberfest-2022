@@ -3,6 +3,7 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import Divider from '../Divider';
 
 export const StyledHeader = styled.header`
   position: fixed;
@@ -16,6 +17,13 @@ export const StyledHeader = styled.header`
     top: 24px;
     padding: 12px 24px;
     width: calc(100% - 48px);
+
+    ${({ $isOpen }) =>
+      $isOpen &&
+      `
+      top: 0;
+      padding: 0;
+    `};
   }
 `;
 
@@ -36,6 +44,12 @@ export const StyledHeaderContainer = styled.div`
     border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
     border-radius: 16px;
     padding: 16px 26px;
+
+    ${({ $isOpen }) =>
+      $isOpen &&
+      `
+      padding: 24px;
+    `};
   }
 `;
 
@@ -53,27 +67,14 @@ export const StyledHeaderLogo = styled.div`
   }
 `;
 
-export const StyledHeaderNav = styled.nav`
-  display: flex;
-  flex-grow: 1;
-  gap: 30px;
+export const StyledDesktopHeaderNav = styled.nav`
+  display: none;
 
   ${mQ(bp.desktop)} {
     align-items: center;
+    display: flex;
+    flex-grow: 1;
     gap: 32px;
-  }
-
-  ${mQ(bp.desktop - 1, 'max')} {
-    position: absolute;
-    inset: 0;
-    width: 100dvw;
-    height: 100dvh;
-    color: ${({ theme }) => theme.colors.green};
-    display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
-    padding: 120px 24px 64px;
-    flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.darkGreen};
-    overflow: scroll;
   }
 
   > *:first-child {
@@ -85,6 +86,45 @@ export const StyledHeaderNav = styled.nav`
   a {
     color: ${({ theme }) => theme.colors2025.space.white};
   }
+`;
+
+export const StyledMobileHeaderNav = styled.nav`
+  position: absolute;
+  top: 0;
+  left: 0;
+  inset: 0;
+  height: 100dvh;
+  color: ${({ theme }) => theme.colors.green};
+  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
+  padding: 32px 24px 64px;
+  margin-top: 80px;
+  flex-direction: column;
+  background: rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0.1);
+  backdrop-filter: blur(20px);
+  overflow: scroll;
+
+  a {
+    color: ${({ theme }) => theme.colors2025.space.white};
+    font-size: 16px;
+    padding: 8px 0;
+  }
+
+  > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  ${mQ(bp.desktop)} {
+    display: none;
+  }
+`;
+
+export const StyledDivider = styled.div`
+  background-color: rgb(
+    from ${({ theme }) => theme.colors2025.space.gray} r g b / 0.25
+  );
+  height: 1px;
+  margin: 12px 0;
 `;
 
 export const StyledHeaderToggle = styled.div`
