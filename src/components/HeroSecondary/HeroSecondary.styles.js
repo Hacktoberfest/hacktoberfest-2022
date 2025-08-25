@@ -3,7 +3,7 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { headline56 } from 'themes/typography';
+import { headline40, headline56 } from 'themes/typography';
 import bgHero from 'assets/img/bg-header.svg';
 
 export const StyledHeroSecondary = styled.div`
@@ -32,7 +32,12 @@ export const StyledHeroSecondaryContainer = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  padding: 0 24px;
   text-align: center;
+
+  ${mQ(bp.desktop)} {
+    padding: 39px 0;
+  }
 `;
 
 export const StyledHeroSecondaryContent = styled.div`
@@ -45,7 +50,7 @@ export const StyledHeroSecondaryContent = styled.div`
 `;
 
 export const StyledHeroSecondaryTitle = styled.h1`
-  ${headline56};
+  ${({ $size }) => ($size === 'sm' ? headline40 : headline56)};
   color: ${({ theme }) => theme.colors.typography};
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 800;
@@ -56,17 +61,22 @@ export const StyledHeroSecondaryTitle = styled.h1`
 `;
 
 export const StyledHeroSecondarybody = styled.div`
-  max-width: 694px;
+  color: ${({ theme }) => theme.colors2025.space.dust};
   margin: 0 auto;
-  color: white;
+  max-width: 694px;
 
   strong {
     color: ${({ theme }) => theme.colors.pink};
+  }
+
+  div {
+    text-align: center;
   }
 `;
 
 export const StyledHeroSecondaryImage = styled.div`
   max-width: 144px;
+  ${({ $size }) => $size === 'sm' && 'max-width: 84px;'};
   margin: 0 auto;
   width: 100%;
   position: relative;

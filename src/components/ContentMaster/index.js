@@ -2,6 +2,7 @@ import {
   StyledContentMaster,
   StyledContentMasterEyebrow,
   StyledContentMasterTitle,
+  StyledContentMasterTitleRow,
   StyledContentMasterHeader,
   StyledContentMasterBody,
   StyledContentMasterLinks,
@@ -13,11 +14,14 @@ import TextLink from 'components/TextLink';
 import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
 import CustomLink from '../CustomLink';
+import { sharing } from '../../lib/about';
+import Image from 'next/image';
 
 const ContentMaster = (props) => {
   const {
     eyebrow,
     title,
+    titleIcon,
     titleTag = 'h2',
     children,
     size,
@@ -40,9 +44,12 @@ const ContentMaster = (props) => {
             </StyledContentMasterEyebrow>
           )}
           {title && (
-            <StyledContentMasterTitle $size={size} as={titleTag}>
-              {title}
-            </StyledContentMasterTitle>
+            <StyledContentMasterTitleRow>
+              {titleIcon && <Image {...titleIcon} />}
+              <StyledContentMasterTitle $size={size} as={titleTag}>
+                {title}
+              </StyledContentMasterTitle>
+            </StyledContentMasterTitleRow>
           )}
         </StyledContentMasterHeader>
       )}

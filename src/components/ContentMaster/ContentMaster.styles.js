@@ -13,8 +13,29 @@ import {
   headline5,
   textBase,
   textLg,
+  textSm,
   textXl,
 } from 'themes/typography';
+
+export const StyledContentMasterTitleRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 8px;
+
+  img {
+    height: 20px;
+    width: 20px;
+  }
+
+  ${mQ(bp.desktop)} {
+    gap: 16px;
+
+    img {
+      height: 24px;
+      width: 24px;
+    }
+  }
+`;
 
 export const StyledContentMaster = styled.div`
   position: relative;
@@ -24,7 +45,12 @@ export const StyledContentMaster = styled.div`
   text-align: left;
 
   ${mQ(bp.desktop)} {
+    gap: 12px;
     text-align: ${({ $align }) => $align};
+
+    ${StyledContentMasterTitleRow} {
+      justify-content: ${({ $align }) => $align};
+    }
   }
 
   > *:last-child {
@@ -35,12 +61,16 @@ export const StyledContentMaster = styled.div`
 export const StyledContentMasterHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+
+  ${mQ(bp.desktop)} {
+    gap: 12px;
+  }
 `;
 
 export const StyledContentMasterEyebrow = styled.p`
-  ${({ $size }) => ($size === 'xl' || $size === 'lg') && body20};
-  ${({ $size }) => ($size === 'md' || $size === 'sm') && body16};
+  ${textSm};
+  text-transform: uppercase;
 `;
 
 export const StyledContentMasterTitle = styled.h2`
