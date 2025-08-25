@@ -5,20 +5,6 @@ import {
 } from 'themes/breakpoints';
 import { body16, body20 } from 'themes/typography';
 
-const rotateAnimation = keyframes`
-  0% {
-    transform: translateY(-50%) scale(1) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-50%) scale(1.2) rotate(-90deg);
-  }
-
-  100% {
-    transform: translateY(-50%) scale(1) rotate(-180deg);
-  }
-`;
-
 export const StyledAccordion = styled.details`
   ${({ $isFilled, theme }) =>
     $isFilled &&
@@ -32,72 +18,20 @@ export const StyledAccordion = styled.details`
   `};
 
   summary {
+    display: flex;
     position: relative;
     list-style: none;
     cursor: pointer;
-
-    ${mQ(bp.tablet)} {
-      padding-right: 60px;
-    }
-
-    ${mQ(bp.tablet)} {
-      padding-right: 136px;
-    }
 
     &::-webkit-details-marker,
     &::marker {
       display: none;
     }
 
-    &::after {
-      margin-left: auto;
-      font-size: 20px;
-      font-weight: normal;
-      text-align: center;
-      width: 44px;
+    button {
       position: absolute;
       right: 0;
-      color: ${({ theme }) => theme.colors.black};
-      letter-spacing: 2px;
-      font-weight: 500;
-      text-indent: 2px;
-      content: '${({ open }) => (open ? '[-]' : '[+]')}';
-      transition:
-        letter-spacing 0.2s ease 0.2s,
-        text-indent 0.2s ease 0.2s,
-        color 0.4s ease;
-
-      ${({ $isFilled }) =>
-        $isFilled
-          ? `
-        top: 0;
-
-        ${mQ(bp.tablet)} {
-          top: 50%;
-        }`
-          : `top: 18px;`};
-
-      ${mQ(bp.tablet)} {
-        width: 72px;
-        font-size: 32px;
-        letter-spacing: 1px;
-        text-indent: 1px;
-        transform: translateY(-50%);
-      }
-    }
-
-    &:hover {
-      &::after {
-        color: ${({ theme }) => theme.colors.deepPink};
-        letter-spacing: 4px;
-        text-indent: 4px;
-        transform: translateY(-50%);
-        animation: ${rotateAnimation} 0.2s linear;
-
-        @media (prefers-reduced-motion) {
-          animation-play-state: paused;
-        }
-      }
+      top: 0;
     }
   }
 
@@ -122,24 +56,32 @@ export const StyledAccordion = styled.details`
 `;
 
 export const StyledAccordionHeader = styled.div`
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors2025.space.white};
 
   ${mQ(bp.tablet)} {
     display: grid;
     grid-template-columns: 240px 1fr;
-    gap: 64px;
+    gap: 96px;
 
     ${({ $isFilled }) => $isFilled && `align-items: center;`};
   }
 `;
 
 export const StyledAccordionImageWrapper = styled.div`
+  aspect-ratio: 1;
+  border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+  background: linear-gradient(
+    180deg,
+    ${({ theme }) => theme.colors2025.void} 0%,
+    rgb(from ${({ theme }) => theme.colors2025.blueViolet} r g b / 0.15) 100%
+  );
+  box-shadow: 0 2.884px 4.326px 0
+    rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0.25);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   align-items: center;
-  margin-bottom: 40px;
-  width: 63.53790614%;
+  width: 188px;
   position: relative;
 
   ${mQ(bp.tablet)} {
@@ -148,46 +90,39 @@ export const StyledAccordionImageWrapper = styled.div`
   }
 `;
 
+export const StyledGlowBox = styled.div`
+  background-color: ${({ theme }) => theme.colors2025.space.white};
+  box-shadow: 0 0 5px 0
+    rgb(from ${({ theme }) => theme.colors2025.space.white} r g b / 0.8);
+  height: 8px;
+  width: 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &:nth-of-type(2) {
+    left: calc(100% - 8px);
+  }
+
+  &:nth-of-type(3) {
+    top: calc(100% - 8px);
+  }
+
+  &:nth-of-type(4) {
+    left: calc(100% - 8px);
+    top: calc(100% - 8px);
+  }
+`;
+
 export const StyledAccordionImage = styled.div`
-  margin: 0 auto;
-  position: relative;
-  grid-row: 1/-1;
-  grid-column: 1/-1;
-  width: 100%;
-  width: 83.33333333%;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% + 20px);
-    height: calc(100% + 20px);
-    background-color: ${({ theme }) => theme.colors.deepPink};
-    clip-path: polygon(
-      0 0,
-      calc(100% - 20px) 0,
-      100% 20px,
-      100% 100%,
-      20px 100%,
-      0 calc(100% - 20px)
-    );
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    padding-bottom: 100%;
-  }
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 16px;
 
   img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border: 1px solid ${({ theme }) => theme.colors.typography};
     background-color: #fff;
   }
 `;

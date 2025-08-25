@@ -10,6 +10,7 @@ import {
 } from './CardCallout.styles';
 import TextLink from '../TextLink';
 import CustomLink from '../CustomLink';
+import { DownloadIcon } from '../icons/Download';
 
 const CardCallout = ({
   icon,
@@ -24,23 +25,30 @@ const CardCallout = ({
   <StyledCardCallout {...props}>
     <StyledCardCalloutContainer>
       <StyledCardCalloutWrapContainer $bodyGap={bodyGap}>
-        <StyledCardCalloutWrap>
-          {icon}
-          <StyledCardCalloutContent>
-            {title && <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>}
-            {body && (
-              <StyledCardCalloutBody $smallBody={smallBody}>
-                {body}
-              </StyledCardCalloutBody>
-            )}
-          </StyledCardCalloutContent>
-        </StyledCardCalloutWrap>
+        {(icon || title || body) && (
+          <StyledCardCalloutWrap>
+            {icon}
+            <StyledCardCalloutContent>
+              {title && (
+                <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>
+              )}
+              {body && (
+                <StyledCardCalloutBody $smallBody={smallBody}>
+                  {body}
+                </StyledCardCalloutBody>
+              )}
+            </StyledCardCalloutContent>
+          </StyledCardCalloutWrap>
+        )}
         {children}
       </StyledCardCalloutWrapContainer>
       {link && (
         <StyledCardCalloutLink>
           {link.target === '_blank' ? (
-            <CustomLink size="lg" {...link} />
+            <CustomLink showExternal={!link.isDownload} size="lg" {...link}>
+              {link.children}
+              {link.isDownload && <DownloadIcon />}
+            </CustomLink>
           ) : (
             <TextLink {...link} />
           )}

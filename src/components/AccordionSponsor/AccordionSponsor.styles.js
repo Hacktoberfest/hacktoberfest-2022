@@ -5,88 +5,26 @@ import {
 } from 'themes/breakpoints';
 import { body20 } from 'themes/typography';
 
-const rotateAnimation = keyframes`
-  0% {
-    transform: translateY(-50%) scale(1) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-50%) scale(1.2) rotate(-90deg);
-  }
-
-  100% {
-    transform: translateY(-50%) scale(1) rotate(-180deg);
-  }
-`;
-
 export const StyledAccordion = styled.details`
-  border: 1px solid ${({ theme }) => theme.colors.black};
-  padding: 48px 24px;
-
-  ${mQ(bp.tablet)} {
-    padding: 48px;
-  }
-
   summary {
+    display: flex;
     position: relative;
     list-style: none;
     cursor: pointer;
-
-    ${mQ(bp.tablet)} {
-      padding-right: 60px;
-    }
-
-    ${mQ(bp.tablet)} {
-      padding-right: 136px;
-    }
 
     &::-webkit-details-marker,
     &::marker {
       display: none;
     }
 
-    &::after {
-      margin-left: auto;
-      font-size: 20px;
-      font-weight: normal;
-      text-align: center;
-      width: 44px;
+    button {
       position: absolute;
       right: 0;
-      color: ${({ theme }) => theme.colors.black};
-      letter-spacing: 2px;
-      font-weight: 700;
-      text-indent: 2px;
-      content: '${({ open }) => (open ? '[-]' : '[+]')}';
-      transition:
-        letter-spacing 0.2s ease 0.2s,
-        text-indent 0.2s ease 0.2s,
-        text-shadow 0.2s ease 0.2s,
-        color 0.4s ease;
-      top: 0;
+      bottom: 0;
 
       ${mQ(bp.tablet)} {
         top: 50%;
-        width: 72px;
-        font-size: 32px;
-        letter-spacing: 1px;
-        text-indent: 1px;
         transform: translateY(-50%);
-      }
-    }
-
-    &:hover {
-      &::after {
-        color: ${({ theme }) => theme.colors.deepPink};
-        text-shadow: -1px -1px 10px ${({ theme }) => theme.colors.pink};
-        letter-spacing: 4px;
-        text-indent: 4px;
-        transform: translateY(-50%);
-        animation: ${rotateAnimation} 0.2s linear;
-
-        @media (prefers-reduced-motion) {
-          animation-play-state: paused;
-        }
       }
     }
   }
@@ -111,71 +49,66 @@ export const StyledAccordion = styled.details`
 export const StyledAccordionHeader = styled.div`
   ${mQ(bp.tablet)} {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 120px 1fr;
     gap: 40px;
     align-items: center;
   }
 `;
 
 export const StyledAccordionImageWrapper = styled.div`
+  aspect-ratio: 1;
+  border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+  background: linear-gradient(
+    180deg,
+    ${({ theme }) => theme.colors2025.void} 0%,
+    rgb(from ${({ theme }) => theme.colors2025.blueViolet} r g b / 0.15) 100%
+  );
+  box-shadow: 0 2.884px 4.326px 0
+    rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0.25);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   align-items: center;
-  margin-bottom: 40px;
-  max-width: 80px;
-  width: 100%;
+  width: 120px;
   position: relative;
+  margin-bottom: 24px;
 
   ${mQ(bp.tablet)} {
     margin-bottom: 0;
     width: 100%;
   }
+`;
 
-  svg {
-    grid-row: 1/-1;
-    grid-column: 1/-1;
-    width: 100%;
-    height: auto;
+export const StyledGlowBox = styled.div`
+  background-color: ${({ theme }) => theme.colors2025.space.white};
+  box-shadow: 0 0 5px 0
+    rgb(from ${({ theme }) => theme.colors2025.space.white} r g b / 0.8);
+  height: 4px;
+  width: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  &:nth-of-type(2) {
+    left: calc(100% - 4px);
+  }
+
+  &:nth-of-type(3) {
+    top: calc(100% - 4px);
+  }
+
+  &:nth-of-type(4) {
+    left: calc(100% - 4px);
+    top: calc(100% - 4px);
   }
 `;
 
 export const StyledAccordionImage = styled.div`
-  margin: 0 auto;
-  position: relative;
-  grid-row: 1/-1;
-  grid-column: 1/-1;
-  width: 100%;
-  width: 83.33333333%;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: calc(100% + 8px);
-    height: calc(100% + 8px);
-    background-color: ${({ theme }) => theme.colors.deepPink};
-    clip-path: polygon(
-      0 0,
-      calc(100% - 8px) 0,
-      100% 8px,
-      100% 100%,
-      8px 100%,
-      0 calc(100% - 8px)
-    );
-  }
-
-  &::after {
-    content: '';
-    display: block;
-    padding-bottom: 100%;
-  }
+  border-radius: 3px;
+  overflow: hidden;
+  margin: 6px;
 
   img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;

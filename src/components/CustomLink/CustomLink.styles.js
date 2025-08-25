@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { textSm } from 'themes/typography';
+import { textBase, textLg, textSm } from 'themes/typography';
 
 import { StyledCorners } from 'components/Corners/Corners.styles';
 
 export const StyledCustomLink = styled(Link)`
   ${textSm};
+  ${({ $size }) => $size === 'lg' && textBase};
   color: ${({ theme }) => theme.colors2025.lavendar};
   position: relative;
   font-family: 'Atkinson Hyperlegible Mono';
@@ -57,6 +58,16 @@ export const StyledCustomLink = styled(Link)`
       svg {
         width: 12px;
         height: 12px;
+      }
+    `}
+
+  ${({ $iconSize }) =>
+    $iconSize &&
+    $iconSize === 'lg' &&
+    `
+      svg {
+        width: 14px;
+        height: 14px;
       }
     `}
 `;

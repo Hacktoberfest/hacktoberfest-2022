@@ -3,10 +3,11 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import { textXl } from '../../themes/typography';
 
 export const StyledEvent = styled.div`
   display: grid;
-  gap: 64px;
+  gap: 32px;
   grid-template-columns: minmax(0, 1fr);
 
   ${mQ(bp.desktop)} {
@@ -15,14 +16,26 @@ export const StyledEvent = styled.div`
   }
 `;
 
+export const StyledEventHeading = styled.span`
+  ${textXl};
+  font-weight: 700;
+`;
+
 export const StyledEventContent = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  width: 100%;
 
   ${mQ(bp.desktop)} {
     gap: 64px;
-    grid-template-columns: repeat(2, 1fr);
+    flex-direction: row;
+
+    > :first-child {
+      flex-shrink: 0;
+      max-width: 304px;
+      min-width: 304px;
+    }
   }
 `;
 
@@ -31,12 +44,13 @@ export const StyledContent = styled.div`
   flex-direction: column;
   gap: 1lh;
 
-  ${mQ(bp.desktop)} {
-    padding-top: 40px;
+  ul {
+    color: ${({ theme }) => theme.colors2025.space.white};
+    font-weight: 700;
   }
 `;
 
-export const StyledRSVP = styled.p`
+export const StyledRSVP = styled.div`
   ${({ $missing }) => $missing && `font-style: italic;`}
 
   ${mQ(bp.desktop)} {

@@ -39,6 +39,7 @@ export const StyledCardCalloutWrapContainer = styled.div`
 
   ${mQ(bp.tablet)} {
     ${({ $bodyGap }) => $bodyGap === 'xl' && 'gap: 80px;'}
+    ${({ $bodyGap }) => $bodyGap === 'lg' && 'gap: 40px;'}
   }
 `;
 
