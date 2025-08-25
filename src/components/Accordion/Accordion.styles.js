@@ -3,39 +3,23 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { headline32 } from 'themes/typography';
-
-const rotateAnimation = keyframes`
-  0% {
-    transform: scale(1) rotate(0deg);
-  }
-
-  50% {
-    transform: scale(1.2) rotate(-90deg);
-  }
-
-  100% {
-    transform: scale(1) rotate(-180deg);
-  }
-`;
+import { textLg } from 'themes/typography';
 
 export const StyledAccordion = styled.details`
-  padding: 48px 0;
-
   summary {
     position: relative;
     list-style: none;
     cursor: pointer;
-    ${headline32}
-    padding-right: 60px;
-
-    ${mQ(bp.desktop)} {
-      padding-right: 136px;
-    }
+    ${textLg};
+    font-weight: 700;
+    color: ${({ theme }) => theme.colors2025.space.white};
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    width: 100%;
 
     strong {
-      color: ${({ $isDark, theme }) =>
-        $isDark ? theme.colors.green : theme.colors.deepPink};
+      color: ${({ theme }) => theme.colors2025.blueViolet};
     }
 
     &::-webkit-details-marker,
@@ -43,48 +27,16 @@ export const StyledAccordion = styled.details`
       display: none;
     }
 
-    &::after {
-      margin-left: auto;
-      font-size: 20px;
-      font-weight: normal;
-      text-align: center;
-      width: 44px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      letter-spacing: 2px;
-      font-weight: 700;
-      text-indent: 2px;
-      content: '${({ open }) => (open ? '[-]' : '[+]')}';
-      transition:
-        letter-spacing 0.2s ease 0.2s,
-        text-indent 0.2s ease 0.2s,
-        color 0.4s ease;
-
-      ${mQ(bp.desktop)} {
-        width: 72px;
-        font-size: 32px;
-        letter-spacing: 1px;
-        text-indent: 1px;
-      }
-    }
-
-    &:hover {
-      &::after {
-        animation: ${rotateAnimation} 0.2s linear;
-        color: ${({ $isDark, theme }) =>
-          $isDark ? theme.colors.green : theme.colors.deepPink};
-        letter-spacing: 4px;
-        text-indent: 4px;
-
-        @media (prefers-reduced-motion) {
-          animation-play-state: paused;
-        }
-      }
+    span {
+      max-width: 752px;
     }
   }
 
   > div {
-    padding: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 752px;
+    padding: 16px 0 0;
   }
 `;

@@ -22,9 +22,24 @@ export const StyledCardCalloutContainer = styled.div`
   gap: 32px;
   padding: 32px;
   position: relative;
+  width: calc(100% - 64px);
 
   ${mQ(bp.tablet)} {
     padding: 40px;
+    width: calc(100% - 80px);
+  }
+`;
+
+export const StyledCardCalloutWrapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  ${({ $bodyGap }) => $bodyGap === 'xl' && 'gap: 64px;'}
+
+  ${mQ(bp.tablet)} {
+    ${({ $bodyGap }) => $bodyGap === 'xl' && 'gap: 80px;'}
+    ${({ $bodyGap }) => $bodyGap === 'lg' && 'gap: 40px;'}
   }
 `;
 
@@ -46,7 +61,7 @@ export const StyledCardCalloutWrap = styled.div`
 export const StyledCardCalloutContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   align-items: flex-start;
 `;
 
@@ -57,16 +72,16 @@ export const StyledCardCalloutTitle = styled.h2`
   color: ${({ theme }) => theme.colors2025.space.white};
 `;
 
-export const StyledCardCalloutBody = styled.p`
+export const StyledCardCalloutBody = styled.div`
   ${textBase};
 
   margin: 0;
+  width: 100%;
 
+  ${({ $smallBody }) => $smallBody && 'max-width: 752px;'}
   a {
     position: relative;
-    display: inline-block;
     color: ${({ theme }) => theme.colors2025.lavendar};
-    text-decoration: none;
 
     &::before {
       content: '';

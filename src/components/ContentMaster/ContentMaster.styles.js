@@ -13,8 +13,29 @@ import {
   headline5,
   textBase,
   textLg,
+  textSm,
   textXl,
 } from 'themes/typography';
+
+export const StyledContentMasterTitleRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 8px;
+
+  img {
+    height: 20px;
+    width: 20px;
+  }
+
+  ${mQ(bp.desktop)} {
+    gap: 16px;
+
+    img {
+      height: 24px;
+      width: 24px;
+    }
+  }
+`;
 
 export const StyledContentMaster = styled.div`
   position: relative;
@@ -24,7 +45,12 @@ export const StyledContentMaster = styled.div`
   text-align: left;
 
   ${mQ(bp.desktop)} {
+    gap: 12px;
     text-align: ${({ $align }) => $align};
+
+    ${StyledContentMasterTitleRow} {
+      justify-content: ${({ $align }) => $align};
+    }
   }
 
   > *:last-child {
@@ -35,12 +61,16 @@ export const StyledContentMaster = styled.div`
 export const StyledContentMasterHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+
+  ${mQ(bp.desktop)} {
+    gap: 12px;
+  }
 `;
 
 export const StyledContentMasterEyebrow = styled.p`
-  ${({ $size }) => ($size === 'xl' || $size === 'lg') && body20};
-  ${({ $size }) => ($size === 'md' || $size === 'sm') && body16};
+  ${textSm};
+  text-transform: uppercase;
 `;
 
 export const StyledContentMasterTitle = styled.h2`
@@ -60,11 +90,14 @@ export const StyledContentMasterBody = styled.div`
   p,
   li {
     ${textBase}
+    ${({ $size }) => $size === 'xl2' && textLg};
+    ${({ $size }) => $size === 'xl' && textXl};
 
-    ${mQ(bp.desktop)} {
-      ${({ $size }) => $size === 'xl2' && textLg};
-      ${({ $size }) => $size === 'xl' && textXl};
-    }
+    ${({ $color }) => $color && `color: ${$color};`}
+  }
+
+  ul > li::marker {
+    color: ${({ theme }) => theme.colors2025.melrose};
   }
 
   p {
@@ -75,11 +108,24 @@ export const StyledContentMasterBody = styled.div`
     }
   }
 
-  ul {
+  ul,
+  ol {
     display: flex;
     gap: 16px;
     flex-direction: column;
-    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+  }
+
+  ul {
+    list-style-type: square;
+  }
+
+  ol ol {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 1rem;
+    list-style-type: lower-alpha;
     padding-left: 20px;
   }
 
@@ -117,8 +163,9 @@ export const StyledContentMasterCta = styled.div`
 `;
 
 export const StyledContentMasterList = styled.ul`
-  list-style-type: disc;
+  list-style-type: square;
   padding-left: 20px;
+  margin: 0;
 
   ${({ $columns }) =>
     $columns === '2'
@@ -130,6 +177,14 @@ export const StyledContentMasterList = styled.ul`
       display: block;
       column-count: 2;
       column-gap: 64px;
+      
+      li {
+        margin-bottom: 16px;
+      }
+      
+      li:nth-child(4), li:last-child {
+        margin-bottom: 0;
+      }
     }
   `
       : `
@@ -140,10 +195,6 @@ export const StyledContentMasterList = styled.ul`
 
   li {
     ${body16}
-
-    ${mQ(bp.desktop)} {
-      ${body20}
-    }
   }
 
   strong {

@@ -5,9 +5,11 @@ import {
   StyledAccordionImageWrapper,
   StyledAccordionHeader,
   StyledAccordionLinks,
+  StyledGlowBox,
 } from './AccordionCouncil.styles';
 import ContentMaster from 'components/ContentMaster';
 import { Markdown } from 'components/markdown';
+import ButtonMain from '../ButtonMain';
 
 const AccordionCouncil = (props) => {
   const {
@@ -34,19 +36,51 @@ const AccordionCouncil = (props) => {
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
           <StyledAccordionImageWrapper $bgImage={bgImage}>
+            <StyledGlowBox />
+            <StyledGlowBox />
+            <StyledGlowBox />
+            <StyledGlowBox />
             <StyledAccordionImage $rotate={imageRotatation}>
               <img {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster
-            size="lg"
-            eyebrow={subtitle}
-            title={<>{title}</>}
-            hasCaret={false}
-          >
+          <ContentMaster size="sm" eyebrow={subtitle} title={<>{title}</>}>
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>
+        <ButtonMain
+          onClick={() => setOpen((prev) => !prev)}
+          as="button"
+          size="xs"
+        >
+          {open ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="2"
+              viewBox="0 0 16 2"
+              fill="none"
+            >
+              <path
+                d="M15.9998 1.49973H0.000164141V0.499836H15.9998V1.49973Z"
+                fill="white"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="M15.9998 8.5001L8.49995 8.4994L8.50064 16.0007L7.50005 16V8.4994L0.000164141 8.5001V7.5002L7.50005 7.49951V0.000312794H8.49995V7.49951L15.9998 7.5002V8.5001Z"
+                fill="white"
+              />
+            </svg>
+          )}
+        </ButtonMain>
       </summary>
       <div>
         {children && <Markdown string={children} />}

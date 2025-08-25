@@ -101,6 +101,7 @@ export const StyledFooterLinksColumn = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding-left: 0;
   }
 
   li {

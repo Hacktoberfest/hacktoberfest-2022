@@ -9,47 +9,34 @@ import {
 } from './HeroSecondary.styles';
 import ButtonMain from 'components/ButtonMain';
 import { useTheme } from 'styled-components';
-import SectionDivider from 'components/SectionDivider';
-import Glitch from 'components/Glitch';
 import ContentMaster from 'components/ContentMaster';
 
 const HeroSecondary = (props) => {
-  const {
-    title,
-    body,
-    icon,
-    cta,
-    reverse = false,
-    includeDivider = true,
-  } = props;
-  const theme = useTheme();
+  const { title, body, icon, iconSize, titleSize, cta, ...rest } = props;
   return (
-    <StyledHeroSecondary $hasIcon={!!icon}>
+    <StyledHeroSecondary {...rest}>
       <Container>
-        <StyledHeroSecondaryContainer $hasIcon={!!icon} $reverse={reverse}>
-          <StyledHeroSecondaryContent $hasIcon={!!icon}>
-            <StyledHeroSecondaryTitle>{title}</StyledHeroSecondaryTitle>
-            <StyledHeroSecondarybody>
-              <ContentMaster align="center" size="md">
-                {body}
-              </ContentMaster>
-            </StyledHeroSecondarybody>
-            {cta && <ButtonMain {...cta} />}
-          </StyledHeroSecondaryContent>
+        <StyledHeroSecondaryContainer>
           {icon && (
-            <StyledHeroSecondaryImage>
-              <Glitch image={icon} />
+            <StyledHeroSecondaryImage $size={iconSize}>
+              {icon}
             </StyledHeroSecondaryImage>
           )}
+          <StyledHeroSecondaryContent>
+            <StyledHeroSecondaryTitle $size={titleSize}>
+              {title}
+            </StyledHeroSecondaryTitle>
+            {body && (
+              <StyledHeroSecondarybody>
+                <ContentMaster align="center" size="md">
+                  {body}
+                </ContentMaster>
+              </StyledHeroSecondarybody>
+            )}
+            {cta && <ButtonMain {...cta} />}
+          </StyledHeroSecondaryContent>
         </StyledHeroSecondaryContainer>
       </Container>
-      {includeDivider && (
-        <SectionDivider
-          align="left"
-          bgColor="transparent"
-          fgColor={theme.colors.typography}
-        />
-      )}
     </StyledHeroSecondary>
   );
 };

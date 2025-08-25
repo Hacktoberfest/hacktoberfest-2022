@@ -16,7 +16,8 @@ export const StyledInputContainer = styled.div`
     bottom: 0;
     height: 1px;
     width: 100%;
-    background-color: ${({ theme }) => theme.colors2025.eastBay};
+    background-color: ${({ $hasError, theme }) =>
+      theme.colors2025[$hasError ? 'error' : 'eastBay']};
     transition: opacity 300ms ease-in-out;
   }
 
@@ -27,10 +28,6 @@ export const StyledInputContainer = styled.div`
       ${({ theme }) => theme.colors2025.melrose} 100%
     );
     opacity: 0;
-  }
-
-  &::after {
-    background-color: ${({ theme }) => theme.colors2025.eastBay};
   }
 
   &:has(input:hover, input:focus-visible) {
@@ -51,7 +48,7 @@ export const StyledInputContainer = styled.div`
 `;
 
 export const StyledInput = styled.input`
-  ${textBase}
+  ${textBase};
   background: transparent;
   border: 0;
   color: ${({ theme }) => theme.colors2025.space.white};
@@ -76,4 +73,15 @@ export const StyledInputLabel = styled.label`
   span {
     color: ${({ theme }) => theme.colors2025.error};
   }
+`;
+
+export const StyledInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+export const StyledError = styled.span`
+  ${textSm};
+  color: ${({ theme }) => theme.colors2025.error};
 `;

@@ -8,10 +8,12 @@ export const StyledContentSide = styled.div`
   align-items: flex-start;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: ${({ $size }) => ($size === 'small' ? '16px' : '24px')};
 
   ${mQ(bp.desktop)} {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 64px;
+    ${({ $align }) => $align === 'center' && 'align-items: center;'}
+    grid-template-columns: minmax(auto, ${({ $size, $isEqual }) =>
+      $size === 'small' ? 0 : `${$isEqual ? '1fr' : '400px'}`}) 1fr;
+    gap: ${({ $size }) => ($size === 'small' ? '16px' : '48px')};
   }
 `;

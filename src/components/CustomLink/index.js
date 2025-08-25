@@ -7,6 +7,7 @@ const CustomLink = ({
   icon,
   iconSize,
   target,
+  size,
   isTopNav,
   showExternal = true,
   ...props
@@ -16,6 +17,7 @@ const CustomLink = ({
     $iconSize={iconSize}
     target={target}
     href={href}
+    $size={size}
     {...props}
   >
     <StyledCustomLinkContent $isExternal={showExternal && target === '_blank'}>

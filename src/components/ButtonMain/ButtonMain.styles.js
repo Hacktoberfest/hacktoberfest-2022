@@ -5,7 +5,7 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { textSm } from 'themes/typography';
+import { body20, body24, body32, textSm } from 'themes/typography';
 
 const clipAnimate = keyframes`
   0% { clip-path: inset(0 100% 0 0); }
@@ -30,13 +30,49 @@ export const StyledButtonMain = styled(Link)`
   line-height: normal;
   letter-spacing: normal;
 
-  ${({ $variant, theme }) =>
+  ${({ $isExternal }) =>
+    $isExternal &&
+    `
+    &::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: 8px;
+      width: 4px;
+      height: 4px;
+      border: 1px solid currentColor;
+      border-left: 0;
+      border-bottom: 0;
+      transition: transform 300ms ease-in-out;
+      transform: translateX(0);
+    }
+    
+    &:hover,
+    &:focus {
+      &::after {
+        transform: translateX(5px);
+      }
+    }
+
+  `};
+
+  ${({ $variant, $size, theme }) =>
     $variant === 'primary' &&
     `
       color: ${theme.colors2025.space.white};
       background: linear-gradient(90deg, rgb(from ${theme.colors2025.blueViolet} r g b / 0.15) 0%, rgb(from ${theme.colors2025.melrose} r g b / 0.15) 100%);
       box-shadow: 0 0 0 1px rgb(from ${theme.colors2025.space.dust} r g b / 0.25);
       position: relative;
+      
+      ${
+        $size === 'xs' &&
+        `
+        flex-shrink: 0;
+        height: 32px;
+        width: 32px;
+        padding: 0;
+      `
+      };
 
       &:hover {
         background: linear-gradient(270deg, ${theme.colors2025.melrose} 0%, ${theme.colors2025.blueViolet} 100%);

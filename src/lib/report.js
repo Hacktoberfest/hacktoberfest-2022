@@ -1,7 +1,8 @@
 import { currentHacktoberfest, registrationStart } from './config';
 
 export const reportTitle =
-  "Found a repository that doesn't follow the values of Hacktoberfest? Let us know and we'll review it.";
+  "Found a repository that doesn't follow the values of Hacktoberfest?";
+export const reportContent = "Let us know and we'll review it.";
 
 export const reportEnded =
   `We are no longer accepting new repository reports, as Hacktoberfest #${
