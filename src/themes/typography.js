@@ -54,6 +54,18 @@ export const headline48 = css`
   }
 `;
 
+export const headline40 = css`
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 40px; /* 125% */
+
+  ${mQ(bp.desktop)} {
+    font-size: 40px;
+    line-height: 50px; /* 125% */
+  }
+`;
+
 export const headline32 = css`
   font-size: 24px;
   font-style: normal;
