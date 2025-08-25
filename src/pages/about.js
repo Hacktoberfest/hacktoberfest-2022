@@ -1,15 +1,8 @@
 import Head from 'next/head';
 import styled, { useTheme } from 'styled-components';
 
-import {
-  lore,
-  advisoryCouncil,
-  council,
-  sharing,
-  rewards,
-  sponsorsAndPartners,
-} from 'lib/about';
-import { founders, sustainer, partners, advocate } from 'lib/sponsors';
+import { lore, sharing, rewards, sponsorsAndPartners } from 'lib/about';
+import { founders, partners, advocate } from 'lib/sponsors';
 
 import {
   breakpoints as bp,
@@ -18,21 +11,19 @@ import {
 
 import Divider from 'components/Divider';
 import Section from 'components/Section';
-import DorknamicIsland from 'components/dorknamic-island';
 import HeroSecondary from 'components/HeroSecondary';
 import ContentMaster from 'components/ContentMaster';
 import Container from 'components/Container';
-import SpotHeader from 'components/SpotHeader';
-import AccordionCouncil from 'components/AccordionCouncil';
-import DividerRow from 'components/DividerRow';
 import AccordionSponsor from 'components/AccordionSponsor';
 import ContentSide from 'components/ContentSide';
-import SectionDivider from 'components/SectionDivider';
-import asciiAbout from 'assets/img/ascii-about.svg';
-import asciiShare from 'assets/img/ascii-share.svg';
-import asciiSponsors from 'assets/img/ascii-sponsors--black.svg';
+import about from 'assets/img/heroes/about.svg';
 import { StyledSectionSpacing } from 'styles/sharedStyles';
 import createMetaTitle from 'lib/createMetaTitle';
+import Image from 'next/image';
+import Layout from '../components/Layout';
+
+import animation from 'assets/img/heroicon-animation.gif';
+import CardCallout from '../components/CardCallout';
 
 export const StyledSponsorsList = styled.div`
   display: grid;
@@ -45,9 +36,81 @@ export const StyledSponsorsList = styled.div`
   }
 `;
 
-export const StyledLoreContent = styled.div`
-  a {
-    color: ${({ theme }) => theme.colors.deepPink};
+const StyledLeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+`;
+
+const StyledDesktopAnimation = styled(Image)`
+  display: none;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+    width: 335px;
+    height: auto;
+  }
+`;
+const StyledMobileAnimation = styled(Image)`
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  width: 220px;
+
+  ${mQ(bp.desktop)} {
+    display: none;
+  }
+`;
+
+const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+`;
+
+const StyledSectionDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+`;
+
+const StyledSponsorsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 0 auto;
+
+  ${mQ(bp.desktop)} {
+    gap: 64px;
+    max-width: 560px;
+  }
+`;
+
+const StyledContentMaster = styled(ContentMaster)`
+  margin-top: 18px;
+
+  ${mQ(bp.desktop)} {
+    margin-top: 56px;
+  }
+`;
+
+const StyledContentSide = styled(ContentSide)`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  ${mQ(bp.desktop)} {
+    flex-direction: row;
+    gap: 144px;
+  }
+
+  img {
+    border-radius: 8px;
+    height: 241px;
+    object-fit: cover;
+    width: 100%;
+
+    ${mQ(bp.desktop)} {
+      height: 304px;
+      width: 304px;
+    }
   }
 `;
 
@@ -70,268 +133,148 @@ const About = () => {
         />
       </Head>
 
-      <DorknamicIsland>
-        <a href="#lore">Lore</a>
-        <a href="#love">Love</a>
-        <a href="#sponsors">Sponsors</a>
-        <a href="#rewards">Rewards</a>
-        <a href="#council">Council</a>
-      </DorknamicIsland>
+      <HeroSecondary title="About" icon={<Image src={about} alt="" />} />
 
-      <HeroSecondary
-        title="About"
-        icon={<img src={asciiAbout.src} alt="" width="608" height="608" />}
-      />
-
-      <Section id="lore">
-        <Container>
-          <StyledSectionSpacing>
-            <ContentMaster size="xl" title={lore.title} />
-
-            <StyledLoreContent>
+      <Layout>
+        <Section id="lore">
+          <Container>
+            <StyledSectionSpacing>
               <ContentSide>
-                <ContentMaster size="xl">{lore.content}</ContentMaster>
-                <ContentMaster size="xl" links={lore.links}>
-                  {lore.contentRight}
+                <StyledLeftSide>
+                  <ContentMaster title={lore.title} size="lg" />
+                  <StyledDesktopAnimation src={animation} alt="" />
+                </StyledLeftSide>
+                <CardCallout
+                  body={
+                    <ContentMaster size="lg" links={lore.links}>
+                      {lore.contentRight}
+                    </ContentMaster>
+                  }
+                />
+                <StyledMobileAnimation src={animation} alt="" />
+              </ContentSide>
+            </StyledSectionSpacing>
+          </Container>
+        </Section>
+
+        <StyledDivider />
+
+        <Section id="love">
+          <Container>
+            <StyledSectionSpacing>
+              <ContentMaster title={sharing.intro} size="lg" />
+              <ContentSide isEqual>
+                <StyledSectionSpacing $isSmall>
+                  <ContentMaster
+                    size="sm"
+                    title={sharing.share.title}
+                    titleIcon={sharing.share.titleIcon}
+                  >
+                    {sharing.share.content}
+                  </ContentMaster>
+                  <ContentMaster
+                    size="sm"
+                    title={sharing.social.title}
+                    titleIcon={sharing.social.titleIcon}
+                  >
+                    {sharing.social.content}
+                  </ContentMaster>
+                </StyledSectionSpacing>
+                <ContentMaster
+                  size="sm"
+                  title={sharing.writing.title}
+                  titleIcon={sharing.writing.titleIcon}
+                >
+                  {sharing.writing.content}
                 </ContentMaster>
               </ContentSide>
-            </StyledLoreContent>
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
-
-      <SectionDivider
-        align="right"
-        bgColor={theme.colors.typography}
-        fgColor={theme.colors.black}
-      />
-
-      <Section
-        id="love"
-        bgColor={theme.colors.black}
-        isDark
-        color={theme.colors.typography}
-      >
-        <Container>
-          <StyledSectionSpacing>
-            <SpotHeader
-              image={{
-                src: asciiShare.src,
-                alt: '',
-              }}
-              content={{
-                size: 'xl',
-                title: sharing.share.title,
-                children: sharing.share.content,
-              }}
-            />
-
-            <Divider type="doubledashed" />
-
-            <DividerRow gap="128px">
-              <ContentMaster
-                size="md"
-                titleTag="h3"
-                title={<>{sharing.writing.title}</>}
-                children={sharing.writing.content}
-                hasCaret={false}
-              />
-
-              <ContentMaster
-                size="md"
-                titleTag="h3"
-                title={<>{sharing.social.title}</>}
-                children={sharing.social.content}
-                hasCaret={false}
-              />
-            </DividerRow>
-
-            <ContentMaster align="center" size="xl2">
-              {sharing.cta}
-            </ContentMaster>
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
-
-      <SectionDivider
-        bgColor={theme.colors.typography}
-        fgColor={theme.colors.black}
-        isFlipped
-      />
-
-      <Section id="sponsors">
-        <Container>
-          <StyledSectionSpacing>
-            <SpotHeader
-              image={{
-                src: asciiSponsors.src,
-                alt: '',
-              }}
-              content={{
-                size: 'xl',
-                title: sponsorsAndPartners.title,
-                children: sponsorsAndPartners.content,
-              }}
-            />
-
-            <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="lg" title="Our Sponsors" hasCaret={false} />
-
-              <ContentMaster
-                size="md"
-                title={<>Founder</>}
-                titleTag="h3"
-                hasCaret={false}
-              />
-
-              <StyledSponsorsList>
-                {founders.map((item) => (
-                  <AccordionSponsor
-                    key={item.title}
-                    image={{ src: item.image, alt: '' }}
-                    title={item.title}
-                    link={{ children: item.link.title, ...item.link }}
-                    children={item.content}
-                    collapsed
-                  />
-                ))}
-              </StyledSponsorsList>
             </StyledSectionSpacing>
+          </Container>
+        </Section>
 
-            <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster
-                size="md"
-                title={<>Advocate</>}
-                titleTag="h3"
-                hasCaret={false}
-              />
+        <StyledDivider />
+
+        <Section id="sponsors">
+          <Container>
+            <StyledSectionSpacing $isSmall>
+              <StyledSponsorsContainer>
+                <ContentMaster
+                  size="lg"
+                  align="center"
+                  title={sponsorsAndPartners.title}
+                >
+                  {sponsorsAndPartners.content}
+                </ContentMaster>
+
+                <StyledSectionDivider type="solid" />
+
+                <StyledSectionSpacing $isSmall={true}>
+                  <ContentMaster size="md" title="Sponsors" align="center" />
+
+                  {founders.map((item) => (
+                    <CardCallout>
+                      <AccordionSponsor
+                        key={item.title}
+                        image={item.image}
+                        title={item.title}
+                        children={item.content}
+                        list={item.list}
+                        collapsed
+                      />
+                    </CardCallout>
+                  ))}
+                </StyledSectionSpacing>
+              </StyledSponsorsContainer>
 
               <StyledSponsorsList>
                 {advocate.map((item) => (
-                  <AccordionSponsor
-                    key={item.title}
-                    image={{ src: item.image, alt: '' }}
-                    title={item.title}
-                    link={{ children: item.link.title, ...item.link }}
-                    children={item.content}
-                    collapsed
-                  />
+                  <CardCallout>
+                    <AccordionSponsor
+                      key={item.title}
+                      image={item.image}
+                      title={item.title}
+                      children={item.content}
+                      collapsed
+                    />
+                  </CardCallout>
                 ))}
               </StyledSponsorsList>
-            </StyledSectionSpacing>
 
-            <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster
-                size="md"
-                title={<>Sustainer</>}
-                titleTag="h3"
-                hasCaret={false}
-              />
-
-              <StyledSponsorsList>
-                {sustainer.map((item) => (
-                  <AccordionSponsor
-                    key={item.title}
-                    image={{ src: item.image, alt: '' }}
-                    title={item.title}
-                    link={{ children: item.link.title, ...item.link }}
-                    children={item.content}
-                    collapsed
-                  />
-                ))}
-              </StyledSponsorsList>
-            </StyledSectionSpacing>
-
-            <StyledSectionSpacing $isSmall={true}>
-              <ContentMaster size="lg" title="Our Partners" hasCaret={false} />
+              <StyledContentMaster size="lg" title="Partners" align="center" />
 
               <StyledSponsorsList>
                 {partners.map((item) => (
-                  <AccordionSponsor
-                    key={item.title}
-                    image={{ src: item.image, alt: '' }}
-                    title={item.title}
-                    link={{ children: item.link.title, ...item.link }}
-                    children={item.content}
-                    collapsed
-                  />
+                  <CardCallout>
+                    <AccordionSponsor
+                      key={item.title}
+                      image={item.image}
+                      title={item.title}
+                      children={item.content}
+                      collapsed
+                    />
+                  </CardCallout>
                 ))}
               </StyledSponsorsList>
             </StyledSectionSpacing>
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
+          </Container>
+        </Section>
 
-      <SectionDivider
-        bgColor={theme.colors.green}
-        fgColor={theme.colors.typography}
-        isFlipped
-      />
+        <Section id="rewards">
+          <Container>
+            <StyledContentSide>
+              <Image src={rewards.image} alt="" />
 
-      <Section id="rewards" bgColor={theme.colors.green}>
-        <Container>
-          <StyledSectionSpacing>
-            <ContentMaster size="xl" title={rewards.title} />
+              <ContentMaster size="lg" title={rewards.title}>
+                {rewards.content}
+              </ContentMaster>
+            </StyledContentSide>
+          </Container>
+        </Section>
 
-            <ContentSide>
-              <ContentMaster size="xl">{rewards.content}</ContentMaster>
-
-              <ContentMaster size="xl">{rewards.contentRight}</ContentMaster>
-            </ContentSide>
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
-
-      <SectionDivider
-        align="right"
-        bgColor={theme.colors.green}
-        fgColor={theme.colors.typography}
-      />
-
-      <Section id="council">
-        <Container>
-          <StyledSectionSpacing>
-            <ContentMaster size="xl" title={advisoryCouncil.title}>
-              {advisoryCouncil.content}
-            </ContentMaster>
-
-            <StyledSectionSpacing $isSmall>
-              {council.map((member, index) => (
-                <AccordionCouncil
-                  key={member.name}
-                  filled
-                  image={{
-                    src: member.image,
-                    alt: `Profile image of ${member.name}`,
-                  }}
-                  title={member.name}
-                  subtitle={`[${member.role}]`}
-                  skills={member.skills}
-                  links={member.links}
-                  collapsed
-                >
-                  {member.bio}
-                </AccordionCouncil>
-              ))}
-            </StyledSectionSpacing>
-          </StyledSectionSpacing>
-        </Container>
-      </Section>
+        <StyledDivider />
+      </Layout>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  // This page is not yet ready for public access, so we will return a 404
-  const shouldRender404 = true;
-
-  if (shouldRender404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return { props: {} };
 };
 
 export default About;

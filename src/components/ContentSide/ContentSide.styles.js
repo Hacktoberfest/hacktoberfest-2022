@@ -12,8 +12,8 @@ export const StyledContentSide = styled.div`
 
   ${mQ(bp.desktop)} {
     ${({ $align }) => $align === 'center' && 'align-items: center;'}
-    grid-template-columns: minmax(auto, ${({ $size }) =>
-      $size === 'small' ? 0 : '400px'}) 1fr;
+    grid-template-columns: minmax(auto, ${({ $size, $isEqual }) =>
+      $size === 'small' ? 0 : `${$isEqual ? '1fr' : '400px'}`}) 1fr;
     gap: ${({ $size }) => ($size === 'small' ? '16px' : '48px')};
   }
 `;

@@ -17,6 +17,26 @@ import {
   textXl,
 } from 'themes/typography';
 
+export const StyledContentMasterTitleRow = styled.div`
+  align-items: center;
+  display: flex;
+  gap: 8px;
+
+  img {
+    height: 20px;
+    width: 20px;
+  }
+
+  ${mQ(bp.desktop)} {
+    gap: 16px;
+
+    img {
+      height: 24px;
+      width: 24px;
+    }
+  }
+`;
+
 export const StyledContentMaster = styled.div`
   position: relative;
   display: flex;
@@ -27,6 +47,10 @@ export const StyledContentMaster = styled.div`
   ${mQ(bp.desktop)} {
     gap: 12px;
     text-align: ${({ $align }) => $align};
+
+    ${StyledContentMasterTitleRow} {
+      justify-content: ${({ $align }) => $align};
+    }
   }
 
   > *:last-child {

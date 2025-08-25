@@ -12,12 +12,52 @@ import useAuth from 'hooks/useAuth';
 import HeroSecondary from 'components/HeroSecondary';
 import Container from 'components/Container';
 import ContentMaster from 'components/ContentMaster';
-import { reportEnded, reportTitle } from 'lib/report';
+import { reportContent, reportEnded, reportTitle } from 'lib/report';
 import Input from 'components/Input';
 import Select from 'components/Select';
 import ButtonMain from 'components/ButtonMain';
 import createMetaTitle from 'lib/createMetaTitle';
-import asciiReport from 'assets/img/ascii-report.svg';
+import report from 'assets/img/heroes/report.svg';
+import loading from 'assets/img/heroes/loading.svg';
+import Image from 'next/image';
+import CardCallout from '../components/CardCallout';
+import Layout from '../components/Layout';
+import styled from 'styled-components';
+
+import globeSmile from 'assets/img/globe-smile.svg';
+
+const StyledReportHeader = styled(ContentMaster)`
+  > div {
+    text-align: left;
+  }
+
+  h2 {
+    font-family: 'Atkinson Hyperlegible';
+    letter-spacing: 0.48px;
+    text-shadow: none;
+  }
+`;
+
+const StyledSubmitContainer = styled.div`
+  margin-top: 32px;
+`;
+
+const StyledSuccessMessage = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  ${StyledReportHeader} {
+    > div > div {
+      justify-content: center;
+    }
+
+    > div {
+      text-align: center;
+    }
+  }
+`;
 
 const Report = () => {
   const auth = useAuth(false);
@@ -140,101 +180,98 @@ const Report = () => {
       </Head>
 
       <HeroSecondary
-        title="Report"
-        icon={<img src={asciiReport.src} alt="" width="608" height="608" />}
+        title={auth.active ? 'Report' : 'Coming Soon'}
+        icon={<Image src={auth.active ? report : loading} alt="" />}
+        iconSize="sm"
+        titleSize="sm"
+        body={
+          !auth.active &&
+          'The ability to report repositories will be available when registration opens.'
+        }
       />
 
-      <Section>
-        <Container>
-          {!hasTrackingEnded && (
-            <ContentMaster size="xl2" children={reportTitle} />
-          )}
+      {auth.active && (
+        <Layout>
+          <Section>
+            <Container inner>
+              <CardCallout>
+                {success ? (
+                  <StyledSuccessMessage>
+                    <Image src={globeSmile} alt="" />
+                    <StyledReportHeader
+                      size="sm"
+                      title="Successfully reported"
+                      align="center"
+                    >
+                      Thanks for letting us know about this repository. We'll
+                      review it as soon as possible.
+                    </StyledReportHeader>
+                  </StyledSuccessMessage>
+                ) : hasTrackingEnded ? (
+                  <ContentMaster size="xl2" children={reportEnded} />
+                ) : auth.loading ? (
+                  <Loader message=">> Loading /usr/lib/report..." />
+                ) : auth.state !== 'profile' ? (
+                  <StyledReportHeader
+                    size="sm"
+                    title="User not registered"
+                    align="left"
+                    cta={{
+                      href: '/auth',
+                      children: 'Start Hacking',
+                    }}
+                  >
+                    You must be registered for Hacktoberfest to report
+                    repositories.
+                  </StyledReportHeader>
+                ) : (
+                  <>
+                    <StyledReportHeader size="sm" title={reportTitle}>
+                      {reportContent}
+                    </StyledReportHeader>
+                    <Form ref={form} onSubmit={submit}>
+                      <Select
+                        name="provider"
+                        label="Provider"
+                        value={provider}
+                        items={Object.entries(providerMap).map(
+                          ([provider, { name }]) => [provider, name],
+                        )}
+                        onChange={(e) => setProvider(e.target.value)}
+                        disabled={submitting}
+                        required
+                      />
+                      <Input
+                        name="repository"
+                        label="Repository"
+                        placeholder="Owner/Target"
+                        value={repository}
+                        onChange={(e) => setRepository(e.target.value)}
+                        disabled={submitting}
+                        error={'aaa'}
+                        required
+                      />
 
-          {hasTrackingEnded ? (
-            <ContentMaster size="xl2" children={reportEnded} />
-          ) : !auth.active ? (
-            <ContentMaster size="xl2">
-              Coming soon: The ability to report repositories will be available
-              when registration opens.
-            </ContentMaster>
-          ) : auth.loading ? (
-            <Loader message=">> Loading /usr/lib/report..." />
-          ) : auth.state !== 'profile' ? (
-            <Section small>
-              <ContentMaster
-                size="xl2"
-                cta={{
-                  href: '/auth',
-                  variant: 'secondary-deep-pink',
-                  children: 'Start Hacking',
-                }}
-              >
-                You must be registered for Hacktoberfest to report repositories.
-              </ContentMaster>
-            </Section>
-          ) : (
-            <>
-              <Form
-                ref={form}
-                onSubmit={submit}
-                success={
-                  success &&
-                  "Thanks for letting us know about this repository. We'll review it as soon as possible."
-                }
-                error={error}
-                style={{ marginTop: '48px' }}
-              >
-                <Select
-                  name="provider"
-                  label="Provider"
-                  value={provider}
-                  items={Object.entries(providerMap).map(
-                    ([provider, { name }]) => [provider, name],
-                  )}
-                  onChange={(e) => setProvider(e.target.value)}
-                  disabled={submitting}
-                  required
-                />
-                <Input
-                  name="repository"
-                  label="Repository"
-                  placeholder="Owner/Target"
-                  value={repository}
-                  onChange={(e) => setRepository(e.target.value)}
-                  disabled={submitting}
-                  required
-                />
-
-                <ButtonMain
-                  size="lg"
-                  as="button"
-                  type="submit"
-                  variant="secondary-deep-pink"
-                  onClick={submit}
-                  disabled={submitting}
-                >
-                  Report
-                </ButtonMain>
-              </Form>
-            </>
-          )}
-        </Container>
-      </Section>
+                      <StyledSubmitContainer>
+                        <ButtonMain
+                          as="button"
+                          type="submit"
+                          onClick={submit}
+                          disabled={submitting}
+                        >
+                          Report
+                        </ButtonMain>
+                      </StyledSubmitContainer>
+                    </Form>
+                  </>
+                )}
+              </CardCallout>
+            </Container>
+          </Section>
+        </Layout>
+      )}
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  // This page is not yet ready for public access, so we will return a 404
-  const shouldRender404 = true;
-
-  if (shouldRender404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return { props: {} };
 };
 
 export default Report;

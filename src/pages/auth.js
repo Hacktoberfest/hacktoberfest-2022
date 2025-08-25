@@ -4,10 +4,7 @@ import styled, { useTheme } from 'styled-components';
 
 import Loader from 'components/loader';
 import Container from 'components/Container';
-import Card from 'components/Card';
 import Section from 'components/Section';
-import Notification from 'components/notification';
-import Type from 'components/type';
 
 import useAuth from 'hooks/useAuth';
 
@@ -18,51 +15,84 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body24 } from 'themes/typography';
 
 import logoGithub from 'assets/img/logo-github.svg';
 import logoGitlab from 'assets/img/logo-gitlab.svg';
+import CardCallout from '../components/CardCallout';
+import Image from 'next/image';
+import ContentMaster from '../components/ContentMaster';
+import ButtonMain from '../components/ButtonMain';
+import Layout from '../components/Layout';
 
-const StyledNotification = styled(Notification)`
-  margin: 0 0 40px;
-`;
+const StyledAuth = styled(Section)`
+  padding: 120px 0 64px;
 
-const StyledP = styled.p`
-  margin: 0 0 40px;
-  ${body24}
-`;
-
-const StyledAuth = styled.div`
-  background: ${({ theme }) => theme.colors.darkGreen};
-  color: ${({ theme }) => theme.colors.typography};
-  padding: 68px 0;
+  ${mQ(bp.desktop)} {
+    padding-top: 180px;
+  }
 `;
 
 const StyledCardRow = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 32px;
+  gap: 24px;
+  margin-top: 32px;
 
   ${mQ(bp.desktop)} {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 64px;
+    gap: 32px;
+    margin-top: 56px;
+  }
+`;
+
+const StyledCardContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  button {
+    margin-top: auto;
+  }
+`;
+
+const StyledLogoAndTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  p {
+    color: ${({ theme }) => theme.colors2025.space.white};
+    font-weight: 700;
+  }
+
+  img {
+    height: 88px;
+    width: 88px;
+
+    ${mQ(bp.desktop)} {
+      height: 120px;
+      width: 120px;
+    }
+  }
+`;
+
+const StyledError = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  > :first-child {
+    color: ${({ theme }) => theme.colors2025.error};
   }
 `;
 
 const errorMap = {
-  'InvalidCredentials: Account already exists with matching email address': (
-    <>
-      A Hacktoberfest account already exists with the email address you are
-      trying to use.
-      <br />
-      <br />
-      If you have participated in a previous year of Hacktoberfest, please make
-      sure to use the same GitHub/GitLab account as before to log in. If you're
-      looking to link accounts from both GitHub and GitLab, sign in with the
-      account that you've used previously for Hacktoberfest and then link the
-      other account under the edit profile view.
-    </>
-  ),
+  'InvalidCredentials: Account already exists with matching email address': {
+    title:
+      'A Hacktoberfest account already exists with the email address you are trying to use.',
+    message:
+      "If you have participated in a previous year of Hacktoberfest, please make sure to use the same GitHub/GitLab account as before to log in. If you're looking to link accounts from both GitHub and GitLab, sign in with the account that you've used previously for Hacktoberfest and then link the other account under the edit profile view.",
+  },
 };
 
 const Auth = () => {
@@ -90,81 +120,60 @@ const Auth = () => {
           content={createMetaTitle('Auth')}
         />
       </Head>
-      <StyledAuth>
-        <Section>
+      <Layout>
+        <StyledAuth>
           <Container>
             {auth.loading ? (
               <Loader message=">> Authorization in progress..." />
             ) : (
               <>
                 {error && (
-                  <StyledNotification title="Error" color={theme.colors.error}>
-                    <p>
-                      An error occurred while authenticating you.{' '}
-                      {errorMap[error] || (
-                        <>
-                          <br />
-                          <code>
-                            {router.query.error_code}:{' '}
-                            {router.query.error_message}
-                          </code>
-                        </>
-                      )}
-                    </p>
-                  </StyledNotification>
+                  <CardCallout>
+                    <StyledError>
+                      <ContentMaster size="lg">
+                        {`An error occurred while authenticating you.
+                ${' '}
+                ${errorMap[error]?.title || ''}`}
+                      </ContentMaster>
+                      <ContentMaster>
+                        {errorMap[error]?.message ||
+                          `${router.query.error_code} ${router.query.error_message}`}
+                      </ContentMaster>
+                    </StyledError>
+                  </CardCallout>
                 )}
-                <StyledP>
-                  {'>>'} Boot dialogue:{' '}
-                  <Type text="Initiating Pilot protocol" />
-                </StyledP>
                 <StyledCardRow>
-                  <Card
-                    image={{
-                      src: logoGithub.src,
-                      alt: '',
-                    }}
-                    title="Authorize with GitHub"
-                    cta={{
-                      href: oauth('github'),
-                      children: 'initiate',
-                      variant: 'primary-green',
-                    }}
-                  />
+                  <CardCallout>
+                    <StyledCardContent>
+                      <StyledLogoAndTitle>
+                        <Image src={logoGithub} alt="Github" />
+                        <ContentMaster size="xl">
+                          Authorize with GitHub
+                        </ContentMaster>
+                      </StyledLogoAndTitle>
+                      <ButtonMain href={oauth('github')}>Initiate</ButtonMain>
+                    </StyledCardContent>
+                  </CardCallout>
 
-                  <Card
-                    imageRotatation="right"
-                    image={{
-                      src: logoGitlab.src,
-                      alt: '',
-                    }}
-                    title="Authorize with GitLab"
-                    cta={{
-                      href: oauth('gitlab'),
-                      children: 'initiate',
-                      variant: 'primary-green',
-                    }}
-                  />
+                  <CardCallout>
+                    <StyledCardContent>
+                      <StyledLogoAndTitle>
+                        <Image src={logoGitlab} alt="GitLab" />
+                        <ContentMaster size="xl">
+                          Authorize with GitLab
+                        </ContentMaster>
+                      </StyledLogoAndTitle>
+                      <ButtonMain href={oauth('gitlab')}>Initiate</ButtonMain>
+                    </StyledCardContent>
+                  </CardCallout>
                 </StyledCardRow>
               </>
             )}
           </Container>
-        </Section>
-      </StyledAuth>
+        </StyledAuth>
+      </Layout>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  // This page is not yet ready for public access, so we will return a 404
-  const shouldRender404 = true;
-
-  if (shouldRender404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return { props: {} };
 };
 
 export default Auth;
