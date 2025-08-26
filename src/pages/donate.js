@@ -32,7 +32,6 @@ export const StyledProjects = styled.div`
   padding: 32px 0;
 
   ${mQ(bp.desktop)} {
-    gap: 88px;
     padding: 88px 0;
   }
 `;

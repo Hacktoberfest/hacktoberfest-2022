@@ -15,7 +15,8 @@ import {
 import hacktoberfestLogo from 'assets/img/logo-hacktoberfest-12--nav.svg';
 import CustomLink from '../CustomLink';
 import ButtonMain from '../ButtonMain';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const Nav = ({ hasRegistrationStarted, isMobile = false }) => {
   return (
@@ -65,12 +66,25 @@ const Nav = ({ hasRegistrationStarted, isMobile = false }) => {
 };
 
 const Header = () => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const hasRegistrationStarted = useMemo(
     () => new Date() >= new Date(registrationStart),
     [],
   );
+
+  useEffect(() => {
+    const handleRouteChangeStart = () => {
+      setOpen(false);
+    };
+
+    router.events.on('routeChangeStart', handleRouteChangeStart);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChangeStart);
+    };
+  }, [router]);
 
   return (
     <StyledHeader $isOpen={open}>

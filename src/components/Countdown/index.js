@@ -6,6 +6,8 @@ import {
   StyledCountdownItemDivider,
   StyledLoader,
   StyledLoaderContent,
+  StyledSpan,
+  StyledCounter,
 } from './Countdown.styles';
 import useCountdown from 'hooks/useCountdown';
 import { registrationEnd, registrationStart } from 'lib/config';
@@ -49,29 +51,29 @@ const Countdown = () => {
           <StyledCountdown>
             <StyledCountdownItem $isActive={hasDaysLeft}>
               <p>
-                <span>{days}</span>
-                DAYS
+                <StyledCounter>{days}</StyledCounter>
+                <StyledSpan>DAYS</StyledSpan>
               </p>
             </StyledCountdownItem>
             <StyledCountdownItemDivider>:</StyledCountdownItemDivider>
             <StyledCountdownItem $isActive={hasHoursLeft}>
               <p>
-                <span>{hours}</span>
-                HOURS
+                <StyledCounter>{hours}</StyledCounter>
+                <StyledSpan>HOURS</StyledSpan>
               </p>
             </StyledCountdownItem>
             <StyledCountdownItemDivider>:</StyledCountdownItemDivider>
             <StyledCountdownItem $isActive={hasMinutesLeft}>
               <p>
-                <span>{minutes}</span>
-                MINUTES
+                <StyledCounter>{minutes}</StyledCounter>
+                <StyledSpan>MINUTES</StyledSpan>
               </p>
             </StyledCountdownItem>
             <StyledCountdownItemDivider>:</StyledCountdownItemDivider>
             <StyledCountdownItem $isActive={hasSecondsLeft}>
               <p>
-                <span>{seconds}</span>
-                SECONDS
+                <StyledCounter>{seconds}</StyledCounter>
+                <StyledSpan>SECONDS</StyledSpan>
               </p>
             </StyledCountdownItem>
             <Corners props={{ size: 10, width: 3 }} />

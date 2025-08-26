@@ -82,24 +82,6 @@ export const StyledCardCalloutBody = styled.div`
   a {
     position: relative;
     color: ${({ theme }) => theme.colors2025.lavendar};
-
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 1px;
-      background-color: ${({ theme }) => theme.colors2025.lavendar};
-      bottom: 0;
-      left: 0;
-      transform-origin: right;
-      transform: scaleX(0);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    &:hover::before {
-      transform-origin: left;
-      transform: scaleX(1);
-    }
   }
 `;
 

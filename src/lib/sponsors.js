@@ -1,16 +1,16 @@
-import foundersDigitalOcean from 'assets/img/founders/digitalocean.png';
-import foundersMlh from 'assets/img/founders/mlh.png';
+import foundersDigitalOcean from 'assets/img/founders/digitalocean.svg';
+import foundersMlh from 'assets/img/founders/mlh.svg';
 
-import amd from 'assets/img/sponsors/amd.png';
-import auth0 from 'assets/img/sponsors/auth0.png';
+import amd from 'assets/img/sponsors/amd-white.svg';
+import auth0 from 'assets/img/sponsors/auth0-white.svg';
 
-import partnersGitlab from 'assets/img/partners/gitlab.png';
-import partnersGithub from 'assets/img/partners/github.png';
-import partnersGithubEducation from 'assets/img/partners/github_education_small.png';
-import partnersCNCF from 'assets/img/partners/cncf.png';
-import partnersOSI from 'assets/img/partners/osi.png';
-import partnersDEV from 'assets/img/partners/dev.png';
-import partnersHolopin from 'assets/img/partners/holopin.png';
+import partnersGitlab from 'assets/img/partners/gitlab-white.svg';
+import partnersGithub from 'assets/img/partners/github-white.svg';
+import partnersGithubEducation from 'assets/img/partners/github_education-white.svg';
+import partnersCNCF from 'assets/img/partners/cloud-native-white.svg';
+import partnersOSI from 'assets/img/partners/osi-white.svg';
+import partnersDEV from 'assets/img/partners/dev-white.svg';
+import partnersHolopin from 'assets/img/partners/holopin-white.svg';
 
 export const founders = [
   {

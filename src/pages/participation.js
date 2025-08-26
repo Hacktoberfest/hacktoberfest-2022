@@ -62,10 +62,37 @@ const StyledPRDetails = styled.div`
   }
 `;
 
+const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  ${({ $showOnMobile }) =>
+    !$showOnMobile &&
+    `
+    display: none;
+  `}
+
+  ${mQ(bp.desktop)} {
+    display: block;
+  }
+`;
+
 const StyledParticipationSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+
+  ${StyledDivider} {
+    &:last-of-type {
+      display: none;
+
+      ${mQ(bp.desktop)} {
+        display: block;
+      }
+    }
+  }
+`;
+
+const StyledWidth = styled.div`
+  max-width: 528px;
 `;
 
 const StyledLowOrNoCodenSection = styled.div`
@@ -126,10 +153,6 @@ const StyledValueTitle = styled.div`
   }
 `;
 
-const StyledDivider = styled(Divider)`
-  color: ${({ theme }) => theme.colors2025.eastBay};
-`;
-
 const StyledSectionDivider = styled(Divider)`
   color: ${({ theme }) => theme.colors2025.eastBay};
   ${({ $showOnMobile }) =>
@@ -153,8 +176,7 @@ const StyledResourcesImage = styled(Image)`
     left: ${({ $isVisible }) => ($isVisible ? '0%' : '-100%')};
     opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 324px;
     transition:
       left 1s ease-out,
       opacity 1s ease-out;
@@ -166,7 +188,7 @@ const StyledLowCodeImage = styled(Image)`
 
   ${mQ(bp.desktop)} {
     display: block;
-    right: ${({ $isVisible }) => ($isVisible ? '0%' : '-100%')};
+    right: ${({ $isVisible }) => ($isVisible ? '-10%' : '-100%')};
     opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
     position: absolute;
     top: 50%;
@@ -204,6 +226,7 @@ const StyledResourceList = styled.ul`
 
   li::marker {
     color: ${({ theme }) => theme.colors2025.lavendar};
+    font-size: 20px;
   }
 `;
 
@@ -252,8 +275,13 @@ const StyledContentMaster = styled(ContentMaster)`
     }
   }
 
+  li {
+    line-height: 19.8px;
+  }
+
   li::marker {
     color: ${({ theme }) => theme.colors2025.melrose};
+    font-size: 20px;
   }
 `;
 
@@ -262,6 +290,22 @@ const StyledContentSide = styled(ContentSide)`
 
   ${mQ(bp.desktop)} {
     gap: 48px;
+  }
+`;
+
+const StyledContentSideEqualGap = styled(ContentSide)`
+  gap: 32px;
+`;
+
+const StyledMobileContentMaster = styled(ContentMaster)`
+  p {
+    ${textLg};
+    font-weight: 700;
+
+    ${mQ(bp.desktop)} {
+      ${textXl};
+      font-weight: 700;
+    }
   }
 `;
 
@@ -296,7 +340,7 @@ const Participation = () => {
           lowCodeObserver.disconnect();
         }
       },
-      { threshold: 0.8 },
+      { threshold: 0.5 },
     );
 
     if (resourcesRef.current) {
@@ -413,7 +457,11 @@ const Participation = () => {
                     <StyledResourceList>
                       {section.items.map((item) => (
                         <li>
-                          <CustomLink href={item.link} target="_blank">
+                          <CustomLink
+                            href={item.link}
+                            size="lg"
+                            target="_blank"
+                          >
                             {item.content}
                           </CustomLink>
                         </li>
@@ -548,9 +596,11 @@ const Participation = () => {
         <Section id="maintainers">
           <Container>
             <StyledParticipationSection>
-              <ContentMaster size="xl" title={maintainers.title}>
-                {maintainers.content}
-              </ContentMaster>
+              <StyledWidth>
+                <StyledMobileContentMaster size="xl" title={maintainers.title}>
+                  {`**${maintainers.content}**`}
+                </StyledMobileContentMaster>
+              </StyledWidth>
               <StyledContentMaster
                 size="xl"
                 listColumns="2"
@@ -572,18 +622,18 @@ const Participation = () => {
               $isVisible={isLowCodeVisible}
             />
             <StyledLowOrNoCodenSection>
-              <ContentSide>
+              <StyledContentSideEqualGap isEqual>
                 <ContentMaster
                   size="lg"
                   title={lowNoCode.title}
                   prefixColor={theme.colors.pink}
                 />
                 <ContentMaster children={lowNoCode.content} />
-              </ContentSide>
+              </StyledContentSideEqualGap>
 
-              <StyledDivider type="solid" />
+              <StyledDivider type="solid" $showOnMobile={false} />
 
-              <ContentSide>
+              <StyledContentSideEqualGap isEqual>
                 <StyledContentMaster
                   size="md"
                   title={<>{lowNoCode.sections[0].title}</>}
@@ -601,7 +651,7 @@ const Participation = () => {
                   hasCaret={false}
                   list={lowNoCode.sections[1].lists}
                 />
-              </ContentSide>
+              </StyledContentSideEqualGap>
 
               <CardCallout
                 body={

@@ -342,12 +342,12 @@ export const maintainers = {
     {
       items: [
         'Add the “hacktoberfest” topic to your repository to opt-in to Hacktoberfest and indicate you’re looking for contributions.',
-        'Apply the “**hacktoberfest**” label to issues you want contributors to help with in your GitHub or GitLab project.',
-        'Add a **CONTRIBUTING.md** file with contribution guidelines to your repository.',
+        'Apply the “hacktoberfest” label to issues you want contributors to help with in your GitHub or GitLab project.',
+        'Add a CONTRIBUTING.md file with contribution guidelines to your repository.',
         'Choose issues that have a well-defined scope and are self-contained.',
         'Adopt a code of conduct to create a greater sense of inclusion and community for contributors.',
-        'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “**hacktoberfest-accepted**” label.',
-        'Reject any spammy requests you receive by labeling them as “**spam,**” and any other invalid contributions by closing them or labeling them as “**invalid.**”',
+        'Be ready to review pull/merge requests, accepting those that are valid by merging them, leaving an overall approving review, or by adding the “hacktoberfest-accepted” label.',
+        'Reject any spammy requests you receive by labeling them as “spam,” and any other invalid contributions by closing them or labeling them as “invalid.”',
       ],
     },
   ],
@@ -423,9 +423,9 @@ export const faqs = {
           answer: `Hacktoberfest profiles close on ${profileEndDate}. Please make sure you’ve claimed all your Holopin badges using the claim links on your profile (also sent via email).`,
         },
         {
-          question: 'Why isn’t there a t-shirt this year?',
+          question: 'Will there be a t-shirt this year?',
           answer:
-            "As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it's no longer feasible for us to provide a free t-shirt. Nevertheless, we still want participants to have a memorable experience and receive a special memento marking their participation and the year.  Instead of a t-shirt reward, we're partnering with Holopin to provide a digital badge to each participant, making global delivery much simpler. We believe this shift will allow Hacktoberfest to continue supporting and raising awareness for open-source projects worldwide for years to come.",
+            'As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it’s no longer feasible for us to provide a free t-shirt to all contributors but only a few lucky ones. So other than the Holopin rewards that continue to be the main mark of Hacktoberfest participation, there will be a special t-Shirt to be won here. But this reward will now only go to folks who complete 10 Pull/Merge requests completed with the vetting of a verified maintainer and will only be valid for the first 10,000 users to complete this challenge. This will be on a first come basis.',
         },
       ],
     },
@@ -467,6 +467,12 @@ export const faqs = {
           answer:
             "You can politely request that the maintainer of the project you contributed to tag your contribution with the label **hacktoberfest-accepted** . Or, add the 'hacktoberfest' topic to the repository to opt the project into Hacktoberfest.\n\n" +
             'Any pull/merge request with the **hacktoberfest-accepted** label, submitted to any public GitHub/GitLab repository, with or without the hacktoberfest topic, will be considered valid for Hacktoberfest.',
+        },
+        {
+          question:
+            'Who do I contact in case of my PR/MR getting blocked or issues as such?',
+          answer:
+            'In cases like these, its imperative to contact the maintainer directly as DigitalOcean does not have any control over the repos maintained by the maintainers. Its upon the discretion of the user to contact the maintainer/repo owner directly to resolve any issues as such. Kindly refrain from emailing Hacktoberfest or DigitalOcean support for issues as such as the control for this lies solely with the maintainer of that repository. DigitalOcean listed repos will be staffed by maintainers and any contribution to DO repos will of course be addressed promptly by members of the Hacktoberfest team. ❤️',
         },
       ],
     },

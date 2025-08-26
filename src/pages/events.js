@@ -44,7 +44,7 @@ export const StyledEvents = styled.ul`
   margin: 0 0 32px;
 
   ${mQ(bp.desktop)} {
-    margin-bottom: 80px;
+    margin-bottom: 48px;
   }
 
   ul {
@@ -104,14 +104,6 @@ const StyledBrandHeader = styled.div`
   }
 `;
 
-const StyledContentMaster = styled(ContentMaster)`
-  text-align: left;
-
-  ${mQ(bp.desktop)} {
-    text-align: center;
-  }
-`;
-
 const StyledMobileAccordionSection = styled.div`
   display: flex;
   flex-direction: column;
@@ -133,6 +125,12 @@ const StyledDesktopCardCallout = styled(CardCallout)`
 const StyledTextLink = styled(TextLink)`
   margin: 0 auto;
   text-transform: uppercase;
+`;
+
+const StyledSectionTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 const Events = () => {
@@ -204,12 +202,20 @@ const Events = () => {
           <Container>
             <StyledSectionSpacing>
               <Container inner>
-                <StyledContentMaster size="lg" title={eventOrganizers.title}>
-                  {eventOrganizers.content}
-                </StyledContentMaster>
+                <StyledSectionTitle>
+                  <ContentMaster
+                    align="center"
+                    size="lg"
+                    title={eventOrganizers.title}
+                  />
+                  <ContentMaster align="center" size="xl2">
+                    {eventOrganizers.content}
+                  </ContentMaster>
+                </StyledSectionTitle>
               </Container>
               <StyledMobileAccordionSection>
-                <StyledContentMaster
+                <ContentMaster
+                  align="center"
                   size="lg"
                   title={organize.title}
                   $collapsTopPadding
@@ -255,14 +261,12 @@ const Events = () => {
 
         <Section id="register">
           <StyledContainer inner>
-            <StyledContentMaster
-              align="center"
-              size="lg"
-              title={register.title}
-              cta={register.cta}
-            >
-              {register.content}
-            </StyledContentMaster>
+            <StyledSectionTitle>
+              <ContentMaster align="center" size="lg" title={register.title} />
+              <ContentMaster align="center" size="xl2" cta={register.cta}>
+                {register.content}
+              </ContentMaster>
+            </StyledSectionTitle>
             <StyledCornersWrapper>
               <Corners />
             </StyledCornersWrapper>
