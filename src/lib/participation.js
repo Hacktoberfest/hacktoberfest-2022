@@ -125,21 +125,21 @@ export const resources = {
           link: 'https://go.gitlab.com/ubCLKL',
         },
         {
-          content: '[GitHub] Explore projects with issues on up-for-grabs.net',
+          content: '[General] Explore projects with issues on up-for-grabs.net',
           link: 'https://up-for-grabs.net/',
         },
         {
           content:
-            '[GitHub] Explore projects with issues on goodfirstissue.dev',
+            '[General] Explore projects with issues on goodfirstissue.dev',
           link: 'https://goodfirstissue.dev/',
         },
         {
           content:
-            '[GitHub] Explore Hacktoberfest projects on hacktoberfest-projects.vercel.app',
+            '[General] Explore Hacktoberfest projects on hacktoberfest-projects.vercel.app',
           link: 'https://hacktoberfest-projects.vercel.app',
         },
         {
-          content: '[GitHub] Explore Hacktoberfest projects on ContribHub.com',
+          content: '[General] Explore Hacktoberfest projects on ContribHub.com',
           link: 'https://contribhub.com',
         },
       ],
@@ -165,7 +165,7 @@ export const resources = {
           link: 'https://opensource.com/article/19/5/how-get-job-doing-open-source',
         },
         {
-          content: '[General] How to write the perfect pull request',
+          content: '[GitHub] How to write the perfect pull request',
           link: 'https://github.blog/2015-01-21-how-to-write-the-perfect-pull-request/',
         },
         {
@@ -173,11 +173,11 @@ export const resources = {
           link: 'https://dev.to/chrissiemhrk/git-commit-message-5e21',
         },
         {
-          content: '[General] How to start a great OSS project',
+          content: '[GitLab] How to start a great OSS project',
           link: 'https://go.gitlab.com/Hm4BNB',
         },
         {
-          content: '[General] 5 things for your first time contributing',
+          content: '[GitLab] 5 things for your first time contributing',
           link: 'https://go.gitlab.com/nlPKcN',
         },
       ],

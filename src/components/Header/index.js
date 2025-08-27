@@ -40,7 +40,7 @@ const Nav = ({ hasRegistrationStarted, isMobile = false }) => {
         {isMobile && <StyledDivider />}
         <CustomLink
           isTopNav
-          href="https://discord.gg/hacktoberfest"
+          href="https://discord.com/invite/digitalocean"
           target="_blank"
           rel="noreferrer noopener"
         >

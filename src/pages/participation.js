@@ -416,7 +416,7 @@ const Participation = () => {
             <ContentSide>
               <ContentMaster size="lg" title={contributors.title}>
                 Join the [Hacktoberfest Discord
-                server](https://discord.com/invite/hacktoberfest) to meet other
+                server](https://discord.com/invite/digitalocean) to meet other
                 participants and [share your Hacktoberfest love](/about#love)
                 with a blog or post on socials.
               </ContentMaster>

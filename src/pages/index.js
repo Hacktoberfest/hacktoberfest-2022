@@ -632,7 +632,7 @@ const Home = () => {
               )}
               <ContentMaster
                 align="center"
-                title="A month-long celebration of all things open-source"
+                title="A month-long celebration of all things open source"
                 titleTag="h1"
                 size="xl2"
               >

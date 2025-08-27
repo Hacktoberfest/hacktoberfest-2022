@@ -203,7 +203,7 @@ const Footer = () => {
                   <li>
                     <CustomLink
                       icon={<DiscordIcon />}
-                      href="https://discord.gg/hacktoberfest"
+                      href="https://discord.com/invite/digitalocean"
                       target="_blank"
                       rel="noreferrer noopener"
                     >
