@@ -2,47 +2,37 @@ import { registrationStart } from './config';
 
 export const events = [
   {
-    title: 'Hacktoberfest kick-off',
+    title: 'HACKTOBERFEST GLOBAL KICK-OFF: FROM CODE TO COMMUNITY.',
     content:
-      'The official start of Hacktoberfest! Join DigitalOcean developers and our guest speakers as we begin our month-long hacking event. Learn new skills, meet our sponsors, and support open-source projects! ',
+      'The official start of Hacktoberfest! Join DigitalOcean developers and our guest speakers as we begin our month-long hacking event. Learn new skills, meet our sponsors, and support open-source projects and win exclusive DO SWAG!',
     location: 'Virtual',
-    date: 'Oct 05',
-    time: '11:00 AM Eastern Daylight Time',
-    rsvp: {
-      href: 'https://events.mlh.io/events/11641-from-code-to-community-hacktoberfest-2024-begins',
-    },
+    date: 'Oct 01',
+    time: '9:00 AM Eastern Daylight Time',
+    link: 'TBA',
   },
   {
-    title: 'Hacktoberfest satellite session #1',
+    title: 'HACKTOBERFEST SATELLITE SESSION #NYC',
     content:
-      'Find out what’s new in open-source developer tools. Join in the conversation and get the scoop from industry insiders and influencers.',
+      'Join your fellow open source peers and join this DigitalOcean Hacktoberfest Hackathon in NYC. Contests, prizes and more!',
     location: 'TBA',
     date: 'TBA',
     time: 'TBA',
-    rsvp: {
-      href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
-    },
+    link: 'TBA',
   },
   {
-    title: 'Hacktoberfest satellite session #2',
+    title: 'HACKTOBERFEST SATELLITE SESSION #Denver',
     content:
-      'Explore workshops with DigitalOcean, Illa Cloud and Appwrite at Major League Hacking’s Global Hack Week Open Source',
-    location: 'TBA',
+      'Explore DigitlaOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
+    details: 'TBA',
     date: 'TBA',
-    time: 'TBA',
-    rsvp: {
-      href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
-    },
+    link: 'TBA',
   },
   {
-    title: 'Hacktoberfest satellite session #3',
+    title: 'HACKTOBERFEST SATELLITE SESSION #Hyderabad',
     content:
-      'AI is exploding (complimentary). Meet industry insiders and influencers. Participate in a roundtable discussion on the future of AI and Open Source.',
-    location: 'TBA',
+      'Explore DigitlaOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
+    details: 'TBA',
     date: 'TBA',
-    time: 'TBA',
-    rsvp: {
-      href: 'https://events.mlh.io/events/11642-hacktoberfest-bengaluru-meetup-a-day-of-open-source-collaboration',
-    },
+    link: 'TBA',
   },
 ];

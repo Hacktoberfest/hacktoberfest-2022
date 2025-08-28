@@ -237,10 +237,20 @@ const StyledResourceList = styled.ul`
 
   a {
     font-size: 14px;
-    word-break: break-all;
+    display: inline;
 
     ${mQ(bp.desktop)} {
       font-size: 16px;
+    }
+
+    div {
+      display: inline;
+      padding-right: 0;
+
+      &::after {
+        top: unset;
+        right: -7px;
+      }
     }
   }
 `;

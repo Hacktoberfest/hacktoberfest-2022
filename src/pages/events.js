@@ -177,6 +177,8 @@ const Events = () => {
                         content={event.content}
                         date={event.date}
                         time={event.time}
+                        link={event.link}
+                        details={event.details}
                         rsvp={event.rsvp}
                       />
                     </li>
