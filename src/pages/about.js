@@ -275,6 +275,7 @@ const About = () => {
                     <AccordionSponsor
                       key={item.title}
                       image={item.image}
+                      imageSize="small"
                       title={item.title}
                       children={item.content}
                       collapsed

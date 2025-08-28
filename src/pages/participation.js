@@ -38,7 +38,13 @@ import scrollMore from 'assets/img/8-bit-down.svg';
 import resource from 'assets/img/resource.svg';
 import curvedArrow from 'assets/img/curved-arrow.svg';
 import TextLink from '../components/TextLink';
-import { headline5, textLg, textXl } from '../themes/typography';
+import {
+  headline5,
+  textBase,
+  textLg,
+  textSm,
+  textXl,
+} from '../themes/typography';
 
 const bounceAnimation = keyframes`
   0% {
@@ -64,7 +70,7 @@ const StyledPRDetails = styled.div`
 
 const StyledDivider = styled(Divider)`
   color: ${({ theme }) => theme.colors2025.eastBay};
-  ${({ $showOnMobile }) =>
+  ${({ $showOnMobile = true }) =>
     !$showOnMobile &&
     `
     display: none;
@@ -194,8 +200,8 @@ const StyledLowCodeImage = styled(Image)`
     top: 50%;
     transform: translateY(-50%);
     transition:
-      right 1s ease-out,
-      opacity 1s ease-out;
+      right 2s ease-out,
+      opacity 2s ease-out;
   }
 `;
 
@@ -227,6 +233,15 @@ const StyledResourceList = styled.ul`
   li::marker {
     color: ${({ theme }) => theme.colors2025.lavendar};
     font-size: 20px;
+  }
+
+  a {
+    font-size: 14px;
+    word-break: break-all;
+
+    ${mQ(bp.desktop)} {
+      font-size: 16px;
+    }
   }
 `;
 

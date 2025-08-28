@@ -39,7 +39,7 @@ import TextLink from '../components/TextLink';
 export const StyledEvents = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 32px;
   padding: 0;
   margin: 0 0 32px;
 

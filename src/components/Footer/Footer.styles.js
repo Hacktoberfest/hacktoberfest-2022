@@ -58,15 +58,15 @@ const boosters = keyframes`
 const flag = keyframes`
   0% {
     left: 50%;
-    top: 50%;
+    top: 0;
   }
   80% {
     left: 172px;
-    top: 50%;
+    top: 0;
   }
   100% {
     left: 172px;
-    top: 52%;
+    top: 10px;
   }
 `;
 
@@ -196,6 +196,7 @@ export const StyledFooterCopyright = styled.ul`
   display: flex;
   gap: 12px;
   flex-direction: column-reverse;
+  padding-left: 0;
 
   ${mQ(bp.tablet)} {
     align-items: flex-end;
@@ -264,6 +265,12 @@ export const StyledAlienContainer = styled.div`
   transform: translate(-50%, -50%);
   width: 188px;
 
+  > svg {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+  }
+
   ${StyledBoosters} {
     animation-name: ${({ $isVisible }) => $isVisible && boosters};
   }
@@ -273,7 +280,6 @@ export const StyledHand = styled.g`
   animation-delay: 3s;
   animation-duration: 2s;
   animation-fill-mode: forwards;
-  z-index: 1;
 `;
 
 export const StyledFlagImage = styled.div`
@@ -282,9 +288,8 @@ export const StyledFlagImage = styled.div`
   display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
   position: absolute;
   left: 172px;
-  top: 52%;
-  transform: translateY(-50%);
-  z-index: 2;
+  top: 10px;
+  z-index: 1;
   width: 100%;
 
   ${StyledHand} {

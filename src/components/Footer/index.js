@@ -5263,32 +5263,8 @@ const Footer = () => {
                       <rect
                         y="134"
                         width="4"
-                        height="73"
+                        height="68"
                         transform="rotate(-90 0 134)"
-                        fill="#A0A0FF"
-                      />
-                      <rect
-                        x="68"
-                        y="128"
-                        width="4"
-                        height="5"
-                        transform="rotate(-90 68 128)"
-                        fill="#A0A0FF"
-                      />
-                      <rect
-                        x="57"
-                        y="128"
-                        width="4"
-                        height="6"
-                        transform="rotate(-90 57 128)"
-                        fill="#A0A0FF"
-                      />
-                      <rect
-                        x="61"
-                        y="132.252"
-                        width="4"
-                        height="6"
-                        transform="rotate(180 61 132.252)"
                         fill="#A0A0FF"
                       />
                     </StyledHand>
