@@ -97,7 +97,7 @@ export const register = {
   cta: {
     target: '_blank',
     rel: 'noreferrer noopener',
-    href: 'https://mlh.link/hacktoberfest2024-host',
+    href: 'https://events.mlh.io/series/Hacktoberfest-2025',
     children: 'Register Your Event With MLH',
   },
 };
