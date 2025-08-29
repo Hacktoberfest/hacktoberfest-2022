@@ -1,8 +1,6 @@
-import { registrationStart } from './config';
-
 export const events = [
   {
-    title: 'HACKTOBERFEST GLOBAL KICK-OFF: FROM CODE TO COMMUNITY.',
+    title: 'Hacktoberfest global kick-off: from code to community',
     content:
       'The official start of Hacktoberfest! Join DigitalOcean developers and our guest speakers as we begin our month-long hacking event. Learn new skills, meet our sponsors, and support open-source projects and win exclusive DO SWAG!',
     location: 'Virtual',
@@ -11,7 +9,7 @@ export const events = [
     link: 'TBA',
   },
   {
-    title: 'HACKTOBERFEST SATELLITE SESSION #NYC',
+    title: 'Hacktoberfest satellite session #NYC',
     content:
       'Join your fellow open source peers and join this DigitalOcean Hacktoberfest Hackathon in NYC. Contests, prizes and more!',
     location: 'TBA',
@@ -20,17 +18,17 @@ export const events = [
     link: 'TBA',
   },
   {
-    title: 'HACKTOBERFEST SATELLITE SESSION #Denver',
+    title: 'Hacktoberfest satellite session #Denver',
     content:
-      'Explore DigitlaOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
+      'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     details: 'TBA',
     date: 'TBA',
     link: 'TBA',
   },
   {
-    title: 'HACKTOBERFEST SATELLITE SESSION #Hyderabad',
+    title: 'Hacktoberfest satellite session #Hyderabad',
     content:
-      'Explore DigitlaOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
+      'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     details: 'TBA',
     date: 'TBA',
     link: 'TBA',

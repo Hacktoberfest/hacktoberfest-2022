@@ -37,6 +37,8 @@ import Divider from '../components/Divider';
 import SideBySide from '../components/SideBySide';
 import Corners from '../components/Corners';
 import heroAnimation from 'assets/img/heroicon-animation.gif';
+import { events } from '../lib';
+import { MarkdownInline } from '../components/markdown';
 
 const blinkExpand = keyframes`
   0% { --shadowAlpha: 0.5; }
@@ -851,91 +853,38 @@ const Home = () => {
               </StyledSectionTitle>
             </Container>
             <StyledEventGrid>
-              <CardCallout
-                title="Hacktoberfest kick-off"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <span>
-                      The official start of Hacktoberfest! Join DigitalOcean
-                      developers and our guest speakers as we begin our
-                      month-long hacking event. Learn new skills, meet our
-                      sponsors, and support open-source projects!
-                    </span>
-                    <StyledSpotlightList>
-                      <span>Date: Oct 05</span>
-                      <span>Time: 11:00 AM Eastern Daylight Time</span>
-                      <span>Location: Virtual</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
-              <CardCallout
-                title="Hacktoberfest Satellite Session #1"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <span>
-                      Find out what’s new in open-source developer tools. Join
-                      in the conversation and get the scoop from industry
-                      insiders and influencers.
-                    </span>
-                    <StyledSpotlightList>
-                      <span>Date: TBA</span>
-                      <span>Time: TBA</span>
-                      <span>Location: TBA</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
-              <CardCallout
-                title="Hacktoberfest Satellite Session #2"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <spa>
-                      Explore workshops with DigitalOcean, Illa Cloud and
-                      Appwrite at Major League Hacking’s Global Hack Week Open
-                      Source.
-                    </spa>
-                    <StyledSpotlightList>
-                      <span>Date: TBA</span>
-                      <span>Time: TBA</span>
-                      <span>Location: TBA</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
-              <CardCallout
-                title="Hacktoberfest Satellite Session #3"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <spa>
-                      AI is exploding (complimentary). Meet industry insiders
-                      and influencers. Participate in a round-table discussion
-                      on the future of AI and Open Source.
-                    </spa>
-                    <StyledSpotlightList>
-                      <span>Date: TBA</span>
-                      <span>Time: TBA</span>
-                      <span>Location: TBA</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
+              {events.map(
+                ({
+                  title,
+                  content,
+                  date,
+                  time,
+                  location,
+                  rsvp,
+                  details,
+                  link,
+                }) => (
+                  <CardCallout
+                    key={title}
+                    title={title}
+                    link={rsvp}
+                    body={
+                      <StyledSpotlightContent>
+                        <span>
+                          <MarkdownInline string={content} />
+                        </span>
+                        <StyledSpotlightList>
+                          {details && <span>Details: {details}</span>}
+                          {date && <span>Date: {date}</span>}
+                          {time && <span>Time: {time}</span>}
+                          {location && <span>Location: {location}</span>}
+                          {link && <span>Link to register: {link}</span>}
+                        </StyledSpotlightList>
+                      </StyledSpotlightContent>
+                    }
+                  />
+                ),
+              )}
             </StyledEventGrid>
             <StyledEventCTA>
               <ButtonMain as="a" href="/events">

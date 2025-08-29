@@ -93,6 +93,14 @@ const StyledContentMaster = styled(ContentMaster)`
   }
 `;
 
+const StyledHeroSecondary = styled(HeroSecondary)`
+  ${mQ(bp.desktop)} {
+    > div > div {
+      padding: 16px 0;
+    }
+  }
+`;
+
 const Donate = ({ projects }) => {
   const theme = useTheme();
   const searchRef = useRef();
@@ -131,7 +139,10 @@ const Donate = ({ projects }) => {
         />
       </Head>
 
-      <HeroSecondary title="Donate" icon={<Image src={donate} alt="" />} />
+      <StyledHeroSecondary
+        title="Donate"
+        icon={<Image src={donate} alt="" />}
+      />
 
       <Layout>
         <Section>
