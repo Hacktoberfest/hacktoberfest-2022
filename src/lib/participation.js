@@ -503,7 +503,7 @@ export const faqs = {
         {
           question: 'How can I keep my event engaging?',
           answer:
-            "Whether you're meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like [Icebreaker](https://icebreaker.video/) or [Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open-source knowledge.",
+            "Whether you're meeting virtually or in person, meetups can be challenging to facilitate, but they can still be fun! Using networking tools like[Kahoot](https://kahoot.com/) for a trivia game and asking fun opener questions (such as two truths and a lie) can loosen up the crowd and get attendees ready to share their open-source knowledge.",
         },
         {
           question: 'Can I host an in-person event?',

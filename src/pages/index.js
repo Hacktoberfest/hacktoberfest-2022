@@ -823,7 +823,7 @@ const Home = () => {
                 align="center"
                 cta={{
                   children: 'LEARN MORE',
-                  href: '/about',
+                  href: '/about#sponsors',
                 }}
               >
                 {

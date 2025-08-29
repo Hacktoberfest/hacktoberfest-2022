@@ -25,7 +25,7 @@ export const founders = [
     content:
       'Founded in 2013, Major League Hacking (MLH) is the global student hacker community and a Public Benefit Corporation that empowers the next generation of technology creators with programs that help them build real world skills and learn about leading developer platforms and APIs in a community oriented environment. Each year, MLH facilitates hundreds of weekend-long invention competitions called hackathons, supports campus clubs and meetups, trains developers on in-depth skills in the MLH Fellowship, and hosts thousands of developers from around the world in the monthly series of Global Hack Week events. These programs serve more than 150,000 developers a year across 90 countries.',
     list: [
-      'Have a question about MLH? Head over to [our FAQ](mlh.io/faq) to find some answers to common questions.',
+      'Have a question about MLH? Head over to [our FAQ](https://mlh.io/faq/) to find some answers to common questions.',
       'Global Hack Week website: [https://mlh.link/mlh-hacktoberfest](https://mlh.link/mlh-hacktoberfest)',
       'Global Hack Week Open Source landing page: [https://mlh.link/ghw-opensource](https://mlh.link/ghw-opensource)',
       'Global Hack Week Open Source registration page: [https://mlh.link/ghw-opensource-registration](https://mlh.link/ghw-opensource-registration)',
