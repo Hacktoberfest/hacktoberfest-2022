@@ -14,7 +14,7 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Participation page information
  */
 export const registrationStart =
-  process.env.REGISTRATION_START || '2025-09-23T12:00:00Z';
+  process.env.REGISTRATION_START || '2025-09-15T12:00:00Z';
 
 /**
  * Used for:

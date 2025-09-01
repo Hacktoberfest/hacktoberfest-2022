@@ -6,12 +6,12 @@ import { registrationStart } from './config';
 import bullhorn from 'assets/img/icons/icon-pixel-bullhorn.svg';
 import heart from 'assets/img/icons/icon-pixel-heart.svg';
 import pencil from 'assets/img/icons/icon-pixel-pencil.svg';
-import holopin from 'assets/img/partners/holopin.png';
+import holopin from 'assets/img/partners/holopin-white.svg';
 
 export const lore = {
   title: 'Hacktoberfest Lore',
   contentRight:
-    'Hacktoberfest is DigitalOcean’s annual event that encourages people to contribute to open source throughout October. Much of modern tech infrastructure—including some of DigitalOcean’s own products—relies on open-source projects built and maintained by passionate people who often don’t have the staff or budgets to do much more than keep the project alive. Hacktoberfest is all about giving back to those projects, sharpening skills, and celebrating all things open source, especially the people that make open source so special.\n\nEach year Hacktoberfest gets a new look, but our mission remains the same… getting as many people as possible involved in open source. Thousands of people—coders and non-coders alike—have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.',
+    'Hacktoberfest is DigitalOcean’s annual event that encourages people to contribute to open source throughout October. Much of modern tech infrastructure, including some of DigitalOcean’s own products, relies on open-source projects built and maintained by passionate people who often don’t have the staff or budgets to do much more than keep the project alive. Hacktoberfest is all about giving back to those projects, sharpening skills, and celebrating all things open source, especially the people that make open source so special. \n\nEach year Hacktoberfest gets a new look, but our mission remains the same… getting as many people as possible involved in open source. Thousands of people, coders and non-coders alike, have participated in Hacktoberfest to support the projects they use and love, learn and practice skills that will enhance their careers, and meet new people who love open source as much as they do.',
   links: [
     {
       id: 'watch-hacktoberfest',

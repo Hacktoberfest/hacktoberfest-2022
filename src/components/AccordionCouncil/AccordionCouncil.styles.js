@@ -57,6 +57,9 @@ export const StyledAccordion = styled.details`
 
 export const StyledAccordionHeader = styled.div`
   color: ${({ theme }) => theme.colors2025.space.white};
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
   ${mQ(bp.tablet)} {
     display: grid;
@@ -115,6 +118,7 @@ export const StyledGlowBox = styled.div`
 `;
 
 export const StyledAccordionImage = styled.div`
+  aspect-ratio: 1;
   border-radius: 4px;
   overflow: hidden;
   margin: 16px;

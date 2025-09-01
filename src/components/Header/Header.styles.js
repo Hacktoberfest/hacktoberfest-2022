@@ -28,7 +28,7 @@ export const StyledHeader = styled.header`
 `;
 
 export const StyledHeaderContainer = styled.div`
-  max-width: 1088px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 24px;
   display: flex;
@@ -101,7 +101,6 @@ export const StyledMobileHeaderNav = styled.nav`
   flex-direction: column;
   background: rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0.1);
   backdrop-filter: blur(20px);
-  overflow: scroll;
 
   a {
     color: ${({ theme }) => theme.colors2025.space.white};

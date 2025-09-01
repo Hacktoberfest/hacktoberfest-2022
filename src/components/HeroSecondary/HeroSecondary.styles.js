@@ -8,7 +8,7 @@ import bgHero from 'assets/img/bg-header.svg';
 
 export const StyledHeroSecondary = styled.div`
   overflow: hidden;
-  padding: 120px 0 64px 0;
+  padding: 120px 0 0 0;
   position: relative;
 
   ${mQ(bp.desktop)} {
@@ -51,7 +51,7 @@ export const StyledHeroSecondaryContent = styled.div`
 
 export const StyledHeroSecondaryTitle = styled.h1`
   ${({ $size }) => ($size === 'sm' ? headline40 : headline56)};
-  color: ${({ theme }) => theme.colors.typography};
+  color: ${({ theme }) => theme.colors2025.space.white};
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 800;
   text-align: center;

@@ -23,8 +23,8 @@ export const StyledContentMasterTitleRow = styled.div`
   gap: 8px;
 
   img {
-    height: 20px;
-    width: 20px;
+    height: 24px;
+    width: 24px;
   }
 
   ${mQ(bp.desktop)} {
@@ -45,7 +45,6 @@ export const StyledContentMaster = styled.div`
   text-align: left;
 
   ${mQ(bp.desktop)} {
-    gap: 12px;
     text-align: ${({ $align }) => $align};
 
     ${StyledContentMasterTitleRow} {
@@ -62,15 +61,12 @@ export const StyledContentMasterHeader = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-
-  ${mQ(bp.desktop)} {
-    gap: 12px;
-  }
 `;
 
 export const StyledContentMasterEyebrow = styled.p`
   ${textSm};
   text-transform: uppercase;
+  margin: 0;
 `;
 
 export const StyledContentMasterTitle = styled.h2`
@@ -98,6 +94,7 @@ export const StyledContentMasterBody = styled.div`
 
   ul > li::marker {
     color: ${({ theme }) => theme.colors2025.melrose};
+    font-size: 20px;
   }
 
   p {

@@ -79,7 +79,7 @@ const StyledSponsorsContainer = styled.div`
 
   ${mQ(bp.desktop)} {
     gap: 64px;
-    max-width: 560px;
+    max-width: 640px;
   }
 `;
 
@@ -112,6 +112,23 @@ const StyledContentSide = styled(ContentSide)`
       width: 304px;
     }
   }
+`;
+
+const StyledNoGlowHeaders = styled.div`
+  h2 {
+    font-size: 18px;
+    text-shadow: none;
+
+    ${mQ(bp.desktop)} {
+      font-size: 24px;
+    }
+  }
+`;
+
+const StyledSectionTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 const About = () => {
@@ -163,31 +180,33 @@ const About = () => {
           <Container>
             <StyledSectionSpacing>
               <ContentMaster title={sharing.intro} size="lg" />
-              <ContentSide isEqual>
-                <StyledSectionSpacing $isSmall>
+              <StyledNoGlowHeaders>
+                <ContentSide isEqual>
+                  <StyledSectionSpacing $isSmall>
+                    <ContentMaster
+                      size="sm"
+                      title={sharing.share.title}
+                      titleIcon={sharing.share.titleIcon}
+                    >
+                      {sharing.share.content}
+                    </ContentMaster>
+                    <ContentMaster
+                      size="sm"
+                      title={sharing.social.title}
+                      titleIcon={sharing.social.titleIcon}
+                    >
+                      {sharing.social.content}
+                    </ContentMaster>
+                  </StyledSectionSpacing>
                   <ContentMaster
                     size="sm"
-                    title={sharing.share.title}
-                    titleIcon={sharing.share.titleIcon}
+                    title={sharing.writing.title}
+                    titleIcon={sharing.writing.titleIcon}
                   >
-                    {sharing.share.content}
+                    {sharing.writing.content}
                   </ContentMaster>
-                  <ContentMaster
-                    size="sm"
-                    title={sharing.social.title}
-                    titleIcon={sharing.social.titleIcon}
-                  >
-                    {sharing.social.content}
-                  </ContentMaster>
-                </StyledSectionSpacing>
-                <ContentMaster
-                  size="sm"
-                  title={sharing.writing.title}
-                  titleIcon={sharing.writing.titleIcon}
-                >
-                  {sharing.writing.content}
-                </ContentMaster>
-              </ContentSide>
+                </ContentSide>
+              </StyledNoGlowHeaders>
             </StyledSectionSpacing>
           </Container>
         </Section>
@@ -198,13 +217,16 @@ const About = () => {
           <Container>
             <StyledSectionSpacing $isSmall>
               <StyledSponsorsContainer>
-                <ContentMaster
-                  size="lg"
-                  align="center"
-                  title={sponsorsAndPartners.title}
-                >
-                  {sponsorsAndPartners.content}
-                </ContentMaster>
+                <StyledSectionTitle>
+                  <ContentMaster
+                    size="lg"
+                    align="center"
+                    title={sponsorsAndPartners.title}
+                  />
+                  <ContentMaster size="xl2" align="center">
+                    {sponsorsAndPartners.content}
+                  </ContentMaster>
+                </StyledSectionTitle>
 
                 <StyledSectionDivider type="solid" />
 
@@ -232,6 +254,7 @@ const About = () => {
                     <AccordionSponsor
                       key={item.title}
                       image={item.image}
+                      imageSize="small"
                       title={item.title}
                       children={item.content}
                       collapsed
@@ -240,7 +263,11 @@ const About = () => {
                 ))}
               </StyledSponsorsList>
 
-              <StyledContentMaster size="lg" title="Partners" align="center" />
+              <StyledContentMaster
+                size="lg"
+                title="Community Partners"
+                align="center"
+              />
 
               <StyledSponsorsList>
                 {partners.map((item) => (
@@ -248,6 +275,7 @@ const About = () => {
                     <AccordionSponsor
                       key={item.title}
                       image={item.image}
+                      imageSize="small"
                       title={item.title}
                       children={item.content}
                       collapsed

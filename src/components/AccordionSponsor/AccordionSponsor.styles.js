@@ -35,8 +35,18 @@ export const StyledAccordion = styled.details`
     gap: 24px;
     padding: 24px 0 0;
 
-    p {
-      ${body20}
+    a {
+      color: ${({ theme }) => theme.colors2025.lavendar};
+      word-wrap: break-word;
+    }
+
+    p,
+    li {
+      line-height: 19.8px;
+    }
+
+    li::marker {
+      font-size: 20px;
     }
 
     ul {
@@ -47,6 +57,10 @@ export const StyledAccordion = styled.details`
 `;
 
 export const StyledAccordionHeader = styled.div`
+  h2 {
+    text-shadow: none;
+  }
+
   ${mQ(bp.tablet)} {
     display: grid;
     grid-template-columns: 120px 1fr;
@@ -69,13 +83,13 @@ export const StyledAccordionImageWrapper = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   align-items: center;
-  width: 120px;
+  width: ${({ $size }) => ($size === 'small' ? '80px' : '120px')};
   position: relative;
   margin-bottom: 24px;
 
   ${mQ(bp.tablet)} {
     margin-bottom: 0;
-    width: 100%;
+    width: ${({ $size }) => ($size === 'small' ? '80px' : '100%')};
   }
 `;
 
@@ -104,9 +118,10 @@ export const StyledGlowBox = styled.div`
 `;
 
 export const StyledAccordionImage = styled.div`
+  aspect-ratio: 1;
   border-radius: 3px;
   overflow: hidden;
-  margin: 6px;
+  margin: auto;
 
   img {
     width: 100%;

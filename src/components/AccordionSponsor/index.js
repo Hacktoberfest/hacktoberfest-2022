@@ -16,6 +16,7 @@ const AccordionSponsor = (props) => {
   const {
     filled,
     image,
+    imageSize,
     bgImage,
     title,
     collapsed,
@@ -33,7 +34,7 @@ const AccordionSponsor = (props) => {
     <StyledAccordion $isFilled={filled} open={open} onToggle={toggle}>
       <summary>
         <StyledAccordionHeader $isFilled={filled}>
-          <StyledAccordionImageWrapper $bgImage={bgImage}>
+          <StyledAccordionImageWrapper $size={imageSize} $bgImage={bgImage}>
             <StyledGlowBox />
             <StyledGlowBox />
             <StyledGlowBox />
@@ -42,7 +43,7 @@ const AccordionSponsor = (props) => {
               <Image {...image} />
             </StyledAccordionImage>
           </StyledAccordionImageWrapper>
-          <ContentMaster size="md" title={<>{title}</>}>
+          <ContentMaster size="sm" title={<>{title}</>}>
             {skills}
           </ContentMaster>
         </StyledAccordionHeader>

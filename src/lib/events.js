@@ -6,7 +6,7 @@ export const globalEvents = {
     'Hacktoberfest events are happening all month long so you can join your friends day or night, from dusk to dawn, as you work to complete your pull/merge requests. Whether you want to join an existing event or run your own, and whether you’re inclined to do so in-person or virtually, we’re here to support you!',
   cta: {
     id: 'view-all-events',
-    href: 'https://mlh.link/hacktoberfest2024',
+    href: 'https://mlh.link/hacktoberfest2025',
     target: '_blank',
     children: 'View All Events',
   },
@@ -25,7 +25,7 @@ export const organize = {
       title: 'Craft an event agenda.',
       items: [
         'Here’s an example agenda to inspire your own:Welcome. Set a welcoming, open, and inclusive tone. Thank everyone for attending, tell them about yourself, give an overview of the programming, and remind them of the [Code of Conduct](https://do.co/hacktoberconduct).\n\n' +
-          '- Network. Get to know your attendees. Set aside 5-10 minutes to allow people to talk among themselves. You can also use [Gatheround](https://icebreaker.video/), which offers a fun and engaging way to get to know each other.\n\n' +
+          '- Network. Get to know your attendees. Set aside 5-10 minutes to allow people to talk among themselves.\n\n' +
           '- Introduce Hacktoberfest. Read the Hacktoberfest values.\n\n' +
           '- Introduce open source. Check out this [intro to GitHub and Open-Source Projects](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source) for inspiration.\n\n' +
           '- Workshop. Explain how to contribute to open source. These [resources](/participation#beginner-resources) can help.\n\n' +
@@ -97,7 +97,7 @@ export const register = {
   cta: {
     target: '_blank',
     rel: 'noreferrer noopener',
-    href: 'https://mlh.link/hacktoberfest2024-host',
+    href: 'https://organize.mlh.io/host/hacktoberfest-2025',
     children: 'Register Your Event With MLH',
   },
 };

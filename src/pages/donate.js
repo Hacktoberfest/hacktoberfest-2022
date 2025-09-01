@@ -32,7 +32,6 @@ export const StyledProjects = styled.div`
   padding: 32px 0;
 
   ${mQ(bp.desktop)} {
-    gap: 88px;
     padding: 88px 0;
   }
 `;
@@ -86,6 +85,22 @@ const StyledDivider = styled(Divider)`
   color: ${({ theme }) => theme.colors2025.eastBay};
 `;
 
+const StyledContentMaster = styled(ContentMaster)`
+  p {
+    ${mQ(bp.desktop)} {
+      font-size: 18px;
+    }
+  }
+`;
+
+const StyledHeroSecondary = styled(HeroSecondary)`
+  ${mQ(bp.desktop)} {
+    > div > div {
+      padding: 16px 0;
+    }
+  }
+`;
+
 const Donate = ({ projects }) => {
   const theme = useTheme();
   const searchRef = useRef();
@@ -124,19 +139,26 @@ const Donate = ({ projects }) => {
         />
       </Head>
 
-      <HeroSecondary title="Donate" icon={<Image src={donate} alt="" />} />
+      <StyledHeroSecondary
+        title="Donate"
+        icon={<Image src={donate} alt="" />}
+      />
 
       <Layout>
         <Section>
           <Container>
             <Container inner>
-              <ContentMaster size="lg" align="center" title="Find a project">
+              <StyledContentMaster
+                size="lg"
+                align="center"
+                title="Find a project"
+              >
                 Open-source projects keep the internet humming—but they can’t do
                 it without resources. Projects are always in need of financial
                 support so they can develop new features, cover expenses, and
                 continue their regular activities. Find a project to donate
                 money to right here.
-              </ContentMaster>
+              </StyledContentMaster>
 
               <StyledSearch>
                 <input

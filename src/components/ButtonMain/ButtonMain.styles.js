@@ -46,14 +46,6 @@ export const StyledButtonMain = styled(Link)`
       transition: transform 300ms ease-in-out;
       transform: translateX(0);
     }
-    
-    &:hover,
-    &:focus {
-      &::after {
-        transform: translateX(5px);
-      }
-    }
-
   `};
 
   ${({ $variant, $size, theme }) =>

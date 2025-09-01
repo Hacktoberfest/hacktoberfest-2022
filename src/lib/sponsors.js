@@ -1,16 +1,16 @@
-import foundersDigitalOcean from 'assets/img/founders/digitalocean.png';
-import foundersMlh from 'assets/img/founders/mlh.png';
+import foundersDigitalOcean from 'assets/img/founders/digitalocean.svg';
+import foundersMlh from 'assets/img/founders/mlh.svg';
 
-import amd from 'assets/img/sponsors/amd.png';
-import auth0 from 'assets/img/sponsors/auth0.png';
+import amd from 'assets/img/sponsors/amd-white.svg';
+import auth0 from 'assets/img/sponsors/auth0-white.svg';
 
-import partnersGitlab from 'assets/img/partners/gitlab.png';
-import partnersGithub from 'assets/img/partners/github.png';
-import partnersGithubEducation from 'assets/img/partners/github_education_small.png';
-import partnersCNCF from 'assets/img/partners/cncf.png';
-import partnersOSI from 'assets/img/partners/osi.png';
-import partnersDEV from 'assets/img/partners/dev.png';
-import partnersHolopin from 'assets/img/partners/holopin.png';
+import partnersGitlab from 'assets/img/partners/gitlab-white.svg';
+import partnersGithub from 'assets/img/partners/github-white.svg';
+import partnersGithubEducation from 'assets/img/partners/github_education-white.svg';
+import partnersCNCF from 'assets/img/partners/cloud-native-white.svg';
+import partnersOSI from 'assets/img/partners/osi-white.svg';
+import partnersDEV from 'assets/img/partners/dev-white.svg';
+import partnersHolopin from 'assets/img/partners/holopin-white.svg';
 
 export const founders = [
   {
@@ -25,7 +25,7 @@ export const founders = [
     content:
       'Founded in 2013, Major League Hacking (MLH) is the global student hacker community and a Public Benefit Corporation that empowers the next generation of technology creators with programs that help them build real world skills and learn about leading developer platforms and APIs in a community oriented environment. Each year, MLH facilitates hundreds of weekend-long invention competitions called hackathons, supports campus clubs and meetups, trains developers on in-depth skills in the MLH Fellowship, and hosts thousands of developers from around the world in the monthly series of Global Hack Week events. These programs serve more than 150,000 developers a year across 90 countries.',
     list: [
-      'Have a question about MLH? Head over to [our FAQ](mlh.io/faq) to find some answers to common questions.',
+      'Have a question about MLH? Head over to [our FAQ](https://mlh.io/faq/) to find some answers to common questions.',
       'Global Hack Week website: [https://mlh.link/mlh-hacktoberfest](https://mlh.link/mlh-hacktoberfest)',
       'Global Hack Week Open Source landing page: [https://mlh.link/ghw-opensource](https://mlh.link/ghw-opensource)',
       'Global Hack Week Open Source registration page: [https://mlh.link/ghw-opensource-registration](https://mlh.link/ghw-opensource-registration)',
@@ -38,13 +38,13 @@ export const advocate = [
     image: auth0,
     title: 'Auth0',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      'Auth0 is an adaptable authentication and authorization platform that helps you secure your apps and AI agents. It delivers convenience, privacy, and security so you can focus on building a great UX.',
   },
   {
     image: amd,
     title: 'AMD',
     content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+      'For more than 50 years AMD has driven innovation in high-performance computing, graphics and visualization technologies. Billions of people, leading Fortune 500 businesses and cutting-edge scientific research institutions around the world rely on AMD technology daily to improve how they live, work and play. AMD employees are focused on building leadership high-performance and adaptive products that push the boundaries of what is possible. For more information about how AMD is enabling today and inspiring tomorrow, visit the AMD (NASDAQ: AMD) website, blog, LinkedIn and X pages.',
   },
 ];
 

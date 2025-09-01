@@ -207,7 +207,7 @@ export const textLg = css`
   font-family: 'Atkinson Hyperlegible';
   font-size: 18px;
   font-weight: 400;
-  line-height: normal;
+  line-height: 22.3px;
   letter-spacing: 0.18px;
 `;
 

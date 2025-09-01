@@ -10,7 +10,7 @@ import { MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
 
 const Event = (props) => {
-  const { title, content, date, time, location, rsvp, buttonVariant } = props;
+  const { title, content, date, time, location, rsvp, details, link } = props;
   return (
     <StyledEvent>
       <StyledEventContent>
@@ -25,14 +25,16 @@ const Event = (props) => {
           <MarkdownInline string={content} />
 
           <ul>
+            {details && <li>Details: {details}</li>}
             {date && <li>Date: {date}</li>}
             {time && <li>Time: {time}</li>}
             {location && <li>Location: {location}</li>}
+            {link && <li>Link to register: {link}</li>}
           </ul>
         </StyledContent>
       </StyledEventContent>
       <StyledRSVP $missing={!rsvp}>
-        {rsvp ? (
+        {rsvp && (
           <ButtonMain
             href={rsvp.href}
             target="_blank"
@@ -40,8 +42,6 @@ const Event = (props) => {
           >
             {rsvp.text || 'Register'}
           </ButtonMain>
-        ) : (
-          'Coming Soon'
         )}
       </StyledRSVP>
     </StyledEvent>

@@ -17,7 +17,7 @@ import amd from 'assets/img/sponsors/amd.svg';
 import cloudNative from 'assets/img/partners/cloud-native.svg';
 import dev from 'assets/img/partners/dev.svg';
 import github from 'assets/img/partners/github.svg';
-import githubEducation from 'assets/img/partners/github_education.png';
+import githubEducation from 'assets/img/partners/github_education.svg';
 import gitlab from 'assets/img/partners/gitlab.svg';
 import holopin from 'assets/img/partners/holopin.svg';
 import mlh from 'assets/img/partners/mlh.svg';
@@ -28,7 +28,7 @@ import opensourceIcon from 'assets/img/icons/opensource.svg';
 
 import Image from 'next/image';
 import Marquee from 'components/Marquee';
-import { textBase, textLg } from 'themes/typography';
+import { textBase, textLg, textSm } from 'themes/typography';
 import Countdown from '../components/Countdown';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { registrationStart } from '../lib/config';
@@ -37,11 +37,8 @@ import Divider from '../components/Divider';
 import SideBySide from '../components/SideBySide';
 import Corners from '../components/Corners';
 import heroAnimation from 'assets/img/heroicon-animation.gif';
-
-const parallaxScroll = keyframes`
-  from { transform: translateY(0); }
-  to { transform: translateY(-250px); }
-`;
+import { events } from '../lib';
+import { MarkdownInline } from '../components/markdown';
 
 const blinkExpand = keyframes`
   0% { --shadowAlpha: 0.5; }
@@ -151,19 +148,11 @@ export const StyledHeroImage = styled.div`
   background-image: url(${bgHero.src});
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: 1786px 865px;
-
-  view-timeline-name: --scrollTimeline;
-  view-timeline-axis: block;
-
-  animation-name: ${parallaxScroll};
-  animation-timeline: --scrollTimeline;
-  animation-range: entry 100% exit 100%;
-  animation-fill-mode: both;
+  background-size: cover;
 `;
 
 export const StyledPoweredBy = styled.div`
-  ${textLg};
+  ${textSm};
   align-items: center;
   color: ${({ theme }) => theme.colors2025.space.white};
   display: flex;
@@ -173,20 +162,22 @@ export const StyledPoweredBy = styled.div`
   justify-content: center;
   margin-top: 24px;
   text-shadow: 0 0 8px rgba(194, 194, 255, 0.5);
+  width: 100%;
 
   ${mQ(bp.desktop)} {
-    ${textBase};
+    ${textLg};
+    font-weight: 700;
   }
 `;
 
 export const StyledPoweredByLogo = styled(Image)`
-  max-width: 135px;
+  max-width: 111px;
   width: 100%;
   height: auto;
   filter: drop-shadow(0 0 8px rgba(194, 194, 255, 0.5));
 
   &:last-of-type {
-    max-width: 54px;
+    max-width: 44px;
   }
 
   ${mQ(bp.desktop)} {
@@ -213,6 +204,10 @@ export const StyledSponsorSection = styled.div`
   flex-direction: column;
   gap: 32px;
 
+  div {
+    justify-content: center;
+  }
+
   ${mQ(bp.tablet)} {
     gap: 56px;
   }
@@ -222,7 +217,7 @@ export const StyledSponsorLogos = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
-  gap: 32px;
+  gap: 38px;
   justify-content: center;
   width: 100%;
 
@@ -238,26 +233,26 @@ const StyledLogoContainer = styled.div`
 
   img {
     width: 100%;
-    height: auto;
+    height: 100%;
   }
 
   &:first-of-type {
-    max-height: 39px;
-    max-width: 190px;
-    min-width: 102px;
+    height: 46px;
+    width: 123px;
 
     ${mQ(bp.desktop)} {
-      max-height: 72px;
+      height: 72px;
+      width: 190px;
     }
   }
 
   &:last-of-type {
-    max-height: 24px;
-    max-width: 180px;
-    min-width: 97px;
+    height: 42px;
+    width: 116px;
 
     ${mQ(bp.desktop)} {
-      max-height: 43px;
+      height: 43px;
+      width: 180px;
     }
   }
 `;
@@ -274,6 +269,18 @@ const StyledHeroContent = styled.div`
 
   p {
     margin-bottom: 0;
+  }
+
+  > div {
+    text-align: center;
+
+    p {
+      display: inline;
+
+      ${mQ(bp.desktop)} {
+        display: block;
+      }
+    }
   }
 `;
 
@@ -307,80 +314,80 @@ const StyledPartnerLogos = styled.div`
   }
 
   img {
-    width: auto;
-    height: auto;
+    width: 100%;
+    height: 100%;
   }
 
   &:first-of-type {
     :first-child {
-      max-height: 22px;
-      max-width: 134px;
-      min-width: 60px;
+      height: 29px;
+      width: 79px;
 
       ${mQ(bp.desktop)} {
-        max-height: 49px;
+        height: 49px;
+        width: 134px;
       }
     }
 
     :nth-child(2) {
-      max-height: 18px;
-      max-width: 172px;
-      min-width: 62px;
+      height: 20px;
+      width: 101px;
 
       ${mQ(bp.desktop)} {
-        max-height: 33px;
+        height: 33px;
+        width: 172px;
       }
     }
 
     :last-child {
-      max-height: 15px;
-      max-width: 137px;
-      min-width: 60px;
+      height: 17px;
+      width: 80px;
 
       ${mQ(bp.desktop)} {
-        max-height: 30px;
+        height: 30px;
+        width: 136px;
       }
     }
   }
 
   &:last-of-type {
     :first-child {
-      max-height: 10px;
-      max-width: 143px;
-      min-width: 64px;
+      height: 13px;
+      width: 84px;
 
       ${mQ(bp.desktop)} {
-        max-height: 23px;
+        height: 23px;
+        width: 143px;
       }
     }
 
     :nth-child(2) {
-      max-height: 37px;
-      max-width: 55px;
-      min-width: 28px;
+      height: 42px;
+      width: 32px;
 
       ${mQ(bp.desktop)} {
-        max-height: 71px;
+        height: 71px;
+        width: 55px;
       }
     }
 
     :nth-child(3) {
-      max-height: 31px;
-      max-width: 53px;
-      min-width: 31px;
+      height: 31px;
+      width: 31px;
 
       ${mQ(bp.desktop)} {
-        max-height: 253px;
+        height: 53px;
+        width: 53px;
       }
     }
 
     :last-child {
-      max-height: 15px;
-      max-width: 106px;
-      min-width: 59px;
+      height: 16px;
+      width: 63px;
 
       ${mQ(bp.desktop)} {
-        max-height: 26px;
+        height: 26px;
+        width: 106px;
       }
     }
   }
@@ -414,7 +421,6 @@ const StyledEventGrid = styled.div`
   margin-top: 32px;
 
   ${mQ(bp.desktop)} {
-    gap: 56px;
     grid-template-columns: repeat(2, 1fr);
     margin-top: 56px;
   }
@@ -446,9 +452,13 @@ const StyledRelativeSection = styled(Section)`
   position: relative;
 `;
 
-const StyledSection = styled(Section)`
+const StyledFullSection = styled(Section)`
   overflow: hidden;
   position: relative;
+
+  ${mQ(bp.desktop)} {
+    grid-column: full;
+  }
 `;
 
 const StyledContainer = styled(Container)`
@@ -460,14 +470,14 @@ const StyledPreptemberGlobeImage = styled(Image)`
 
   ${mQ(bp.desktop)} {
     display: block;
-    left: ${({ $isVisible }) => ($isVisible ? '-20%' : '-100%')};
+    left: ${({ $isVisible }) => ($isVisible ? '-25%' : '-100%')};
     opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     transition:
-      left 1s ease-out,
-      opacity 1s ease-out;
+      left 2s ease-out,
+      opacity 2s ease-out;
   }
 `;
 
@@ -486,12 +496,18 @@ const StyledSponsorsGlobeImage = styled(Image)`
   }
 `;
 
+const StyledSectionTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
 const StyledOpenSourceIcon = styled(Image)`
   display: none;
 
   ${mQ(bp.desktop)} {
     animation-name: ${({ $isVisible }) => $isVisible && bubbleUp};
-    animation-duration: 1.5s;
+    animation-duration: 2s;
     animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
     animation-fill-mode: backwards;
     display: block;
@@ -578,7 +594,7 @@ const Home = () => {
           openSourceIconsObserver.disconnect();
         }
       },
-      { threshold: 0.8 },
+      { threshold: 1, rootMargin: '0px 0px -150px' },
     );
 
     if (preptemberRef.current) {
@@ -618,12 +634,12 @@ const Home = () => {
               )}
               <ContentMaster
                 align="center"
-                title="A month-long celebration of all things open-source"
+                title="A month-long celebration of all things open source"
                 titleTag="h1"
                 size="xl2"
               >
                 {
-                  'It’s that time of year again. Hacktoberfest is nearly upon us! \n\nPrepare your projects, brace yourself for action—registration opens September 2, 2025.'
+                  'It’s that time of year again. Hacktoberfest is nearly upon us! \n\nPrepare your projects, brace yourself for action—registration opens September 15, 2025.'
                 }
               </ContentMaster>
 
@@ -771,7 +787,7 @@ const Home = () => {
                   body="September is prep time for Hacktoberfest. Spend September getting a jump start on your four pull/merge requests by tracking down projects to contribute to, adding the ‘hacktoberfest’ tag to your own projects, or familiarizing yourself with Git so you can hit the ground running when Hacktoberfest begins on October 1."
                   link={{
                     children: 'HOW TO PARTICIPATE',
-                    href: '/participate',
+                    href: '/participation',
                   }}
                 />
                 <CardCallout
@@ -788,7 +804,7 @@ const Home = () => {
         </StyledRelativeSection>
 
         <StyledRelativeSection ref={sponsorsRef}>
-          <Container>
+          <Container inner>
             <StyledSponsorsGlobeImage
               src={globe}
               alt=""
@@ -796,19 +812,25 @@ const Home = () => {
               height="170"
               $isVisible={isSponsorsVisible}
             />
-            <ContentMaster
-              title="Sponsors and awards for 2025"
-              size="lg"
-              align="center"
-              cta={{
-                children: 'LEARN MORE',
-                href: '/about',
-              }}
-            >
-              {
-                'his year, Hacktoberfest is sponsored by DigitalOcean and MLH. We thank them for their ongoing support of open source ❤️ \n\nWhen DigitalOcean started Hacktoberfest in 2014, 676 participants showed up to contribute. In 2024, nearly 90,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year as well, you’ll get an evolving digital badge for participating.'
-              }
-            </ContentMaster>
+            <StyledSectionTitle>
+              <ContentMaster
+                title="Sponsors and awards for 2025"
+                size="lg"
+                align="center"
+              />
+              <ContentMaster
+                size="xl2"
+                align="center"
+                cta={{
+                  children: 'LEARN MORE',
+                  href: '/about#sponsors',
+                }}
+              >
+                {
+                  'This year, Hacktoberfest is sponsored by DigitalOcean and MLH. We thank them for their ongoing support of open source ❤️ \n\nWhen DigitalOcean started Hacktoberfest in 2014, 676 participants showed up to contribute. In 2024, nearly 90,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year as well, you’ll get an evolving digital badge for participating.'
+                }
+              </ContentMaster>
+            </StyledSectionTitle>
           </Container>
         </StyledRelativeSection>
 
@@ -817,98 +839,52 @@ const Home = () => {
         <Section>
           <Container>
             <Container inner>
-              <ContentMaster title="Event spotlight" size="lg" align="center">
-                {
-                  'Events that bring the community together to learn and explore are a cornerstone of Hacktoberfest. Save these dates and come connect with other lovers of open source!'
-                }
-              </ContentMaster>
+              <StyledSectionTitle>
+                <ContentMaster
+                  title="Event spotlight"
+                  size="lg"
+                  align="center"
+                />
+                <ContentMaster size="xl2" align="center">
+                  {
+                    'Events that bring the community together to learn and explore are a cornerstone of Hacktoberfest. Save these dates and come connect with other lovers of open source!'
+                  }
+                </ContentMaster>
+              </StyledSectionTitle>
             </Container>
             <StyledEventGrid>
-              <CardCallout
-                title="Hacktoberfest kick-off"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <span>
-                      The official start of Hacktoberfest! Join DigitalOcean
-                      developers and our guest speakers as we begin our
-                      month-long hacking event. Learn new skills, meet our
-                      sponsors, and support open-source projects!
-                    </span>
-                    <StyledSpotlightList>
-                      <span>Date: Oct 05</span>
-                      <span>Time: 11:00 AM Eastern Daylight Time</span>
-                      <span>Location: Virtual</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
-              <CardCallout
-                title="Hacktoberfest Satellite Session #1"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <span>
-                      Find out what’s new in open-source developer tools. Join
-                      in the conversation and get the scoop from industry
-                      insiders and influencers.
-                    </span>
-                    <StyledSpotlightList>
-                      <span>Date: TBA</span>
-                      <span>Time: TBA</span>
-                      <span>Location: TBA</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
-              <CardCallout
-                title="Hacktoberfest Satellite Session #2"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <spa>
-                      Explore workshops with DigitalOcean, Illa Cloud and
-                      Appwrite at Major League Hacking’s Global Hack Week Open
-                      Source.
-                    </spa>
-                    <StyledSpotlightList>
-                      <span>Date: TBA</span>
-                      <span>Time: TBA</span>
-                      <span>Location: TBA</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
-              <CardCallout
-                title="Hacktoberfest Satellite Session #3"
-                link={{
-                  children: 'REGISTER',
-                  href: '/register',
-                }}
-                body={
-                  <StyledSpotlightContent>
-                    <spa>
-                      AI is exploding (complimentary). Meet industry insiders
-                      and influencers. Participate in a round-table discussion
-                      on the future of AI and Open Source.
-                    </spa>
-                    <StyledSpotlightList>
-                      <span>Date: TBA</span>
-                      <span>Time: TBA</span>
-                      <span>Location: TBA</span>
-                    </StyledSpotlightList>
-                  </StyledSpotlightContent>
-                }
-              />
+              {events.map(
+                ({
+                  title,
+                  content,
+                  date,
+                  time,
+                  location,
+                  rsvp,
+                  details,
+                  link,
+                }) => (
+                  <CardCallout
+                    key={title}
+                    title={title}
+                    link={rsvp}
+                    body={
+                      <StyledSpotlightContent>
+                        <span>
+                          <MarkdownInline string={content} />
+                        </span>
+                        <StyledSpotlightList>
+                          {details && <span>Details: {details}</span>}
+                          {date && <span>Date: {date}</span>}
+                          {time && <span>Time: {time}</span>}
+                          {location && <span>Location: {location}</span>}
+                          {link && <span>Link to register: {link}</span>}
+                        </StyledSpotlightList>
+                      </StyledSpotlightContent>
+                    }
+                  />
+                ),
+              )}
             </StyledEventGrid>
             <StyledEventCTA>
               <ButtonMain as="a" href="/events">
@@ -920,14 +896,14 @@ const Home = () => {
 
         <StyledDivider />
 
-        <StyledSection isFullWidth ref={openSourceIconsRef}>
+        <StyledFullSection ref={openSourceIconsRef}>
           <StyledContainer inner>
             <ContentMaster
               title="Support Open Source"
               size="lg"
               align="center"
               cta={{
-                children: 'DONATE TO OPEN SOURCE',
+                children: 'DONATE TO OPEN SOURCE PROJECTS',
                 href: '/donate',
               }}
             >
@@ -969,7 +945,7 @@ const Home = () => {
             height={131}
             $isVisible={iconsVisible}
           />
-        </StyledSection>
+        </StyledFullSection>
 
         <StyledDivider />
       </Layout>

@@ -37,6 +37,24 @@ export const StyledCountdown = styled.div`
   }
 `;
 
+export const StyledCounter = styled.span`
+  ${headline2};
+  background: ${({ $isActive, theme }) =>
+    `linear-gradient(180deg, ${theme.colors2025.void} 0%, rgb(from ${theme.colors2025.blueViolet} r g b / 0.15) 100%)`};
+  border: 1px solid
+    rgb(from ${({ theme }) => theme.colors2025.space.gray} r g b / 0.25);
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  display: block;
+  font-size: 28px;
+  margin-bottom: 10px;
+  padding: 9px 14px;
+
+  ${mQ(bp.desktop)} {
+    margin-bottom: 16px;
+    padding: 16px 24px;
+  }
+`;
+
 export const StyledCountdownItem = styled.div`
   text-align: center;
   position: relative;
@@ -53,34 +71,22 @@ export const StyledCountdownItem = styled.div`
       `
         color: ${theme.colors2025.eastBay};
     `}
+  }
 
-    span {
-      ${headline2};
-      background: ${({ $isActive, theme }) =>
-        $isActive
-          ? `linear-gradient(270deg, #575785 -0.11%, #35356D 99.89%)`
-          : `linear-gradient(180deg, ${theme.colors2025.void} 0%, rgb(from ${theme.colors2025.blueViolet} r g b / 0.15) 100%)`};
-      border: 1px solid
-        rgb(from ${({ theme }) => theme.colors2025.space.gray} r g b / 0.25);
-      color: ${({ $isActive, theme }) =>
-        $isActive ? theme.colors2025.space.white : theme.colors2025.eastBay};
-      display: block;
-      font-size: 28px;
-      margin-bottom: 16px;
-      padding: 9px 14px;
-
-      ${({ $isActive, theme }) =>
-        $isActive &&
-        `
+  ${({ $isActive, theme }) =>
+    $isActive &&
+    `
+      ${StyledCounter} {
+        background: linear-gradient(270deg, #575785 -0.11%, #35356D 99.89%);
+        color: ${theme.colors2025.space.white};
         text-shadow: 0px 0px 10px
           rgb(from ${theme.colors2025.space.dust} r g b / 0.5);
-        `}
-
-      ${mQ(bp.desktop)} {
-        padding: 16px 24px;
       }
-    }
-  }
+    `}
+`;
+
+export const StyledSpan = styled.span`
+  line-height: 12px;
 `;
 
 export const StyledCountdownItemDivider = styled.div`
@@ -113,17 +119,28 @@ export const StyledLoaderContent = styled.div`
     #575785 16.72%,
     #403f7d 76.82%
   );
-  height: 16px;
+  height: 8px;
   mask-image: repeating-linear-gradient(
     90deg,
     #000 0px,
-    #000 8px,
-    transparent 8px,
-    transparent 12px
+    #000 4px,
+    transparent 4px,
+    transparent 6px
   );
   mask-size: 100% 100%;
   mask-repeat: no-repeat;
   max-width: 100%;
   width: ${({ $progress }) => `${$progress || 0}%`};
   transition: width 1s ease-out;
+
+  ${mQ(bp.desktop)} {
+    height: 14px;
+    mask-image: repeating-linear-gradient(
+      90deg,
+      #000 0px,
+      #000 8px,
+      transparent 8px,
+      transparent 12px
+    );
+  }
 `;
