@@ -6,6 +6,11 @@ import {
 import { textBase, textXl } from 'themes/typography';
 
 export const StyledCardCallout = styled.div`
+  background: linear-gradient(
+    180deg,
+    rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0) 0%,
+    rgb(from ${({ theme }) => theme.colors2025.blueViolet} r g b / 0.15) 100%
+  );
   border-radius: 16px;
   box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors2025.eastBay};
   display: flex;
@@ -15,11 +20,26 @@ export const StyledCardCalloutContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 24px 32px 32px 32px;
+  padding: 32px;
   position: relative;
+  width: calc(100% - 64px);
 
   ${mQ(bp.tablet)} {
-    padding: 32px 40px 40px 40px;
+    padding: 40px;
+    width: calc(100% - 80px);
+  }
+`;
+
+export const StyledCardCalloutWrapContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  ${({ $bodyGap }) => $bodyGap === 'xl' && 'gap: 64px;'}
+
+  ${mQ(bp.tablet)} {
+    ${({ $bodyGap }) => $bodyGap === 'xl' && 'gap: 80px;'}
+    ${({ $bodyGap }) => $bodyGap === 'lg' && 'gap: 40px;'}
   }
 `;
 
@@ -41,42 +61,27 @@ export const StyledCardCalloutWrap = styled.div`
 export const StyledCardCalloutContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   align-items: flex-start;
 `;
 
 export const StyledCardCalloutTitle = styled.h2`
-  ${textXl}
+  ${textXl};
+  margin: 0;
   font-weight: 700;
   color: ${({ theme }) => theme.colors2025.space.white};
 `;
 
-export const StyledCardCalloutBody = styled.p`
-  ${textBase}
+export const StyledCardCalloutBody = styled.div`
+  ${textBase};
 
+  margin: 0;
+  width: 100%;
+
+  ${({ $smallBody }) => $smallBody && 'max-width: 752px;'}
   a {
     position: relative;
-    display: inline-block;
     color: ${({ theme }) => theme.colors2025.lavendar};
-    text-decoration: none;
-
-    &::before {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 1px;
-      background-color: ${({ theme }) => theme.colors2025.lavendar};
-      bottom: 0;
-      left: 0;
-      transform-origin: right;
-      transform: scaleX(0);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    &:hover::before {
-      transform-origin: left;
-      transform: scaleX(1);
-    }
   }
 `;
 

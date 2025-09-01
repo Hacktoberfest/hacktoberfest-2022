@@ -1,18 +1,82 @@
 import Link from 'next/link';
 import styled from 'styled-components';
-import { textSm } from 'themes/typography';
+import { textBase, textLg, textSm } from 'themes/typography';
+
+import { StyledCorners } from 'components/Corners/Corners.styles';
 
 export const StyledCustomLink = styled(Link)`
   ${textSm};
+  ${({ $size }) => $size === 'lg' && textBase};
   color: ${({ theme }) => theme.colors2025.lavendar};
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   position: relative;
+  font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 700;
   text-decoration: none;
   transition: color 300ms ease-in-out;
   text-transform: uppercase;
+
+  ${({ $isTopNav }) =>
+    $isTopNav &&
+    `
+      letter-spacing: normal;
+      padding: 12px 16px;
+      ${StyledCorners} {
+        inset: 0;
+        color: transparent; 
+      }
+    `}
+
+  &:hover {
+    ${({ $isTopNav, theme }) =>
+      $isTopNav
+        ? `
+          background-color: rgb(from ${theme.colors2025.melrose} r g b / 0.06);
+          color: ${theme.colors2025.melrose};
+          
+          ${StyledCorners} {
+            color: ${theme.colors2025.space.white};
+            inset: -2px;
+          }
+      `
+        : `
+          color: ${theme.colors2025.space.white};
+          text-shadow: 0 0 5px
+            rgb(from ${theme.colors2025.space.white} r g b / 0.5);
+        `}
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  ${({ $iconSize }) =>
+    $iconSize &&
+    $iconSize === 'sm' &&
+    `
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    `}
+
+  ${({ $iconSize }) =>
+    $iconSize &&
+    $iconSize === 'lg' &&
+    `
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    `}
+`;
+
+export const StyledCustomLinkContent = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
 
   ${({ $isExternal }) =>
     $isExternal &&
@@ -29,18 +93,16 @@ export const StyledCustomLink = styled(Link)`
       border: 1px solid currentColor;
       border-left: 0;
       border-bottom: 0;
+      transition: transform 300ms ease-in-out;
+      transform: translateX(0);
     }
+    
+    &:hover,
+    &:focus {
+      &::after {
+        transform: translateX(5px);
+      }
+    }
+
   `};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors2025.space.white};
-    text-shadow: 0 0 5px
-      rgb(from ${({ theme }) => theme.colors2025.space.white} r g b / 0.25);
-  }
-
-  svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-  }
 `;

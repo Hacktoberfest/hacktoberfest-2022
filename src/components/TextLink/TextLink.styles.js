@@ -20,12 +20,13 @@ export const StyledTextLinkArrow = styled.span`
 `;
 
 export const StyledTextLink = styled(Link)`
-  display: flex;
+  color: ${({ theme }) => theme.colors2025.lavendar};
+  display: inline-flex;
   width: 100%;
   align-items: center;
-  gap: 16px;
-  color: inherit;
-  font-weight: 500;
+  gap: 8px;
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 700;
   text-decoration: none;
 
   ${mQ(bp.desktop)} {
@@ -47,22 +48,37 @@ export const StyledTextLink = styled(Link)`
     line-height: 26px;
   `};
 
+  path {
+    transition: transform 300ms ease-in-out;
+
+    &:nth-child(1) {
+      transform: translateX(0);
+    }
+  }
+
   &:hover {
-    ${StyledTextLinkArrow} {
-      > span {
-        &:nth-child(2),
-        &:nth-child(3) {
-          opacity: 0;
-        }
+  }
 
-        &:nth-child(2) {
-          transition-delay: 200ms;
-        }
+  &:hover,
+  &:focus {
+    ${({ theme }) =>
+      `
+        color: ${theme.colors2025.space.white};
+        text-shadow: 0 0 5px
+          rgb(from ${theme.colors2025.space.white} r g b / 0.5);
+      `}
 
-        &:nth-child(3) {
-          transition-delay: 0ms;
-        }
+    path {
+      &:nth-child(1) {
+        transform: translateX(5px);
       }
     }
+  }
+
+  svg {
+    flex-shrink: 0;
+    height: 16px;
+    width: 17px;
+    overflow: visible;
   }
 `;

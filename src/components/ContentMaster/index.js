@@ -2,6 +2,7 @@ import {
   StyledContentMaster,
   StyledContentMasterEyebrow,
   StyledContentMasterTitle,
+  StyledContentMasterTitleRow,
   StyledContentMasterHeader,
   StyledContentMasterBody,
   StyledContentMasterLinks,
@@ -12,11 +13,15 @@ import {
 import TextLink from 'components/TextLink';
 import { Markdown, MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
+import CustomLink from '../CustomLink';
+import { sharing } from '../../lib/about';
+import Image from 'next/image';
 
 const ContentMaster = (props) => {
   const {
     eyebrow,
     title,
+    titleIcon,
     titleTag = 'h2',
     children,
     size,
@@ -25,10 +30,12 @@ const ContentMaster = (props) => {
     listColumns,
     links,
     cta,
+    bodyColor,
+    ...rest
   } = props;
 
   return (
-    <StyledContentMaster $align={align}>
+    <StyledContentMaster $align={align} {...rest}>
       {(eyebrow || title) && (
         <StyledContentMasterHeader>
           {eyebrow && (
@@ -37,14 +44,17 @@ const ContentMaster = (props) => {
             </StyledContentMasterEyebrow>
           )}
           {title && (
-            <StyledContentMasterTitle $size={size} as={titleTag}>
-              {title}
-            </StyledContentMasterTitle>
+            <StyledContentMasterTitleRow>
+              {titleIcon && <Image {...titleIcon} />}
+              <StyledContentMasterTitle $size={size} as={titleTag}>
+                {title}
+              </StyledContentMasterTitle>
+            </StyledContentMasterTitleRow>
           )}
         </StyledContentMasterHeader>
       )}
       {children && (
-        <StyledContentMasterBody $size={size}>
+        <StyledContentMasterBody $color={bodyColor} $size={size}>
           <Markdown string={children} />
         </StyledContentMasterBody>
       )}
@@ -59,7 +69,11 @@ const ContentMaster = (props) => {
         <StyledContentMasterLinks>
           {links.map((link) => (
             <li key={link.id}>
-              <TextLink size="lg" {...link} />
+              {link.target === '_blank' ? (
+                <CustomLink size="lg" {...link} />
+              ) : (
+                <TextLink size="lg" {...link} />
+              )}
             </li>
           ))}
         </StyledContentMasterLinks>

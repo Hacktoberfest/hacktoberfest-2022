@@ -6,22 +6,54 @@ import {
   StyledCardCalloutContainer,
   StyledCardCalloutWrap,
   StyledCardCalloutLink,
+  StyledCardCalloutWrapContainer,
 } from './CardCallout.styles';
-import ButtonMain from 'components/ButtonMain';
+import TextLink from '../TextLink';
+import CustomLink from '../CustomLink';
+import { DownloadIcon } from '../icons/Download';
 
-const CardCallout = ({ icon, title, body, link }) => (
-  <StyledCardCallout>
+const CardCallout = ({
+  icon,
+  title,
+  body,
+  link,
+  smallBody,
+  bodyGap,
+  children,
+  ...props
+}) => (
+  <StyledCardCallout {...props}>
     <StyledCardCalloutContainer>
-      <StyledCardCalloutWrap>
-        {icon}
-        <StyledCardCalloutContent>
-          {title && <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>}
-          {body && <StyledCardCalloutBody>{body}</StyledCardCalloutBody>}
-        </StyledCardCalloutContent>
-      </StyledCardCalloutWrap>
-      <StyledCardCalloutLink>
-        <ButtonMain {...link} />
-      </StyledCardCalloutLink>
+      <StyledCardCalloutWrapContainer $bodyGap={bodyGap}>
+        {(icon || title || body) && (
+          <StyledCardCalloutWrap>
+            {icon}
+            <StyledCardCalloutContent>
+              {title && (
+                <StyledCardCalloutTitle>{title}</StyledCardCalloutTitle>
+              )}
+              {body && (
+                <StyledCardCalloutBody $smallBody={smallBody}>
+                  {body}
+                </StyledCardCalloutBody>
+              )}
+            </StyledCardCalloutContent>
+          </StyledCardCalloutWrap>
+        )}
+        {children}
+      </StyledCardCalloutWrapContainer>
+      {link && (
+        <StyledCardCalloutLink>
+          {link.target === '_blank' ? (
+            <CustomLink showExternal={!link.isDownload} size="lg" {...link}>
+              {link.children}
+              {link.isDownload && <DownloadIcon />}
+            </CustomLink>
+          ) : (
+            <TextLink {...link} />
+          )}
+        </StyledCardCalloutLink>
+      )}
     </StyledCardCalloutContainer>
   </StyledCardCallout>
 );

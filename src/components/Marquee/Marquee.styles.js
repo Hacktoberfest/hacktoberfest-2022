@@ -30,6 +30,7 @@ const BaseMarqueeWrapper = styled.div`
     gap: var(--gap);
     justify-content: space-around;
     min-width: 100%;
+    margin: 0;
 
     @media (prefers-reduced-motion) {
       animation-play-state: paused;
@@ -47,6 +48,18 @@ const BaseMarqueeWrapper = styled.div`
       color: transparent;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: ${({ theme }) => theme.colors2025.blueViolet};
+      position: relative;
+
+      &::before {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+        -webkit-text-stroke: 0 transparent;
+        filter: url(#outerShadow);
+        z-index: -1;
+      }
 
       ${mQ(bp.desktop)} {
         font-size: 88px;

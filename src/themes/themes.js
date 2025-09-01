@@ -1,18 +1,6 @@
-import {
-  Space_Grotesk,
-  Atkinson_Hyperlegible,
-  Atkinson_Hyperlegible_Mono,
-} from 'next/font/google';
+import { Atkinson_Hyperlegible } from 'next/font/google';
 import { createGlobalStyle } from 'styled-components';
 import bgGrain from 'assets/img/bg-grain.png';
-import bgFooter from 'assets/img/bg-footer.svg';
-
-const SpaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  display: 'swap',
-  fallback: ['sans-serif'],
-  adjustFontFallback: false,
-});
 
 const AtkinsonHyperlegible = Atkinson_Hyperlegible({
   subsets: ['latin'],
@@ -57,7 +45,6 @@ export const mainTheme = {
 };
 
 const GlobalStyle = createGlobalStyle`
-  *,
   html,
   body {
     box-sizing: border-box;
@@ -72,11 +59,15 @@ const GlobalStyle = createGlobalStyle`
   body {
     position: relative;
     background-color: ${({ theme }) => theme.colors2025.void};
-    background-image: url(${bgFooter.src});
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    background-size: 1786px auto;
     color: ${({ theme }) => theme.colors2025.space.dust};
+    overflow-x: hidden;
+    
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+    }
   }
 
   body::before {
