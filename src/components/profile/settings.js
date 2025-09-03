@@ -17,6 +17,7 @@ import {
   updateRegistration,
   fetchUserEmails,
   updateUser,
+  fetchMetadata,
 } from 'lib/api';
 import {
   currentHacktoberfest,
