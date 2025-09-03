@@ -89,6 +89,17 @@ export const contributors = {
   ],
 };
 
+export const rewarding = {
+  title: 'Hacktoberfest 2025 Rewarding:',
+  content:
+    'Here is a look at what we have in store for you in terms of rewards in 2025:',
+  items: [
+    'Holopin - Get your Hacktoberfest DigitalBadge for showing up for Open Source and winning the one of a kind Holopin Badge to post on your social.',
+    'Hacktoberfest Swag - Get an exclusive Hacktoberfest T-Shirt, but its only for ‘Super Contributors’ who contribute 6 accepted PR/MRs to a worthy repository. (T&Cs Apply | Valid only for the first 10,000 completed contributions)',
+    'Treenation - Every 6th PR/MR t-shirt reward will come with a treenation contribution making the world a greener place! Your Treennation rewards will also be reflected as you win this final level.',
+  ],
+};
+
 export const resources = {
   title: 'Resources for Beginners',
   sections: [
