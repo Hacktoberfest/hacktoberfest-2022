@@ -107,7 +107,7 @@ export const StyledEyebrowWrapper = styled.div`
   align-items: center;
   display: flex;
   flex-flow: row wrap;
-  gap: 8px;
+  gap: 12px;
 `;
 
 export const StyledEyebrow = styled.p`
