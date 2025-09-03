@@ -663,7 +663,6 @@ const Participation = () => {
                   size="md"
                   title={<>{lowNoCode.sections[0].title}</>}
                   titleTag="h3"
-                  hasCaret={false}
                   list={lowNoCode.sections[0].lists}
                 >
                   {lowNoCode.sections[0].content}
@@ -673,7 +672,6 @@ const Participation = () => {
                   size="md"
                   title={<>{lowNoCode.sections[1].title}</>}
                   titleTag="h3"
-                  hasCaret={false}
                   list={lowNoCode.sections[1].lists}
                 />
               </StyledContentSideEqualGap>

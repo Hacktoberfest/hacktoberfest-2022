@@ -1,19 +1,29 @@
-import { useTheme } from 'styled-components';
-import Notification from '../notification';
+import styled, { useTheme } from 'styled-components';
+import CardCallout from '../CardCallout';
+import { textSm } from '../../themes/typography';
 
-const EmailWarning = ({ email }) => {
+const StyledCardCallout = styled(CardCallout)`
+  ${textSm};
+  color: ${({ $hasTitle, theme }) =>
+    $hasTitle ? theme.colors2025.space.dust : theme.colors2025.error};
+
+  > div > div {
+    gap: 16px;
+  }
+`;
+
+const EmailWarning = ({ email, title }) => {
   const theme = useTheme();
 
-  if (email.endsWith('@users.noreply.github.com')) {
+  if (email.endsWith('@users.noreply.github.com') || 1 == 1) {
     return (
-      <Notification title="Warning: No-reply Email" color={theme.colors.error}>
-        <p>
-          We noticed that your selected email address is a GitHub-provided
-          no-reply address. If you'd like to receive email notifications,
-          including for your Holopin badges, please select a different email
-          address for your Hacktoberfest registration.
-        </p>
-      </Notification>
+      <StyledCardCallout $hasTitle={!!title}>
+        {title}
+        We noticed that your selected email address is a GitHub-provided
+        no-reply address. If you'd like to receive email notifications,
+        including your Holopin Em, please select a different email address for
+        your Hacktoberfest registration.
+      </StyledCardCallout>
     );
   }
 

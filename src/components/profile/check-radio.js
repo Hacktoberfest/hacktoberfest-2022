@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import styled from 'styled-components';
 
-import { MarkdownInline } from '../markdown';
-import { body16, body20 } from 'themes/typography';
+import { Markdown, MarkdownInline } from '../markdown';
+import { body16, body20, textBase, textLg } from 'themes/typography';
 
 export const StyledLabel = styled.label`
   display: block;
@@ -19,27 +19,22 @@ export const StyledLabel = styled.label`
     gap: 16px;
 
     > input {
-      margin: 7px 0 0;
+      margin: 2px 0 0;
       width: 16px;
       height: 16px;
       flex-shrink: 0;
-      accent-color: ${({ theme }) => theme.colors.deepPink};
-    }
-
-    > p {
-      margin: 0 !important; // Some section somewhere is using classes to get higher precedence
-      ${body20}
+      accent-color: ${({ theme }) => theme.colors2025.lavendar};
     }
   }
 
   > p {
     margin: 8px 0 0 !important; // Some section somewhere is using classes to get higher precedence
     padding-left: 32px;
-    ${body16}
   }
 
   p {
     a {
+      color: ${({ theme }) => theme.colors2025.lavendar};
       text-decoration: underline;
       transition: color 0.2s ease;
 
@@ -49,9 +44,34 @@ export const StyledLabel = styled.label`
       }
     }
   }
+
+  ul {
+    list-style-type: disc;
+  }
 `;
 
-const CheckRadio = ({ radio, title, message, disabled = false, ...props }) => {
+const StyledLabelTitle = styled.p`
+  margin: 0 !important; // Some section somewhere is using classes to get higher precedence
+  ${textLg};
+  color: ${({ theme }) => theme.colors2025.space.white};
+  font-weight: 700;
+
+  ${({ $size, theme }) =>
+    $size === 'small' &&
+    `
+    ${textBase};
+    color: ${theme.colors2025.space.dust};
+  `}
+`;
+
+const CheckRadio = ({
+  radio,
+  title,
+  titleSize,
+  message,
+  disabled = false,
+  ...props
+}) => {
   return (
     <StyledLabel disabled={disabled}>
       <div>
@@ -61,16 +81,12 @@ const CheckRadio = ({ radio, title, message, disabled = false, ...props }) => {
           {...props}
         />
         {title && (
-          <p>
+          <StyledLabelTitle $size={titleSize}>
             <MarkdownInline string={title} as={Fragment} forceNewTab />
-          </p>
+          </StyledLabelTitle>
         )}
       </div>
-      {message && (
-        <p>
-          <MarkdownInline string={message} as={'span'} forceNewTab />
-        </p>
-      )}
+      {message && <Markdown string={message} forceNewTab />}
     </StyledLabel>
   );
 };

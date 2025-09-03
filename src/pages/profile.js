@@ -16,17 +16,7 @@ import Settings from 'components/profile/settings';
 import Progress from 'components/profile/progress';
 import Header from 'components/profile/header';
 import createMetaTitle from 'lib/createMetaTitle';
-
-const opacityFade = keyframes`
-  to {
-    opacity: 1;
-  }
-`;
-
-const StyledProgressWrapper = styled.div`
-  opacity: 0;
-  animation: ${opacityFade} 0.5s 0.5s ease forwards;
-`;
+import Layout from '../components/Layout';
 
 const Profile = () => {
   const auth = useAuth();
@@ -90,63 +80,46 @@ const Profile = () => {
         </Section>
       ) : (
         <>
-          <Header avatar={avatar} name={auth.user.name} type="Profile">
-            <StyledButtonGroup>
-              {!edit && (
+          <Layout>
+            <Header
+              avatar={avatar}
+              name={auth.user.name}
+              isEdit={edit}
+              type="Profile"
+            >
+              <StyledButtonGroup>
+                {!edit && (
+                  <ButtonMain
+                    as="button"
+                    onClick={() =>
+                      router.push('/profile/edit', undefined, { shallow: true })
+                    }
+                    children="Edit Profile"
+                  />
+                )}
+                {edit && (
+                  <ButtonMain
+                    as="button"
+                    onClick={() =>
+                      router.push('/profile', undefined, { shallow: true })
+                    }
+                    children="Back to Profile"
+                  />
+                )}
                 <ButtonMain
                   as="button"
-                  onClick={() =>
-                    router.push('/profile/edit', undefined, { shallow: true })
-                  }
-                  children="Edit Info"
-                  variant="secondary-beige"
+                  onClick={() => auth.reset()}
+                  children="Logout"
                 />
-              )}
-              {edit && (
-                <ButtonMain
-                  as="button"
-                  onClick={() =>
-                    router.push('/profile', undefined, { shallow: true })
-                  }
-                  children="Back to Profile"
-                  variant="secondary-beige"
-                />
-              )}
-              <ButtonMain
-                as="button"
-                onClick={() => auth.reset()}
-                children="Logout"
-                variant="primary-green"
-              />
-            </StyledButtonGroup>
-          </Header>
+              </StyledButtonGroup>
+            </Header>
+          </Layout>
 
-          <Container>
-            <StyledProgressWrapper>
-              {edit ? (
-                <Settings auth={auth} isEdit />
-              ) : (
-                <Progress auth={auth} />
-              )}
-            </StyledProgressWrapper>
-          </Container>
+          {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
         </>
       )}
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  // This page is not yet ready for public access, so we will return a 404
-  const shouldRender404 = true;
-
-  if (shouldRender404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return { props: {} };
 };
 
 export default Profile;

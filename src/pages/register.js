@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 
 import { fetchUserAvatars } from 'lib/api';
@@ -16,8 +16,10 @@ import Container from 'components/Container';
 import ButtonMain from 'components/ButtonMain';
 import { StyledButtonGroup } from 'components/ButtonMain/ButtonMain.styles';
 import Settings from 'components/profile/settings';
-import Header from 'components/profile/header';
 import createMetaTitle from 'lib/createMetaTitle';
+import HeroSecondary from '../components/HeroSecondary';
+import Image from 'next/image';
+import registration from '../assets/img/heroes/registration.svg';
 
 const Register = () => {
   const auth = useAuth();
@@ -102,28 +104,16 @@ const Register = () => {
         </Section>
       ) : (
         <>
-          <Header avatar={avatar} name={auth.user.name} type="Registration" />
+          <HeroSecondary
+            title="Registration"
+            icon={<Image src={registration} alt="" />}
+          />
 
-          <Container>
-            <Settings auth={auth} />
-          </Container>
+          <Settings auth={auth} />
         </>
       )}
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  // This page is not yet ready for public access, so we will return a 404
-  const shouldRender404 = true;
-
-  if (shouldRender404) {
-    return {
-      notFound: true,
-    };
-  }
-
-  return { props: {} };
 };
 
 export default Register;

@@ -18,7 +18,6 @@ const Event = (props) => {
           size="sm"
           title={<StyledEventHeading>{title}</StyledEventHeading>}
           titleTag="h3"
-          hasCaret={false}
         />
 
         <StyledContent>

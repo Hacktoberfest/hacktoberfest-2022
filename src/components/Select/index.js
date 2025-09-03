@@ -1,14 +1,21 @@
-import {
-  StyledInputContainer,
-  StyledSelectLabel,
-  StyledSelect,
-} from './Select.styles';
+import { StyledInputContainer, StyledSelect } from './Select.styles';
+import { StyledInputLabel } from '../Input/Input.styles';
 
-const Select = ({ name, label, items, placeholder, required, ...select }) => (
+const Select = ({
+  name,
+  label,
+  labelSize,
+  items,
+  placeholder,
+  required,
+  ...select
+}) => (
   <StyledInputContainer>
-    <StyledSelectLabel htmlFor={name}>
-      {label} {required && <span>*</span>}
-    </StyledSelectLabel>
+    {label && (
+      <StyledInputLabel $size={labelSize} htmlFor={name}>
+        {label} {required && <span>[Required]</span>}
+      </StyledInputLabel>
+    )}
     <StyledSelect>
       <select id={name} name={name} required={required} {...select}>
         {placeholder && (

@@ -1,0 +1,203 @@
+import ContentMaster from '../ContentMaster';
+import { providerMap, trackingEndExtended } from '../../lib/config';
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import Section from '../Section';
+import styled from 'styled-components';
+import { StyledSectionSpacing } from '../../styles/sharedStyles';
+import { textXl } from '../../themes/typography';
+import { useRouter } from 'next/router';
+import {
+  createUserOAuth,
+  fetchUserOAuth,
+  removeUserOAuth,
+} from '../../lib/api';
+
+const StyledStyledSectionSpacing = styled(StyledSectionSpacing)`
+  gap: 24px;
+`;
+
+const StyledButtonLink = styled.button`
+  ${textXl};
+  color: ${({ theme }) => theme.colors2025.space.white};
+  font-weight: bold;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors2025.lavendar};
+
+    span {
+      text-decoration: none;
+    }
+  }
+
+  span {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.colors2025.space.dust};
+    font-weight: 400;
+  }
+`;
+
+const StyledAccountButtonGroup = styled.div`
+  display: flex;
+  gap: 32px;
+`;
+
+const LinkedAccounts = ({ auth, setError, isEdit }) => {
+  const router = useRouter();
+
+  const [oauth, setOauth] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  const loading = useRef(false);
+
+  const hasTrackingEnded = useMemo(
+    () => new Date() >= new Date(trackingEndExtended),
+    [],
+  );
+
+  // Handle fetching OAuth accounts
+  const fetchOAuth = useCallback(async () => {
+    setOauth(
+      await fetchUserOAuth(auth.user.id, auth.token).then((data) =>
+        data.reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.provider]: item,
+          }),
+          {},
+        ),
+      ),
+    );
+  }, [auth.user?.id, auth.token]);
+
+  // Handle linking OAuth accounts
+  const linkOAuth = useCallback(
+    async (e, provider) => {
+      e.preventDefault();
+      if (hasTrackingEnded) return;
+
+      const link = await createUserOAuth(
+        auth.user.id,
+        auth.token,
+        provider,
+      ).catch(async (err) => {
+        const data = await err.response.json().catch(() => null);
+        console.error(err, data);
+        setError(
+          `An unknown error occurred while linking your ${providerMap[provider].name} account. Please try again later.`,
+        );
+      });
+      window.location.href = link.redirect;
+    },
+    [auth.user?.id, auth.token],
+  );
+
+  // Handle unlinking OAuth accounts
+  const unlinkOAuth = useCallback(
+    async (e, provider) => {
+      e.preventDefault();
+      if (hasTrackingEnded) return;
+
+      if (
+        !confirm(
+          `Are you sure you want to unlink your ${providerMap[provider].name} account from your Hacktoberfest registration?`,
+        )
+      )
+        return;
+
+      await removeUserOAuth(auth.user.id, auth.token, provider).catch(
+        async (err) => {
+          const data = await err.response.json().catch(() => null);
+          console.error(err, data);
+          setError(
+            `An unknown error occurred while unlinking your ${providerMap[provider].name} account. Please try again later.`,
+          );
+        },
+      );
+      await fetchOAuth();
+    },
+    [auth.user?.id, auth.token],
+  );
+
+  // Check if we have multiple OAuth accounts linked (unlinking is disabled if not)
+  const hasMultipleOAuth = useMemo(
+    () => Object.keys(oauth).length > 1,
+    [oauth],
+  );
+
+  // Load the data we need to render
+  useEffect(() => {
+    if (loaded) return;
+    if (loading.current) return;
+    loading.current = true;
+
+    (async () => {
+      // Fetch the user's OAuth providers
+      const rawOauth = await fetchUserOAuth(auth.user.id, auth.token);
+      setOauth(
+        rawOauth.reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.provider]: item,
+          }),
+          {},
+        ),
+      );
+
+      // Show the page
+      setLoaded(true);
+    })();
+  }, [loaded, auth.user?.id, auth.token]);
+
+  return (
+    <StyledStyledSectionSpacing>
+      <ContentMaster title="Linked accounts" size="md" />
+      <StyledAccountButtonGroup>
+        {Object.keys(providerMap).map((provider) => (
+          <Fragment key={provider}>
+            {oauth[provider] ? (
+              hasMultipleOAuth &&
+              router.query.unlink === 'enabled' &&
+              isEdit ? (
+                <StyledButtonLink
+                  onClick={(e) => unlinkOAuth(e, provider)}
+                  type="button"
+                  disabled={hasTrackingEnded}
+                >
+                  Unlink {providerMap[provider].name} account:{' '}
+                  <span>{oauth[provider].providerUsername}</span>
+                </StyledButtonLink>
+              ) : (
+                <StyledButtonLink
+                  onClick={(e) => e.preventDefault()}
+                  type="button"
+                  disabled
+                >
+                  {providerMap[provider].name} linked:{' '}
+                  <span>{oauth[provider].providerUsername}</span>
+                </StyledButtonLink>
+              )
+            ) : (
+              isEdit && (
+                <StyledButtonLink
+                  onClick={(e) => linkOAuth(e, provider)}
+                  type="button"
+                  disabled={hasTrackingEnded}
+                >
+                  Link {providerMap[provider].name} account
+                </StyledButtonLink>
+              )
+            )}
+          </Fragment>
+        ))}
+      </StyledAccountButtonGroup>
+    </StyledStyledSectionSpacing>
+  );
+};
+
+export default LinkedAccounts;

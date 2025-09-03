@@ -9,6 +9,7 @@ import {
 const Input = ({
   name,
   label,
+  labelSize,
   error,
   type = 'text',
   required = false,
@@ -16,8 +17,8 @@ const Input = ({
 }) => (
   <StyledInputWrapper>
     <StyledInputContainer $hasError={!!error}>
-      <StyledInputLabel htmlFor={name}>
-        {label} {required && <span>*</span>}
+      <StyledInputLabel $size={labelSize} htmlFor={name}>
+        {label} {required && <span>[Required]</span>}
       </StyledInputLabel>
       <StyledInput
         id={name}

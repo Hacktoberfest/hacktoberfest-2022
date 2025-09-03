@@ -76,6 +76,7 @@ const PullRequest = ({ data, as }) => {
         </StyledInfo>
       </StyledContainer>
       <StyledButton
+        size="lg"
         href={data.url}
         target="_blank"
         rel="noreferrer"

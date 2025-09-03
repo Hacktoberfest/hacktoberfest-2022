@@ -8,16 +8,13 @@ import {
   useState,
 } from 'react';
 import styled from 'styled-components';
+import { breakpoints, determineMediaQuery as mQ } from 'themes/breakpoints';
 
-import { body20, headline48 } from 'themes/typography';
+import { textXl } from 'themes/typography';
 
 import {
   createRegistration,
   updateRegistration,
-  fetchUserOAuth,
-  createUserOAuth,
-  removeUserOAuth,
-  fetchMetadata,
   fetchUserEmails,
   updateUser,
 } from 'lib/api';
@@ -32,47 +29,35 @@ import Form from 'components/form';
 import Loader from 'components/loader';
 import Section from 'components/Section';
 import ButtonMain from 'components/ButtonMain';
-import Divider from 'components/Divider';
 
 import MetadataFields from './metadata-fields';
-import { StyledSectionSpacing } from 'styles/sharedStyles';
-
-const StyledFormSectionTitle = styled.h2`
-  ${headline48}
-`;
+import Layout from '../Layout';
+import Divider from '../Divider';
+import LinkedAccounts from './linked-accounts';
 
 const StyledButtonGroup = styled.div`
   display: flex;
-  gap: 48px;
-  justify-content: ${({ $align }) => ($align ? $align : 'flex-start')};
+  gap: 32px;
+  justify-content: flex-start;
+  margin-bottom: 64px;
+
+  ${mQ(breakpoints.desktop)} {
+    justify-content: center;
+    margin-bottom: 128px;
+  }
 `;
 
-const StyledButtonLink = styled.button`
-  ${body20}
-  color: ${({ theme }) => theme.colors.black};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.deepPink};
-
-    span {
-      text-decoration: none;
-    }
-  }
-
-  span {
-    text-decoration: underline;
-    color: ${({ theme }) => theme.colors.deepPink};
-  }
+const StyledFullDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+  width: 100%;
 `;
 
 const Settings = ({ auth, isEdit = false }) => {
-  const router = useRouter();
-
   // Track the data we need to render
   const [loaded, setLoaded] = useState(null);
   const loading = useRef(false);
   const [emails, setEmails] = useState([]);
-  const [oauth, setOauth] = useState([]);
   const [metadata, setMetadata] = useState([]);
   const hasTrackingEnded = useMemo(
     () => new Date() >= new Date(trackingEndExtended),
@@ -89,76 +74,6 @@ const Settings = ({ auth, isEdit = false }) => {
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
-
-  // Handle fetching OAuth accounts
-  const fetchOAuth = useCallback(async () => {
-    setOauth(
-      await fetchUserOAuth(auth.user.id, auth.token).then((data) =>
-        data.reduce(
-          (obj, item) => ({
-            ...obj,
-            [item.provider]: item,
-          }),
-          {},
-        ),
-      ),
-    );
-  }, [auth.user?.id, auth.token]);
-
-  // Handle linking OAuth accounts
-  const linkOAuth = useCallback(
-    async (e, provider) => {
-      e.preventDefault();
-      if (hasTrackingEnded) return;
-
-      const link = await createUserOAuth(
-        auth.user.id,
-        auth.token,
-        provider,
-      ).catch(async (err) => {
-        const data = await err.response.json().catch(() => null);
-        console.error(err, data);
-        setError(
-          `An unknown error occurred while linking your ${providerMap[provider].name} account. Please try again later.`,
-        );
-      });
-      window.location.href = link.redirect;
-    },
-    [auth.user?.id, auth.token],
-  );
-
-  // Handle unlinking OAuth accounts
-  const unlinkOAuth = useCallback(
-    async (e, provider) => {
-      e.preventDefault();
-      if (hasTrackingEnded) return;
-
-      if (
-        !confirm(
-          `Are you sure you want to unlink your ${providerMap[provider].name} account from your Hacktoberfest registration?`,
-        )
-      )
-        return;
-
-      await removeUserOAuth(auth.user.id, auth.token, provider).catch(
-        async (err) => {
-          const data = await err.response.json().catch(() => null);
-          console.error(err, data);
-          setError(
-            `An unknown error occurred while unlinking your ${providerMap[provider].name} account. Please try again later.`,
-          );
-        },
-      );
-      await fetchOAuth();
-    },
-    [auth.user?.id, auth.token],
-  );
-
-  // Check if we have multiple OAuth accounts linked (unlinking is disabled if not)
-  const hasMultipleOAuth = useMemo(
-    () => Object.keys(oauth).length > 1,
-    [oauth],
-  );
 
   // Load the data we need to render
   useEffect(() => {
@@ -205,9 +120,6 @@ const Settings = ({ auth, isEdit = false }) => {
           : currentEmails[0],
       }));
 
-      // Fetch the user's linked OAuth accounts
-      await fetchOAuth();
-
       // Fetch all the metadata for the event
       const rawMetadata = await fetchMetadata(auth.token);
       setMetadata(rawMetadata);
@@ -249,7 +161,6 @@ const Settings = ({ auth, isEdit = false }) => {
     auth.user?.email,
     auth.token,
     auth.registration?.metadata,
-    fetchOAuth,
   ]);
 
   // Handle form submission
@@ -377,63 +288,25 @@ const Settings = ({ auth, isEdit = false }) => {
         success={success && 'Your Hacktoberfest registration has been saved.'}
         error={error}
       >
-        {isEdit && (
-          <>
-            <Section small>
-              <StyledSectionSpacing>
-                <StyledFormSectionTitle>Linked accounts</StyledFormSectionTitle>
-                <StyledButtonGroup>
-                  {Object.keys(providerMap).map((provider) => (
-                    <Fragment key={provider}>
-                      {oauth[provider] ? (
-                        hasMultipleOAuth &&
-                        router.query.unlink === 'enabled' ? (
-                          <StyledButtonLink
-                            onClick={(e) => unlinkOAuth(e, provider)}
-                            type="button"
-                            disabled={hasTrackingEnded}
-                          >
-                            Unlink {providerMap[provider].name} account:{' '}
-                            <span>@{oauth[provider].providerUsername}</span>
-                          </StyledButtonLink>
-                        ) : (
-                          <StyledButtonLink
-                            onClick={(e) => e.preventDefault()}
-                            type="button"
-                            disabled
-                          >
-                            {providerMap[provider].name} linked:{' '}
-                            <span>@{oauth[provider].providerUsername}</span>
-                          </StyledButtonLink>
-                        )
-                      ) : (
-                        <StyledButtonLink
-                          onClick={(e) => linkOAuth(e, provider)}
-                          type="button"
-                          disabled={hasTrackingEnded}
-                        >
-                          Link {providerMap[provider].name} account
-                        </StyledButtonLink>
-                      )}
-                    </Fragment>
-                  ))}
-                </StyledButtonGroup>
-              </StyledSectionSpacing>
-            </Section>
-            <Divider type="doubledashed" />
-          </>
-        )}
+        <Layout>
+          {isEdit && (
+            <>
+              <Section size="sm">
+                <LinkedAccounts auth={auth} setError={setError} isEdit />
+              </Section>
+              <StyledFullDivider />
+            </>
+          )}
 
-        <MetadataFields
-          emails={emails}
-          metadata={metadata}
-          value={data}
-          onChange={setData}
-          exclude={isEdit ? ['agree'] : []}
-          disabled={hasTrackingEnded || submitting}
-        />
+          <MetadataFields
+            emails={emails}
+            metadata={metadata}
+            value={data}
+            onChange={setData}
+            exclude={isEdit ? ['agree'] : []}
+            disabled={hasTrackingEnded || submitting}
+          />
 
-        <Section small>
           <StyledButtonGroup $align="center">
             {!isEdit && (
               <ButtonMain size="lg" as="button" onClick={logout}>
@@ -448,11 +321,13 @@ const Settings = ({ auth, isEdit = false }) => {
                 disabled={hasTrackingEnded || submitting}
                 onClick={submit}
               >
-                {isEdit ? 'Save' : 'Register'}
+                {isEdit ? 'Save Changes' : 'Register'}
               </ButtonMain>
             )}
           </StyledButtonGroup>
-        </Section>
+
+          <StyledFullDivider />
+        </Layout>
       </Form>
     </>
   );

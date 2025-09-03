@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { textBase, textSm } from 'themes/typography';
 
 export const StyledInputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
   position: relative;
 `;
 
@@ -57,7 +60,7 @@ export const StyledSelect = styled.div`
     appearance: none;
     border: 0;
     background: transparent;
-    color: ${({ theme }) => theme.colors2025.space.white};
+    color: ${({ theme }) => theme.colors2025.blueViolet};
     padding: 8px 0;
     transition: 0.4s;
     width: 100%;
@@ -153,15 +156,5 @@ export const StyledSelect = styled.div`
     }
   }
   ::picker(select) {
-  }
-`;
-
-export const StyledSelectLabel = styled.label`
-  ${textSm};
-  color: ${({ theme }) => theme.colors2025.space.white};
-  display: block;
-
-  span {
-    color: ${({ theme }) => theme.colors2025.error};
   }
 `;

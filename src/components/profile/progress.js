@@ -1,32 +1,39 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { keyframes, useTheme } from 'styled-components';
-import Link from 'next/link';
 
-import { body16, body20, body24, body32 } from 'themes/typography';
+import { body24, textBase, textLg, textSm, textXl } from 'themes/typography';
 import {
   fetchUserOAuth,
   fetchGiftCodes,
   fetchPullRequests,
   triggerUserIngest,
 } from 'lib/api';
-import { providerMap, trackingStart } from 'lib/config';
+import { trackingStart } from 'lib/config';
+import {
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
+
+import spaceHelmet from 'assets/img/space-helmet.svg';
+import trophy from 'assets/img/trophy.svg';
+import diamond from 'assets/img/diamond.svg';
 
 import { StyledSectionSpacing } from 'styles/sharedStyles';
 
 import Loader from 'components/loader';
 import Section from 'components/Section';
-import Notification from 'components/notification';
 import Divider from 'components/Divider';
 import PullRequest from 'components/PullRequest';
 import ContentMaster from 'components/ContentMaster';
 
 import EmailWarning from './email-warning';
 import Holopin from './rewards/holopin';
-
-const StyledProgressWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+import Container from '../Container';
+import Layout from '../Layout';
+import CardCallout from '../CardCallout';
+import LinkedAccounts from './linked-accounts';
+import Image from 'next/image';
+import { pullRequestStates } from '../../lib/profile';
 
 // Fade in after the 'progress' typing animation
 const trackingFade = keyframes`
@@ -39,64 +46,202 @@ const trackingFade = keyframes`
   }
 `;
 
-const StyledTracking = styled.div`
-  align-items: baseline;
+const StyledInfoContainer = styled(Container)`
+  align-items: flex-end;
   display: flex;
-  flex-flow: row wrap;
+  justify-content: space-between;
+  width: 100%;
 
-  :not(p) {
-    flex-grow: 1;
-  }
-
-  p {
-    ${body16}
-    opacity: 0;
-    padding: 0 8px;
-
-    animation: ${trackingFade} ease 500ms;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
-    animation-delay: 1s;
+  ${mQ(bp.desktop)} {
+    max-width: 1200px;
+    margin-left: 0;
   }
 `;
 
-const StyledProgressSummary = styled(StyledSectionSpacing)`
-  max-width: 608px;
-`;
+const StyledInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
 
-const StyledCount = styled.p`
-  ${body32}
-  background: ${({ theme }) => theme.colors.darkGreen};
-  border-radius: 16px;
-  color: ${({ theme }) => theme.colors.green};
-  font-weight: 500;
-  padding: 24px 48px;
-  text-align: center;
-
-  span {
-    color: ${({ theme }) => theme.colors.typography};
+  ${mQ(bp.desktop)} {
+    gap: 80px;
   }
 `;
 
-const StyledCheckEmail = styled.p`
-  margin: 40px 0 0;
-  ${body24}
+const StyledImageContainer = styled.div`
+  display: none;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+    max-width: 302px;
+
+    img {
+      height: auto;
+      width: 100%;
+    }
+  }
+`;
+
+const StyledProgressSummary = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  ${mQ(bp.desktop)} {
+    gap: 19px;
+  }
+`;
+
+const StyledCount = styled.div`
+  ${textLg};
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors2025.space.white};
+
+  ${mQ(bp.desktop)} {
+    ${textXl};
+    font-weight: 700;
+  }
 `;
 
 const StyledPullRequests = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding: 0;
+
+  ${mQ(bp.desktop)} {
+    gap: 40px;
+  }
 `;
 
-const StyledFootNote = styled.p`
-  margin: 0;
-  ${body20}
-  max-width: 1012px;
-  color: ${({ theme }) => theme.colors.black};
+const StyledWarningHeader = styled.div`
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors2025.space.white};
 
-  strong {
+  ${mQ(bp.desktop)} {
+    ${textLg};
     font-weight: 700;
+  }
+
+  span {
+    color: ${({ theme }) => theme.colors2025.error};
+  }
+`;
+
+const StyledCardCallout = styled(CardCallout)`
+  ${textSm};
+  color: ${({ theme }) => theme.colors2025.space.dust};
+
+  > div > div {
+    gap: 16px;
+  }
+
+  ${mQ(bp.desktop)} {
+    ${StyledWarningHeader} {
+      ${textBase};
+      font-weight: 700;
+    }
+  }
+`;
+
+const StyledFullDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+  width: 100%;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+  }
+`;
+
+const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+`;
+
+const StyledContainer = styled(Container)`
+  margin-left: 0;
+  max-width: 1088px;
+`;
+
+const StyledFootNote = styled.div`
+  ${mQ(bp.desktop)} {
+    ${textLg};
+  }
+`;
+
+const StyledSmallCardCallout = styled(CardCallout)`
+  width: fit-content;
+
+  > div {
+    padding: 24px;
+    width: calc(100% - 48px);
+  }
+`;
+
+const StyledSection = styled(Section)`
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+
+  ${mQ(bp.desktop)} {
+    gap: 48px;
+    grid-column: main-start / full-end;
+    padding-right: 64px;
+  }
+`;
+
+const StyledRewardsHeadline = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  ${mQ(bp.desktop)} {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  > img {
+    height: auto;
+    padding: 4px 12px;
+    max-width: 59px;
+
+    ${mQ(bp.desktop)} {
+      padding: 11px 32px;
+      max-width: 157px;
+    }
+  }
+
+  h4 {
+    text-shadow: none;
+  }
+`;
+
+const StyledRewardCardCallout = styled(CardCallout)`
+  > div {
+    > div {
+      gap: 32px;
+
+      ${mQ(bp.tablet)} {
+        gap: 64px;
+      }
+    }
+
+    ${mQ(bp.tablet)} {
+      padding: 64px;
+      width: calc(100% - 128px);
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    ${mQ(bp.desktop)} {
+      gap: 40px;
+    }
   }
 `;
 
@@ -105,8 +250,40 @@ const Progress = ({ auth }) => {
   const [loaded, setLoaded] = useState(false);
   const loading = useRef(false);
   const [oauth, setOauth] = useState([]);
-  const [pullRequests, setPullRequests] = useState([]);
-  const [giftCodes, setGiftCodes] = useState([]);
+  const [pullRequests, setPullRequests] = useState(
+    Object.keys(pullRequestStates)
+      .map((key) => ({
+        state: {
+          state: key,
+        },
+        provider: 'github',
+        title: 'Test title for testing',
+        target: 'Test target for testing',
+        number: 1,
+        url: 'https://github.com/hacktoberfest/hacktoberfest-website/pull/1',
+      }))
+      .concat([
+        {
+          state: {
+            state: 'accepted',
+          },
+          provider: 'github',
+          title: 'Test title for testing',
+          target: 'Test target for testing',
+          number: 1,
+          url: 'https://github.com/hacktoberfest/hacktoberfest-website/pull/1',
+        },
+      ]),
+  );
+  const [giftCodes, setGiftCodes] = useState({
+    tshirt: { code: '{"data":{"id":"shirt"}}' },
+    tree: { code: '{"data":{"id":"tree"}}' },
+    'holopin-level-4-badge': { code: '{"data":{"id":"code4"}}' },
+    'holopin-level-3-badge': { code: '{"data":{"id":"code3"}}' },
+    'holopin-level-2-badge': { code: '{"data":{"id":"code2"}}' },
+    'holopin-level-1-badge': { code: '{"data":{"id":"code1"}}' },
+    'holopin-registered-badge': { code: '{"data":{"id":"code0"}}' },
+  });
   const theme = useTheme();
 
   // Load the data we need to render
@@ -129,28 +306,28 @@ const Progress = ({ auth }) => {
       );
 
       // Fetch the user's pull requests
-      const rawPullRequests = await fetchPullRequests(
-        auth.user.id,
-        auth.token,
-        ['out-of-bounds'],
-      );
-      setPullRequests(
-        rawPullRequests
-          .filter((pr) => pr.state?.state && pr.state.state !== 'out-of-bounds')
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
-      );
+      // const rawPullRequests = await fetchPullRequests(
+      //   auth.user.id,
+      //   auth.token,
+      //   ['out-of-bounds'],
+      // );
+      // setPullRequests(
+      //   rawPullRequests.rows
+      //     .filter((pr) => pr.state?.state && pr.state.state !== 'out-of-bounds')
+      //     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
+      // );
 
       // Fetch the user's gift codes
-      const rawGiftCodes = await fetchGiftCodes(auth.user.id, auth.token);
-      setGiftCodes(
-        rawGiftCodes.reduce(
-          (obj, code) => ({
-            ...obj,
-            [code.type]: code,
-          }),
-          {},
-        ),
-      );
+      // const rawGiftCodes = await fetchGiftCodes(auth.user.id, auth.token);
+      // setGiftCodes(
+      //   rawGiftCodes.reduce(
+      //     (obj, code) => ({
+      //       ...obj,
+      //       [code.type]: code,
+      //     }),
+      //     {},
+      //   ),
+      // );
 
       // Trigger a PR ingest in the background, ignoring the result and any errors
       triggerUserIngest(auth.user.id, auth.token).catch(() => {});
@@ -181,206 +358,253 @@ const Progress = ({ auth }) => {
 
   // Render the user's progress
   return (
-    <StyledProgressWrapper>
-      <Section small>
-        <StyledProgressSummary $isSmall>
-          <StyledTracking>
-            <ContentMaster
-              title="Progress"
-              titleAs="h2"
-              hasCaret={false}
-              size="lg"
-            />
+    <Layout>
+      <StyledSection>
+        {auth.registration.state.state.includes('disqualified') ||
+          auth.registration.state.state.includes('warning') ||
+          auth.user.email.endsWith('@users.noreply.github.com') ||
+          (1 === 1 && (
+            <StyledContainer>
+              <StyledSectionSpacing $isSmall>
+                {/* Handle a user that has been disqualified */}
+                {auth.registration.state.state.includes('disqualified') ||
+                  (1 === 1 && (
+                    <StyledCardCallout>
+                      <StyledWarningHeader>
+                        <span>
+                          You have been disqualified from Hacktoberfest for
+                          submitting two or more PR/MRs that have been
+                          identified as spam.
+                        </span>
+                      </StyledWarningHeader>
+                      Due to being disqualified, you will be ineligible to
+                      receive any further rewards for your participation in
+                      Hacktoberfest.
+                    </StyledCardCallout>
+                  ))}
 
-            <p>
-              (Tracking{' '}
-              {[
-                ...new Set(
-                  Object.keys(oauth).map((p) => providerMap[p].prName),
-                ),
-              ].join('/')}
-              s for{' '}
-              {[
-                ...new Set(
-                  Object.values(oauth).map((o) => `@${o.providerUsername}`),
-                ),
-              ].join('/')}
-              )
-            </p>
-          </StyledTracking>
-          <StyledCount>
-            {Math.min(acceptedCount, 4).toLocaleString()}
-            {acceptedCount > 4
-              ? ` + ${(acceptedCount - 4).toLocaleString()}`
-              : ''}
-            {waitingCount > 0 ? (
-              <>
-                {' '}
-                <span>+ {waitingCount.toLocaleString()} (in review)</span>
-              </>
-            ) : (
-              ''
-            )}{' '}
-            <span>/</span> 4
-          </StyledCount>
-        </StyledProgressSummary>
-      </Section>
+                {/* Handle a user that has been disqualified */}
+                {auth.registration.state.state.includes('warning') ||
+                  (1 === 1 && (
+                    <StyledCardCallout>
+                      <StyledWarningHeader>
+                        <span>[Warning]</span> You have had a PR/MR identified
+                        as spam.
+                      </StyledWarningHeader>
+                      If you submit another PR/MR that is identified as spam,
+                      you will be disqualified permanently from Hacktoberfest.
+                    </StyledCardCallout>
+                  ))}
 
-      <Divider type="doubledashed" />
+                {/* Handle a user that has a no-reply email selected */}
+                <EmailWarning
+                  title={
+                    <StyledWarningHeader>
+                      <span>[Warning]</span> No-reply email
+                    </StyledWarningHeader>
+                  }
+                  email={auth.user.email}
+                />
+              </StyledSectionSpacing>
+            </StyledContainer>
+          ))}
+        <StyledInfoContainer>
+          <StyledInfo>
+            <StyledProgressSummary $isSmall>
+              <ContentMaster title="Progress" titleAs="h3" size="lg" />
+              <StyledSmallCardCallout>
+                <StyledCount>
+                  {Math.min(acceptedCount, 4).toLocaleString()}
+                  {acceptedCount > 4
+                    ? ` + ${(acceptedCount - 4).toLocaleString()}`
+                    : ''}
+                  {waitingCount > 0 ? (
+                    <>
+                      {' '}
+                      <span>+ {waitingCount.toLocaleString()} (in review)</span>
+                    </>
+                  ) : (
+                    ''
+                  )}{' '}
+                  <span>/</span> 4
+                </StyledCount>
+              </StyledSmallCardCallout>
+            </StyledProgressSummary>
 
-      {(auth.registration.state.state.includes('disqualified') ||
-        auth.registration.state.state.includes('warning') ||
-        auth.user.email.endsWith('@users.noreply.github.com')) && (
-        <Section>
-          <StyledSectionSpacing $isSmall>
-            {/* Handle a user that has been disqualified */}
-            {auth.registration.state.state.includes('disqualified') && (
-              <Notification title="Disqualification" color={theme.colors.error}>
-                <p>
-                  You have been disqualified from Hacktoberfest for submitting
-                  two or more PR/MRs that have been identified as spam.
-                </p>
-                <p>
-                  Due to being disqualified, you will be ineligible to receive
-                  any further rewards for your participation in Hacktoberfest.
-                </p>
-              </Notification>
-            )}
-
-            {/* Handle a user that has been disqualified */}
-            {auth.registration.state.state.includes('warning') && (
-              <Notification
-                title="Warning: Disqualification"
-                color={theme.colors.error}
-              >
-                <p>You have had a PR/MR identified as spam.</p>
-                <p>
-                  If you submit another PR/MR that is identified as spam, you
-                  will be disqualified from Hacktoberfest.
-                </p>
-                <p>
-                  Please make sure to review our{' '}
-                  <Link href="/participation#values">values and resources</Link>{' '}
-                  for how to constructively participate in Hacktoberfest.
-                </p>
-              </Notification>
-            )}
-
-            {/* Handle a user that has a no-reply email selected */}
-            <EmailWarning email={auth.user.email} />
-          </StyledSectionSpacing>
-        </Section>
-      )}
+            <LinkedAccounts auth={auth} setError={() => {}} />
+          </StyledInfo>
+          <StyledImageContainer>
+            <Image src={spaceHelmet} alt="" />
+          </StyledImageContainer>
+        </StyledInfoContainer>
+      </StyledSection>
 
       {Object.keys(giftCodes).some(
         (type) =>
           type.startsWith('holopin-level-') ||
-          type === 'holopin-registered-badge',
+          type === 'holopin-registered-badge' ||
+          type === 'tshirt' ||
+          type === 'tree',
       ) && (
-        <Section small>
-          <StyledSectionSpacing $isSmall>
-            <Notification title="Holopin Badges" color={theme.colors.black}>
-              <ul>
-                {giftCodes['holopin-level-4-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-level-4-badge']}
-                    reason="completing four accepted PR/MRs"
-                    item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2024/claim"
-                  />
+        <>
+          <StyledFullDivider />
+          <Section size="sm">
+            <Container>
+              <StyledSectionSpacing $isSmall>
+                {Object.keys(giftCodes).some(
+                  (type) =>
+                    type.startsWith('holopin-level-') ||
+                    type === 'holopin-registered-badge',
+                ) && (
+                  <StyledRewardCardCallout>
+                    <StyledRewardsHeadline>
+                      <Image src={trophy} alt="" />
+                      <ContentMaster
+                        title="Holopin Badges"
+                        titleTag="h4"
+                        size="md"
+                      >
+                        {
+                          'Get started with Hacktoberfest by unlocking your customisable Holopin badge. Each PR/MR that you have accepted during Hacktoberfest (up to six) will allow you to customise your badge further.\n\nCheck your email for more information on how to claim each badge.'
+                        }
+                      </ContentMaster>
+                    </StyledRewardsHeadline>
+                    <StyledDivider type="solid" />
+                    <ul>
+                      {giftCodes['holopin-level-4-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-level-4-badge']}
+                          reason="Completing four accepted PR/MRs"
+                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                        />
+                      )}
+                      {giftCodes['holopin-level-3-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-level-3-badge']}
+                          reason="Completing three accepted PR/MRs"
+                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                        />
+                      )}
+                      {giftCodes['holopin-level-2-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-level-2-badge']}
+                          reason="Completing two accepted PR/MRs"
+                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                        />
+                      )}
+                      {giftCodes['holopin-level-1-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-level-1-badge']}
+                          reason="Completing your first accepted PR/MR"
+                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                        />
+                      )}
+                      {giftCodes['holopin-registered-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-registered-badge']}
+                          reason="Registering for Hacktoberfest"
+                          item="your base avatar"
+                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                        />
+                      )}
+                    </ul>
+                  </StyledRewardCardCallout>
                 )}
-                {giftCodes['holopin-level-3-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-level-3-badge']}
-                    reason="completing three accepted PR/MRs"
-                    item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2024/claim"
-                  />
+                {giftCodes['tree'] && (
+                  <StyledRewardCardCallout>
+                    <StyledRewardsHeadline>
+                      <Image src={trophy} alt="" />
+                      <ContentMaster
+                        title="Tree Nation"
+                        titleTag="h4"
+                        size="md"
+                      >
+                        {
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                        }
+                      </ContentMaster>
+                    </StyledRewardsHeadline>
+                    <StyledDivider type="solid" />
+                    <ul>
+                      <Holopin
+                        code={giftCodes['tree']}
+                        item="tree"
+                        reason="Completing six accepted PR/MRs"
+                        claim="https://www.holopin.io/hacktoberfest2025/claim"
+                      />
+                    </ul>
+                  </StyledRewardCardCallout>
                 )}
-                {giftCodes['holopin-level-2-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-level-2-badge']}
-                    reason="completing two accepted PR/MRs"
-                    item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2024/claim"
-                  />
+                {giftCodes['tshirt'] && (
+                  <StyledRewardCardCallout>
+                    <StyledRewardsHeadline>
+                      <Image src={diamond} alt="" />
+                      <ContentMaster title="Swag" titleTag="h4" size="md">
+                        {
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                        }
+                      </ContentMaster>
+                    </StyledRewardsHeadline>
+                    <StyledDivider type="solid" />
+                    <ul>
+                      <Holopin
+                        code={giftCodes['tshirt']}
+                        item="shirt"
+                        reason="Completing six accepted PR/MRs"
+                        claim="https://store.digitalocean.com/doswag/tee-shirts"
+                      />
+                    </ul>
+                  </StyledRewardCardCallout>
                 )}
-                {giftCodes['holopin-level-1-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-level-1-badge']}
-                    reason="completing your first accepted PR/MR"
-                    item="an avatar upgrade"
-                    claim="https://www.holopin.io/hacktoberfest2024/claim"
-                  />
-                )}
-                {giftCodes['holopin-registered-badge'] && (
-                  <Holopin
-                    code={giftCodes['holopin-registered-badge']}
-                    reason="registering for Hacktoberfest"
-                    item="your base avatar"
-                    claim="https://www.holopin.io/hacktoberfest2024/claim"
-                  />
-                )}
-              </ul>
-
-              <StyledCheckEmail>
-                Check your email for more information on how to claim each
-                badge.
-              </StyledCheckEmail>
-            </Notification>
-          </StyledSectionSpacing>
-        </Section>
+              </StyledSectionSpacing>
+            </Container>
+          </Section>
+        </>
       )}
 
-      <Divider type="doubledashed" />
+      <StyledFullDivider />
 
-      <Section small>
-        <StyledSectionSpacing $isSmall>
-          <ContentMaster
-            title="Pull/Merge Requests"
-            titleAs="h3"
-            hasCaret={false}
-            size="lg"
-          />
+      <Section size="sm">
+        <Container>
+          <StyledSectionSpacing $isSmall>
+            <ContentMaster title="Pull/Merge Requests" titleAs="h3" size="lg" />
 
-          {pullRequests.length ? (
-            <StyledPullRequests>
-              {pullRequests.map((pr, index) => (
-                <Fragment key={pr.id}>
-                  <PullRequest data={pr} as="li" />
-                  {pullRequests.length !== index + 1 && (
+            {pullRequests.length ? (
+              <StyledPullRequests>
+                {pullRequests.map((pr, index) => (
+                  <Fragment key={pr.id}>
+                    <PullRequest data={pr} as="li" />
                     <li aria-hidden>
-                      <Divider />
+                      <StyledDivider type="solid" />
                     </li>
-                  )}
-                </Fragment>
-              ))}
-            </StyledPullRequests>
-          ) : hasStarted ? (
-            <p>
-              Uh oh! You haven't made any pull/merge requests yet. Submit your
-              first contribution to a participating project to get started with
-              Hacktoberfest!
-            </p>
-          ) : (
-            <p>
-              Hacktoberfest has not yet begun, hold off on those pull/merge
-              requests until October so they can count!
-            </p>
-          )}
-        </StyledSectionSpacing>
+                  </Fragment>
+                ))}
+              </StyledPullRequests>
+            ) : hasStarted ? (
+              <div>
+                Uh oh! You haven't made any pull/merge requests yet. Submit your
+                first contribution to a participating project to get started
+                with Hacktoberfest!
+              </div>
+            ) : (
+              <div>
+                Hacktoberfest has not yet begun, hold off on those pull/merge
+                requests until October so they can count!
+              </div>
+            )}
+            <StyledContainer inner>
+              <StyledFootNote>
+                Not seeing what you expect here? Hacktoberfest profiles only
+                show contributor activity, not maintainer activity (we calculate
+                this after Hacktoberfest ends). Profiles update once every 15
+                minutes if you're loading the page often, or once every 6 hours
+                in the background.
+              </StyledFootNote>
+            </StyledContainer>
+          </StyledSectionSpacing>
+        </Container>
       </Section>
-
-      <Divider type="doubledashed" />
-
-      <Section small>
-        <StyledFootNote>
-          <strong>Not seeing what you expect here?</strong> Hacktoberfest
-          profiles update once every 15 minutes if you're loading the page
-          often, or once every 6 hours in the background.
-        </StyledFootNote>
-      </Section>
-    </StyledProgressWrapper>
+    </Layout>
   );
 };
 
