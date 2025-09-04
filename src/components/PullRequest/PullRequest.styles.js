@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { body16, body20, textSm } from 'themes/typography';
+import { body16, body20, textLg, textSm } from 'themes/typography';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
@@ -27,8 +27,7 @@ export const StyledState = styled.button`
   border-radius: 8px;
   color: ${({ theme }) => theme.colors2025.space.white};
   background: transparent;
-  border: 1px solid
-    rgb(from ${({ theme }) => theme.colors2025.space.gray} r g b / 25);
+  border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
   padding: 8px 12px;
 
   &:hover,
@@ -112,6 +111,7 @@ export const StyledEyebrowWrapper = styled.div`
 
 export const StyledEyebrow = styled.p`
   ${textSm};
+  text-transform: uppercase;
   font-weight: 700;
   color: ${({ theme }) => theme.colors2025.space.white};
   border-radius: 8px;
@@ -135,15 +135,17 @@ export const StyledInfo = styled.div`
 export const StyledTitle = styled.h3`
   flex-basis: 0;
   flex-grow: 1;
-  ${body20};
+  ${textLg};
+  color: ${({ theme }) => theme.colors2025.space.white};
+  font-weight: 700;
   margin: 0;
 `;
 
 export const StyledDetails = styled.p`
   flex-basis: 0;
   flex-grow: 1;
-  ${body20};
   margin: 0;
+  color: ${({ theme }) => theme.colors2025.space.white};
 `;
 
 export const StyledContainer = styled.div`
@@ -176,7 +178,7 @@ export const StyledPullRequest = styled.div`
   align-items: flex-end;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 
   ${mQ(bp.tablet)} {
     gap: 64px;

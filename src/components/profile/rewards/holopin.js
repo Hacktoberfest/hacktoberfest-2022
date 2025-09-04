@@ -5,7 +5,14 @@ import {
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 
-import { body16, body24, textLg, textSm, textXl } from 'themes/typography';
+import {
+  body16,
+  body24,
+  textBase,
+  textLg,
+  textSm,
+  textXl,
+} from 'themes/typography';
 
 import Avatar from 'components/Avatar';
 import { StyledGlowBox } from '../../Avatar/Avatar.styles';
@@ -21,7 +28,7 @@ const StyledCode = styled.li`
     gap: 40px;
   }
 
-  > div {
+  > div:nth-of-type(2) {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -33,15 +40,24 @@ const StyledCode = styled.li`
 `;
 
 const StyledMessage = styled.div`
-  ${textLg};
+  ${textBase};
+
+  ${mQ(bp.desktop)} {
+    ${textLg};
+  }
 `;
 
 const StyledGlowMessage = styled.div`
-  ${textXl};
+  ${textBase};
   font-weight: 700;
   color: ${({ theme }) => theme.colors2025.space.white};
   text-shadow: 0px 0px 10px
     rgb(from ${({ theme }) => theme.colors2025.space.dust} r g b / 0.5);
+
+  ${mQ(bp.desktop)} {
+    ${textXl};
+    font-weight: 700;
+  }
 `;
 
 const StyledWarning = styled.div`
@@ -75,8 +91,8 @@ const StyledAvatar = styled(Avatar)`
   }
 
   ${mQ(bp.tablet)} {
-    width: 164px;
-    height: 164px;
+    width: 189px;
+    height: 189px;
 
     ${StyledGlowBox} {
       width: 6px;

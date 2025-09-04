@@ -6,6 +6,7 @@ export const StyledInputContainer = styled.div`
   flex-direction: column;
   gap: 24px;
   position: relative;
+  max-width: 528px;
 `;
 
 export const StyledSelect = styled.div`

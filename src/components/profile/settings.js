@@ -65,6 +65,8 @@ const Settings = ({ auth, isEdit = false }) => {
     [],
   );
 
+  const router = useRouter();
+
   // Track the data the user enters
   const [data, setData] = useState({
     email: null,
@@ -207,6 +209,8 @@ const Settings = ({ auth, isEdit = false }) => {
 
         // Done
         setSuccess(true);
+
+        router.push('/profile').then();
       } catch (err) {
         const data = await err.response.json().catch(() => null);
         console.error(err, data);
@@ -240,7 +244,7 @@ const Settings = ({ auth, isEdit = false }) => {
         top.current?.scrollIntoView();
       }
     },
-    [submitting, data, auth, isEdit],
+    [submitting, data, auth, isEdit, router.push],
   );
 
   const logout = useCallback(

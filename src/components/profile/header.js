@@ -11,6 +11,7 @@ import ContentMaster from 'components/ContentMaster';
 import Container from 'components/Container';
 import Divider from '../Divider';
 import Section from '../Section';
+import { textBase, textLg } from '../../themes/typography';
 
 const StyledHeader = styled(Section)`
   padding: 120px 0 64px;
@@ -49,6 +50,17 @@ const StyledHeaderContent = styled.div`
   flex-direction: column;
   gap: 30px;
   flex-grow: 1;
+
+  > div:first-of-type {
+    > div:nth-of-type(2) {
+      p {
+        ${textBase}
+        ${mQ(bp.desktop)} {
+          ${textLg};
+        }
+      }
+    }
+  }
 `;
 
 const StyledDivider = styled(Divider)`
@@ -71,7 +83,10 @@ const Header = ({ avatar, name, type, isEdit, children }) => {
                 title={`Hello, ${name}`}
                 eyebrowBold
                 eyebrow={`>> ${isEdit ? 'Edit ' : ''}Boot ${type}...`}
-              />
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+                faucibus sagittis quam.
+              </ContentMaster>
 
               {children}
             </StyledHeaderContent>

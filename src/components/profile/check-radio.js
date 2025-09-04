@@ -19,10 +19,26 @@ export const StyledLabel = styled.label`
     gap: 16px;
 
     > input {
+      border-radius: 8px;
+      border: 1px solid #fff;
+      appearance: none;
       margin: 2px 0 0;
       width: 16px;
       height: 16px;
       flex-shrink: 0;
+      accent-color: ${({ theme }) => theme.colors2025.lavendar};
+    }
+
+    > input[type='checkbox'] {
+      border-radius: 4px;
+    }
+
+    > input:checked {
+      appearance: auto;
+    }
+
+    > input:hover,
+    input:focus {
       accent-color: ${({ theme }) => theme.colors2025.lavendar};
     }
   }
@@ -56,11 +72,11 @@ const StyledLabelTitle = styled.p`
   color: ${({ theme }) => theme.colors2025.space.white};
   font-weight: 700;
 
-  ${({ $size, theme }) =>
+  ${({ $size, $isBasic, theme }) =>
     $size === 'small' &&
     `
     ${textBase};
-    color: ${theme.colors2025.space.dust};
+    ${$isBasic ? `color: ${theme.colors2025.space.dust};` : 'font-weight: 700;'}
   `}
 `;
 
@@ -70,6 +86,7 @@ const CheckRadio = ({
   titleSize,
   message,
   disabled = false,
+  titleIsBasic = false,
   ...props
 }) => {
   return (
@@ -81,7 +98,7 @@ const CheckRadio = ({
           {...props}
         />
         {title && (
-          <StyledLabelTitle $size={titleSize}>
+          <StyledLabelTitle $size={titleSize} $isBasic={titleIsBasic}>
             <MarkdownInline string={title} as={Fragment} forceNewTab />
           </StyledLabelTitle>
         )}

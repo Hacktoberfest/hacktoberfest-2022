@@ -84,7 +84,9 @@ const StyledFormRow = styled.div`
       minmax(0, 1fr)
     );
     gap: ${({ $columns }) => ($columns === 3 ? '88px' : '32px')};
-    row-gap: ${({ $rowGap }) => ($rowGap === 'sm' ? '16px' : '32px')};
+    row-gap: 32px;
+    ${({ $rowGap }) => $rowGap === 'sm' && 'row-gap: 16px'};
+    ${({ $rowGap }) => $rowGap === 'md' && 'row-gap: 24px'};
     align-items: flex-start;
   }
 `;
@@ -353,11 +355,12 @@ const MetadataFields = ({
 
                   {meta.datatype === 'string' &&
                     meta.name === 'demographic-employment' && (
-                      <StyledFormRow $columns={3}>
+                      <StyledFormRow $rowGap="md" $columns={3}>
                         {dropdownEmployment.map(([val, label]) => (
                           <CheckRadio
                             key={val}
                             title={label}
+                            titleSize="small"
                             name={meta.name}
                             value={val}
                             radio
@@ -451,6 +454,7 @@ const MetadataFields = ({
                     <CheckRadio
                       key={meta.name}
                       titleSize="small"
+                      titleIsBasic
                       title={meta.title}
                       message={meta.message}
                       name={meta.name}

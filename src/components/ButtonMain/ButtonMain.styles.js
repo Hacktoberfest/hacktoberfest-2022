@@ -117,6 +117,15 @@ export const StyledButtonMain = styled(Link)`
 
 export const StyledButtonGroup = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 32px;
   justify-content: ${({ $align }) => $align || 'flex-start'};
+
+  ${mQ(bp.desktop)} {
+    flex-direction: row;
+  }
+
+  button {
+    width: fit-content;
+  }
 `;

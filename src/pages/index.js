@@ -439,7 +439,11 @@ const StyledEventCTA = styled.div`
 const StyledSpotlightContent = styled.span`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+
+  p {
+    margin: 0;
+  }
 `;
 
 const StyledSpotlightList = styled.span`
@@ -638,9 +642,9 @@ const Home = () => {
                 titleTag="h1"
                 size="xl2"
               >
-                {
-                  'It’s that time of year again. Hacktoberfest is nearly upon us! \n\nPrepare your projects, brace yourself for action—registration opens September 15, 2025.'
-                }
+                {hasRegistrationStarted
+                  ? 'Now’s the time; now’s the hour—Hacktoberfest 2025 is open! \n\nRegister and start preparing your pull/merge requests to begin contribution to open source!'
+                  : 'It’s that time of year again. Hacktoberfest is nearly upon us! \n\nPrepare your projects, brace yourself for action—registration opens September 15, 2025.'}
               </ContentMaster>
 
               {hasRegistrationStarted ? (

@@ -1,7 +1,14 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import styled, { keyframes, useTheme } from 'styled-components';
 
-import { body24, textBase, textLg, textSm, textXl } from 'themes/typography';
+import {
+  body24,
+  headline3,
+  textBase,
+  textLg,
+  textSm,
+  textXl,
+} from 'themes/typography';
 import {
   fetchUserOAuth,
   fetchGiftCodes,
@@ -65,6 +72,10 @@ const StyledInfo = styled.div`
 
   ${mQ(bp.desktop)} {
     gap: 80px;
+
+    h2 {
+      ${headline3};
+    }
   }
 `;
 
@@ -129,7 +140,7 @@ const StyledWarningHeader = styled.div`
 `;
 
 const StyledCardCallout = styled(CardCallout)`
-  ${textSm};
+  ${textBase};
   color: ${({ theme }) => theme.colors2025.space.dust};
 
   > div > div {
@@ -171,6 +182,7 @@ const StyledFootNote = styled.div`
 
 const StyledSmallCardCallout = styled(CardCallout)`
   width: fit-content;
+  white-space: nowrap;
 
   > div {
     padding: 24px;
@@ -202,12 +214,10 @@ const StyledRewardsHeadline = styled.div`
 
   > img {
     height: auto;
-    padding: 4px 12px;
-    max-width: 59px;
+    max-width: 64px;
 
     ${mQ(bp.desktop)} {
-      padding: 11px 32px;
-      max-width: 157px;
+      max-width: 189px;
     }
   }
 
@@ -451,25 +461,26 @@ const Progress = ({ auth }) => {
           <Section size="sm">
             <Container>
               <StyledSectionSpacing $isSmall>
-                {Object.keys(giftCodes).some(
-                  (type) =>
-                    type.startsWith('holopin-level-') ||
-                    type === 'holopin-registered-badge',
-                ) && (
-                  <StyledRewardCardCallout>
-                    <StyledRewardsHeadline>
-                      <Image src={trophy} alt="" />
-                      <ContentMaster
-                        title="Holopin Badges"
-                        titleTag="h4"
-                        size="md"
-                      >
-                        {
-                          'Get started with Hacktoberfest by unlocking your customisable Holopin badge. Each PR/MR that you have accepted during Hacktoberfest (up to six) will allow you to customise your badge further.\n\nCheck your email for more information on how to claim each badge.'
-                        }
-                      </ContentMaster>
-                    </StyledRewardsHeadline>
-                    <StyledDivider type="solid" />
+                <ContentMaster title="Rewards" titleTag="h3" size="lg" />
+                <StyledRewardCardCallout>
+                  <StyledRewardsHeadline>
+                    <Image src={trophy} alt="" />
+                    <ContentMaster
+                      title="Holopin Badges"
+                      titleTag="h4"
+                      size="md"
+                    >
+                      {
+                        'Get started with Hacktoberfest by unlocking your customisable Holopin badge. Each PR/MR that you have accepted during Hacktoberfest (up to six) will allow you to customise your badge further.\n\nCheck your email for more information on how to claim each badge.'
+                      }
+                    </ContentMaster>
+                  </StyledRewardsHeadline>
+                  <StyledDivider type="solid" />
+                  {Object.keys(giftCodes).some(
+                    (type) =>
+                      type.startsWith('holopin-level-') ||
+                      type === 'holopin-registered-badge',
+                  ) && (
                     <ul>
                       {giftCodes['holopin-level-4-badge'] && (
                         <Holopin
@@ -508,23 +519,19 @@ const Progress = ({ auth }) => {
                         />
                       )}
                     </ul>
-                  </StyledRewardCardCallout>
-                )}
-                {giftCodes['tree'] && (
-                  <StyledRewardCardCallout>
-                    <StyledRewardsHeadline>
-                      <Image src={trophy} alt="" />
-                      <ContentMaster
-                        title="Tree Nation"
-                        titleTag="h4"
-                        size="md"
-                      >
-                        {
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                        }
-                      </ContentMaster>
-                    </StyledRewardsHeadline>
-                    <StyledDivider type="solid" />
+                  )}
+                </StyledRewardCardCallout>
+                <StyledRewardCardCallout>
+                  <StyledRewardsHeadline>
+                    <Image src={trophy} alt="" />
+                    <ContentMaster title="Tree Nation" titleTag="h4" size="md">
+                      {
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                      }
+                    </ContentMaster>
+                  </StyledRewardsHeadline>
+                  <StyledDivider type="solid" />
+                  {giftCodes['tree'] && (
                     <ul>
                       <Holopin
                         code={giftCodes['tree']}
@@ -533,19 +540,19 @@ const Progress = ({ auth }) => {
                         claim="https://www.holopin.io/hacktoberfest2025/claim"
                       />
                     </ul>
-                  </StyledRewardCardCallout>
-                )}
-                {giftCodes['tshirt'] && (
-                  <StyledRewardCardCallout>
-                    <StyledRewardsHeadline>
-                      <Image src={diamond} alt="" />
-                      <ContentMaster title="Swag" titleTag="h4" size="md">
-                        {
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-                        }
-                      </ContentMaster>
-                    </StyledRewardsHeadline>
-                    <StyledDivider type="solid" />
+                  )}
+                </StyledRewardCardCallout>
+                <StyledRewardCardCallout>
+                  <StyledRewardsHeadline>
+                    <Image src={diamond} alt="" />
+                    <ContentMaster title="Swag" titleTag="h4" size="md">
+                      {
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                      }
+                    </ContentMaster>
+                  </StyledRewardsHeadline>
+                  <StyledDivider type="solid" />
+                  {giftCodes['tshirt'] && (
                     <ul>
                       <Holopin
                         code={giftCodes['tshirt']}
@@ -554,8 +561,8 @@ const Progress = ({ auth }) => {
                         claim="https://store.digitalocean.com/doswag/tee-shirts"
                       />
                     </ul>
-                  </StyledRewardCardCallout>
-                )}
+                  )}
+                </StyledRewardCardCallout>
               </StyledSectionSpacing>
             </Container>
           </Section>

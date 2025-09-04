@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
 import styled, { keyframes, useTheme } from 'styled-components';
 
-import { fetchUserAvatars } from 'lib/api';
+import { createUserOAuth, fetchUserAvatars, fetchUserOAuth } from 'lib/api';
 
 import useAuth from 'hooks/useAuth';
 
@@ -17,6 +17,7 @@ import Progress from 'components/profile/progress';
 import Header from 'components/profile/header';
 import createMetaTitle from 'lib/createMetaTitle';
 import Layout from '../components/Layout';
+import { providerMap, trackingEndExtended } from '../lib/config';
 
 const Profile = () => {
   const auth = useAuth();
@@ -30,9 +31,16 @@ const Profile = () => {
     [router.asPath],
   );
 
+  const hasTrackingEnded = useMemo(
+    () => new Date() >= new Date(trackingEndExtended),
+    [],
+  );
+
   // Once initial auth has completed, load the avatar (and only load it once)
   const [loaded, setLoaded] = useState(null);
   const [avatar, setAvatar] = useState(null);
+  const [oauth, setOauth] = useState([]);
+
   useEffect(() => {
     (async () => {
       if (auth.loading) return;
@@ -46,11 +54,43 @@ const Profile = () => {
         )?.[0] || null,
       );
 
+      // Fetch the user's OAuth providers
+      const rawOauth = await fetchUserOAuth(auth.user.id, auth.token);
+
+      setOauth(
+        rawOauth.reduce(
+          (obj, item) => ({
+            ...obj,
+            [item.provider]: item,
+          }),
+          {},
+        ),
+      );
+
       // Show the page
       setLoaded(true);
     })();
   }, [auth, loaded]);
 
+  // Handle linking OAuth accounts
+  const linkOAuth = useCallback(
+    async (e, provider) => {
+      e.preventDefault();
+      if (hasTrackingEnded) return;
+
+      const link = await createUserOAuth(
+        auth.user.id,
+        auth.token,
+        provider,
+      ).catch(async (err) => {
+        const data = await err.response.json().catch(() => null);
+        console.error(err, data);
+      });
+      window.location.href = link.redirect;
+    },
+    [auth.user?.id, auth.token],
+  );
+  console.log(auth.user);
   return (
     <>
       <Head>
@@ -98,13 +138,28 @@ const Profile = () => {
                   />
                 )}
                 {edit && (
-                  <ButtonMain
-                    as="button"
-                    onClick={() =>
-                      router.push('/profile', undefined, { shallow: true })
-                    }
-                    children="Back to Profile"
-                  />
+                  <>
+                    <ButtonMain
+                      as="button"
+                      onClick={() =>
+                        router.push('/profile', undefined, { shallow: true })
+                      }
+                      children="Back to Profile"
+                    />
+                    {Object.keys(providerMap).map((provider) => (
+                      <Fragment key={provider}>
+                        {!oauth[provider] && (
+                          <ButtonMain
+                            onClick={(e) => linkOAuth(e, provider)}
+                            as="button"
+                            disabled={hasTrackingEnded}
+                          >
+                            Link alternate provider
+                          </ButtonMain>
+                        )}
+                      </Fragment>
+                    ))}
+                  </>
                 )}
                 <ButtonMain
                   as="button"

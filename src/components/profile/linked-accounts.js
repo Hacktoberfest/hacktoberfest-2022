@@ -8,25 +8,29 @@ import {
   useRef,
   useState,
 } from 'react';
-import Section from '../Section';
 import styled from 'styled-components';
 import { StyledSectionSpacing } from '../../styles/sharedStyles';
-import { textXl } from '../../themes/typography';
+import { textLg, textXl } from '../../themes/typography';
 import { useRouter } from 'next/router';
+import { fetchUserOAuth, removeUserOAuth } from '../../lib/api';
 import {
-  createUserOAuth,
-  fetchUserOAuth,
-  removeUserOAuth,
-} from '../../lib/api';
+  breakpoints as bp,
+  determineMediaQuery as mQ,
+} from 'themes/breakpoints';
 
 const StyledStyledSectionSpacing = styled(StyledSectionSpacing)`
   gap: 24px;
 `;
 
 const StyledButtonLink = styled.button`
-  ${textXl};
+  ${textLg};
   color: ${({ theme }) => theme.colors2025.space.white};
-  font-weight: bold;
+  font-weight: 700;
+
+  ${mQ(bp.desktop)} {
+    ${textXl};
+    font-weight: 700;
+  }
 
   &:hover {
     color: ${({ theme }) => theme.colors2025.lavendar};
@@ -44,8 +48,14 @@ const StyledButtonLink = styled.button`
 `;
 
 const StyledAccountButtonGroup = styled.div`
+  align-items: flex-start;
   display: flex;
+  flex-direction: column;
   gap: 32px;
+
+  ${mQ(bp.desktop)} {
+    flex-direction: row;
+  }
 `;
 
 const LinkedAccounts = ({ auth, setError, isEdit }) => {
@@ -74,28 +84,6 @@ const LinkedAccounts = ({ auth, setError, isEdit }) => {
       ),
     );
   }, [auth.user?.id, auth.token]);
-
-  // Handle linking OAuth accounts
-  const linkOAuth = useCallback(
-    async (e, provider) => {
-      e.preventDefault();
-      if (hasTrackingEnded) return;
-
-      const link = await createUserOAuth(
-        auth.user.id,
-        auth.token,
-        provider,
-      ).catch(async (err) => {
-        const data = await err.response.json().catch(() => null);
-        console.error(err, data);
-        setError(
-          `An unknown error occurred while linking your ${providerMap[provider].name} account. Please try again later.`,
-        );
-      });
-      window.location.href = link.redirect;
-    },
-    [auth.user?.id, auth.token],
-  );
 
   // Handle unlinking OAuth accounts
   const unlinkOAuth = useCallback(
@@ -160,8 +148,8 @@ const LinkedAccounts = ({ auth, setError, isEdit }) => {
       <StyledAccountButtonGroup>
         {Object.keys(providerMap).map((provider) => (
           <Fragment key={provider}>
-            {oauth[provider] ? (
-              hasMultipleOAuth &&
+            {oauth[provider] &&
+              (hasMultipleOAuth &&
               router.query.unlink === 'enabled' &&
               isEdit ? (
                 <StyledButtonLink
@@ -181,18 +169,7 @@ const LinkedAccounts = ({ auth, setError, isEdit }) => {
                   {providerMap[provider].name} linked:{' '}
                   <span>{oauth[provider].providerUsername}</span>
                 </StyledButtonLink>
-              )
-            ) : (
-              isEdit && (
-                <StyledButtonLink
-                  onClick={(e) => linkOAuth(e, provider)}
-                  type="button"
-                  disabled={hasTrackingEnded}
-                >
-                  Link {providerMap[provider].name} account
-                </StyledButtonLink>
-              )
-            )}
+              ))}
           </Fragment>
         ))}
       </StyledAccountButtonGroup>
