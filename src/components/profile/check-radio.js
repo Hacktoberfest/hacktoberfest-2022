@@ -22,24 +22,50 @@ export const StyledLabel = styled.label`
       border-radius: 8px;
       border: 1px solid #fff;
       appearance: none;
+      -webkit-appearance: none;
       margin: 2px 0 0;
       width: 16px;
       height: 16px;
       flex-shrink: 0;
-      accent-color: ${({ theme }) => theme.colors2025.lavendar};
+      position: relative;
+
+      &:checked {
+        border-color: ${({ theme }) => theme.colors2025.lavendar};
+      }
+    }
+
+    > input[type='radio'] {
+      &:checked::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background-color: ${({ theme }) => theme.colors2025.lavendar};
+        border-radius: 50%;
+      }
     }
 
     > input[type='checkbox'] {
       border-radius: 4px;
-    }
 
-    > input:checked {
-      appearance: auto;
-    }
+      &:checked {
+        background-color: ${({ theme }) => theme.colors2025.lavendar};
+      }
 
-    > input:hover,
-    input:focus {
-      accent-color: ${({ theme }) => theme.colors2025.lavendar};
+      &:checked::before {
+        content: '✓';
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+        color: #ffffff;
+        font-weight: 700;
+        line-height: 1;
+      }
     }
   }
 

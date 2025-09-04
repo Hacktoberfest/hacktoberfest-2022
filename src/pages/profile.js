@@ -90,7 +90,7 @@ const Profile = () => {
     },
     [auth.user?.id, auth.token],
   );
-  console.log(auth.user);
+
   return (
     <>
       <Head>
