@@ -20,7 +20,7 @@ export const StyledLabel = styled.label`
 
     > input {
       border-radius: 8px;
-      border: 1px solid #fff;
+      border: 1px solid ${({ theme }) => theme.colors2025.space.white};
       appearance: none;
       -webkit-appearance: none;
       margin: 2px 0 0;
@@ -28,10 +28,6 @@ export const StyledLabel = styled.label`
       height: 16px;
       flex-shrink: 0;
       position: relative;
-
-      &:checked {
-        border-color: ${({ theme }) => theme.colors2025.lavendar};
-      }
     }
 
     > input[type='radio'] {
@@ -53,6 +49,7 @@ export const StyledLabel = styled.label`
 
       &:checked {
         background-color: ${({ theme }) => theme.colors2025.lavendar};
+        border-color: ${({ theme }) => theme.colors2025.lavendar};
       }
 
       &:checked::before {
@@ -62,7 +59,7 @@ export const StyledLabel = styled.label`
         left: 50%;
         transform: translate(-50%, -50%);
         font-size: 12px;
-        color: #ffffff;
+        color: ${({ theme }) => theme.colors2025.space.white};
         font-weight: 700;
         line-height: 1;
       }
