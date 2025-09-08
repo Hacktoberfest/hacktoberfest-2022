@@ -102,7 +102,7 @@ export const StyledMobileHeaderNav = styled.nav`
   background: rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0.1);
   backdrop-filter: blur(20px);
 
-  a {
+  > div > a {
     color: ${({ theme }) => theme.colors2025.space.white};
     font-size: 16px;
     padding: 8px 0;
@@ -111,6 +111,7 @@ export const StyledMobileHeaderNav = styled.nav`
   > div {
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
   }
 
   ${mQ(bp.desktop)} {

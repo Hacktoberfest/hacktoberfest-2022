@@ -37,11 +37,12 @@ const StyledHeader = styled(Section)`
 const StyledHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 32px;
 
   ${mQ(bp.tablet)} {
     align-items: center;
     flex-direction: row;
+    gap: 64px;
   }
 `;
 
@@ -83,11 +84,7 @@ const Header = ({ avatar, name, type, isEdit, children }) => {
                 title={`Hello, ${name}`}
                 eyebrowBold
                 eyebrow={`>> ${isEdit ? 'Edit ' : ''}Boot ${type}...`}
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                faucibus sagittis quam.
-              </ContentMaster>
-
+              />
               {children}
             </StyledHeaderContent>
           </StyledHeaderContainer>

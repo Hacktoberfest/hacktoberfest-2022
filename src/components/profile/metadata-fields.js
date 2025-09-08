@@ -89,6 +89,12 @@ const StyledFormRow = styled.div`
     ${({ $rowGap }) => $rowGap === 'md' && 'row-gap: 24px'};
     align-items: flex-start;
   }
+
+  ${({ $isSmall }) =>
+    $isSmall &&
+    `
+    width: fit-content;
+  `}
 `;
 
 const StyledSecondColumn = styled.div`
@@ -328,7 +334,7 @@ const MetadataFields = ({
                   <legend>{meta.title}</legend>
 
                   {meta.datatype === 'boolean' && (
-                    <StyledFormRow $columns={2}>
+                    <StyledFormRow $isSmall $columns={2}>
                       <CheckRadio
                         title="Yes"
                         name={meta.name}

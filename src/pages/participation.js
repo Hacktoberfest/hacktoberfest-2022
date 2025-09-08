@@ -360,16 +360,13 @@ const StyledMobileSection = styled(Section)`
   }
 `;
 
-const StyledDesktopSection = styled(Section)`
+const StyledDesktopSection = styled.div`
   display: none;
 
   ${mQ(bp.desktop)} {
     display: block;
+    margin-top: 96px;
   }
-`;
-
-const StyledRewardContentSide = styled(ContentSide)`
-  gap: 64px;
 `;
 
 const Participation = () => {
@@ -495,6 +492,22 @@ const Participation = () => {
                 }
               />
             </ContentSide>
+
+            <StyledDesktopSection id="rewards">
+              <ContentSide align="center">
+                <Image src={diamond} alt="" width={304} height={276} />
+                <StyledHeading>
+                  <ContentMaster size="lg" title={rewarding.title} />
+                  <StyledContentMaster
+                    bodyColor={theme.colors2025.space.white}
+                    size="xl2"
+                    list={rewarding.items}
+                  >
+                    {`**${rewarding.content}**`}
+                  </StyledContentMaster>
+                </StyledHeading>
+              </ContentSide>
+            </StyledDesktopSection>
           </Container>
         </Section>
         <StyledMobileImage>
@@ -512,27 +525,6 @@ const Participation = () => {
             </StyledContentMaster>
           </StyledHeading>
         </StyledMobileSection>
-        <StyledDesktopSection id="rewards">
-          <Container>
-            <StyledRewardContentSide align="center">
-              <Image src={diamond} alt="" width={304} height={276} />
-              <CardCallout
-                body={
-                  <StyledHeading>
-                    <ContentMaster size="lg" title={rewarding.title} />
-                    <StyledContentMaster
-                      bodyColor={theme.colors2025.space.white}
-                      size="xl2"
-                      list={rewarding.items}
-                    >
-                      {`**${rewarding.content}**`}
-                    </StyledContentMaster>
-                  </StyledHeading>
-                }
-              />
-            </StyledRewardContentSide>
-          </Container>
-        </StyledDesktopSection>
 
         <StyledSectionDivider />
 

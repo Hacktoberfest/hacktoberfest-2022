@@ -145,6 +145,7 @@ export const StyledDetails = styled.p`
   flex-basis: 0;
   flex-grow: 1;
   margin: 0;
+  ${textLg};
   color: ${({ theme }) => theme.colors2025.space.white};
 `;
 

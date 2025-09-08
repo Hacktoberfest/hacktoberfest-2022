@@ -171,13 +171,13 @@ export const StyledPoweredBy = styled.div`
 `;
 
 export const StyledPoweredByLogo = styled(Image)`
-  max-width: 111px;
+  max-width: 135px;
   width: 100%;
   height: auto;
   filter: drop-shadow(0 0 8px rgba(194, 194, 255, 0.5));
 
   &:last-of-type {
-    max-width: 44px;
+    max-width: 54px;
   }
 
   ${mQ(bp.desktop)} {
@@ -439,7 +439,7 @@ const StyledEventCTA = styled.div`
 const StyledSpotlightContent = styled.span`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 
   p {
     margin: 0;
@@ -902,19 +902,25 @@ const Home = () => {
 
         <StyledFullSection ref={openSourceIconsRef}>
           <StyledContainer inner>
-            <ContentMaster
-              title="Support Open Source"
-              size="lg"
-              align="center"
-              cta={{
-                children: 'DONATE TO OPEN SOURCE PROJECTS',
-                href: '/donate',
-              }}
-            >
-              {
-                'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost. [Learn more and apply now](https://www.digitalocean.com/open-source/credits-for-projects).\n\nYou have skills that can help keep these projects continue running—let’s get to it.'
-              }
-            </ContentMaster>
+            <StyledSectionTitle>
+              <ContentMaster
+                title="Support Open Source"
+                size="lg"
+                align="center"
+              />
+              <ContentMaster
+                size="xl2"
+                align="center"
+                cta={{
+                  children: 'DONATE TO OPEN SOURCE PROJECTS',
+                  href: '/donate',
+                }}
+              >
+                {
+                  'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost. [Learn more and apply now](https://www.digitalocean.com/open-source/credits-for-projects).\n\nYou have skills that can help keep these projects continue running—let’s get to it.'
+                }
+              </ContentMaster>
+            </StyledSectionTitle>
 
             <StyledCornersContainer>
               <Corners />

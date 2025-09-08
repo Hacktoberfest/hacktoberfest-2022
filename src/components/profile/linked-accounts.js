@@ -26,6 +26,7 @@ const StyledButtonLink = styled.button`
   ${textLg};
   color: ${({ theme }) => theme.colors2025.space.white};
   font-weight: 700;
+  padding: 0;
 
   ${mQ(bp.desktop)} {
     ${textXl};
@@ -41,7 +42,22 @@ const StyledButtonLink = styled.button`
   }
 
   span {
-    text-decoration: underline;
+    color: ${({ theme }) => theme.colors2025.space.dust};
+    font-weight: 400;
+  }
+`;
+
+const StyledFakeButtonLink = styled.div`
+  ${textLg};
+  color: ${({ theme }) => theme.colors2025.space.white};
+  font-weight: 700;
+
+  ${mQ(bp.desktop)} {
+    ${textXl};
+    font-weight: 700;
+  }
+
+  span {
     color: ${({ theme }) => theme.colors2025.space.dust};
     font-weight: 400;
   }
@@ -161,14 +177,14 @@ const LinkedAccounts = ({ auth, setError, isEdit }) => {
                   <span>{oauth[provider].providerUsername}</span>
                 </StyledButtonLink>
               ) : (
-                <StyledButtonLink
+                <StyledFakeButtonLink
                   onClick={(e) => e.preventDefault()}
                   type="button"
                   disabled
                 >
                   {providerMap[provider].name} linked:{' '}
                   <span>{oauth[provider].providerUsername}</span>
-                </StyledButtonLink>
+                </StyledFakeButtonLink>
               ))}
           </Fragment>
         ))}

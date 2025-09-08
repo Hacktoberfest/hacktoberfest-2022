@@ -10,7 +10,11 @@ export const StyledSection = styled.div`
   ${({ $size }) =>
     $size === 'sm' &&
     `
-    padding: 80px 0;
+    padding: 64px 0;
+
+    ${mQ(bp.desktop)} {
+      padding: 80px 0;
+    }
   `};
 
   ${({ $size }) =>

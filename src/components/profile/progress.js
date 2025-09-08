@@ -171,7 +171,6 @@ const StyledDivider = styled(Divider)`
 
 const StyledContainer = styled(Container)`
   margin-left: 0;
-  max-width: 1088px;
 `;
 
 const StyledFootNote = styled.div`
