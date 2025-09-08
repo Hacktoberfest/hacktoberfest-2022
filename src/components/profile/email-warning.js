@@ -21,8 +21,8 @@ const EmailWarning = ({ email, title }) => {
         {title}
         We noticed that your selected email address is a GitHub-provided
         no-reply address. If you'd like to receive email notifications,
-        including your Holopin Em, please select a different email address for
-        your Hacktoberfest registration.
+        including your Holopin Email, please select a different email address
+        for your Hacktoberfest registration.
       </StyledCardCallout>
     );
   }
