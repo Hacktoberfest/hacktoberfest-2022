@@ -121,6 +121,7 @@ const Holopin = ({
   item = 'badge',
   action = 'been awarded',
   claim = 'https://www.holopin.io/claim',
+  skipTrailingSlash = false,
 }) => {
   // Attempt to extract the claim ID from the payload
   const id = useMemo(() => {
@@ -145,7 +146,7 @@ const Holopin = ({
         <StyledWarning>
           Lost the email to claim your {item}?{' '}
           <a
-            href={`${claim.replace(/\/+$/, '')}/${id}`}
+            href={`${skipTrailingSlash ? `${claim}${id}` : `${claim.replace(/\/+$/, '')}/${id}`}`}
             target="_blank"
             rel="noreferrer noopener"
           >

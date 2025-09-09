@@ -485,28 +485,28 @@ const Progress = ({ auth }) => {
                         <Holopin
                           code={giftCodes['holopin-level-4-badge']}
                           reason="Completing four accepted PR/MRs"
-                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                          claim="https://www.holopin.io/claim"
                         />
                       )}
                       {giftCodes['holopin-level-3-badge'] && (
                         <Holopin
                           code={giftCodes['holopin-level-3-badge']}
                           reason="Completing three accepted PR/MRs"
-                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                          claim="https://www.holopin.io/claim"
                         />
                       )}
                       {giftCodes['holopin-level-2-badge'] && (
                         <Holopin
                           code={giftCodes['holopin-level-2-badge']}
                           reason="Completing two accepted PR/MRs"
-                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                          claim="https://www.holopin.io/claim"
                         />
                       )}
                       {giftCodes['holopin-level-1-badge'] && (
                         <Holopin
                           code={giftCodes['holopin-level-1-badge']}
                           reason="Completing your first accepted PR/MR"
-                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                          claim="https://www.holopin.io/claim"
                         />
                       )}
                       {giftCodes['holopin-registered-badge'] && (
@@ -514,7 +514,7 @@ const Progress = ({ auth }) => {
                           code={giftCodes['holopin-registered-badge']}
                           reason="Registering for Hacktoberfest"
                           item="your base avatar"
-                          claim="https://www.holopin.io/hacktoberfest2025/claim"
+                          claim="https://www.holopin.io/claim"
                         />
                       )}
                     </ul>
@@ -536,7 +536,7 @@ const Progress = ({ auth }) => {
                         code={giftCodes['tree']}
                         item="tree"
                         reason="Completing six accepted PR/MRs"
-                        claim="https://www.holopin.io/hacktoberfest2025/claim"
+                        claim="https://www.holopin.io/claim"
                       />
                     </ul>
                   )}
@@ -557,7 +557,8 @@ const Progress = ({ auth }) => {
                         code={giftCodes['tshirt']}
                         item="shirt"
                         reason="Completing six accepted PR/MRs"
-                        claim="https://store.digitalocean.com/doswag/tee-shirts"
+                        claim="https://stores.kotisdesign.com/dohacktoberfest2025/redemption_code?redemption_code="
+                        skipTrailingSlash
                       />
                     </ul>
                   )}
