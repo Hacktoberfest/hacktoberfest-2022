@@ -259,40 +259,8 @@ const Progress = ({ auth }) => {
   const [loaded, setLoaded] = useState(false);
   const loading = useRef(false);
   const [oauth, setOauth] = useState([]);
-  const [pullRequests, setPullRequests] = useState(
-    Object.keys(pullRequestStates)
-      .map((key) => ({
-        state: {
-          state: key,
-        },
-        provider: 'github',
-        title: 'Test title for testing',
-        target: 'Test target for testing',
-        number: 1,
-        url: 'https://github.com/hacktoberfest/hacktoberfest-website/pull/1',
-      }))
-      .concat([
-        {
-          state: {
-            state: 'accepted',
-          },
-          provider: 'github',
-          title: 'Test title for testing',
-          target: 'Test target for testing',
-          number: 1,
-          url: 'https://github.com/hacktoberfest/hacktoberfest-website/pull/1',
-        },
-      ]),
-  );
-  const [giftCodes, setGiftCodes] = useState({
-    tshirt: { code: '{"data":{"id":"shirt"}}' },
-    tree: { code: '{"data":{"id":"tree"}}' },
-    'holopin-level-4-badge': { code: '{"data":{"id":"code4"}}' },
-    'holopin-level-3-badge': { code: '{"data":{"id":"code3"}}' },
-    'holopin-level-2-badge': { code: '{"data":{"id":"code2"}}' },
-    'holopin-level-1-badge': { code: '{"data":{"id":"code1"}}' },
-    'holopin-registered-badge': { code: '{"data":{"id":"code0"}}' },
-  });
+  const [pullRequests, setPullRequests] = useState([]);
+  const [giftCodes, setGiftCodes] = useState();
   const theme = useTheme();
 
   // Load the data we need to render
@@ -315,28 +283,28 @@ const Progress = ({ auth }) => {
       );
 
       // Fetch the user's pull requests
-      // const rawPullRequests = await fetchPullRequests(
-      //   auth.user.id,
-      //   auth.token,
-      //   ['out-of-bounds'],
-      // );
-      // setPullRequests(
-      //   rawPullRequests.rows
-      //     .filter((pr) => pr.state?.state && pr.state.state !== 'out-of-bounds')
-      //     .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
-      // );
+      const rawPullRequests = await fetchPullRequests(
+        auth.user.id,
+        auth.token,
+        ['out-of-bounds'],
+      );
+      setPullRequests(
+        rawPullRequests.rows
+          .filter((pr) => pr.state?.state && pr.state.state !== 'out-of-bounds')
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
+      );
 
       // Fetch the user's gift codes
-      // const rawGiftCodes = await fetchGiftCodes(auth.user.id, auth.token);
-      // setGiftCodes(
-      //   rawGiftCodes.reduce(
-      //     (obj, code) => ({
-      //       ...obj,
-      //       [code.type]: code,
-      //     }),
-      //     {},
-      //   ),
-      // );
+      const rawGiftCodes = await fetchGiftCodes(auth.user.id, auth.token);
+      setGiftCodes(
+        rawGiftCodes.reduce(
+          (obj, code) => ({
+            ...obj,
+            [code.type]: code,
+          }),
+          {},
+        ),
+      );
 
       // Trigger a PR ingest in the background, ignoring the result and any errors
       triggerUserIngest(auth.user.id, auth.token).catch(() => {});
@@ -369,54 +337,50 @@ const Progress = ({ auth }) => {
   return (
     <Layout>
       <StyledSection>
-        {auth.registration.state.state.includes('disqualified') ||
+        {(auth.registration.state.state.includes('disqualified') ||
           auth.registration.state.state.includes('warning') ||
-          auth.user.email.endsWith('@users.noreply.github.com') ||
-          (1 === 1 && (
-            <StyledContainer>
-              <StyledSectionSpacing $isSmall>
-                {/* Handle a user that has been disqualified */}
-                {auth.registration.state.state.includes('disqualified') ||
-                  (1 === 1 && (
-                    <StyledCardCallout>
-                      <StyledWarningHeader>
-                        <span>
-                          You have been disqualified from Hacktoberfest for
-                          submitting two or more PR/MRs that have been
-                          identified as spam.
-                        </span>
-                      </StyledWarningHeader>
-                      Due to being disqualified, you will be ineligible to
-                      receive any further rewards for your participation in
-                      Hacktoberfest.
-                    </StyledCardCallout>
-                  ))}
+          auth.user.email.endsWith('@users.noreply.github.com')) && (
+          <StyledContainer>
+            <StyledSectionSpacing $isSmall>
+              {/* Handle a user that has been disqualified */}
+              {auth.registration.state.state.includes('disqualified') && (
+                <StyledCardCallout>
+                  <StyledWarningHeader>
+                    <span>
+                      You have been disqualified from Hacktoberfest for
+                      submitting two or more PR/MRs that have been identified as
+                      spam.
+                    </span>
+                  </StyledWarningHeader>
+                  Due to being disqualified, you will be ineligible to receive
+                  any further rewards for your participation in Hacktoberfest.
+                </StyledCardCallout>
+              )}
 
-                {/* Handle a user that has been disqualified */}
-                {auth.registration.state.state.includes('warning') ||
-                  (1 === 1 && (
-                    <StyledCardCallout>
-                      <StyledWarningHeader>
-                        <span>[Warning]</span> You have had a PR/MR identified
-                        as spam.
-                      </StyledWarningHeader>
-                      If you submit another PR/MR that is identified as spam,
-                      you will be disqualified permanently from Hacktoberfest.
-                    </StyledCardCallout>
-                  ))}
+              {/* Handle a user that has been disqualified */}
+              {auth.registration.state.state.includes('warning') && (
+                <StyledCardCallout>
+                  <StyledWarningHeader>
+                    <span>[Warning]</span> You have had a PR/MR identified as
+                    spam.
+                  </StyledWarningHeader>
+                  If you submit another PR/MR that is identified as spam, you
+                  will be disqualified permanently from Hacktoberfest.
+                </StyledCardCallout>
+              )}
 
-                {/* Handle a user that has a no-reply email selected */}
-                <EmailWarning
-                  title={
-                    <StyledWarningHeader>
-                      <span>[Warning]</span> No-reply email
-                    </StyledWarningHeader>
-                  }
-                  email={auth.user.email}
-                />
-              </StyledSectionSpacing>
-            </StyledContainer>
-          ))}
+              {/* Handle a user that has a no-reply email selected */}
+              <EmailWarning
+                title={
+                  <StyledWarningHeader>
+                    <span>[Warning]</span> No-reply email
+                  </StyledWarningHeader>
+                }
+                email={auth.user.email}
+              />
+            </StyledSectionSpacing>
+          </StyledContainer>
+        )}
         <StyledInfoContainer>
           <StyledInfo>
             <StyledProgressSummary $isSmall>

@@ -15,7 +15,7 @@ const StyledCardCallout = styled(CardCallout)`
 const EmailWarning = ({ email, title }) => {
   const theme = useTheme();
 
-  if (email.endsWith('@users.noreply.github.com') || 1 == 1) {
+  if (email.endsWith('@users.noreply.github.com')) {
     return (
       <StyledCardCallout $hasTitle={!!title}>
         {title}
