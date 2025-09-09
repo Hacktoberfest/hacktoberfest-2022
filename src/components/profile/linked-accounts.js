@@ -17,33 +17,29 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import CustomLink from '../CustomLink';
+import TextLink from '../TextLink';
 
 const StyledStyledSectionSpacing = styled(StyledSectionSpacing)`
   gap: 24px;
 `;
 
-const StyledButtonLink = styled.button`
-  ${textLg};
-  color: ${({ theme }) => theme.colors2025.space.white};
-  font-weight: 700;
-  padding: 0;
+const StyledLinkContainer = styled.div`
+  display: flex;
+  gap: 8px;
+`;
 
-  ${mQ(bp.desktop)} {
-    ${textXl};
-    font-weight: 700;
-  }
+const StyledLink = styled.button`
+  ${textLg};
+  color: ${({ theme }) => theme.colors2025.lavendar};
+  transition: color 0.2s ease-in-out;
 
   &:hover {
-    color: ${({ theme }) => theme.colors2025.lavendar};
-
-    span {
-      text-decoration: none;
-    }
-  }
-
-  span {
     color: ${({ theme }) => theme.colors2025.space.dust};
-    font-weight: 400;
+    text-decoration: underline;
+  }
+  ${mQ(bp.desktop)} {
+    ${textXl};
   }
 `;
 
@@ -165,17 +161,27 @@ const LinkedAccounts = ({ auth, setError, isEdit }) => {
         {Object.keys(providerMap).map((provider) => (
           <Fragment key={provider}>
             {oauth[provider] &&
-              (hasMultipleOAuth &&
-              router.query.unlink === 'enabled' &&
-              isEdit ? (
-                <StyledButtonLink
-                  onClick={(e) => unlinkOAuth(e, provider)}
-                  type="button"
-                  disabled={hasTrackingEnded}
-                >
-                  Unlink {providerMap[provider].name} account:{' '}
-                  <span>{oauth[provider].providerUsername}</span>
-                </StyledButtonLink>
+              (isEdit ? (
+                <StyledLinkContainer>
+                  <StyledFakeButtonLink
+                    onClick={(e) => unlinkOAuth(e, provider)}
+                    type="button"
+                    disabled={hasTrackingEnded}
+                  >
+                    Unlink {providerMap[provider].name} account:{' '}
+                    <span>{oauth[provider].providerUsername}</span>
+                  </StyledFakeButtonLink>
+                  {hasMultipleOAuth && (
+                    <StyledLink
+                      href="#"
+                      onClick={(e) => unlinkOAuth(e, provider)}
+                      as="a"
+                      disabled={hasTrackingEnded}
+                    >
+                      Unlink
+                    </StyledLink>
+                  )}
+                </StyledLinkContainer>
               ) : (
                 <StyledFakeButtonLink
                   onClick={(e) => e.preventDefault()}
