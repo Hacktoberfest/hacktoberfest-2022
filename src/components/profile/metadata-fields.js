@@ -6,7 +6,7 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
-import { body24, body18, headline48 } from 'themes/typography';
+import { headline32, textLg, textXl } from 'themes/typography';
 
 import { employmentRoles } from 'lib/profile';
 
@@ -17,15 +17,34 @@ import Divider from 'components/Divider';
 import CheckRadio from './check-radio';
 import EmailWarning from './email-warning';
 import Section from 'components/Section';
+import ContentMaster from '../ContentMaster';
+
+const StyledSmallSection = styled(Section)`
+  padding-top: 64px;
+
+  ${mQ(bp.desktop)} {
+    padding-top: 80px;
+  }
+`;
+
+const StyledLastSection = styled(Section)`
+  &:last-of-type {
+    padding-bottom: 40px;
+
+    ${mQ(bp.desktop)} {
+      padding-bottom: 80px;
+    }
+  }
+`;
 
 const StyledFormSection = styled.div`
   display: flex;
-  gap: 48px;
+  gap: 40px;
   flex-direction: column;
-`;
 
-const StyledFormSectionTitle = styled.h2`
-  ${headline48}
+  ${mQ(bp.tablet)} {
+    gap: 64px;
+  }
 `;
 
 const StyledFormGroup = styled.fieldset`
@@ -34,20 +53,22 @@ const StyledFormGroup = styled.fieldset`
   padding: 0;
 
   legend {
+    color: ${({ theme }) => theme.colors2025.space.white};
     padding: 0;
-    margin: 0 0 48px;
+    margin: 0 0 40px;
     display: block;
     width: 100%;
-    ${body24}
+    ${textXl};
+    font-weight: 700;
 
-    small,
     span {
-      color: ${({ theme }) => theme.colors.black};
-      ${body18}
+      color: ${({ theme }) => theme.colors2025.blueViolet};
+      ${textLg};
+      font-weight: 700;
     }
 
-    span {
-      display: block;
+    ${mQ(bp.tablet)} {
+      margin-bottom: 48px;
     }
   }
 `;
@@ -62,14 +83,39 @@ const StyledFormRow = styled.div`
       ${({ $columns }) => $columns},
       minmax(0, 1fr)
     );
-    gap: 64px;
+    gap: ${({ $columns }) => ($columns === 3 ? '88px' : '32px')};
+    row-gap: 32px;
+    ${({ $rowGap }) => $rowGap === 'sm' && 'row-gap: 16px'};
+    ${({ $rowGap }) => $rowGap === 'md' && 'row-gap: 24px'};
     align-items: flex-start;
+  }
+
+  ${({ $isSmall }) =>
+    $isSmall &&
+    `
+    width: fit-content;
+  `}
+`;
+
+const StyledSecondColumn = styled.div`
+  ${mQ(bp.tablet)} {
+    grid-column-start: 2;
   }
 `;
 
-const dropdownEmployment = [['', 'Prefer not to say']].concat(
-  employmentRoles.map((role) => [role, role]),
-);
+const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+`;
+
+const StyledFullDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+  width: 100%;
+`;
+
+const dropdownEmployment = employmentRoles
+  .map((role) => [role, role])
+  .concat([['', 'Prefer not to say']]);
 
 const countryOverrides = {
   tw: 'Taiwan',
@@ -181,14 +227,15 @@ const MetadataFields = ({
 
   return (
     <>
-      <Section small>
+      <StyledSmallSection>
         <StyledFormSection>
-          <StyledFormSectionTitle>Self-identification</StyledFormSectionTitle>
+          <ContentMaster title="Self-identification" size="md" />
 
-          <StyledFormRow $columns={2}>
+          <StyledFormRow $columns={2} $rowGap="sm">
             <Input
               name="name"
               label="Name"
+              labelSize="xl"
               value={value.name}
               onChange={(e) => onChange({ ...value, name: e.target.value })}
               disabled={disabled}
@@ -196,27 +243,30 @@ const MetadataFields = ({
             />
 
             {showEmail && (
-              <Select
-                name="email"
-                label="Email"
-                value={value.email}
-                onChange={(e) => onChange({ ...value, email: e.target.value })}
-                disabled={disabled}
-                required
-                items={emails.map((email) => [email, email])}
-              />
+              <>
+                <Select
+                  name="email"
+                  label="Email"
+                  labelSize="xl"
+                  value={value.email}
+                  onChange={(e) =>
+                    onChange({ ...value, email: e.target.value })
+                  }
+                  disabled={disabled}
+                  required
+                  items={emails.map((email) => [email, email])}
+                />
+                <StyledSecondColumn>
+                  <EmailWarning email={value.email} />
+                </StyledSecondColumn>
+              </>
             )}
           </StyledFormRow>
 
-          {showEmail && <EmailWarning email={value.email} />}
-
           {!!fields.stage && (
             <>
-              <Divider />
               <StyledFormGroup>
-                <legend>
-                  What is your experience level? <small>[optional]</small>
-                </legend>
+                <legend>What is your experience level?</legend>
 
                 <StyledFormRow $columns={3}>
                   {fields.stage.map((meta) => (
@@ -251,11 +301,10 @@ const MetadataFields = ({
 
           {!!fields.type && (
             <>
-              <Divider />
+              <StyledDivider type="solid" />
               <StyledFormGroup>
                 <legend>
-                  How would you like to contribute? <small>[optional]</small>
-                  <span>Select all that apply</span>
+                  How would you like to contribute? (select all that apply)
                 </legend>
 
                 <StyledFormRow $columns={2}>
@@ -280,20 +329,12 @@ const MetadataFields = ({
           {!!fields.demographic &&
             fields.demographic.map((meta) => (
               <Fragment key={meta.name}>
-                <Divider />
+                <StyledDivider type="solid" />
                 <StyledFormGroup>
-                  <legend>
-                    {meta.title}
-                    {!meta.required && (
-                      <>
-                        {' '}
-                        <small>[optional]</small>
-                      </>
-                    )}
-                  </legend>
+                  <legend>{meta.title}</legend>
 
                   {meta.datatype === 'boolean' && (
-                    <StyledFormRow $columns={2}>
+                    <StyledFormRow $isSmall $columns={2}>
                       <CheckRadio
                         title="Yes"
                         name={meta.name}
@@ -320,24 +361,31 @@ const MetadataFields = ({
 
                   {meta.datatype === 'string' &&
                     meta.name === 'demographic-employment' && (
-                      <Select
-                        name={meta.name}
-                        label={meta.message}
-                        value={value.metadata[meta.name] || ''}
-                        onChange={(e) =>
-                          updateMetadata({ [meta.name]: e.target.value })
-                        }
-                        disabled={disabled}
-                        required={meta.required}
-                        items={dropdownEmployment}
-                      />
+                      <StyledFormRow $rowGap="md" $columns={3}>
+                        {dropdownEmployment.map(([val, label]) => (
+                          <CheckRadio
+                            key={val}
+                            title={label}
+                            titleSize="small"
+                            name={meta.name}
+                            value={val}
+                            radio
+                            onChange={() =>
+                              updateMetadata({ [meta.name]: val })
+                            }
+                            checked={value.metadata[meta.name] === val}
+                            disabled={disabled}
+                            required={meta.required}
+                          />
+                        ))}
+                      </StyledFormRow>
                     )}
 
                   {meta.datatype === 'string' &&
                     meta.name === 'demographic-country' && (
                       <Select
                         name={meta.name}
-                        label={meta.message}
+                        label=""
                         value={value.metadata[meta.name] || ''}
                         onChange={(e) =>
                           updateMetadata({ [meta.name]: e.target.value })
@@ -351,20 +399,18 @@ const MetadataFields = ({
               </Fragment>
             ))}
         </StyledFormSection>
-      </Section>
+      </StyledSmallSection>
 
       {!!fields.marketing && (
         <>
-          <Divider type="doubledashed" />
-          <Section small>
+          <StyledFullDivider />
+          <StyledLastSection>
             <StyledFormSection>
-              <StyledFormSectionTitle>Marketing opt-ins</StyledFormSectionTitle>
+              <ContentMaster title="Marketing opt-ins" size="md" />
               <StyledFormGroup>
                 <legend>
-                  I opt-in to share my Hacktoberfest participation, including my
-                  name + email address + GitHub/GitLab username + progress +
-                  demographic info, with… <small>[optional]</small>{' '}
-                  <span>Select all that apply</span>
+                  Do you wish to accept marketing opt-ins? (select all that
+                  apply) <span>[Required]</span>
                 </legend>
 
                 <StyledFormRow $columns={2}>
@@ -372,6 +418,7 @@ const MetadataFields = ({
                     <CheckRadio
                       key={meta.name}
                       title={meta.title}
+                      message={meta.message}
                       name={meta.name}
                       onChange={(e) =>
                         updateMetadata({ [meta.name]: e.target.checked })
@@ -392,26 +439,28 @@ const MetadataFields = ({
                 </StyledFormRow>
               </StyledFormGroup>
             </StyledFormSection>
-          </Section>
+          </StyledLastSection>
         </>
       )}
 
       {!!fields.agree && (
         <>
-          <Divider type="doubledashed" />
-          <Section small>
+          <StyledFullDivider />
+          <StyledLastSection>
             <StyledFormSection>
-              <StyledFormSectionTitle>Rules &amp; terms</StyledFormSectionTitle>
+              <ContentMaster title="Rules/terms" size="md" />
               <StyledFormGroup>
                 <legend>
                   You must accept the terms and conditions to participate.{' '}
-                  <small>[required]</small>
+                  <span>[Required]</span>
                 </legend>
 
                 <StyledFormRow $columns={2}>
                   {fields.agree.map((meta) => (
                     <CheckRadio
                       key={meta.name}
+                      titleSize="small"
+                      titleIsBasic
                       title={meta.title}
                       message={meta.message}
                       name={meta.name}
@@ -426,10 +475,9 @@ const MetadataFields = ({
                 </StyledFormRow>
               </StyledFormGroup>
             </StyledFormSection>
-          </Section>
+          </StyledLastSection>
         </>
       )}
-      <Divider type="doubledashed" />
     </>
   );
 };

@@ -1,31 +1,34 @@
 import styled from 'styled-components';
-import { body16, body20 } from 'themes/typography';
+import { body16, body20, textLg, textSm } from 'themes/typography';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
 import ButtonMain from 'components/ButtonMain';
+import CustomLink from '../CustomLink';
 
 const stateColors = {
-  excluded: (theme) => theme.colors.black,
-  spam: (theme) => theme.colors.deepPink,
-  'not-participating': (theme) => theme.colors.black,
-  invalid: (theme) => theme.colors.error,
-  'not-accepted': (theme) => theme.colors.deepPink,
-  waiting: (theme) => theme.colors.lightPink,
-  accepted: (theme) => theme.colors.green,
+  excluded: (theme) => theme.colors2025.blueViolet,
+  spam: (theme) => theme.colors2025.dragonfruit,
+  'not-participating': (theme) => theme.colors2025.space.haze,
+  invalid: (theme) => theme.colors2025.orange,
+  'not-accepted': (theme) => theme.colors2025.error,
+  waiting: (theme) => theme.colors2025.lake1,
+  accepted: (theme) => theme.colors2025.green2,
 };
 
 export const StyledState = styled.button`
-  width: 36px;
-  height: 36px;
+  ${textSm};
+  font-family: 'Atkinson Hyperlegible Mono';
+  font-weight: 700;
   position: relative;
   transition: 0.2s;
   cursor: pointer;
-  border-radius: 6px;
-  color: ${({ theme }) => theme.colors.black};
+  border-radius: 8px;
+  color: ${({ theme }) => theme.colors2025.space.white};
   background: transparent;
-  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.black};
+  border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
+  padding: 8px 12px;
 
   &:hover,
   &:focus {
@@ -103,24 +106,28 @@ export const StyledEyebrowWrapper = styled.div`
   align-items: center;
   display: flex;
   flex-flow: row wrap;
-  gap: 8px;
+  gap: 12px;
 `;
 
 export const StyledEyebrow = styled.p`
-  ${body16}
+  ${textSm};
+  text-transform: uppercase;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors2025.space.white};
   border-radius: 8px;
   font-variant-numeric: tabular-nums;
-  padding: 6px 14px;
+  padding: 8px 12px;
+  margin: 0;
 `;
 
 export const StyledInfo = styled.div`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 
   ${mQ(bp.tablet)} {
-    gap: 64px;
+    gap: 32px;
     flex-direction: row;
   }
 `;
@@ -128,40 +135,51 @@ export const StyledInfo = styled.div`
 export const StyledTitle = styled.h3`
   flex-basis: 0;
   flex-grow: 1;
-  ${body20}
+  ${textLg};
+  color: ${({ theme }) => theme.colors2025.space.white};
+  font-weight: 700;
+  margin: 0;
 `;
 
 export const StyledDetails = styled.p`
   flex-basis: 0;
   flex-grow: 1;
-  ${body20}
+  margin: 0;
+  ${textLg};
+  color: ${({ theme }) => theme.colors2025.space.white};
 `;
 
 export const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   position: relative;
   width: 100%;
 
+  ${mQ(bp.desktop)} {
+    gap: 32px;
+  }
+
   ${StyledEyebrow} {
     background: ${({ $state, theme }) => stateColors[$state](theme)};
-    color: ${({ $state, theme }) =>
-      $state === 'accepted' || $state === 'waiting'
-        ? theme.colors.black
-        : theme.colors.typography};
   }
 `;
 
-export const StyledButton = styled(ButtonMain)`
+export const StyledButton = styled(CustomLink)`
+  line-height: 30px;
   white-space: nowrap;
+  align-self: flex-start;
+
+  ${mQ(bp.tablet)} {
+    align-self: flex-end;
+  }
 `;
 
 export const StyledPullRequest = styled.div`
   align-items: flex-end;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 
   ${mQ(bp.tablet)} {
     gap: 64px;

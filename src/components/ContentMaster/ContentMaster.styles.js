@@ -5,6 +5,7 @@ import {
 } from 'themes/breakpoints';
 import {
   body16,
+  body18,
   body20,
   headline1,
   headline2,
@@ -67,6 +68,21 @@ export const StyledContentMasterEyebrow = styled.p`
   ${textSm};
   text-transform: uppercase;
   margin: 0;
+
+  ${({ $bold, theme }) =>
+    $bold &&
+    `
+    ${body16};
+    color: ${theme.colors2025.space.white};
+    font-family: 'Atkinson Hyperlegible Mono';
+    font-weight: 700;
+    margin-bottom: 8px;
+    
+    ${mQ(bp.desktop)} {
+      ${body18};
+      font-weight: 700;
+    }
+  `}
 `;
 
 export const StyledContentMasterTitle = styled.h2`

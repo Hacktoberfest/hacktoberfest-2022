@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-import { textBase, textSm } from 'themes/typography';
+import { textBase, textLg, textSm, textXl } from 'themes/typography';
 
 export const StyledInputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 24px;
   position: relative;
 
   &::before,
@@ -67,11 +67,23 @@ export const StyledInput = styled.input`
 
 export const StyledInputLabel = styled.label`
   ${textSm};
+  ${({ $size }) =>
+    $size === 'xl' &&
+    `
+    ${textXl};
+    font-weight: 700;
+  `}
   color: ${({ theme }) => theme.colors2025.space.white};
   display: block;
 
   span {
-    color: ${({ theme }) => theme.colors2025.error};
+    ${({ $size }) =>
+      $size === 'xl' &&
+      `
+      ${textLg};
+      font-weight: 700;
+    `}
+    color: ${({ theme }) => theme.colors2025.blueViolet};
   }
 `;
 

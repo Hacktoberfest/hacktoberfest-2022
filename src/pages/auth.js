@@ -23,6 +23,7 @@ import Image from 'next/image';
 import ContentMaster from '../components/ContentMaster';
 import ButtonMain from '../components/ButtonMain';
 import Layout from '../components/Layout';
+import { textLg } from '../themes/typography';
 
 const StyledAuth = styled(Section)`
   padding: 120px 0 64px;
@@ -83,6 +84,15 @@ const StyledError = styled.div`
 
   > :first-child {
     color: ${({ theme }) => theme.colors2025.error};
+
+    p {
+      font-weight: 700;
+
+      ${mQ(bp.desktop)} {
+        ${textLg};
+        font-weight: 700;
+      }
+    }
   }
 `;
 
@@ -131,9 +141,7 @@ const Auth = () => {
                   <CardCallout>
                     <StyledError>
                       <ContentMaster size="lg">
-                        {`An error occurred while authenticating you.
-                ${' '}
-                ${errorMap[error]?.title || ''}`}
+                        {`An error occurred while authenticating you. ${errorMap[error]?.title || ''}`}
                       </ContentMaster>
                       <ContentMaster>
                         {errorMap[error]?.message ||

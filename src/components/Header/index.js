@@ -46,6 +46,7 @@ const Nav = ({ hasRegistrationStarted, isMobile = false }) => {
         >
           Discord
         </CustomLink>
+        {isMobile && <StyledDivider />}
       </div>
       {/*{hasProfile && (*/}
       {/*  <ButtonMain*/}

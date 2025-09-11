@@ -173,15 +173,9 @@ export const headline3 = css`
 export const headline4 = css`
   font-family: 'Atkinson Hyperlegible Mono';
   font-weight: 800;
-  font-size: 24px;
-  line-height: 30px;
-  letter-spacing: -0.72px;
-
-  ${mQ(bp.desktop)} {
-    font-size: 32px;
-    line-height: 40px; /* 125% */
-    letter-spacing: -0.96px;
-  }
+  font-size: 32px;
+  line-height: 40px; /* 125% */
+  letter-spacing: -0.96px;
 `;
 
 /* H5-24 */

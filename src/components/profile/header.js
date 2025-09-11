@@ -3,50 +3,73 @@ import {
   breakpoints as bp,
   determineMediaQuery as mQ,
 } from 'themes/breakpoints';
+import bgHero from 'assets/img/bg-header.svg';
 
 import Avatar from 'components/Avatar';
 import { StyledAvatar } from 'components/Avatar/Avatar.styles';
 import ContentMaster from 'components/ContentMaster';
 import Container from 'components/Container';
-import SectionDivider from 'components/SectionDivider';
+import Divider from '../Divider';
+import Section from '../Section';
+import { textBase, textLg } from '../../themes/typography';
 
-const StyledHeader = styled.div`
-  padding: 128px 0 80px;
-  background-color: ${({ theme }) => theme.colors.darkGreen};
-  color: ${({ theme }) => theme.colors.typography};
+const StyledHeader = styled(Section)`
+  padding: 120px 0 64px;
+  position: relative;
 
-  ${mQ(bp.tablet)} {
-    padding: 250px 0 110px;
+  &::before {
+    content: '';
+    position: absolute;
+    grid-column: full-start / full-end;
+    top: 0;
+    left: 50%;
+    width: 100dvw;
+    transform: translateX(-50%);
+    height: 100%;
+    background: url(${bgHero.src}) top center / cover no-repeat;
   }
 
-  ${StyledAvatar} {
-    width: 53.82262997%;
-
-    ${mQ(bp.tablet)} {
-      width: 26.484375%;
-    }
+  ${mQ(bp.tablet)} {
+    padding: 180px 0 128px;
   }
 `;
 
 const StyledHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 32px;
 
   ${mQ(bp.tablet)} {
     align-items: center;
     flex-direction: row;
+    gap: 64px;
   }
 `;
 
 const StyledHeaderContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 30px;
   flex-grow: 1;
+
+  > div:first-of-type {
+    > div:nth-of-type(2) {
+      p {
+        ${textBase}
+        ${mQ(bp.desktop)} {
+          ${textLg};
+        }
+      }
+    }
+  }
 `;
 
-const Header = ({ avatar, name, type, children }) => {
+const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+`;
+
+const Header = ({ avatar, name, type, isEdit, children }) => {
   const theme = useTheme();
 
   return (
@@ -59,19 +82,15 @@ const Header = ({ avatar, name, type, children }) => {
               <ContentMaster
                 size="xl"
                 title={`Hello, ${name}`}
-                eyebrow={`>> Boot ${type}...`}
-                hasCaret={false}
+                eyebrowBold
+                eyebrow={`>> ${isEdit ? 'Edit ' : ''}Boot ${type}...`}
               />
-
               {children}
             </StyledHeaderContent>
           </StyledHeaderContainer>
         </Container>
       </StyledHeader>
-      <SectionDivider
-        bgColor={theme.colors.darkGreen}
-        fgColor={theme.colors.typography}
-      />
+      <StyledDivider />
     </>
   );
 };

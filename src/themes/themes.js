@@ -26,6 +26,10 @@ export const mainTheme = {
     typography: '#D0CCE3',
     error: '#FF4C6C',
     success: '#B4FF39',
+    dragonfruit: '#B458FC',
+    orange: '#FF720E',
+    lake1: '#4ABEFF',
+    green2: '#00C483',
   },
   colors: {
     darkGreen: '#183717',

@@ -11,6 +11,7 @@ import {
   faqs,
   note,
   lowNoCode,
+  rewarding,
 } from 'lib/participation';
 
 import {
@@ -37,6 +38,7 @@ import CustomLink from '../components/CustomLink';
 import scrollMore from 'assets/img/8-bit-down.svg';
 import resource from 'assets/img/resource.svg';
 import curvedArrow from 'assets/img/curved-arrow.svg';
+import diamond from 'assets/img/diamond.svg';
 import TextLink from '../components/TextLink';
 import {
   headline5,
@@ -45,6 +47,7 @@ import {
   textSm,
   textXl,
 } from '../themes/typography';
+import { rewards } from '../lib/about';
 
 const bounceAnimation = keyframes`
   0% {
@@ -334,6 +337,38 @@ const StyledMobileContentMaster = styled(ContentMaster)`
   }
 `;
 
+const StyledHeading = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const StyledMobileImage = styled.div`
+  display: block;
+  margin: 0 auto;
+
+  ${mQ(bp.desktop)} {
+    display: none;
+  }
+`;
+
+const StyledMobileSection = styled(Section)`
+  display: block;
+
+  ${mQ(bp.desktop)} {
+    display: none;
+  }
+`;
+
+const StyledDesktopSection = styled.div`
+  display: none;
+
+  ${mQ(bp.desktop)} {
+    display: block;
+    margin-top: 96px;
+  }
+`;
+
 const Participation = () => {
   const theme = useTheme();
 
@@ -457,8 +492,39 @@ const Participation = () => {
                 }
               />
             </ContentSide>
+
+            <StyledDesktopSection id="rewards">
+              <ContentSide align="center">
+                <Image src={diamond} alt="" width={304} height={276} />
+                <StyledHeading>
+                  <ContentMaster size="lg" title={rewarding.title} />
+                  <StyledContentMaster
+                    bodyColor={theme.colors2025.space.white}
+                    size="xl2"
+                    list={rewarding.items}
+                  >
+                    {`**${rewarding.content}**`}
+                  </StyledContentMaster>
+                </StyledHeading>
+              </ContentSide>
+            </StyledDesktopSection>
           </Container>
         </Section>
+        <StyledMobileImage>
+          <Image src={diamond} alt="" width={120} height={109} />
+        </StyledMobileImage>
+        <StyledMobileSection>
+          <StyledHeading>
+            <ContentMaster size="lg" title={rewarding.title} />
+            <StyledContentMaster
+              bodyColor={theme.colors2025.space.white}
+              size="xl2"
+              list={rewarding.items}
+            >
+              {`**${rewarding.content}**`}
+            </StyledContentMaster>
+          </StyledHeading>
+        </StyledMobileSection>
 
         <StyledSectionDivider />
 
@@ -663,7 +729,6 @@ const Participation = () => {
                   size="md"
                   title={<>{lowNoCode.sections[0].title}</>}
                   titleTag="h3"
-                  hasCaret={false}
                   list={lowNoCode.sections[0].lists}
                 >
                   {lowNoCode.sections[0].content}
@@ -673,7 +738,6 @@ const Participation = () => {
                   size="md"
                   title={<>{lowNoCode.sections[1].title}</>}
                   titleTag="h3"
-                  hasCaret={false}
                   list={lowNoCode.sections[1].lists}
                 />
               </StyledContentSideEqualGap>

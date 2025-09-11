@@ -155,6 +155,7 @@ export const StyledFooterContent = styled.div`
 
   p {
     ${textSm};
+    margin: 0;
   }
 `;
 
@@ -174,6 +175,11 @@ export const StyledFooterLinksColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  h3,
+  ul {
+    margin: 0;
+  }
 
   ul {
     display: flex;
