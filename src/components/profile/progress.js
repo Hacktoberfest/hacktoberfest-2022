@@ -290,8 +290,11 @@ const Progress = ({ auth }) => {
       );
       setPullRequests(
         rawPullRequests.rows
-          .filter((pr) => pr.state?.state && pr.state.state !== 'out-of-bounds')
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
+          ?.filter(
+            (pr) => pr.state?.state && pr.state.state !== 'out-of-bounds',
+          )
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) ||
+          [],
       );
 
       // Fetch the user's gift codes
