@@ -490,9 +490,9 @@ const Progress = ({ auth }) => {
                 <StyledRewardCardCallout>
                   <StyledRewardsHeadline>
                     <Image src={trophy} alt="" />
-                    <ContentMaster title="Tree Nation" titleTag="h4" size="md">
+                    <ContentMaster title="Treenation" titleTag="h4" size="md">
                       {
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                        'Every 6th PR/MR t-shirt reward will come with a treenation contribution making the world a greener place! Your Treenation rewards will also be reflected as you win this final level.'
                       }
                     </ContentMaster>
                   </StyledRewardsHeadline>
@@ -513,7 +513,7 @@ const Progress = ({ auth }) => {
                     <Image src={diamond} alt="" />
                     <ContentMaster title="Swag" titleTag="h4" size="md">
                       {
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.\n\nQuis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+                        'Get an exclusive Hacktoberfest T-Shirt, but its only for ‘Super Contributors’ who contribute 6 accepted PR/MRs to a worthy repository. (T&Cs Apply | Valid only for the first 10,000 contributors completing 6 PR/MR)'
                       }
                     </ContentMaster>
                   </StyledRewardsHeadline>
