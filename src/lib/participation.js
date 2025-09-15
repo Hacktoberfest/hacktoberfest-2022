@@ -436,7 +436,7 @@ export const faqs = {
         {
           question: 'Will there be a t-shirt this year?',
           answer:
-            'As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it’s no longer feasible for us to provide a free t-shirt to all contributors but only a few lucky ones. So other than the Holopin rewards that continue to be the main mark of Hacktoberfest participation, there will be a special t-Shirt to be won here. But this reward will now only go to folks who complete 10 Pull/Merge requests completed with the vetting of a verified maintainer and will only be valid for the first 10,000 users to complete this challenge. This will be on a first come basis.',
+            'As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it’s no longer feasible for us to provide a free t-shirt to all contributors but only a few lucky ones. So other than the Holopin rewards that continue to be the main mark of Hacktoberfest participation, there will be a special t-Shirt to be won here. But this reward will now only go to folks who complete 6 Pull/Merge requests completed with the vetting of a verified maintainer and will only be valid for the first 10,000 users to complete this challenge. This will be on a first come basis.',
         },
       ],
     },
