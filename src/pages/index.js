@@ -649,7 +649,7 @@ const Home = () => {
 
               {hasRegistrationStarted ? (
                 <StyledRegisterButtonContainer>
-                  <ButtonMain href="/register" passHref variant="primary">
+                  <ButtonMain href="/auth" passHref variant="primary">
                     REGISTER FOR HACKTOBERFEST
                   </ButtonMain>
                 </StyledRegisterButtonContainer>
