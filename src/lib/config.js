@@ -14,7 +14,7 @@ export const prWaitingTime = 7 * 24 * 60 * 60 * 1000;
  *   - Participation page information
  */
 export const registrationStart =
-  process.env.REGISTRATION_START || '2025-08-15T12:00:00Z';
+  process.env.REGISTRATION_START || '2025-09-15T12:00:00.000Z';
 
 /**
  * Used for:
@@ -30,7 +30,7 @@ export const currentHacktoberfest =
  *   - Participation page information
  */
 export const registrationEnd =
-  process.env.REGISTRATION_END || '2025-11-01T12:00:00Z';
+  process.env.REGISTRATION_END || '2025-11-01T00:00:00.000Z';
 
 /**
  * Used for:
@@ -79,3 +79,9 @@ export const providerMap = Object.freeze({
   github: { name: 'GitHub', referenceCharacter: '#', prName: 'PR' },
   gitlab: { name: 'GitLab', referenceCharacter: '!', prName: 'MR' },
 });
+
+/**
+ * Used for:
+ *   - Showing the correct number of PRs/MRs required to complete Hacktoberfest on profile and participation page
+ */
+export const prCount = 6;

@@ -1,5 +1,6 @@
 import {
   profileEnd,
+  prCount,
   registrationEnd,
   registrationStart,
   trackingEnd,
@@ -15,6 +16,7 @@ const registrationStartDate = new Date(registrationStart).toLocaleString(
   'en-US',
   { month: 'long', day: 'numeric', timeZone: 'UTC' },
 );
+
 const registrationEndDate = new Date(
   new Date(registrationEnd).setMinutes(-1),
 ).toLocaleString('en-US', {
@@ -22,6 +24,7 @@ const registrationEndDate = new Date(
   day: 'numeric',
   timeZone: 'Etc/GMT+12',
 }); // TZ sign is flipped for some reason, offset by 1 minute as this is an exclusive end date
+
 export const trackingStartDate = new Date(trackingStart).toLocaleString(
   'en-US',
   {
@@ -84,8 +87,8 @@ export const contributors = {
   items: [
     `Register anytime between **${registrationStartDate}** and **${registrationEndDate}**`,
     'Pull/merge requests can be made in any [GitHub](https://github.com/topics/hacktoberfest) or [GitLab](https://go.gitlab.com/ubCLKL) hosted project that’s participating in Hacktoberfest (look for the “hacktoberfest” topic)',
-    `Aim to submit four high-quality pull/merge requests between ${trackingStartDate} and ${trackingEndDate}, with project maintainers accepting your pull/merge requests for them to count toward your total`,
-    'You’ll unlock a digital badge when you register for Hacktoberfest, and level it up with each of your four pull/merge requests accepted during Hacktoberfest',
+    `Aim to submit ${prCount} high-quality pull/merge requests between ${trackingStartDate} and ${trackingEndDate}, with project maintainers accepting your pull/merge requests for them to count toward your total`,
+    `You’ll unlock a digital badge when you register for Hacktoberfest, and level it up with each of your ${prCount} pull/merge requests accepted during Hacktoberfest`,
   ],
 };
 
@@ -338,7 +341,7 @@ export const spam = {
             " - Disruptive pull/merge requests: taking someone else's branch/commits and making a pull request.\n" +
             ' - Anything that a project maintainer flags as spam.\n' +
             ' - Anything that looks like an attempt to duplicate your pull request count for October.\n' +
-            ' - Multiple pull/merge requests for the same issue that are unnecessary, for example four PR/MRs to remove a stray whitespace.',
+            ` - Multiple pull/merge requests for the same issue that are unnecessary, for example ${prCount} PR/MRs to remove a stray whitespace.`,
         },
       ],
     },
@@ -421,8 +424,7 @@ export const faqs = {
       questions: [
         {
           question: 'Do I get a reward for participating?',
-          answer:
-            'Aside from the knowledge you’ll gain, (and the fun you’ll have) you’ll get a digital badge through Holopin to represent your participation in Hacktoberfest. As each of your four pull/merge requests is accepted by a maintainer, you’ll unlock a new level in your badge, letting you customize it and showing to the community your achievement.',
+          answer: `Aside from the knowledge you’ll gain, (and the fun you’ll have) you’ll get a digital badge through Holopin to represent your participation in Hacktoberfest. As each of your ${prCount} pull/merge requests is accepted by a maintainer, you’ll unlock a new level in your badge, letting you customize it and showing to the community your achievement.`,
         },
         {
           question: 'How will I receive my digital badge?',
@@ -435,8 +437,7 @@ export const faqs = {
         },
         {
           question: 'Will there be a t-shirt this year?',
-          answer:
-            'As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it’s no longer feasible for us to provide a free t-shirt to all contributors but only a few lucky ones. So other than the Holopin rewards that continue to be the main mark of Hacktoberfest participation, there will be a special t-Shirt to be won here. But this reward will now only go to folks who complete 6 Pull/Merge requests completed with the vetting of a verified maintainer and will only be valid for the first 10,000 users to complete this challenge. This will be on a first come basis.',
+          answer: `As Hacktoberfest has grown, so have the logistical challenges associated with creating a reward. Unfortunately, it’s no longer feasible for us to provide a free t-shirt to all contributors but only a few lucky ones. So other than the Holopin rewards that continue to be the main mark of Hacktoberfest participation, there will be a special t-Shirt to be won here. But this reward will now only go to folks who complete ${prCount} Pull/Merge requests completed with the vetting of a verified maintainer and will only be valid for the first 10,000 users to complete this challenge. This will be on a first come basis.`,
         },
       ],
     },
@@ -555,8 +556,7 @@ export const faqs = {
             'If a maintainer labels your pull/merge request as **invalid** or **spam**, but you don’t believe this is correct, please begin a conversation with the maintainer of the PR and respectfully explain your position. Understand that it is ultimately up to the maintainer whether or not they think your PR/MR is legitimate, and you should respect their decision after discussing it with them.',
         },
         {
-          question:
-            'If I made 4 pull/merge requests before October but they were merged during October, will they count towards my goal?',
+          question: `If I made ${prCount} pull/merge requests before October but they were merged during October, will they count towards my goal?`,
           answer: `No. All pull/merge requests made before the start of Hacktoberfest, ${trackingStartTime}, will not count.`,
         },
         {
@@ -601,8 +601,7 @@ export const faqs = {
         {
           question:
             'As a maintainer, do I earn a digital reward for participating in Hacktoberfest?',
-          answer:
-            'Whether you are a maintainer, contributor or event organizer, you are eligible to unlock the digital badges as your four pull/merge requests are accepted. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.',
+          answer: `Whether you are a maintainer, contributor or event organizer, you are eligible to unlock the digital badges as your ${prCount} pull/merge requests are accepted. Unfortunately, we won’t be rewarding maintainers for completing maintainer actions such as reviewing pull/merge requests this year, only for submitted accepted PR/MRs.`,
         },
         {
           question: 'How can I exclude my repository from Hacktoberfest?',

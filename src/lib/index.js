@@ -6,7 +6,7 @@ export const events = [
     location: 'Virtual',
     date: 'Oct 01',
     time: '9:00 AM Eastern Daylight Time',
-    link: 'TBA',
+    link: 'https://luma.com/6sqccspe',
   },
   {
     title: 'Hacktoberfest satellite session #NYC',
@@ -29,8 +29,7 @@ export const events = [
     title: 'Hacktoberfest satellite session #Hyderabad',
     content:
       'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
-    details: 'TBA',
-    date: 'TBA',
-    link: 'TBA',
+    date: '11th October',
+    link: 'https://www.meetup.com/digitaloceanhyderabad/events/311057938/?utm_medium=referral&utm_campaign=announce_event&utm_source=link&utm_version=v2',
   },
 ];
