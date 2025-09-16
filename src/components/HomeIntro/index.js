@@ -12,7 +12,7 @@ import dots from 'assets/img/dots.svg';
 import sloth from 'assets/img/sloan-the-sloth.svg';
 import topDots from 'assets/img/top-dots.svg';
 import { useMemo } from 'react';
-import { registrationEnd, registrationStart } from 'lib/config';
+import { registrationEnd, registrationStart, prCount } from 'lib/config';
 
 const HomeIntro = () => {
   const hasRegistration = useMemo(
@@ -51,7 +51,7 @@ const HomeIntro = () => {
             size="xl"
           >
             {hasRegistration
-              ? 'Register and start contributing your four pull/merge requests today!'
+              ? `Register and start contributing your ${prCount} pull/merge requests today!`
               : `Prepare your projects, brace yourself for action—registration opens ${registrationStartDate}.`}
           </ContentMaster>
         </StyledHomeIntroContent>

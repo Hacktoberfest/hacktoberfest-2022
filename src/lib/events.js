@@ -1,3 +1,5 @@
+import { prCount } from 'lib/config';
+
 import brandKitZip from 'assets/brand-kit.zip';
 
 export const globalEvents = {
@@ -45,7 +47,7 @@ export const organize = {
       title: "Set a date + time and confirm folks' availability.",
       items: [
         '- Make sure that your co-organizers and any speakers or facilitators are available on the date and time you pick.\n\n' +
-          '- We recommend events be hosted in the first half of October to give participants time to complete 4 pull/merge requests.\n\n' +
+          `- We recommend events be hosted in the first half of October to give participants time to complete ${prCount} pull/merge requests.\n\n` +
           '- To make your virtual accessible for global participants aim for between 9–11am US Eastern Time (UTC-05:00).',
       ],
     },

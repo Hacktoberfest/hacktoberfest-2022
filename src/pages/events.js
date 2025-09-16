@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import {
   brand,
@@ -134,8 +134,6 @@ const StyledSectionTitle = styled.div`
 `;
 
 const Events = () => {
-  const theme = useTheme();
-
   return (
     <>
       <Head>

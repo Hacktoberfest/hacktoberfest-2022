@@ -76,4 +76,8 @@ module.exports = {
   images: {
     unoptimized: true,
   },
+  staticPageGenerationTimeout: 120,
+  experimental: {
+    largePageDataBytes: 128 * 10000, // Setting new threshold (1.28 MB)
+  },
 };

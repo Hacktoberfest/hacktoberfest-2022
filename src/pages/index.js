@@ -28,10 +28,10 @@ import opensourceIcon from 'assets/img/icons/opensource.svg';
 
 import Image from 'next/image';
 import Marquee from 'components/Marquee';
-import { textBase, textLg, textSm } from 'themes/typography';
+import { textLg, textSm } from 'themes/typography';
 import Countdown from '../components/Countdown';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { registrationStart } from '../lib/config';
+import { prCount, registrationStart } from '../lib/config';
 import ButtonMain from '../components/ButtonMain';
 import Divider from '../components/Divider';
 import SideBySide from '../components/SideBySide';
@@ -788,7 +788,7 @@ const Home = () => {
             <SideBySide title="Preptember">
               <StyledGrid>
                 <CardCallout
-                  body="September is prep time for Hacktoberfest. Spend September getting a jump start on your four pull/merge requests by tracking down projects to contribute to, adding the ‘hacktoberfest’ tag to your own projects, or familiarizing yourself with Git so you can hit the ground running when Hacktoberfest begins on October 1."
+                  body={`September is prep time for Hacktoberfest. Spend September getting a jump start on your ${prCount} pull/merge requests by tracking down projects to contribute to, adding the ‘hacktoberfest’ tag to your own projects, or familiarizing yourself with Git so you can hit the ground running when Hacktoberfest begins on October 1.`}
                   link={{
                     children: 'HOW TO PARTICIPATE',
                     href: '/participation',
@@ -882,7 +882,18 @@ const Home = () => {
                           {date && <span>Date: {date}</span>}
                           {time && <span>Time: {time}</span>}
                           {location && <span>Location: {location}</span>}
-                          {link && <span>Link to register: {link}</span>}
+                          {link && link !== 'TBA' && (
+                            <span>
+                              Link to register:{' '}
+                              <a
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                Link
+                              </a>
+                            </span>
+                          )}
                         </StyledSpotlightList>
                       </StyledSpotlightContent>
                     }

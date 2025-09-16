@@ -2,7 +2,7 @@ import lisa from 'assets/img/council/lisa.jpg';
 import eddie from 'assets/img/council/eddie.jpg';
 import mason from 'assets/img/council/mason.jpg';
 import bekah from 'assets/img/council/bekah.jpg';
-import { registrationStart } from './config';
+import { prCount, registrationStart } from './config';
 import bullhorn from 'assets/img/icons/icon-pixel-bullhorn.svg';
 import heart from 'assets/img/icons/icon-pixel-heart.svg';
 import pencil from 'assets/img/icons/icon-pixel-pencil.svg';
@@ -48,7 +48,7 @@ export const sharing = {
 export const rewards = {
   image: holopin,
   title: `${new Date(registrationStart).getFullYear()} Participation Rewards`,
-  content: `For joining in the fun this year, participants in Hacktoberfest ${new Date(registrationStart).getFullYear()} get a customizable digital badge from Holopin that gains new characteristics with each of your pull/merge requests. As each pull/merge request you submitted is accepted by maintainers, you’ll unlock a new level and customization for your badge, up to the four pull/merge requests to complete Hacktoberfest. As your skills evolve, so, too, will your badge!\n\nOnce Hacktoberfest ${new Date(registrationStart).getFullYear()} is complete, you’ll be able to share your badge on the Holopin Hacktoberfest Badge Board of Fame to show-off your unique badge and to celebrate your hard-won victory! You can also embed your Holopin badge board, showing off all the Hacktoberfest badges you’ve collected over the years, on your GitHub or GitLab profile.`,
+  content: `For joining in the fun this year, participants in Hacktoberfest ${new Date(registrationStart).getFullYear()} get a customizable digital badge from Holopin that gains new characteristics with each of your pull/merge requests. As each pull/merge request you submitted is accepted by maintainers, you’ll unlock a new level and customization for your badge, up to the ${prCount} pull/merge requests to complete Hacktoberfest. As your skills evolve, so, too, will your badge!\n\nOnce Hacktoberfest ${new Date(registrationStart).getFullYear()} is complete, you’ll be able to share your badge on the Holopin Hacktoberfest Badge Board of Fame to show-off your unique badge and to celebrate your hard-won victory! You can also embed your Holopin badge board, showing off all the Hacktoberfest badges you’ve collected over the years, on your GitHub or GitLab profile.`,
 };
 
 export const sponsorsAndPartners = {

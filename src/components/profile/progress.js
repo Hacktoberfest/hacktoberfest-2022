@@ -1,21 +1,14 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import styled, { keyframes, useTheme } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-import {
-  body24,
-  headline3,
-  textBase,
-  textLg,
-  textSm,
-  textXl,
-} from 'themes/typography';
+import { headline3, textBase, textLg, textXl } from 'themes/typography';
 import {
   fetchUserOAuth,
   fetchGiftCodes,
   fetchPullRequests,
   triggerUserIngest,
 } from 'lib/api';
-import { trackingStart } from 'lib/config';
+import { trackingStart, prCount } from 'lib/config';
 import {
   breakpoints as bp,
   determineMediaQuery as mQ,
@@ -40,7 +33,6 @@ import Layout from '../Layout';
 import CardCallout from '../CardCallout';
 import LinkedAccounts from './linked-accounts';
 import Image from 'next/image';
-import { pullRequestStates } from '../../lib/profile';
 
 // Fade in after the 'progress' typing animation
 const trackingFade = keyframes`
@@ -261,7 +253,6 @@ const Progress = ({ auth }) => {
   const [oauth, setOauth] = useState([]);
   const [pullRequests, setPullRequests] = useState([]);
   const [giftCodes, setGiftCodes] = useState();
-  const theme = useTheme();
 
   // Load the data we need to render
   useEffect(() => {
@@ -390,9 +381,9 @@ const Progress = ({ auth }) => {
               <ContentMaster title="Progress" titleAs="h3" size="lg" />
               <StyledSmallCardCallout>
                 <StyledCount>
-                  {Math.min(acceptedCount, 4).toLocaleString()}
-                  {acceptedCount > 4
-                    ? ` + ${(acceptedCount - 4).toLocaleString()}`
+                  {Math.min(acceptedCount, prCount).toLocaleString()}
+                  {acceptedCount > prCount
+                    ? ` + ${(acceptedCount - prCount).toLocaleString()}`
                     : ''}
                   {waitingCount > 0 ? (
                     <>
@@ -402,7 +393,7 @@ const Progress = ({ auth }) => {
                   ) : (
                     ''
                   )}{' '}
-                  <span>/</span> 4
+                  <span>/</span> {prCount}
                 </StyledCount>
               </StyledSmallCardCallout>
             </StyledProgressSummary>
@@ -448,6 +439,20 @@ const Progress = ({ auth }) => {
                       type === 'holopin-registered-badge',
                   ) && (
                     <ul>
+                      {giftCodes['holopin-level-6-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-level-6-badge']}
+                          reason="Completing six accepted PR/MRs"
+                          claim="https://www.holopin.io/claim"
+                        />
+                      )}
+                      {giftCodes['holopin-level-5-badge'] && (
+                        <Holopin
+                          code={giftCodes['holopin-level-5-badge']}
+                          reason="Completing five accepted PR/MRs"
+                          claim="https://www.holopin.io/claim"
+                        />
+                      )}
                       {giftCodes['holopin-level-4-badge'] && (
                         <Holopin
                           code={giftCodes['holopin-level-4-badge']}
