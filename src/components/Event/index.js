@@ -28,7 +28,14 @@ const Event = (props) => {
             {date && <li>Date: {date}</li>}
             {time && <li>Time: {time}</li>}
             {location && <li>Location: {location}</li>}
-            {link && <li>Link to register: {link}</li>}
+            {link && link !== 'TBA' && (
+              <span>
+                Link to register:{' '}
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  Link
+                </a>
+              </span>
+            )}
           </ul>
         </StyledContent>
       </StyledEventContent>
