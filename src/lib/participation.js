@@ -259,8 +259,7 @@ export const prMrDetails = {
       subtitle: 'invalid',
       items: [
         {
-          content: `1. PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n
-    1. Specifically, we use the Node.js RegEx engine with **\`/\\binvalid\\b/i\`** to look for invalid labels.`,
+          content: `1. PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n`,
         },
       ],
     },
