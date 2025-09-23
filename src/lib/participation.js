@@ -259,10 +259,7 @@ export const prMrDetails = {
       subtitle: 'invalid',
       items: [
         {
-          content:
-            '1. Hacktoberfest is now opt-in for maintainers, so only contribute to projects that indicate they’re looking for Hacktoberfest PR/MRs.\n\n' +
-            '2. Once your PR/MR has passed this check, we won’t check this again (unless your PR/MR fails a check before this, such as it being marked as spammy).\n\n' +
-            `3. Your PR/MR must match criteria to be considered participating before Hacktoberfest ends on **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14) to be counted.`,
+          content: `1. PR/MRs that have a label containing the word “invalid” won’t be counted, unless they also have the “hacktoberfest-accepted” label.\n`,
         },
       ],
     },
