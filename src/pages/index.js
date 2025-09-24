@@ -857,49 +857,51 @@ const Home = () => {
               </StyledSectionTitle>
             </Container>
             <StyledEventGrid>
-              {events.map(
-                ({
-                  title,
-                  content,
-                  date,
-                  time,
-                  location,
-                  rsvp,
-                  details,
-                  link,
-                }) => (
-                  <CardCallout
-                    key={title}
-                    title={title}
-                    link={rsvp}
-                    body={
-                      <StyledSpotlightContent>
-                        <span>
-                          <MarkdownInline string={content} />
-                        </span>
-                        <StyledSpotlightList>
-                          {details && <span>Details: {details}</span>}
-                          {date && <span>Date: {date}</span>}
-                          {time && <span>Time: {time}</span>}
-                          {location && <span>Location: {location}</span>}
-                          {link && link !== 'TBA' && (
-                            <span>
-                              Link to register:{' '}
-                              <a
-                                href={link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                Link
-                              </a>
-                            </span>
-                          )}
-                        </StyledSpotlightList>
-                      </StyledSpotlightContent>
-                    }
-                  />
-                ),
-              )}
+              {events
+                .slice(0, 4)
+                .map(
+                  ({
+                    title,
+                    content,
+                    date,
+                    time,
+                    location,
+                    rsvp,
+                    details,
+                    link,
+                  }) => (
+                    <CardCallout
+                      key={title}
+                      title={title}
+                      link={rsvp}
+                      body={
+                        <StyledSpotlightContent>
+                          <span>
+                            <MarkdownInline string={content} />
+                          </span>
+                          <StyledSpotlightList>
+                            {details && <span>Details: {details}</span>}
+                            {date && <span>Date: {date}</span>}
+                            {time && <span>Time: {time}</span>}
+                            {location && <span>Location: {location}</span>}
+                            {link && link !== 'TBA' && (
+                              <span>
+                                Link to register:{' '}
+                                <a
+                                  href={link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  Link
+                                </a>
+                              </span>
+                            )}
+                          </StyledSpotlightList>
+                        </StyledSpotlightContent>
+                      }
+                    />
+                  ),
+                )}
             </StyledEventGrid>
             <StyledEventCTA>
               <ButtonMain as="a" href="/events">
