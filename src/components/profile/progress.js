@@ -485,7 +485,7 @@ const Progress = ({ auth }) => {
                         <Holopin
                           code={giftCodes['holopin-registered-badge']}
                           reason="Registering for Hacktoberfest"
-                          item="your base avatar"
+                          item="base avatar"
                           claim="https://www.holopin.io/claim"
                         />
                       )}
