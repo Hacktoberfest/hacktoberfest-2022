@@ -209,7 +209,7 @@ export const prMrDetails = {
       subtitle: 'out-of-bounds',
       items: [
         {
-          content: `1. Your PR/MRs must be created between **${trackingStartDate}** and **${trackingEndDate}** (in any time zone, UTC-12 thru UTC+14).\n
+          content: `1. Your PR/MRs must be created between **${trackingStartDate} 10:00AM UTC** and **${trackingEndDate} 23:59:59PM UTC**.\n
     1. Your PR/MRs must be made to a public, unarchived repository.\n
     2. Pull/merge requests created before ${trackingStartDate} but merged or marked as ready for review after **do not count**.\n
     3. [excluded] Repos that go against Hacktoberfest’s values will be excluded from qualification and PR/MRs made to those repos won’t count.`,

@@ -44,6 +44,13 @@ export const events = [
     link: 'https://www.meetup.com/meetup-group-ldkxvnar/events/311066400/?eventOrigin=group_upcoming_events',
   },
   {
+    title: 'HACKTOBERFEST SATELLITE SESSION #SanFrancisco',
+    content:
+      'Explore DigitalOcean Hacktoberfest Hackathon in SF in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
+    date: 'Oct 18',
+    link: 'https://www.meetup.com/digitaloceansanfrancisco/events/311197949/?utm_medium=referral&utm_campaign=share-btn_savedevents_share_modal&utm_source=link&utm_version=v2',
+  },
+  {
     title: 'HACKTOBERFEST : CLOSING THE HACK',
     content:
       'Join us for the final session of Hacktoberfest as we close the month celebrating the contributions and impact. Join more expert led OS sessions and win some cool prizes!',
