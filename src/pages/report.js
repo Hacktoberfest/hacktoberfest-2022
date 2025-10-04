@@ -248,7 +248,6 @@ const Report = () => {
                         value={repository}
                         onChange={(e) => setRepository(e.target.value)}
                         disabled={submitting}
-                        error={'aaa'}
                         required
                       />
 
