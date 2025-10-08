@@ -178,6 +178,7 @@ const Events = () => {
                         link={event.link}
                         details={event.details}
                         rsvp={event.rsvp}
+                        completed={event.completed}
                       />
                     </li>
                     {index !== events.length - 1 && (
