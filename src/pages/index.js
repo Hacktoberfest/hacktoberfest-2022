@@ -869,6 +869,7 @@ const Home = () => {
                     rsvp,
                     details,
                     link,
+                    completed,
                   }) => (
                     <CardCallout
                       key={title}
@@ -896,6 +897,7 @@ const Home = () => {
                                 </a>
                               </span>
                             )}
+                            {completed && <span>Event over</span>}
                           </StyledSpotlightList>
                         </StyledSpotlightContent>
                       }
