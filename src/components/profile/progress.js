@@ -411,6 +411,7 @@ const Progress = ({ auth }) => {
           type.startsWith('holopin-level-') ||
           type === 'holopin-registered-badge' ||
           type === 'tshirt' ||
+          type === 'tree-nation-tree' ||
           type === 'tree',
       ) && (
         <>
@@ -436,12 +437,14 @@ const Progress = ({ auth }) => {
                   {Object.keys(giftCodes).some(
                     (type) =>
                       type.startsWith('holopin-level-') ||
-                      type === 'holopin-registered-badge',
+                      type === 'holopin-registered-badge' ||
+                      type === 'tree',
                   ) && (
                     <ul>
-                      {giftCodes['holopin-level-6-badge'] && (
+                      {giftCodes['tree'] && (
                         <Holopin
-                          code={giftCodes['holopin-level-6-badge']}
+                          code={giftCodes['tree']}
+                          item="sticker"
                           reason="Completing six accepted PR/MRs"
                           claim="https://www.holopin.io/claim"
                         />
@@ -449,7 +452,7 @@ const Progress = ({ auth }) => {
                       {giftCodes['holopin-level-5-badge'] && (
                         <Holopin
                           code={giftCodes['holopin-level-5-badge']}
-                          reason="Completing five accepted PR/MRs"
+                          reason="Completing six accepted PR/MRs"
                           claim="https://www.holopin.io/claim"
                         />
                       )}
@@ -502,16 +505,26 @@ const Progress = ({ auth }) => {
                     </ContentMaster>
                   </StyledRewardsHeadline>
                   <StyledDivider type="solid" />
-                  {giftCodes['tree'] && (
-                    <ul>
-                      <Holopin
-                        code={giftCodes['tree']}
-                        item="tree"
-                        reason="Completing six accepted PR/MRs"
-                        claim="https://www.holopin.io/claim"
-                      />
-                    </ul>
-                  )}
+                  {giftCodes['tree-nation-tree'] &&
+                    giftCodes['tree-nation-tree'].code &&
+                    JSON.parse(giftCodes['tree-nation-tree'].code) && (
+                      <ul>
+                        <Holopin
+                          code={{
+                            code: JSON.stringify({
+                              data: {
+                                id:
+                                  JSON.parse(giftCodes['tree-nation-tree'].code)
+                                    .trees?.[0]?.token || '',
+                              },
+                            }),
+                          }}
+                          item="tree"
+                          reason="Completing six accepted PR/MRs"
+                          claim="https://tree-nation.com/collect/"
+                        />
+                      </ul>
+                    )}
                 </StyledRewardCardCallout>
                 <StyledRewardCardCallout>
                   <StyledRewardsHeadline>
@@ -526,7 +539,11 @@ const Progress = ({ auth }) => {
                   {giftCodes['tshirt'] && (
                     <ul>
                       <Holopin
-                        code={giftCodes['tshirt']}
+                        code={{
+                          code: JSON.stringify({
+                            data: { id: giftCodes['tshirt'].code },
+                          }),
+                        }}
                         item="shirt"
                         reason="Completing six accepted PR/MRs"
                         claim="https://stores.kotisdesign.com/dohacktoberfest2025/redemption_code?redemption_code="
