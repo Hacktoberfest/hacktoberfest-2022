@@ -10,7 +10,17 @@ import { MarkdownInline } from 'components/markdown';
 import ButtonMain from 'components/ButtonMain';
 
 const Event = (props) => {
-  const { title, content, date, time, location, rsvp, details, link } = props;
+  const {
+    title,
+    content,
+    date,
+    time,
+    location,
+    rsvp,
+    details,
+    link,
+    completed = false,
+  } = props;
   return (
     <StyledEvent>
       <StyledEventContent>
@@ -36,6 +46,7 @@ const Event = (props) => {
                 </a>
               </span>
             )}
+            {completed && <li>Event over</li>}
           </ul>
         </StyledContent>
       </StyledEventContent>

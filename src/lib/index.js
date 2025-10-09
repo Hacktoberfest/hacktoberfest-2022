@@ -6,21 +6,21 @@ export const events = [
     location: 'Virtual',
     date: 'Oct 01',
     time: '9:00 AM Eastern Daylight Time',
-    link: 'https://luma.com/6sqccspe',
+    completed: true,
   },
   {
     title: 'Hacktoberfest satellite session #NYC',
     content:
       'Join your fellow open source peers and join this DigitalOcean Hacktoberfest Hackathon in NYC. Contests, prizes and more!',
     date: 'Oct 03 and Oct 04',
-    link: 'https://www.meetup.com/digitalocean-newyork/events/311118446/?eventOrigin=group_upcoming_events',
+    completed: true,
   },
   {
     title: 'Hacktoberfest satellite session #Denver',
     content:
       'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     date: 'Oct 04',
-    link: 'https://www.meetup.com/digitaloceandenver/events/311099839/?eventOrigin=group_upcoming_events',
+    completed: true,
   },
   {
     title: 'Hacktoberfest satellite session #Hyderabad',
@@ -34,14 +34,14 @@ export const events = [
     content:
       'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     date: 'Oct 04',
-    link: 'https://www.meetup.com/digitaloceanbangalore/events/311100607/?eventOrigin=group_upcoming_events',
+    completed: true,
   },
   {
     title: 'HACKTOBERFEST SATELLITE SESSION #Pune',
     content:
       'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     date: 'Oct 05',
-    link: 'https://www.meetup.com/meetup-group-ldkxvnar/events/311066400/?eventOrigin=group_upcoming_events',
+    completed: true,
   },
   {
     title: 'HACKTOBERFEST SATELLITE SESSION #SanFrancisco',
