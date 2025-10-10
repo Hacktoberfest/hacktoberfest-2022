@@ -539,14 +539,20 @@ const Progress = ({ auth }) => {
                   {giftCodes['tshirt'] && (
                     <ul>
                       <Holopin
-                        code={{
-                          code: JSON.stringify({
-                            data: { id: giftCodes['tshirt'].code },
-                          }),
-                        }}
+                        code={
+                          giftCodes['holopin-level-5-badge'] || {
+                            code: JSON.stringify({
+                              data: { id: giftCodes['tshirt'].code },
+                            }),
+                          }
+                        }
                         item="shirt"
                         reason="Completing six accepted PR/MRs"
-                        claim="https://stores.kotisdesign.com/dohacktoberfest2025/redemption_code?redemption_code="
+                        claim={
+                          giftCodes['holopin-level-5-badge']
+                            ? 'https://www.holopin.io/claim/'
+                            : 'https://stores.kotisdesign.com/dohacktoberfest2025/redemption_code?redemption_code='
+                        }
                         skipTrailingSlash
                       />
                     </ul>
