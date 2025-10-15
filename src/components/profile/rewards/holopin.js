@@ -144,15 +144,21 @@ const Holopin = ({
         </StyledMessage>
         <StyledGlowMessage>{reason}!</StyledGlowMessage>
         <StyledWarning>
-          Lost the email to claim your {item}?{' '}
-          <a
-            href={`${skipTrailingSlash ? `${claim}${id}` : `${claim.replace(/\/+$/, '')}/${id}`}`}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Claim it directly
-          </a>
-          .
+          {claim.startsWith('http') ? (
+            <>
+              Lost the email to claim your {item}?{' '}
+              <a
+                href={`${skipTrailingSlash ? `${claim}${id}` : `${claim.replace(/\/+$/, '')}/${id}`}`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Claim it directly
+              </a>
+              .
+            </>
+          ) : (
+            claim
+          )}
         </StyledWarning>
       </div>
     </StyledCode>

@@ -550,7 +550,7 @@ const Progress = ({ auth }) => {
                         reason="Completing six accepted PR/MRs"
                         claim={
                           giftCodes['holopin-level-5-badge']
-                            ? 'https://www.holopin.io/claim/'
+                            ? 'Redeem the Supercontributor badge to reveal your T-shirt code. Use the link above or look for the email.'
                             : 'https://stores.kotisdesign.com/dohacktoberfest2025/redemption_code?redemption_code='
                         }
                         skipTrailingSlash
