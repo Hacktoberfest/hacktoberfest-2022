@@ -13,37 +13,36 @@ const sitemap = async () => {
       priority: 1,
       changefreq: 'daily',
     },
-    // Temporarily disable pages while we work on them
-    // {
-    //   url: '/participation',
-    //   lastmod: new Date().toISOString(),
-    //   priority: 0.9,
-    //   changefreq: 'daily',
-    // },
-    // {
-    //   url: '/events',
-    //   lastmod: new Date().toISOString(),
-    //   priority: 0.8,
-    //   changefreq: 'daily',
-    // },
-    // {
-    //   url: '/about',
-    //   lastmod: new Date().toISOString(),
-    //   priority: 0.7,
-    //   changefreq: 'daily',
-    // },
-    // {
-    //   url: '/donate',
-    //   lastmod: new Date().toISOString(),
-    //   priority: 0.6,
-    //   changefreq: 'daily',
-    // },
-    // {
-    //   url: '/report',
-    //   lastmod: new Date().toISOString(),
-    //   priority: 0.5,
-    //   changefreq: 'daily',
-    // },
+    {
+      url: '/participation',
+      lastmod: new Date().toISOString(),
+      priority: 0.9,
+      changefreq: 'daily',
+    },
+    {
+      url: '/events',
+      lastmod: new Date().toISOString(),
+      priority: 0.8,
+      changefreq: 'daily',
+    },
+    {
+      url: '/about',
+      lastmod: new Date().toISOString(),
+      priority: 0.7,
+      changefreq: 'daily',
+    },
+    {
+      url: '/donate',
+      lastmod: new Date().toISOString(),
+      priority: 0.6,
+      changefreq: 'daily',
+    },
+    {
+      url: '/report',
+      lastmod: new Date().toISOString(),
+      priority: 0.5,
+      changefreq: 'daily',
+    },
   ];
 
   // Create the sitemap generation stream
