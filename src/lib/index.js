@@ -54,7 +54,6 @@ export const events = [
     title: 'HACKTOBERFEST : CLOSING THE HACK',
     content:
       'Join us for the final session of Hacktoberfest as we close the month celebrating the contributions and impact. Join more expert led OS sessions and win some cool prizes!',
-    details: 'TBA',
     date: 'Oct 31',
     time: '9 am EDT',
     location: 'Virtual',
