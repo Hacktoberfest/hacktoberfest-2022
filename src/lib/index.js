@@ -27,7 +27,7 @@ export const events = [
     content:
       'Explore DigitalOcean OS Hackathon with Gradient AI, in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     date: '11th October',
-    link: 'https://www.meetup.com/digitaloceanhyderabad/events/311057938/?utm_medium=referral&utm_campaign=announce_event&utm_source=link&utm_version=v2',
+    completed: true,
   },
   {
     title: 'HACKTOBERFEST SATELLITE SESSION #Bengaluru',
@@ -48,15 +48,16 @@ export const events = [
     content:
       'Explore DigitalOcean Hacktoberfest Hackathon in SF in association with MLH, Okta and AMD. Hackathon, contests, prizes and more!',
     date: 'Oct 18',
-    link: 'https://www.meetup.com/digitaloceansanfrancisco/events/311197949/?utm_medium=referral&utm_campaign=share-btn_savedevents_share_modal&utm_source=link&utm_version=v2',
+    completed: true,
   },
   {
     title: 'HACKTOBERFEST : CLOSING THE HACK',
     content:
       'Join us for the final session of Hacktoberfest as we close the month celebrating the contributions and impact. Join more expert led OS sessions and win some cool prizes!',
     details: 'TBA',
-    date: 'TBA',
+    date: 'Oct 31',
+    time: '9 am EDT',
     location: 'Virtual',
-    link: 'TBA',
+    link: 'https://luma.com/cs1b3f6i',
   },
 ];
