@@ -13,6 +13,7 @@ import CardCallout from 'components/CardCallout';
 import iconPlay from 'assets/img/icons/play.svg';
 import logoDigitalOcean from 'assets/img/logo-digitalocean.svg';
 import bgHero from 'assets/img/bg-header.svg';
+import bubble from 'assets/img/bubble.svg';
 import amd from 'assets/img/sponsors/amd.svg';
 import cloudNative from 'assets/img/partners/cloud-native.svg';
 import dev from 'assets/img/partners/dev.svg';
@@ -53,22 +54,6 @@ const blinkExpand = keyframes`
   47.5% { --shadowAlpha: 0; }
   75% { --shadowAlpha: 0.5; }
   100% { --shadowAlpha: 0.5; }
-`;
-
-const bubbleUp = keyframes`
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(-650px);
-  }
 `;
 
 export const StyledHome = styled.div`
@@ -255,6 +240,7 @@ const StyledHeroContent = styled.div`
 
   ${mQ(bp.tablet)} {
     gap: 32px;
+    max-width: 660px;
   }
 
   p {
@@ -381,6 +367,20 @@ const StyledPartnerLogos = styled.div`
 const StyledCardCallout = styled(CardCallout)`
   margin: 0 auto;
   max-width: 928px;
+
+  ${mQ(bp.desktop)} {
+    > div > div {
+      gap: 16px;
+    }
+  }
+`;
+
+const StyledImage = styled(Image)`
+  margin: 0;
+
+  ${mQ(bp.desktop)} {
+    margin: 0 auto;
+  }
 `;
 
 const StyledDivider = styled(Divider)`
@@ -485,6 +485,7 @@ const Home = () => (
       <Section>
         <Container>
           <StyledCardCallout>
+            <StyledImage src={bubble} alt="" />
             <ContentMaster
               align="center"
               title="Stay Connected"
