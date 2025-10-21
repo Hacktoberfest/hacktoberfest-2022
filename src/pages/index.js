@@ -414,7 +414,7 @@ const Home = () => (
               size="xl2"
             >
               {
-                'Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. Hacktoberfest #12 has officially ended. \n\n&nbsp;\n\nBut don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.digitalocean.com/open-source/hacktoberfest#open-source-stay-up-to-date) to get the latest announcements about future Hacktoberfest events.'
+                'Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. Hacktoberfest #12 has officially ended. \n\n&nbsp;\n\nBut don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.meetup.com/pro/digitalocean/) to get the latest announcements about future Hacktoberfest events.'
               }
             </ContentMaster>
 
