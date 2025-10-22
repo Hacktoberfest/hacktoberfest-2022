@@ -49,6 +49,7 @@ module.exports = {
         REGISTRATION_END: '',
         TRACKING_START: '',
         PROFILE_END: '',
+        EVENT_END_DATE: '',
       }),
     );
     config.module.rules.push({
