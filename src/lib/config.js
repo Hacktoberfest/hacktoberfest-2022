@@ -69,6 +69,13 @@ export const launchDate = process.env.LAUNCH_DATE || '2025-09-01T12:00:00Z';
 
 /**
  * Used for:
+ *   - Switching landing page content
+ */
+export const eventEndDate =
+  process.env.EVENT_END_DATE || '2025-11-01T16:00:00Z';
+
+/**
+ * Used for:
  *   - Displaying nice names for PR/MR providers
  *   - Showing the correct reference character on profile page
  *   - Showing the correct name for PR/MR on the profile page

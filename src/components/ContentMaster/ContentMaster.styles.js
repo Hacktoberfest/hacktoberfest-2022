@@ -43,7 +43,7 @@ export const StyledContentMaster = styled.div`
   display: flex;
   gap: 16px;
   flex-direction: column;
-  text-align: left;
+  text-align: ${({ $mobileAlign }) => $mobileAlign};
 
   ${mQ(bp.desktop)} {
     text-align: ${({ $align }) => $align};
