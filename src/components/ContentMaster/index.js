@@ -26,6 +26,7 @@ const ContentMaster = (props) => {
     children,
     size,
     align = 'left',
+    mobileAlign = 'left',
     list,
     listColumns,
     links,
@@ -35,7 +36,7 @@ const ContentMaster = (props) => {
   } = props;
 
   return (
-    <StyledContentMaster $align={align} {...rest}>
+    <StyledContentMaster $align={align} $mobileAlign={mobileAlign} {...rest}>
       {(eyebrow || title) && (
         <StyledContentMasterHeader>
           {eyebrow && (

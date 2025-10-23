@@ -16,7 +16,7 @@ import {
   StyledBoosters,
   StyledHand,
 } from './Footer.styles';
-import { registrationStart } from 'lib/config';
+import { eventEndDate, registrationStart } from 'lib/config';
 import Layout from 'components/Layout';
 import CustomLink from 'components/CustomLink';
 import {
@@ -40,6 +40,8 @@ const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
 const Footer = () => {
   const router = useRouter();
+
+  const hasEventEnded = useMemo(() => new Date() >= new Date(eventEndDate), []);
 
   const footerRef = useRef(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -288,7 +290,7 @@ const Footer = () => {
               </CustomLink>
             </li>
           </StyledFooterCopyright>
-          {isHomePage && isFooterVisible && (
+          {isHomePage && !hasEventEnded && isFooterVisible && (
             <StyledEasterEggContainer ref={easterEggRef}>
               <StyledAlienContainer
                 onAnimationEnd={handleAlienTransitionEnd}

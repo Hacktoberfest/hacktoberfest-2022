@@ -239,14 +239,12 @@ export const StyledFooterCopyright = styled.ul`
 
 export const StyledEasterEggContainer = styled.div`
   display: none;
-
   ${mQ(bp.desktop)} {
     display: block;
     grid-column: full-start / full-end;
     margin: 0 auto;
     position: relative;
     width: 100%;
-
     > img {
       object-fit: cover;
       width: 100%;
@@ -259,7 +257,6 @@ export const StyledBoosters = styled.g`
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
   transform-box: fill-box;
-
   /* These ensure the boosters stay in the correct position */
   will-change: transform, opacity;
   transform-origin: center bottom;
@@ -274,13 +271,11 @@ export const StyledAlienContainer = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
   width: 188px;
-
   > svg {
     position: absolute;
     top: 0;
     z-index: 2;
   }
-
   ${StyledBoosters} {
     animation-name: ${({ $isVisible }) => $isVisible && boosters};
   }
@@ -301,7 +296,6 @@ export const StyledFlagImage = styled.div`
   top: 10px;
   z-index: 1;
   width: 100%;
-
   ${StyledHand} {
     animation-name: ${({ $isVisible }) => $isVisible && withdraw};
   }
@@ -310,27 +304,21 @@ export const StyledFlagImage = styled.div`
 export const StyledTwinkle = styled.g`
   animation: ${twinkle} 6s infinite;
   animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
-
   &:nth-of-type(1) {
     animation-delay: 1s;
   }
-
   &:nth-of-type(2) {
     animation-delay: 0.7s;
   }
-
   &:nth-of-type(3) {
     animation-delay: 1.3s;
   }
-
   &:nth-of-type(4) {
     animation-delay: 2.5s;
   }
-
   &:nth-of-type(5) {
     animation-delay: 3s;
   }
-
   &:nth-of-type(6) {
     animation-delay: 1s;
   }

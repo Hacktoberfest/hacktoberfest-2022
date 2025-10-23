@@ -13,6 +13,7 @@ import CardCallout from 'components/CardCallout';
 import iconPlay from 'assets/img/icons/play.svg';
 import logoDigitalOcean from 'assets/img/logo-digitalocean.svg';
 import bgHero from 'assets/img/bg-header.svg';
+import bubble from 'assets/img/bubble.svg';
 import amd from 'assets/img/sponsors/amd.svg';
 import cloudNative from 'assets/img/partners/cloud-native.svg';
 import dev from 'assets/img/partners/dev.svg';
@@ -29,16 +30,15 @@ import opensourceIcon from 'assets/img/icons/opensource.svg';
 import Image from 'next/image';
 import Marquee from 'components/Marquee';
 import { textLg, textSm } from 'themes/typography';
-import Countdown from '../components/Countdown';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { prCount, registrationStart } from '../lib/config';
-import ButtonMain from '../components/ButtonMain';
 import Divider from '../components/Divider';
-import SideBySide from '../components/SideBySide';
-import Corners from '../components/Corners';
 import heroAnimation from 'assets/img/heroicon-animation.gif';
+import { useMemo, useRef, useState, useEffect } from 'react';
+import { eventEndDate, prCount } from '../lib/config';
 import { events } from '../lib';
 import { MarkdownInline } from '../components/markdown';
+import SideBySide from '../components/SideBySide';
+import Corners from '../components/Corners';
+import ButtonMain from '../components/ButtonMain';
 
 const blinkExpand = keyframes`
   0% { --shadowAlpha: 0.5; }
@@ -63,22 +63,6 @@ const blinkExpand = keyframes`
   47.5% { --shadowAlpha: 0; }
   75% { --shadowAlpha: 0.5; }
   100% { --shadowAlpha: 0.5; }
-`;
-
-const bubbleUp = keyframes`
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(-650px);
-  }
 `;
 
 export const StyledHome = styled.div`
@@ -195,7 +179,7 @@ export const StyledSponsorSections = styled.div`
   gap: 56px;
 
   ${mQ(bp.desktop)} {
-    gap: 128px;
+    gap: 64px;
   }
 `;
 
@@ -267,26 +251,17 @@ const StyledHeroContent = styled.div`
     gap: 32px;
   }
 
+  h1 {
+    max-width: 660px;
+  }
+
   p {
     margin-bottom: 0;
   }
 
   > div {
     text-align: center;
-
-    p {
-      display: inline;
-
-      ${mQ(bp.desktop)} {
-        display: block;
-      }
-    }
   }
-`;
-
-const StyledRegisterButtonContainer = styled.div`
-  padding: 16px 0;
-  text-align: center;
 `;
 
 const StyledPartnerContainer = styled.div`
@@ -393,12 +368,74 @@ const StyledPartnerLogos = styled.div`
   }
 `;
 
+const StyledCardCallout = styled(CardCallout)`
+  margin: 0 auto;
+
+  ${mQ(bp.desktop)} {
+    > div {
+      padding: 80px;
+      width: calc(100% - 160px);
+    }
+    > div > div {
+      gap: 16px;
+
+      p {
+        ${textLg};
+      }
+    }
+  }
+`;
+
+const StyledImage = styled(Image)`
+  margin: 0;
+
+  ${mQ(bp.desktop)} {
+    margin: 0 auto;
+  }
+`;
+
 const StyledDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  grid-column: full-start / full-end;
+  width: 100%;
+`;
+
+const StyledSmallDivider = styled(Divider)`
+  color: ${({ theme }) => theme.colors2025.eastBay};
+  margin: 0 auto;
+  width: 200px;
+
+  ${mQ(bp.desktop)} {
+    width: 416px;
+  }
+`;
+
+const bubbleUp = keyframes`
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-650px);
+  }
+`;
+
+const StyledRegisterButtonContainer = styled.div`
+  padding: 16px 0;
+  text-align: center;
+`;
+
+const StyledDividerOld = styled(Divider)`
   color: ${({ theme }) => theme.colors2025.eastBay};
   display: none;
   grid-column: full-start / full-end;
   width: 100%;
-
   ${mQ(bp.desktop)} {
     display: block;
   }
@@ -408,7 +445,6 @@ const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-
   ${mQ(bp.desktop)} {
     gap: 32px;
   }
@@ -419,7 +455,6 @@ const StyledEventGrid = styled.div`
   grid-template-columns: 1fr;
   gap: 32px;
   margin-top: 32px;
-
   ${mQ(bp.desktop)} {
     grid-template-columns: repeat(2, 1fr);
     margin-top: 56px;
@@ -429,7 +464,6 @@ const StyledEventGrid = styled.div`
 const StyledEventCTA = styled.div`
   display: flex;
   margin-top: 32px;
-
   ${mQ(bp.desktop)} {
     justify-content: center;
     margin-top: 56px;
@@ -440,7 +474,6 @@ const StyledSpotlightContent = styled.span`
   display: flex;
   flex-direction: column;
   gap: 16px;
-
   p {
     margin: 0;
   }
@@ -459,7 +492,6 @@ const StyledRelativeSection = styled(Section)`
 const StyledFullSection = styled(Section)`
   overflow: hidden;
   position: relative;
-
   ${mQ(bp.desktop)} {
     grid-column: full;
   }
@@ -471,7 +503,6 @@ const StyledContainer = styled(Container)`
 
 const StyledPreptemberGlobeImage = styled(Image)`
   display: none;
-
   ${mQ(bp.desktop)} {
     display: block;
     left: ${({ $isVisible }) => ($isVisible ? '-25%' : '-100%')};
@@ -487,7 +518,6 @@ const StyledPreptemberGlobeImage = styled(Image)`
 
 const StyledSponsorsGlobeImage = styled(Image)`
   display: none;
-
   ${mQ(bp.desktop)} {
     display: block;
     opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
@@ -508,7 +538,6 @@ const StyledSectionTitle = styled.div`
 
 const StyledOpenSourceIcon = styled(Image)`
   display: none;
-
   ${mQ(bp.desktop)} {
     animation-name: ${({ $isVisible }) => $isVisible && bubbleUp};
     animation-duration: 2s;
@@ -518,22 +547,18 @@ const StyledOpenSourceIcon = styled(Image)`
     opacity: 0;
     position: absolute;
     top: 105%;
-
     &:nth-of-type(1) {
       animation-delay: 0.1s;
       left: 10%;
     }
-
     &:nth-of-type(2) {
       animation-delay: 0.7s;
       left: 20%;
     }
-
     &:nth-of-type(3) {
       animation-delay: 0.3s;
       left: 60%;
     }
-
     &:nth-of-type(4) {
       animation-delay: 0.5s;
       left: 70%;
@@ -543,17 +568,13 @@ const StyledOpenSourceIcon = styled(Image)`
 
 const StyledCornersContainer = styled.div`
   display: none;
-
   ${mQ(bp.desktop)} {
     display: block;
   }
 `;
 
 const Home = () => {
-  const hasRegistrationStarted = useMemo(
-    () => new Date() >= new Date(registrationStart),
-    [],
-  );
+  const hasEventEnded = useMemo(() => new Date() >= new Date(eventEndDate), []);
 
   const preptemberRef = useRef(null);
   const [isPreptemberVisible, setIsPreptemberVisible] = useState(false);
@@ -629,350 +650,527 @@ const Home = () => {
   return (
     <StyledHome>
       <Layout>
-        <StyledHero>
-          <StyledHeroImage />
-          <Container inner>
-            <StyledHeroContent>
-              {hasRegistrationStarted && (
-                <Image src={heroAnimation} alt="" width={186} height={93} />
-              )}
-              <ContentMaster
-                align="center"
-                title="A month-long celebration of all things open source"
-                titleTag="h1"
-                size="xl2"
-              >
-                {hasRegistrationStarted
-                  ? 'Now’s the time; now’s the hour—Hacktoberfest 2025 is open! \n\nRegister and start preparing your pull/merge requests to begin contribution to open source!'
-                  : 'It’s that time of year again. Hacktoberfest is nearly upon us! \n\nPrepare your projects, brace yourself for action—registration opens September 15, 2025.'}
-              </ContentMaster>
+        {hasEventEnded ? (
+          <>
+            <StyledHero>
+              <StyledHeroImage />
+              <Container inner>
+                <StyledHeroContent>
+                  <Image src={heroAnimation} alt="" width={186} height={93} />
+                  <ContentMaster
+                    align="center"
+                    title="Hacktoberfest 2025 has now ended"
+                    titleTag="h1"
+                    size="xl2"
+                  >
+                    {
+                      'Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. Hacktoberfest #12 has officially ended. \n\n&nbsp;\n\nBut don’t let that stop you from contributing to open source all year long. We look forward to seeing you next year! Be sure to [sign up for updates](https://www.meetup.com/pro/digitalocean/) to get the latest announcements about future Hacktoberfest events.'
+                    }
+                  </ContentMaster>
 
-              {hasRegistrationStarted ? (
-                <StyledRegisterButtonContainer>
-                  <ButtonMain href="/register" passHref variant="primary">
-                    REGISTER FOR HACKTOBERFEST
-                  </ButtonMain>
-                </StyledRegisterButtonContainer>
-              ) : (
-                <Countdown />
-              )}
+                  <StyledPoweredBy>
+                    <Image src={iconPlay} alt="" width={12} height={12} />
+                    Powered by
+                    <StyledPoweredByLogo
+                      src={logoDigitalOcean}
+                      alt="DigitalOcean"
+                      width={161}
+                      height={29}
+                    />
+                    and
+                    <StyledPoweredByLogo
+                      src={mlh}
+                      alt="MLH"
+                      width={44}
+                      height={19}
+                    />
+                  </StyledPoweredBy>
+                </StyledHeroContent>
+              </Container>
+            </StyledHero>
 
-              <StyledPoweredBy>
-                <Image src={iconPlay} alt="" width={12} height={12} />
-                Powered by
-                <StyledPoweredByLogo
-                  src={logoDigitalOcean}
-                  alt="DigitalOcean"
-                  width={161}
-                  height={29}
-                />
-                and
-                <StyledPoweredByLogo
-                  src={mlh}
-                  alt="MLH"
-                  width={44}
-                  height={19}
-                />
-              </StyledPoweredBy>
-            </StyledHeroContent>
-          </Container>
-        </StyledHero>
+            <Section isFullWidth size="md">
+              {/*  This svg is used to create a shadow effect on the text. */}
+              <svg width="0" height="0" style={{ position: 'absolute' }}>
+                <defs>
+                  <filter
+                    id="outerShadow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                  >
+                    <feGaussianBlur
+                      in="SourceAlpha"
+                      stdDeviation="5"
+                      result="blur"
+                    />
+                    <feOffset in="blur" dx="0" dy="0" result="offsetBlur" />
+                    <feComposite
+                      in="offsetBlur"
+                      in2="SourceAlpha"
+                      operator="out"
+                      result="shadowOuter"
+                    />
+                    <feColorMatrix
+                      in="shadowOuter"
+                      type="matrix"
+                      values="0 0 0 0 0.7607
+              0 0 0 0 0.7607
+              0 0 0 0 1
+              0 0 0 0.15 0"
+                      result="shadow"
+                    />
+                    <feMerge>
+                      <feMergeNode in="shadow" />
+                    </feMerge>
+                  </filter>
+                </defs>
+              </svg>
+              <Marquee
+                text1={'Thank you'}
+                text2={'See you next year'}
+                direction="forwards"
+              />
+              <Marquee
+                text1={'Thank you'}
+                text2={'See you next year'}
+                direction="reverse"
+              />
+            </Section>
 
-        <Section isFullWidth size="md">
-          {/*  This svg is used to create a shadow effect on the text. */}
-          <svg width="0" height="0" style={{ position: 'absolute' }}>
-            <defs>
-              <filter
-                id="outerShadow"
-                x="-50%"
-                y="-50%"
-                width="200%"
-                height="200%"
-              >
-                <feGaussianBlur
-                  in="SourceAlpha"
-                  stdDeviation="5"
-                  result="blur"
-                />
-                <feOffset in="blur" dx="0" dy="0" result="offsetBlur" />
-                <feComposite
-                  in="offsetBlur"
-                  in2="SourceAlpha"
-                  operator="out"
-                  result="shadowOuter"
-                />
-                <feColorMatrix
-                  in="shadowOuter"
-                  type="matrix"
-                  values="0 0 0 0 0.7607
+            <StyledDivider />
+
+            <Section>
+              <Container>
+                <StyledCardCallout>
+                  <StyledImage src={bubble} alt="" />
+                  <ContentMaster
+                    align="center"
+                    title="Stay Connected"
+                    size="lg"
+                    titleAs="h3"
+                    links={[
+                      {
+                        href: 'https://discord.com/invite/digitalocean',
+                        target: '_blank',
+                        children: 'Join the discord',
+                      },
+                    ]}
+                  >
+                    Keep your connection to open source strong! Join other
+                    members of the open-source community in lively discussion on
+                    the Hacktoberfest Discord.
+                  </ContentMaster>
+                </StyledCardCallout>
+              </Container>
+            </Section>
+
+            <StyledDivider />
+
+            <Section>
+              <Container inner>
+                <StyledSponsorSections>
+                  <ContentMaster
+                    align="center"
+                    mobileAlign="center"
+                    title="Thank you to all our Sponsors and Community Partners"
+                    size="lg"
+                    titleTag="h3"
+                  >
+                    A special thank you to the great folks at DigitalOcean, MLH,
+                    Auth0 and AMD for their sponsorship of Hacktoberfest. Thank
+                    you to ALL our Sponsors and Community Partners, we ❤️ you!
+                  </ContentMaster>
+
+                  <StyledSmallDivider type="solid" />
+
+                  <StyledSponsorSection>
+                    <ContentMaster
+                      align="center"
+                      title="Sponsors"
+                      size="lg"
+                      titleAs="h3"
+                    />
+                    <StyledSponsorLogos>
+                      <StyledLogoContainer>
+                        <Image src={auth0} alt="Auth0" />
+                      </StyledLogoContainer>
+                      <StyledLogoContainer>
+                        <Image src={amd} alt="AMD" />
+                      </StyledLogoContainer>
+                    </StyledSponsorLogos>
+                  </StyledSponsorSection>
+                  <StyledSponsorSection>
+                    <ContentMaster
+                      align="center"
+                      title="Community Partners"
+                      size="lg"
+                      titleAs="h3"
+                    />
+                    <StyledPartnerContainer>
+                      <StyledPartnerLogos>
+                        <Image src={github} alt="Github" />
+                        <Image src={githubEducation} alt="Github Education" />
+                        <Image src={gitlab} alt="GitLab" />
+                      </StyledPartnerLogos>
+                      <StyledPartnerLogos>
+                        <Image
+                          src={cloudNative}
+                          alt="Cloud Native Computing Foundation"
+                        />
+                        <Image src={opensource} alt="Open Source Initiative" />
+                        <Image src={dev} alt="DEV" />
+                        <Image src={holopin} alt="Holopin" />
+                      </StyledPartnerLogos>
+                    </StyledPartnerContainer>
+                  </StyledSponsorSection>
+                </StyledSponsorSections>
+              </Container>
+            </Section>
+          </>
+        ) : (
+          <>
+            <StyledHero>
+              <StyledHeroImage />
+              <Container inner>
+                <StyledHeroContent>
+                  <Image src={heroAnimation} alt="" width={186} height={93} />
+                  <ContentMaster
+                    align="center"
+                    title="A month-long celebration of all things open source"
+                    titleTag="h1"
+                    size="xl2"
+                  >
+                    {
+                      'Now’s the time; now’s the hour—Hacktoberfest 2025 is open! \n\nRegister and start preparing your pull/merge requests to begin contribution to open source!'
+                    }
+                  </ContentMaster>
+
+                  <StyledRegisterButtonContainer>
+                    <ButtonMain href="/register" passHref variant="primary">
+                      REGISTER FOR HACKTOBERFEST
+                    </ButtonMain>
+                  </StyledRegisterButtonContainer>
+
+                  <StyledPoweredBy>
+                    <Image src={iconPlay} alt="" width={12} height={12} />
+                    Powered by
+                    <StyledPoweredByLogo
+                      src={logoDigitalOcean}
+                      alt="DigitalOcean"
+                      width={161}
+                      height={29}
+                    />
+                    and
+                    <StyledPoweredByLogo
+                      src={mlh}
+                      alt="MLH"
+                      width={44}
+                      height={19}
+                    />
+                  </StyledPoweredBy>
+                </StyledHeroContent>
+              </Container>
+            </StyledHero>
+
+            <Section isFullWidth size="md">
+              {/*  This svg is used to create a shadow effect on the text. */}
+              <svg width="0" height="0" style={{ position: 'absolute' }}>
+                <defs>
+                  <filter
+                    id="outerShadow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                  >
+                    <feGaussianBlur
+                      in="SourceAlpha"
+                      stdDeviation="5"
+                      result="blur"
+                    />
+                    <feOffset in="blur" dx="0" dy="0" result="offsetBlur" />
+                    <feComposite
+                      in="offsetBlur"
+                      in2="SourceAlpha"
+                      operator="out"
+                      result="shadowOuter"
+                    />
+                    <feColorMatrix
+                      in="shadowOuter"
+                      type="matrix"
+                      values="0 0 0 0 0.7607
                 0 0 0 0 0.7607
                 0 0 0 0 1
                 0 0 0 0.15 0"
-                  result="shadow"
-                />
-                <feMerge>
-                  <feMergeNode in="shadow" />
-                </feMerge>
-              </filter>
-            </defs>
-          </svg>
-          <Marquee
-            text1={'Hacktoberfest 2025'}
-            text2={'Hacktoberfest 2025'}
-            direction="forwards"
-          />
-          <Marquee
-            text1={'Get ready to ship'}
-            text2={'Support Open Source'}
-            direction="reverse"
-          />
-        </Section>
-
-        <Section>
-          <Container>
-            <StyledSponsorSections>
-              <StyledSponsorSection>
-                <ContentMaster
-                  align="center"
-                  title="Sponsors"
-                  size="lg"
-                  titleAs="h3"
-                />
-                <StyledSponsorLogos>
-                  <StyledLogoContainer>
-                    <Image src={auth0} alt="Auth0" />
-                  </StyledLogoContainer>
-                  <StyledLogoContainer>
-                    <Image src={amd} alt="AMD" />
-                  </StyledLogoContainer>
-                </StyledSponsorLogos>
-              </StyledSponsorSection>
-              <StyledSponsorSection>
-                <ContentMaster
-                  align="center"
-                  title="Community Partners"
-                  size="lg"
-                  titleAs="h3"
-                />
-                <StyledPartnerContainer>
-                  <StyledPartnerLogos>
-                    <Image src={github} alt="Github" />
-                    <Image src={githubEducation} alt="Github Education" />
-                    <Image src={gitlab} alt="GitLab" />
-                  </StyledPartnerLogos>
-                  <StyledPartnerLogos>
-                    <Image
-                      src={cloudNative}
-                      alt="Cloud Native Computing Foundation"
+                      result="shadow"
                     />
-                    <Image src={opensource} alt="Open Source Initiative" />
-                    <Image src={dev} alt="DEV" />
-                    <Image src={holopin} alt="Holopin" />
-                  </StyledPartnerLogos>
-                </StyledPartnerContainer>
-              </StyledSponsorSection>
-            </StyledSponsorSections>
-          </Container>
-        </Section>
-        <StyledDivider />
-
-        <StyledRelativeSection ref={preptemberRef}>
-          <Container>
-            <StyledPreptemberGlobeImage
-              src={globe}
-              alt=""
-              width="429"
-              height="208"
-              $isVisible={isPreptemberVisible}
-            />
-            <SideBySide title="Preptember">
-              <StyledGrid>
-                <CardCallout
-                  body={`September is prep time for Hacktoberfest. Spend September getting a jump start on your ${prCount} pull/merge requests by tracking down projects to contribute to, adding the ‘hacktoberfest’ tag to your own projects, or familiarizing yourself with Git so you can hit the ground running when Hacktoberfest begins on October 1.`}
-                  link={{
-                    children: 'HOW TO PARTICIPATE',
-                    href: '/participation',
-                  }}
-                />
-                <CardCallout
-                  body="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."
-                  link={{
-                    children: 'JOIN THE DISCORD',
-                    target: '_blank',
-                    href: 'https://discord.com/invite/hacktoberfest',
-                  }}
-                />
-              </StyledGrid>
-            </SideBySide>
-          </Container>
-        </StyledRelativeSection>
-
-        <StyledRelativeSection ref={sponsorsRef}>
-          <Container inner>
-            <StyledSponsorsGlobeImage
-              src={globe}
-              alt=""
-              width="351"
-              height="170"
-              $isVisible={isSponsorsVisible}
-            />
-            <StyledSectionTitle>
-              <ContentMaster
-                title="Sponsors and awards for 2025"
-                size="lg"
-                align="center"
+                    <feMerge>
+                      <feMergeNode in="shadow" />
+                    </feMerge>
+                  </filter>
+                </defs>
+              </svg>
+              <Marquee
+                text1={'Hacktoberfest 2025'}
+                text2={'Hacktoberfest 2025'}
+                direction="forwards"
               />
-              <ContentMaster
-                size="xl2"
-                align="center"
-                cta={{
-                  children: 'LEARN MORE',
-                  href: '/about#sponsors',
-                }}
-              >
-                {
-                  'This year, Hacktoberfest is sponsored by DigitalOcean and MLH. We thank them for their ongoing support of open source ❤️ \n\nWhen DigitalOcean started Hacktoberfest in 2014, 676 participants showed up to contribute. In 2024, nearly 90,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year as well, you’ll get an evolving digital badge for participating.'
-                }
-              </ContentMaster>
-            </StyledSectionTitle>
-          </Container>
-        </StyledRelativeSection>
+              <Marquee
+                text1={'Get ready to ship'}
+                text2={'Support Open Source'}
+                direction="reverse"
+              />
+            </Section>
 
-        <StyledDivider />
+            <Section>
+              <Container>
+                <StyledSponsorSections>
+                  <StyledSponsorSection>
+                    <ContentMaster
+                      align="center"
+                      title="Sponsors"
+                      size="lg"
+                      titleAs="h3"
+                    />
+                    <StyledSponsorLogos>
+                      <StyledLogoContainer>
+                        <Image src={auth0} alt="Auth0" />
+                      </StyledLogoContainer>
+                      <StyledLogoContainer>
+                        <Image src={amd} alt="AMD" />
+                      </StyledLogoContainer>
+                    </StyledSponsorLogos>
+                  </StyledSponsorSection>
+                  <StyledSponsorSection>
+                    <ContentMaster
+                      align="center"
+                      title="Community Partners"
+                      size="lg"
+                      titleAs="h3"
+                    />
+                    <StyledPartnerContainer>
+                      <StyledPartnerLogos>
+                        <Image src={github} alt="Github" />
+                        <Image src={githubEducation} alt="Github Education" />
+                        <Image src={gitlab} alt="GitLab" />
+                      </StyledPartnerLogos>
+                      <StyledPartnerLogos>
+                        <Image
+                          src={cloudNative}
+                          alt="Cloud Native Computing Foundation"
+                        />
+                        <Image src={opensource} alt="Open Source Initiative" />
+                        <Image src={dev} alt="DEV" />
+                        <Image src={holopin} alt="Holopin" />
+                      </StyledPartnerLogos>
+                    </StyledPartnerContainer>
+                  </StyledSponsorSection>
+                </StyledSponsorSections>
+              </Container>
+            </Section>
+            <StyledDividerOld />
 
-        <Section>
-          <Container>
-            <Container inner>
-              <StyledSectionTitle>
-                <ContentMaster
-                  title="Event spotlight"
-                  size="lg"
-                  align="center"
+            <StyledRelativeSection ref={preptemberRef}>
+              <Container>
+                <StyledPreptemberGlobeImage
+                  src={globe}
+                  alt=""
+                  width="429"
+                  height="208"
+                  $isVisible={isPreptemberVisible}
                 />
-                <ContentMaster size="xl2" align="center">
-                  {
-                    'Events that bring the community together to learn and explore are a cornerstone of Hacktoberfest. Save these dates and come connect with other lovers of open source!'
-                  }
-                </ContentMaster>
-              </StyledSectionTitle>
-            </Container>
-            <StyledEventGrid>
-              {events
-                .slice(0, 4)
-                .map(
-                  ({
-                    title,
-                    content,
-                    date,
-                    time,
-                    location,
-                    rsvp,
-                    details,
-                    link,
-                    completed,
-                  }) => (
+                <SideBySide title="Preptember">
+                  <StyledGrid>
                     <CardCallout
-                      key={title}
-                      title={title}
-                      link={rsvp}
-                      body={
-                        <StyledSpotlightContent>
-                          <span>
-                            <MarkdownInline string={content} />
-                          </span>
-                          <StyledSpotlightList>
-                            {details && <span>Details: {details}</span>}
-                            {date && <span>Date: {date}</span>}
-                            {time && <span>Time: {time}</span>}
-                            {location && <span>Location: {location}</span>}
-                            {link && link !== 'TBA' && (
-                              <span>
-                                Link to register:{' '}
-                                <a
-                                  href={link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  Link
-                                </a>
-                              </span>
-                            )}
-                            {completed && <span>Event over</span>}
-                          </StyledSpotlightList>
-                        </StyledSpotlightContent>
-                      }
+                      body={`September is prep time for Hacktoberfest. Spend September getting a jump start on your ${prCount} pull/merge requests by tracking down projects to contribute to, adding the ‘hacktoberfest’ tag to your own projects, or familiarizing yourself with Git so you can hit the ground running when Hacktoberfest begins on October 1.`}
+                      link={{
+                        children: 'HOW TO PARTICIPATE',
+                        href: '/participation',
+                      }}
                     />
-                  ),
-                )}
-            </StyledEventGrid>
-            <StyledEventCTA>
-              <ButtonMain as="a" href="/events">
-                See more
-              </ButtonMain>
-            </StyledEventCTA>
-          </Container>
-        </Section>
+                    <CardCallout
+                      body="Keep your connection to open source strong! Join other members of the open-source community in lively discussion on the Hacktoberfest Discord."
+                      link={{
+                        children: 'JOIN THE DISCORD',
+                        target: '_blank',
+                        href: 'https://discord.com/invite/hacktoberfest',
+                      }}
+                    />
+                  </StyledGrid>
+                </SideBySide>
+              </Container>
+            </StyledRelativeSection>
 
-        <StyledDivider />
+            <StyledRelativeSection ref={sponsorsRef}>
+              <Container inner>
+                <StyledSponsorsGlobeImage
+                  src={globe}
+                  alt=""
+                  width="351"
+                  height="170"
+                  $isVisible={isSponsorsVisible}
+                />
+                <StyledSectionTitle>
+                  <ContentMaster
+                    title="Sponsors and awards for 2025"
+                    size="lg"
+                    align="center"
+                  />
+                  <ContentMaster
+                    size="xl2"
+                    align="center"
+                    cta={{
+                      children: 'LEARN MORE',
+                      href: '/about#sponsors',
+                    }}
+                  >
+                    {
+                      'This year, Hacktoberfest is sponsored by DigitalOcean and MLH. We thank them for their ongoing support of open source ❤️ \n\nWhen DigitalOcean started Hacktoberfest in 2014, 676 participants showed up to contribute. In 2024, nearly 90,000 people participated. To help ensure we can keep the Hacktoberfest party going for another decade, this year as well, you’ll get an evolving digital badge for participating.'
+                    }
+                  </ContentMaster>
+                </StyledSectionTitle>
+              </Container>
+            </StyledRelativeSection>
 
-        <StyledFullSection ref={openSourceIconsRef}>
-          <StyledContainer inner>
-            <StyledSectionTitle>
-              <ContentMaster
-                title="Support Open Source"
-                size="lg"
-                align="center"
+            <StyledDividerOld />
+
+            <Section>
+              <Container>
+                <Container inner>
+                  <StyledSectionTitle>
+                    <ContentMaster
+                      title="Event spotlight"
+                      size="lg"
+                      align="center"
+                    />
+                    <ContentMaster size="xl2" align="center">
+                      {
+                        'Events that bring the community together to learn and explore are a cornerstone of Hacktoberfest. Save these dates and come connect with other lovers of open source!'
+                      }
+                    </ContentMaster>
+                  </StyledSectionTitle>
+                </Container>
+                <StyledEventGrid>
+                  {events
+                    .slice(0, 4)
+                    .map(
+                      ({
+                        title,
+                        content,
+                        date,
+                        time,
+                        location,
+                        rsvp,
+                        details,
+                        link,
+                        completed,
+                      }) => (
+                        <CardCallout
+                          key={title}
+                          title={title}
+                          link={rsvp}
+                          body={
+                            <StyledSpotlightContent>
+                              <span>
+                                <MarkdownInline string={content} />
+                              </span>
+                              <StyledSpotlightList>
+                                {details && <span>Details: {details}</span>}
+                                {date && <span>Date: {date}</span>}
+                                {time && <span>Time: {time}</span>}
+                                {location && <span>Location: {location}</span>}
+                                {link && link !== 'TBA' && (
+                                  <span>
+                                    Link to register:{' '}
+                                    <a
+                                      href={link}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Link
+                                    </a>
+                                  </span>
+                                )}
+                                {completed && <span>Event over</span>}
+                              </StyledSpotlightList>
+                            </StyledSpotlightContent>
+                          }
+                        />
+                      ),
+                    )}
+                </StyledEventGrid>
+                <StyledEventCTA>
+                  <ButtonMain as="a" href="/events">
+                    See more
+                  </ButtonMain>
+                </StyledEventCTA>
+              </Container>
+            </Section>
+
+            <StyledDividerOld />
+
+            <StyledFullSection ref={openSourceIconsRef}>
+              <StyledContainer inner>
+                <StyledSectionTitle>
+                  <ContentMaster
+                    title="Support Open Source"
+                    size="lg"
+                    align="center"
+                  />
+                  <ContentMaster
+                    size="xl2"
+                    align="center"
+                    cta={{
+                      children: 'DONATE TO OPEN SOURCE PROJECTS',
+                      href: '/donate',
+                    }}
+                  >
+                    {
+                      'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost. [Learn more and apply now](https://www.digitalocean.com/open-source/credits-for-projects).\n\nYou have skills that can help keep these projects continue running—let’s get to it.'
+                    }
+                  </ContentMaster>
+                </StyledSectionTitle>
+
+                <StyledCornersContainer>
+                  <Corners />
+                </StyledCornersContainer>
+              </StyledContainer>
+
+              <StyledOpenSourceIcon
+                src={opensourceIcon}
+                alt=""
+                width={144}
+                height={131}
+                $isVisible={iconsVisible}
               />
-              <ContentMaster
-                size="xl2"
-                align="center"
-                cta={{
-                  children: 'DONATE TO OPEN SOURCE PROJECTS',
-                  href: '/donate',
-                }}
-              >
-                {
-                  'Open-source projects, maintained by community-minded coders, make the modern internet function. Supporting that essential work, and the folks behind it, is what Hacktoberfest is all about.\n\nDigitalOcean is proud to support open-source projects of all kinds. We offer credit grants to projects, assist with development, infrastructure, and testing, so open-source projects like yours can get a boost. [Learn more and apply now](https://www.digitalocean.com/open-source/credits-for-projects).\n\nYou have skills that can help keep these projects continue running—let’s get to it.'
-                }
-              </ContentMaster>
-            </StyledSectionTitle>
+              <StyledOpenSourceIcon
+                src={opensourceIcon}
+                alt=""
+                width={144}
+                height={131}
+                $isVisible={iconsVisible}
+              />
+              <StyledOpenSourceIcon
+                src={opensourceIcon}
+                alt=""
+                width={144}
+                height={131}
+                $isVisible={iconsVisible}
+              />
+              <StyledOpenSourceIcon
+                src={opensourceIcon}
+                alt=""
+                width={144}
+                height={131}
+                $isVisible={iconsVisible}
+              />
+            </StyledFullSection>
 
-            <StyledCornersContainer>
-              <Corners />
-            </StyledCornersContainer>
-          </StyledContainer>
-
-          <StyledOpenSourceIcon
-            src={opensourceIcon}
-            alt=""
-            width={144}
-            height={131}
-            $isVisible={iconsVisible}
-          />
-          <StyledOpenSourceIcon
-            src={opensourceIcon}
-            alt=""
-            width={144}
-            height={131}
-            $isVisible={iconsVisible}
-          />
-          <StyledOpenSourceIcon
-            src={opensourceIcon}
-            alt=""
-            width={144}
-            height={131}
-            $isVisible={iconsVisible}
-          />
-          <StyledOpenSourceIcon
-            src={opensourceIcon}
-            alt=""
-            width={144}
-            height={131}
-            $isVisible={iconsVisible}
-          />
-        </StyledFullSection>
-
-        <StyledDivider />
+            <StyledDividerOld />
+          </>
+        )}
       </Layout>
     </StyledHome>
   );
