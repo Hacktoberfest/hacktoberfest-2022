@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import {
   StyledAccordion,
   StyledAccordionImage,
@@ -30,6 +30,37 @@ const AccordionCouncil = (props) => {
   const [open, setOpen] = useState(!collapsed);
   useEffect(() => setOpen(!collapsed), [collapsed]);
   const toggle = useCallback((evt) => setOpen(evt.target.open), []);
+
+  // iframe handling: default height, allow postMessage-based resizing if the
+  // embed provider supports it, and expose a fallback "open in new tab" link.
+  const iframeRef = useRef(null);
+  const [iframeHeight, setIframeHeight] = useState(920);
+  useEffect(() => {
+    const onMessage = (e) => {
+      if (!iframeRef.current) return;
+      try {
+        // Restrict messages to the same origin as the iframe src when possible.
+        if (iframe) {
+          const srcOrigin = new URL(iframe).origin;
+          if (e.origin !== srcOrigin) return;
+        }
+
+        const data = e.data;
+        // Accept common message shapes: number, or { height: number }
+        if (typeof data === 'number') {
+          if (data > 0) setIframeHeight(data);
+        } else if (data && typeof data === 'object') {
+          const h = data.height || data.iframeHeight || data.h;
+          if (typeof h === 'number' && h > 0) setIframeHeight(h);
+        }
+      } catch (err) {
+        // ignore malformed messages
+      }
+    };
+
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, [iframe]);
 
   return (
     <StyledAccordion $isFilled={filled} open={open} onToggle={toggle}>
@@ -98,14 +129,24 @@ const AccordionCouncil = (props) => {
         )}
 
         {iframe && (
-          <iframe
-            src={iframe}
-            style={{ backgroundColor: '#fff' }}
-            width="100%"
-            height="920"
-            frameBorder="0"
-            scrolling="no"
-          />
+          <div>
+            <iframe
+              ref={iframeRef}
+              src={iframe}
+              style={{ backgroundColor: '#fff' }}
+              width="100%"
+              height={iframeHeight}
+              frameBorder="0"
+              scrolling="yes"
+              title={`${title} embed`}
+            />
+
+            <div style={{ marginTop: 8 }}>
+              <a href={iframe} target="_blank" rel="noreferrer noopener">
+                Open embed in new tab
+              </a>
+            </div>
+          </div>
         )}
       </div>
     </StyledAccordion>
