@@ -152,10 +152,6 @@ export const resources = {
             '[General] Explore Hacktoberfest projects on hacktoberfest-projects.vercel.app',
           link: 'https://hacktoberfest-projects.vercel.app',
         },
-        {
-          content: '[General] Explore Hacktoberfest projects on ContribHub.com',
-          link: 'https://contribhub.com',
-        },
       ],
     },
     {
