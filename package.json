@@ -29,20 +29,20 @@
   "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
-    "country-list": "^2.3.0",
-    "html-react-parser": "^5.2.5",
+    "country-list": "^2.4.1",
+    "html-react-parser": "^5.2.10",
     "knuth-shuffle": "^1.0.8",
     "markdown-it": "^14.1.0",
-    "next": "^15.3.6",
-    "react": "^19.1.2",
-    "react-dom": "^19.1.2",
-    "sitemap": "^8.0.0",
-    "styled-components": "^6.1.18"
+    "next": "^16.0.8",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "sitemap": "^9.0.0",
+    "styled-components": "^6.1.19"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.0.0",
-    "prettier": "^3.5.3",
-    "webpack": "^5.99.8"
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
+    "webpack": "^5.103.0"
   }
 }
