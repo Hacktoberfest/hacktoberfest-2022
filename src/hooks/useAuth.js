@@ -14,7 +14,9 @@ const useAuth = (redirect = true) => {
   );
 
   // Track key data about the user and their registration
-  const [token, setToken] = useState(null);
+  // NOTE: token is now stored as an httpOnly cookie by the server and is not readable from JS.
+  // We keep a `token` value (null) for backwards compatibility with components that reference it.
+  const token = null;
   const [user, setUser] = useState(null);
   const [registration, setRegistration] = useState(null);
 
@@ -57,14 +59,12 @@ const useAuth = (redirect = true) => {
 
   // Track what we've loaded via the effect chain
   const [loaded, setLoaded] = useState({
-    token: false,
     user: false,
     registration: false,
   });
 
   // Once we've loaded everything, decide what to do
   useEffect(() => {
-    if (!loaded.token) return;
     if (!loaded.user) return;
     if (!loaded.registration) return;
 
@@ -77,8 +77,8 @@ const useAuth = (redirect = true) => {
       return;
     }
 
-    // If we don't have a token or a user, we need to go to auth
-    if (!token || !user) {
+    // If we don't have a user, we need to go to auth
+    if (!user) {
       setState('auth');
       return;
     }
@@ -91,61 +91,18 @@ const useAuth = (redirect = true) => {
 
     // Otherwise, we're good to go to profile
     setState('profile');
-  }, [loaded, state, token, user, registration]);
+  }, [loaded, state, user, registration]);
 
   /**
    * Logic to handle updating our token based on router changes
    */
 
-  // Gwt our token from the URL, or from local storage
-  const getToken = useCallback(() => {
-    // If JWT in query params, use it and remove it
-    const url = new URL(window.location.origin + router.asPath);
-    if (url.searchParams.has('token')) {
-      const param = url.searchParams.get('token');
-      url.searchParams.delete('token');
-      url.searchParams.delete('expiration');
-      router.replace(url.toString()).then();
-      return param;
-    }
-
-    // If token in local storage, use it
-    const storage = localStorage.getItem('token');
-    if (storage) return storage;
-
-    // No token
-    return null;
-  }, [router?.asPath, router?.replace]);
-
-  // Allow the token to be reset, which will cascade to the rest of the state
+  // Allow the auth state to be reset (client-side); server can clear the cookie via a separate endpoint
   const reset = useCallback(() => {
     setState('loading');
-    setToken(null);
+    setUser(null);
+    setRegistration(null);
   }, []);
-
-  // Whenever the router changes, check for a JWT
-  useEffect(() => {
-    // Load the token from the URL or local storage (if active)
-    if (active) {
-      setToken(getToken());
-    } else {
-      setToken(null);
-    }
-
-    // Track that we've attempted to load the token
-    setLoaded((prev) => ({ ...prev, token: true }));
-    console.log('useAuth: token loaded');
-  }, [getToken]);
-
-  // Whenever the token changes, store it
-  useEffect(() => {
-    if (token) localStorage.setItem('token', token);
-    if (!token && loaded.token) localStorage.removeItem('token');
-  }, [token, loaded.token]);
-
-  /**
-   * Logic to handle updating our user based on token changes
-   */
 
   // Fetch the user from the API, identified by their token
   const getUser = useCallback(
@@ -154,12 +111,12 @@ const useAuth = (redirect = true) => {
         setState('loading');
         setLoaded((prev) => ({ ...prev, user: false }));
       }
-      console.log('useAuth: user loading', token);
+      console.log('useAuth: user loading');
 
-      // Fetch the user from /users/@me
+      // Fetch the user from /users/@me (server will identify the user via cookie)
       setUser(
-        await fetchUser('@me', token).catch((e) => {
-          // If we get a 401, the token is invalid
+        await fetchUser('@me').catch((e) => {
+          // If we get a 401, the session is not valid
           if (e.status === 401) {
             reset();
             return;
@@ -170,26 +127,32 @@ const useAuth = (redirect = true) => {
       );
       setLoaded((prev) => ({ ...prev, user: true }));
     },
-    [token, reset],
+    [reset],
   );
 
-  // When the token changes, fetch the user
+  // Whenever the router changes or on mount, attempt to load the user relying on the server-set httpOnly cookie.
   useEffect(() => {
     (async () => {
-      // Wait until we've loaded the token
-      if (!loaded.token) return;
-
-      // Only fetch the user if we have a token
-      if (token) {
-        await getUser();
-      } else {
+      // If auth flow isn't active, clear values
+      if (!active) {
         setUser(null);
         setLoaded((prev) => ({ ...prev, user: true }));
+        return;
       }
 
-      console.log('useAuth: user loaded');
+      // Clean up token params from URL if present (server should have set the cookie already on redirect)
+      const url = new URL(window.location.origin + router.asPath);
+      if (url.searchParams.has('token')) {
+        url.searchParams.delete('token');
+        url.searchParams.delete('expiration');
+        router.replace(url.toString()).then();
+      }
+
+      // Attempt to fetch the current user (server will validate from httpOnly cookie)
+      await getUser();
+      console.log('useAuth: user loaded (initial)');
     })();
-  }, [loaded.token, getUser]);
+  }, [router.asPath, router.replace, active, getUser]);
 
   /**
    * Logic to handle updating our registration based on user changes
@@ -202,12 +165,12 @@ const useAuth = (redirect = true) => {
         setState('loading');
         setLoaded((prev) => ({ ...prev, registration: false }));
       }
-      console.log('useAuth: registration loading', user.id, token);
+      console.log('useAuth: registration loading', user?.id);
 
-      // Fetch the registration from /events/:id/registrations/:id
+      // Fetch the registration from /events/:id/registrations/:id (server uses cookie)
       setRegistration(
-        await fetchRegistration(user.id, token).catch((e) => {
-          // If we get a 401, the token is invalid
+        await fetchRegistration(user.id).catch((e) => {
+          // If we get a 401, the session is not valid
           if (e.status === 401) {
             reset();
             return null;
@@ -223,7 +186,7 @@ const useAuth = (redirect = true) => {
       );
       setLoaded((prev) => ({ ...prev, registration: true }));
     },
-    [token, user?.id, reset],
+    [user?.id, reset],
   );
 
   // When the user ID changes, fetch the registration
@@ -232,8 +195,7 @@ const useAuth = (redirect = true) => {
       // Wait until we've loaded the user
       if (!loaded.user) return;
 
-      // Only fetch the registration if we have a token and user
-      if (token && user) {
+      if (user) {
         await getRegistration();
       } else {
         setRegistration(null);
@@ -242,7 +204,7 @@ const useAuth = (redirect = true) => {
 
       console.log('useAuth: registration loaded');
     })();
-  }, [loaded.user, getRegistration]);
+  }, [loaded.user, getRegistration, user]);
 
   // Expose everything
   return {

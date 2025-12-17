@@ -23,8 +23,11 @@ const fetchEndpoint = async (
   ok = true,
   json = true,
 ) => {
+  // Ensure cookies (including httpOnly session cookie) are sent with every request
   const response = await fetch(`${API_BASE_URL()}${endpoint}`, {
+    credentials: 'include',
     ...options,
+    // If a token is explicitly provided, keep supporting the Authorization header
     ...(token
       ? {
           headers: {
