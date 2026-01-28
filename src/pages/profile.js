@@ -107,20 +107,18 @@ const Profile = () => {
         />
       </Head>
 
-      {auth.loading || !loaded ? (
-        <Section
-          bgColor={theme.colors.darkGreen}
-          color={theme.colors.typography}
-        >
-          <Container>
-            <Section>
+      <Layout>
+        {auth.loading || !loaded ? (
+          <Section
+            bgColor={theme.colors.darkGreen}
+            color={theme.colors.typography}
+          >
+            <Container>
               <Loader message=">> Loading /usr/lib/profile..." />
-            </Section>
-          </Container>
-        </Section>
-      ) : (
-        <>
-          <Layout>
+            </Container>
+          </Section>
+        ) : (
+          <>
             <Header
               avatar={avatar}
               name={auth.user.name}
@@ -168,11 +166,10 @@ const Profile = () => {
                 />
               </StyledButtonGroup>
             </Header>
-          </Layout>
-
-          {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
-        </>
-      )}
+            {edit ? <Settings auth={auth} isEdit /> : <Progress auth={auth} />}
+          </>
+        )}
+      </Layout>
     </>
   );
 };
