@@ -1,0 +1,19 @@
+public/2026.txt
+  s_6b625bf64c1a99::t_1c835acdf4d406 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "fa0ac2f13a11bfcdbabb248ab25c09f71365f8d9",
+  "prompts": {},
+  "sessions": {
+    "s_6b625bf64c1a99": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd843-85d2-7513-89d5-870a0e3b6a06",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}
