@@ -1,0 +1,60 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import { answerLinks, answerText, faq } from '../src/data/content.mjs';
+
+test('every FAQ item has a stable id, a question and a non-empty answer', () => {
+  assert.equal(faq.items.length, 5);
+
+  const ids = faq.items.map((item) => item.id);
+  assert.equal(new Set(ids).size, ids.length, 'ids must be unique');
+
+  faq.items.forEach((item) => {
+    assert.ok(item.question.length > 0, `${item.id} needs a question`);
+    assert.ok(item.answer.length > 0, `${item.id} needs an answer`);
+    item.answer.forEach((segment) =>
+      assert.ok(segment.text.length > 0, `${item.id} has an empty segment`),
+    );
+  });
+});
+
+test('answerText joins the prose without leaking URLs into it', () => {
+  const answer = [
+    { text: 'Read the ' },
+    { text: 'policy', href: 'https://example.com/policy' },
+    { text: ' first.' },
+  ];
+
+  assert.equal(answerText(answer), 'Read the policy first.');
+});
+
+test('answerLinks collects link destinations in order', () => {
+  const answer = [
+    { text: 'One ' },
+    { text: 'a', href: 'https://example.com/a' },
+    { text: ' and ' },
+    { text: 'b', href: 'https://example.com/b' },
+  ];
+
+  assert.deepEqual(answerLinks(answer), [
+    'https://example.com/a',
+    'https://example.com/b',
+  ]);
+});
+
+test('the two signup links point at popups, not raw URLs', () => {
+  const segments = faq.items.flatMap((item) => item.answer);
+  const formSegments = segments.filter((segment) => segment.form);
+
+  assert.deepEqual(
+    formSegments.map((segment) => segment.form),
+    ['faqHost', 'faqUpdates'],
+  );
+  // A Typeform URL in an href would render as an anchor and fail the
+  // no-outbound-anchor rule in test/typeform-pages.test.mjs.
+  segments
+    .filter((segment) => segment.href)
+    .forEach((segment) =>
+      assert.doesNotMatch(segment.href, /typeform\.com/i, segment.text),
+    );
+});

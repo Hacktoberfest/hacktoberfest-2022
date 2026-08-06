@@ -1,78 +1,88 @@
 import Head from 'next/head';
+import { createGlobalStyle } from 'styled-components';
 
-import { Theme } from 'components/theme';
-import Footer from 'components/Footer';
-import { useEffect } from 'react';
+import { colors, fonts } from 'styles/tokens';
 
-import GlobalStyle from 'themes/themes';
+const GlobalStyle = createGlobalStyle`
+  html {
+    scroll-behavior: smooth;
+    /* Sticky header height (incl. border): anchors land below it, and the
+       wordmark's #top link lands at true page top. */
+    scroll-padding-top: 74px;
+    background: ${colors.forestDeep};
 
-import { sammy } from 'lib/sammy';
+    @media (min-width: 768px) {
+      scroll-padding-top: 84px;
+    }
+  }
 
-import opengraph from 'assets/img/opengraph.png';
-import favicon from 'assets/img/favicon.svg';
-import Header from 'components/Header';
-import createMetaTitle from 'lib/createMetaTitle';
+  body {
+    position: relative;
+    margin: 0;
+    color: ${colors.ink};
+    background: ${colors.paper};
+    font-family: ${fonts.sans};
+    line-height: 1.55;
+    isolation: isolate;
+  }
 
-const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
+  body::after {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(24, 37, 34, 0.6) 0 0.45px, transparent 0.65px),
+      radial-gradient(circle, rgba(247, 247, 242, 0.6) 0 0.35px, transparent 0.55px);
+    background-position: 0 0, 4px 5px;
+    background-size: 7px 7px, 11px 11px;
+    content: '';
+    opacity: 0.075;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    color: ${colors.ink};
+    background: ${colors.pink};
+  }
+
+  :focus-visible {
+    outline: 3px solid ${colors.white};
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px ${colors.ink};
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+`;
 
 const App = ({ Component, pageProps }) => {
-  useEffect(() => {
-    console.log(`%c${sammy}`, "font-family:'JetBrains Mono', monospace;");
-  }, []);
-
   return (
     <>
       <Head>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-
-        <title>{createMetaTitle()}</title>
-        <meta
-          name="description"
-          key="description"
-          content="Hacktoberfest: a month-long celebration of open-source projects, their maintainers, and the entire community of contributors."
-        />
-        <link rel="icon" href={favicon.src} type="image/svg+xml" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@hacktoberfest" />
-        <meta
-          name="twitter:title"
-          key="twitterTitle"
-          content={createMetaTitle()}
-        />
-        <meta
-          name="twitter:description"
-          key="twitterDesc"
-          content="Hacktoberfest: a month-long celebration of open-source projects, their maintainers, and the entire community of contributors."
-        />
-        <meta name="twitter:image" content={`${BASE_URL}${opengraph.src}`} />
-
-        <meta property="og:url" content={BASE_URL} />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          key="opengraphTitle"
-          content={createMetaTitle()}
-        />
-        <meta
-          property="og:description"
-          key="opengraphDesc"
-          content="Hacktoberfest: a month-long celebration of open-source projects, their maintainers, and the entire community of contributors."
-        />
-        <meta property="og:image" content={`${BASE_URL}${opengraph.src}`} />
-
-        <noscript dangerouslySetInnerHTML={{ __html: `<!--\n${sammy}\n-->` }} />
+        <title>Hacktoberfest</title>
       </Head>
-      <Theme>
-        <GlobalStyle />
-        <Header />
 
-        <Component {...pageProps} />
+      <GlobalStyle />
 
-        <Footer />
-      </Theme>
+      <Component {...pageProps} />
+
+      <mlh-universal-footer theme="light"></mlh-universal-footer>
     </>
   );
 };

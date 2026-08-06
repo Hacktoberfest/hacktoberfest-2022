@@ -7,12 +7,15 @@
   },
   "scripts": {
     "dev": "next dev",
+    "start": "serve out -l ${PORT:-3000}",
     "build": "npm run build:custom && npm run build:next",
     "build:custom": "node src/build/index.mjs",
     "build:next": "next build",
     "postbuild": "node src/build/post/index.mjs",
     "format": "prettier --write --ignore-unknown .",
-    "test": "prettier --check --ignore-unknown .",
+    "test": "npm run test:unit && npm run test:integration && prettier --check --ignore-unknown .",
+    "test:unit": "node --test test/typeform-button.test.mjs test/typeform-config.test.mjs test/faq-content.test.mjs",
+    "test:integration": "npm run build && node --test test/typeform-pages.test.mjs test/llms-content.test.mjs",
     "prepare": "node .husky/install.mjs"
   },
   "repository": {
@@ -29,13 +32,14 @@
   "homepage": "https://github.com/Hacktoberfest/hacktoberfest-2022#readme",
   "license": "SEE LICENSE IN LICENSE.md",
   "dependencies": {
+    "@typeform/embed-react": "^5.0.0",
     "country-list": "^2.3.0",
     "html-react-parser": "^5.2.5",
-    "knuth-shuffle": "^1.0.8",
     "markdown-it": "^14.1.0",
     "next": "^15.3.9",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "serve": "^14.2.6",
     "sitemap": "^8.0.0",
     "styled-components": "^6.1.18"
   },

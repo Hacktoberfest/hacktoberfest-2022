@@ -34,19 +34,9 @@ spec:
       envs:
         - key: BASE_URL
           scope: BUILD_TIME
-        - key: GITHUB_TOKEN
-          scope: BUILD_TIME
-          type: SECRET
         - key: BUILD_ID
           scope: BUILD_TIME
           value: ${_self.COMMIT_HASH}
-        - key: AIRTABLE_TOKEN
-          scope: BUILD_TIME
-          type: SECRET
-        - key: API_BASE_URL
-          scope: BUILD_TIME
-        - key: API_EVENT_ID
-          scope: BUILD_TIME
       github:
         branch: production
         deploy_on_push: true
@@ -71,48 +61,6 @@ spec:
           authority: hacktoberfest.com
           redirect_code: 301
           uri: /.well-known/security.txt
-      - match:
-          path:
-            prefix: /values
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /participation/#values
-      - match:
-          path:
-            prefix: /contributors
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /participation/#contributors
-      - match:
-          path:
-            prefix: /resources
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /participation/#beginner-resources
-      - match:
-          path:
-            prefix: /spam
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /participation/#spam
-      - match:
-          path:
-            prefix: /maintainers
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /participation/#maintainers
-      - match:
-          path:
-            prefix: /faq
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /participation/#faq
       - match:
           path:
             prefix: /organizers
@@ -155,10 +103,3 @@ spec:
           authority: hacktoberfest.com
           redirect_code: 302
           uri: /about/#rewards
-      - match:
-          path:
-            prefix: /council
-        redirect:
-          authority: hacktoberfest.com
-          redirect_code: 302
-          uri: /about/#council

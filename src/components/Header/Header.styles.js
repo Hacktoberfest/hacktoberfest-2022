@@ -1,141 +1,146 @@
 import styled from 'styled-components';
-import {
-  breakpoints as bp,
-  determineMediaQuery as mQ,
-} from 'themes/breakpoints';
-import Divider from '../Divider';
 
-export const StyledHeader = styled.header`
+import Shell from 'components/Shell';
+import TypeformButton from 'components/TypeformButton.mjs';
+import { breakpoints, colors, fonts } from 'styles/tokens';
+
+export const SkipLink = styled.a`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  color: ${({ theme }) => theme.colors2025.space.white};
+  z-index: 1100;
+  top: 12px;
+  left: -999px;
+  padding: 10px 16px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.pink};
+  color: ${colors.ink};
+  font-family: ${fonts.mono};
+  font-weight: 700;
+  text-decoration: none;
 
-  ${mQ(bp.tablet)} {
-    top: 24px;
-    padding: 12px 24px;
-    width: calc(100% - 48px);
-
-    ${({ $isOpen }) =>
-      $isOpen &&
-      `
-      top: 0;
-      padding: 0;
-    `};
+  &:focus {
+    left: 12px;
   }
 `;
 
-export const StyledHeaderContainer = styled.div`
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 24px;
+export const HeaderRoot = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  color: ${colors.white};
+  border-bottom: 2px solid ${colors.ink};
+  background: ${colors.forest};
+
+  /* iOS Safari repositions sticky elements a frame late while its toolbar
+     collapses, letting page content peek out above the nav. Extend an
+     opaque band upward to cover that gap. */
+  &::before {
+    position: absolute;
+    top: -120px;
+    right: 0;
+    left: 0;
+    height: 120px;
+    background: ${colors.forest};
+    content: '';
+  }
+`;
+
+export const Nav = styled(Shell)`
   display: flex;
-  justify-content: space-between;
+  min-height: 72px;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.colors2025.eastBay};
-  background-color: rgb(
-    from ${({ theme }) => theme.colors2025.void} r g b / 0.15
-  );
-  backdrop-filter: blur(15px);
+  justify-content: space-between;
+  gap: 12px;
 
-  ${mQ(bp.tablet)} {
-    border: 1px solid ${({ theme }) => theme.colors2025.eastBay};
-    border-radius: 16px;
-    padding: 16px 26px;
-
-    ${({ $isOpen }) =>
-      $isOpen &&
-      `
-      padding: 24px;
-    `};
+  @media (min-width: ${breakpoints.tablet}) {
+    min-height: 82px;
+    gap: 30px;
   }
 `;
 
-export const StyledHeaderLogo = styled.div`
-  line-height: 0;
-  z-index: 5;
+export const Wordmark = styled.a`
+  display: inline-flex;
+  min-width: 0;
+  /* The wordmark absorbs any squeeze so the nav links and CTA are never
+     pushed past the shell's gutter. */
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 7px;
+  color: ${colors.white};
+  text-decoration: none;
 
-  img {
-    width: auto;
-    height: 24px;
-
-    ${mQ(bp.tablet)} {
-      height: 32px;
-    }
+  @media (min-width: ${breakpoints.tablet}) {
+    gap: 11px;
   }
 `;
 
-export const StyledDesktopHeaderNav = styled.nav`
+export const Logo = styled.svg`
+  display: block;
+  width: 100%;
+  max-width: 190px;
+  height: auto;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    max-width: 260px;
+  }
+`;
+
+export const NavLinks = styled.div`
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 27px;
+  font-family: ${fonts.mono};
+  font-size: 0.78rem;
+  font-weight: 400;
+`;
+
+export const NavLink = styled.a`
   display: none;
+  text-decoration: none;
 
-  ${mQ(bp.desktop)} {
-    align-items: center;
-    display: flex;
-    flex-grow: 1;
-    gap: 32px;
+  &:hover {
+    text-decoration: underline;
   }
 
-  > *:first-child {
-    ${mQ(bp.desktop)} {
-      margin-left: auto;
-    }
-  }
-
-  a {
-    color: ${({ theme }) => theme.colors2025.space.white};
+  /* Only from desktop: between tablet and desktop the links, wordmark, and
+     CTA together overflow the shell and clip the CTA at the viewport edge. */
+  @media (min-width: ${breakpoints.desktop}) {
+    display: inline;
   }
 `;
 
-export const StyledMobileHeaderNav = styled.nav`
-  position: absolute;
-  top: 0;
-  left: 0;
-  inset: 0;
-  height: 100dvh;
-  color: ${({ theme }) => theme.colors.green};
-  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
-  padding: 32px 24px 64px;
-  margin-top: 80px;
-  flex-direction: column;
-  background: rgb(from ${({ theme }) => theme.colors2025.void} r g b / 0.1);
-  backdrop-filter: blur(20px);
+export const NavCta = styled(TypeformButton)`
+  appearance: none;
+  /* The offset shadow paints outside the border box and layout ignores it,
+     so without this the button's visual edge overhangs the shell gutter. */
+  margin-right: 4px;
+  padding: 8px 11px;
+  color: ${colors.ink};
+  border: 2px solid ${colors.ink};
+  background: ${colors.pink};
+  box-shadow: 4px 4px 0 ${colors.maroon};
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.66rem;
+  font-weight: 650;
+  line-height: inherit;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
 
-  > div > a {
-    color: ${({ theme }) => theme.colors2025.space.white};
-    font-size: 16px;
-    padding: 8px 0;
+  &:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 ${colors.maroon};
   }
 
-  > div {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 8px;
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
 
-  ${mQ(bp.desktop)} {
-    display: none;
-  }
-`;
-
-export const StyledDivider = styled.div`
-  background-color: rgb(
-    from ${({ theme }) => theme.colors2025.space.gray} r g b / 0.25
-  );
-  height: 1px;
-  margin: 12px 0;
-`;
-
-export const StyledHeaderToggle = styled.div`
-  margin-left: auto;
-
-  ${mQ(bp.desktop)} {
-    display: none;
-  }
-
-  svg {
-    width: 16px;
-    height: 10px;
+  @media (min-width: ${breakpoints.tablet}) {
+    padding: 10px 17px;
+    font-size: inherit;
   }
 `;

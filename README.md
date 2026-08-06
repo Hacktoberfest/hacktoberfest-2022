@@ -31,59 +31,7 @@ how Hacktoberfest operates as a whole.
 
 ## Configuration
 
-The website uses a [`config.js`](src/lib/config.js) file to store common
-configuration values. When developing, you may need to change these values to
-view different states of the website. These can be changed in the file itself
-or by setting the equivalent environment variables.
-
-Primarily, these variables control the "state" of the site, such as whether
-registration is open. Hacktoberfest follows a timeline of events, impacting the
-state of the site:
-
-- Pre-registration:
-  The site can be accessed but the registration/profile flow is unavailable.
-
-- Registration start:
-  The registration/profile flow is available, but PR/MRs are not tracked.
-
-- Tracking start:
-  New PR/MRs are tracked. This is the core state of Hacktoberfest.
-
-- Registration end:
-  New registrations are not accepted but existing profiles can be accessed.
-
-- Tracking end:
-  New PR/MRs are not tracked but changes to existing ones are still tracked.
-
-- Tracking end extended:
-  All PR/MRs are no longer tracked but the profile flow is still available.
-
-- Profile end:
-  The profile flow is no longer available but the site can still be accessed.
-
-## Profile API
-
-The website uses the closed-source hackathon-tracker API maintained by
-DigitalOcean to handle all functionality relating to user profiles
-(authentication, registration, PR statues, etc.).
-
-If you wish to test any functionality using the API,
-some environment variables will need to be set:
-
-- `BASE_URL` needs to be set to the base URL of the website
-  (e.g., `http://localhost:3000`).
-
-- `API_BASE_URL` needs to be set to the base URL of the API
-  (e.g., `https://hackathon-tracker.digitalocean.com`).
-
-- `API_EVENT_ID` needs to be set to an event ID that the API will recognize
-  (more below).
-
-To be able to load registration and anything beyond, you'll need a valid event
-ID. To see what events are available to you, you can start the development
-server without the ID set. Once started, complete the authentication flow, and
-grab your API token from your browser's local storage. You can then use this
-token to manually call the `/events` endpoint to see what events are available.
+`BASE_URL` must be set to the public website URL when building the sitemap.
 
 ## Deployment
 

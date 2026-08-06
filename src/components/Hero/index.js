@@ -1,88 +1,105 @@
+import DevLogo from 'components/icons/DevLogo';
+import DigitalOceanLogo from 'components/icons/DigitalOceanLogo';
+import MlhLogo from 'components/icons/MlhLogo';
+import { hero } from 'data/content.mjs';
+import { DEV_URL, DIGITALOCEAN_URL, MLH_URL } from 'data/links';
+import { HERO_ATTEND_FORM, HERO_HOST_FORM } from 'data/typeforms.mjs';
+import { colors } from 'styles/tokens';
+
 import {
-  StyledHero,
-  StyledHeroContent,
-  StyledHeroTitle,
-  StyledHeroSubtitle,
-  StyledHeroDivider,
-  StyledHeroContainer,
+  ColumnsSkyline,
+  StairsLeft,
+  StairsRight,
+  StepsTowers,
+} from './HeroGeometry';
+
+import {
+  DecoBottomLeft,
+  DecoBottomRight,
+  DecoTopLeft,
+  DecoTopRight,
+  Eyebrow,
+  EyebrowLine,
+  HeroActions,
+  HeroButton,
+  HeroDeck,
+  HeroHeading,
+  HeroInner,
+  HeroPartnerChip,
+  HeroPartnerGroup,
+  HeroPartnerLabel,
+  HeroPartnerLink,
+  HeroPartners,
+  HeroPartnerTimes,
+  HeroRoot,
+  HeroSecondaryButton,
+  HeroSquare,
+  HeroSquares,
 } from './Hero.styles';
 
-import { useMemo } from 'react';
-import {
-  currentHacktoberfest,
-  registrationEnd,
-  registrationStart,
-} from 'lib/config';
-import ContentMaster from 'components/ContentMaster';
-import { StyledSectionSpacing } from 'styles/sharedStyles';
-import { sponsors } from 'lib/sponsors';
-import { asList } from 'lib/format';
-import Type from 'components/type';
-import { useTheme } from 'styled-components';
+const ACCENT_COLORS = [colors.orange, colors.sky, colors.ochre, colors.pink];
 
-const Hero = () => {
-  const theme = useTheme();
-  const hasRegistrationEnded = useMemo(
-    () => new Date() >= new Date(registrationEnd),
-    [],
-  );
-
-  return (
-    <>
-      <StyledHero $centered={hasRegistrationEnded}>
-        <StyledHeroContainer $centered={hasRegistrationEnded}>
-          <StyledHeroContent>
-            <StyledHeroTitle>
-              {hasRegistrationEnded ? (
-                <>
-                  <Type
-                    prefix=">"
-                    prefixColor={theme.colors.pink}
-                    text="Registration is closed"
-                  />
-                </>
-              ) : (
-                <>
-                  A month-long <strong>celebration</strong> of all things
-                  open-source
-                </>
-              )}
-            </StyledHeroTitle>
-
-            {hasRegistrationEnded && (
-              <StyledHeroSubtitle>
-                <StyledSectionSpacing>
-                  <ContentMaster size="xl2" align="center">
-                    {`Thank you for contributing to open source this month. Open source couldn’t survive without the dynamic duo of project maintainers and volunteers like you. **Hacktoberfest #${currentHacktoberfest}** has officially ended.`}
-                  </ContentMaster>
-                </StyledSectionSpacing>
-              </StyledHeroSubtitle>
-            )}
-          </StyledHeroContent>
-        </StyledHeroContainer>
-      </StyledHero>
-
-      {!hasRegistrationEnded && (
-        <StyledHeroDivider>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="1440"
-            height="144"
-            viewBox="0 0 1440 144"
-            fill="none"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M214 1.87085e-05V80H285V109H419V80L627 80V19.5091L763.086 19.5091V80H889.801V55.3599L1003.94 55.3599V110.233L1073.44 110.233V29.7522L1256 29.7522V3.44969e-06L1440 1.87085e-05V144H0V0L214 1.87085e-05ZM627 144V80.2358L763 80.2358V144L627 144Z"
-              fill="#183717"
-            />
-            <path d="M419 80L285 80V50L419 50V80Z" fill="#183717" />
-          </svg>
-        </StyledHeroDivider>
-      )}
-    </>
-  );
-};
+const Hero = () => (
+  <HeroRoot id="top" aria-labelledby="hero-title">
+    <DecoTopLeft aria-hidden="true">
+      <StairsLeft />
+    </DecoTopLeft>
+    <DecoTopRight aria-hidden="true">
+      <StairsRight />
+    </DecoTopRight>
+    <DecoBottomLeft aria-hidden="true">
+      <ColumnsSkyline />
+    </DecoBottomLeft>
+    <DecoBottomRight aria-hidden="true">
+      <StepsTowers />
+    </DecoBottomRight>
+    <HeroInner>
+      <HeroSquares aria-hidden="true">
+        {ACCENT_COLORS.map((color) => (
+          <HeroSquare key={color} $color={color} />
+        ))}
+      </HeroSquares>
+      <Eyebrow>
+        {hero.eyebrow.map((line) => (
+          <EyebrowLine key={line}>{line}</EyebrowLine>
+        ))}
+      </Eyebrow>
+      <HeroHeading id="hero-title">
+        <span>{hero.heading.lead}</span> <em>{hero.heading.accent}</em>
+      </HeroHeading>
+      <HeroDeck>{hero.deck}</HeroDeck>
+      <HeroActions>
+        {/* One interest form behind both: it sorts hosts from attendees, so
+            the two CTAs differ only in attribution and preselection. */}
+        <HeroButton form={HERO_HOST_FORM}>{hero.cta}</HeroButton>
+        <HeroSecondaryButton form={HERO_ATTEND_FORM}>
+          {hero.secondaryCta}
+        </HeroSecondaryButton>
+      </HeroActions>
+      <HeroPartners>
+        <HeroPartnerGroup>
+          <HeroPartnerLabel>{hero.poweredByLabel}</HeroPartnerLabel>
+          <HeroPartnerChip>
+            <HeroPartnerLink href={MLH_URL} aria-label="Major League Hacking">
+              <MlhLogo />
+            </HeroPartnerLink>
+            <HeroPartnerTimes aria-hidden="true">&times;</HeroPartnerTimes>
+            <HeroPartnerLink href={DEV_URL} aria-label="DEV">
+              <DevLogo />
+            </HeroPartnerLink>
+          </HeroPartnerChip>
+        </HeroPartnerGroup>
+        <HeroPartnerGroup>
+          <HeroPartnerLabel>{hero.presentingLabel}</HeroPartnerLabel>
+          <HeroPartnerChip>
+            <HeroPartnerLink href={DIGITALOCEAN_URL} aria-label="DigitalOcean">
+              <DigitalOceanLogo />
+            </HeroPartnerLink>
+          </HeroPartnerChip>
+        </HeroPartnerGroup>
+      </HeroPartners>
+    </HeroInner>
+  </HeroRoot>
+);
 
 export default Hero;

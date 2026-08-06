@@ -27,7 +27,11 @@ module.exports = {
       fileName: true,
       cssProp: true,
       minify: true,
-      transpileTemplateLiterals: true,
+      // Must stay off: SWC only applies this transform to the client bundle,
+      // and it rewrites template literals from their raw text, doubling
+      // backslash escapes (e.g. CSS `content: ' \2022 '`). The client then
+      // hashes different CSS than the server, breaking hydration.
+      transpileTemplateLiterals: false,
     },
   },
   generateBuildId() {
@@ -43,12 +47,7 @@ module.exports = {
     config.plugins.push(
       new EnvironmentPlugin({
         BASE_URL: '',
-        API_BASE_URL: '',
-        API_EVENT_ID: '',
         REGISTRATION_START: '',
-        REGISTRATION_END: '',
-        TRACKING_START: '',
-        PROFILE_END: '',
         EVENT_END_DATE: '',
       }),
     );
@@ -57,20 +56,6 @@ module.exports = {
       type: 'asset/resource',
     });
     return config;
-  },
-  rewrites() {
-    return [
-      {
-        source: '/profile/edit',
-        destination: '/profile',
-      },
-    ];
-  },
-  exportPathMap(defaultPathMap) {
-    return {
-      ...defaultPathMap,
-      '/profile/edit': { page: '/profile' },
-    };
   },
   reactStrictMode: true,
   trailingSlash: true,
