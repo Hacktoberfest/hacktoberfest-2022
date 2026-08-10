@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-08-10-typeform-popup-utm-design.md
+  s_4afe23e654f33d::t_f96768d93b0980 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "caa15e96d4e0505e2fb8ee3431fa437370e4a1a8",
+  "prompts": {},
+  "sessions": {
+    "s_4afe23e654f33d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019feb71-9697-7321-bc93-b2fc6a49e384",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}
