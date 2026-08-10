@@ -1,0 +1,32 @@
+src/pages/_app.js
+  s_4afe23e654f33d::t_296570dcabd52f 2,95-98
+  s_4afe23e654f33d::t_1a14fbb3134ea8 99
+src/components/Hero/index.js
+  s_4afe23e654f33d::t_cc9f0b5a408e13 4,69
+src/components/GetInvolvedSection/index.js
+  s_4afe23e654f33d::t_cc9f0b5a408e13 1-2,24,58-62
+src/data/links.js
+  s_4afe23e654f33d::t_296570dcabd52f 2-3
+src/components/Header/index.js
+  s_4afe23e654f33d::t_cc9f0b5a408e13 2,29
+src/components/TypeformButton.js
+  s_4afe23e654f33d::t_296570dcabd52f 1-19
+src/components/WaysInSection/index.js
+  s_4afe23e654f33d::t_cc9f0b5a408e13 1,58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "1850064560d68db80e2889a6a25d1f35bacb27bc",
+  "prompts": {},
+  "sessions": {
+    "s_4afe23e654f33d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019feb71-9697-7321-bc93-b2fc6a49e384",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}
