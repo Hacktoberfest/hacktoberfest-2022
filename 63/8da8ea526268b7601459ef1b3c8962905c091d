@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-08-10-typeform-popup-buttons-design.md
+  s_3bc44fecb88554::t_1ef5107394e71c 1-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "638da8ea526268b7601459ef1b3c8962905c091d",
+  "prompts": {},
+  "sessions": {
+    "s_3bc44fecb88554": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fedc1-809c-74e3-92dd-d4570ac79ef0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}

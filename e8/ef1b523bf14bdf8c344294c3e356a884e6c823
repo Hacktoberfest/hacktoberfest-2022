@@ -1,0 +1,23 @@
+docs/superpowers/plans/2026-08-10-typeform-popup-buttons.md
+  s_3bc44fecb88554::t_4537d6d5bf2d0a 324-357,359-400,402-403,408-409,419,457-461,464-474,506,512-547,557-565,568,584-652
+  s_3bc44fecb88554::t_efac0e28b7168e 280,285-286,297-298,300-305,401,404-407,410-418,420-456,462-463,475-505,507-511,548-556,566-567,569-583
+  s_3bc44fecb88554::t_a79c1181a4375a 1-137
+  s_3bc44fecb88554::t_bb9622ab2ad6d4 138-265,276-279,281-284,287-296,299,306-323
+  s_3bc44fecb88554::t_69b24980dc60d0 266-275,358
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "e8ef1b523bf14bdf8c344294c3e356a884e6c823",
+  "prompts": {},
+  "sessions": {
+    "s_3bc44fecb88554": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fedc1-809c-74e3-92dd-d4570ac79ef0",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}
