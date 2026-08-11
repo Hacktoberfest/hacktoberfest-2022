@@ -1,0 +1,39 @@
+src/components/Header/index.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 2,40
+test/typeform-pages.test.mjs
+  s_3bc44fecb88554::t_71089ee433665b 1-33
+src/components/Header/Header.styles.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 4,112-113,122-123,126
+src/components/Hero/Hero.styles.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 3,5,151-152
+src/components/GetInvolvedSection/index.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 1,23,30,57
+src/components/GetInvolvedSection/GetInvolvedSection.styles.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 3,5,113-114
+src/components/Button.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 5-6,16,56-57
+  s_3bc44fecb88554::t_da36c0945ea9db 58-59
+src/components/WaysInSection/WaysInSection.styles.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 3,5,116-117
+src/components/Hero/index.js
+  s_3bc44fecb88554::t_98448941045c0f 4
+  s_3bc44fecb88554::t_b29763bbe79ae5 5,73-74
+src/components/WaysInSection/index.js
+  s_3bc44fecb88554::t_b29763bbe79ae5 1,26,34,60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "ba594c4bb90d0692d69f1d9d7eb70735a3ff358e",
+  "prompts": {},
+  "sessions": {
+    "s_3bc44fecb88554": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fedc1-809c-74e3-92dd-d4570ac79ef0",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}

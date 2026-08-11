@@ -1,0 +1,24 @@
+test/typeform-pages.test.mjs
+  s_3bc44fecb88554::t_01d152f3a165e2 8,10-18,20,35-36,40-41,54,65
+  s_3bc44fecb88554::t_daf3bf0ce2c94e 21-24,32-34,37-39
+  s_3bc44fecb88554::t_753756d8945402 9,25-31
+  s_3bc44fecb88554::t_2531a35c04fc54 19
+.github/workflows/ci.yml
+  s_3bc44fecb88554::t_33e32ecb2fe89d 22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "41c10681289203bd10af79d9cdbf71818e816f50",
+  "prompts": {},
+  "sessions": {
+    "s_3bc44fecb88554": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fedc1-809c-74e3-92dd-d4570ac79ef0",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}
