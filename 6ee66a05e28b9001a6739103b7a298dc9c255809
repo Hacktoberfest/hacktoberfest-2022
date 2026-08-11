@@ -1,0 +1,27 @@
+test/donate-resilience.test.mjs
+  s_d25cc7b51e3419::t_fae3261a3fdd1f 1-84
+src/lib/donate-resilience.mjs
+  s_d25cc7b51e3419::t_99b09f411f26f9 1-7,9-20,24-53,55-66
+  s_d25cc7b51e3419::t_f185afebfdf9b8 21-23
+  s_d25cc7b51e3419::t_a73c2d2d409709 8,54
+src/lib/donate.js
+  s_d25cc7b51e3419::t_99b09f411f26f9 2-5,27-37,87-101,103,105,143-154,156,160-171,176
+package.json
+  s_d25cc7b51e3419::t_fae3261a3fdd1f 15-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "6ee66a05e28b9001a6739103b7a298dc9c255809",
+  "prompts": {},
+  "sessions": {
+    "s_d25cc7b51e3419": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fd8cb-5b9c-77a0-b302-b4bef3415f10",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}

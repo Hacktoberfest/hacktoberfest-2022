@@ -1,0 +1,23 @@
+src/components/TypeformButton.helpers.test.mjs
+  s_4afe23e654f33d::t_b258144dcb9bf1 1-47
+src/components/TypeformButton.helpers.mjs
+  s_4afe23e654f33d::t_5868d96947c970 1-14
+package.json
+  s_4afe23e654f33d::t_b258144dcb9bf1 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "de180f716098d3c706ae74e9f5710476e418b834",
+  "prompts": {},
+  "sessions": {
+    "s_4afe23e654f33d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019feb71-9697-7321-bc93-b2fc6a49e384",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}

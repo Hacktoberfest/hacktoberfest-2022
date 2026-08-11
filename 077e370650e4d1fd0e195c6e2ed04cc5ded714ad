@@ -1,0 +1,19 @@
+.gitignore
+  s_4afe23e654f33d::t_26cd89ab9564fc 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "077e370650e4d1fd0e195c6e2ed04cc5ded714ad",
+  "prompts": {},
+  "sessions": {
+    "s_4afe23e654f33d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019feb71-9697-7321-bc93-b2fc6a49e384",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}

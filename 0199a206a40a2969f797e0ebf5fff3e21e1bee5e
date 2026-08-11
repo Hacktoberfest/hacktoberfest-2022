@@ -1,0 +1,21 @@
+docs/superpowers/plans/2026-08-10-typeform-popup-utm.md
+  s_4afe23e654f33d::t_230e084f4cabcd 27-38,261-263,285,305
+  s_4afe23e654f33d::t_f84b097f3d5823 1-26,39-255,266-284,286-304,306-355,357-437
+  s_4afe23e654f33d::t_b484b7bd92a5da 256-260,264-265,356
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "0199a206a40a2969f797e0ebf5fff3e21e1bee5e",
+  "prompts": {},
+  "sessions": {
+    "s_4afe23e654f33d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019feb71-9697-7321-bc93-b2fc6a49e384",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Erin Osher <4386583+erinosher@users.noreply.github.com>"
+    }
+  }
+}
