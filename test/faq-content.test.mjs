@@ -42,13 +42,13 @@ test('answerLinks collects link destinations in order', () => {
   ]);
 });
 
-test('the two signup links point at popups, not raw URLs', () => {
+test('the signup link points at a popup, not a raw URL', () => {
   const segments = faq.items.flatMap((item) => item.answer);
   const formSegments = segments.filter((segment) => segment.form);
 
   assert.deepEqual(
     formSegments.map((segment) => segment.form),
-    ['faqHost', 'faqUpdates'],
+    ['faqHost'],
   );
   // A Typeform URL in an href would render as an anchor and fail the
   // no-outbound-anchor rule in test/typeform-pages.test.mjs.

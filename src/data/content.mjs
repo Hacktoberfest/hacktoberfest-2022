@@ -41,7 +41,7 @@ export const timeline = {
     {
       year: '2015–2025',
       title: 'A generation joins open source.',
-      copy: 'Thousands of developers make their first contribution! The door opens. This works at first, but maintainers start to burn out from volume and low-effort PRs as the years go by.',
+      copy: 'Thousands of developers made their first contribution and discovered the power of community! As the ecosystem grew, maintainers started to face a massive flood of activity and burnout from the rise of low-effort PRs.',
     },
     {
       year: '2026',
@@ -193,9 +193,9 @@ export const faq = {
       id: 'pull-requests',
       question: 'So we’re not making PRs anymore?',
       answer: [
-        { text: 'Nope, we’re trying something new this year; ' },
-        { text: 'subscribe', form: 'faqUpdates' },
-        { text: ' to stay updated!' },
+        {
+          text: 'Hacktoberfest is moving away from counting PRs this year. With the rise of AI making low-effort PRs effortless to generate, maintainers were facing a massive flood of activity and burnout. The shift this year focuses on learning, experimentation, and building within the open source AI ecosystem. We’ll be sharing full details soon!',
+        },
       ],
     },
   ],

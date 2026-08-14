@@ -50,7 +50,6 @@ test('exports every visible homepage Typeform CTA as a button', async () => {
     'Notify me about local Fests',
     'Sponsor Hacktoberfest',
     'sign up for our mailing list',
-    'subscribe',
   ];
 
   labels.forEach((label) => assert.match(html, buttonFor(label)));
