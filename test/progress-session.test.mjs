@@ -456,7 +456,26 @@ const overrideMode = await loadSessionModule('override', {
   NEXT_PUBLIC_API_BASE_URL: API_BASE,
   NEXT_PUBLIC_AUTH_START_URL: 'https://auth.test.invalid/start',
 });
-const mockMode = await loadSessionModule('mock', {});
+/* `mocked` spelled out, because nothing set stopped meaning no API: unset
+   resolves to the live origin now (lib/apiBase.mjs). defaultMode is that
+   zero-configuration build — the one production actually ships. */
+const mockMode = await loadSessionModule('mock', {
+  NEXT_PUBLIC_API_BASE_URL: 'mocked',
+});
+const defaultMode = await loadSessionModule('default', {});
+
+/* The two resolutions the whole mock-vs-live architecture now hangs on.
+   Production cannot set NEXT_PUBLIC_API_BASE_URL, so the empty environment
+   must produce the live build — and the mocked build must still be
+   reachable, or the fixtures, the ?scenario= review links and `npm run
+   dev` without a backend all die with it. */
+test('an empty environment resolves API_BASE_URL to the live origin', () => {
+  assert.equal(defaultMode.API_BASE_URL, 'https://hacktoberfest.com');
+});
+
+test('NEXT_PUBLIC_API_BASE_URL=mocked still means no API at all', () => {
+  assert.equal(mockMode.API_BASE_URL, '');
+});
 
 /* Node has no `location`, and startLogin's entire observable effect is the
    URL it hands to location.assign. Restores whatever was there, same as the
@@ -543,9 +562,10 @@ test('NEXT_PUBLIC_AUTH_START_URL overrides the derived oauth start URL', () => {
   });
 });
 
-/* With no API configured the whole OAuth hop is skipped: startLogin writes a
+/* In the mocked build the whole OAuth hop is skipped: startLogin writes a
    session good enough for parseSession and goes straight to the destination.
-   That is what keeps `npm run dev` usable with no backend at all. */
+   That is what keeps `NEXT_PUBLIC_API_BASE_URL=mocked npm run dev` usable
+   with no backend at all. */
 test('startLogin in mock mode writes a readable session and redirects locally', () => {
   withMockStorage('localStorage', {}, (store) => {
     withLocation((assigned) => {

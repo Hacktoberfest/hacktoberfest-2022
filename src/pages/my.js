@@ -167,8 +167,7 @@ const My = () => {
           {/* The experience fetch can only start after hydration; telling
              the browser about the API origin now lets DNS/TCP/TLS overlap
              the JS parse instead of serializing after it. Absent in mocked
-             builds — including the export CI tests — where there is no API
-             origin to warm. */}
+             builds, where there is no API origin to warm. */}
           {API_BASE_URL ? (
             <link
               rel="preconnect"

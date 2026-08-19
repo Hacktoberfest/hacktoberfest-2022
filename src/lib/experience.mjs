@@ -1,13 +1,11 @@
 /* The data seam for /my.
 
    getExperience returns the whole personalized payload: user, address,
-   activities, fests. Mocked by default — API_BASE_URL is the single switch,
-   so the mocked build needs no configuration and going live (MyMLH-backed,
-   later) is a one-variable change confined to this file.
-
-   NEXT_PUBLIC_ prefix required: next.config.js cannot be touched, and Next
-   only inlines process.env.NEXT_PUBLIC_* references into the client bundle
-   automatically, with no EnvironmentPlugin entry needed. */
+   activities, fests. Live by default — API_BASE_URL is still the single
+   switch, but it now resolves to the production origin when nothing is set
+   (lib/apiBase.mjs says why), so the build with no configuration shows real
+   data. The mocked build is the explicit NEXT_PUBLIC_API_BASE_URL=mocked
+   opt-out. */
 import {
   DEFAULT_SCENARIO,
   ERROR_SCENARIO,
@@ -38,7 +36,7 @@ const fixtureFor = (scenario) => {
    leaked the same way for longer and is fixed here with it, because leaving
    one behind is an invitation to reintroduce the other. There is nothing to
    review in production; the scenarios exist for the mocked build that
-   designers, QA and CI actually see. */
+   designers and QA ask for by name. */
 const mockFailure = (scenario) => {
   const name = selectScenario(scenario);
 

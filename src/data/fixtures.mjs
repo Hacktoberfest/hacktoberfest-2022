@@ -1,4 +1,5 @@
-/* Mock eligibility states, used only when API_BASE_URL is unset.
+/* Mock eligibility states, used only in the mocked build — the explicit
+   NEXT_PUBLIC_API_BASE_URL=mocked opt-out (see lib/apiBase.mjs).
 
    These double as test data, which is why they live in src/ rather than in
    test/: a fixture that drifts from the real shape fails the unit suite before

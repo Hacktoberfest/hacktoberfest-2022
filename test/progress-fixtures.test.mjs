@@ -6,8 +6,16 @@ import {
   SCENARIOS,
   selectScenario,
 } from '../src/data/fixtures.mjs';
-import { getExperience } from '../src/lib/experience.mjs';
 import { festDidNotAttend } from '../src/lib/fests.mjs';
+
+/* This file evaluates experience.mjs in the mocked build. Leaving the
+   variable unset used to be enough; unset resolves to the live origin now
+   (lib/apiBase.mjs), so the opt-out has to be spelled — and set before a
+   dynamic import, because session.mjs reads it once at module-evaluation
+   time and static imports are hoisted above this line. */
+process.env.NEXT_PUBLIC_API_BASE_URL = 'mocked';
+
+const { getExperience } = await import('../src/lib/experience.mjs');
 
 test('selectScenario falls back to the default for junk input', () => {
   assert.equal(selectScenario(null), DEFAULT_SCENARIO);
@@ -44,10 +52,10 @@ test('getExperience defaults to the no-address scenario', async () => {
   assert.equal(result.addressValidated, false);
 });
 
-/* This file evaluates experience.mjs with NEXT_PUBLIC_API_BASE_URL unset --
+/* This file evaluates experience.mjs with NEXT_PUBLIC_API_BASE_URL=mocked --
    node:test gives each file its own process -- so these two are the mocked
    half of the pair. Their live half is in test/progress-experience.test.mjs:
-   the same two scenarios must NOT throw when the API base URL is set. Both
+   the same two scenarios must NOT throw when a real API base URL is set. Both
    halves are needed; either alone would pass with the guard removed. */
 test('the error scenario rejects rather than resolving', async () => {
   await assert.rejects(

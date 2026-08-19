@@ -9,6 +9,8 @@
    rebuilding `out/` causes. See src/build/post/buildMode.mjs. */
 import { readFile } from 'fs/promises';
 
+import { MOCKED_SENTINEL, resolveApiBaseUrl } from '../src/lib/apiBase.mjs';
+
 const ROOT = new URL('../', import.meta.url);
 const MODE_FILE = new URL('.build-mode.json', ROOT);
 const OUT_INDEX = new URL('out/index.html', ROOT);
@@ -21,10 +23,11 @@ const die = (lines) => {
   process.exit(1);
 };
 
+/* The mocked hint spells out the sentinel: with unset defaulting to the
+   live origin (see src/lib/apiBase.mjs), a bare `npm run build` no longer
+   produces the mocked build the message would be asking for. */
 const rebuildHint = (wanted) =>
-  wanted
-    ? `      NEXT_PUBLIC_API_BASE_URL=${wanted} BASE_URL=https://hacktoberfest.com npm run build`
-    : '      BASE_URL=https://hacktoberfest.com npm run build';
+  `      NEXT_PUBLIC_API_BASE_URL=${wanted || MOCKED_SENTINEL} BASE_URL=https://hacktoberfest.com npm run build`;
 
 const read = async (url) => {
   try {
@@ -35,11 +38,17 @@ const read = async (url) => {
 };
 
 const main = async () => {
+  /* Resolved exactly as the build resolved it — unset means the live
+     default, `mocked` means the fixtures build — so serving with an empty
+     environment matches the build an empty environment produces. */
+  const wanted =
+    resolveApiBaseUrl(process.env.NEXT_PUBLIC_API_BASE_URL) || null;
+
   if (!(await read(OUT_INDEX))) {
     die([
       '  There is no build in out/ yet. Build first:',
       '',
-      rebuildHint(process.env.NEXT_PUBLIC_API_BASE_URL || ''),
+      rebuildHint(wanted || ''),
     ]);
   }
 
@@ -49,7 +58,7 @@ const main = async () => {
       '  out/ was built before this check existed, so its mode is unknown.',
       '  Rebuild so the mode is recorded:',
       '',
-      rebuildHint(process.env.NEXT_PUBLIC_API_BASE_URL || ''),
+      rebuildHint(wanted || ''),
     ]);
   }
 
@@ -59,8 +68,6 @@ const main = async () => {
   } catch (_) {
     die(['  .build-mode.json is unreadable. Rebuild to regenerate it.']);
   }
-
-  const wanted = process.env.NEXT_PUBLIC_API_BASE_URL || null;
 
   if (built !== wanted) {
     die([

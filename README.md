@@ -16,10 +16,21 @@ built with [Next.js](https://nextjs.org).
 - Start the development server by running `npm run dev`, and then open
   [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Running against the real API
+### Mocked or live
 
-`/my` is mocked until `NEXT_PUBLIC_API_BASE_URL`
-is set. To run against a local backend:
+`/my` is live by default: with `NEXT_PUBLIC_API_BASE_URL` unset, the code
+defaults it to `https://hacktoberfest.com` (see
+[`src/lib/apiBase.mjs`](src/lib/apiBase.mjs)), because production cannot set
+the variable — the zero-configuration build has to be the production one.
+
+The mocked build — fixtures, no backend at all, sign-in fakes a session as
+Ada Lovelace — now has to be asked for by name:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=mocked npm run dev
+```
+
+To run against a local backend instead:
 
 ```bash
 NEXT_PUBLIC_API_BASE_URL=http://localhost:3000 npm run dev -- -p 4000
@@ -33,9 +44,6 @@ The API listens on port 3000, so the frontend needs a different one — hence
 - `ALLOWED_DEV_ORIGINS` must include `http://localhost:4000` — otherwise the
   browser blocks the code exchange on CORS
 
-Leaving `NEXT_PUBLIC_API_BASE_URL` unset keeps the mocked build, which needs
-no backend at all.
-
 #### Mocked or live is baked in at build time
 
 `NEXT_PUBLIC_API_BASE_URL` is inlined into the client bundle by `npm run
@@ -44,11 +52,11 @@ from**. Setting the variable in front of `npm start` changes nothing.
 
 This matters more than it sounds, because **`npm test` runs `npm run build`**
 (via `test:integration`). Running the suite therefore rebuilds `out/` with
-whatever the environment held at the time — which will silently turn a live
-build into a mocked one. The symptom is not an error: the "Sign in with
-MyMLH" button stops redirecting to MyMLH and quietly writes a fixture
-session instead, so you appear signed in as Ada Lovelace and every page
-serves mock data.
+whatever the environment held at the time — which will silently rebuild a
+mocked or local-API build as the live-default one, pointed at production.
+The symptom is not an error: the "Sign in with MyMLH" button starts
+redirecting to the real MyMLH instead of writing the Ada Lovelace fixture
+session, and every page quietly serves the wrong data.
 
 `npm start` guards against this. The build records its mode in
 `.build-mode.json` (gitignored), and `prestart` refuses to serve when that
@@ -61,8 +69,8 @@ just rerun `npm start`.
 with MyMLH" button sends people. It defaults to `${NEXT_PUBLIC_API_BASE_URL}/oauth/mlh`,
 which is right whenever the API serves the OAuth hand-off itself; set it only
 when that hand-off lives somewhere else, such as behind a separate hostname or
-a proxy. It has no effect while `NEXT_PUBLIC_API_BASE_URL` is unset, because
-the mocked build never leaves the site.
+a proxy. It has no effect in the mocked build
+(`NEXT_PUBLIC_API_BASE_URL=mocked`), which never leaves the site.
 
 ## Contributing
 

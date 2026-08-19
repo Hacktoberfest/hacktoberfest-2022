@@ -8,6 +8,8 @@
    The backend redirects to /auth/callback/?code=... after MyMLH; that page
    exchanges the code for the session stored here. */
 
+import { resolveApiBaseUrl } from './apiBase.mjs';
+
 export const SESSION_STORAGE_KEY = 'hacktoberfest.session';
 export const RETURN_TO_STORAGE_KEY = 'hacktoberfest.returnTo';
 /* The /my render-while-revalidate cache (lib/experienceCache.mjs). Owned
@@ -21,9 +23,12 @@ const DEFAULT_RETURN_TO = '/my/';
    only inlines process.env.NEXT_PUBLIC_* references into the client bundle
    automatically, with no EnvironmentPlugin entry needed. */
 const AUTH_START_URL = process.env.NEXT_PUBLIC_AUTH_START_URL || '';
-export const API_BASE_URL = (
-  process.env.NEXT_PUBLIC_API_BASE_URL || ''
-).replace(/\/*$/, '');
+/* Unset resolves to the live origin and `mocked` is the explicit opt-out —
+   lib/apiBase.mjs owns that decision and says why. '' still means "no API"
+   to every mock-vs-live branch downstream of this constant. */
+export const API_BASE_URL = resolveApiBaseUrl(
+  process.env.NEXT_PUBLIC_API_BASE_URL,
+);
 
 /* Safari in private mode throws on storage access rather than returning
    null, so every touch goes through here. A browser that will not give us
