@@ -132,17 +132,32 @@ export const getInvolved = {
 };
 
 /* Answers are arrays of segments rather than plain strings, because they can
-   carry an inline link. One structure then renders three ways — as JSX, as
-   plain text for the crawler files, and as schema text — without any consumer
-   having to parse markup.
+   carry an inline link or, once, a short ordered list. One structure then
+   renders three ways — as JSX, as plain text for the crawler files, and as
+   schema text — without any consumer having to parse markup.
 
-   A segment is prose ({ text }), an outbound link ({ text, href }), or a
+   A segment is prose ({ text }), an outbound link ({ text, href }), a
    Typeform popup trigger ({ text, form }), where `form` names a config the
-   component maps to a popup. Two answers currently carry a link, and both are
-   Typeform triggers; { text, href } has no current user but stays supported
-   for copy that links out — that's likely to come back given how often this
-   copy has changed. Typeform is never an href: an anchor to a Typeform URL
-   fails test/typeform-pages.test.mjs. */
+   component maps to a popup, or a bounded markdown subset ({ markdown }).
+   { text, href } has no current user among these 24 but stays supported for
+   copy that links out. { markdown } exists for the one answer the flat
+   segment list can't express — the Fest formats question's two-item numbered
+   list — and supports exactly three constructs: **bold**, [label](href), and
+   lines opening `1. ` / `2. ` as an ordered list. parseAnswerMarkdown below
+   turns that subset into a render-ready structure; answerText and
+   answerLinks both understand it too, so a markdown segment never has to be
+   special-cased by a consumer. Typeform is never an href: an anchor to a
+   Typeform URL fails test/typeform-pages.test.mjs.
+
+   `items` stays a flat array — src/build/llms.mjs reads faq.items directly,
+   and grouping for the /faq page is expressed via each item's `section`
+   field instead of nesting, so adding a section never means teaching the
+   crawler files or the tests a new shape. `sections` records the six source
+   headings in display order; `homepage` names the four items (chosen for
+   breadth, not for hosts, since the homepage serves first-time visitors)
+   that still appear in the homepage callout, plus the CTA to the full page.
+   `page` carries the copy the standalone /faq page's Head and PageHero need,
+   the same way host.* does for /host. */
 export const faq = {
   eyebrow: 'Common questions',
   heading: { lead: 'Everything else,', accent: 'answered.' },
@@ -150,66 +165,428 @@ export const faq = {
   llmsNote: 'Are you an LLM? → llms.txt',
   intro:
     'Hacktoberfest works differently this year, and a new format always comes with questions. We have the answers: here’s what to know about hosting a Fest, taking part, and what comes next.',
+  sections: [
+    { id: 'general', title: 'General & Mission Overview' },
+    { id: 'preptember', title: 'Preptember (September 1-30)' },
+    { id: 'fests', title: 'In-Person Events ("Fests") & Formats' },
+    { id: 'hosting', title: 'Fest Hosting, Applications & Logistics' },
+    { id: 'swag', title: 'Swag, Participant Envelopes & Reimbursements' },
+    { id: 'sponsorship', title: 'Sponsorship & Partner Packages' },
+  ],
   items: [
+    // -- General & Mission Overview --------------------------------------
     {
-      id: 'organize',
-      question: 'How do I organize a Fest?',
+      id: 'what-is-hacktoberfest',
+      section: 'general',
+      question: 'What is Hacktoberfest?',
       answer: [
-        { text: 'Applications are open. ' },
-        { text: 'Read about hosting a Fest', href: '/host/' },
         {
-          text: ', pick the format that fits your community, and apply from there.',
+          text: 'Hacktoberfest is a global celebration of open source that runs throughout the month of October. This year, Hacktoberfest is run by ',
+        },
+        { text: 'Major League Hacking (MLH)', href: 'https://www.mlh.com/' },
+        { text: ' and ' },
+        { text: 'DEV', href: 'https://dev.to' },
+        { text: ' in partnership with ' },
+        { text: 'DigitalOcean', href: 'https://www.digitalocean.com/' },
+        { text: '.' },
+      ],
+    },
+    {
+      id: 'how-2026-differs',
+      section: 'general',
+      question: 'How is Hacktoberfest 2026 different from previous years?',
+      answer: [
+        {
+          text: 'Hacktoberfest 2026 will feature 300+ in-person and online community events worldwide focused on hands-on building, experimentation, and learning with open-source AI and open-weight models. In previous years, Hacktoberfest was focused on counting individual contributions towards open source projects.',
         },
       ],
     },
     {
-      id: 'confirmation',
-      question: 'When will my Fest be confirmed?',
+      id: 'why-focus-on-open-source-ai',
+      section: 'general',
+      question: 'Why is Hacktoberfest 2026 focused on open-source AI?',
       answer: [
         {
-          text: 'Fests will be confirmed on a rolling basis before and throughout Hacktoberfest. We aim to confirm your Fest <1 week from the date we receive your completed application.',
+          text: 'The AI landscape is rapidly evolving. There is uncertainty around future access, pricing, and regulations. By prioritizing knowledge share around open-weight models and open-source AI, we help build resilience around our overall ecosystem.',
         },
       ],
     },
     {
-      id: 'support',
-      question: 'What support will I receive for my Fest?',
+      id: 'get-involved-in-open-source',
+      section: 'general',
+      question:
+        "I was planning on getting into open source this October, now I don't know what to do. How can I get involved in open source?",
       answer: [
         {
-          text: 'All Fest organizers will be eligible for stickers, swag, and prizes for their participants. In addition, MLH will provide financial reimbursement to organizers for certain event-related expenses.',
+          text: "Open source runs 365 days a year, and you can get started anytime. Just because Hacktoberfest isn't incentivizing open source contributions with swag, doesn't mean you can't contribute any more. Check out ",
+        },
+        {
+          text: 'this guide',
+          href: 'https://dev.to/opensauced/open-source-101-a-beginners-guide-to-getting-started-37fb',
+        },
+        { text: ' to get started.' },
+      ],
+    },
+    {
+      id: 'why-moving-away-from-prs',
+      section: 'general',
+      question:
+        'Why is Hacktoberfest moving away from counting Pull Requests (PRs)?',
+      answer: [
+        {
+          text: 'With the rise of AI tools making low-effort PRs trivial to generate, open-source maintainers faced unprecedented floods of noise, spam, and burnout. In 2026, Hacktoberfest is refocusing on high-value, meaningful learning, collaborative events, and open-source AI development rather than raw PR volume.',
         },
       ],
     },
     {
-      id: 'promotion',
-      question: 'Will you promote my Fest?',
+      id: 'who-is-eligible',
+      section: 'general',
+      question: 'Who is eligible to participate?',
       answer: [
         {
-          text: 'Yes! We will promote all Fests on the Hacktoberfest website in a searchable gallery so participants can easily find your event. We will also promote the Fests program via our social media channels and marketing campaigns across MLH and DEV.',
+          // Corrected per the design spec: "worldwide are welcome" read as
+          // plural agreement with "worldwide" rather than with "Anyone".
+          text: 'Anyone aged 13 and older worldwide is welcome to participate, subject to U.S. export controls and embargo restrictions.',
+        },
+      ],
+    },
+    // -- Preptember --------------------------------------------------------
+    {
+      id: 'what-is-preptember',
+      section: 'preptember',
+      question: 'What is Preptember?',
+      answer: [
+        // Kept as supplied, including "stay tuned", at the user's explicit
+        // instruction — even though applications are already open and /my
+        // ships a live Preptember hub, so this reads as stale from launch
+        // day. Only the organizers -> hosts swap applies here.
+        {
+          text: 'Preptember is the month-long preparation period throughout September where hosts plan their Fests before hacking begins in October. Stay tuned for more details, to be released closer to September.',
+        },
+      ],
+    },
+    // -- In-Person Events ("Fests") & Formats ------------------------------
+    {
+      id: 'what-is-a-fest',
+      section: 'fests',
+      question: 'What is a "Fest"?',
+      answer: [
+        {
+          text: 'A Fest is an official, in-person Hacktoberfest event lasting between 3 and 12 hours, designed to bring local developer communities together to learn and build with open-source AI.',
         },
       ],
     },
     {
-      id: 'pull-requests',
-      question: 'So we’re not making PRs anymore?',
+      id: 'fest-formats',
+      section: 'fests',
+      question: 'What are the two official Fest formats?',
+      // The one answer the flat { text }/{ href } segment shape can't
+      // express: a numbered list with bold lead-ins. See parseAnswerMarkdown
+      // below for how this renders, and answerText/answerLinks for how it
+      // still yields plain prose and link URLs everywhere else.
       answer: [
         {
-          text: 'Hacktoberfest is moving away from counting PRs this year. With the rise of AI making low-effort PRs effortless to generate, maintainers were facing a massive flood of activity and burnout. The shift this year focuses on learning, experimentation, and building within the open source AI ecosystem. We’ll be sharing full details soon!',
+          markdown:
+            '1. **Hacktoberfest Hack Day:** Structured mini hackathons where participants build open-source AI projects during the event. Features official swag, prize categories, DEV Badges, potential partner prizes, and food/beverage reimbursement for hosts.\n2. **Hacktoberfest Meet Up:** Flexible, informal community gatherings (talks, workshops, panels, or social discussions) centered around open-source AI. Receives official swag (stickers, T-shirts, postcards) but no prizes or financial reimbursement.',
         },
+      ],
+    },
+    {
+      id: 'will-everyone-get-a-tshirt',
+      section: 'fests',
+      question: 'Will everyone get a T-Shirt?',
+      answer: [
+        {
+          text: "While we are committed to sending thousands of t-shirts to in-person events, we cannot guarantee a T-shirt to every Hacktoberfest participant. The T-shirts we send to each event are to be distributed by the hosts of your Fest to participants as on-site availability allows and at the hosts' discretion. We unfortunately cannot promise to mail T-shirts to in-person participants who did not receive one at their events due to logistical constraints. Online Hacktoberfest participants will not be eligible for a T-shirt.",
+        },
+      ],
+    },
+    {
+      id: 'required-software-platforms',
+      section: 'fests',
+      question: 'What software platforms are required to run a Fest?',
+      answer: [
+        // OrganizerHQ (and OHQ) is the product name, not the "organizers ->
+        // hosts" house-term swap, so it stays as supplied.
+        {
+          text: "All Fests must use Major League Hacking's OrganizerHQ (OHQ) for attendee registration and day-of check-in. In addition, Hack Days must use OrganizerHQ Challenges for project submissions and judging.",
+        },
+      ],
+    },
+    {
+      id: 'project-code-before-fest',
+      section: 'fests',
+      question: 'Can participants start writing project code before the Fest?',
+      answer: [
+        {
+          text: 'No. For Hacktoberfest Hack Day events, work on submitted projects must not begin before the official start of the Fest.',
+        },
+      ],
+    },
+    {
+      id: 'post-event-deliverables',
+      section: 'fests',
+      question: 'What post-event deliverables are required from hosts?',
+      answer: [
+        {
+          text: 'Hosts must submit high-resolution event photos, verified check-in data via OrganizerHQ, winner records, and itemized food/beverage expense receipts (for Hack Days reimbursements).',
+        },
+      ],
+    },
+    // -- Fest Hosting, Applications & Logistics ----------------------------
+    {
+      id: 'how-to-apply-to-host',
+      section: 'hosting',
+      question: 'How do community members apply to host a Fest?',
+      answer: [
+        { text: 'Hosts can apply via the ' },
+        {
+          // Source gave this as http://; the site never links out over
+          // plain http, so the scheme is corrected to https.
+          text: 'host portal',
+          href: 'https://organize.mlh.com/host/hacktoberfest-2026',
+        },
+        { text: '. Visit our ' },
+        {
+          text: 'host guide',
+          href: 'https://mlh.gitbook.io/mlh-hacktoberfest-organizer-guide',
+        },
+        { text: ' to learn more about the Fest hosting process.' },
+      ],
+    },
+    {
+      id: 'application-approval-time',
+      section: 'hosting',
+      question: 'How long does application approval take?',
+      answer: [
+        {
+          text: 'Applications are reviewed on a rolling basis, with confirmation typically provided within less than one week.',
+        },
+      ],
+    },
+    {
+      id: 'venue-requirements',
+      section: 'hosting',
+      question: 'What venue requirements must a host secure?',
+      answer: [
+        {
+          text: 'Hosts must secure a safe, accessible in-person venue for 3 to 12 hours equipped with reliable Wi-Fi, power outlets, seating, and necessary AV equipment.',
+        },
+      ],
+    },
+    {
+      id: 'corporate-partner-hosting',
+      section: 'hosting',
+      question: 'How do corporate partners host Fests at company offices?',
+      answer: [
+        // "their own event organizers" names the literal role, not the
+        // house term, so it's the one prose use of "organizers" that stays.
+        {
+          text: 'Corporate partner office events are coordinated directly through the MLH Operations team rather than the public application portal. Corporate hosts receive all the benefits offered to our community-organized Fests, but will provide their own event organizers, and are not eligible for expense reimbursement. To explore corporate partnerships of this nature, please email us at ',
+        },
+        { text: 'hacktoberfest@mlh.io', href: 'mailto:hacktoberfest@mlh.io' },
+        { text: '.' },
+      ],
+    },
+    {
+      id: 'geographic-sanctions-restrictions',
+      section: 'hosting',
+      question:
+        'Are there geographic or sanctions restrictions for hosting or participating in Fests?',
+      answer: [
+        // Corrected per the design spec: as supplied, the parenthetical
+        // read as though Ukraine itself were an embargoed region rather
+        // than three specific regions within it.
+        {
+          text: 'Fests and swag shipments are available worldwide, excluding embargoed regions (Cuba, Iran, North Korea, Syria, and the Crimea, Donetsk and Luhansk regions of Ukraine) as well as nations under targeted sanctions.',
+        },
+      ],
+    },
+    // -- Swag, Participant Envelopes & Reimbursements ----------------------
+    {
+      id: 'event-pack-swag',
+      section: 'swag',
+      question: 'What swag is included in the in-person Fest Event Packs?',
+      answer: [
+        {
+          text: 'All in-person Fests will get a shipment of MLH stickers, League stickers, DigitalOcean stickers, and T-shirts which hosts will distribute at their discretion in accordance with MLH policies.',
+        },
+      ],
+    },
+    {
+      id: 'swag-envelope-program',
+      section: 'swag',
+      question: 'How does the individual Swag Envelope program work?',
+      answer: [
+        {
+          text: 'Participants who cannot attend an in-person Fest can earn an official Hacktoberfest Swag Envelope by completing participation milestones online (more details soon on these milestones).',
+        },
+      ],
+    },
+    {
+      id: 'swag-envelope-contents',
+      section: 'swag',
+      question: 'What items are included inside the Swag Envelope?',
+      answer: [
+        {
+          text: 'Custom Hacktoberfest stickers and other envelope-friendly items.',
+        },
+      ],
+    },
+    {
+      id: 'envelope-shipping-timeline',
+      section: 'swag',
+      question: 'What is the envelope fulfillment and shipping timeline?',
+      answer: [
+        {
+          text: 'Envelope shipments will begin dispatching after Hacktoberfest concludes and should arrive to most destinations within 30-60 days.',
+        },
+      ],
+    },
+    {
+      id: 'host-expense-reimbursement',
+      section: 'swag',
+      question: 'What are the expense reimbursement rules for Fest hosts?',
+      answer: [
+        {
+          text: 'Reimbursements apply strictly to Hacktoberfest Hack Day events for approved in-policy food and beverage expenses up to a designated cap. Meet Ups and corporate partner hosts are not eligible for reimbursement.',
+        },
+      ],
+    },
+    // -- Sponsorship & Partner Packages -------------------------------------
+    {
+      id: 'how-to-sponsor',
+      section: 'sponsorship',
+      question: 'How can companies sponsor Hacktoberfest 2026?',
+      answer: [
+        {
+          text: 'Companies can reach out to discuss sponsorship opportunities with our team at ',
+        },
+        { text: 'hacktoberfest@mlh.io', href: 'mailto:hacktoberfest@mlh.io' },
+        { text: '.' },
       ],
     },
   ],
+  homepage: {
+    ids: [
+      'what-is-hacktoberfest',
+      'how-2026-differs',
+      'what-is-a-fest',
+      'how-to-apply-to-host',
+    ],
+    cta: { label: 'See all FAQs', href: '/faq/' },
+  },
+  page: {
+    title: 'FAQ | Hacktoberfest 2026',
+    description:
+      'Answers to the most common Hacktoberfest 2026 questions: the mission change, Preptember, Fest formats, hosting logistics, swag, and sponsorship.',
+    eyebrow: 'Common questions',
+    heading: { lead: 'Everything you need', accent: 'to know.' },
+    intro:
+      'Hacktoberfest works differently this year, and a new format always comes with questions. Here is what to know about hosting a Fest, taking part, and what comes next.',
+  },
 };
 
 /* A segment array as a reader hears it — used for FAQ answers and the
    mission's paragraphs alike. URLs and emphasis are deliberately left out so
    this can be compared against the rendered page, where a link's destination
-   lives in the href and bolding lives in the markup rather than the text. */
+   lives in the href and bolding lives in the markup rather than the text.
+   A `markdown` segment reduces to the same kind of prose: list markers and
+   `**`/`[]()` markup are stripped so the crawler files and the content tests
+   never see anything a `{ text }` segment couldn't also have produced. */
+const ORDERED_LIST_MARKER = /^\d+\.\s+/;
+const MARKDOWN_LINK = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+const markdownToPlainText = (markdown) =>
+  markdown
+    .split('\n')
+    // Each numbered line was one list item; joined with spaces they read as
+    // one paragraph, the same way a reader would say the list aloud.
+    .map((line) => line.replace(ORDERED_LIST_MARKER, ''))
+    .join(' ')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(MARKDOWN_LINK, '$1');
+
 export const answerText = (answer) =>
-  answer.map((segment) => segment.text).join('');
+  answer
+    .map((segment) =>
+      segment.markdown ? markdownToPlainText(segment.markdown) : segment.text,
+    )
+    .join('');
 
 export const answerLinks = (answer) =>
-  answer.filter((segment) => segment.href).map((segment) => segment.href);
+  answer.flatMap((segment) => {
+    if (segment.href) return [segment.href];
+    if (segment.markdown) {
+      // matchAll walks the string in order, same as the segments array
+      // itself, so links from a markdown segment interleave correctly with
+      // any { text, href } segments before or after it.
+      return [...segment.markdown.matchAll(MARKDOWN_LINK)].map(
+        (match) => match[2],
+      );
+    }
+    return [];
+  });
+
+/* Turns one `{ markdown }` segment's text into a structure a React component
+   can render without a markdown library — FaqList (a later task) walks this
+   rather than the raw string. Handles exactly the subset described above and
+   nothing more; anything outside it is passed through as literal text.
+
+   Returns:
+     { type: 'orderedList', items: [{ parts }, ...] }  — when every non-blank
+       line opens with a `1. ` / `2. ` marker
+     { type: 'paragraph', parts }                       — otherwise
+
+   `parts` is an array of:
+     { text }               — plain prose
+     { text, bold: true }   — **bold** content
+     { text, href }         — a [label](href) link
+   Concatenating a parts array's `text` fields reproduces the same plain
+   prose answerText produces for the segment, so nothing here can disagree
+   with what the crawler files say. */
+const INLINE_MARKUP = /\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)]+)\)/g;
+
+const parseInline = (str) => {
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  // eslint-disable-next-line no-cond-assign
+  while ((match = INLINE_MARKUP.exec(str))) {
+    if (match.index > lastIndex) {
+      parts.push({ text: str.slice(lastIndex, match.index) });
+    }
+    if (match[1] !== undefined) {
+      parts.push({ text: match[1], bold: true });
+    } else {
+      parts.push({ text: match[2], href: match[3] });
+    }
+    lastIndex = INLINE_MARKUP.lastIndex;
+  }
+  if (lastIndex < str.length) {
+    parts.push({ text: str.slice(lastIndex) });
+  }
+
+  return parts;
+};
+
+export const parseAnswerMarkdown = (markdown) => {
+  const lines = markdown.split('\n').filter((line) => line.trim().length);
+  const isOrderedList =
+    lines.length > 0 && lines.every((line) => ORDERED_LIST_MARKER.test(line));
+
+  if (isOrderedList) {
+    return {
+      type: 'orderedList',
+      items: lines.map((line) => ({
+        parts: parseInline(line.replace(ORDERED_LIST_MARKER, '')),
+      })),
+    };
+  }
+
+  return { type: 'paragraph', parts: parseInline(markdown) };
+};
 
 export const subscribed = {
   title: 'Thanks for signing up | Hacktoberfest 2026',
