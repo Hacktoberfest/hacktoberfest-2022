@@ -18,9 +18,9 @@ spec:
           scope: RUN_TIME
           type: SECRET
       github:
-        branch: production
+        branch: main
         deploy_on_push: true
-        repo: Hacktoberfest/hacktoberfest-2022
+        repo: MLH/hacktoberfest-2026-frontend
       instance_count: 1
       instance_size_slug: basic-xxs
       kind: POST_DEPLOY
@@ -38,9 +38,9 @@ spec:
           scope: BUILD_TIME
           value: ${_self.COMMIT_HASH}
       github:
-        branch: production
+        branch: main
         deploy_on_push: true
-        repo: Hacktoberfest/hacktoberfest-2022
+        repo: MLH/hacktoberfest-2026-frontend
       name: hacktoberfest-production-nyc
       output_dir: out
       routes:
@@ -61,45 +61,47 @@ spec:
           authority: hacktoberfest.com
           redirect_code: 301
           uri: /.well-known/security.txt
+      # The 2026 site has no /events or /about; hosting asks land on /host/
+      # and everything else lives on the homepage.
       - match:
           path:
             prefix: /organizers
         redirect:
           authority: hacktoberfest.com
           redirect_code: 302
-          uri: /events/#organizers
+          uri: /host/
       - match:
           path:
             prefix: /brand
         redirect:
           authority: hacktoberfest.com
           redirect_code: 302
-          uri: /events/#brand
+          uri: /host/
       - match:
           path:
             prefix: /lore
         redirect:
           authority: hacktoberfest.com
           redirect_code: 302
-          uri: /about/#lore
+          uri: /
       - match:
           path:
             prefix: /love
         redirect:
           authority: hacktoberfest.com
           redirect_code: 302
-          uri: /about/#love
+          uri: /
       - match:
           path:
             prefix: /sponsors
         redirect:
           authority: hacktoberfest.com
           redirect_code: 302
-          uri: /about/#sponsors
+          uri: /
       - match:
           path:
             prefix: /rewards
         redirect:
           authority: hacktoberfest.com
           redirect_code: 302
-          uri: /about/#rewards
+          uri: /
