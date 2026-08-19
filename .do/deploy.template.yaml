@@ -18,9 +18,9 @@ spec:
           scope: RUN_TIME
           type: SECRET
       github:
-        branch: main
+        branch: production
         deploy_on_push: true
-        repo: MLH/hacktoberfest-2026-frontend
+        repo: Hacktoberfest/hacktoberfest-2022
       instance_count: 1
       instance_size_slug: basic-xxs
       kind: POST_DEPLOY
@@ -44,9 +44,9 @@ spec:
           scope: BUILD_TIME
           value: ${_self.COMMIT_HASH}
       github:
-        branch: main
+        branch: production
         deploy_on_push: true
-        repo: MLH/hacktoberfest-2026-frontend
+        repo: Hacktoberfest/hacktoberfest-2022-frontend
       name: hacktoberfest-production-nyc
       output_dir: out
       routes:
