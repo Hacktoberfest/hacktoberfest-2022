@@ -1,0 +1,103 @@
+/* Shared band geometry — identical width rules to WelcomeBand so every
+   band's left edge aligns. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+/* The band card convention (ink border, accent-deep shadow) on the sky
+   ground — the same blue as the hero's "welcome to your Hacktoberfest."
+   accent above it, so the card reads loud but on-message rather than
+   alarming the way the brand orange did here. Self-contained: the title
+   is the card's own header bar, so no band heading sits above it. No
+   padding on the card itself — the header owns the top edge, and the
+   units row carries its own. */
+.card {
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.sky */
+  background: #8bb2de;
+  /* colors.skyDeep */
+  box-shadow: 7px 7px 0 #1f4e6b;
+}
+
+/* The title as the card's header bar — a full-width ink strip in the
+   tags' mono-uppercase voice, flush against the frame on three sides so
+   title and card read as one built object. Centered over the digits and
+   sized as a real headline, not a tag whisper — it's the sentence the
+   numbers below complete. */
+.header {
+  margin: 0;
+  padding: 12px 18px;
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.ink */
+  background: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.units {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 26px 16px 30px;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+/* tabular-nums holds every digit to one width, so the card doesn't
+   shudder each second as a 1 swaps in for a 0. */
+.value {
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 9vw, 6rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Matches the milestone tag's mono treatment; ink like the digits, since
+   the muted grey-green fell below comfortable contrast on the sky ground. */
+.label {
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

@@ -1,0 +1,199 @@
+/* The whole component is a CSS Module now, for the reason first learned on
+   the CTA below: styled-components CSS is extracted into each page's HTML
+   at build time and is absent from the client JS bundle. /auth/callback/
+   exports in its working state, and since that state became the shared
+   Loader, a styled-components MessagePage never renders during that
+   export — so its failure states (the only ones a participant can end up
+   stuck on) would reach production with no styles at all. A CSS Module is
+   emitted whether or not the element renders at export time.
+
+   CSS Modules cannot import src/styles/tokens.js or compose Shell, so
+   every colour is inlined with its token named in a comment, and Shell's
+   width rules are restated on .inner — same conventions as
+   MyStatus.module.css and Loader.module.css (which restates the 72px/82px
+   header offsets from here). */
+
+/* MessageRoot: the full-bleed forest ground. */
+.root {
+  position: relative;
+  overflow: hidden;
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+/* MessageInner: Shell's column, filling the viewport under the standalone
+   header (72px, 82px from breakpoints.tablet up). */
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(calc(100% - 30px), 1280px);
+  min-height: calc(100vh - 72px);
+  min-height: calc(100svh - 72px);
+  margin-inline: auto;
+  padding-block: clamp(60px, 6vw, 100px);
+  text-align: center;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .inner {
+    width: min(calc(100% - 40px), 1280px);
+    min-height: calc(100vh - 82px);
+    min-height: calc(100svh - 82px);
+  }
+}
+
+/* Shell again: more presence on ultrawide displays. */
+@media (min-width: 1700px) {
+  .inner {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  /* colors.pinkLight */
+  color: #f6c4c1;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 20px auto 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.5rem, 9vw, 6.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.heading em {
+  display: block;
+  /* colors.sky */
+  color: #8bb2de;
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+.copy {
+  max-width: 52ch;
+  margin: 26px auto 0;
+  font-size: clamp(1.06rem, 1.6vw, 1.25rem);
+  line-height: 1.56;
+}
+
+/* The stair decorations, reproducing Hero.styles' heroDeco + DecoTopLeft/
+   DecoTopRight: pinned to the top corners, hidden below desktop, and held
+   to a centered 1920px band on ultrawide displays so they keep framing
+   the content instead of stranding themselves against the bezel. */
+.decoLeft,
+.decoRight {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  display: none;
+  width: clamp(150px, 15vw, 260px);
+  pointer-events: none;
+}
+
+.decoLeft {
+  left: max(0px, calc(50% - 960px));
+}
+
+.decoRight {
+  right: max(0px, calc(50% - 960px));
+}
+
+.decoLeft svg,
+.decoRight svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* breakpoints.desktop */
+@media (min-width: 1024px) {
+  .decoLeft,
+  .decoRight {
+    display: block;
+  }
+}
+
+/* The CTA, the first part of this component to move here — bitten first
+   because it only renders in the *failed* state of /auth/callback/, which
+   never happens during the static export, so its styled-component CSS
+   existed nowhere on that page and the button rendered as bare underlined
+   text, focus ring and all.
+
+   The values below reproduce `buttonStyles` in src/components/Button.js
+   (primary variant) plus MessageButton's `margin-top`. Keep them in step by
+   hand: CSS Modules cannot import src/styles/tokens.js, so every colour is
+   inlined with the token named in a comment above it. */
+.cta {
+  appearance: none;
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32px;
+  padding: 12px 22px;
+  /* colors.ink */
+  color: #10201d;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.pink */
+  background: #e97b77;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* The site's press-down hover (Button.js): slide into the shadow. */
+.cta:hover {
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+}
+
+/* Replaces the offset shadow outright while focused, same as Button.js — the
+   ring has to be visible against the forest green this page sits on. */
+.cta:focus-visible {
+  /* colors.ink */
+  box-shadow: 0 0 0 5px #10201d;
+}

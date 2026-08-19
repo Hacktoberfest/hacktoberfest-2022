@@ -1,0 +1,121 @@
+/* Full-bleed forest, the same visual family as MessagePage's .root (which
+   the MLH outage surface renders too): the whole-page surfaces all share a
+   ground. */
+.loading {
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+/* Same viewport-filling column as MessagePage's .inner; the 72px/82px
+   header offsets are MessagePage.module.css. */
+.loadingInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 72px);
+  min-height: calc(100svh - 72px);
+  padding-block: clamp(60px, 6vw, 100px);
+}
+
+/* The stand-in variant (`inline`): the wave alone, on whatever ground the
+   page already has. Dropping the forest and the ink rule is the point —
+   mid-page, below /my's welcome hero, a full-bleed green block reads as a
+   band that failed to load rather than as one still loading. The height
+   is a held-open space instead of a filled screen: enough that the page
+   doesn't visibly collapse when the bands arrive, nowhere near a
+   viewport. */
+.inline {
+  border-bottom: 0;
+  background: none;
+}
+
+.inlineInner {
+  min-height: 0;
+  padding-block: clamp(80px, 15vw, 150px);
+}
+
+/* The standard visually-hidden recipe: the aria-live paragraph must stay
+   in the accessibility tree while the squares carry the visual state. */
+.visuallyHidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.boxes {
+  display: flex;
+}
+
+/* Touching squares, no gap — the four-colour strip from the brand mark.
+   The wave: each square rises and settles in turn, one second a round,
+   with a beat of rest between rounds. */
+.box {
+  width: clamp(34px, 6vw, 48px);
+  height: clamp(34px, 6vw, 48px);
+  animation: box-wave 1.4s ease-in-out infinite;
+}
+
+@keyframes box-wave {
+  0%,
+  50%,
+  100% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(-40%);
+  }
+}
+
+.boxOrange {
+  /* colors.orange */
+  background: #e53927;
+  animation-delay: 0s;
+}
+
+.boxSky {
+  /* colors.sky */
+  background: #8bb2de;
+  animation-delay: 0.12s;
+}
+
+.boxOchre {
+  /* colors.ochre */
+  background: #f5b726;
+  animation-delay: 0.24s;
+}
+
+.boxPink {
+  /* colors.pink */
+  background: #e97b77;
+  animation-delay: 0.36s;
+}
+
+/* The still version is the brand strip itself, so stopping the motion
+   costs nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .box {
+    animation: none;
+  }
+}
+
+/* breakpoints.tablet — the standalone header grows at this width. */
+@media (min-width: 768px) {
+  .loadingInner {
+    min-height: calc(100vh - 82px);
+    min-height: calc(100svh - 82px);
+  }
+
+  /* Restated after the rule above, which it would otherwise inherit — the
+     stand-in is never viewport-tall at any width. */
+  .inlineInner {
+    min-height: 0;
+  }
+}

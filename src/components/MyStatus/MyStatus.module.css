@@ -1,0 +1,78 @@
+/* Same band width rules as WelcomeBand, so the error surface lines up with
+   the bands it stands in for. Bottom padding owns the page's end gutter in
+   the error state. */
+.column {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 26px clamp(48px, 7vw, 90px);
+}
+
+/* The loading surface's rules live in components/Loader — it is shared
+   with /auth/callback/ and owns its own module. */
+
+.errorTitle {
+  margin: 0 0 10px;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.errorBody {
+  max-width: 52ch;
+  margin: 0 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  line-height: 1.55;
+}
+
+.retryButton {
+  padding: 12px 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+/* The site's press-down hover (Button.js): slide into the shadow. */
+.retryButton:hover {
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+  transform: translate(2px, 2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retryButton {
+    transition: none;
+  }
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .column {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .column {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* The MLH outage surface (MyMlhDown) has no rules here: it renders
+   components/MessagePage, the same full-bleed forest screen as /login/ and
+   /auth/callback/. It only ever had its own copy of that layout because
+   MessagePage was styled-components at the time — see index.js. */

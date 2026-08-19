@@ -114,7 +114,7 @@ export const getInvolved = {
       title: 'Bring Hacktoberfest to your city.',
       copy: [
         'Anyone can host a Fest. Are you part of a local meetup group? University club? Or perhaps you and a few coworkers have the power to book a conference room… let’s bring Hacktoberfest to your community.',
-        'Organizers will receive funding to help cover their event, plus swag and programming support.',
+        'Every Fest is eligible for stickers, swag, and programming support. Hack Day hosts also receive funding to help cover their event.',
       ],
       cta: 'Host a Fest',
     },
@@ -155,11 +155,11 @@ export const faq = {
       id: 'organize',
       question: 'How do I organize a Fest?',
       answer: [
+        { text: 'Applications are open. ' },
+        { text: 'Read about hosting a Fest', href: '/host/' },
         {
-          text: 'You will need to apply to host a Fest, and applications will open soon. For now, ',
+          text: ', pick the format that fits your community, and apply from there.',
         },
-        { text: 'sign up for our mailing list', form: 'faqHost' },
-        { text: ' to get the latest updates.' },
       ],
     },
     {
@@ -219,6 +219,136 @@ export const subscribed = {
   cta: 'Back to Hacktoberfest',
 };
 
+/* Copy for /host, the organizer-facing page. A Fest is one of two formats:
+   a Hack Day (a funded mini-hackathon — people build projects) or a Meet Up
+   (a lighter gathering, no projects, no MLH funding). "Hack Day" here is an
+   official Fest format name; it resembles MLH's separate Hack Days program
+   (mlh.com/hack-days) but is not it, so the copy never links that program.
+   The support items restate what the FAQ already promises; nothing here
+   offers more than the FAQ does, so the two can't drift apart in
+   substance. */
+export const host = {
+  title: 'Host a Fest | Hacktoberfest 2026',
+  description:
+    'Bring Hacktoberfest to your city. Host a one-day, in-person Hack Day or Meet Up about open source AI. Compare the formats, see the support organizers get, and apply to host.',
+  eyebrow: 'Host a Fest',
+  heading: { lead: 'Bring Hacktoberfest', accent: 'to your city.' },
+  intro: 'Anyone can host a Fest. Choose between a Hack Day or a Meet Up.',
+  formats: {
+    eyebrow: 'The formats',
+    heading: { lead: 'Two ways to', accent: 'run the day.' },
+    intro:
+      'Every Fest is one day and in person. From there, pick the format that fits your community.',
+    cards: [
+      {
+        id: 'hack-day',
+        tag: 'Hack Day',
+        title: 'A mini-hackathon.',
+        copy: [
+          'Hands on keyboard. A Hack Day gets people building and shipping, with prizes for the best projects.',
+        ],
+      },
+      {
+        id: 'meetup',
+        tag: 'Meet Up',
+        title: 'A community gathering.',
+        copy: [
+          'Less structure, same spirit. A Meet Up might have speakers or simply offer an opportunity for your community to get together.',
+        ],
+      },
+    ],
+    comparison: {
+      label: 'Hack Day and Meet Up, compared',
+      /* Cells are display strings so the table and llms-full.txt read the
+         same words. Prizes are a Hack Day thing — the owner's call,
+         2026-08-17. */
+      columns: ['Hack Day', 'Meet Up'],
+      rows: [
+        {
+          id: 'projects',
+          label: 'People build projects',
+          hackDay: 'Yes',
+          meetUp: 'No',
+        },
+        {
+          id: 'workshops',
+          label: 'Workshops and speakers',
+          hackDay: 'Yes',
+          meetUp: 'Optional',
+        },
+        {
+          id: 'prizes',
+          label: 'Prizes',
+          hackDay: 'Yes',
+          meetUp: 'No',
+        },
+        {
+          id: 'funding',
+          label: 'MLH funding',
+          hackDay: 'Yes',
+          meetUp: 'No',
+        },
+      ],
+    },
+  },
+  support: {
+    eyebrow: 'Hosting, supported',
+    heading: { lead: 'You bring the people.', accent: 'We bring the rest.' },
+    intro: 'You’re not alone.',
+    items: [
+      {
+        id: 'swag',
+        title: 'Stickers, swag, and prizes',
+        copy: 'Every Fest is eligible to receive stickers, t-shirts, and additional swag for its participants.',
+      },
+      {
+        id: 'promotion',
+        title: 'Promotion',
+        copy: 'Your Fest is listed in our searchable directory and promoted across MLH and DEV channels.',
+      },
+      {
+        id: 'programming',
+        title: 'Programming support',
+        copy: 'Help shaping your Fest activities so you’re not starting from scratch.',
+      },
+      {
+        id: 'funding',
+        title: 'Funding',
+        copy: 'Hack Day organizers receive funding to help cover their event, with financial reimbursement from MLH for certain event-related expenses. Meet Ups run without MLH funding.',
+      },
+    ],
+    guide: {
+      copy: 'From booking venues to event programming to getting your swag, the host handbook has all the information you need.',
+      cta: 'Read the host handbook',
+    },
+  },
+  apply: {
+    eyebrow: 'Apply to host',
+    heading: { lead: 'Ready to host', accent: 'your Fest?' },
+    body: 'Applications are now open and Fests are confirmed on a rolling basis.',
+    /* The organizer journey as three steps; the middle one carries the
+       confirmation promise that used to be a support item. */
+    steps: [
+      {
+        id: 'apply',
+        title: 'Apply',
+        copy: 'Tell us about your community and the type of Fest you want to run.',
+      },
+      {
+        id: 'confirmed',
+        title: 'Get confirmed',
+        copy: 'Fests are confirmed on a rolling basis, within a week of a completed application.',
+      },
+      {
+        id: 'host',
+        title: 'Host your Fest',
+        copy: 'Get ready to run your Hack Day or Meet Up!',
+      },
+    ],
+    cta: 'Apply to host a Fest',
+  },
+};
+
 export const notFound = {
   title: 'Page not found | Hacktoberfest 2026',
   eyebrow: 'Error 404',
@@ -244,15 +374,276 @@ export const aiContext = {
   orientation:
     'Hacktoberfest is an annual event stewarded by Major League Hacking (MLH) and DEV, with presenting partner DigitalOcean. It began in 2014 as a pull-request challenge run by DigitalOcean. In 2026 it becomes an event you take part in: 300+ community-hosted, one-day “Fests”, plus an online event open to everyone. The focus is hands-on building with open models, open source agents, and open tooling.',
   participation: [
-    'Hosting is the live call to action. Anyone can host a Fest — a meetup group, a university club, or a few coworkers with a room to book. Organizers get funding toward their event, plus swag and programming support. Applications open soon; the site collects interest in the meantime.',
+    'Hosting is the live call to action. Anyone can host a Fest: a meetup group, a university club, or a few coworkers with a room to book. Fests come in two formats: Hack Days, funded mini-hackathons where people build projects, and Meet Ups, lighter gatherings that MLH does not fund. Every organizer gets swag and programming support. Applications are open, and Fests are confirmed on a rolling basis.',
     'Sponsorship has its own interest form.',
-    'Attendee sign-ups are not open yet. Fest dates, cities, and venues have not been announced. The site can notify you about local Fests once there is news — that goes through the same interest form.',
+    'Attendee sign-ups are not open yet. Fest dates, cities, and venues have not been announced. The site can notify you about local Fests once there is news, and that goes through the same interest form.',
   ],
   facts: [
     'Dates: October 2026. Specific Fest dates are not yet announced.',
     'Format: in person at 300+ local Fests, plus a global online event.',
     'Organizers: Major League Hacking (MLH) and DEV.',
     'Presenting partner: DigitalOcean.',
-    'Theme: AI belongs to everyone — open source AI.',
+    'Theme: AI belongs to everyone, and the focus is open source AI.',
   ],
+};
+
+/* Copy for /my, the hub that replaces /progress. Kept out of llms.txt by
+   not being imported in src/build/llms.mjs — the page is noindex and
+   useless logged-out. The framing throughout is the sticker pack that gets
+   mailed to participants; "envelope" is an internal delivery detail and
+   never appears in copy. */
+export const my = {
+  title: 'My Hacktoberfest | Hacktoberfest 2026',
+  /* The hero greeting. `greeting` takes a first name; the fallback covers
+     the loading state and any account with no usable name, so the line
+     never renders as "Hi ,". */
+  welcome: {
+    greeting: (name) => `Hi ${name},`,
+    fallbackName: 'there',
+    /* One accent on both sides of the Preptember flag — the hub is "your
+       Hacktoberfest" whichever month it's living in. The month-naming
+       preptemberAccent swap retired 2026-08-18. */
+    accent: 'welcome to your Hacktoberfest.',
+  },
+  /* The identity strip inside the welcome band: avatar, name, email, DEV
+     link status, sign out. No address data — keeping PII out of this
+     codebase is a spec decision. */
+  identity: {
+    /* Worn beside the name once the user has a real organized Fest —
+       hosting or hosted. In-progress applications (draft/submitted) don't
+       earn it; MLH's approval is what makes someone a host. */
+    hostBadge: 'Host',
+    manageCta: 'Manage MLH account',
+    devConnectCta: 'Connect DEV account',
+    devManageCta: 'Manage DEV account',
+    /* DEV's account settings page is where the MyMLH connection is made and
+       managed, so both button states land there. */
+    devConnectHref: 'https://dev.to/settings/account',
+    signOut: 'Sign out',
+  },
+  /* The Preptember band: a countdown to October 1st that stands in for the
+     progress and activities bands while data/preptember.mjs keeps the flag
+     on. Unit labels are plural even at 1 — "1 days" never shows long
+     enough to matter against the churn of a live clock, and the steadier
+     label reads better while the seconds tick. */
+  countdown: {
+    /* A single centered title inside the card, not the bands' lead/accent
+       pair — the digits directly below it are the accent. "in", because
+       the numbers complete the sentence. */
+    title: 'Hacktoberfest starts in',
+    labels: {
+      days: 'Days',
+      hours: 'Hours',
+      minutes: 'Minutes',
+      seconds: 'Seconds',
+    },
+  },
+  /* Preptember's second band: the user's own organizing entries —
+     applications in flight and confirmed events both — in full-width
+     cards. Badges and CTAs reuse my.fests wholesale (same rungs, same
+     words), so this object only holds the frame.
+
+     The ghost always renders, after any cards, because the application
+     is Preptember's one ask and the page never stops making it. Two
+     voices: `ghost` sells the first application to an empty list,
+     `ghostMore` invites a host to add another — "anyone can host" is
+     noise to someone already hosting. */
+  applications: {
+    heading: { lead: 'Your', accent: 'applications.' },
+    lede: 'Here are your Fest applications.',
+    /* Worn by a published event in place of the fests band's
+       "Hosting"/"Hosted": this list is about where applications stand,
+       and a public event is the last rung — the one past
+       applicationBadges.approved, which is an approval whose event MLH
+       has not published yet. Naming the publish is what tells the two
+       apart; "Hosting" is October's word, in Your Fests. */
+    publishedBadge: 'Event Published',
+    ghost: {
+      title: 'Start your first application.',
+      body: 'Anyone can host a Fest this October — a funded Hack Day or a lighter Meet Up with swag. Applications are confirmed on a rolling basis, usually within a week.',
+      cta: 'Apply to host a Fest',
+    },
+    ghostMore: {
+      title: 'Host another Fest.',
+      body: 'Want to run both a Hack Day and a Meet Up? Want to run Fests in multiple cities? The sky’s the limit.',
+      cta: 'Start another application',
+    },
+  },
+  /* The host resources band, under Your Applications. The handbook and
+     the team's inbox are open to everyone: reading one and writing to the
+     other is how someone decides to apply, and neither can be gated in
+     practice, so a padlock beside either would claim a gate that does not
+     exist. `locked` lives here beside each item's words so the component
+     can't disagree with the copy about what's gated.
+
+     The Discord row (locked: false, "MLH Discord", "Other hosts and the
+     Hacktoberfest team are in #hacktoberfest-2026, ready for your
+     questions.", "Join the Discord") is hidden for now. Restore it here,
+     between the handbook and the inbox, and add its id back to the open
+     list in preptember.test.mjs; HOST_DISCORD_URL and its link wiring in
+     HostResourcesBand are still in place.
+
+     The brand kit row (locked: true, "Logos, colors, and templates for
+     promoting your Fest under the Hacktoberfest name") is hidden for now:
+     it has no real destination yet, and a padlocked promise with nothing
+     behind it oversells. Restore it here — and the unlock sentence in the
+     lede — once HOST_BRAND_KIT_URL points somewhere real; its link wiring
+     in HostResourcesBand and the placeholder guard in preptember.test.mjs
+     are still in place. */
+  hostResources: {
+    heading: { lead: 'Your host', accent: 'resources.' },
+    lede: 'What you need to plan and run a Fest.',
+    /* Worn by every gated row in place of its link until approval. */
+    lockedBadge: 'Approved hosts',
+    items: [
+      {
+        id: 'handbook',
+        locked: false,
+        title: 'Host handbook',
+        copy: 'From booking venues to event programming to getting your swag.',
+        cta: 'Read the handbook',
+      },
+      {
+        id: 'email',
+        locked: false,
+        title: 'Email the team',
+        copy: 'Send your questions to hacktoberfest@mlh.io and the Hacktoberfest team will pick them up.',
+        cta: 'Send an email',
+      },
+    ],
+  },
+  /* Closes the Preptember page above the footer — the fests directory's
+     "That's your cue." callout retold as "why host", the pitch as four
+     numbered perk rows rather than a paragraph. Every row that promises
+     something restates a host.support item, so this list can never
+     promise more than /host does — funding stays Hack-Day-only here for
+     the same reason it does there. The last row promises nothing; it
+     closes the pitch on the feeling rather than the perks. The CTA points at /host/, which carries the formats and the
+     application; the direct apply link already lives in the applications
+     ghost above, so this band sells rather than repeats the ask. */
+  whyHost: {
+    title: 'Perks for Hosts',
+    perks: [
+      'Stickers, t-shirts, and swag for your participants',
+      'MLH funding if you’re hosting a Hack Day',
+      'Programming support, so you’re not planning your day alone',
+      'Promotion in the Fests directory and across MLH and DEV channels',
+      'TFW you’ve brought your community together',
+    ],
+    cta: 'Host a Fest',
+    photoAlt:
+      'Hack Day participants working on laptops around a table while a host leans in to help',
+  },
+  /* The thank-you postcard: closes the Preptember page instead of the
+     why-host pitch once an application is actually sent (hasApplied —
+     submitted or beyond; a draft still gets the pitch). Both faces are
+     inline SVGs in ThankYouBand; these are the back's words, kept here so
+     copy edits never touch geometry. The back's body is pre-wrapped: each
+     inner array is one paragraph, each string one line on the card. */
+  thankYou: {
+    title: 'You’ve got mail.',
+    cardLabel: 'Postcard from the Hacktoberfest team. Flip to read the note',
+    flipHint: 'flip me →',
+    flipBackHint: '← flip back',
+    /* Almost no live strings: both faces became supplied artwork
+       (2026-08-18) with the words baked into vector outlines. The
+       greeting is the one live line — the artwork leaves the top-left
+       blank so the card can greet the host by name — and the rest of
+       the note lives here only so the screen-reader copy of the card
+       says what the picture says. Change the artwork, change these. */
+    note: {
+      greeting: 'Hey,',
+      /* Who the card greets when it can't use the host's first name —
+         junk profile data, or a name long enough to run under the HF
+         logo mark (lib/postcardGreeting.mjs makes that call). Not
+         welcome.fallbackName's "there": this card is thanking someone
+         for applying to host, and "future host" is who they are. */
+      fallbackName: 'future host',
+      body: [
+        'Your application is in! Sometime in October, you might find yourself surrounded in a room full of people having magical aha! moments, all because you raised your hand.',
+        'Thank you for volunteering to host a Fest.',
+        'We’re reading every application with care and you’ll hear from us soon.',
+      ],
+      ps: 'P.S. OCTOBER’S GOING TO BE GOOD!',
+      signature:
+        'The Hacktoberfest Applications Team: Stephen, Jacklyn & Quinn',
+    },
+  },
+  /* Trimmed to what ApplicationsBand still borrows from the (deleted)
+     fests band: the application badge/CTA ladder and the fallback link
+     label. Everything else the fests band owned (heading, lede, status
+     and role badges, the find/host ghosts) left with it. */
+  fests: {
+    applicationBadges: {
+      draft: 'Application started',
+      submitted: 'Application submitted',
+      approved: 'Application approved',
+    },
+    applicationCtas: {
+      draft: 'Finish your application',
+      submitted: 'View application',
+      approved: 'Manage event',
+    },
+    viewFestCta: 'View Fest',
+  },
+  error: {
+    title: 'We couldn’t load your Hacktoberfest',
+    body: 'Something went wrong on our end. Your progress is safe. This is just the page failing to fetch it.',
+    cta: 'Try again',
+  },
+  /* The whole-page MLH outage state. Deliberately blames nothing on the
+     participant and offers no retry button: the existing `error` state's
+     retry is right for a transient fetch failure, but re-rendering this page
+     cannot fix MyMLH being down, and a button that looks like it might is
+     worse than none. Hacktoberfest runs on MyMLH, so naming it plainly is
+     more useful than a generic outage line. */
+  mlhDown: {
+    eyebrow: 'Your Hacktoberfest',
+    title: 'MyMLH is unreachable',
+    accent: 'Try again shortly.',
+    body: 'Hacktoberfest runs on MyMLH, and we can’t reach it right now. Nothing is wrong with your account or your progress, so please check back in a few minutes.',
+  },
+  loading: 'Loading your Hacktoberfest…',
+};
+
+export const login = {
+  title: 'Sign in | Hacktoberfest 2026',
+  redirecting: 'One moment. We’re taking you to MyMLH to sign in.',
+};
+
+/* The transit screen between MyMLH and /my. Participants should barely see
+   the working state; the failed state has to stand on its own. */
+export const authCallback = {
+  title: 'Signing you in | Hacktoberfest 2026',
+  eyebrow: 'Your Hacktoberfest',
+  working: {
+    heading: { lead: 'Signing you', accent: 'in.' },
+    body: 'One moment. We’re finishing your sign-in.',
+  },
+  failed: {
+    heading: { lead: 'That sign-in link', accent: 'has expired.' },
+    body: 'Sign-in links can only be used once, and they don’t last long. Start again and you’ll be straight back.',
+    cta: 'Sign in with MyMLH',
+  },
+  /* MyMLH lets people withhold their email address, and /auth/token then
+     answers 200 with a well-formed session carrying none. The exchange
+     succeeded, so `failed` — "that link has expired, start again" — is false
+     twice over, and its CTA sends them back through MyMLH to arrive here
+     again with the same profile, forever. Nothing on this site can break
+     that loop, so the CTA points at the one place that can: the MyMLH
+     profile (MLH_EMAIL_URL in data/links.js — a real link, so it lives with
+     the other tagged outbound links rather than here). */
+  noEmail: {
+    heading: { lead: 'MyMLH didn’t share', accent: 'an email address.' },
+    body: 'Your sign-in worked, but we can’t set up your Hacktoberfest without an email address to reach you on. Add one to your MyMLH profile, then sign in again.',
+    cta: 'Add an email on MyMLH',
+  },
+  /* Anything that isn’t the API rejecting the code: offline, CORS, DNS, a
+     5xx. Nothing has expired, so telling someone to start again because
+     their link is spent sends them round a loop that cannot work. */
+  unavailable: {
+    heading: { lead: 'We couldn’t reach', accent: 'the server.' },
+    body: 'Your sign-in link is fine. We just couldn’t finish the handover. Check your connection and try again.',
+    cta: 'Try again',
+  },
 };

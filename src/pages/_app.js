@@ -1,3 +1,9 @@
+/* Square (1x1) country flags for the /fests directory cards. Global for
+   the same reason leaflet.css is: third-party CSS has to enter through
+   _app in the pages router. */
+import 'flag-icons/css/flag-icons.min.css';
+import 'leaflet/dist/leaflet.css';
+
 import Head from 'next/head';
 import { createGlobalStyle } from 'styled-components';
 

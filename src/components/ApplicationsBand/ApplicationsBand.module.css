@@ -1,0 +1,248 @@
+/* Shared band geometry — identical width rules to WelcomeBand. The
+   closing gutter lives with the host resources band below, the last
+   in-flow band of the Preptember page. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.lede {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  line-height: 1.55;
+}
+
+/* One column on small screens, two on larger — an application card is
+   bigger than a fests-grid tile but not a whole headline row. The ghost
+   fills a half slot like any card: a slot waiting for the next
+   application is the point of it. */
+.list {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+}
+
+/* The fests band's card treatment (ink border, white ground, maroon
+   shadow). A flex column so the footer action bar sits on the card's
+   bottom edge whatever height the row's tallest card sets. */
+.card {
+  /* Anchor for the flag in the top-right corner. */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+}
+
+/* The body owns the padding the card used to carry; flex: 1 pushes the
+   footer to the bottom edge. */
+.cardBody {
+  flex: 1 1 auto;
+  padding: 18px 18px 14px;
+}
+
+/* Same square-with-ink-border flag as the fests cards. */
+.cardFlag {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 26px;
+  height: 26px;
+  /* flag-icons sizes .fis at 1em, and its two-class selector outranks
+     this one — the matching font-size keeps the square at 26px no matter
+     which rule wins. */
+  font-size: 26px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+}
+
+/* The organizing half of the fests band's badge ladder, same colors:
+   base is the submitted state's plain pink tint. The milestone tag's
+   treatment (mono, borderless, rounded) with each status's own colors
+   kept — matching the fests band's badges, one typographic voice. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 8px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.pinkLight */
+  background: #f6c4c1;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badgeIcon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+/* Application started: the light tint of the hosting orange — same family
+   as Hosting because it's the same journey, lighter because the Fest isn't
+   real yet. */
+.badgeApplication {
+  /* colors.orangeLight */
+  background: #f9c9c2;
+}
+
+/* Application approved and Event Published: green, inverted — the two
+   badges that read "done". The published rung shares the colour rather
+   than taking the fests band's hosting orange: it is the same journey one
+   step on, and its own star icon already sets it apart. No .badgeHosting
+   here — "Hosting" is October's word, in Your Fests. */
+.badgeApproved {
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.cardTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.cardMeta {
+  margin: 6px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.92rem;
+}
+
+.cardTime {
+  white-space: nowrap;
+}
+
+/* A real card's link is its footer: full-width bar under an ink rule,
+   label left, arrow right — matching the fests cards. */
+.cardAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 18px;
+  /* colors.ink */
+  border-top: 2px solid #10201d;
+  color: #10201d;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* colors.paper — the same quiet hover the milestone headers use. */
+.cardAction:hover {
+  background: #f2f2eb;
+}
+
+/* The no-applications ghost: dashed like the fests band's empty state — a
+   slot waiting to be filled — with the muted grey-green shadow so it
+   never outweighs a real card. A flex column like the real cards, so its
+   footer action lines up with theirs across a row. */
+.ghostCard {
+  display: flex;
+  flex-direction: column;
+  /* colors.ink */
+  border: 2px dashed #10201d;
+  /* colors.muted */
+  box-shadow: 6px 6px 0 #52635f;
+}
+
+.ghostContent {
+  flex: 1 1 auto;
+  padding: 18px 18px 14px;
+}
+
+/* The real cards' footer action in the ghost's dashed grammar. */
+.ghostAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 18px;
+  /* colors.ink */
+  border-top: 2px dashed #10201d;
+  color: #10201d;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* colors.paper — the same quiet hover the real cards' footers use. */
+.ghostAction:hover {
+  background: #f2f2eb;
+}
+
+.ghostTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.ghostBody {
+  margin: 6px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

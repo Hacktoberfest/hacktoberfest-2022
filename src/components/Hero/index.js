@@ -3,7 +3,7 @@ import DigitalOceanLogo from 'components/icons/DigitalOceanLogo';
 import MlhLogo from 'components/icons/MlhLogo';
 import { hero } from 'data/content.mjs';
 import { DEV_URL, DIGITALOCEAN_URL, MLH_URL } from 'data/links';
-import { HERO_ATTEND_FORM, HERO_HOST_FORM } from 'data/typeforms.mjs';
+import { HERO_ATTEND_FORM } from 'data/typeforms.mjs';
 import { colors } from 'styles/tokens';
 
 import {
@@ -69,9 +69,10 @@ const Hero = () => (
       </HeroHeading>
       <HeroDeck>{hero.deck}</HeroDeck>
       <HeroActions>
-        {/* One interest form behind both: it sorts hosts from attendees, so
-            the two CTAs differ only in attribution and preselection. */}
-        <HeroButton form={HERO_HOST_FORM}>{hero.cta}</HeroButton>
+        {/* The host CTA hands off to /host/, which carries the formats and
+            the application. Only the attendee ask is still a form, since
+            there is nothing to sign up for yet. */}
+        <HeroButton href="/host/">{hero.cta}</HeroButton>
         <HeroSecondaryButton form={HERO_ATTEND_FORM}>
           {hero.secondaryCta}
         </HeroSecondaryButton>

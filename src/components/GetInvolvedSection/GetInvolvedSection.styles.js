@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { buttonStyles } from 'components/Button';
 import Shell from 'components/Shell';
@@ -119,8 +119,19 @@ export const InvolvedCardCopy = styled.p`
   }
 `;
 
-export const InvolvedButton = styled(TypeformButton)`
+const involvedCta = css`
   ${buttonStyles}
   align-self: start;
   margin-top: auto;
+`;
+
+export const InvolvedButton = styled(TypeformButton)`
+  ${involvedCta}
+`;
+
+/* The same CTA as a link, for a card whose ask is a page rather than a
+   form. Sharing involvedCta is what keeps the two indistinguishable
+   sitting side by side in the grid. */
+export const InvolvedLink = styled.a`
+  ${involvedCta}
 `;

@@ -8,6 +8,7 @@ import {
   getInvolved,
   headingText,
   hero,
+  host,
   mission,
   siteMeta,
   subscribed,
@@ -25,16 +26,31 @@ const paragraphs = (...blocks) => blocks.flat().filter(Boolean).join('\n\n');
 
 const bullets = (items) => items.map((item) => `- ${item}`).join('\n');
 
+/* The orientation file's "Start here" list, each on-site entry tagged with
+   the route it points at. `route: null` is an entry that is not a page —
+   llms-full.txt is a file. */
+const START_HERE = [
+  {
+    route: '/',
+    text: '[Hacktoberfest 2026](./): The event overview, the mission, and how to get involved.',
+  },
+  {
+    route: '/host/',
+    text: '[Host a Fest](./host/): The Fest formats, the support organizers get, and how to apply to host.',
+  },
+  {
+    route: null,
+    text: '[Complete event context](./llms-full.txt): The full public copy of the site as one plain-text file.',
+  },
+];
+
 const llmsIndex = () =>
   paragraphs(
     '# Hacktoberfest 2026',
     `> ${siteMeta.description}`,
     aiContext.orientation,
     '## Start here',
-    bullets([
-      '[Hacktoberfest 2026](./): The event overview, the mission, and how to get involved.',
-      '[Complete event context](./llms-full.txt): The full public copy of the site as one plain-text file.',
-    ]),
+    bullets(START_HERE.map((entry) => entry.text)),
     '## Taking part',
     bullets(aiContext.participation),
     `## ${timeline.eyebrow}`,
@@ -82,8 +98,8 @@ const llmsFull = () =>
     faq.items.map((item) => {
       // Links are named in the prose but their URLs only exist in the markup,
       // so append them — a plain-text reader has no other way to follow one.
-      // No current answer carries an href, so today this suffix is always
-      // empty; it activates the moment one does.
+      // The organize answer is the one that carries an href today, and its
+      // destination is site-relative, same as the links in llms.txt above.
       const links = answerLinks(item.answer);
       const suffix = links.length ? ` (${links.join(' ')})` : '';
       return `${item.question} — ${answerText(item.answer)}${suffix}`;
@@ -91,6 +107,25 @@ const llmsFull = () =>
     '## After signing up',
     `${subscribed.eyebrow}. ${headingText(subscribed.heading)}`,
     subscribed.body,
+    '## Host a Fest',
+    `${host.eyebrow}. ${headingText(host.heading)}`,
+    host.intro,
+    host.formats.cards.map(
+      (card) => `${card.tag} — ${card.title} ${card.copy.join(' ')}`,
+    ),
+    `${host.formats.comparison.label}: ${host.formats.comparison.rows
+      .map(
+        (row) =>
+          `${row.label} — Hack Day: ${row.hackDay}; Meet Up: ${row.meetUp}`,
+      )
+      .join('. ')}.`,
+    host.support.items.map((item) => `${item.title}: ${item.copy}`),
+    host.apply.steps.map(
+      (step, index) => `Step ${index + 1} — ${step.title}: ${step.copy}`,
+    ),
+    // The hosting guide has no published URL yet, so the copy is named
+    // without a link — same honesty rule aiContext follows.
+    `${host.apply.body} (CTA: ${host.apply.cta} — opens the interest form.)`,
   );
 
 const write = (name, body) =>

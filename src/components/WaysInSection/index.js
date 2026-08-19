@@ -21,7 +21,7 @@ const WAYS = [
     title: 'Join a Fest near you.',
     copy: 'Build for a day with your local community and demo what you made.',
     reward:
-      'Earn the limited-edition Hacktoberfest 2026 t-shirt — only available by attending in person.',
+      'Earn the limited-edition Hacktoberfest 2026 t-shirt, only available by attending in person.',
     cta: 'Join a Fest',
     form: WAYS_IN_PERSON_FORM,
   },

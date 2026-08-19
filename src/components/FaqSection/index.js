@@ -1,5 +1,5 @@
 import { faq } from 'data/content.mjs';
-import { FAQ_HOST_FORM, FAQ_UPDATES_FORM } from 'data/typeforms.mjs';
+import { FAQ_UPDATES_FORM } from 'data/typeforms.mjs';
 
 import {
   Eyebrow,
@@ -21,7 +21,6 @@ import {
 
 // Which popup each inline link opens. The copy lives in data/content.mjs.
 const FORMS = {
-  faqHost: FAQ_HOST_FORM,
   faqUpdates: FAQ_UPDATES_FORM,
 };
 
@@ -31,8 +30,16 @@ const AnswerSegment = ({ segment }) => {
   }
 
   if (segment.href) {
+    /* Only outbound links get the new-tab treatment and the rel guard that
+       has to come with it; a link to another page of this site keeps the
+       reader in the tab they are already in. */
+    const outbound = !segment.href.startsWith('/');
+
     return (
-      <FaqLink href={segment.href} target="_blank" rel="noopener noreferrer">
+      <FaqLink
+        href={segment.href}
+        {...(outbound ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
         {segment.text}
       </FaqLink>
     );

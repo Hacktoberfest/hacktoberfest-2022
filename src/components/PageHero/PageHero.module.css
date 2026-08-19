@@ -1,0 +1,161 @@
+/* The homepage hero's band treatment (Hero.styles.js), minus the full
+   viewport height: forest ground, ink baseline, white type. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+/* Shell width rules, restated (CSS Modules cannot import Shell). */
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(calc(100% - 30px), 1280px);
+  flex-direction: column;
+  align-items: center;
+  margin-inline: auto;
+  padding-block: clamp(44px, 6vw, 84px);
+  text-align: center;
+}
+
+/* The hero's corner geometry at interior-page scale. Hidden below desktop,
+   same as the homepage — on small screens it crowds the heading. */
+.decoTopLeft,
+.decoBottomRight {
+  position: absolute;
+  z-index: 0;
+  display: none;
+  pointer-events: none;
+}
+
+.decoTopLeft svg,
+.decoBottomRight svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* breakpoints.desktop */
+@media (min-width: 1024px) {
+  .decoTopLeft,
+  .decoBottomRight {
+    display: block;
+  }
+
+  .decoTopLeft {
+    top: 0;
+    left: max(0px, calc(50% - 960px));
+    width: clamp(110px, 11vw, 170px);
+  }
+
+  .decoBottomRight {
+    right: max(0px, calc(50% - 960px));
+    bottom: 0;
+    width: clamp(170px, 17vw, 260px);
+  }
+}
+
+.squares {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.squareOrange,
+.squareSky,
+.squareOchre,
+.squarePink {
+  width: 14px;
+  height: 14px;
+}
+
+.squareOrange {
+  /* colors.orange */
+  background: #e53927;
+}
+
+.squareSky {
+  /* colors.sky */
+  background: #8bb2de;
+}
+
+.squareOchre {
+  /* colors.ochre */
+  background: #f5b726;
+}
+
+.squarePink {
+  /* colors.pink */
+  background: #e97b77;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  /* colors.pinkLight */
+  color: #f6c4c1;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 4.8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+/* Sky, not the homepage's orange em: orange reads muddy against the
+   forest ground at this size, and sky is one of the hero squares' own
+   colors. */
+.heading em {
+  display: block;
+  /* colors.sky */
+  color: #8bb2de;
+  font-style: normal;
+}
+
+/* Intro copy a page passes as children (the <p> under the heading): cap
+   it at a reading measure instead of letting it run the full shell width
+   on wide screens. Sibling selector so the eyebrow (also a <p>, but
+   before the heading) keeps its own spacing rules. */
+.heading ~ p {
+  max-width: 62ch;
+}
+
+/* Optional CTA row a page passes via `actions` (the /host hero's apply
+   button): centered under the intro copy. */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .inner {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .inner {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

@@ -1,0 +1,197 @@
+/* Shell width rules, restated (CSS Modules cannot import Shell). Every band
+   on /my uses these same width rules so their left edges align. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+}
+
+/* The boxed account strip breaks the hero's bottom edge — half on forest,
+   half on paper — which is why its shadow is maroon here, not the
+   forest-deep other strips use: forest-deep disappears against the hero's
+   own forest ground. The negative margin is roughly half the strip's
+   one-row height, which only holds while the strip IS one row: below
+   tablet the identity block and all three actions wrap onto their own
+   rows (see the media query below), and the same fixed offset would
+   instead cut across the avatar and name, so it's tablet-and-up only. In
+   the error state the strip doesn't render and the hero's baseline stays
+   clean. */
+.accountStrip {
+  position: relative;
+  display: flex;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  padding: 12px 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+}
+
+.avatar {
+  display: flex;
+  overflow: hidden;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  align-items: center;
+  justify-content: center;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  border-radius: 50%;
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.white */
+  color: #f7f7f2;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.who {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.nameRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.name {
+  font-weight: 700;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 0.95rem;
+}
+
+/* Worn only by hosts — the same orange, star, and chip shape as the fests
+   band's Hosting badge, shrunk to sit beside the name without stretching
+   the strip. */
+/* The milestone tag's treatment (mono, borderless, rounded), matching
+   the fest and application badges — its orange and its size kept. */
+.hostBadge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hostBadgeIcon {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.email {
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+/* Action form: a dashed "to-do" chip, matching the pending-tick grammar
+   used across the page. */
+/* Logo marks inside the strip's buttons. Both logos are fixed-dark SVGs,
+   which is why these controls all sit on light backgrounds. */
+.buttonLogo {
+  display: block;
+  width: auto;
+  height: 13px;
+  flex: 0 0 auto;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+/* One treatment for every action in the strip — same height, border, and
+   sentence case whether it's the DEV connect, MLH manage, or sign out. */
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+  color: #10201d;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Tint, not invert: these buttons carry fixed-dark logo marks that an
+   ink-filled hover would swallow. */
+.actionButton:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+/* The not-yet-done variant: same size and shape, but dashed and gray —
+   the pending-tick grammar applied to a button. Only the DEV connect
+   wears it, and only while the account is unlinked. */
+.actionPending {
+  /* colors.rule */
+  border-style: dashed;
+  border-color: #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.actionPending:hover {
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .accountStrip {
+    margin-top: -33px;
+  }
+
+  .actions {
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

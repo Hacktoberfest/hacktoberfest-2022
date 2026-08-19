@@ -13,6 +13,12 @@ const sitemap = async () => {
       priority: 1,
       changefreq: 'daily',
     },
+    {
+      url: '/host/',
+      lastmod: new Date().toISOString(),
+      priority: 0.8,
+      changefreq: 'weekly',
+    },
   ];
 
   // Create the sitemap generation stream

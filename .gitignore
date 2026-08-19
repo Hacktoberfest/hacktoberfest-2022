@@ -1,9 +1,13 @@
 /node_modules
 /.next
 /out
+/docs/superpowers
 /.idea
 /.vscode
 .DS_Store
 .env
 .superpowers/
 .claude/
+
+# Records which mode (mocked/live) out/ was built in; see scripts/check-build-mode.mjs
+.build-mode.json

@@ -42,19 +42,25 @@ test('answerLinks collects link destinations in order', () => {
   ]);
 });
 
-test('the signup link points at a popup, not a raw URL', () => {
+test('no answer reaches a Typeform through an href', () => {
   const segments = faq.items.flatMap((item) => item.answer);
-  const formSegments = segments.filter((segment) => segment.form);
 
-  assert.deepEqual(
-    formSegments.map((segment) => segment.form),
-    ['faqHost'],
-  );
-  // A Typeform URL in an href would render as an anchor and fail the
-  // no-outbound-anchor rule in test/typeform-pages.test.mjs.
+  /* The organize answer traded its mailing-list popup for a link to
+     /host/ when applications opened, so no answer names a form today.
+     The rule this test exists for still holds whenever one comes back: a
+     Typeform URL in an href would render as an anchor and fail the
+     no-outbound-anchor rule in test/typeform-pages.test.mjs. */
   segments
     .filter((segment) => segment.href)
     .forEach((segment) =>
       assert.doesNotMatch(segment.href, /typeform\.com/i, segment.text),
     );
+});
+
+test('the organize answer sends the reader to the hosting page', () => {
+  const organize = faq.items.find((item) => item.id === 'organize');
+
+  assert.ok(organize, 'the organize question should still exist');
+  assert.match(answerText(organize.answer), /applications are open/i);
+  assert.deepEqual(answerLinks(organize.answer), ['/host/']);
 });

@@ -23,7 +23,7 @@ const CARDS = [
   {
     number: '02 / TOOLS',
     title: 'Swap in open tools',
-    copy: 'Go up the stack: run your model through an open source harness — agents, retrieval, evals — and change the parts instead of treating the system as one black box.',
+    copy: 'Go up the stack: run your model through an open source harness (agents, retrieval, evals) and change the parts instead of treating the system as one black box.',
     tags: ['agents', 'RAG', 'evals'],
   },
   {
@@ -35,7 +35,7 @@ const CARDS = [
   {
     number: '04 / PRACTICE',
     title: 'Ship and show it',
-    copy: 'Build something another developer can run — then demo it at your Fest or share it online.',
+    copy: 'Build something another developer can run, then demo it at your Fest or share it online.',
     tags: ['build', 'demo', 'share'],
   },
 ];

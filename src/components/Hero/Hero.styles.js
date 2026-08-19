@@ -164,7 +164,9 @@ export const HeroActions = styled.div`
   }
 `;
 
-export const HeroButton = styled(TypeformButton)`
+/* A link, not a popup: the hero's one ask is the hosting page now, so this
+   is Button's anchor with the hero's full-width-on-phones rule on top. */
+export const HeroButton = styled.a`
   ${buttonStyles}
   width: 100%;
 

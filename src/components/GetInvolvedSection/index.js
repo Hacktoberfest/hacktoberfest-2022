@@ -1,5 +1,5 @@
 import { getInvolved } from 'data/content.mjs';
-import { HOST_A_FEST_FORM, SPONSOR_FORM } from 'data/typeforms.mjs';
+import { SPONSOR_FORM } from 'data/typeforms.mjs';
 
 import {
   Eyebrow,
@@ -11,13 +11,20 @@ import {
   InvolvedHeading,
   InvolvedIntro,
   InvolvedIntroCopy,
+  InvolvedLink,
   InvolvedRoot,
   InvolvedTag,
 } from './GetInvolvedSection.styles';
 
-// Which popup each card opens. The copy itself lives in data/content.mjs.
+/* Where each card's CTA goes. The copy itself lives in data/content.mjs.
+   The host ask is a page now — /host/ carries the formats and the
+   application — while sponsorship is still a conversation that starts
+   with a form. A card is one or the other, never both. */
+const LINKS = {
+  host: '/host/',
+};
+
 const FORMS = {
-  host: HOST_A_FEST_FORM,
   sponsor: SPONSOR_FORM,
 };
 
@@ -41,7 +48,11 @@ const GetInvolvedSection = () => (
           {card.copy.map((paragraph) => (
             <InvolvedCardCopy key={paragraph}>{paragraph}</InvolvedCardCopy>
           ))}
-          <InvolvedButton form={FORMS[card.id]}>{card.cta}</InvolvedButton>
+          {LINKS[card.id] ? (
+            <InvolvedLink href={LINKS[card.id]}>{card.cta}</InvolvedLink>
+          ) : (
+            <InvolvedButton form={FORMS[card.id]}>{card.cta}</InvolvedButton>
+          )}
         </InvolvedCard>
       ))}
     </InvolvedGrid>

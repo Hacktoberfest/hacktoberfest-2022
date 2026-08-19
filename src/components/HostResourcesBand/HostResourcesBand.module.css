@@ -1,0 +1,170 @@
+/* Shared band geometry — identical width rules to WelcomeBand. Ordinary
+   band spacing on both edges by default; the why-host chapter that
+   follows in Preptember brings its own separation. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+/* The page-ending variant (October, under Your Fests): the fests band's
+   closing gutter above stands in for this band's top padding, and the
+   closing gutter moves here so the page never ends 8px off the footer.
+   Non-organizers never render this band, and the fests band's own gutter
+   closes the page exactly as before.
+
+   The negative margin trims that gutter above back to the page's
+   standard 48px band gap: the fests band pads clamp(48px, 7vw, 90px),
+   so this subtracts exactly the amount it grows past 48px — nothing at
+   phone widths, up to 42px on wide screens. */
+.bandClosing {
+  margin-top: calc(48px - clamp(48px, 7vw, 90px));
+  padding-block: 0 clamp(48px, 7vw, 90px);
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.lede {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  line-height: 1.55;
+}
+
+/* The band card convention with the maroon shadow — the same deep the
+   application cards above carry, since this card belongs to the same
+   hosting journey. */
+.card {
+  padding: 6px 20px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 0;
+}
+
+.item + .item {
+  /* colors.rule */
+  border-top: 1px solid #8ca59e;
+}
+
+.itemText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.itemTitle {
+  font-weight: 600;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.itemCopy {
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+/* A locked row keeps its words but drops to the muted ink — present,
+   readable, visibly not yet yours. */
+.itemLocked .itemTitle {
+  /* colors.muted */
+  color: #52635f;
+}
+
+.itemCta {
+  margin-left: auto;
+  padding: 8px 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+  color: #10201d;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* colors.paper — the same quiet hover the milestone headers use. */
+.itemCta:hover {
+  background: #f2f2eb;
+}
+
+/* Where the link will be once MLH approves: the milestone badges'
+   pending treatment (dashed rule-grey, muted) with a padlock, so a
+   gated row reads as "not yet" rather than broken. */
+.lockedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 8px 16px;
+  /* colors.rule */
+  border: 1px dashed #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lockIcon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .itemCta,
+  .lockedBadge {
+    margin-left: 0;
+  }
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
