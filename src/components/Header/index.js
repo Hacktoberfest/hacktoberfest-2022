@@ -30,10 +30,11 @@ import {
 
    "Apply to Host" wears the CTA chip: during Preptember the nav's one
    ask is the signed-in hub, where the countdown and the application
-   live. Hosting info stays between the two.
+   live. Hosting info and the FAQs sit between the two, in that order:
+   someone weighing whether to host reads the pitch before the detail.
 
    Below the tablet breakpoint the links collapse behind a hamburger
-   toggle — there's no room for three items plus the wordmark at phone
+   toggle — there's no room for four items plus the wordmark at phone
    widths. */
 const Header = ({ standalone = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
