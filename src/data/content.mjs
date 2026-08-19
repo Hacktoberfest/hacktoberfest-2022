@@ -168,7 +168,7 @@ export const faq = {
   sections: [
     { id: 'general', title: 'General & Mission Overview' },
     { id: 'preptember', title: 'Preptember (September 1-30)' },
-    { id: 'fests', title: 'In-Person Events ("Fests") & Formats' },
+    { id: 'fests', title: 'In-Person Events (“Fests”) & Formats' },
     { id: 'hosting', title: 'Fest Hosting, Applications & Logistics' },
     { id: 'swag', title: 'Swag, Participant Envelopes & Reimbursements' },
     { id: 'sponsorship', title: 'Sponsorship & Partner Packages' },
@@ -215,10 +215,10 @@ export const faq = {
       id: 'get-involved-in-open-source',
       section: 'general',
       question:
-        "I was planning on getting into open source this October, now I don't know what to do. How can I get involved in open source?",
+        'I was planning on getting into open source this October, now I don’t know what to do. How can I get involved in open source?',
       answer: [
         {
-          text: "Open source runs 365 days a year, and you can get started anytime. Just because Hacktoberfest isn't incentivizing open source contributions with swag doesn't mean you can't contribute any more. Check out ",
+          text: 'Open source runs 365 days a year, and you can get started anytime. Just because Hacktoberfest isn’t incentivizing open source contributions with swag doesn’t mean you can’t contribute any more. Check out ',
         },
         {
           text: 'this guide',
@@ -261,11 +261,11 @@ export const faq = {
         },
       ],
     },
-    // -- In-Person Events ("Fests") & Formats ------------------------------
+    // -- In-Person Events (“Fests”) & Formats ------------------------------
     {
       id: 'what-is-a-fest',
       section: 'fests',
-      question: 'What is a "Fest"?',
+      question: 'What is a “Fest”?',
       answer: [
         {
           text: 'A Fest is an official, in-person Hacktoberfest event lasting up to 12 hours, designed to bring local developer communities together to learn and build with open-source AI.',
@@ -305,14 +305,14 @@ export const faq = {
         // OrganizerHQ (and OHQ) is the product name, not the "organizers ->
         // hosts" house-term swap, so it stays as supplied.
         {
-          text: "All Fests must use Major League Hacking's OrganizerHQ (OHQ) for attendee registration and day-of check-in. In addition, Hack Days must use OrganizerHQ Challenges for project submissions and judging.",
+          text: 'All Fests must use Major League Hacking’s OrganizerHQ (OHQ) for attendee registration and day-of check-in. In addition, Hack Days must use OrganizerHQ Challenges for project submissions and judging.',
         },
       ],
     },
     {
       id: 'post-event-deliverables',
       section: 'fests',
-      question: 'What post-event deliverables are required from hosts?',
+      question: 'What post-event deliverables are required from organizers?',
       answer: [
         {
           text: 'Organizers must submit high-resolution event photos, verified check-in data via OrganizerHQ, winner records, and itemized food/beverage expense receipts (for Hack Days reimbursements).',
@@ -415,7 +415,7 @@ export const faq = {
     {
       id: 'host-expense-reimbursement',
       section: 'swag',
-      question: 'What are the expense reimbursement rules for Fest hosts?',
+      question: 'What are the expense reimbursement rules for Fest organizers?',
       answer: [
         {
           text: 'Reimbursements apply strictly to Hacktoberfest Hack Day events for approved in-policy food and beverage expenses up to a designated cap. Meet Ups and corporate partner hosts are not eligible for reimbursement.',
