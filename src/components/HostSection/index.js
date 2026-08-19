@@ -1,5 +1,5 @@
 import { host } from 'data/content.mjs';
-import { HOST_GUIDE_URL } from 'data/links';
+import { HOST_HANDBOOK_URL } from 'data/links';
 
 import {
   ApplyBody,
@@ -101,7 +101,7 @@ const HostSection = () => (
       <GuideBand>
         <GuideCopy>{host.support.guide.copy}</GuideCopy>
         <GuideButton
-          href={HOST_GUIDE_URL}
+          href={HOST_HANDBOOK_URL}
           target="_blank"
           rel="noopener noreferrer"
         >

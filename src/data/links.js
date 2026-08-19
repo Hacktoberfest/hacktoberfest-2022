@@ -39,12 +39,6 @@ export const DIGITALOCEAN_URL = tagged('https://www.digitalocean.com', {
   content: 'partner-digitalocean',
 });
 
-/* The Fest hosting guide has no published home yet. Reserved-TLD
-   placeholder, the same convention the activity links use: it can never
-   resolve, and the guard in host-page.test.mjs fails the moment a real URL
-   arrives — forcing a deliberate swap instead of a silent one. */
-export const HOST_GUIDE_URL = 'https://guide.example.invalid/';
-
 /* The one link that leaves for the MLH application, reached from /my's
    Preptember pitch band. /host and the nav both send would-be organizers
    to /my rather than straight out, so every application now starts on the
@@ -58,7 +52,8 @@ export const MY_HOST_APPLY_URL = tagged(
 );
 
 /* The Host Handbook — MLH's organizer guide on GitBook, open to everyone
-   whether or not they've applied. Untagged like HOST_GUIDE_URL above:
+   whether or not they've applied. Untagged like the handbook link on
+   /host, which now points here too:
    utm params on a docs link are attribution noise. */
 export const HOST_HANDBOOK_URL =
   'https://mlh.gitbook.io/mlh-hacktoberfest-organizer-guide';

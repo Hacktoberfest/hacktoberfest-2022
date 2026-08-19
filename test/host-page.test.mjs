@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { host } from '../src/data/content.mjs';
-import { HOST_GUIDE_URL } from '../src/data/links.js';
+import { HOST_HANDBOOK_URL } from '../src/data/links.js';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -63,7 +63,7 @@ test('/host links the hosting guide and the apply CTA', async () => {
   const html = await readOutput('host/index.html');
   assert.match(
     html,
-    new RegExp(`<a[^>]*href="${escapeRegExp(HOST_GUIDE_URL)}"[^>]*>`),
+    new RegExp(`<a[^>]*href="${escapeRegExp(HOST_HANDBOOK_URL)}"[^>]*>`),
   );
   /* The apply CTA is an internal link to the signed-in hub now, not an
      outbound link to the MLH application: applying starts from /my, so
@@ -85,14 +85,16 @@ test('the homepage nav links to /host/', async () => {
   assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
 });
 
-/* Same convention as the activity links in my-pages.test.mjs: the guide's
-   real home is an open question, so the placeholder sits on the reserved
-   .invalid TLD. When the real URL lands, this fails and forces a
-   deliberate update here and in data/links.js. */
-test('the hosting-guide URL is still the reserved-TLD placeholder', () => {
-  assert.match(
-    HOST_GUIDE_URL,
+/* The handbook the guide band points at is the same one /my's host
+   resources band and the FAQ link. It used to be a reserved-TLD
+   placeholder here, which shipped a dead button on a page whose own copy
+   promised "all the information you need". Pinning the real URL keeps the
+   three surfaces from drifting apart again. */
+test('the hosting guide points at the published handbook', () => {
+  assert.match(HOST_HANDBOOK_URL, /^https:\/\/mlh\.gitbook\.io\//);
+  assert.doesNotMatch(
+    HOST_HANDBOOK_URL,
     /example\.invalid/,
-    'HOST_GUIDE_URL looks like a real URL — update this test when it is',
+    'the handbook link must not regress to a placeholder',
   );
 });
