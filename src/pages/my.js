@@ -59,14 +59,14 @@ const My = () => {
      revokes and clears without waiting on the network — see the note there —
      so the redirect below is as immediate as it ever was.
 
-     And MyMLH, not /login/. Revoking our token is only half of it: MLH keeps
-     its own cookie, so /login/ — which starts the OAuth hop the moment it
-     mounts — completed silently and put the participant straight back on this
-     page. Pressing "Sign out" visibly did nothing. signOutDestination sends
-     them to MLH's sign-out instead, which is the only thing that can clear
-     that cookie. It is a one-way trip: MLH ignores return_to and leaves them
-     on mlh.com/signin, which is the price of the next sign-in actually asking
-     who they are.
+     And /signed-out/, not /login/. Revoking our token is only half of it:
+     MLH keeps its own cookie, so /login/ — which starts the OAuth hop the
+     moment it mounts — completed silently and put the participant straight
+     back on this page. Pressing "Sign out" visibly did nothing. The
+     signed-out page says which half ended and offers MLH's own sign-out —
+     the only thing that can clear that cookie — as a link for shared
+     machines, instead of navigating everyone there only to be stranded on
+     mlh.com/signin's form.
 
      endSession's `keepalive: true` is what carries the revocation POST across
      the navigation below — load-bearing because that navigation unloads the
@@ -92,14 +92,19 @@ const My = () => {
       return undefined;
     }
 
-    /* Sign-out now ends on mlh.com, so Back is the one affordance the
-       participant has left — and a bfcache restore does not re-run this
-       effect, so the hub would repaint from React state with the session
-       already revoked and cleared. Reloading forces the check above to run
-       again, which redirects to /login/. `persisted` keeps this to genuine
-       bfcache restores; after the reload it is false, so this cannot loop. */
+    /* Back from /signed-out/ is a bfcache restore, which does not re-run
+       this effect — the hub would repaint from React state with the session
+       already revoked and cleared. Landing back on /signed-out/ keeps the
+       sign-out true. A reload here (the previous fix) re-ran the check
+       above and bounced to /login/, where OAuth starts on mount — and with
+       MLH's cookie now surviving sign-out by default, it completes
+       silently: Back would quietly undo the sign-out. `persisted` keeps
+       this to genuine bfcache restores; `replace` keeps the dead hub out
+       of history, so Back from the landing page cannot come straight back
+       here. */
     const onPageShow = (event) => {
-      if (event.persisted && !getSession()) globalThis.location.reload();
+      if (event.persisted && !getSession())
+        globalThis.location.replace(signOutDestination());
     };
     globalThis.addEventListener('pageshow', onPageShow);
 

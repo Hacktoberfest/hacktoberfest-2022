@@ -672,29 +672,28 @@ test('clearSession still clears the session when sessionStorage is hostile', () 
   );
 });
 
-/* The mirror of startLogin's fork. Sign-out has to end the MyMLH session as
-   well as ours: revoking our refresh token leaves MLH's own cookie alive, so
-   the next sign-in completes silently -- on a shared machine, straight into
-   the previous participant's account. */
-test('signOutDestination sends live builds to MyMLH sign-out', () => {
-  assert.equal(realMode.signOutDestination(), 'https://www.mlh.com/signout');
+/* Sign-out ends on our own /signed-out/ page, in both modes. Navigating
+   straight to mlh.com/signout ended the MyMLH session too, but that route
+   ignores return_to and strands the participant on mlh.com/signin -- a
+   sign-in form, seconds after they asked to leave. The signed-out page
+   stays on this origin and offers MyMLH sign-out as a link
+   (MLH_SIGNOUT_URL below) for shared machines. One destination for both
+   modes: nothing on /signed-out/ starts OAuth or touches mlh.com on its
+   own, so it is as safe for a mocked dev server as for production. */
+test('signOutDestination lands both modes on the signed-out page', () => {
+  assert.equal(realMode.signOutDestination(), '/signed-out/');
+  assert.equal(mockMode.signOutDestination(), '/signed-out/');
 });
 
 /* Pinned to the exact string rather than asserting a substring. MLH 404s
    every other spelling (/logout, /sign_out, /users/sign_out ...), and a
-   sign-out that lands on a 404 leaves the cookie alive while looking like it
-   worked. A stray campaign tag would be just as silent -- MLH discards query
-   parameters on this route. */
-test('the MyMLH sign-out URL carries no query parameters', () => {
-  const url = new URL(realMode.signOutDestination());
+   link that lands on a 404 leaves the cookie alive while looking like it
+   worked. A stray campaign tag would be just as silent -- MLH discards
+   query parameters on this route. Exported so the signed-out page's
+   escape-hatch link and this contract cannot drift apart. */
+test('MLH_SIGNOUT_URL is the exact MyMLH sign-out address', () => {
+  const url = new URL(realMode.MLH_SIGNOUT_URL);
   assert.equal(url.origin, 'https://www.mlh.com');
   assert.equal(url.pathname, '/signout');
   assert.equal(url.search, '');
-});
-
-/* Mocked builds must stay on the origin. Sending them to mlh.com would throw
-   a developer clean out of their own dev server with no way back. `/` is the
-   signed-out face of the site. */
-test('signOutDestination keeps mock mode on the local origin', () => {
-  assert.equal(mockMode.signOutDestination(), '/');
 });

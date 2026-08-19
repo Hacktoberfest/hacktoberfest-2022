@@ -565,6 +565,26 @@ export const subscribed = {
   cta: 'Back to Hacktoberfest',
 };
 
+/* Copy for /signed-out/, where the sign-out control on /my lands. Signing
+   out revokes our tokens but cannot touch MLH’s own cookie on www.mlh.com,
+   so the page says so plainly and offers MyMLH sign-out as a link instead
+   of navigating everyone there: mlh.com/signout ignores return_to and
+   strands people on a sign-in form. The link is the shared-machine escape
+   hatch. `mlh` is one sentence split around that link, so the label and
+   the prose travel together. */
+export const signedOut = {
+  title: 'Signed out | Hacktoberfest 2026',
+  eyebrow: 'See you soon',
+  heading: { lead: 'You’re', accent: 'signed out.' },
+  body: 'You’re signed out of Hacktoberfest on this device.',
+  mlh: {
+    lead: 'You’re still signed in to MyMLH, so signing back in won’t ask for your password. On a shared computer,',
+    linkLabel: 'sign out of MyMLH',
+    tail: 'too.',
+  },
+  cta: 'Back to Hacktoberfest',
+};
+
 /* Copy for /host, the organizer-facing page. A Fest is one of two formats:
    a Hack Day (a funded mini-hackathon — people build projects) or a Meet Up
    (a lighter gathering, no projects, no MLH funding). "Hack Day" here is an

@@ -276,29 +276,34 @@ export const startLogin = (returnTo = DEFAULT_RETURN_TO) => {
   );
 };
 
-/* MyMLH's own sign-out, and the mirror of startLogin above.
+/* MyMLH's own sign-out. Revoking our refresh token (endSession,
+   lib/apiClient.mjs) ends our half of the session but leaves MLH's cookie on
+   www.mlh.com untouched -- so the next sign-in completes without ever
+   showing a form, which on a shared machine means the next person lands in
+   the previous participant's account. Only a first-party navigation to MLH
+   can clear that cookie, and this address is the one that does it: /signout
+   ignores return_to and redirect_uri and always lands on mlh.com/signin.
+   Confirmed against every other spelling -- /logout, /sign_out,
+   /users/sign_out, /oauth/logout -- all of which 404.
 
-   Revoking our refresh token (endSession, lib/apiClient.mjs) ends our half of
-   the session but leaves MLH's cookie on www.mlh.com untouched -- so the next
-   sign-in completes without ever showing a form, which on a shared machine
-   means the next person lands in the previous participant's account. Only a
-   first-party navigation to MLH can clear that, so sign-out ends there rather
-   than here: /signout ignores return_to and redirect_uri and always lands on
-   mlh.com/signin. Confirmed against every other spelling -- /logout,
-   /sign_out, /users/sign_out, /oauth/logout -- all of which 404.
+   Sign-out used to navigate here directly, which cleared the cookie for
+   everyone at the cost of stranding everyone on mlh.com's sign-in form --
+   a sign-in prompt seconds after they asked to leave. Now /signed-out/
+   offers this URL as a link for shared machines instead, which is why it
+   is exported.
 
    Untagged, and not in data/links.js with the other MLH URLs: those are links
    a participant chooses to follow, where the campaign parameters mean
    something. This is an auth endpoint, and it belongs beside the two already
-   in this file.
+   in this file. */
+export const MLH_SIGNOUT_URL = 'https://www.mlh.com/signout';
 
-   Mock mode goes to '/' instead. Mocked startLogin writes MOCK_SESSION and
-   returns, so a mocked sign-out that went anywhere near /login/ would be
-   signed straight back in -- and sending it to mlh.com would throw a
-   developer out of their own dev server. */
-const MLH_SIGNOUT_URL = 'https://www.mlh.com/signout';
-
-export const signOutDestination = () => (API_BASE_URL ? MLH_SIGNOUT_URL : '/');
+/* One destination for both modes: /signed-out/ starts no OAuth and touches
+   mlh.com only if the participant clicks the escape-hatch link, so it is as
+   safe for a mocked dev server as for production. Kept as a function --
+   my.js calls it at click time, and the seam is where a mode fork would
+   return if one is ever needed again. */
+export const signOutDestination = () => '/signed-out/';
 
 /* Where the OAuth hop page (/oauth/mlh/callback/) sends the browser on.
 

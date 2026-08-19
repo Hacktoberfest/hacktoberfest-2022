@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { access, readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
-import { authError, my } from '../src/data/content.mjs';
+import { authError, my, signedOut } from '../src/data/content.mjs';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -39,6 +39,36 @@ test('both signed-in pages are exported and marked noindex', async () => {
 
   pages.forEach((html) =>
     assert.match(html, /<meta name="robots" content="noindex"/),
+  );
+});
+
+/* Sign-out's landing page. It exists so pressing "Sign out" ends on this
+   origin instead of on mlh.com/signin — a sign-in form, seconds after the
+   participant asked to leave. The MyMLH link is the shared-machine escape
+   hatch: revoking our refresh token cannot clear MLH's own cookie, so
+   without it the next sign-in on that machine walks silently into the
+   previous participant's account. */
+test('the signed-out page is exported with the MyMLH escape hatch', async () => {
+  const html = await readOutput('signed-out/index.html');
+
+  assert.match(html, /<meta name="robots" content="noindex"/);
+  assert.ok(
+    html.includes(signedOut.heading.accent),
+    'the signed-out heading is missing',
+  );
+  /* The exact address lib/session.mjs pins: MLH 404s every other spelling,
+     and a link that lands on a 404 leaves the cookie alive while looking
+     like it worked. */
+  assert.match(
+    html,
+    /<a[^>]*href="https:\/\/www\.mlh\.com\/signout"[^>]*>/,
+    'the MyMLH sign-out link is missing',
+  );
+  // The default path stays home.
+  assert.match(
+    html,
+    new RegExp(`<a[^>]*href="/"[^>]*>${signedOut.cta}</a>`),
+    'the back-to-home CTA is missing',
   );
 });
 
@@ -475,12 +505,22 @@ const WIRING = [
   {
     file: 'src/pages/my.js',
     token: 'signOutDestination()',
-    why: "sign-out must end the MyMLH session, not just ours. Reverting to /login/ restarts OAuth on mount, MLH's cookie completes it silently, and the participant lands back on /my still signed in — the button visibly does nothing.",
+    why: "sign-out must land on /signed-out/, the page that explains the MyMLH half and offers its escape hatch. Reverting to /login/ restarts OAuth on mount, MLH's cookie completes it silently, and the participant lands back on /my still signed in — the button visibly does nothing.",
   },
   {
     file: 'src/pages/my.js',
     token: 'event.persisted',
-    why: "the bfcache guard from FIX 2. Without it, Back from mlh.com/signin repaints the previous participant's name, email and applications from restored React state on a shared machine.",
+    why: "the bfcache guard from FIX 2. Without it, Back from /signed-out/ repaints the previous participant's name, email and applications from restored React state on a shared machine.",
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'globalThis.location.replace(signOutDestination())',
+    why: "the bfcache guard must land back on /signed-out/, not reload. A reload re-runs the session check, which sends the revoked session to /login/, where OAuth restarts on mount and MLH's surviving cookie signs the participant straight back in — Back would silently undo their sign-out.",
+  },
+  {
+    file: 'src/pages/signed-out.js',
+    token: 'MLH_SIGNOUT_URL',
+    why: 'the escape hatch must use the exact address lib/session.mjs pins and unit-tests. A hand-typed URL here can drift onto one of the spellings MLH 404s, which leaves the cookie alive while looking like it worked.',
   },
   {
     file: 'src/pages/oauth/mlh/callback.js',
@@ -565,5 +605,7 @@ test('the signed-in pages stay out of the sitemap and the llms files', async () 
     assert.doesNotMatch(file, /\/login/);
     // The OAuth hop is transit, not content — and it handles one-time codes.
     assert.doesNotMatch(file, /\/oauth/);
+    // Sign-out's landing page is noindex transit, same as the rest.
+    assert.doesNotMatch(file, /\/signed-out/);
   });
 });

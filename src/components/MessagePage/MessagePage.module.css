@@ -99,6 +99,21 @@
   line-height: 1.56;
 }
 
+/* Inline links inside the copy — today the MyMLH escape hatch on
+   /signed-out/. The copy inherits colors.white from .root, so only the
+   underline marks the link; hover picks up the eyebrow's pink so the
+   affordance answers back. */
+.copy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.copy a:hover {
+  /* colors.pinkLight */
+  color: #f6c4c1;
+}
+
 /* The stair decorations, reproducing Hero.styles' heroDeco + DecoTopLeft/
    DecoTopRight: pinned to the top corners, hidden below desktop, and held
    to a centered 1920px band on ultrawide displays so they keep framing
