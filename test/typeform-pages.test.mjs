@@ -55,13 +55,18 @@ test('exports every visible homepage Typeform CTA as a button', async () => {
 });
 
 /* The homepage asks that graduated from interest popups to the hosting
-   page. Pinned as anchors so none can quietly fall back to a form. */
+   page. Pinned as anchors so none can quietly fall back to a form.
+
+   The FAQ's organize answer used to be in this list — it linked to
+   /host/ — but the FAQ restructure retired it. Its successor,
+   how-to-apply-to-host, links straight out to the MLH host portal
+   instead (see test/faq-content.test.mjs), so it no longer belongs to
+   the /host/ set this test guards. */
 test('every homepage host ask links to /host/', async () => {
   const html = await readOutput('index.html');
 
   const labels = [
     'Host a Fest in your city', // the hero CTA
-    'Read about hosting a Fest', // the FAQ's organize answer
     'Host a Fest', // the Get Involved host card
   ];
 

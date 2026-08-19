@@ -37,7 +37,15 @@ const normalize = (text) => decode(text).replace(/\s+/g, ' ');
 // Straight and curly quotes are the same word to a reader; compare either.
 const loosen = (text) => normalize(text).replace(/[’']/g, "'");
 
-const everyLineOfCopy = [
+// The homepage callout only renders faq.homepage.ids now — the rest of
+// the 24 items live on /faq — so the copy checked against the rendered
+// homepage and the copy checked against llms-full.txt are different
+// slices of the same FAQ set. See the /faq page design doc.
+const homepageFaqItems = faq.homepage.ids.map((id) =>
+  faq.items.find((item) => item.id === id),
+);
+
+const sharedCopy = [
   hero.deck,
   hero.cta,
   hero.secondaryCta,
@@ -47,8 +55,13 @@ const everyLineOfCopy = [
   getInvolved.intro,
   ...getInvolved.cards.flatMap((card) => [card.title, ...card.copy, card.cta]),
   faq.intro,
-  ...faq.items.flatMap((item) => [item.question, answerText(item.answer)]),
 ];
+
+const faqCopy = (items) =>
+  items.flatMap((item) => [item.question, answerText(item.answer)]);
+
+const homepageCopy = [...sharedCopy, ...faqCopy(homepageFaqItems)];
+const fullCopy = [...sharedCopy, ...faqCopy(faq.items)];
 
 test('the rendered page carries every line of copy', async () => {
   /* Inline markup — the mission's <strong> spans, the FAQ's inline links —
@@ -57,7 +70,7 @@ test('the rendered page carries every line of copy', async () => {
      frame: the copy list holds each line as a reader hears it. */
   const html = loosen((await read('out/index.html')).replace(/<[^>]+>/g, ' '));
 
-  everyLineOfCopy.forEach((line) => {
+  homepageCopy.forEach((line) => {
     assert.ok(
       html.includes(loosen(line)),
       `missing from the rendered page: ${line.slice(0, 60)}…`,
@@ -68,7 +81,9 @@ test('the rendered page carries every line of copy', async () => {
 test('llms-full.txt carries every line of copy the page does', async () => {
   const full = loosen(await read('public/llms-full.txt'));
 
-  everyLineOfCopy.forEach((line) => {
+  // llms-full.txt iterates faq.items directly (see src/build/llms.mjs), so
+  // it carries the full 24-item set even though the homepage only shows 4.
+  fullCopy.forEach((line) => {
     assert.ok(
       full.includes(loosen(line)),
       `missing from llms-full.txt: ${line.slice(0, 60)}…`,
@@ -92,9 +107,10 @@ test('llms.txt orients a crawler without contradicting the page', async () => {
   assert.match(index, /attendee sign-ups are not open yet/i);
 });
 
-/* The schema is generated from the same array the page renders, so it cannot
-   describe questions the page doesn't show. These assertions hold the shape
-   of what actually ships. */
+/* The schema is generated from src/data/structuredData.js, which restricts
+   the homepage FAQPage node to faq.homepage.ids — the same four items the
+   homepage callout renders — rather than the full 24-item set the /faq
+   page carries. These assertions hold the shape of what actually ships. */
 const shippedJsonLd = async () => {
   const html = await read('out/index.html');
   const match = html.match(
@@ -109,32 +125,33 @@ test('the FAQ ships as FAQPage schema matching the copy', async () => {
   const faqPage = graph.find((node) => node['@type'] === 'FAQPage');
 
   assert.ok(faqPage, 'no FAQPage node in the graph');
-  assert.equal(faqPage.mainEntity.length, faq.items.length);
+  assert.equal(faqPage.mainEntity.length, homepageFaqItems.length);
 
-  faq.items.forEach((item, index) => {
+  homepageFaqItems.forEach((item, index) => {
     const question = faqPage.mainEntity[index];
     assert.equal(question.name, item.question);
     assert.equal(question.acceptedAnswer.text, answerText(item.answer));
   });
 });
 
-/* One answer contains a literal "<". Unescaped it would close the script tag
-   early and spill JSON into the page. JSON.parse turns "<" back into
-   "<", so asserting against parsed JSON (as shippedJsonLd() returns) can't
-   tell the escaped and unescaped forms apart — this has to check the raw
-   script contents instead. */
-test('a literal < in an answer is escaped in the raw script tag', async () => {
+/* A literal "<" in an answer would close the script tag early and spill
+   JSON into the page, so structuredData.js escapes every "<" in the
+   serialized JSON-LD unconditionally (see homepageJsonLdScript). The FAQ
+   item that used to exercise this (organize's "<1 week") was retired in
+   the restructure, and nothing in today's homepage copy contains a "<" —
+   so rather than pin the test to content that may or may not carry one,
+   this asserts the invariant the escaping is supposed to guarantee: the
+   raw script contents never contain an unescaped "<" at all. JSON.parse
+   turns "<" back into "<", so this has to check the raw script
+   contents rather than the parsed JSON shippedJsonLd() returns. */
+test('the raw JSON-LD script tag never contains an unescaped <', async () => {
   const html = await read('out/index.html');
   const match = html.match(
     /<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/,
   );
   assert.ok(match, 'no JSON-LD in the built page');
   assert.ok(
-    match[1].includes('\\u003c1 week'),
-    'escaped form missing from raw script content',
-  );
-  assert.ok(
-    !match[1].includes('<1 week'),
-    'literal < leaked into the script tag unescaped',
+    !match[1].includes('<'),
+    'a literal < leaked into the script tag unescaped',
   );
 });

@@ -88,6 +88,9 @@ const Header = ({ standalone = false }) => {
             <PageNavLink href="/host/" onClick={() => setMenuOpen(false)}>
               Learn about Hosting
             </PageNavLink>
+            <PageNavLink href="/faq/" onClick={() => setMenuOpen(false)}>
+              FAQs
+            </PageNavLink>
             <NavCta href="/my/" onClick={() => setMenuOpen(false)}>
               Apply to Host
             </NavCta>
