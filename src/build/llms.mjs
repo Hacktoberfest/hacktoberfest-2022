@@ -39,8 +39,8 @@ const START_HERE = [
     text: '[Host a Fest](./host/): The Fest formats, the support organizers get, and how to apply to host.',
   },
   {
-    route: '/faq/',
-    text: '[FAQs](./faq/): The full set of questions on the mission change, Preptember, Fest formats, hosting, swag, and sponsorship.',
+    route: '/questions/',
+    text: '[FAQs](./questions/): The full set of questions on the mission change, Preptember, Fest formats, hosting, swag, and sponsorship.',
   },
   {
     route: null,

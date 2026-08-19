@@ -186,7 +186,7 @@ export const FaqLink = styled.a`
   ${inlineLink}
 `;
 
-/* The CTA to the full /faq page, centered under the panel — the homepage
+/* The CTA to the full /questions page, centered under the panel — the homepage
    band's four questions are a preview, so what follows them is an
    invitation to keep reading rather than another accordion. */
 export const FaqCtaRow = styled(Shell)`

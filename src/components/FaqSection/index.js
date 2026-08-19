@@ -15,7 +15,7 @@ import {
 
 /* The homepage keeps four broad questions — chosen in data/content.mjs for
    breadth over depth, since the homepage serves first-time visitors — and
-   sends everyone else to the full /faq page via the CTA below the panel.
+   sends everyone else to the full /questions page via the CTA below the panel.
    Mapping over homepage.ids (rather than filtering items) is what keeps
    the display order the ids declare, independent of items' own order. */
 const homepageItems = faq.homepage.ids.map((id) =>

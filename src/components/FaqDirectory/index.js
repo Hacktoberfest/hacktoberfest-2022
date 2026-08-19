@@ -3,7 +3,7 @@ import { faq } from 'data/content.mjs';
 
 import styles from './FaqDirectory.module.css';
 
-/* The /faq page body: the six sections data/content.mjs declares, each a
+/* The /questions page body: the six sections data/content.mjs declares, each a
    heading followed by a FaqList of that section's items — the same
    accordion the homepage band renders, so the two surfaces never grow two
    different ideas of what a question looks like.
@@ -12,7 +12,7 @@ import styles from './FaqDirectory.module.css';
    already made that switch (see its own note) for the site-wide bug where
    client-side navigation ships no styled-components CSS. FaqList still
    uses FaqSection's styled-components internally, which is fine here — the
-   /faq page is server-rendered on first load same as every other route,
+   /questions page is server-rendered on first load same as every other route,
    and the accordion look is meant to be identical between the two
    surfaces regardless of what style system built it. */
 const FaqDirectory = () => (

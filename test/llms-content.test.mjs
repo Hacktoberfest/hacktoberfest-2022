@@ -38,9 +38,9 @@ const normalize = (text) => decode(text).replace(/\s+/g, ' ');
 const loosen = (text) => normalize(text).replace(/[’']/g, "'");
 
 // The homepage callout only renders faq.homepage.ids now — the rest of
-// the 22 items live on /faq — so the copy checked against the rendered
+// the 22 items live on /questions — so the copy checked against the rendered
 // homepage and the copy checked against llms-full.txt are different
-// slices of the same FAQ set. See the /faq page design doc.
+// slices of the same FAQ set. See the /questions page design doc.
 const homepageFaqItems = faq.homepage.ids.map((id) =>
   faq.items.find((item) => item.id === id),
 );
@@ -109,7 +109,7 @@ test('llms.txt orients a crawler without contradicting the page', async () => {
 
 /* The schema is generated from src/data/structuredData.js, which restricts
    the homepage FAQPage node to faq.homepage.ids — the same four items the
-   homepage callout renders — rather than the full 22-item set the /faq
+   homepage callout renders — rather than the full 22-item set the /questions
    page carries. These assertions hold the shape of what actually ships. */
 const shippedJsonLd = async () => {
   const html = await read('out/index.html');

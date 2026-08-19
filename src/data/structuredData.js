@@ -82,9 +82,9 @@ const event = {
    prose — the reason the FAQ exists at all.
 
    Restricted to homepage.ids, not the full faq.items: the homepage callout
-   now shows four questions and links to /faq for the rest, so structured
+   now shows four questions and links to /questions for the rest, so structured
    data naming all twenty-four would describe content the page doesn't
-   carry. The /faq page is a later task's concern. */
+   carry. The /questions page is a later task's concern. */
 const faqPage = {
   '@type': 'FAQPage',
   '@id': ID.faq,

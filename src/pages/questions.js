@@ -6,23 +6,23 @@ import PageHero from 'components/PageHero';
 import { faq } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
 
-const FAQ_URL = absoluteUrl('/faq/');
+const QUESTIONS_URL = absoluteUrl('/questions/');
 
-const Faq = () => (
+const Questions = () => (
   <>
     <Head>
       <title>{faq.page.title}</title>
       <meta name="description" content={faq.page.description} />
       <meta name="theme-color" content="#3d5f58" />
       <meta name="robots" content="index, follow" />
-      <link rel="canonical" href={FAQ_URL} />
+      <link rel="canonical" href={QUESTIONS_URL} />
 
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="en_US" />
       <meta property="og:site_name" content={meta.siteName} />
       <meta property="og:title" content={faq.page.title} />
       <meta property="og:description" content={faq.page.description} />
-      <meta property="og:url" content={FAQ_URL} />
+      <meta property="og:url" content={QUESTIONS_URL} />
       <meta property="og:image" content={meta.image} />
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content="1200" />
@@ -49,4 +49,4 @@ const Faq = () => (
   </>
 );
 
-export default Faq;
+export default Questions;

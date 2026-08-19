@@ -76,7 +76,7 @@ const AnswerSegment = ({ segment }) => {
 };
 
 /* The single place that knows how a question and its answer segments become
-   markup — the homepage band and the /faq page both render their items
+   markup — the homepage band and the /questions page both render their items
    through this, so the accordion itself never has two implementations to
    keep in sync. */
 const FaqList = ({ items }) => (

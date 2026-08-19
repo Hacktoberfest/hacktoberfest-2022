@@ -20,7 +20,7 @@ const sitemap = async () => {
       changefreq: 'weekly',
     },
     {
-      url: '/faq/',
+      url: '/questions/',
       lastmod: new Date().toISOString(),
       priority: 0.8,
       changefreq: 'weekly',

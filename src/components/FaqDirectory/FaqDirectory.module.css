@@ -1,4 +1,4 @@
-/* The /faq page body: six headed groups of accordions under PageHero.
+/* The /questions page body: six headed groups of accordions under PageHero.
    Each FaqList panel constrains its own width via Shell, so this file only
    sets the page-level rhythm around and between sections. */
 .root {

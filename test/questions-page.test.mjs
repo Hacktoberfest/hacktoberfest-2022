@@ -8,7 +8,7 @@ import { absoluteUrl } from '../src/data/meta.js';
 /* A dedicated file, matching host-page.test.mjs rather than folding this
    into typeform-pages.test.mjs or llms-content.test.mjs: those two guard
    different concerns (outbound Typeform anchors, and llms-file/page copy
-   parity) that /faq doesn't touch. /faq's own concern — that the page
+   parity) that /questions doesn't touch. /questions's own concern — that the page
    exports, is indexable, and carries its canonical URL — is exactly the
    shape host-page.test.mjs already established for /host. */
 
@@ -17,8 +17,8 @@ const readOutput = (path) =>
 
 const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-test('/faq builds with its title and hero copy', async () => {
-  const html = await readOutput('faq/index.html');
+test('/questions builds with its title and hero copy', async () => {
+  const html = await readOutput('questions/index.html');
   const titlePattern = new RegExp(
     `<title[^>]*>${escapeRegExp(faq.page.title)}</title>`,
   );
@@ -27,20 +27,20 @@ test('/faq builds with its title and hero copy', async () => {
   assert.ok(html.includes(faq.page.intro));
 });
 
-test('/faq is indexable and carries its canonical URL', async () => {
-  const html = await readOutput('faq/index.html');
+test('/questions is indexable and carries its canonical URL', async () => {
+  const html = await readOutput('questions/index.html');
 
   assert.match(html, /<meta name="robots" content="index, follow"/);
 
-  const faqUrl = absoluteUrl('/faq/');
+  const questionsUrl = absoluteUrl('/questions/');
   assert.match(
     html,
-    new RegExp(`<link rel="canonical" href="${escapeRegExp(faqUrl)}"`),
+    new RegExp(`<link rel="canonical" href="${escapeRegExp(questionsUrl)}"`),
   );
 });
 
-test('/faq groups every item under its section heading', async () => {
-  const html = await readOutput('faq/index.html');
+test('/questions groups every item under its section heading', async () => {
+  const html = await readOutput('questions/index.html');
   // React escapes text content on the way to static HTML — "&" in section
   // titles like "General & Mission Overview", quotes in questions like
   // `What is a "Fest"?` and apostrophes like "don't" — so both have to be
@@ -64,7 +64,7 @@ test('/faq groups every item under its section heading', async () => {
   });
 });
 
-test('the nav links to /faq/ as FAQs', async () => {
+test('the nav links to /questions/ as FAQs', async () => {
   const html = await readOutput('index.html');
-  assert.match(html, /<a[^>]*href="\/faq\/"[^>]*>FAQs<\/a>/);
+  assert.match(html, /<a[^>]*href="\/questions\/"[^>]*>FAQs<\/a>/);
 });

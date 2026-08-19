@@ -150,13 +150,13 @@ export const getInvolved = {
    Typeform URL fails test/typeform-pages.test.mjs.
 
    `items` stays a flat array — src/build/llms.mjs reads faq.items directly,
-   and grouping for the /faq page is expressed via each item's `section`
+   and grouping for the /questions page is expressed via each item's `section`
    field instead of nesting, so adding a section never means teaching the
    crawler files or the tests a new shape. `sections` records the six source
    headings in display order; `homepage` names the four items (chosen for
    breadth, not for hosts, since the homepage serves first-time visitors)
    that still appear in the homepage callout, plus the CTA to the full page.
-   `page` carries the copy the standalone /faq page's Head and PageHero need,
+   `page` carries the copy the standalone /questions page's Head and PageHero need,
    the same way host.* does for /host. */
 export const faq = {
   eyebrow: 'Common questions',
@@ -443,7 +443,7 @@ export const faq = {
       'what-is-a-fest',
       'how-to-apply-to-host',
     ],
-    cta: { label: 'See all FAQs', href: '/faq/' },
+    cta: { label: 'See all FAQs', href: '/questions/' },
   },
   page: {
     title: 'FAQ | Hacktoberfest 2026',
