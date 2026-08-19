@@ -12,7 +12,7 @@
    (records what a build baked) and scripts/check-build-mode.mjs (refuses to
    serve a contradiction), so the three can never disagree about which mode
    a value means. */
-export const LIVE_API_BASE_URL = 'https://hacktoberfest.com';
+export const LIVE_API_BASE_URL = 'https://hacktoberfest-api.mlh.com';
 export const MOCKED_SENTINEL = 'mocked';
 
 /* Resolves the raw env value to the API origin the build will call, or ''

@@ -13,8 +13,8 @@ import {
    where the contract itself is pinned; progress-session.test.mjs covers
    the same facts through the built module. */
 
-test('the live origin is the production site', () => {
-  assert.equal(LIVE_API_BASE_URL, 'https://hacktoberfest.com');
+test('the live origin is the production API, not the site', () => {
+  assert.equal(LIVE_API_BASE_URL, 'https://hacktoberfest-api.mlh.com');
 });
 
 test('unset and empty both resolve to the live origin', () => {

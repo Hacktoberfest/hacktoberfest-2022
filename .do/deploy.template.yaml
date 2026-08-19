@@ -34,8 +34,8 @@ spec:
       envs:
         - key: BASE_URL
           scope: BUILD_TIME
-        # Optional. Unset, the code defaults to the live origin
-        # https://hacktoberfest.com (src/lib/apiBase.mjs) — production needs
+        # Optional. Unset, the code defaults to the live API origin
+        # https://hacktoberfest-api.mlh.com (src/lib/apiBase.mjs) — production needs
         # no value here. Set it only to point a build at a different API, or
         # to the literal value `mocked` for the fixtures build (no backend;
         # sign-in fakes a session as Ada Lovelace).

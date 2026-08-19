@@ -470,7 +470,7 @@ const defaultMode = await loadSessionModule('default', {});
    reachable, or the fixtures, the ?scenario= review links and `npm run
    dev` without a backend all die with it. */
 test('an empty environment resolves API_BASE_URL to the live origin', () => {
-  assert.equal(defaultMode.API_BASE_URL, 'https://hacktoberfest.com');
+  assert.equal(defaultMode.API_BASE_URL, 'https://hacktoberfest-api.mlh.com');
 });
 
 test('NEXT_PUBLIC_API_BASE_URL=mocked still means no API at all', () => {
