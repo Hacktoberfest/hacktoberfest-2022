@@ -4,9 +4,9 @@ import test from 'node:test';
 import { answerLinks, answerText, faq } from '../src/data/content.mjs';
 
 test('every FAQ item has a stable id, a question and a non-empty answer', () => {
-  // 24 items across 6 sections, up from the homepage's original 5 — see
+  // 22 items across 6 sections, up from the homepage's original 5 — see
   // the /faq page design doc for the full set.
-  assert.equal(faq.items.length, 24);
+  assert.equal(faq.items.length, 22);
 
   const ids = faq.items.map((item) => item.id);
   assert.equal(new Set(ids).size, ids.length, 'ids must be unique');

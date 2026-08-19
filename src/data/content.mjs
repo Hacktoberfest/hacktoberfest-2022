@@ -181,7 +181,7 @@ export const faq = {
       question: 'What is Hacktoberfest?',
       answer: [
         {
-          text: 'Hacktoberfest is a global celebration of open source that runs throughout the month of October. This year, Hacktoberfest is run by ',
+          text: 'Hacktoberfest is a global celebration of open source that runs throughout October. This year, Hacktoberfest is run by ',
         },
         { text: 'Major League Hacking (MLH)', href: 'https://www.mlh.com/' },
         { text: ' and ' },
@@ -197,7 +197,7 @@ export const faq = {
       question: 'How is Hacktoberfest 2026 different from previous years?',
       answer: [
         {
-          text: 'Hacktoberfest 2026 will feature 300+ in-person and online community events worldwide focused on hands-on building, experimentation, and learning with open-source AI and open-weight models. In previous years, Hacktoberfest was focused on counting individual contributions towards open source projects.',
+          text: 'Hacktoberfest 2026 will feature 300+ in-person and online community events worldwide focused on hands-on building, experimentation, and learning with open-source AI and open-weight models. In previous years, Hacktoberfest focused on counting individual contributions to open-source projects.',
         },
       ],
     },
@@ -207,7 +207,7 @@ export const faq = {
       question: 'Why is Hacktoberfest 2026 focused on open-source AI?',
       answer: [
         {
-          text: 'The AI landscape is rapidly evolving. There is uncertainty around future access, pricing, and regulations. By prioritizing knowledge share around open-weight models and open-source AI, we help build resilience around our overall ecosystem.',
+          text: 'The AI landscape is rapidly evolving. There is uncertainty around future AI access, pricing, and regulations. By prioritizing education about open-weight models and open-source AI, we help build resilience around our overall ecosystem.',
         },
       ],
     },
@@ -218,7 +218,7 @@ export const faq = {
         "I was planning on getting into open source this October, now I don't know what to do. How can I get involved in open source?",
       answer: [
         {
-          text: "Open source runs 365 days a year, and you can get started anytime. Just because Hacktoberfest isn't incentivizing open source contributions with swag, doesn't mean you can't contribute any more. Check out ",
+          text: "Open source runs 365 days a year, and you can get started anytime. Just because Hacktoberfest isn't incentivizing open source contributions with swag doesn't mean you can't contribute any more. Check out ",
         },
         {
           text: 'this guide',
@@ -256,12 +256,8 @@ export const faq = {
       section: 'preptember',
       question: 'What is Preptember?',
       answer: [
-        // Kept as supplied, including "stay tuned", at the user's explicit
-        // instruction — even though applications are already open and /my
-        // ships a live Preptember hub, so this reads as stale from launch
-        // day. Only the organizers -> hosts swap applies here.
         {
-          text: 'Preptember is the month-long preparation period throughout September where hosts plan their Fests before hacking begins in October. Stay tuned for more details, to be released closer to September.',
+          text: 'Preptember is the month-long preparation period throughout September where organizers plan their Fests before hacking begins in October. More details are coming soon!',
         },
       ],
     },
@@ -272,7 +268,7 @@ export const faq = {
       question: 'What is a "Fest"?',
       answer: [
         {
-          text: 'A Fest is an official, in-person Hacktoberfest event lasting between 3 and 12 hours, designed to bring local developer communities together to learn and build with open-source AI.',
+          text: 'A Fest is an official, in-person Hacktoberfest event lasting up to 12 hours, designed to bring local developer communities together to learn and build with open-source AI.',
         },
       ],
     },
@@ -287,7 +283,7 @@ export const faq = {
       answer: [
         {
           markdown:
-            '1. **Hacktoberfest Hack Day:** Structured mini hackathons where participants build open-source AI projects during the event. Features official swag, prize categories, DEV Badges, potential partner prizes, and food/beverage reimbursement for hosts.\n2. **Hacktoberfest Meet Up:** Flexible, informal community gatherings (talks, workshops, panels, or social discussions) centered around open-source AI. Receives official swag (stickers, T-shirts, postcards) but no prizes or financial reimbursement.',
+            '1. **Hacktoberfest Hack Day:** Structured mini hackathons where participants build open-source AI projects during the event. Features official swag, prize categories, DEV Badges, potential partner prizes, and food/beverage reimbursement for organizers.\n2. **Hacktoberfest Meet Up:** Flexible, informal community gatherings (talks, workshops, panels, or social discussions) centered around open-source AI. Receives official swag (stickers, T-shirts, postcards) but no prizes or food/beverage reimbursement.',
         },
       ],
     },
@@ -297,7 +293,7 @@ export const faq = {
       question: 'Will everyone get a T-Shirt?',
       answer: [
         {
-          text: "While we are committed to sending thousands of t-shirts to in-person events, we cannot guarantee a T-shirt to every Hacktoberfest participant. The T-shirts we send to each event are to be distributed by the hosts of your Fest to participants as on-site availability allows and at the hosts' discretion. We unfortunately cannot promise to mail T-shirts to in-person participants who did not receive one at their events due to logistical constraints. Online Hacktoberfest participants will not be eligible for a T-shirt.",
+          text: 'While we are committed to sending thousands of T-shirts to in-person events, we cannot guarantee a T-shirt to every Hacktoberfest participant. The T-shirts we send to each event are distributed by local organizers to participants as on-site availability allows and at their discretion. We unfortunately cannot promise to mail T-shirts to in-person participants who did not receive one at their events due to logistical constraints. Online Hacktoberfest participants will not be eligible for a T-shirt.',
         },
       ],
     },
@@ -314,22 +310,12 @@ export const faq = {
       ],
     },
     {
-      id: 'project-code-before-fest',
-      section: 'fests',
-      question: 'Can participants start writing project code before the Fest?',
-      answer: [
-        {
-          text: 'No. For Hacktoberfest Hack Day events, work on submitted projects must not begin before the official start of the Fest.',
-        },
-      ],
-    },
-    {
       id: 'post-event-deliverables',
       section: 'fests',
       question: 'What post-event deliverables are required from hosts?',
       answer: [
         {
-          text: 'Hosts must submit high-resolution event photos, verified check-in data via OrganizerHQ, winner records, and itemized food/beverage expense receipts (for Hack Days reimbursements).',
+          text: 'Organizers must submit high-resolution event photos, verified check-in data via OrganizerHQ, winner records, and itemized food/beverage expense receipts (for Hack Days reimbursements).',
         },
       ],
     },
@@ -339,7 +325,7 @@ export const faq = {
       section: 'hosting',
       question: 'How do community members apply to host a Fest?',
       answer: [
-        { text: 'Hosts can apply via the ' },
+        { text: 'Organizers can apply via the ' },
         {
           // Source gave this as http://; the site never links out over
           // plain http, so the scheme is corrected to https.
@@ -348,7 +334,7 @@ export const faq = {
         },
         { text: '. Visit our ' },
         {
-          text: 'host guide',
+          text: 'organizer guide',
           href: 'https://mlh.gitbook.io/mlh-hacktoberfest-organizer-guide',
         },
         { text: ' to learn more about the Fest hosting process.' },
@@ -375,30 +361,13 @@ export const faq = {
       ],
     },
     {
-      id: 'corporate-partner-hosting',
-      section: 'hosting',
-      question: 'How do corporate partners host Fests at company offices?',
-      answer: [
-        // "their own event organizers" names the literal role, not the
-        // house term, so it's the one prose use of "organizers" that stays.
-        {
-          text: 'Corporate partner office events are coordinated directly through the MLH Operations team rather than the public application portal. Corporate hosts receive all the benefits offered to our community-organized Fests, but will provide their own event organizers, and are not eligible for expense reimbursement. To explore corporate partnerships of this nature, please email us at ',
-        },
-        { text: 'hacktoberfest@mlh.io', href: 'mailto:hacktoberfest@mlh.io' },
-        { text: '.' },
-      ],
-    },
-    {
       id: 'geographic-sanctions-restrictions',
       section: 'hosting',
       question:
         'Are there geographic or sanctions restrictions for hosting or participating in Fests?',
       answer: [
-        // Corrected per the design spec: as supplied, the parenthetical
-        // read as though Ukraine itself were an embargoed region rather
-        // than three specific regions within it.
         {
-          text: 'Fests and swag shipments are available worldwide, excluding embargoed regions (Cuba, Iran, North Korea, Syria, and the Crimea, Donetsk and Luhansk regions of Ukraine) as well as nations under targeted sanctions.',
+          text: 'Fests and swag shipments are available worldwide, excluding locations embargoed and sanctioned by the U.S.',
         },
       ],
     },
@@ -409,7 +378,7 @@ export const faq = {
       question: 'What swag is included in the in-person Fest Event Packs?',
       answer: [
         {
-          text: 'All in-person Fests will get a shipment of MLH stickers, League stickers, DigitalOcean stickers, and T-shirts which hosts will distribute at their discretion in accordance with MLH policies.',
+          text: 'All in-person Fests will get a shipment of MLH stickers, DigitalOcean stickers, and T-shirts, which organizers will distribute at their discretion in accordance with MLH policies.',
         },
       ],
     },
@@ -439,7 +408,7 @@ export const faq = {
       question: 'What is the envelope fulfillment and shipping timeline?',
       answer: [
         {
-          text: 'Envelope shipments will begin dispatching after Hacktoberfest concludes and should arrive to most destinations within 30-60 days.',
+          text: 'Envelope shipments will begin dispatching after Hacktoberfest concludes and should arrive at most destinations within 30-60 days.',
         },
       ],
     },
