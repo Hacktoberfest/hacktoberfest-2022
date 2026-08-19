@@ -79,18 +79,25 @@ const event = {
 /* Google restricted FAQ rich results to government and health sites in 2023,
    so this will not produce dropdowns in search. It is here so answer engines
    get an explicit question-and-answer pair instead of inferring one from
-   prose — the reason the FAQ exists at all. */
+   prose — the reason the FAQ exists at all.
+
+   Restricted to homepage.ids, not the full faq.items: the homepage callout
+   now shows four questions and links to /faq for the rest, so structured
+   data naming all twenty-four would describe content the page doesn't
+   carry. The /faq page is a later task's concern. */
 const faqPage = {
   '@type': 'FAQPage',
   '@id': ID.faq,
-  mainEntity: faq.items.map((item) => ({
-    '@type': 'Question',
-    name: item.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: answerText(item.answer),
-    },
-  })),
+  mainEntity: faq.homepage.ids
+    .map((id) => faq.items.find((item) => item.id === id))
+    .map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: answerText(item.answer),
+      },
+    })),
 };
 
 const homepageJsonLd = {

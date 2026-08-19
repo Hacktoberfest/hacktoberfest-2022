@@ -1,0 +1,39 @@
+/* The /faq page body: six headed groups of accordions under PageHero.
+   Each FaqList panel constrains its own width via Shell, so this file only
+   sets the page-level rhythm around and between sections. */
+.root {
+  padding-block: clamp(48px, 7vw, 90px);
+}
+
+.section + .section {
+  margin-top: clamp(48px, 6vw, 80px);
+}
+
+/* Shell's width rules, repeated here rather than imported: Shell is
+   styled-components, and a plain div matching its breakpoints is simpler
+   than reaching across style systems for one value. */
+.heading {
+  width: min(calc(100% - 30px), 1280px);
+  margin: 0 auto 20px;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .heading {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .heading {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

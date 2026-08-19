@@ -1,52 +1,26 @@
+import Button from 'components/Button';
 import { faq } from 'data/content.mjs';
-import { FAQ_UPDATES_FORM } from 'data/typeforms.mjs';
 
+import FaqList from './FaqList';
 import {
   Eyebrow,
-  FaqAnswer,
-  FaqFormLink,
+  FaqCtaRow,
   FaqHeading,
   FaqIntro,
   FaqIntroCopy,
-  FaqItem,
-  FaqLink,
   FaqLlmsLink,
   FaqLlmsNote,
-  FaqMarker,
-  FaqPanel,
-  FaqQuestion,
-  FaqQuestionText,
   FaqRoot,
 } from './FaqSection.styles';
 
-// Which popup each inline link opens. The copy lives in data/content.mjs.
-const FORMS = {
-  faqUpdates: FAQ_UPDATES_FORM,
-};
-
-const AnswerSegment = ({ segment }) => {
-  if (segment.form) {
-    return <FaqFormLink form={FORMS[segment.form]}>{segment.text}</FaqFormLink>;
-  }
-
-  if (segment.href) {
-    /* Only outbound links get the new-tab treatment and the rel guard that
-       has to come with it; a link to another page of this site keeps the
-       reader in the tab they are already in. */
-    const outbound = !segment.href.startsWith('/');
-
-    return (
-      <FaqLink
-        href={segment.href}
-        {...(outbound ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      >
-        {segment.text}
-      </FaqLink>
-    );
-  }
-
-  return segment.text;
-};
+/* The homepage keeps four broad questions — chosen in data/content.mjs for
+   breadth over depth, since the homepage serves first-time visitors — and
+   sends everyone else to the full /faq page via the CTA below the panel.
+   Mapping over homepage.ids (rather than filtering items) is what keeps
+   the display order the ids declare, independent of items' own order. */
+const homepageItems = faq.homepage.ids.map((id) =>
+  faq.items.find((item) => item.id === id),
+);
 
 const FaqSection = () => (
   <FaqRoot id="faq" aria-labelledby="faq-title">
@@ -60,21 +34,11 @@ const FaqSection = () => (
       <FaqIntroCopy>{faq.intro}</FaqIntroCopy>
     </FaqIntro>
 
-    <FaqPanel>
-      {faq.items.map((item) => (
-        <FaqItem key={item.id}>
-          <FaqQuestion>
-            <FaqQuestionText>{item.question}</FaqQuestionText>
-            <FaqMarker aria-hidden="true" />
-          </FaqQuestion>
-          <FaqAnswer>
-            {item.answer.map((segment, index) => (
-              <AnswerSegment key={`${item.id}-${index}`} segment={segment} />
-            ))}
-          </FaqAnswer>
-        </FaqItem>
-      ))}
-    </FaqPanel>
+    <FaqList items={homepageItems} />
+
+    <FaqCtaRow>
+      <Button href={faq.homepage.cta.href}>{faq.homepage.cta.label}</Button>
+    </FaqCtaRow>
 
     <FaqLlmsNote>
       <FaqLlmsLink href="/llms.txt">{faq.llmsNote}</FaqLlmsLink>

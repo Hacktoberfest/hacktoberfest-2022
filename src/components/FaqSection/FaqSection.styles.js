@@ -141,11 +141,29 @@ export const FaqMarker = styled.span`
   }
 `;
 
-export const FaqAnswer = styled.p`
+/* A div, not a p: a { markdown } segment can render an <ol> (fest-formats'
+   numbered list of formats), and a block element inside a <p> gets closed
+   early by the browser's parser, silently breaking the layout. */
+export const FaqAnswer = styled.div`
   margin: 0;
   padding: 0 24px 26px;
   color: #34433f;
   font-size: 0.95rem;
+`;
+
+/* The one shape a { markdown } segment's ordered-list form takes — see
+   parseAnswerMarkdown in data/content.mjs. Only the fest-formats answer
+   uses this today. */
+export const FaqOrderedList = styled.ol`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding-left: 22px;
+
+  li::marker {
+    font-weight: 700;
+  }
 `;
 
 /* Whenever an anchor and a popup trigger appear inline, they have to be
@@ -166,6 +184,15 @@ const inlineLink = css`
 
 export const FaqLink = styled.a`
   ${inlineLink}
+`;
+
+/* The CTA to the full /faq page, centered under the panel — the homepage
+   band's four questions are a preview, so what follows them is an
+   invitation to keep reading rather than another accordion. */
+export const FaqCtaRow = styled(Shell)`
+  display: flex;
+  justify-content: center;
+  margin-top: 36px;
 `;
 
 /* The wink under the panel, tucked into the section's bottom-right corner.
