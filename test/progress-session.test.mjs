@@ -477,6 +477,35 @@ test('NEXT_PUBLIC_API_BASE_URL=mocked still means no API at all', () => {
   assert.equal(mockMode.API_BASE_URL, '');
 });
 
+/* The OAuth hop's one decision (see src/pages/oauth/mlh/callback.js). The
+   query string must pass through byte-for-byte — the code and state in it
+   belong to the API's callback — and the mocked build, with no API to
+   forward to, must land somewhere truthful instead of building a URL out
+   of an empty origin. */
+test('oauthCallbackForwardDestination carries the query to the API callback', () => {
+  assert.equal(
+    realMode.oauthCallbackForwardDestination('?code=abc&state=xyz'),
+    'https://api.test.invalid/oauth/mlh/callback?code=abc&state=xyz',
+  );
+  assert.equal(
+    realMode.oauthCallbackForwardDestination(''),
+    'https://api.test.invalid/oauth/mlh/callback',
+  );
+  /* location.search is a string in any browser; anything else is treated
+     as absent rather than concatenated into the URL. */
+  assert.equal(
+    realMode.oauthCallbackForwardDestination(undefined),
+    'https://api.test.invalid/oauth/mlh/callback',
+  );
+});
+
+test('the mocked build sends the OAuth hop to /login/ instead', () => {
+  assert.equal(
+    mockMode.oauthCallbackForwardDestination('?code=abc'),
+    '/login/',
+  );
+});
+
 /* Node has no `location`, and startLogin's entire observable effect is the
    URL it hands to location.assign. Restores whatever was there, same as the
    storage helpers above. */

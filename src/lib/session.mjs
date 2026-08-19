@@ -299,3 +299,19 @@ export const startLogin = (returnTo = DEFAULT_RETURN_TO) => {
 const MLH_SIGNOUT_URL = 'https://www.mlh.com/signout';
 
 export const signOutDestination = () => (API_BASE_URL ? MLH_SIGNOUT_URL : '/');
+
+/* Where the OAuth hop page (/oauth/mlh/callback/) sends the browser on.
+
+   MyMLH's OAuth app registers hacktoberfest.com/oauth/mlh/callback as its
+   redirect URI, on the assumption that the platform forwards /oauth/* to
+   the API. No such forwarding exists in production, so the static export
+   answers that address itself and this is the forward: the untouched query
+   string — the code and state belong to the API, not to us — carried to
+   the API's real callback.
+
+   The mocked build has no API to carry it to, and nothing should ever send
+   a mocked browser here; /login/ is the only truthful place left to land. */
+export const oauthCallbackForwardDestination = (search) =>
+  API_BASE_URL
+    ? `${API_BASE_URL}/oauth/mlh/callback${typeof search === 'string' ? search : ''}`
+    : '/login/';

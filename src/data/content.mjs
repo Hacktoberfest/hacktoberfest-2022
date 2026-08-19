@@ -957,6 +957,17 @@ export const login = {
   redirecting: 'One moment. We’re taking you to MyMLH to sign in.',
 };
 
+/* Where the API's OAuth failure redirect lands (/auth/error). One state
+   only: whatever went wrong over there, the honest offer here is the same
+   try-again. */
+export const authError = {
+  title: 'Sign-in error | Hacktoberfest 2026',
+  eyebrow: 'Your Hacktoberfest',
+  heading: { lead: 'That sign-in', accent: 'didn’t work.' },
+  body: 'MyMLH couldn’t finish signing you in. No harm done: starting again usually clears it up.',
+  cta: 'Sign in with MyMLH',
+};
+
 /* The transit screen between MyMLH and /my. Participants should barely see
    the working state; the failed state has to stand on its own. */
 export const authCallback = {

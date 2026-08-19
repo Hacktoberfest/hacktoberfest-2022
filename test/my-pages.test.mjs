@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { access, readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
-import { my } from '../src/data/content.mjs';
+import { authError, my } from '../src/data/content.mjs';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -133,6 +133,52 @@ test('the callback page is exported at /auth/callback/ and marked noindex', asyn
   const html = await readOutput('auth/callback/index.html');
 
   assert.match(html, /<meta name="robots" content="noindex"/);
+});
+
+/* The API's failure redirect target. A state mismatch, a denied consent
+   and a rejected code all 302 to {FRONTEND_URL}/auth/error (the API's
+   oauth.routes.ts and oauthState.ts), so the path has to exist in the
+   export or every failed sign-in dies on the 404 page. It renders
+   MessagePage in its only state, so the copy, the /login/ CTA and the
+   styled ground can all be asserted straight off the export. */
+test('the /auth/error page is exported with its copy and a way back in', async () => {
+  const html = await readOutput('auth/error/index.html');
+
+  assert.match(html, /<meta name="robots" content="noindex"/);
+  assert.ok(html.includes(authError.body), 'the failure copy is missing');
+  assert.match(
+    html,
+    /<a[^>]*href="\/login\/"/,
+    'the CTA back into sign-in is missing',
+  );
+
+  const css = await readLinkedCss(html, '/auth/error/');
+  assert.match(
+    css,
+    /\.MessagePage_root__[A-Za-z0-9_]+\{[^}]*#3d5f58/,
+    "MessagePage's forest ground rule is missing from the CSS the page links",
+  );
+});
+
+/* The OAuth hop page. MyMLH's registered redirect URI is
+   hacktoberfest.com/oauth/mlh/callback, and no platform rule forwards
+   /oauth/* to the API — the page IS the forward. The path matters exactly,
+   same as /auth/callback/ above: with trailingSlash the export has to land
+   at oauth/mlh/callback/index.html, or every production sign-in dies on
+   the 404 page with the one-time code still in the URL. It carries that
+   code, so it must never be indexed, and it shows the shared loader so
+   the hop reads as one continuous sign-in. */
+test('the OAuth hop page is exported at /oauth/mlh/callback/ and marked noindex', async () => {
+  const html = await readOutput('oauth/mlh/callback/index.html');
+
+  assert.match(html, /<meta name="robots" content="noindex"/);
+  ['Orange', 'Sky', 'Ochre', 'Pink'].forEach((box) =>
+    assert.match(
+      html,
+      new RegExp(`Loader_box${box}__`),
+      `the ${box.toLowerCase()} loading box is missing from the export`,
+    ),
+  );
 });
 
 /* Same trap, caught the hard way — twice. MessagePage's CTA only renders in
@@ -437,6 +483,16 @@ const WIRING = [
     why: "the bfcache guard from FIX 2. Without it, Back from mlh.com/signin repaints the previous participant's name, email and applications from restored React state on a shared machine.",
   },
   {
+    file: 'src/pages/oauth/mlh/callback.js',
+    token: 'oauthCallbackForwardDestination(globalThis.location.search)',
+    why: 'the hop must hand the untouched query string to the destination lib/session.mjs builds; without it the code and state never reach the API and every production sign-in dies at this page.',
+  },
+  {
+    file: 'src/pages/oauth/mlh/callback.js',
+    token: 'globalThis.location.replace(',
+    why: 'replace, not assign: the hop carries a one-time code and must stay out of history, or Back re-submits a spent code to the API for a guaranteed failure screen.',
+  },
+  {
     file: 'src/pages/auth/callback.js',
     token: 'requireRefreshToken: true',
     why: 'a session stored without a refresh token works until the access token expires and then signs the participant out with nothing to explain it.',
@@ -507,5 +563,7 @@ test('the signed-in pages stay out of the sitemap and the llms files', async () 
   [sitemap, llmsFull, llms].forEach((file) => {
     assert.doesNotMatch(file, /\/my\b/);
     assert.doesNotMatch(file, /\/login/);
+    // The OAuth hop is transit, not content — and it handles one-time codes.
+    assert.doesNotMatch(file, /\/oauth/);
   });
 });
