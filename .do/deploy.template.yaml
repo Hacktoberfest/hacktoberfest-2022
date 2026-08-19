@@ -34,6 +34,12 @@ spec:
       envs:
         - key: BASE_URL
           scope: BUILD_TIME
+        # Unset = the mocked build: /my serves fixtures and sign-in fakes a
+        # session as Ada Lovelace. Production must set this to the API's
+        # public origin (see the API repo's README for the full wiring,
+        # including routing hacktoberfest.com/oauth/* to the API).
+        - key: NEXT_PUBLIC_API_BASE_URL
+          scope: BUILD_TIME
         - key: BUILD_ID
           scope: BUILD_TIME
           value: ${_self.COMMIT_HASH}
