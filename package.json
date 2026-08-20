@@ -52,8 +52,5 @@
     "lint-staged": "^16.0.0",
     "prettier": "^3.5.3",
     "webpack": "^5.99.8"
-  },
-  "overrides": {
-    "fast-uri": "4.1.2"
   }
 }
