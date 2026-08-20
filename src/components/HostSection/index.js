@@ -6,8 +6,9 @@ import {
   ApplyButton,
   ApplyEyebrow,
   ApplyHeading,
-  ApplyInner,
   ApplyRoot,
+  ApplySplit,
+  CardFooter,
   Eyebrow,
   FormatCard,
   FormatCardCopy,
@@ -17,12 +18,14 @@ import {
   FormatCardTitle,
   FormatGrid,
   FormatsRoot,
-  GuideBand,
   GuideButton,
   GuideCopy,
   GuideTitle,
+  PhotoPrintMain,
+  PhotoPrintOverlay,
   PhotoReel,
   PhotoReelTrack,
+  PhotoStack,
   PhotoStripItem,
   PhotoStripPrint,
   PhotoStripRoot,
@@ -31,14 +34,22 @@ import {
   SectionIntroCopy,
   StepCopy,
   StepItem,
+  StepNode,
   StepNumber,
   StepsList,
   StepTitle,
-  SupportGrid,
-  SupportItem,
+  SupportAccent,
+  SupportCard,
+  SupportEyebrow,
+  SupportHeading,
   SupportItemCopy,
   SupportItemTitle,
+  SupportLead,
+  SupportList,
+  SupportListItem,
+  SupportMark,
   SupportRoot,
+  SupportSplit,
 } from './HostSection.styles';
 
 /* The /host page body: the two Fest formats, each carrying its own
@@ -121,40 +132,84 @@ const HostSection = () => (
     </PhotoStripRoot>
 
     <SupportRoot aria-labelledby="host-support-title">
-      <SectionIntro>
-        <div>
-          <Eyebrow>{host.support.eyebrow}</Eyebrow>
-          <SectionHeading id="host-support-title">
-            {host.support.heading.lead} <em>{host.support.heading.accent}</em>
-          </SectionHeading>
-        </div>
-        <SectionIntroCopy>{host.support.intro}</SectionIntroCopy>
-      </SectionIntro>
-      <SupportGrid>
-        {host.support.items.map((item) => (
-          <SupportItem key={item.id}>
-            <SupportItemTitle>{item.title}</SupportItemTitle>
-            <SupportItemCopy>{item.copy}</SupportItemCopy>
-          </SupportItem>
-        ))}
-      </SupportGrid>
-      <GuideBand>
-        <div>
-          <GuideTitle>{host.support.guide.title}</GuideTitle>
-          <GuideCopy>{host.support.guide.copy}</GuideCopy>
-        </div>
-        <GuideButton
-          href={HOST_HANDBOOK_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {host.support.guide.cta}
-        </GuideButton>
-      </GuideBand>
+      <SupportSplit>
+        <SupportEyebrow>{host.support.eyebrow}</SupportEyebrow>
+        {/* One heading for AT, split visually across the two columns it
+           describes; the space inside the lead keeps the accessible
+           name reading as a sentence pair. */}
+        <SupportHeading id="host-support-title">
+          <SupportLead>{host.support.heading.lead} </SupportLead>
+          <SupportAccent>{host.support.heading.accent}</SupportAccent>
+        </SupportHeading>
+        {/* Two prints standing still under the host's half of the
+           headline. */}
+        <PhotoStack>
+          {host.support.photos.map((photo, index) =>
+            index === 0 ? (
+              <PhotoPrintMain
+                key={photo.id}
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                width="640"
+                height="427"
+              />
+            ) : (
+              <PhotoPrintOverlay
+                key={photo.id}
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                width="640"
+                height="427"
+              />
+            ),
+          )}
+        </PhotoStack>
+        <SupportCard>
+          <SupportList>
+            {host.support.items.map((item) => (
+              <SupportListItem key={item.id}>
+                {/* Décor, not meaning: the ul already carries the list. */}
+                <SupportMark
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M10 2v16M3 6l14 8M17 6L3 14"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                  />
+                </SupportMark>
+                <div>
+                  <SupportItemTitle>{item.title}</SupportItemTitle>
+                  <SupportItemCopy>{item.copy}</SupportItemCopy>
+                </div>
+              </SupportListItem>
+            ))}
+          </SupportList>
+          <CardFooter>
+            <div>
+              <GuideTitle>{host.support.guide.title}</GuideTitle>
+              <GuideCopy>{host.support.guide.copy}</GuideCopy>
+            </div>
+            <GuideButton
+              href={HOST_HANDBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {host.support.guide.cta}
+            </GuideButton>
+          </CardFooter>
+        </SupportCard>
+      </SupportSplit>
     </SupportRoot>
 
     <ApplyRoot aria-labelledby="host-apply-title">
-      <ApplyInner>
+      <ApplySplit>
         <ApplyEyebrow>{host.apply.eyebrow}</ApplyEyebrow>
         <ApplyHeading id="host-apply-title">
           {host.apply.heading.lead} <em>{host.apply.heading.accent}</em>
@@ -163,7 +218,9 @@ const HostSection = () => (
         <StepsList>
           {host.apply.steps.map((step, index) => (
             <StepItem key={step.id}>
-              {/* The ol conveys order to AT; the printed number is décor. */}
+              {/* The ol conveys order to AT; the node and the printed
+                 number are décor. */}
+              <StepNode aria-hidden="true" />
               <StepNumber aria-hidden="true">{`0${index + 1}`}</StepNumber>
               <StepTitle>{step.title}</StepTitle>
               <StepCopy>{step.copy}</StepCopy>
@@ -171,7 +228,7 @@ const HostSection = () => (
           ))}
         </StepsList>
         <ApplyButton href="/my/">{host.apply.cta}</ApplyButton>
-      </ApplyInner>
+      </ApplySplit>
     </ApplyRoot>
   </>
 );

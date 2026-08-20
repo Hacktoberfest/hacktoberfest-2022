@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import Button from 'components/Button';
 import Shell from 'components/Shell';
@@ -247,19 +247,150 @@ export const PhotoStripPrint = styled.img`
   transform: rotate(${({ $tilt }) => $tilt}deg);
 `;
 
-export const SupportGrid = styled(Shell)`
+/* The support section as the two sides of the deal the headline names:
+   the host's half carries faces, MLH's half is the manifest card. One
+   grid holds both columns so the heading's two halves can sit at the
+   top of the column each one describes; the areas re-stack into a
+   single reading order on phones (your side first, then ours). */
+export const SupportSplit = styled(Shell)`
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 26px 40px;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'eyebrow'
+    'lead'
+    'photos'
+    'accent'
+    'card';
 
   @media (min-width: ${breakpoints.tablet}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    column-gap: clamp(40px, 6vw, 90px);
+    grid-template-areas:
+      'eyebrow accent'
+      'lead    accent'
+      'photos  card';
   }
 `;
 
-export const SupportItem = styled.div`
-  padding-top: 16px;
-  border-top: 2px solid ${colors.ink};
+export const SupportEyebrow = styled(Eyebrow)`
+  grid-area: eyebrow;
+`;
+
+/* The one h2 the section is labelled by. display: contents dissolves
+   its box so the two halves become grid items of SupportSplit; the h2
+   itself keeps the full sentence pair as the section's accessible
+   name. */
+export const SupportHeading = styled.h2`
+  display: contents;
+  margin: 0;
+`;
+
+const supportHeadline = css`
+  font-family: ${fonts.display};
+  font-size: clamp(2.6rem, 4.8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-wrap: balance;
+`;
+
+export const SupportLead = styled.span`
+  ${supportHeadline};
+  grid-area: lead;
+  margin-top: 13px;
+`;
+
+/* Bottom-aligned against the lead so the two halves share a baseline
+   whatever their line counts; on phones it instead opens MLH's half of
+   the section, after the photos. */
+export const SupportAccent = styled.em`
+  ${supportHeadline};
+  grid-area: accent;
+  margin: 40px 0 0;
+  color: ${colors.orange};
+  font-style: normal;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    margin-top: 0;
+    align-self: end;
+  }
+`;
+
+/* The photo pair under the host's half: the reel's print treatment,
+   standing still. The bottom padding is canvas for the smaller print's
+   overhang; align-self keeps the stack sized to its prints instead of
+   stretching down the card's row, which would drag the overhang print
+   off the big one. */
+export const PhotoStack = styled.div`
+  grid-area: photos;
+  position: relative;
+  align-self: start;
+  margin-top: 44px;
+  padding-bottom: 60px;
+`;
+
+export const PhotoPrintMain = styled.img`
+  display: block;
+  width: min(440px, 94%);
+  height: auto;
+  aspect-ratio: 3 / 2;
+  padding: 8px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  object-fit: cover;
+  box-shadow: 6px 6px 0 ${colors.maroon};
+  transform: rotate(-2deg);
+`;
+
+export const PhotoPrintOverlay = styled.img`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(250px, 56%);
+  height: auto;
+  aspect-ratio: 3 / 2;
+  padding: 6px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  object-fit: cover;
+  box-shadow: 5px 5px 0 ${colors.skyDeep};
+  transform: rotate(2.2deg);
+`;
+
+/* MLH's half: everything a confirmed Fest gets, packed into one card
+   with the handbook as its footer instead of an orphaned band below. */
+export const SupportCard = styled.div`
+  grid-area: card;
+  margin-top: 30px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  box-shadow: 7px 7px 0 ${colors.maroon};
+`;
+
+export const SupportList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style: none;
+`;
+
+export const SupportListItem = styled.li`
+  display: flex;
+  gap: 18px;
+  padding: 24px 28px;
+
+  & + & {
+    border-top: 1px solid rgba(16, 32, 29, 0.22);
+  }
+`;
+
+/* The list marker, drawn: an asterisk in the accent orange. */
+export const SupportMark = styled.svg`
+  flex: none;
+  margin-top: 2px;
+
+  path {
+    stroke: ${colors.orange};
+  }
 `;
 
 export const SupportItemTitle = styled.h3`
@@ -272,23 +403,21 @@ export const SupportItemTitle = styled.h3`
 `;
 
 export const SupportItemCopy = styled.p`
-  max-width: 52ch;
-  margin: 10px 0 0;
+  max-width: 56ch;
+  margin: 8px 0 0;
   color: #34433f;
   font-size: 0.93rem;
   text-wrap: pretty;
 `;
 
-export const GuideBand = styled(Shell)`
+export const CardFooter = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
   gap: 22px;
-  margin-top: 56px;
-  padding: 30px;
-  border: 2px solid ${colors.ink};
-  background: ${colors.white};
-  box-shadow: 7px 7px 0 ${colors.maroon};
+  padding: 24px 28px;
+  border-top: 2px solid ${colors.ink};
+  background: ${colors.paper};
 
   @media (min-width: ${breakpoints.tablet}) {
     flex-direction: row;
@@ -318,8 +447,10 @@ export const GuideCopy = styled.p`
 `;
 
 /* Outline demotion: the apply CTA one screen later stays the page's
-   only loud button. */
+   only loud button. flex: none keeps the footer row from folding the
+   label when the copy takes its share of the width. */
 export const GuideButton = styled(Button)`
+  flex: none;
   background: transparent;
   box-shadow: none;
 
@@ -336,18 +467,40 @@ export const ApplyRoot = styled.section`
   background: ${colors.forest};
 `;
 
-export const ApplyInner = styled(Shell)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+/* The apply band as a split: the pitch and the button on the left, the
+   organizer journey as a vertical rail on the right. The areas keep
+   the phone order the centered layout had (steps before the button, so
+   the section still ends on the CTA); the 1fr tail row keeps the
+   button pinned under the body when the rail runs taller. */
+export const ApplySplit = styled(Shell)`
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'eyebrow'
+    'heading'
+    'body'
+    'rail'
+    'button';
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto 1fr;
+    column-gap: clamp(40px, 6vw, 90px);
+    grid-template-areas:
+      'eyebrow rail'
+      'heading rail'
+      'body    rail'
+      'button  rail';
+  }
 `;
 
 export const ApplyEyebrow = styled(Eyebrow)`
+  grid-area: eyebrow;
   color: ${colors.pinkLight};
 `;
 
 export const ApplyHeading = styled.h2`
+  grid-area: heading;
   margin: 13px 0 0;
   font-family: ${fonts.display};
   font-size: clamp(2.6rem, 4.8vw, 4.5rem);
@@ -367,32 +520,45 @@ export const ApplyHeading = styled.h2`
 `;
 
 export const ApplyBody = styled.p`
-  max-width: 52ch;
+  grid-area: body;
+  max-width: 42ch;
   margin: 22px 0 0;
   text-wrap: pretty;
 `;
 
-/* The organizer journey inside the apply band: three numbered steps
-   between the pitch and the button. */
+/* The organizer journey as a rail: the three steps hang off one
+   vertical rule, each pinned to it by a sky node. */
 export const StepsList = styled.ol`
-  display: grid;
-  width: 100%;
-  max-width: 880px;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  gap: 34px;
+  grid-area: rail;
   margin: 44px 0 0;
-  padding: 0;
-  gap: 22px;
+  padding: 8px 0 0 36px;
+  border-left: 2px solid rgba(247, 247, 242, 0.35);
   list-style: none;
-  text-align: left;
 
   @media (min-width: ${breakpoints.tablet}) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 34px;
+    margin-top: 0;
   }
 `;
 
 export const StepItem = styled.li`
-  padding-top: 14px;
-  border-top: 2px solid rgba(247, 247, 242, 0.35);
+  position: relative;
+`;
+
+/* The node that ties a step to the rail, sized to sit astride the
+   rule: item content starts 36px right of it, so -44px centers the
+   14px square on the 2px line. */
+export const StepNode = styled.span`
+  position: absolute;
+  top: 4px;
+  left: -44px;
+  width: 14px;
+  height: 14px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.sky};
 `;
 
 export const StepNumber = styled.span`
@@ -421,5 +587,8 @@ export const StepCopy = styled.p`
 `;
 
 export const ApplyButton = styled(Button)`
+  align-self: start;
+  justify-self: start;
+  grid-area: button;
   margin-top: 34px;
 `;

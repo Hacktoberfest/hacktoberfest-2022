@@ -709,7 +709,21 @@ export const host = {
   support: {
     eyebrow: 'Hosting, supported',
     heading: { lead: 'You bring the people.', accent: 'We bring the rest.' },
-    intro: 'You’re not alone.',
+    /* The two prints under the "you bring the people" half: the big
+       print first, the overlapped one second. Their own photos, not
+       the strip's, so the reel doesn't repeat them. */
+    photos: [
+      {
+        id: 'pair',
+        src: '/host-support-pair.jpg',
+        alt: 'Two attendees arm in arm, all smiles at their Fest',
+      },
+      {
+        id: 'room',
+        src: '/host-support-room.jpg',
+        alt: 'A room of attendees mid-build at their laptops',
+      },
+    ],
     items: [
       {
         id: 'swag',

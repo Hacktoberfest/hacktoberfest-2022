@@ -78,6 +78,19 @@ test('/host lists the full support story', async () => {
   host.support.items.forEach((item) => {
     assert.ok(html.includes(item.copy), `missing support item: ${item.id}`);
   });
+  /* The section's own prints, distinct from the strip's roll: each
+     appears exactly once and carries its real alt. */
+  host.support.photos.forEach((photo) => {
+    const copies = html.match(new RegExp(escapeRegExp(photo.src), 'g'));
+    assert.equal(copies.length, 1, `${photo.id} should render exactly once`);
+    assert.match(
+      html,
+      new RegExp(
+        `<img[^>]*src="${escapeRegExp(photo.src)}"[^>]*alt="${escapeRegExp(photo.alt)}"`,
+      ),
+      `missing support print: ${photo.id}`,
+    );
+  });
 });
 
 test('/host walks the organizer journey in steps', async () => {
