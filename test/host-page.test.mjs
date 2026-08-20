@@ -44,6 +44,35 @@ test('/host compares the formats inside each card', async () => {
   assert.ok(!html.includes('<table'), 'comparison table should be gone');
 });
 
+test('/host carries the photo strip between the formats and the support story', async () => {
+  const html = await readOutput('host/index.html');
+  host.photoStrip.photos.forEach((photo) => {
+    const pattern = new RegExp(
+      `<img[^>]*src="${escapeRegExp(photo.src)}"[^>]*alt="${escapeRegExp(photo.alt)}"`,
+    );
+    assert.match(html, pattern, `missing strip photo: ${photo.id}`);
+    /* The reel loops by rendering the strip twice; the loop copy is
+       decoration only, so it must carry an empty alt. */
+    const copies = html.match(new RegExp(escapeRegExp(photo.src), 'g'));
+    assert.equal(copies.length, 2, `${photo.id} should render exactly twice`);
+    assert.match(
+      html,
+      new RegExp(`<img[^>]*src="${escapeRegExp(photo.src)}"[^>]*alt=""`),
+      `missing the aria-hidden loop copy of ${photo.id}`,
+    );
+  });
+  // Placement: the strip sits after the formats and before the support.
+  const stripIndex = html.indexOf(host.photoStrip.photos[0].src);
+  assert.ok(
+    html.indexOf(host.formats.cards[0].tag) < stripIndex,
+    'the strip should follow the formats',
+  );
+  assert.ok(
+    stripIndex < html.indexOf(host.support.items[0].copy),
+    'the strip should precede the support story',
+  );
+});
+
 test('/host lists the full support story', async () => {
   const html = await readOutput('host/index.html');
   host.support.items.forEach((item) => {

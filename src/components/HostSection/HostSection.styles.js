@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import Button from 'components/Button';
 import Shell from 'components/Shell';
@@ -150,6 +150,103 @@ export const FormatCardFactRow = styled.div`
   }
 `;
 
+/* The photo reel between the formats and the support story: the same
+   full-bleed sky chapter as /my's why-host band, with the photos as the
+   tilted prints that band lays on its box. The band above already draws
+   the shared ink edge, so this only closes its own bottom. */
+export const PhotoStripRoot = styled.section`
+  padding-block: clamp(40px, 5vw, 72px);
+  border-bottom: 2px solid ${colors.ink};
+  background: ${colors.sky};
+`;
+
+/* The reel loop: the track holds the strip twice and slides by half of
+   itself, so the second copy lands exactly where the first began and the
+   wrap is invisible. Half the track is half its width plus half of one
+   gap (the track's midpoint falls inside the gap between the copies).
+   Each print's tilt keys off its place in the photo list, not the DOM,
+   so a print and its loop copy always lean the same way and the wrap
+   never twitches, whatever the photo count. */
+const reelLoop = keyframes`
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 12px));
+  }
+`;
+
+/* The clip box: full-bleed, hiding whichever prints the track has slid
+   past. When motion is reduced the reel stands still and becomes the
+   reader's own sideways scroller instead. */
+export const PhotoReel = styled.div`
+  overflow: hidden;
+
+  @media (prefers-reduced-motion: reduce) {
+    overflow-x: auto;
+  }
+`;
+
+/* The block padding is canvas for the tilt and the press-down shadows,
+   which would otherwise clip against the reel's box. Hovering holds the
+   reel still for a proper look. */
+export const PhotoReelTrack = styled.ul`
+  display: flex;
+  width: max-content;
+  margin: 0;
+  padding: 14px 0 22px;
+  gap: 24px;
+  list-style: none;
+  animation: ${reelLoop} 48s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    padding-inline: 15px;
+    animation: none;
+  }
+`;
+
+export const PhotoStripItem = styled.li`
+  flex: none;
+  /* Phone-to-desktop is the 72vw-capped-at-320px print. The 13vw floor
+     is the ultrawide (and zoomed-out) guarantee: with eight photos,
+     8 x 13vw > 100vw, so one copy of the strip always outspans the
+     viewport and the loop never runs off the right edge mid-cycle. If
+     the photo list shrinks, this floor must grow to at least
+     100 / (photo count) vw. */
+  width: max(min(72vw, 320px), 13vw);
+
+  /* With the reel parked, the loop copy is six stale repeats at the end
+     of the scroller; it only exists to close the moving loop. */
+  @media (prefers-reduced-motion: reduce) {
+    &[aria-hidden='true'] {
+      display: none;
+    }
+  }
+`;
+
+/* The why-host band's print treatment: a white mount inside the ink
+   keyline, the press-down shadow in skyDeep (the deep end of the band's
+   own blue), and a couple of degrees of tilt alternating down the strip.
+   The fixed aspect keeps the prints even whatever each source file's
+   ratio is; object-fit takes the difference out of the crop. */
+export const PhotoStripPrint = styled.img`
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  padding: 8px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  object-fit: cover;
+  box-shadow: 6px 6px 0 ${colors.skyDeep};
+  transform: rotate(${({ $tilt }) => $tilt}deg);
+`;
+
 export const SupportGrid = styled(Shell)`
   display: grid;
   grid-template-columns: 1fr;
@@ -200,9 +297,22 @@ export const GuideBand = styled(Shell)`
   }
 `;
 
+/* The card's own headline, the piece that made it read as filler: every
+   other box on the page opens with display type, this one opened with a
+   bare sentence. Sized to the FormatCardTitle's floor rather than a
+   section heading, so it stays a card voice, not a chapter voice. */
+export const GuideTitle = styled.h3`
+  margin: 0;
+  font-family: ${fonts.display};
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+`;
+
 export const GuideCopy = styled.p`
   max-width: 46ch;
-  margin: 0;
+  margin: 12px 0 0;
   font-size: 0.95rem;
   text-wrap: pretty;
 `;

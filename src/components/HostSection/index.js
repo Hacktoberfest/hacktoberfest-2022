@@ -20,6 +20,12 @@ import {
   GuideBand,
   GuideButton,
   GuideCopy,
+  GuideTitle,
+  PhotoReel,
+  PhotoReelTrack,
+  PhotoStripItem,
+  PhotoStripPrint,
+  PhotoStripRoot,
   SectionHeading,
   SectionIntro,
   SectionIntroCopy,
@@ -36,8 +42,9 @@ import {
 } from './HostSection.styles';
 
 /* The /host page body: the two Fest formats, each carrying its own
-   at-a-glance facts, the support behind a confirmed Fest (ending on the
-   hosting guide), and the apply band. All of it is static copy from
+   at-a-glance facts, a strip of photos from past Fests, the support
+   behind a confirmed Fest (ending on the hosting guide), and the apply
+   band. All of it is static copy from
    data/content.mjs — the only interactive piece is the apply popup, so
    styled-components is safe here the same way it is on the homepage
    sections. */
@@ -80,6 +87,39 @@ const HostSection = () => (
       </FormatGrid>
     </FormatsRoot>
 
+    <PhotoStripRoot aria-label={host.photoStrip.label}>
+      <PhotoReel>
+        <PhotoReelTrack>
+          {host.photoStrip.photos.map((photo, index) => (
+            <PhotoStripItem key={photo.id}>
+              <PhotoStripPrint
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                width="640"
+                height="427"
+                $tilt={index % 2 === 0 ? -1.8 : 1.4}
+              />
+            </PhotoStripItem>
+          ))}
+          {/* The strip again, so the reel has somewhere to wrap to. Pure
+             repetition for the eyes: hidden from AT, empty alts. */}
+          {host.photoStrip.photos.map((photo, index) => (
+            <PhotoStripItem key={`${photo.id}-loop`} aria-hidden="true">
+              <PhotoStripPrint
+                src={photo.src}
+                alt=""
+                loading="lazy"
+                width="640"
+                height="427"
+                $tilt={index % 2 === 0 ? -1.8 : 1.4}
+              />
+            </PhotoStripItem>
+          ))}
+        </PhotoReelTrack>
+      </PhotoReel>
+    </PhotoStripRoot>
+
     <SupportRoot aria-labelledby="host-support-title">
       <SectionIntro>
         <div>
@@ -99,7 +139,10 @@ const HostSection = () => (
         ))}
       </SupportGrid>
       <GuideBand>
-        <GuideCopy>{host.support.guide.copy}</GuideCopy>
+        <div>
+          <GuideTitle>{host.support.guide.title}</GuideTitle>
+          <GuideCopy>{host.support.guide.copy}</GuideCopy>
+        </div>
         <GuideButton
           href={HOST_HANDBOOK_URL}
           target="_blank"

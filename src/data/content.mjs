@@ -657,6 +657,55 @@ export const host = {
       ],
     },
   },
+  /* The strip between the formats and the support story: real Fests,
+     shown rather than described. The photos are the content, so each
+     carries a real alt; the label names the strip for screen readers,
+     which otherwise meet an unheaded section of five images. */
+  photoStrip: {
+    label: 'Scenes from past Fests',
+    photos: [
+      {
+        id: 'crowd',
+        src: '/host-strip-crowd.jpg',
+        alt: 'A crowd of Fest attendees sharing a laugh between sessions',
+      },
+      {
+        id: 'build',
+        src: '/host-strip-build.jpg',
+        alt: 'Three attendees huddled around a laptop, deep in a build',
+      },
+      {
+        id: 'pitch',
+        src: '/host-strip-pitch.jpg',
+        alt: 'Two attendees on the mic presenting their project to the room',
+      },
+      {
+        id: 'demo',
+        src: '/host-strip-demo.jpg',
+        alt: 'A team crowded around an MLH laptop to watch a demo',
+      },
+      {
+        id: 'mingle',
+        src: '/host-strip-mingle.jpg',
+        alt: 'Attendees chatting over plates of food between sessions',
+      },
+      {
+        id: 'friends',
+        src: '/host-strip-friends.jpg',
+        alt: 'An attendee flashing a peace sign while catching up with friends',
+      },
+      {
+        id: 'thumbs',
+        src: '/host-strip-thumbs.jpg',
+        alt: 'Three attendees on a couch giving a thumbs up behind a laptop',
+      },
+      {
+        id: 'focus',
+        src: '/host-strip-focus.jpg',
+        alt: 'Two attendees heads down over a laptop in a packed lecture hall',
+      },
+    ],
+  },
   support: {
     eyebrow: 'Hosting, supported',
     heading: { lead: 'You bring the people.', accent: 'We bring the rest.' },
@@ -684,6 +733,9 @@ export const host = {
       },
     ],
     guide: {
+      /* Not "start from scratch" again: the programming support item
+         directly above already uses that phrase. */
+      title: 'The manual for all of it.',
       copy: 'From booking venues to event programming to getting your swag, the host handbook has all the information you need.',
       cta: 'Read the host handbook',
     },
