@@ -37,7 +37,7 @@ const My = () => {
   /* Destructured deliberately: depending on the whole `router` object
      re-runs this effect on every route change, which with a redirect inside
      it is a loop waiting to happen. `replace` is stable. */
-  const { isReady, query, replace } = useRouter();
+  const { replace } = useRouter();
   const [state, setState] = useState('loading');
   const [experience, setExperience] = useState(null);
   /* The fast half of the split fetch: set the moment /api/me/profile
@@ -76,13 +76,21 @@ const My = () => {
     globalThis.location.href = signOutDestination();
   }, []);
 
-  const scenario = Array.isArray(query.scenario)
-    ? query.scenario[0]
-    : query.scenario;
-
   useEffect(() => {
-    // The query is empty on the very first render of an exported page.
-    if (!isReady) return undefined;
+    /* location.search rather than useRouter().query, and no isReady gate.
+       Same reasoning as /auth/callback/, which carries the long version: an
+       exported page's query is empty on first render, so this waited on the
+       router's initial route resolution — a step that has nothing to do with
+       what this page needs and that failed outright on Aug 21, 2026 when
+       DigitalOcean's two origin nodes sat on different builds and a
+       _buildManifest.js 404 wedged the router. The address bar is the
+       authority on what is in the address bar.
+
+       Read inside the effect because that is its only consumer, which also
+       keeps it out of the dependency list below. */
+    const scenario = new URLSearchParams(globalThis.location.search).get(
+      'scenario',
+    );
 
     let cancelled = false;
 
@@ -153,7 +161,7 @@ const My = () => {
       cancelled = true;
       globalThis.removeEventListener('pageshow', onPageShow);
     };
-  }, [isReady, scenario, replace, attempt]);
+  }, [replace, attempt]);
 
   /* mlhDown is a whole-page state: nothing from the hub renders, only the
      surface itself — deliberate caution, because a name beside an empty

@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 
 import Header from 'components/Header';
@@ -34,7 +33,6 @@ const own = (table, key) => Object.prototype.hasOwnProperty.call(table, key);
    code with a sixty-second life. All this page does is spend it, store what
    comes back, and get out of the way. */
 const AuthCallback = () => {
-  const { isReady, query } = useRouter();
   const [state, setState] = useState('working');
 
   /* React strict mode double-invokes effects in development. The code can
@@ -43,12 +41,31 @@ const AuthCallback = () => {
   const started = useRef(false);
 
   useEffect(() => {
-    // The query is empty on the very first render of an exported page.
-    if (!isReady) return;
     if (started.current) return;
     started.current = true;
 
-    const code = Array.isArray(query.code) ? query.code[0] : query.code;
+    /* location.search, not useRouter().query, and this page waits for no
+       router state at all.
+
+       An exported page's query is empty on the first render, so this used to
+       read the router and gate the whole effect on isReady. That made
+       finishing a sign-in depend on the router completing its initial route
+       resolution — which is not something this page needs, and is a step
+       that can fail. On Aug 21, 2026 it did: DigitalOcean left its two
+       origin nodes on different builds, so an HTML document served by one
+       node would ask for a _buildManifest.js that only existed on the other
+       and get a 404. Without that manifest Next falls back to a hard
+       navigation, notices it is already on the URL it is navigating to, and
+       throws "Invariant: attempted to hard navigate to the same URL". The
+       route resolution dies there as an unhandled rejection, isReady never
+       reaches this component, and the effect below never runs. React had
+       hydrated perfectly; the participant sat on the loader forever with
+       their one-time code still in the address bar.
+
+       The address bar is the authority on what is in the address bar. Reading
+       it directly costs nothing, removes the gate, and leaves this page
+       working whatever the router is doing. */
+    const code = new URLSearchParams(globalThis.location.search).get('code');
     if (!code) {
       setState('failed');
       return;
@@ -116,7 +133,7 @@ const AuthCallback = () => {
            cannot work, because nothing about the link is wrong. */
         setState(error && error.status === 400 ? 'failed' : 'unavailable');
       });
-  }, [isReady, query]);
+  }, []);
 
   /* One block per state, so adding a state is a content change rather than a
      new ternary. Only `working` omits `cta`, which is what keeps the transit

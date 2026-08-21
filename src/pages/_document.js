@@ -31,6 +31,68 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
+          {/* Retries any /_next/ asset the origin refuses to serve.
+
+              Inline, and first, because it is the only code that still runs
+              when a chunk 404s: everything else on the page is in a file
+              that can be the thing that went missing.
+
+              What it is for (Aug 21, 2026): DigitalOcean served the site
+              from two origin nodes left on different builds, with no deploy
+              running. Content-hashed filenames differ between builds, so an
+              HTML document from one node asks for chunks that exist only on
+              that node, and each of those requests independently lands on
+              the wrong one about half the time. A 404 on a stylesheet costs
+              the page its styles; a 404 on a page chunk costs it hydration
+              entirely, and then nothing in the bundle can recover, because
+              the recovery would have been in the bundle.
+
+              A retry works because the query string makes it a URL
+              Cloudflare has never seen, so it goes to the origin and draws
+              a node again. Every attempt is a fresh coin toss, so the cap is
+              set by how many assets a page has rather than by how unlucky
+              one of them can be: at ten retries a single asset survives a
+              fifty-fifty origin with probability 0.9995, and a page of a
+              dozen assets loads about 99.4% of the time. At five retries
+              that page figure is only 82%, which is not a fix.
+
+              Bounded per URL, so a genuinely absent file 404s its ten times
+              and stops, leaving the page exactly where it would have been
+              anyway. Nothing is retried that did not announce its own
+              failure. */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function () {
+  var MAX = 10;
+  var tries = {};
+  function retry(el) {
+    var isScript = el.tagName === 'SCRIPT';
+    var attr = isScript ? 'src' : 'href';
+    var value = el.getAttribute(attr);
+    if (!value || value.indexOf('/_next/') === -1) return;
+    var url = value.split('?')[0];
+    tries[url] = (tries[url] || 0) + 1;
+    if (tries[url] > MAX) return;
+    var next = document.createElement(el.tagName);
+    for (var i = 0; i < el.attributes.length; i++) {
+      var a = el.attributes[i];
+      if (a.name !== attr) next.setAttribute(a.name, a.value);
+    }
+    next.setAttribute(attr, url + '?__retry=' + tries[url] + '-' + Math.random().toString(36).slice(2, 8));
+    /* Dynamically created scripts default to async, which would let a
+       retried chunk run ahead of one still loading. Next's own tags are
+       ordered defer; keep that. */
+    if (isScript) next.async = false;
+    (el.parentNode || document.head).insertBefore(next, el.nextSibling);
+  }
+  window.addEventListener('error', function (event) {
+    var el = event.target;
+    if (!el || !el.tagName) return;
+    if (el.tagName === 'SCRIPT' || el.tagName === 'LINK') retry(el);
+  }, true);
+})();`,
+            }}
+          />
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link
             rel="icon"
