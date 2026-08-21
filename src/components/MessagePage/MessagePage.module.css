@@ -114,6 +114,56 @@
   color: #f6c4c1;
 }
 
+/* The per-browser settings paths under the copy. Left-aligned inside the
+   centred column on purpose: these are read one at a time, looking for your
+   own browser, and centred text makes that scan harder the longer each line
+   gets. Held to the same 52ch as .copy so the block reads as part of it. */
+.details {
+  display: grid;
+  width: 100%;
+  max-width: 52ch;
+  margin: 24px auto 0;
+  gap: 12px;
+  text-align: left;
+}
+
+.detailsRow {
+  display: grid;
+  gap: 1px 16px;
+}
+
+/* Two columns as soon as there is room for the widest browser name plus a
+   readable path; stacked below that, where a 7rem column would leave the
+   paths wrapping every few words. */
+@media (min-width: 560px) {
+  .detailsRow {
+    grid-template-columns: 6.5rem 1fr;
+  }
+}
+
+.detailsTerm {
+  /* colors.pinkLight */
+  color: #f6c4c1;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  /* Optical: the mono cap-height sits high against the body line beside it. */
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+/* <dd> carries a 40px inline start margin by default, which would indent
+   every path away from its own column. */
+.detailsDescription {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.3vw, 1.06rem);
+  line-height: 1.5;
+}
+
 /* The stair decorations, reproducing Hero.styles' heroDeco + DecoTopLeft/
    DecoTopRight: pinned to the top corners, hidden below desktop, and held
    to a centered 1920px band on ultrawide displays so they keep framing

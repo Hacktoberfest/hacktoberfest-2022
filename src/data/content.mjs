@@ -1038,9 +1038,66 @@ export const my = {
   loading: 'Loading your Hacktoberfest…',
 };
 
+/* One screen behind two doors: /login shows it instead of starting the
+   OAuth hop, /auth/callback after an exchange whose session would not
+   store.
+
+   Deliberately says "we can't sign you in" rather than anything about
+   sessions failing to save. At /auth/callback that is not literally what
+   happened, since the exchange itself succeeded, but the mechanism is ours
+   to worry about and the outcome is the only part that is theirs: they
+   are not signed in, and here is the setting that would let them be.
+   Naming the storage would trade a sentence they can act on for one they
+   have to decode.
+
+   Which is also why the copy names blocked cookies flatly instead of
+   hedging. A storage quota that is already full lands here identically and
+   is not what the words describe, but it is rare, invisible to us, and the
+   instruction underneath is harmless in that case anyway. Precision about
+   the cause is worth less here than an instruction that fits in a breath.
+
+   The CTA restarts at /login/, which is a terminus rather than a circle:
+   /login checks canPersistSession before it starts anything, so someone who
+   has not changed the setting lands straight back here with no wasted trip
+   through MyMLH, and someone who has gets signed in. */
+const sessionBlocked = {
+  heading: { lead: 'We can’t sign', accent: 'you in.' },
+  body: 'Your browser is blocking cookies and site data for hacktoberfest.com, and signing in needs them. Allow them for this site, then try again.',
+  /* Chrome, Safari and Firefox, which is the trio this audience actually
+     arrives on: Edge outranks Firefox across the web at large but not among
+     people who write code, and its path is close enough to Chrome's to be
+     guessable from it. Safari carries a second line for the Mac because the
+     iPhone is where the culprit setting is most often switched on, and the
+     two live nowhere near each other.
+
+     These will go stale, deliberately. Menus move every few releases, and a
+     path a year out of date still lands someone in roughly the right screen,
+     which beats a sentence that names a setting without saying where it is.
+     Worth a glance whenever someone is in here anyway. */
+  steps: [
+    {
+      term: 'Chrome',
+      description:
+        'Settings → Privacy and security → Site settings → Cookies and site data',
+    },
+    {
+      term: 'Safari',
+      description:
+        'Settings → Apps → Safari → turn off Block All Cookies. On a Mac, Safari → Settings → Privacy.',
+    },
+    {
+      term: 'Firefox',
+      description: 'Settings → Privacy & Security → Cookies and Site Data',
+    },
+  ],
+  cta: 'Try again',
+};
+
 export const login = {
   title: 'Sign in | Hacktoberfest 2026',
   redirecting: 'One moment. We’re taking you to MyMLH to sign in.',
+  eyebrow: 'Your Hacktoberfest',
+  blocked: sessionBlocked,
 };
 
 /* Where the API's OAuth failure redirect lands (/auth/error). One state
@@ -1089,4 +1146,8 @@ export const authCallback = {
     body: 'Your sign-in link is fine. We just couldn’t finish the handover. Check your connection and try again.',
     cta: 'Try again',
   },
+  /* The exchange succeeded and the session was well-formed. It just did not
+     survive being written down. Shared with /login so both ends of the hop
+     tell the same story. */
+  blocked: sessionBlocked,
 };

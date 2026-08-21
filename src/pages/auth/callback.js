@@ -11,6 +11,7 @@ import { exchangeCode } from 'lib/apiClient.mjs';
 import { callbackStateForSession } from 'lib/pageState.mjs';
 import {
   API_BASE_URL,
+  getSession,
   parseSession,
   saveSession,
   takeReturnTo,
@@ -87,6 +88,22 @@ const AuthCallback = () => {
         }
 
         saveSession(stored);
+
+        /* saveSession swallows a storage that refuses the write, by design
+           and correctly: there is nothing useful it could do about it. But
+           this is the one caller that must not shrug, because navigating on
+           is what closes the loop. /my finds no session, sends the
+           participant to /login, MLH's cookie approves the hop in silence,
+           and they arrive back here to store a fresh session into the same
+           nothing. Every lap signs in successfully and none of them lasts.
+
+           Reading it back rather than trusting the write: the storages that
+           lose it are not all the ones that threw. See canPersistSession. */
+        if (!getSession()) {
+          setState('blocked');
+          return;
+        }
+
         globalThis.location.assign(takeReturnTo());
       })
       .catch((error) => {
@@ -148,10 +165,14 @@ const AuthCallback = () => {
         {state === 'working' ? (
           <Loader label={authCallback.working.body} />
         ) : (
+          /* `details` is the blocked state's per-browser settings paths.
+             Every other state's copy carries no `steps`, so they render
+             exactly as before. */
           <MessagePage
             eyebrow={authCallback.eyebrow}
             heading={copy.heading.lead}
             accent={copy.heading.accent}
+            details={copy.steps}
             cta={copy.cta}
             ctaHref={copy.cta ? ctaHref : undefined}
             role="status"

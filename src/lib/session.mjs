@@ -154,6 +154,45 @@ export const saveSession = (session) => {
   }
 };
 
+/* Whether this browser will actually keep what saveSession writes.
+
+   The header above says a browser that will not give us storage is treated
+   as signed out, and that the worst case is signing in again. That was true
+   only while signing in again meant filling in a form. It does not: MLH
+   keeps its own cookie (see MLH_SIGNOUT_URL below), so the OAuth hop
+   completes silently, and "sign in again" is instantaneous and automatic.
+   What that turns into is a loop with no exit. /my finds no session and
+   sends the participant to /login, /login starts the hop on mount, MyMLH
+   approves without showing anything, /auth/callback stores a perfectly good
+   session into a storage that keeps none of it, and sends them back to /my.
+   Every lap succeeds. Nothing ever stops. Reproduced Aug 21, 2026 with site
+   data blocked: /my re-requested about twenty-five times a second, forever.
+
+   A round trip rather than a `try { setItem } catch`, because the failures
+   are not all loud. Blocked site data throws (on the property access in
+   Chrome and Brave, on the write in others) and a full quota throws, but a
+   storage that accepts a write and keeps nothing throws nothing at all.
+   Reading the value back is the only check that covers every way this can
+   go wrong, and it is the same check saveSession's caller makes.
+
+   Its own key, removed immediately: a probe that wrote to
+   SESSION_STORAGE_KEY would clobber a live session to find out whether it
+   could. */
+export const canPersistSession = () => {
+  const store = storage();
+  if (!store) return false;
+
+  const probeKey = `${SESSION_STORAGE_KEY}.probe`;
+  try {
+    store.setItem(probeKey, '1');
+    const persisted = store.getItem(probeKey) === '1';
+    store.removeItem(probeKey);
+    return persisted;
+  } catch (_) {
+    return false;
+  }
+};
+
 /* Local only, and that is the whole of it. A participant pressing "sign out"
    wants the thirty-day refresh token revoked server-side too, which needs the
    API: that is endSession in lib/apiClient.mjs, and it calls this. Reach for

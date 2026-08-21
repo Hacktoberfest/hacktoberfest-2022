@@ -5,6 +5,7 @@ import {
   EXPERIENCE_CACHE_KEY,
   RETURN_TO_STORAGE_KEY,
   SESSION_STORAGE_KEY,
+  canPersistSession,
   clearSession,
   displayName,
   getSession,
@@ -289,6 +290,34 @@ const withMockStorage = (propertyName, initial, run) => {
       Object.defineProperty(globalThis, propertyName, originalDescriptor);
     } else {
       delete globalThis[propertyName];
+    }
+  }
+};
+
+/* withMockStorage backs a working storage; withThrowingStorage backs one
+   that denies access. Some cases need neither: a storage that answers but
+   misbehaves. */
+const withStubStorage = (stub, run) => {
+  const hadOwnProperty = Object.prototype.hasOwnProperty.call(
+    globalThis,
+    'localStorage',
+  );
+  const originalDescriptor = hadOwnProperty
+    ? Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    : undefined;
+
+  Object.defineProperty(globalThis, 'localStorage', {
+    configurable: true,
+    value: stub,
+  });
+
+  try {
+    run();
+  } finally {
+    if (hadOwnProperty) {
+      Object.defineProperty(globalThis, 'localStorage', originalDescriptor);
+    } else {
+      delete globalThis.localStorage;
     }
   }
 };
@@ -696,4 +725,86 @@ test('MLH_SIGNOUT_URL is the exact MyMLH sign-out address', () => {
   assert.equal(url.origin, 'https://www.mlh.com');
   assert.equal(url.pathname, '/signout');
   assert.equal(url.search, '');
+});
+
+/* Whether this browser will actually keep what saveSession writes.
+
+   The loop this exists to break: saveSession swallows a failed write by
+   design, so a browser refusing storage looks exactly like a browser with
+   no session in it. /my sends that to /login, /login starts the OAuth hop
+   on mount, MLH's own cookie approves it without showing a form, and
+   /auth/callback stores a perfectly good session into nothing and sends
+   them back to /my. Every lap signs in successfully. Nothing ever stops.
+
+   Reproduced Aug 21, 2026 with storage blocked: /my re-requested ~25 times
+   a second, indefinitely. The stance in session.mjs's header, that a
+   browser without storage is "treated as signed out: worst case the
+   participant signs in again", is the assumption that fails here. Signing
+   in again is automatic and instantaneous, so "again" never ends. */
+
+test('canPersistSession is false when storage is unavailable', () => {
+  assert.equal(canPersistSession(), false);
+});
+
+test('canPersistSession is false when localStorage throws on access', () => {
+  withThrowingStorage('localStorage', () => {
+    assert.equal(canPersistSession(), false);
+  });
+});
+
+test('canPersistSession is true when storage accepts and returns a write', () => {
+  withMockStorage('localStorage', {}, () => {
+    assert.equal(canPersistSession(), true);
+  });
+});
+
+test('canPersistSession leaves no probe key behind', () => {
+  withMockStorage('localStorage', {}, (mock) => {
+    canPersistSession();
+    assert.equal(mock.getItem(`${SESSION_STORAGE_KEY}.probe`), null);
+  });
+});
+
+/* A quota that is already full throws on the write, which is the same dead
+   end as a browser that refuses storage outright and wants the same screen:
+   no setting the participant can change will make the next lap work. */
+test('canPersistSession is false when setItem throws (storage full)', () => {
+  withStubStorage(
+    {
+      getItem: () => null,
+      setItem: () => {
+        throw new Error('QuotaExceededError');
+      },
+      removeItem: () => {},
+    },
+    () => {
+      assert.equal(canPersistSession(), false);
+    },
+  );
+});
+
+/* The case a try/catch alone would miss: a storage that accepts the write,
+   throws nothing, and keeps none of it. Only reading the value back can
+   tell the difference, which is why the probe round-trips rather than
+   trusting setItem to have worked. */
+test('canPersistSession is false when a write silently fails to persist', () => {
+  withStubStorage(
+    { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    () => {
+      assert.equal(canPersistSession(), false);
+    },
+  );
+});
+
+/* The invariant /auth/callback now leans on: a session saved into a
+   storage that keeps nothing does not read back, so the callback can tell
+   that its successful sign-in went nowhere before it navigates. */
+test('a session saved to a non-persisting storage does not read back', () => {
+  withStubStorage(
+    { getItem: () => null, setItem: () => {}, removeItem: () => {} },
+    () => {
+      saveSession(VALID);
+      assert.equal(getSession(), null);
+    },
+  );
 });

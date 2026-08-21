@@ -13,9 +13,44 @@
    requests every /_next/ asset it references through the same edge, purges
    exactly the URLs that 404, and repeats until clean. If the edge never
    heals, the throw fails the POST_DEPLOY job and trips the
-   DEPLOYMENT_FAILED alert. */
+   DEPLOYMENT_FAILED alert.
 
-const VERIFY_PAGES = ['/', '/host/', '/login/', '/my/'];
+   That loop alone is not enough, and the reason is an asymmetry worth
+   stating plainly, because it is what let the Aug 21 recurrence through:
+
+     - Detection is colo-local. This job reaches exactly one of Cloudflare's
+       hundreds of datacentres, and findBrokenAssets can only ever report on
+       that one. A 404 pinned in any other colo is invisible here.
+     - Purging is zone-wide. purge_cache by URL evicts an entry from every
+       colo at once.
+
+   So a clean read is not a reason to skip the purge — it is the moment the
+   purge becomes both safe and necessary. Safe, because a pass where every
+   referenced URL resolves is the proof that the origin has finished
+   flipping, so nothing can re-cache a 404 afterwards. Necessary, because
+   the colos this job cannot see are precisely the ones nobody is checking.
+   healBrokenAssets therefore ends by purging the whole referenced set
+   unconditionally, which is a couple of dozen URLs — one API call — rather
+   than only the subset that happened to be broken on this edge.
+
+   By URL rather than a third purge_everything: the set is small and exact,
+   and dumping the entire zone would send every image, font and page to the
+   origin at once for no added coverage. */
+
+/* Every page whose visible behaviour is a client-side effect, so a chunk
+   the edge has 404'd leaves it on a loader forever rather than merely
+   costing it interactivity. /login/ and the two OAuth callbacks are the
+   sign-in path and fail exactly like /my: their whole content is the same
+   four-box loader, and the redirect that should replace it only happens
+   once React hydrates. */
+const VERIFY_PAGES = [
+  '/',
+  '/host/',
+  '/login/',
+  '/my/',
+  '/auth/callback/',
+  '/oauth/mlh/callback/',
+];
 
 /* Cloudflare caps purge-by-URL requests at 30 files each. */
 const PURGE_FILES_LIMIT = 30;
@@ -61,12 +96,35 @@ export const extractAssetPaths = (html) => [
   ...new Set(html.match(/\/_next\/[^"'\s>]+/g) ?? []),
 ];
 
-export const findBrokenAssets = async ({ origin, pages, fetchImpl }) => {
+/* One pass over the served pages, reporting both halves of what the caller
+   needs: which URLs this edge is 404ing, and every URL the pages consist of.
+
+   `referenced` carries the page URLs as well as their assets. Cloudflare
+   does not currently cache the HTML — it answers DYNAMIC, since .html is
+   not in its default cacheable set — so purging those is a no-op today. It
+   is included anyway because the day a cache rule starts caching HTML is
+   not the day anyone will remember to revisit this, and a stale page is
+   just as fatal as a stale chunk. A page that did not answer 200 stays in
+   the set for the same reason: its own cached copy is the likeliest thing
+   to be wrong. */
+export const inspectPages = async ({ origin, pages, fetchImpl }) => {
   const broken = [];
-  const checked = new Set();
+  const referenced = [];
+  const seen = new Set();
+
+  /* False when this URL has already been accounted for, which is also what
+     keeps a shared chunk from being requested once per page. */
+  const remember = (url) => {
+    if (seen.has(url)) return false;
+    seen.add(url);
+    referenced.push(url);
+    return true;
+  };
 
   for (const pagePath of pages) {
     const pageUrl = new URL(pagePath, origin).href;
+    remember(pageUrl);
+
     const pageResp = await fetchImpl(pageUrl);
     if (!pageResp.ok) {
       broken.push(pageUrl);
@@ -75,8 +133,7 @@ export const findBrokenAssets = async ({ origin, pages, fetchImpl }) => {
 
     for (const assetPath of extractAssetPaths(await pageResp.text())) {
       const assetUrl = new URL(assetPath, origin).href;
-      if (checked.has(assetUrl)) continue;
-      checked.add(assetUrl);
+      if (!remember(assetUrl)) continue;
 
       /* HEAD keeps the check cheap but still reflects (and populates) the
          same edge cache entry a browser's GET would hit. */
@@ -85,8 +142,11 @@ export const findBrokenAssets = async ({ origin, pages, fetchImpl }) => {
     }
   }
 
-  return broken;
+  return { broken, referenced };
 };
+
+export const findBrokenAssets = async (args) =>
+  (await inspectPages(args)).broken;
 
 export const healBrokenAssets = async ({
   origin,
@@ -99,10 +159,19 @@ export const healBrokenAssets = async ({
   let broken = [];
 
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
-    broken = await findBrokenAssets({ origin, pages, fetchImpl });
+    const pass = await inspectPages({ origin, pages, fetchImpl });
+    broken = pass.broken;
+
     if (broken.length === 0) {
+      /* The clean pass proves the origin has settled. Purge everything
+         these pages are made of, so the colos this job never reaches
+         cannot still be holding a 404 from the flip — see the note at the
+         top of this file. */
+      await purgeImpl(pass.referenced);
       console.log(
-        `Verified ${pages.join(', ')}: every referenced asset resolves`,
+        `Verified ${pages.join(', ')}: every referenced asset resolves; purged ${
+          pass.referenced.length
+        } URL(s) zone-wide`,
       );
       return;
     }
@@ -139,7 +208,9 @@ const cache = async () => {
   await purge();
 
   /* The blanket purges only help if the origin has finished flipping;
-     keep checking the served pages until their assets actually resolve. */
+     keep checking the served pages until their assets actually resolve,
+     then purge the whole referenced set for the colos this job cannot
+     see. */
   await healBrokenAssets({
     origin: process.env.BASE_URL || 'https://hacktoberfest.com',
     pages: VERIFY_PAGES,
