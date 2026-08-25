@@ -36,20 +36,20 @@
     "@typeform/embed-react": "^5.0.0",
     "country-list": "^2.4.1",
     "flag-icons": "^7.5.0",
-    "html-react-parser": "^5.2.17",
+    "html-react-parser": "^6.1.7",
     "leaflet": "^1.9.4",
-    "markdown-it": "^14.3.0",
-    "next": "^15.5.23",
+    "markdown-it": "^15.0.0",
+    "next": "^16.3.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-leaflet": "^5.0.0",
     "serve": "^14.2.6",
-    "sitemap": "^8.0.3",
+    "sitemap": "^9.0.1",
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.3.0",
     "prettier": "^3.9.6",
     "webpack": "^5.109.2"
   }
