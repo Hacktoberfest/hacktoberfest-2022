@@ -6,7 +6,9 @@ import {
   findBrokenAssets,
   healBrokenAssets,
   inspectPages,
+  VERIFY_PAGES,
 } from '../src/build/post/cache.mjs';
+import { SITE_PAGES } from '../src/build/sitemap.mjs';
 
 /* The Aug 19 incident: a deploy-window request 404'd on the new build's
    assets and Cloudflare cached those 404s with s-maxage=86400, so /my
@@ -62,6 +64,46 @@ test('extractAssetPaths collects stylesheet and script paths, deduplicated', () 
 
 test('extractAssetPaths ignores markup without _next assets', () => {
   assert.deepEqual(extractAssetPaths('<html><body>hi</body></html>'), []);
+});
+
+/* The Aug 25, 2026 recurrence: /sponsor launched with logos under
+   /sponsors/*.svg, the deploy window pinned 404s for two of them, and the
+   heal loop never noticed because it only matched /_next/. Page images
+   fail the same way a chunk does; anything a src attribute references
+   from our own origin belongs to the verified set. */
+test('extractAssetPaths collects root-relative src attributes alongside _next assets', () => {
+  const html = [
+    '<html><head>',
+    '<script src="/_next/static/chunks/pages/_app-bbb.js" defer></script>',
+    '</head><body>',
+    '<img src="/sponsors/solana.svg" alt=""/>',
+    '<img src="/sponsors/solana.svg" alt=""/>',
+    '<img src="https://elsewhere.example/logo.svg" alt=""/>',
+    '<img src="//elsewhere.example/proto-relative.svg" alt=""/>',
+    '<img src="data:image/svg+xml,x" alt=""/>',
+    '</body></html>',
+  ].join('');
+
+  assert.deepEqual(extractAssetPaths(html), [
+    '/_next/static/chunks/pages/_app-bbb.js',
+    '/sponsors/solana.svg',
+  ]);
+});
+
+/* /sponsor/ launched without joining this list, so its launch-window 404s
+   were invisible to the heal job. Deriving the list from the sitemap makes
+   that impossible to repeat: a page cannot ship without a sitemap entry,
+   and a sitemap entry is a verified page. */
+test('every sitemap page is verified after a deploy', () => {
+  SITE_PAGES.forEach((pagePath) => {
+    assert.ok(
+      VERIFY_PAGES.includes(pagePath),
+      `${pagePath} is in the sitemap but not verified by the cache heal`,
+    );
+  });
+  ['/sponsor/', '/questions/', '/login/', '/my/'].forEach((pagePath) => {
+    assert.ok(VERIFY_PAGES.includes(pagePath), `missing ${pagePath}`);
+  });
 });
 
 test('findBrokenAssets reports assets that 404 through the edge', async () => {

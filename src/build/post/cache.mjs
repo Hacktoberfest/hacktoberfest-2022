@@ -10,7 +10,8 @@
 
    Fixed waits can't cover a window whose length App Platform controls, so
    after the blanket purges this reads the HTML actually being served,
-   requests every /_next/ asset it references through the same edge, purges
+   requests every asset it references (the /_next/ chunks and any
+   same-origin src, like page images) through the same edge, purges
    exactly the URLs that 404, and repeats until clean. If the edge never
    heals, the throw fails the POST_DEPLOY job and trips the
    DEPLOYMENT_FAILED alert.
@@ -37,20 +38,29 @@
    and dumping the entire zone would send every image, font and page to the
    origin at once for no added coverage. */
 
-/* Every page whose visible behaviour is a client-side effect, so a chunk
-   the edge has 404'd leaves it on a loader forever rather than merely
-   costing it interactivity. /login/ and the two OAuth callbacks are the
-   sign-in path and fail exactly like /my: their whole content is the same
-   four-box loader, and the redirect that should replace it only happens
-   once React hydrates. */
-const VERIFY_PAGES = [
-  '/',
-  '/host/',
+import { SITE_PAGES } from '../sitemap.mjs';
+
+/* The noindex pages the sitemap cannot carry but the heal must: /login/,
+   /my/, and the two OAuth callbacks are the sign-in path, whose whole
+   content is the same four-box loader — a chunk the edge has 404'd
+   leaves them on that loader forever, and the redirect that should
+   replace it only happens once React hydrates. */
+const AUTH_PAGES = [
   '/login/',
   '/my/',
   '/auth/callback/',
   '/oauth/mlh/callback/',
 ];
+
+/* Every page the heal loop walks. The public half comes straight from
+   the sitemap, so LAUNCHING A PAGE NEEDS NO CHANGE HERE — adding it to
+   SITE_PAGES in src/build/sitemap.mjs (which every public page must do
+   anyway) enrols it in the post-deploy verification automatically. The
+   /sponsor launch (Aug 25, 2026) shipped outside this list and its
+   launch-window 404s were invisible to the heal; deriving the list is
+   what keeps that from repeating. Exported for the test that pins the
+   derivation. */
+export const VERIFY_PAGES = [...SITE_PAGES, ...AUTH_PAGES];
 
 /* Cloudflare caps purge-by-URL requests at 30 files each. */
 const PURGE_FILES_LIMIT = 30;
@@ -92,8 +102,19 @@ const purgeFiles = async (files) => {
   }
 };
 
+/* Every URL a served page depends on: the hashed /_next/ chunks and
+   stylesheets, plus anything a src attribute references from our own
+   origin — page images fail exactly like chunks when a deploy-window
+   404 gets pinned (Aug 25, 2026: two /sponsors/*.svg logos stayed 404
+   through a colo after the origin had settled, because this matched
+   only /_next/). Root-relative paths only: off-origin and
+   protocol-relative URLs are not ours to verify or purge, and data:
+   URIs never hit the network. */
 export const extractAssetPaths = (html) => [
-  ...new Set(html.match(/\/_next\/[^"'\s>]+/g) ?? []),
+  ...new Set([
+    ...(html.match(/\/_next\/[^"'\s>]+/g) ?? []),
+    ...[...html.matchAll(/\ssrc="(\/[^/"][^"]*)"/g)].map(([, path]) => path),
+  ]),
 ];
 
 /* One pass over the served pages, reporting both halves of what the caller
