@@ -1,7 +1,12 @@
 import { my } from 'data/content.mjs';
 import { MY_HOST_APPLY_URL } from 'data/links';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
-import { festTimeRange, formatFestDate, organizingFests } from 'lib/fests.mjs';
+import {
+  eventCardState,
+  festTimeRange,
+  formatFestDate,
+  organizingFests,
+} from 'lib/fests.mjs';
 
 import styles from './ApplicationsBand.module.css';
 
@@ -80,6 +85,22 @@ const AlertIcon = () => (
   </svg>
 );
 
+/* An hourglass - the Fest is with FestNet's automated checks, nothing
+   for the host to do. Filled silhouette like the others. */
+const HourglassIcon = () => (
+  <svg
+    className={styles.badgeIcon}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M5 3h14v4.5L13.5 12 19 16.5V21H5v-4.5L10.5 12 5 7.5V3z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 const StarIcon = () => (
   <svg
     className={styles.badgeIcon}
@@ -143,6 +164,30 @@ const badgeFor = (fest) => {
       icon: <AlertIcon />,
     };
   }
+  /* Past the application rungs the card is a real event, and the badge
+     names which of the two worlds it has reached: MLH's, or ours too. */
+  const state = eventCardState(fest);
+  if (state === 'needs-acknowledgements') {
+    return {
+      label: my.fests.eventBadges.needsAcknowledgements,
+      className: `${styles.badge} ${styles.badgeApplication}`,
+      icon: <AlertIcon />,
+    };
+  }
+  if (state === 'checks-underway') {
+    return {
+      label: my.fests.eventBadges.checksUnderway,
+      className: styles.badge,
+      icon: <HourglassIcon />,
+    };
+  }
+  if (state === 'approved-private') {
+    return {
+      label: my.fests.applicationBadges.approved,
+      className: `${styles.badge} ${styles.badgeApproved}`,
+      icon: <CheckIcon />,
+    };
+  }
   return {
     label: my.applications.publishedBadge,
     className: `${styles.badge} ${styles.badgeApproved}`,
@@ -150,27 +195,45 @@ const badgeFor = (fest) => {
   };
 };
 
-/* Same either/or as the fests band: an application links back to MLH's
-   form, a live event links to its public page. Application cards never
-   carry a registrationUrl, so there is no precedence fight. */
-const linkFor = (fest) => {
+/* The card's one action. Application cards keep their ladder CTAs; event
+   cards act by publication state: the acknowledgements rung renders a
+   BUTTON (it opens the modal, it navigates nowhere), a private event
+   links where the host manages it, and anything with a public page links
+   there. */
+const actionFor = (fest) => {
   if (fest.manageUrl && fest.applicationStatus) {
     return {
+      kind: 'link',
       href: fest.manageUrl,
       label:
         my.fests.applicationCtas[fest.applicationStatus] ||
         my.fests.applicationCtas.submitted,
     };
   }
+  const state = eventCardState(fest);
+  if (state === 'needs-acknowledgements') {
+    return { kind: 'button', label: my.acknowledgements.cta };
+  }
+  if (state === 'approved-private' && fest.manageUrl) {
+    return {
+      kind: 'link',
+      href: fest.manageUrl,
+      label: my.fests.applicationCtas.approved,
+    };
+  }
   if (fest.registrationUrl) {
-    return { href: fest.registrationUrl, label: my.fests.viewFestCta };
+    return {
+      kind: 'link',
+      href: fest.registrationUrl,
+      label: my.fests.viewFestCta,
+    };
   }
   return null;
 };
 
-const ApplicationCard = ({ fest }) => {
+const ApplicationCard = ({ fest, onFestAcknowledged }) => {
   const badge = badgeFor(fest);
-  const link = linkFor(fest);
+  const action = actionFor(fest);
   const location = [fest.city, fest.country].filter(Boolean).join(', ');
   const date = formatFestDate(fest.date);
   const time = festTimeRange(fest);
@@ -201,22 +264,31 @@ const ApplicationCard = ({ fest }) => {
       {/* Same footer action bar as the fests cards — the card's one link
          spans its bottom edge, so every linked card ends in the same
          tap target. */}
-      {link && (
+      {action && action.kind === 'link' && (
         <a
           className={styles.cardAction}
-          href={link.href}
+          href={action.href}
           target="_blank"
           rel="noopener noreferrer"
         >
-          {link.label}
+          {action.label}
           <span aria-hidden="true">→</span>
         </a>
+      )}
+      {action && action.kind === 'button' && (
+        <button
+          type="button"
+          className={`${styles.cardAction} ${styles.cardActionButton}`}
+        >
+          {action.label}
+          <span aria-hidden="true">→</span>
+        </button>
       )}
     </article>
   );
 };
 
-const ApplicationsBand = ({ experience }) => {
+const ApplicationsBand = ({ experience, onFestAcknowledged }) => {
   const fests = organizingFests(experience.fests);
 
   /* The ghost always closes the list — the application is Preptember's
@@ -235,7 +307,11 @@ const ApplicationsBand = ({ experience }) => {
 
       <div className={styles.list}>
         {fests.map((fest) => (
-          <ApplicationCard key={fest.id} fest={fest} />
+          <ApplicationCard
+            key={fest.id}
+            fest={fest}
+            onFestAcknowledged={onFestAcknowledged}
+          />
         ))}
         <div className={styles.ghostCard}>
           <div className={styles.ghostContent}>

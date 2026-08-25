@@ -1003,6 +1003,24 @@ export const my = {
       cta: 'Start another application',
     },
   },
+  /* The final acknowledgements modal - the last thing between an
+     MLH-published Fest and the public directory. Statement copy is
+     PLACEHOLDER, marked for review before launch. */
+  acknowledgements: {
+    cta: 'Complete final acknowledgements',
+    title: 'Final acknowledgements',
+    intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
+    /* PLACEHOLDER COPY - review with MLH before launch. */
+    statements: [
+      'I agree to uphold the MLH Code of Conduct at my Fest.',
+      'I confirm the date, time, and venue shown here are accurate.',
+      'I understand my Fest appears on hacktoberfest.com once the final checks pass.',
+    ],
+    confirm: 'Confirm',
+    cancel: 'Not yet',
+    incomplete: 'Confirm each statement to continue.',
+    failure: 'That did not go through. Try again in a moment.',
+  },
   /* The host resources band, under Your Applications. The handbook and
      the team's inbox are open to everyone: reading one and writing to the
      other is how someone decides to apply, and neither can be gated in
@@ -1116,6 +1134,12 @@ export const my = {
          the reviewers want changes, and the application reopens for the
          host. Resubmitting returns it to the submitted rung. */
       rejected: 'Revisions required',
+    },
+    /* The organizing EVENT card rungs - which of MLH's world and ours the
+       Fest has reached. See eventCardState in lib/fests.mjs. */
+    eventBadges: {
+      needsAcknowledgements: 'One step left',
+      checksUnderway: 'Final checks underway',
     },
     applicationCtas: {
       draft: 'Finish your application',
