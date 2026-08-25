@@ -1,0 +1,105 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  /* colors.ink at half strength - the page stays visible behind it. */
+  background: rgba(16, 32, 29, 0.5);
+}
+
+.dialog {
+  width: 100%;
+  max-width: 480px;
+  border: 2px solid #10201d;
+  border-radius: 6px;
+  padding: 20px 22px;
+  /* colors.cream */
+  background: #fffdf7;
+  color: #10201d;
+}
+
+.dialog:focus {
+  outline: none;
+}
+
+.title {
+  margin: 0 0 4px;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.intro {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  /* colors.muted */
+  color: #4a5a56;
+}
+
+.statement {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 10px 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.statement input {
+  margin-top: 3px;
+  /* colors.forest */
+  accent-color: #3d5f58;
+}
+
+.error {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  /* colors.orangeDeep - the same red the revisions badge wears. */
+  color: #b8301f;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.confirm,
+.cancel {
+  border-radius: 6px;
+  padding: 10px 18px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.confirm {
+  border: 2px solid #10201d;
+  /* colors.ink on cream, inverted */
+  background: #10201d;
+  color: #f7f7f2;
+}
+
+.confirm:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.cancel {
+  border: 2px solid #10201d;
+  background: transparent;
+  color: #10201d;
+}

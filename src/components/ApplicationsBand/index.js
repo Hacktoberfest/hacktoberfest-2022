@@ -1,3 +1,6 @@
+import { useCallback, useRef, useState } from 'react';
+
+import AcknowledgementsModal from 'components/AcknowledgementsModal';
 import { my } from 'data/content.mjs';
 import { MY_HOST_APPLY_URL } from 'data/links';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
@@ -238,6 +241,12 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
   const date = formatFestDate(fest.date);
   const time = festTimeRange(fest);
   const flagCode = countryCodeFor(fest.country);
+  const [ackOpen, setAckOpen] = useState(false);
+  const ackButtonRef = useRef(null);
+  const closeAck = useCallback(() => {
+    setAckOpen(false);
+    ackButtonRef.current?.focus();
+  }, []);
 
   return (
     <article className={styles.card}>
@@ -278,11 +287,20 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
       {action && action.kind === 'button' && (
         <button
           type="button"
+          ref={ackButtonRef}
           className={`${styles.cardAction} ${styles.cardActionButton}`}
+          onClick={() => setAckOpen(true)}
         >
           {action.label}
           <span aria-hidden="true">→</span>
         </button>
+      )}
+      {ackOpen && (
+        <AcknowledgementsModal
+          fest={fest}
+          onClose={closeAck}
+          onAcknowledged={onFestAcknowledged}
+        />
       )}
     </article>
   );
