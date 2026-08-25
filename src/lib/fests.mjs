@@ -128,3 +128,23 @@ export const festTimeRange = (fest) => {
     typeof fest.endTime === 'string' && fest.endTime ? fest.endTime : null;
   return end ? `${start} – ${end}` : start;
 };
+
+/* Which of the four publication rungs an organizing EVENT card sits on -
+   an application card (applicationStatus set) has its own ladder and
+   returns null here.
+
+   The order is the truth ladder: our published flag beats everything
+   (the Fest is on the website); MLH's own switch comes next (a private
+   event has nothing to acknowledge yet); then the acknowledgement
+   decides between asking the host and waiting on FestNet's checks. A
+   payload from before these fields existed falls through to 'published',
+   which is exactly what those cards showed before. */
+export const eventCardState = (fest) => {
+  if (fest.role !== 'organizing' || fest.applicationStatus) return null;
+  if (fest.hacktoberfestPublished) return 'published';
+  if (fest.mlhPublished === false) return 'approved-private';
+  if (fest.mlhPublished && !fest.acknowledgedAt)
+    return 'needs-acknowledgements';
+  if (fest.mlhPublished && fest.acknowledgedAt) return 'checks-underway';
+  return 'published';
+};
