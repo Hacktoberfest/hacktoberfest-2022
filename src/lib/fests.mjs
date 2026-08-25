@@ -74,10 +74,10 @@ export const festDidNotAttend = (fest, nowMs) => {
 };
 
 /* A host is someone with a real organized Fest — hosting or hosted. An
-   application still in progress (draft or submitted) is not hosting yet:
-   the Fest doesn't exist until MLH approves it. Approved applications
-   count — the approval is what makes someone a host, whether or not the
-   event has gone public yet. */
+   application still in progress (draft, submitted, or sent back for
+   revisions) is not hosting yet: the Fest doesn't exist until MLH
+   approves it. Approved applications count — the approval is what makes
+   someone a host, whether or not the event has gone public yet. */
 export const isHost = (fests) =>
   (Array.isArray(fests) ? fests : []).some(
     (fest) =>
@@ -85,7 +85,8 @@ export const isHost = (fests) =>
       typeof fest === 'object' &&
       fest.role === 'organizing' &&
       fest.applicationStatus !== 'draft' &&
-      fest.applicationStatus !== 'submitted',
+      fest.applicationStatus !== 'submitted' &&
+      fest.applicationStatus !== 'rejected',
   );
 
 /* The Your Applications list: organizing entries only, in the same date

@@ -157,7 +157,9 @@ test('isHost: in-progress applications and attending alone do not', () => {
   assert.equal(isHost([]), false);
   assert.equal(isHost(undefined), false);
   assert.equal(isHost([fest(), fest({ status: 'checked_in' })]), false);
-  for (const applicationStatus of ['draft', 'submitted']) {
+  // rejected included: revisions required means the application is back
+  // in the host's hands, not that MLH has made them a host.
+  for (const applicationStatus of ['draft', 'submitted', 'rejected']) {
     assert.equal(
       isHost([
         fest({
@@ -185,6 +187,12 @@ test('hasApplied: a sent application opens the thank-you gate', () => {
      that's further along than approved, not less. */
   assert.equal(
     hasApplied([fest({ role: 'organizing', applicationStatus: null })]),
+    true,
+  );
+  /* Revisions required is still an application with MLH's reviewers —
+     the host has answered the why-host pitch already. */
+  assert.equal(
+    hasApplied([fest({ role: 'organizing', applicationStatus: 'rejected' })]),
     true,
   );
   assert.equal(

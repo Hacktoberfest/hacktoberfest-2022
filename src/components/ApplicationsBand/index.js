@@ -61,6 +61,25 @@ const PlaneIcon = () => (
   </svg>
 );
 
+/* A warning triangle — the application is back in the host's hands and
+   waiting on them. Filled silhouette like the others; the exclamation is
+   knocked out of the triangle with evenodd so the badge red shows
+   through, which keeps the mark legible at 11px. */
+const AlertIcon = () => (
+  <svg
+    className={styles.badgeIcon}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M12 2.5 23 21.5H1L12 2.5z M10.7 9h2.6l-.5 6.2h-1.6L10.7 9z M10.8 16.8h2.4v2.4h-2.4v-2.4z"
+      fill="currentColor"
+      fillRule="evenodd"
+    />
+  </svg>
+);
+
 const StarIcon = () => (
   <svg
     className={styles.badgeIcon}
@@ -112,6 +131,16 @@ const badgeFor = (fest) => {
       label: my.fests.applicationBadges.approved,
       className: `${styles.badge} ${styles.badgeApproved}`,
       icon: <CheckIcon />,
+    };
+  }
+  /* MLH sent the application back for changes. Red, inverted: the one
+     rung where the next move is the host's, and the card should say so
+     before the title does. */
+  if (fest.applicationStatus === 'rejected') {
+    return {
+      label: my.fests.applicationBadges.rejected,
+      className: `${styles.badge} ${styles.badgeRejected}`,
+      icon: <AlertIcon />,
     };
   }
   return {

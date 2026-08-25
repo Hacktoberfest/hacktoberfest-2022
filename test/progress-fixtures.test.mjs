@@ -107,7 +107,7 @@ test('every fixture carries a fests array with well-formed entries', () => {
       // the manage link its CTA needs; every other card carries the two
       // fields as nulls, matching the live payload's exact key set.
       assert.ok(
-        [null, 'draft', 'submitted', 'approved'].includes(
+        [null, 'draft', 'submitted', 'approved', 'rejected'].includes(
           fest.applicationStatus,
         ),
       );
@@ -136,6 +136,7 @@ test('the organizer scenario shows every badge variant', () => {
     'organizing',
     'organizing',
     'organizing',
+    'organizing',
   ]);
   // Both tenses of the hosting badge: one organized fest still ahead, one
   // already past at any campaign-time "now".
@@ -159,6 +160,16 @@ test('the organizer scenario shows every badge variant', () => {
   assert.ok(
     SCENARIOS.organizer.fests.some(
       (f) => f.applicationStatus === 'submitted' && f.manageUrl,
+    ),
+  );
+  // Revisions required: MLH sent the application back, and its CTA
+  // returns the host to the same MLH form the draft rung links.
+  assert.ok(
+    SCENARIOS.organizer.fests.some(
+      (f) =>
+        f.applicationStatus === 'rejected' &&
+        f.manageUrl &&
+        /\/applications\//.test(f.manageUrl),
     ),
   );
   assert.ok(

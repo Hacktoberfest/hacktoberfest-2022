@@ -1112,11 +1112,16 @@ export const my = {
       draft: 'Application started',
       submitted: 'Application submitted',
       approved: 'Application approved',
+      /* MLH's `rejected`, which OHQ uses for "we sent this back to you":
+         the reviewers want changes, and the application reopens for the
+         host. Resubmitting returns it to the submitted rung. */
+      rejected: 'Revisions required',
     },
     applicationCtas: {
       draft: 'Finish your application',
       submitted: 'View application',
       approved: 'Manage event',
+      rejected: 'Revise your application',
     },
     viewFestCta: 'View Fest',
   },

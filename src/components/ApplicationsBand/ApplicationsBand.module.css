@@ -118,6 +118,18 @@
   background: #f9c9c2;
 }
 
+/* Revisions required: the deep red of the palette, inverted like the
+   green "done" badges but pulling the opposite way — the one rung that
+   asks the host to act, so it carries the only alarm colour on the card.
+   orangeDeep rather than the hosting orange keeps it clear of the
+   journey's own colours. */
+.badgeRejected {
+  /* colors.orangeDeep */
+  background: #b8301f;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
 /* Application approved and Event Published: green, inverted — the two
    badges that read "done". The published rung shares the colour rather
    than taking the fests band's hosting orange: it is the same journey one

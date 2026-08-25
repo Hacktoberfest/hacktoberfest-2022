@@ -174,6 +174,24 @@ export const SCENARIOS = Object.freeze({
         applicationStatus: 'submitted',
         manageUrl: 'https://example.invalid/applications/47812',
       },
+      /* Sent back for changes: MLH's `rejected`, which OHQ uses when the
+         reviewers request revisions. The revise CTA returns the host to
+         the same MLH form the draft rung links. */
+      {
+        id: 'application-madeira',
+        name: 'Hacktober Fest Madeira',
+        city: null,
+        country: null,
+        date: '2026-10-18',
+        startTime: '10:00 AM',
+        endTime: '6:00 PM',
+        endsAt: '2026-10-18T18:00:00.000Z',
+        status: null,
+        role: 'organizing',
+        registrationUrl: null,
+        applicationStatus: 'rejected',
+        manageUrl: 'https://example.invalid/applications/47901',
+      },
       /* The top rung: approved, but the event not yet public — the gap
          where the approved application card renders. Its manageUrl is the
          Organizer HQ event page (the API swaps the link at this rung),
