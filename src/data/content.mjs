@@ -780,6 +780,108 @@ export const host = {
     cta: 'Apply to host a Fest',
   },
 };
+export const sponsor = {
+  title: 'Sponsor Hacktoberfest | Hacktoberfest 2026',
+  description:
+    'Partner with Hacktoberfest 2026 and put your brand alongside the models, tools, and communities bringing open source AI to builders at 300+ Fests worldwide.',
+  eyebrow: 'Sponsors',
+  heading: { lead: 'Back the builders', accent: 'shaping open source AI.' },
+  intro:
+    'Put your brand alongside the models, tools, and communities moving open source AI from awareness to hands-on adoption.',
+  setupCta: 'Start sponsor setup',
+  infoCta: 'Request partnership info',
+  wall: {
+    eyebrow: 'Confirmed sponsors',
+    heading: {
+      lead: 'Already backed by teams',
+      accent: 'building what’s next.',
+    },
+    intro:
+      'Join the organizations putting open source AI into builders’ hands at 300+ Fests.',
+    /* The grid's dashed empty seat and the band that closes the wall:
+       the section ends on the invitation, not on a logo. */
+    ghost: 'Your logo here',
+    band: {
+      title: 'Build what’s next alongside them.',
+      cta: 'Start sponsor setup',
+    },
+  },
+  stats: {
+    eyebrow: 'The footprint',
+    heading: { lead: 'One October,', accent: 'everywhere builders are.' },
+    intro:
+      'One sponsorship covers all of it: the online campaign across DEV, the in-person Fests across MLH, and the packs that end up in builders’ hands.',
+    /* Each stat is a value and a unit rather than one title line, so the
+       number can carry the display treatment on its own. The eyebrows
+       name the channel; the org attribution lives in the unit. */
+    items: [
+      {
+        id: 'dev',
+        eyebrow: 'Online',
+        value: 'All October',
+        unit: 'across DEV',
+        copy: 'Challenges, stories, and shared learning.',
+      },
+      {
+        id: 'mlh',
+        eyebrow: 'In person',
+        value: '300+',
+        unit: 'Fests across MLH',
+        copy: 'A global builder community learning side by side.',
+      },
+      {
+        id: 'packs',
+        eyebrow: 'In their hands',
+        value: '3,000',
+        unit: 'participant packs',
+        copy: 'A tangible sponsor touchpoint delivered by MLH.',
+      },
+    ],
+  },
+  partnership: {
+    eyebrow: 'Partner experience',
+    heading: {
+      lead: 'Reach builders without',
+      accent: 'adding production lift.',
+    },
+    intro:
+      'Choose the presence that fits your goals. MLH handles production, logistics, and distribution.',
+    split: [
+      {
+        id: 'mlh',
+        eyebrow: 'MLH handles',
+        copy: 'Production, logistics, and distribution',
+      },
+      {
+        id: 'you',
+        eyebrow: 'Your team provides',
+        copy: 'Brand assets and approvals',
+      },
+    ],
+    benefits: [
+      {
+        id: 'recognition',
+        title: 'Guaranteed recognition',
+        copy: 'Recognition on the Hacktoberfest website, in-person Fest slides, and key campaign communications.',
+      },
+      {
+        id: 'envelopes',
+        title: '3,000 participant envelopes',
+        copy: 'Your sponsor sticker is included in 3,000 participant envelopes distributed by MLH.',
+      },
+      {
+        id: 'readout',
+        title: 'A useful readout',
+        copy: 'An aggregate campaign recap with outcomes and participation signals.',
+      },
+      {
+        id: 'workspace',
+        title: 'One place to manage it',
+        copy: 'Agreement, payment coordination, assets, and teammates in one workspace.',
+      },
+    ],
+  },
+};
 
 export const notFound = {
   title: 'Page not found | Hacktoberfest 2026',
@@ -807,7 +909,7 @@ export const aiContext = {
     'Hacktoberfest is an annual event stewarded by Major League Hacking (MLH) and DEV, with presenting partner DigitalOcean. It began in 2014 as a pull-request challenge run by DigitalOcean. In 2026 it becomes an event you take part in: 300+ community-hosted, one-day “Fests”, plus an online event open to everyone. The focus is hands-on building with open models, open source agents, and open tooling.',
   participation: [
     'Hosting is the live call to action. Anyone can host a Fest: a meetup group, a university club, or a few coworkers with a room to book. Fests come in two formats: Hack Days, funded mini-hackathons where people build projects, and Meet Ups, lighter gatherings that MLH does not fund. Every organizer gets swag and programming support. Applications are open, and Fests are confirmed on a rolling basis.',
-    'Sponsorship has its own interest form.',
+    'Sponsorship has its own page at /sponsor/: the confirmed sponsor wall, the campaign footprint, and how to start sponsor setup or request partnership info.',
     'Attendee sign-ups are not open yet. Fest dates, cities, and venues have not been announced. The site can notify you about local Fests once there is news, and that goes through the same interest form.',
   ],
   facts: [

@@ -2,7 +2,7 @@ import { campaignFor } from './campaign.mjs';
 
 /* Ordinary outbound links and Typeform popups use the same campaign values;
    utm_content distinguishes each individual placement. */
-const tagged = (base, { content, ...extra }) => {
+export const tagged = (base, { content, ...extra }) => {
   const url = new URL(base);
   const params = { ...campaignFor(content), ...extra };
 
@@ -80,3 +80,36 @@ export const HOST_EMAIL_URL = 'mailto:hacktoberfest@mlh.io';
    it can never resolve, and the guard in preptember.test.mjs fails the
    moment a real URL arrives, forcing a deliberate swap. */
 export const HOST_BRAND_KIT_URL = 'https://brand-kit.example.invalid/';
+
+/* The sponsor portal, where sponsor setup happens. Three placements link
+   out to it from /sponsor — the hero, the wall's CTA tile, and the
+   partnership band — each with its own utm_content, per the
+   one-tag-per-placement rule above. */
+const SPONSOR_PORTAL_SIGNUP = 'https://hf-sponsors.mlh.com/signup/new';
+
+export const SPONSOR_SETUP_HERO_URL = tagged(SPONSOR_PORTAL_SIGNUP, {
+  content: 'sponsor-hero-setup',
+});
+
+export const SPONSOR_SETUP_WALL_URL = tagged(SPONSOR_PORTAL_SIGNUP, {
+  content: 'sponsor-wall-setup',
+});
+
+export const SPONSOR_SETUP_PARTNERSHIP_URL = tagged(SPONSOR_PORTAL_SIGNUP, {
+  content: 'sponsor-partnership-setup',
+});
+
+/* The partner band on /sponsor. Same destinations as the homepage hero's
+   chips, but their own utm_content: a placement is a placement. */
+export const SPONSOR_PARTNER_MLH_URL = tagged('https://mlh.com', {
+  content: 'sponsor-partner-mlh',
+});
+
+export const SPONSOR_PARTNER_DEV_URL = tagged('https://dev.to', {
+  content: 'sponsor-partner-dev',
+});
+
+export const SPONSOR_PARTNER_DIGITALOCEAN_URL = tagged(
+  'https://www.digitalocean.com',
+  { content: 'sponsor-partner-digitalocean' },
+);

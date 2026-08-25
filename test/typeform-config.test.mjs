@@ -4,7 +4,8 @@ import test from 'node:test';
 import {
   FAQ_UPDATES_FORM,
   HERO_ATTEND_FORM,
-  SPONSOR_FORM,
+  SPONSOR_HERO_FORM,
+  SPONSOR_PARTNERSHIP_FORM,
   WAYS_IN_PERSON_FORM,
   WAYS_ONLINE_FORM,
 } from '../src/data/typeforms.mjs';
@@ -41,10 +42,17 @@ test('configures every interest popup with placement attribution', () => {
   });
 });
 
-test('configures the sponsor popup with its own form', () => {
-  assert.deepEqual(SPONSOR_FORM, {
+test('configures the sponsor popups with their own form and placements', () => {
+  /* 'get-involved-sponsor' retired when the Get Involved card became a
+     link to /sponsor/ — the conversation now starts on the sponsor page,
+     which carries the form in two placements of its own. */
+  assert.deepEqual(SPONSOR_HERO_FORM, {
     id: 'kShwvA2e',
-    tracking: campaign('get-involved-sponsor'),
+    tracking: campaign('sponsor-hero-info'),
+  });
+  assert.deepEqual(SPONSOR_PARTNERSHIP_FORM, {
+    id: 'kShwvA2e',
+    tracking: campaign('sponsor-partnership-info'),
   });
 });
 

@@ -46,9 +46,10 @@ test('exports every visible homepage Typeform CTA as a button', async () => {
   const html = await readOutput('index.html');
   // Every host ask left this list as applications opened — the nav, the
   // hero CTA, the FAQ's organize answer and the Get Involved host card
-  // all link to /host/ now, asserted below. What remains is the attendee
-  // ask and the sponsor ask.
-  const labels = ['Notify me about local Fests', 'Sponsor Hacktoberfest'];
+  // all link to /host/ now, asserted below. The sponsor ask left too,
+  // graduating to /sponsor/ the same way. What remains is the attendee
+  // ask.
+  const labels = ['Notify me about local Fests'];
 
   labels.forEach((label) => assert.match(html, buttonFor(label)));
   assertNoTypeformOutboundAnchors(html);
@@ -79,6 +80,14 @@ test('every homepage host ask links to /host/', async () => {
   );
   // An internal destination stays in the tab.
   assert.doesNotMatch(html, /<a[^>]*href="\/host\/"[^>]*target="_blank"/);
+
+  // The Get Involved sponsor card graduated the same way, to /sponsor/.
+  assert.match(
+    html,
+    linkTo('/sponsor/', 'Sponsor Hacktoberfest'),
+    '"Sponsor Hacktoberfest" should link to /sponsor/',
+  );
+  assert.doesNotMatch(html, /<a[^>]*href="\/sponsor\/"[^>]*target="_blank"/);
 });
 
 /* The header's CTA graduated twice: from a Typeform popup to a /host/

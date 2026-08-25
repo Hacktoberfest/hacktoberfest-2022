@@ -11,9 +11,11 @@ import {
   host,
   mission,
   siteMeta,
+  sponsor,
   subscribed,
   timeline,
 } from '../data/content.mjs';
+import { sponsors } from '../data/sponsors.mjs';
 
 /* Writes the two plain-text files answer engines read, from the same copy the
    page renders (src/data/content.mjs).
@@ -37,6 +39,10 @@ const START_HERE = [
   {
     route: '/host/',
     text: '[Host a Fest](./host/): The Fest formats, the support organizers get, and how to apply to host.',
+  },
+  {
+    route: '/sponsor/',
+    text: '[Sponsor Hacktoberfest](./sponsor/): The confirmed sponsor wall, the campaign footprint, and what a partnership carries.',
   },
   {
     route: '/questions/',
@@ -130,6 +136,18 @@ const llmsFull = () =>
     // The hosting guide has no published URL yet, so the copy is named
     // without a link — same honesty rule aiContext follows.
     `${host.apply.body} (CTA: ${host.apply.cta} — opens the interest form.)`,
+    '## Sponsor Hacktoberfest',
+    `${sponsor.eyebrow}. ${headingText(sponsor.heading)}`,
+    sponsor.intro,
+    `Confirmed sponsors: ${sponsors.map((entry) => entry.name).join(', ')}.`,
+    sponsor.stats.items.map(
+      (item) => `${item.eyebrow} — ${item.value} ${item.unit}: ${item.copy}`,
+    ),
+    sponsor.partnership.intro,
+    sponsor.partnership.benefits.map(
+      (benefit) => `${benefit.title}: ${benefit.copy}`,
+    ),
+    `CTAs: ${sponsor.setupCta} (the sponsor portal) · ${sponsor.infoCta} (opens the sponsorship form).`,
   );
 
 const write = (name, body) =>

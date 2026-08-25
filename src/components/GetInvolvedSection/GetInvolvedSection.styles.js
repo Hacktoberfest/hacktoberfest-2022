@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 import { buttonStyles } from 'components/Button';
 import Shell from 'components/Shell';
-import TypeformButton from 'components/TypeformButton.mjs';
 import { breakpoints, colors, fonts } from 'styles/tokens';
 
 export const InvolvedRoot = styled.section`
@@ -125,13 +124,6 @@ const involvedCta = css`
   margin-top: auto;
 `;
 
-export const InvolvedButton = styled(TypeformButton)`
-  ${involvedCta}
-`;
-
-/* The same CTA as a link, for a card whose ask is a page rather than a
-   form. Sharing involvedCta is what keeps the two indistinguishable
-   sitting side by side in the grid. */
 export const InvolvedLink = styled.a`
   ${involvedCta}
 `;

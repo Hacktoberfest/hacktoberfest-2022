@@ -30,7 +30,15 @@ export const HERO_ATTEND_FORM = popup(INTEREST_FORM_ID, 'hero-attend', {
    retired when "How do I organize a Fest?" stopped holding the reader on
    a mailing list and started sending them to /host/ instead. */
 export const FAQ_UPDATES_FORM = popup(INTEREST_FORM_ID, 'faq-updates');
-export const SPONSOR_FORM = popup(SPONSOR_FORM_ID, 'get-involved-sponsor');
+/* The sponsor ask lives on /sponsor/ now. 'get-involved-sponsor' retired
+   when the Get Involved card became a link to that page; the form itself
+   moved with the conversation, one placement in the sponsor hero and one
+   in the partnership band. */
+export const SPONSOR_HERO_FORM = popup(SPONSOR_FORM_ID, 'sponsor-hero-info');
+export const SPONSOR_PARTNERSHIP_FORM = popup(
+  SPONSOR_FORM_ID,
+  'sponsor-partnership-info',
+);
 export const WAYS_IN_PERSON_FORM = popup(INTEREST_FORM_ID, 'ways-in-person', {
   organizer_interest: 'false',
 });
