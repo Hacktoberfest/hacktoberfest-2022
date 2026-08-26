@@ -1015,7 +1015,7 @@ export const my = {
        statement asks the host to check. */
     statements: [
       'I acknowledge that I will follow all Major League Hacking guidelines for my event, including keeping it in person and keeping spending within the policy-approved limits and categories. If my plans need to deviate from these guidelines, I will check with MLH first at hacktoberfest@mlh.io. I understand that unapproved deviations may put my reimbursement eligibility and my ability to work with MLH on future events at risk.',
-      'I have double checked that the address and map pin below match my venue.',
+      'I have double checked that the address and map pin above match my venue.',
       'I understand that I must email hacktoberfest@mlh.io before changing key details of my Fest, including its name, dates, and times, and that I must wait for Major League Hacking to approve a change before making it. If I change these details without checking in first, my Fest will automatically be hidden from hacktoberfest.com.',
     ],
     /* The venue slide's guidance: what the map is, and what to do when it
