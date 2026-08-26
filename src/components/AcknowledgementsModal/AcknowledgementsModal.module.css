@@ -67,11 +67,29 @@
   color: #284b44;
 }
 
+/* The slide counter, in the badges' mono voice. */
+.progress {
+  margin: 0 0 10px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
 .statement {
   display: flex;
   gap: 10px;
   align-items: flex-start;
   margin: 0 0 12px;
+  /* Two lines' worth whatever the slide says, so the buttons don't jump
+     as the statements change length. */
+  min-height: 3em;
   line-height: 1.5;
   cursor: pointer;
 }

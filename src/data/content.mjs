@@ -1016,9 +1016,13 @@ export const my = {
       'I confirm the date, time, and venue shown here are accurate.',
       'I understand my Fest appears on hacktoberfest.com once the final checks pass.',
     ],
+    /* One statement per slide; the counter keeps the host oriented. */
+    progress: (step, total) => `${step} of ${total}`,
+    next: 'Next',
+    back: 'Back',
     confirm: 'Confirm',
     cancel: 'Not yet',
-    incomplete: 'Confirm each statement to continue.',
+    incomplete: 'Confirm this statement to continue.',
     failure: 'That did not go through. Try again in a moment.',
   },
   /* The host resources band, under Your Applications. The handbook and

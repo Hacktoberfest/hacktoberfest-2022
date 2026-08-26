@@ -16,13 +16,16 @@ import styles from './AcknowledgementsModal.module.css';
    submission all funnel through onClose, which is where the caller hands
    focus back to the card button.
 
-   The three statements all have to be ticked before Confirm does
-   anything. The endpoint is idempotent first-write-wins, so a double
-   confirm is safe. */
+   One statement per slide: each acknowledgement gets the host's full
+   attention, and Next refuses to advance until its box is ticked - so
+   reaching Confirm IS having agreed to all three. Back re-opens an
+   earlier slide with its tick kept; nothing is submitted until the last
+   slide's Confirm. The endpoint is idempotent first-write-wins, so a
+   double confirm is safe. */
 const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
-  const [checked, setChecked] = useState(() =>
-    my.acknowledgements.statements.map(() => false),
-  );
+  const statements = my.acknowledgements.statements;
+  const [step, setStep] = useState(0);
+  const [checked, setChecked] = useState(() => statements.map(() => false));
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const dialogRef = useRef(null);
@@ -32,16 +35,21 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
     if (dialog && !dialog.open) dialog.showModal();
   }, []);
 
-  const toggle = (index) => {
+  const toggle = () => {
     setChecked((current) =>
-      current.map((value, i) => (i === index ? !value : value)),
+      current.map((value, i) => (i === step ? !value : value)),
     );
     setError(null);
   };
 
-  const confirm = async () => {
-    if (checked.some((value) => !value)) {
+  const next = async () => {
+    if (!checked[step]) {
       setError(my.acknowledgements.incomplete);
+      return;
+    }
+    if (step < statements.length - 1) {
+      setStep(step + 1);
+      setError(null);
       return;
     }
     setSubmitting(true);
@@ -55,6 +63,13 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       setError(my.acknowledgements.failure);
     }
   };
+
+  const back = () => {
+    setStep(step - 1);
+    setError(null);
+  };
+
+  const last = step === statements.length - 1;
 
   return (
     <dialog
@@ -72,16 +87,16 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
         {my.acknowledgements.title}
       </h3>
       <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
-      {my.acknowledgements.statements.map((statement, index) => (
-        <label key={statement} className={styles.statement}>
-          <input
-            type="checkbox"
-            checked={checked[index]}
-            onChange={() => toggle(index)}
-          />
-          <span>{statement}</span>
-        </label>
-      ))}
+      <p className={styles.progress} aria-live="polite">
+        {my.acknowledgements.progress(step + 1, statements.length)}
+      </p>
+      {/* Keyed by step so a slide change remounts the label - screen
+          readers re-announce the new statement rather than watching text
+          mutate inside one node. */}
+      <label key={step} className={styles.statement}>
+        <input type="checkbox" checked={checked[step]} onChange={toggle} />
+        <span>{statements[step]}</span>
+      </label>
       {error && (
         <p className={styles.error} role="alert">
           {error}
@@ -91,18 +106,24 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
         <button
           type="button"
           className={styles.confirm}
-          onClick={confirm}
+          onClick={next}
           disabled={submitting}
         >
-          {my.acknowledgements.confirm}
+          {last ? my.acknowledgements.confirm : my.acknowledgements.next}
         </button>
-        <button
-          type="button"
-          className={styles.cancel}
-          onClick={() => dialogRef.current?.close()}
-        >
-          {my.acknowledgements.cancel}
-        </button>
+        {step > 0 ? (
+          <button type="button" className={styles.cancel} onClick={back}>
+            {my.acknowledgements.back}
+          </button>
+        ) : (
+          <button
+            type="button"
+            className={styles.cancel}
+            onClick={() => dialogRef.current?.close()}
+          >
+            {my.acknowledgements.cancel}
+          </button>
+        )}
       </div>
     </dialog>
   );
