@@ -50,6 +50,170 @@
   }
 }
 
+/* The opening pane: centered, the stamped headline first, then the
+   ladder, then the words - each beat arriving after the last. Every
+   animation here settles to the same composition reduced-motion shows
+   immediately. */
+.opening {
+  text-align: center;
+}
+
+.openingTitle {
+  display: inline-block;
+  margin: 6px 0 22px;
+  padding: 12px 18px;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+  animation: stamp 1s 0.3s both;
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: translate(-14px, -40px) scale(1.4);
+    /* colors.maroon */
+    box-shadow: 18px 18px 0 #671912;
+  }
+  55% {
+    opacity: 1;
+    transform: translate(2px, 2px) scale(0.98);
+    /* colors.maroon */
+    box-shadow: 2px 2px 0 #671912;
+  }
+  75% {
+    transform: translate(0, 0) scale(1.02);
+    /* colors.maroon */
+    box-shadow: 7px 7px 0 #671912;
+  }
+  100% {
+    transform: none;
+    /* colors.maroon */
+    box-shadow: 6px 6px 0 #671912;
+  }
+}
+
+.openingLadder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 22px;
+}
+
+/* The card badges' own dress at ladder scale - same tints, same mono
+   voice, arriving one rung after another. */
+.openingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: rung 0.5s both;
+}
+
+.openingBadgeIcon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.openingDraft {
+  /* colors.orangeLight */
+  background: #f9c9c2;
+  animation-delay: 1.6s;
+}
+
+.openingSubmitted {
+  /* colors.pinkLight */
+  background: #f6c4c1;
+  animation-delay: 2.3s;
+}
+
+.openingApproved {
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.white */
+  color: #f7f7f2;
+  animation-delay: 3s;
+}
+
+.openingFinal {
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  animation:
+    rung 0.5s 3.7s both,
+    finalPulse 1.6s 4.5s infinite;
+}
+
+@keyframes rung {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes finalPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.openingBody {
+  margin: 0 0 4px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation: fadeup 0.5s 4.4s both;
+}
+
+.openingActions {
+  justify-content: center;
+  animation: fadeup 0.5s 4.7s both;
+}
+
+@keyframes fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .heading {
   margin: 0 0 8px;
   /* fonts.display */
@@ -361,5 +525,13 @@
   .statementBox,
   .progressSquare {
     transition: none;
+  }
+
+  .openingTitle,
+  .openingBadge,
+  .openingFinal,
+  .openingBody,
+  .openingActions {
+    animation: none;
   }
 }

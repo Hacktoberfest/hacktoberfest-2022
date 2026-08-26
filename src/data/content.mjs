@@ -1008,6 +1008,16 @@ export const my = {
      PLACEHOLDER, marked for review before launch. */
   acknowledgements: {
     cta: 'Complete final acknowledgements',
+    /* The opening pane: the stamped headline, then the host's own badge
+       ladder replayed as a five-second resume of everything they already
+       did. Rung labels come from the badges themselves (my.fests), so
+       the replay can never drift from the cards it retells. */
+    opening: {
+      title: 'You’re nearly there!',
+      body: (name) =>
+        `You applied, you were approved, you published. Three quick confirmations and ${name} heads to hacktoberfest.com.`,
+      cta: 'Let’s go',
+    },
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
     /* The landing after the last Confirm: the one moment the flow gets to

@@ -1,6 +1,12 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
+import {
+  AlertIcon,
+  CheckIcon,
+  PencilIcon,
+  PlaneIcon,
+} from 'components/icons/badges';
 import { my } from 'data/content.mjs';
 import { acknowledgeFest } from 'lib/acknowledgements.mjs';
 
@@ -16,24 +22,6 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
 /* Which slide renders the venue check - the statement that asks the host
    to compare the address and the pin, so that slide has to show both. */
 const VENUE_SLIDE = 1;
-
-/* The same square-cap check the card badges draw, sized by its parent. */
-const CheckMark = ({ className }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M4 12.5 9.5 18 20 6.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="4"
-      strokeLinecap="square"
-    />
-  </svg>
-);
 
 /* The final acknowledgements - /my's first overlay, in the same brand
    dress as the /fests check-in modal: ink border, maroon hard shadow,
@@ -62,6 +50,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  /* The opening pane plays first: the stamped headline and the badge
+     ladder replay. "Let's go" is the only way forward from it. */
+  const [started, setStarted] = useState(false);
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -120,7 +111,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       {done ? (
         <>
           <div className={styles.successMark} aria-hidden="true">
-            <CheckMark className={styles.successCheck} />
+            <CheckIcon className={styles.successCheck} />
           </div>
           <h3 id="acknowledgements-title" className={styles.heading}>
             {my.acknowledgements.success.title}
@@ -138,6 +129,56 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
             </button>
           </div>
         </>
+      ) : !started ? (
+        <div className={styles.opening}>
+          <h3 id="acknowledgements-title" className={styles.openingTitle}>
+            {my.acknowledgements.opening.title}
+          </h3>
+          {/* The host's own rungs, replayed in order. Labels come from
+              the badge copy itself, so this can never drift from the
+              cards. */}
+          <div className={styles.openingLadder} aria-hidden="true">
+            <span className={`${styles.openingBadge} ${styles.openingDraft}`}>
+              <PencilIcon className={styles.openingBadgeIcon} />
+              {my.fests.applicationBadges.draft}
+            </span>
+            <span
+              className={`${styles.openingBadge} ${styles.openingSubmitted}`}
+            >
+              <PlaneIcon className={styles.openingBadgeIcon} />
+              {my.fests.applicationBadges.submitted}
+            </span>
+            <span
+              className={`${styles.openingBadge} ${styles.openingApproved}`}
+            >
+              <CheckIcon className={styles.openingBadgeIcon} />
+              {my.fests.applicationBadges.approved}
+            </span>
+            <span className={`${styles.openingBadge} ${styles.openingFinal}`}>
+              <AlertIcon className={styles.openingBadgeIcon} />
+              {my.fests.eventBadges.needsAcknowledgements}
+            </span>
+          </div>
+          <p className={styles.openingBody}>
+            {my.acknowledgements.opening.body(fest.name)}
+          </p>
+          <div className={`${styles.actions} ${styles.openingActions}`}>
+            <button
+              type="button"
+              className={styles.confirm}
+              onClick={() => setStarted(true)}
+            >
+              {my.acknowledgements.opening.cta}
+            </button>
+            <button
+              type="button"
+              className={styles.cancel}
+              onClick={() => dialogRef.current?.close()}
+            >
+              {my.acknowledgements.cancel}
+            </button>
+          </div>
+        </div>
       ) : (
         <>
           <h3 id="acknowledgements-title" className={styles.heading}>
@@ -206,7 +247,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               onChange={toggle}
             />
             <span className={styles.statementBox} aria-hidden="true">
-              <CheckMark className={styles.statementCheck} />
+              <CheckIcon className={styles.statementCheck} />
             </span>
             <span className={styles.statementText}>{statements[step]}</span>
           </label>

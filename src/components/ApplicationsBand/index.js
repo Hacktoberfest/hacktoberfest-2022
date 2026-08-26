@@ -3,6 +3,14 @@ import { useCallback, useRef, useState } from 'react';
 import AcknowledgementsModal from 'components/AcknowledgementsModal';
 import { my } from 'data/content.mjs';
 import { MY_HOST_APPLY_URL } from 'data/links';
+import {
+  AlertIcon,
+  CheckIcon,
+  HourglassIcon,
+  PencilIcon,
+  PlaneIcon,
+  StarIcon,
+} from 'components/icons/badges';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
 import {
   eventCardState,
@@ -21,102 +29,6 @@ import styles from './ApplicationsBand.module.css';
    Fests when the flag flips. The ghost stands in when there is nothing to
    list, and its CTA is the application itself — the one ask Preptember
    exists to make. */
-
-/* The same three badge icons the fests band draws, same geometry notes:
-   filled silhouettes for the pencil and star (stroked detail turns to
-   mush at 11px), the star drawn about (12,13) for optical centering. */
-const PencilIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path d="M4 20l1.2-4.4L16 4.8 19.2 8 8.4 18.8 4 20z" fill="currentColor" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M4 12.5 9.5 18 20 6.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="square"
-    />
-  </svg>
-);
-
-/* A paper plane — the application is sent, out of the organizer's hands.
-   Filled silhouette like the pencil and star. */
-const PlaneIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M22 3 2 10.6l6.6 2.3.8 6.5 3.2-4.5 5.2 4.1L22 3z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-/* A warning triangle — the application is back in the host's hands and
-   waiting on them. Filled silhouette like the others; the exclamation is
-   knocked out of the triangle with evenodd so the badge red shows
-   through, which keeps the mark legible at 11px. */
-const AlertIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M12 2.5 23 21.5H1L12 2.5z M10.7 9h2.6l-.5 6.2h-1.6L10.7 9z M10.8 16.8h2.4v2.4h-2.4v-2.4z"
-      fill="currentColor"
-      fillRule="evenodd"
-    />
-  </svg>
-);
-
-/* An hourglass - the Fest is with FestNet's automated checks, nothing
-   for the host to do. Filled silhouette like the others. */
-const HourglassIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M5 3h14v4.5L13.5 12 19 16.5V21H5v-4.5L10.5 12 5 7.5V3z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const StarIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M12 3 L14.65 9.36 L21.51 9.91 L16.28 14.39 L17.88 21.09 L12 17.5 L6.12 21.09 L7.72 14.39 L2.49 9.91 L9.35 9.36 Z"
-      fill="currentColor"
-    />
-  </svg>
-);
 
 /* The application badge ladder — the fests band's application rungs,
    with a published event as the top rung. That fallback says
@@ -140,21 +52,21 @@ const badgeFor = (fest) => {
     return {
       label: my.fests.applicationBadges.draft,
       className: `${styles.badge} ${styles.badgeApplication}`,
-      icon: <PencilIcon />,
+      icon: <PencilIcon className={styles.badgeIcon} />,
     };
   }
   if (fest.applicationStatus === 'submitted') {
     return {
       label: my.fests.applicationBadges.submitted,
       className: styles.badge,
-      icon: <PlaneIcon />,
+      icon: <PlaneIcon className={styles.badgeIcon} />,
     };
   }
   if (fest.applicationStatus === 'approved') {
     return {
       label: my.fests.applicationBadges.approved,
       className: `${styles.badge} ${styles.badgeApproved}`,
-      icon: <CheckIcon />,
+      icon: <CheckIcon className={styles.badgeIcon} />,
     };
   }
   /* MLH sent the application back for changes. Red, inverted: the one
@@ -164,7 +76,7 @@ const badgeFor = (fest) => {
     return {
       label: my.fests.applicationBadges.rejected,
       className: `${styles.badge} ${styles.badgeRejected}`,
-      icon: <AlertIcon />,
+      icon: <AlertIcon className={styles.badgeIcon} />,
     };
   }
   /* Past the application rungs the card is a real event, and the badge
@@ -174,27 +86,27 @@ const badgeFor = (fest) => {
     return {
       label: my.fests.eventBadges.needsAcknowledgements,
       className: `${styles.badge} ${styles.badgeApplication}`,
-      icon: <AlertIcon />,
+      icon: <AlertIcon className={styles.badgeIcon} />,
     };
   }
   if (state === 'checks-underway') {
     return {
       label: my.fests.eventBadges.checksUnderway,
       className: styles.badge,
-      icon: <HourglassIcon />,
+      icon: <HourglassIcon className={styles.badgeIcon} />,
     };
   }
   if (state === 'approved-private') {
     return {
       label: my.fests.applicationBadges.approved,
       className: `${styles.badge} ${styles.badgeApproved}`,
-      icon: <CheckIcon />,
+      icon: <CheckIcon className={styles.badgeIcon} />,
     };
   }
   return {
     label: my.applications.publishedBadge,
     className: `${styles.badge} ${styles.badgeApproved}`,
-    icon: <StarIcon />,
+    icon: <StarIcon className={styles.badgeIcon} />,
   };
 };
 
