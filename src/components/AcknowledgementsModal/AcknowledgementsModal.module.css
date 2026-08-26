@@ -290,9 +290,42 @@
   color: #52635f;
 }
 
-/* The venue slide's evidence: the address line above the pin it should
-   match. The map takes the card grammar's ink border, like the /fests
-   directory map does. */
+/* Each step's body slides in from the side the host is heading toward;
+   the header row and the buttons stay put, so focus never resets
+   mid-walk. The success pane rides the same entrance. */
+.slide {
+  animation: slideFwd 240ms ease-out both;
+}
+
+.slideBack {
+  animation: slideBackIn 240ms ease-out both;
+}
+
+@keyframes slideFwd {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slideBackIn {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The venue slide's evidence, one bordered unit: the address is the
+   map's own caption, in the card grammar's ink border like the /fests
+   directory map. */
 .venue {
   margin: 0 0 14px;
 }
@@ -310,31 +343,39 @@
   color: #671912;
 }
 
-.venueAddress {
-  margin: 0 0 10px;
+.venueUnit {
+  /* colors.ink */
+  border: 2px solid #10201d;
+}
+
+.venueBar {
+  margin: 0;
+  padding: 8px 12px;
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
 .venueNoPin {
   margin: 0;
+  padding: 10px 12px;
   /* colors.muted */
   color: #52635f;
   font-size: 0.9rem;
 }
 
 .mapWrapper {
-  height: 200px;
-  /* colors.ink */
-  border: 2px solid #10201d;
+  height: 190px;
   overflow: hidden;
 }
 
 .mapSkeleton {
-  height: 200px;
+  height: 190px;
   /* colors.paper */
   background: #f2f2eb;
-  /* colors.ink */
-  border: 2px solid #10201d;
 }
 
 .statement {
@@ -541,7 +582,9 @@
   .openingBadge,
   .openingFinal,
   .openingBody,
-  .openingActions {
+  .openingActions,
+  .slide,
+  .slideBack {
     animation: none;
   }
 }

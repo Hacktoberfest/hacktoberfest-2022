@@ -53,6 +53,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   /* The opening pane plays first: the stamped headline and the badge
      ladder replay. "Let's go" is the only way forward from it. */
   const [started, setStarted] = useState(false);
+  /* Which way the last step moved: the slide animation enters from the
+     side the host is heading toward. */
+  const [direction, setDirection] = useState(1);
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -73,6 +76,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       return;
     }
     if (step < statements.length - 1) {
+      setDirection(1);
       setStep(step + 1);
       setError(null);
       return;
@@ -90,6 +94,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   };
 
   const back = () => {
+    setDirection(-1);
     setStep(step - 1);
     setError(null);
   };
@@ -109,7 +114,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       aria-labelledby="acknowledgements-title"
     >
       {done ? (
-        <>
+        <div className={styles.slide}>
           <div className={styles.successMark} aria-hidden="true">
             <CheckIcon className={styles.successCheck} />
           </div>
@@ -128,7 +133,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               {my.acknowledgements.success.done}
             </button>
           </div>
-        </>
+        </div>
       ) : !started ? (
         <div className={styles.opening}>
           <h3 id="acknowledgements-title" className={styles.openingTitle}>
@@ -208,51 +213,67 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               </p>
             </div>
           </div>
-          <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
-          {step === VENUE_SLIDE && (
-            <div className={styles.venue}>
-              <p className={styles.venueLede}>
-                {my.acknowledgements.venueCheck.intro}{' '}
-                {my.acknowledgements.venueCheck.wrongLead}
-                <a
-                  className={styles.venueEmail}
-                  href={`mailto:${my.acknowledgements.venueCheck.wrongEmail}`}
-                >
-                  {my.acknowledgements.venueCheck.wrongEmail}
-                </a>
-                {my.acknowledgements.venueCheck.wrongTail}
+          <div
+            key={step}
+            className={
+              direction < 0
+                ? `${styles.slide} ${styles.slideBack}`
+                : styles.slide
+            }
+          >
+            {step === 0 && (
+              <p className={styles.intro}>
+                {my.acknowledgements.intro(fest.name)}
               </p>
-              {fest.venueAddress && (
-                <p className={styles.venueAddress}>{fest.venueAddress}</p>
-              )}
-              {typeof fest.latitude === 'number' &&
-              typeof fest.longitude === 'number' ? (
-                <div className={styles.mapWrapper}>
-                  <VenueMap
-                    latitude={fest.latitude}
-                    longitude={fest.longitude}
-                  />
+            )}
+            {step === VENUE_SLIDE && (
+              <div className={styles.venue}>
+                <p className={styles.venueLede}>
+                  {my.acknowledgements.venueCheck.intro}{' '}
+                  {my.acknowledgements.venueCheck.wrongLead}
+                  <a
+                    className={styles.venueEmail}
+                    href={`mailto:${my.acknowledgements.venueCheck.wrongEmail}`}
+                  >
+                    {my.acknowledgements.venueCheck.wrongEmail}
+                  </a>
+                  {my.acknowledgements.venueCheck.wrongTail}
+                </p>
+                {/* One bordered unit: the address is the map's own
+                    caption, not a floating line. */}
+                <div className={styles.venueUnit}>
+                  {fest.venueAddress && (
+                    <p className={styles.venueBar}>{fest.venueAddress}</p>
+                  )}
+                  {typeof fest.latitude === 'number' &&
+                  typeof fest.longitude === 'number' ? (
+                    <div className={styles.mapWrapper}>
+                      <VenueMap
+                        latitude={fest.latitude}
+                        longitude={fest.longitude}
+                      />
+                    </div>
+                  ) : (
+                    <p className={styles.venueNoPin}>
+                      {my.acknowledgements.noPin}
+                    </p>
+                  )}
                 </div>
-              ) : (
-                <p className={styles.venueNoPin}>{my.acknowledgements.noPin}</p>
-              )}
-            </div>
-          )}
-          {/* Keyed by step so a slide change remounts the label - screen
-              readers re-announce the new statement rather than watching
-              text mutate inside one node. */}
-          <label key={step} className={styles.statement}>
-            <input
-              className={styles.statementInput}
-              type="checkbox"
-              checked={checked[step]}
-              onChange={toggle}
-            />
-            <span className={styles.statementBox} aria-hidden="true">
-              <CheckIcon className={styles.statementCheck} />
-            </span>
-            <span className={styles.statementText}>{statements[step]}</span>
-          </label>
+              </div>
+            )}
+            <label className={styles.statement}>
+              <input
+                className={styles.statementInput}
+                type="checkbox"
+                checked={checked[step]}
+                onChange={toggle}
+              />
+              <span className={styles.statementBox} aria-hidden="true">
+                <CheckIcon className={styles.statementCheck} />
+              </span>
+              <span className={styles.statementText}>{statements[step]}</span>
+            </label>
+          </div>
           {error && (
             <p className={styles.error} role="alert">
               {error}

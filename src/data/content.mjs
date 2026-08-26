@@ -1040,9 +1040,8 @@ export const my = {
        is wrong. Split around the address so the email renders as a mailto
        link. */
     venueCheck: {
-      intro:
-        'This is the venue hacktoberfest.com will show for your Fest, exactly as it will appear on the map.',
-      wrongLead: 'If the address or the pin is wrong, stop here and email ',
+      intro: 'Your venue, exactly as it will appear on hacktoberfest.com.',
+      wrongLead: 'Wrong address or pin? Email ',
       wrongEmail: 'hacktoberfest@mlh.io',
       wrongTail: ' before continuing.',
     },
