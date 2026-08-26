@@ -1010,9 +1010,10 @@ export const my = {
     cta: 'Complete final acknowledgements',
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
-    /* PLACEHOLDER COPY - review with MLH before launch. */
+    /* The first statement is real copy. The remaining two are still
+       PLACEHOLDER - review with MLH before launch. */
     statements: [
-      'I agree to uphold the MLH Code of Conduct at my Fest.',
+      'I acknowledge that I will follow all Major League Hacking guidelines for my event, including keeping it in person and keeping spending within the policy-approved limits and categories. If my plans need to deviate from these guidelines, I will check with MLH first at hacktoberfest@mlh.io. I understand that unapproved deviations may put my reimbursement eligibility and my ability to work with MLH on future events at risk.',
       'I confirm the date, time, and venue shown here are accurate.',
       'I understand my Fest appears on hacktoberfest.com once the final checks pass.',
     ],
