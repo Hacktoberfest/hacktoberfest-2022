@@ -181,32 +181,34 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
         </div>
       ) : (
         <>
-          <h3 id="acknowledgements-title" className={styles.heading}>
-            {my.acknowledgements.title}
-          </h3>
-          <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
-          {/* The progress squares fill as slides are ticked: forest for
-              done ground, orange for where the host stands. The text
-              counter beside them is the accessible narration. */}
-          <div className={styles.progress}>
-            <div className={styles.progressSquares} aria-hidden="true">
-              {statements.map((statement, index) => (
-                <span
-                  key={statement}
-                  className={
-                    index < step
-                      ? `${styles.progressSquare} ${styles.progressDone}`
-                      : index === step
-                        ? `${styles.progressSquare} ${styles.progressHere}`
-                        : styles.progressSquare
-                  }
-                />
-              ))}
+          {/* The progress squares share the heading's line, top right:
+              forest for done ground, orange for where the host stands.
+              The text counter beside them is the accessible narration. */}
+          <div className={styles.headerRow}>
+            <h3 id="acknowledgements-title" className={styles.heading}>
+              {my.acknowledgements.title}
+            </h3>
+            <div className={styles.progress}>
+              <div className={styles.progressSquares} aria-hidden="true">
+                {statements.map((statement, index) => (
+                  <span
+                    key={statement}
+                    className={
+                      index < step
+                        ? `${styles.progressSquare} ${styles.progressDone}`
+                        : index === step
+                          ? `${styles.progressSquare} ${styles.progressHere}`
+                          : styles.progressSquare
+                    }
+                  />
+                ))}
+              </div>
+              <p className={styles.progressLabel} aria-live="polite">
+                {my.acknowledgements.progress(step + 1, statements.length)}
+              </p>
             </div>
-            <p className={styles.progressLabel} aria-live="polite">
-              {my.acknowledgements.progress(step + 1, statements.length)}
-            </p>
           </div>
+          <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
           {step === VENUE_SLIDE && (
             <div className={styles.venue}>
               <p className={styles.venueLede}>

@@ -214,8 +214,18 @@
   }
 }
 
-.heading {
+/* Heading left, progress right, one line: the counter reads as the
+   modal's page number. Centered on the heading's single line of caps. */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin: 0 0 8px;
+}
+
+.heading {
+  margin: 0;
   /* fonts.display */
   font-family:
     'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -238,8 +248,8 @@
 .progress {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 10px;
-  margin: 0 0 14px;
 }
 
 .progressSquares {
