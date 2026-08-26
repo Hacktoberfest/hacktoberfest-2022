@@ -1018,6 +1018,16 @@ export const my = {
       'I have double checked that the address and map pin below match my venue.',
       'I understand that I must email hacktoberfest@mlh.io before changing key details of my Fest, including its name, dates, and times, and that I must wait for Major League Hacking to approve a change before making it. If I change these details without checking in first, my Fest will automatically be hidden from hacktoberfest.com.',
     ],
+    /* The venue slide's guidance: what the map is, and what to do when it
+       is wrong. Split around the address so the email renders as a mailto
+       link. */
+    venueCheck: {
+      intro:
+        'This is the venue hacktoberfest.com will show for your Fest, exactly as it will appear on the map.',
+      wrongLead: 'If the address or the pin is wrong, stop here and email ',
+      wrongEmail: 'hacktoberfest@mlh.io',
+      wrongTail: ' before continuing.',
+    },
     /* When the venue slide has no pin to draw: the geocode has not run
        yet, so the address line has to carry the check alone. */
     noPin: 'The map pin is still being placed. Check the address above.',

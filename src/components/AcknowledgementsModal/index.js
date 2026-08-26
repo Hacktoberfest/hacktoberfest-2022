@@ -104,6 +104,17 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       </p>
       {step === VENUE_SLIDE && (
         <div className={styles.venue}>
+          <p className={styles.venueLede}>
+            {my.acknowledgements.venueCheck.intro}{' '}
+            {my.acknowledgements.venueCheck.wrongLead}
+            <a
+              className={styles.venueEmail}
+              href={`mailto:${my.acknowledgements.venueCheck.wrongEmail}`}
+            >
+              {my.acknowledgements.venueCheck.wrongEmail}
+            </a>
+            {my.acknowledgements.venueCheck.wrongTail}
+          </p>
           {fest.venueAddress && (
             <p className={styles.venueAddress}>{fest.venueAddress}</p>
           )}

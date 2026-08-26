@@ -89,6 +89,19 @@
   margin: 0 0 14px;
 }
 
+.venueLede {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+.venueEmail {
+  /* colors.maroon - the check-in modal's link color. */
+  color: #671912;
+}
+
 .venueAddress {
   margin: 0 0 10px;
   font-weight: 600;
