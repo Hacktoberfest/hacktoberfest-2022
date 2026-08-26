@@ -43,6 +43,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
     ],
   },
@@ -68,6 +71,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
     ],
   },
@@ -106,6 +112,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
     ],
   },
@@ -131,6 +140,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: true,
         hacktoberfestPublished: true,
         acknowledgedAt: '2026-08-20T14:00:00.000Z',
+        latitude: 35.6595,
+        longitude: 139.7005,
+        venueAddress: '1-2-3 Shibuya, Shibuya City, Tokyo, 150-0002, Japan',
       },
       /* A hosted Fest already behind us: same "Hosting" role, past-tensed
          to "Hosted" by the date, so the past-tense badge is reviewable all
@@ -152,6 +164,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: true,
         hacktoberfestPublished: true,
         acknowledgedAt: '2026-08-20T14:00:00.000Z',
+        latitude: -37.8102,
+        longitude: 144.9628,
+        venueAddress: '120 Spencer Street, Melbourne, VIC, 3000, Australia',
       },
       /* Published in MLH but not here yet: the acknowledgements ask. The
          "One step left" badge and the modal are reviewable from a share
@@ -173,6 +188,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: true,
         hacktoberfestPublished: false,
         acknowledgedAt: null,
+        latitude: 37.7412,
+        longitude: -25.6756,
+        venueAddress: '12 Rua do Mercado, Ponta Delgada, 9500-326, Portugal',
       },
       /* Acknowledged, waiting on FestNet's checks - the quiet rung
          between the host's last act and the directory. */
@@ -193,6 +211,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: true,
         hacktoberfestPublished: false,
         acknowledgedAt: '2026-08-24T09:30:00.000Z',
+        latitude: 41.5454,
+        longitude: -8.4265,
+        venueAddress: '45 Rua do Souto, Braga, 4700-329, Portugal',
       },
       /* The event exists but the host has not published it in MLH - the
          approved rung, told apart from the Porto application card by its
@@ -215,6 +236,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: false,
         hacktoberfestPublished: false,
         acknowledgedAt: null,
+        latitude: 40.2033,
+        longitude: -8.4103,
+        venueAddress: '3 Largo da Portagem, Coimbra, 3000-337, Portugal',
       },
       /* An event application in flight: the Fest-to-be exists only as the
          organizer's draft on MLH's form. No venue, no registration link —
@@ -236,6 +260,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
       /* The next rung: submitted, waiting on MLH's review. Exists so the
          submitted badge and its view-application CTA are reviewable from
@@ -257,6 +284,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
       /* Sent back for changes: MLH's `rejected`, which OHQ uses when the
          reviewers request revisions. The revise CTA returns the host to
@@ -278,6 +308,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
       /* The top rung: approved, but the event not yet public — the gap
          where the approved application card renders. Its manageUrl is the
@@ -301,6 +334,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
       {
         id: 'fest-berlin',
@@ -319,6 +355,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
       {
         id: 'fest-lagos',
@@ -337,6 +376,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
       /* Still 'registered' with an endsAt twelve-plus hours gone: renders
          the derived grey "Did not attend" badge all campaign long. */
@@ -357,6 +399,9 @@ export const SCENARIOS = Object.freeze({
         mlhPublished: null,
         hacktoberfestPublished: null,
         acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
       },
     ],
   },

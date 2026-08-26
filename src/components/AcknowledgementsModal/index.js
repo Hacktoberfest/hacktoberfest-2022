@@ -1,9 +1,21 @@
+import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState } from 'react';
 
 import { my } from 'data/content.mjs';
 import { acknowledgeFest } from 'lib/acknowledgements.mjs';
 
 import styles from './AcknowledgementsModal.module.css';
+
+/* Client-only, same as the /fests directory map: Leaflet touches window
+   at import time, which the static export's build pass does not have. */
+const VenueMap = dynamic(() => import('./VenueMap'), {
+  ssr: false,
+  loading: () => <div className={styles.mapSkeleton} aria-hidden="true" />,
+});
+
+/* Which slide renders the venue check - the statement that asks the host
+   to compare the address and the pin, so that slide has to show both. */
+const VENUE_SLIDE = 1;
 
 /* The final acknowledgements - /my's first overlay, in the same brand
    dress as the /fests check-in modal: ink border, maroon hard shadow,
@@ -90,6 +102,21 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       <p className={styles.progress} aria-live="polite">
         {my.acknowledgements.progress(step + 1, statements.length)}
       </p>
+      {step === VENUE_SLIDE && (
+        <div className={styles.venue}>
+          {fest.venueAddress && (
+            <p className={styles.venueAddress}>{fest.venueAddress}</p>
+          )}
+          {typeof fest.latitude === 'number' &&
+          typeof fest.longitude === 'number' ? (
+            <div className={styles.mapWrapper}>
+              <VenueMap latitude={fest.latitude} longitude={fest.longitude} />
+            </div>
+          ) : (
+            <p className={styles.venueNoPin}>{my.acknowledgements.noPin}</p>
+          )}
+        </div>
+      )}
       {/* Keyed by step so a slide change remounts the label - screen
           readers re-announce the new statement rather than watching text
           mutate inside one node. */}

@@ -82,6 +82,40 @@
   color: #52635f;
 }
 
+/* The venue slide's evidence: the address line above the pin it should
+   match. The map takes the card grammar's ink border, like the /fests
+   directory map does. */
+.venue {
+  margin: 0 0 14px;
+}
+
+.venueAddress {
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.venueNoPin {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.mapWrapper {
+  height: 200px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  overflow: hidden;
+}
+
+.mapSkeleton {
+  height: 200px;
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border: 2px solid #10201d;
+}
+
 .statement {
   display: flex;
   gap: 10px;

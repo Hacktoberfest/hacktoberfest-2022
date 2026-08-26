@@ -128,6 +128,13 @@ test('every fixture carries a fests array with well-formed entries', () => {
       assert.ok(
         typeof fest.acknowledgedAt === 'string' || fest.acknowledgedAt === null,
       );
+      // The venue trio ships on every card too: the pin and address the
+      // acknowledgements' map slide renders, nulls where not geocoded.
+      assert.ok(typeof fest.latitude === 'number' || fest.latitude === null);
+      assert.ok(typeof fest.longitude === 'number' || fest.longitude === null);
+      assert.ok(
+        typeof fest.venueAddress === 'string' || fest.venueAddress === null,
+      );
     });
   });
 });

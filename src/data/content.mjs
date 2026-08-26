@@ -1010,13 +1010,18 @@ export const my = {
     cta: 'Complete final acknowledgements',
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
-    /* The first statement is real copy. The remaining two are still
-       PLACEHOLDER - review with MLH before launch. */
+    /* The first two statements are real copy. The third is still
+       PLACEHOLDER - review with MLH before launch. The venue slide (index
+       1) also renders the address line and the map pin the statement asks
+       the host to check. */
     statements: [
       'I acknowledge that I will follow all Major League Hacking guidelines for my event, including keeping it in person and keeping spending within the policy-approved limits and categories. If my plans need to deviate from these guidelines, I will check with MLH first at hacktoberfest@mlh.io. I understand that unapproved deviations may put my reimbursement eligibility and my ability to work with MLH on future events at risk.',
-      'I confirm the date, time, and venue shown here are accurate.',
+      'I have double checked that the address and map pin below match my venue.',
       'I understand my Fest appears on hacktoberfest.com once the final checks pass.',
     ],
+    /* When the venue slide has no pin to draw: the geocode has not run
+       yet, so the address line has to carry the check alone. */
+    noPin: 'The map pin is still being placed. Check the address above.',
     /* One statement per slide; the counter keeps the host oriented. */
     progress: (step, total) => `${step} of ${total}`,
     next: 'Next',
