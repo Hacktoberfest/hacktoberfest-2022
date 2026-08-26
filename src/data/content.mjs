@@ -1040,7 +1040,7 @@ export const my = {
       },
       warningLead: 'We need to fix something together first.',
       warningBody:
-        'Email the Hacktoberfest team and they will sort it out with you.',
+        'Please email the Hacktoberfest team and we\u2019ll help get your Fest live as quickly as possible.',
       email: 'hacktoberfest@mlh.io',
       emailCta: 'Email hacktoberfest@mlh.io',
       close: 'Close',
