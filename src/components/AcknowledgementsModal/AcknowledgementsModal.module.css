@@ -294,6 +294,9 @@
    the header row and the buttons stay put, so focus never resets
    mid-walk. The success pane rides the same entrance. */
 .slide {
+  /* Clear air under the header row, whatever the slide opens with - the
+     intro paragraph on slide one, the checkbox on the later ones. */
+  margin-top: 14px;
   animation: slideFwd 240ms ease-out both;
 }
 
