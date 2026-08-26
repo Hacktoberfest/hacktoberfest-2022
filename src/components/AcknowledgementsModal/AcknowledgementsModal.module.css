@@ -1,65 +1,89 @@
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  /* colors.ink at half strength - the page stays visible behind it. */
-  background: rgba(16, 32, 29, 0.5);
-}
-
-.dialog {
-  width: 100%;
-  max-width: 480px;
+/* The /fests check-in modal's dress, statement rows added: native dialog
+   in the card grammar (ink border, white ground, maroon hard shadow) with
+   the press-in opening. Keep the two in step - they are the same modal in
+   the reader's eye. */
+.modal {
+  width: min(calc(100% - 30px), 520px);
+  padding: 28px;
+  /* colors.ink */
   border: 2px solid #10201d;
-  border-radius: 6px;
-  padding: 20px 22px;
-  /* colors.cream */
-  background: #fffdf7;
-  color: #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
 }
 
-.dialog:focus {
-  outline: none;
+.modal[open] {
+  animation: modal-press-in 220ms ease-out;
 }
 
-.title {
-  margin: 0 0 4px;
+@keyframes modal-press-in {
+  from {
+    opacity: 0;
+    transform: translate(-6px, -6px);
+    /* colors.maroon */
+    box-shadow: 12px 12px 0 #671912;
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+    /* colors.maroon */
+    box-shadow: 6px 6px 0 #671912;
+  }
+}
+
+.modal::backdrop {
+  /* colors.ink at 65% */
+  background: rgba(16, 32, 29, 0.65);
+}
+
+.modal[open]::backdrop {
+  animation: backdrop-fade-in 180ms ease-out;
+}
+
+@keyframes backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.heading {
+  margin: 0 0 8px;
   /* fonts.display */
   font-family:
     'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.75rem;
   font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
 .intro {
-  margin: 0 0 14px;
-  font-size: 0.9rem;
-  /* colors.muted */
-  color: #4a5a56;
+  margin: 0 0 16px;
+  /* colors.inkSoft */
+  color: #284b44;
 }
 
 .statement {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  margin: 10px 0;
-  font-size: 0.88rem;
+  margin: 0 0 12px;
   line-height: 1.5;
   cursor: pointer;
 }
 
 .statement input {
-  margin-top: 3px;
+  margin-top: 4px;
   /* colors.forest */
   accent-color: #3d5f58;
 }
 
 .error {
-  margin: 10px 0 0;
-  font-size: 0.85rem;
+  margin: 0 0 4px;
   font-weight: 600;
   /* colors.orangeDeep - the same red the revisions badge wears. */
   color: #b8301f;
@@ -67,30 +91,37 @@
 
 .actions {
   display: flex;
-  gap: 10px;
-  margin-top: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-.confirm,
-.cancel {
-  border-radius: 6px;
-  padding: 10px 18px;
+/* Primary: the house button, same bones as the check-in modal's CTA. */
+.confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  cursor: pointer;
   /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
     'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.confirm {
-  border: 2px solid #10201d;
-  /* colors.ink on cream, inverted */
-  background: #10201d;
-  color: #f7f7f2;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .confirm:disabled {
@@ -98,8 +129,52 @@
   cursor: default;
 }
 
+/* Ghost variant: same bones, card ground, ink label. */
 .cancel {
+  padding: 12px 22px;
+  /* colors.ink */
   border: 2px solid #10201d;
-  background: transparent;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
   color: #10201d;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.confirm:not(:disabled):hover,
+.cancel:hover {
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+}
+
+.confirm:focus-visible,
+.cancel:focus-visible {
+  /* colors.ink */
+  box-shadow: 0 0 0 5px #10201d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[open],
+  .modal[open]::backdrop {
+    animation: none;
+  }
+
+  .confirm,
+  .cancel {
+    transition: none;
+  }
 }

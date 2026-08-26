@@ -5,11 +5,20 @@ import { acknowledgeFest } from 'lib/acknowledgements.mjs';
 
 import styles from './AcknowledgementsModal.module.css';
 
-/* The final acknowledgements - /my's first overlay. Deliberately small:
-   focus moves in on open and back to the opener on close (the caller owns
-   that half), Escape and the backdrop both close, and the three
-   statements all have to be ticked before Confirm does anything. The
-   endpoint is idempotent first-write-wins, so a double confirm is safe. */
+/* The final acknowledgements - /my's first overlay, in the same brand
+   dress as the /fests check-in modal: ink border, maroon hard shadow,
+   press-in opening.
+
+   Native <dialog> on purpose, matching that modal's reasoning: showModal()
+   gives the top layer (above the grain overlay), focus trapping, Escape,
+   and ::backdrop without a hand-rolled trap. The dialog's close event is
+   the single exit path - Escape, "Not yet", the backdrop, and a confirmed
+   submission all funnel through onClose, which is where the caller hands
+   focus back to the card button.
+
+   The three statements all have to be ticked before Confirm does
+   anything. The endpoint is idempotent first-write-wins, so a double
+   confirm is safe. */
 const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const [checked, setChecked] = useState(() =>
     my.acknowledgements.statements.map(() => false),
@@ -19,13 +28,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const dialogRef = useRef(null);
 
   useEffect(() => {
-    dialogRef.current?.focus();
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') onClose();
-    };
-    globalThis.addEventListener('keydown', onKeyDown);
-    return () => globalThis.removeEventListener('keydown', onKeyDown);
-  }, [onClose]);
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) dialog.showModal();
+  }, []);
 
   const toggle = (index) => {
     setChecked((current) =>
@@ -44,7 +49,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
     try {
       const result = await acknowledgeFest(fest.id);
       onAcknowledged(fest.id, result.acknowledgedAt);
-      onClose();
+      dialogRef.current?.close();
     } catch {
       setSubmitting(false);
       setError(my.acknowledgements.failure);
@@ -52,54 +57,54 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   };
 
   return (
-    <div
-      className={styles.backdrop}
+    <dialog
+      ref={dialogRef}
+      className={styles.modal}
+      onClose={onClose}
+      /* A click that lands on the dialog element itself landed on the
+         backdrop - the padded box catches clicks on the content. */
       onClick={(event) => {
-        if (event.target === event.currentTarget) onClose();
+        if (event.target === event.currentTarget) event.currentTarget.close();
       }}
+      aria-labelledby="acknowledgements-title"
     >
-      <div
-        className={styles.dialog}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="acknowledgements-title"
-        tabIndex={-1}
-        ref={dialogRef}
-      >
-        <h3 id="acknowledgements-title" className={styles.title}>
-          {my.acknowledgements.title}
-        </h3>
-        <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
-        {my.acknowledgements.statements.map((statement, index) => (
-          <label key={statement} className={styles.statement}>
-            <input
-              type="checkbox"
-              checked={checked[index]}
-              onChange={() => toggle(index)}
-            />
-            <span>{statement}</span>
-          </label>
-        ))}
-        {error && (
-          <p className={styles.error} role="alert">
-            {error}
-          </p>
-        )}
-        <div className={styles.actions}>
-          <button
-            type="button"
-            className={styles.confirm}
-            onClick={confirm}
-            disabled={submitting}
-          >
-            {my.acknowledgements.confirm}
-          </button>
-          <button type="button" className={styles.cancel} onClick={onClose}>
-            {my.acknowledgements.cancel}
-          </button>
-        </div>
+      <h3 id="acknowledgements-title" className={styles.heading}>
+        {my.acknowledgements.title}
+      </h3>
+      <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
+      {my.acknowledgements.statements.map((statement, index) => (
+        <label key={statement} className={styles.statement}>
+          <input
+            type="checkbox"
+            checked={checked[index]}
+            onChange={() => toggle(index)}
+          />
+          <span>{statement}</span>
+        </label>
+      ))}
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.confirm}
+          onClick={confirm}
+          disabled={submitting}
+        >
+          {my.acknowledgements.confirm}
+        </button>
+        <button
+          type="button"
+          className={styles.cancel}
+          onClick={() => dialogRef.current?.close()}
+        >
+          {my.acknowledgements.cancel}
+        </button>
       </div>
-    </div>
+    </dialog>
   );
 };
 
