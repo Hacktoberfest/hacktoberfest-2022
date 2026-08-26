@@ -121,6 +121,9 @@ test('every fixture carries a fests array with well-formed entries', () => {
       assert.ok(typeof fest.endTime === 'string' || fest.endTime === null);
       assert.ok(typeof fest.endsAt === 'string' || fest.endsAt === null);
       assert.ok('registrationUrl' in fest);
+      assert.ok(
+        typeof fest.websiteUrl === 'string' || fest.websiteUrl === null,
+      );
       // The publication trio ships on every card, nulls where not
       // applicable, matching the live payload's exact key set.
       assert.ok('mlhPublished' in fest);

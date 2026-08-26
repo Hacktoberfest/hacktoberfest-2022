@@ -136,10 +136,14 @@ const actionFor = (fest) => {
       label: my.fests.applicationCtas.approved,
     };
   }
-  if (fest.registrationUrl) {
+  /* The listing page, not the register form: a host checking their
+     published Fest wants to see what the public sees. registrationUrl
+     stays as the fallback for payloads from before websiteUrl shipped. */
+  const viewUrl = fest.websiteUrl || fest.registrationUrl;
+  if (viewUrl) {
     return {
       kind: 'link',
-      href: fest.registrationUrl,
+      href: viewUrl,
       label: my.fests.viewFestCta,
     };
   }

@@ -1052,7 +1052,7 @@ export const my = {
     success: {
       title: 'Congratulations!',
       body: (name) =>
-        `${name} is now live on hacktoberfest.com. It can take up to ten minutes to become publicly visible.`,
+        `${name} is now live on hacktoberfest.com. It can take up to five minutes to become publicly visible.`,
       done: 'Done',
     },
     /* All three statements are real, reviewed copy. The venue slide
@@ -1290,7 +1290,7 @@ export const my = {
       approved: 'Publish event',
       rejected: 'Revise your application',
     },
-    viewFestCta: 'View Fest',
+    viewFestCta: 'View fest',
   },
   error: {
     title: 'We couldn’t load your Hacktoberfest',
