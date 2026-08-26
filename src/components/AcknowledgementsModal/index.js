@@ -68,6 +68,10 @@ const CONFETTI_PIECES = [
    idempotent first-write-wins, so a double confirm is safe. */
 const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const statements = my.acknowledgements.statements;
+  /* Most statements are plain strings; the Code of Conduct one speaks on
+     the Fest's behalf by name, so it arrives as a function of it. */
+  const statementText = (entry) =>
+    typeof entry === 'function' ? entry(fest.name) : entry;
   const [step, setStep] = useState(0);
   const [checked, setChecked] = useState(() => statements.map(() => false));
   const [error, setError] = useState(null);
@@ -385,7 +389,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               <span className={styles.statementBox} aria-hidden="true">
                 <CheckIcon className={styles.statementCheck} />
               </span>
-              <span className={styles.statementText}>{statements[step]}</span>
+              <span className={styles.statementText}>
+                {statementText(statements[step])}
+              </span>
             </label>
           </div>
           {error && (
