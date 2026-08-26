@@ -67,56 +67,6 @@
   color: #284b44;
 }
 
-/* The hero's four flush pixel squares, the site's mark for a beginning
-   - this is the host's hero moment, so it opens the same way. */
-.squares {
-  display: flex;
-  margin-bottom: 14px;
-}
-
-.squareOrange,
-.squareSky,
-.squareOchre,
-.squarePink {
-  width: 14px;
-  height: 14px;
-}
-
-.squareOrange {
-  /* colors.orange */
-  background: #e53927;
-}
-
-.squareSky {
-  /* colors.sky */
-  background: #8bb2de;
-}
-
-.squareOchre {
-  /* colors.ochre */
-  background: #f5b726;
-}
-
-.squarePink {
-  /* colors.pink */
-  background: #e97b77;
-}
-
-/* The hero's eyebrow voice, in the accent that says "act". */
-.eyebrow {
-  margin: 0 0 6px;
-  /* fonts.mono */
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
-    'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  /* colors.orange */
-  color: #e53927;
-}
-
 /* Progress as pixel steps: the same square vocabulary as the strip
    above, one square per statement. Forest is the site's "done" ground,
    orange is where the host stands, the outline is what remains. The mono

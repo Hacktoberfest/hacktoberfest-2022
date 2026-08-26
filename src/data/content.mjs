@@ -1008,7 +1008,6 @@ export const my = {
      PLACEHOLDER, marked for review before launch. */
   acknowledgements: {
     cta: 'Complete final acknowledgements',
-    eyebrow: 'The final step',
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
     /* The landing after the last Confirm: the one moment the flow gets to

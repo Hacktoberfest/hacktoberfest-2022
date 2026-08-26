@@ -37,9 +37,9 @@ const CheckMark = ({ className }) => (
 
 /* The final acknowledgements - /my's first overlay, in the same brand
    dress as the /fests check-in modal: ink border, maroon hard shadow,
-   press-in opening. The hero's pixel squares open it and the progress row
-   reuses them, because for the host this IS a hero moment: the last step
-   between their Fest and the public directory.
+   press-in opening. The progress row speaks the
+   hero's pixel-square vocabulary, because for the host this is the last
+   step between their Fest and the public directory.
 
    Native <dialog> on purpose, matching that modal's reasoning: showModal()
    gives the top layer (above the grain overlay), focus trapping, Escape,
@@ -117,13 +117,6 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       }}
       aria-labelledby="acknowledgements-title"
     >
-      {/* The hero's four squares - the site's mark for a beginning. */}
-      <div className={styles.squares} aria-hidden="true">
-        <span className={styles.squareOrange} />
-        <span className={styles.squareSky} />
-        <span className={styles.squareOchre} />
-        <span className={styles.squarePink} />
-      </div>
       {done ? (
         <>
           <div className={styles.successMark} aria-hidden="true">
@@ -147,7 +140,6 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
         </>
       ) : (
         <>
-          <p className={styles.eyebrow}>{my.acknowledgements.eyebrow}</p>
           <h3 id="acknowledgements-title" className={styles.heading}>
             {my.acknowledgements.title}
           </h3>
