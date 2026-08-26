@@ -1019,6 +1019,32 @@ export const my = {
         `You applied, you were approved, you published. Four quick confirmations and ${name} heads to hacktoberfest.com.`,
       cta: 'Let’s go',
     },
+    /* The pre-flight pane between the opening and the statements: the
+       three automated checks FestNet will hold the Fest to. All passing
+       walks straight into the statements; any failure stops the flow
+       with the matching explanation, because acknowledging an event that
+       cannot publish would only break the confetti's promise. */
+    checks: {
+      title: 'Checking your event details',
+      labels: {
+        coordinates: 'Venue pin',
+        name: 'Fest name',
+        duration: 'Duration',
+      },
+      failures: {
+        coordinates: 'Your venue has not been placed on the map yet.',
+        name: 'Your Fest\u2019s name does not match the required format.',
+        duration:
+          'Your Fest\u2019s running time is outside the allowed window.',
+        generic: 'One of your event details needs attention.',
+      },
+      warningLead: 'We need to fix something together first.',
+      warningBody:
+        'Email the Hacktoberfest team and they will sort it out with you.',
+      email: 'hacktoberfest@mlh.io',
+      emailCta: 'Email hacktoberfest@mlh.io',
+      close: 'Close',
+    },
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
     /* The landing after the last Confirm: the one moment the flow gets to

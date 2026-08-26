@@ -80,6 +80,16 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   /* Flips once the Code of Conduct has been scrolled to the bottom, and
      stays flipped - re-reading is welcome but never re-required. */
   const [cocRead, setCocRead] = useState(false);
+  /* Flips when the automated-checks pane has finished its run - only ever
+     true when every verdict passed, because a failure has no way forward. */
+  const [checksCleared, setChecksCleared] = useState(false);
+
+  /* The card's pre-flight verdicts. A payload without them (a stale cache,
+     an API from before they shipped) skips the pane rather than blocking
+     the host on data we do not have. */
+  const failedChecks = (fest.publicationChecks ?? []).filter(
+    (check) => !check.passed,
+  );
   /* The opening pane plays first: the stamped headline and the badge
      ladder replay. "Let's go" is the only way forward from it. */
   const [started, setStarted] = useState(false);
@@ -92,6 +102,28 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
     const dialog = dialogRef.current;
     if (dialog && !dialog.open) dialog.showModal();
   }, []);
+
+  /* All checks passing: hold the pane just long enough for the verdicts
+     to land, then walk on. A failure never schedules this - the pane is
+     the end of the road until the team fixes the data. */
+  useEffect(() => {
+    if (!started || checksCleared || done) return undefined;
+    if (!fest.publicationChecks || failedChecks.length > 0) return undefined;
+    const reduced =
+      typeof globalThis.matchMedia === 'function' &&
+      globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const timer = setTimeout(
+      () => setChecksCleared(true),
+      reduced ? 600 : 3100,
+    );
+    return () => clearTimeout(timer);
+  }, [
+    started,
+    checksCleared,
+    done,
+    fest.publicationChecks,
+    failedChecks.length,
+  ]);
 
   const toggle = () => {
     setChecked((current) =>
@@ -229,7 +261,10 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
             <button
               type="button"
               className={styles.confirm}
-              onClick={() => setStarted(true)}
+              onClick={() => {
+                setStarted(true);
+                if (!fest.publicationChecks) setChecksCleared(true);
+              }}
             >
               {my.acknowledgements.opening.cta}
             </button>
@@ -240,6 +275,88 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
             >
               {my.acknowledgements.cancel}
             </button>
+          </div>
+        </div>
+      ) : !checksCleared ? (
+        <div className={styles.checksPane}>
+          <h3 id="acknowledgements-title" className={styles.heading}>
+            {my.acknowledgements.checks.title}
+          </h3>
+          <div className={styles.checkRows}>
+            {(fest.publicationChecks ?? []).map((check, index) => (
+              <div
+                key={check.id}
+                className={styles.checkRow}
+                style={{ animationDelay: `${0.2 + index * 0.25}s` }}
+              >
+                <span
+                  className={
+                    check.passed
+                      ? `${styles.checkVerdict} ${styles.checkPass}`
+                      : `${styles.checkVerdict} ${styles.checkFail}`
+                  }
+                  style={{ animationDelay: `${0.9 + index * 0.7}s` }}
+                >
+                  {check.passed ? (
+                    <CheckIcon className={styles.checkVerdictIcon} />
+                  ) : (
+                    <AlertIcon className={styles.checkVerdictIcon} />
+                  )}
+                </span>
+                <span className={styles.checkLabel}>
+                  {my.acknowledgements.checks.labels[check.id] ?? check.id}
+                </span>
+              </div>
+            ))}
+          </div>
+          {failedChecks.length > 0 && (
+            <div
+              className={styles.checksWarning}
+              role="alert"
+              style={{
+                animationDelay: `${1.3 + (fest.publicationChecks?.length ?? 0) * 0.7}s`,
+              }}
+            >
+              <p className={styles.checksWarningLead}>
+                {my.acknowledgements.checks.warningLead}
+              </p>
+              {failedChecks.map((check) => (
+                <p key={check.id} className={styles.checksWarningItem}>
+                  {my.acknowledgements.checks.failures[check.id] ??
+                    my.acknowledgements.checks.failures.generic}
+                </p>
+              ))}
+              <p className={styles.checksWarningItem}>
+                {my.acknowledgements.checks.warningBody}
+              </p>
+            </div>
+          )}
+          <div className={styles.actions}>
+            {failedChecks.length > 0 ? (
+              <>
+                <a
+                  className={styles.confirm}
+                  href={`mailto:${my.acknowledgements.checks.email}`}
+                >
+                  {my.acknowledgements.checks.emailCta}
+                </a>
+                <button
+                  type="button"
+                  className={styles.cancel}
+                  onClick={() => dialogRef.current?.close()}
+                >
+                  {my.acknowledgements.checks.close}
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                className={styles.cancel}
+                onClick={() => dialogRef.current?.close()}
+              >
+                {my.acknowledgements.cancel}
+              </button>
+            )}
           </div>
         </div>
       ) : (

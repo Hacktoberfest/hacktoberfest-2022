@@ -383,6 +383,117 @@
   background: #f2f2eb;
 }
 
+/* The pre-flight checks pane: each row fades in, then its verdict square
+   pops - forest for a pass, the revisions red for a failure. */
+.checksPane {
+  padding-top: 4px;
+}
+
+.checkRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 18px 0 4px;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeup 0.4s ease-out both;
+}
+
+.checkVerdict {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+}
+
+.checkVerdictIcon {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+  opacity: 0;
+  animation: verdictIcon 0.2s ease-out both;
+  animation-delay: inherit;
+}
+
+.checkPass {
+  animation: verdictPass 0.3s ease-out both;
+}
+
+.checkFail {
+  animation: verdictFail 0.3s ease-out both;
+}
+
+@keyframes verdictPass {
+  from {
+    background: transparent;
+    transform: scale(0.7);
+  }
+  to {
+    /* colors.forest */
+    background: #3d5f58;
+    transform: scale(1);
+  }
+}
+
+@keyframes verdictFail {
+  from {
+    background: transparent;
+    transform: scale(0.7);
+  }
+  to {
+    /* colors.orangeDeep */
+    background: #b8301f;
+    transform: scale(1);
+  }
+}
+
+@keyframes verdictIcon {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.checkLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* The stop sign: the revisions red on the application-started tint, in
+   the card grammar. Arrives after the verdicts have landed. */
+.checksWarning {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  /* colors.orangeDeep */
+  border: 2px solid #b8301f;
+  /* colors.orangeLight */
+  background: #f9c9c2;
+  animation: fadeup 0.4s ease-out both;
+}
+
+.checksWarningLead {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.checksWarningItem {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 /* The Code of Conduct scroll-through: the document in a bordered well
    the host reads to the end before the accept box unlocks. Paper ground
    so the scrollable area reads as a different surface than the modal. */
@@ -695,6 +806,15 @@
   .slide,
   .slideBack {
     animation: none;
+  }
+
+  .checkRow,
+  .checkPass,
+  .checkFail,
+  .checkVerdictIcon,
+  .checksWarning {
+    animation-duration: 0s;
+    animation-delay: 0s;
   }
 
   .confettiPiece {

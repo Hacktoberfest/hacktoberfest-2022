@@ -135,6 +135,11 @@ test('every fixture carries a fests array with well-formed entries', () => {
       assert.ok(
         typeof fest.venueAddress === 'string' || fest.venueAddress === null,
       );
+      // The automated check verdicts ride organizing event cards only.
+      assert.ok(
+        fest.publicationChecks === null ||
+          Array.isArray(fest.publicationChecks),
+      );
     });
   });
 });
@@ -145,6 +150,7 @@ test('the organizer scenario shows every badge variant', () => {
     'attending',
     'attending',
     'attending',
+    'organizing',
     'organizing',
     'organizing',
     'organizing',
@@ -224,6 +230,12 @@ test('the organizer scenario shows every badge variant', () => {
   assert.ok(organizingEvents.some((f) => f.hacktoberfestPublished));
   assert.ok(
     organizingEvents.some((f) => f.mlhPublished === false && f.manageUrl),
+  );
+  // One card fails an automated check, so the warning pane is reviewable.
+  assert.ok(
+    organizingEvents.some((f) =>
+      (f.publicationChecks ?? []).some((check) => !check.passed),
+    ),
   );
 });
 
