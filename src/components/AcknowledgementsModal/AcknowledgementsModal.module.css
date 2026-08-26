@@ -295,7 +295,9 @@
    mid-walk. The success pane rides the same entrance. */
 .slide {
   /* Clear air under the header row, whatever the slide opens with - the
-     intro paragraph on slide one, the checkbox on the later ones. */
+     intro paragraph on slide one, the checkbox on the later ones. Also
+     the confetti's positioning context on the success pane. */
+  position: relative;
   margin-top: 14px;
   animation: slideFwd 240ms ease-out both;
 }
@@ -473,6 +475,38 @@
   margin-top: 20px;
 }
 
+/* The confetti: brand pixels raining gently over the success pane,
+   clipped to it, behind nothing clickable. Each piece falls and tumbles
+   on its own inline-set lane and clock, fading before it re-drops. */
+.confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confettiPiece {
+  position: absolute;
+  top: -16px;
+  animation-name: confettiFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(300px) rotate(540deg);
+  }
+}
+
 /* The success pane's mark: the forest "done" ground at a size the
    square-cap check stays crisp. */
 .successMark {
@@ -589,5 +623,9 @@
   .slide,
   .slideBack {
     animation: none;
+  }
+
+  .confettiPiece {
+    display: none;
   }
 }

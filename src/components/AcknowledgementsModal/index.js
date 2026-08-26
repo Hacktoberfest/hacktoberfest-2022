@@ -23,6 +23,25 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
    to compare the address and the pin, so that slide has to show both. */
 const VENUE_SLIDE = 1;
 
+/* The success pane's confetti: brand pixels on fixed lanes with fixed
+   timing. Deterministic on purpose - no randomness at render, so every
+   host gets the same celebration and hydration has nothing to disagree
+   with. */
+const CONFETTI_PIECES = [
+  { left: '4%', size: 10, color: '#e53927', delay: '0s', duration: '2.6s' },
+  { left: '12%', size: 8, color: '#8bb2de', delay: '0.9s', duration: '3.1s' },
+  { left: '22%', size: 12, color: '#f5b726', delay: '0.3s', duration: '2.8s' },
+  { left: '30%', size: 8, color: '#e97b77', delay: '1.4s', duration: '2.5s' },
+  { left: '38%', size: 10, color: '#3d5f58', delay: '0.6s', duration: '3.3s' },
+  { left: '48%', size: 12, color: '#e53927', delay: '1.8s', duration: '2.7s' },
+  { left: '56%', size: 8, color: '#f5b726', delay: '0.1s', duration: '3s' },
+  { left: '64%', size: 10, color: '#8bb2de', delay: '1.1s', duration: '2.4s' },
+  { left: '72%', size: 12, color: '#e97b77', delay: '0.5s', duration: '3.2s' },
+  { left: '80%', size: 8, color: '#3d5f58', delay: '1.6s', duration: '2.6s' },
+  { left: '88%', size: 10, color: '#e53927', delay: '0.8s', duration: '2.9s' },
+  { left: '95%', size: 8, color: '#8bb2de', delay: '2s', duration: '2.5s' },
+];
+
 /* The final acknowledgements - /my's first overlay, in the same brand
    dress as the /fests check-in modal: ink border, maroon hard shadow,
    press-in opening. The progress row speaks the
@@ -115,6 +134,22 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
     >
       {done ? (
         <div className={styles.slide}>
+          <div className={styles.confetti} aria-hidden="true">
+            {CONFETTI_PIECES.map((piece) => (
+              <span
+                key={`${piece.left}-${piece.delay}`}
+                className={styles.confettiPiece}
+                style={{
+                  left: piece.left,
+                  width: piece.size,
+                  height: piece.size,
+                  background: piece.color,
+                  animationDelay: piece.delay,
+                  animationDuration: piece.duration,
+                }}
+              />
+            ))}
+          </div>
           <div className={styles.successMark} aria-hidden="true">
             <CheckIcon className={styles.successCheck} />
           </div>

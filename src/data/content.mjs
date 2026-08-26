@@ -1021,11 +1021,11 @@ export const my = {
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
     /* The landing after the last Confirm: the one moment the flow gets to
-       celebrate, so it closes with a full stop instead of vanishing. */
+       celebrate, so it closes with confetti instead of vanishing. */
     success: {
-      title: 'All set.',
+      title: 'Congratulations!',
       body: (name) =>
-        `That's everything. The final checks run automatically, and ${name} appears on hacktoberfest.com once they pass.`,
+        `${name} is now live on hacktoberfest.com. It can take up to ten minutes to become publicly visible.`,
       done: 'Done',
     },
     /* All three statements are real, reviewed copy. The venue slide
