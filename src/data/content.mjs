@@ -1284,7 +1284,10 @@ export const my = {
     applicationCtas: {
       draft: 'Finish your application',
       submitted: 'View application',
-      approved: 'Manage event',
+      /* The approved rung's next act is publishing the event in MLH, and
+         the CTA names it - the link is the OHQ event page where that
+         happens. */
+      approved: 'Publish event',
       rejected: 'Revise your application',
     },
     viewFestCta: 'View Fest',

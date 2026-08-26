@@ -70,15 +70,15 @@ test('isOrganizing is true for any organizing entry, false otherwise', () => {
   assert.equal(isOrganizing([null, 'junk']), false);
 });
 
-/* The application CTA ladder. Approved is "Manage event", not "View
+/* The application CTA ladder. Approved is "Publish event", not "View
    application": the API swaps the card's manageUrl to the Organizer HQ
-   event page at that rung, so the label must promise managing, not
-   reviewing. The two pre-approval rungs still point at the application
-   form. */
+   event page at that rung, and publishing there is the approved host's
+   one next act. The two pre-approval rungs still point at the
+   application form. */
 test('the application CTAs match what the manage link does at each rung', () => {
   assert.equal(my.fests.applicationCtas.draft, 'Finish your application');
   assert.equal(my.fests.applicationCtas.submitted, 'View application');
-  assert.equal(my.fests.applicationCtas.approved, 'Manage event');
+  assert.equal(my.fests.applicationCtas.approved, 'Publish event');
 });
 
 /* One greeting on both sides of the Preptember flag: "your
