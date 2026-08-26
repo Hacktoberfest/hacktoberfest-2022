@@ -331,33 +331,26 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               </p>
             </div>
           )}
-          <div className={styles.actions}>
-            {failedChecks.length > 0 ? (
-              <>
-                <a
-                  className={styles.confirm}
-                  href={`mailto:${my.acknowledgements.checks.email}`}
-                >
-                  {my.acknowledgements.checks.emailCta}
-                </a>
-                <button
-                  type="button"
-                  className={styles.cancel}
-                  onClick={() => dialogRef.current?.close()}
-                >
-                  {my.acknowledgements.checks.close}
-                </button>
-              </>
-            ) : (
+          {/* No buttons while the verdicts land - the pane walks itself
+              into the statements in a moment, and Escape still bails out.
+              Only a failure needs actions. */}
+          {failedChecks.length > 0 && (
+            <div className={styles.actions}>
+              <a
+                className={styles.confirm}
+                href={`mailto:${my.acknowledgements.checks.email}`}
+              >
+                {my.acknowledgements.checks.emailCta}
+              </a>
               <button
                 type="button"
                 className={styles.cancel}
                 onClick={() => dialogRef.current?.close()}
               >
-                {my.acknowledgements.cancel}
+                {my.acknowledgements.checks.close}
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       ) : (
         <>
