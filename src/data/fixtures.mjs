@@ -40,6 +40,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
     ],
   },
@@ -62,6 +65,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
     ],
   },
@@ -97,6 +103,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
     ],
   },
@@ -119,6 +128,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: 'https://example.invalid/fests/tokyo',
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: true,
+        hacktoberfestPublished: true,
+        acknowledgedAt: '2026-08-20T14:00:00.000Z',
       },
       /* A hosted Fest already behind us: same "Hosting" role, past-tensed
          to "Hosted" by the date, so the past-tense badge is reviewable all
@@ -137,6 +149,72 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: 'https://example.invalid/fests/melbourne',
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: true,
+        hacktoberfestPublished: true,
+        acknowledgedAt: '2026-08-20T14:00:00.000Z',
+      },
+      /* Published in MLH but not here yet: the acknowledgements ask. The
+         "One step left" badge and the modal are reviewable from a share
+         link on this card. */
+      {
+        id: 'fest-azores',
+        name: 'Hacktober Fest Azores',
+        city: 'Ponta Delgada',
+        country: 'Portugal',
+        date: '2026-10-12',
+        startTime: '10:00 AM',
+        endTime: '6:00 PM',
+        endsAt: '2026-10-12T18:00:00.000Z',
+        status: null,
+        role: 'organizing',
+        registrationUrl: 'https://example.invalid/fests/azores',
+        applicationStatus: null,
+        manageUrl: 'https://example.invalid/events/14690-hacktober-fest-azores',
+        mlhPublished: true,
+        hacktoberfestPublished: false,
+        acknowledgedAt: null,
+      },
+      /* Acknowledged, waiting on FestNet's checks - the quiet rung
+         between the host's last act and the directory. */
+      {
+        id: 'fest-braga',
+        name: 'Hacktober Fest Braga',
+        city: 'Braga',
+        country: 'Portugal',
+        date: '2026-10-20',
+        startTime: '9:00 AM',
+        endTime: '5:00 PM',
+        endsAt: '2026-10-20T16:00:00.000Z',
+        status: null,
+        role: 'organizing',
+        registrationUrl: 'https://example.invalid/fests/braga',
+        applicationStatus: null,
+        manageUrl: 'https://example.invalid/events/14691-hacktober-fest-braga',
+        mlhPublished: true,
+        hacktoberfestPublished: false,
+        acknowledgedAt: '2026-08-24T09:30:00.000Z',
+      },
+      /* The event exists but the host has not published it in MLH - the
+         approved rung, told apart from the Porto application card by its
+         source: this one is a real Event row. */
+      {
+        id: 'fest-coimbra',
+        name: 'Hacktober Fest Coimbra',
+        city: 'Coimbra',
+        country: 'Portugal',
+        date: '2026-10-27',
+        startTime: '10:00 AM',
+        endTime: '4:00 PM',
+        endsAt: '2026-10-27T16:00:00.000Z',
+        status: null,
+        role: 'organizing',
+        registrationUrl: null,
+        applicationStatus: null,
+        manageUrl:
+          'https://example.invalid/events/14692-hacktober-fest-coimbra',
+        mlhPublished: false,
+        hacktoberfestPublished: false,
+        acknowledgedAt: null,
       },
       /* An event application in flight: the Fest-to-be exists only as the
          organizer's draft on MLH's form. No venue, no registration link —
@@ -155,6 +233,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: 'draft',
         manageUrl: 'https://example.invalid/applications/47507',
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
       /* The next rung: submitted, waiting on MLH's review. Exists so the
          submitted badge and its view-application CTA are reviewable from
@@ -173,6 +254,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: 'submitted',
         manageUrl: 'https://example.invalid/applications/47812',
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
       /* Sent back for changes: MLH's `rejected`, which OHQ uses when the
          reviewers request revisions. The revise CTA returns the host to
@@ -191,6 +275,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: 'rejected',
         manageUrl: 'https://example.invalid/applications/47901',
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
       /* The top rung: approved, but the event not yet public — the gap
          where the approved application card renders. Its manageUrl is the
@@ -211,6 +298,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: 'approved',
         manageUrl: 'https://example.invalid/events/14683-hacktober-fest-porto',
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
       {
         id: 'fest-berlin',
@@ -226,6 +316,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: 'https://example.invalid/fests/berlin',
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
       {
         id: 'fest-lagos',
@@ -241,6 +334,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
       /* Still 'registered' with an endsAt twelve-plus hours gone: renders
          the derived grey "Did not attend" badge all campaign long. */
@@ -258,6 +354,9 @@ export const SCENARIOS = Object.freeze({
         registrationUrl: null,
         applicationStatus: null,
         manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
       },
     ],
   },

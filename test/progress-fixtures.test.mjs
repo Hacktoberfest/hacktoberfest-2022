@@ -121,6 +121,13 @@ test('every fixture carries a fests array with well-formed entries', () => {
       assert.ok(typeof fest.endTime === 'string' || fest.endTime === null);
       assert.ok(typeof fest.endsAt === 'string' || fest.endsAt === null);
       assert.ok('registrationUrl' in fest);
+      // The publication trio ships on every card, nulls where not
+      // applicable, matching the live payload's exact key set.
+      assert.ok('mlhPublished' in fest);
+      assert.ok('hacktoberfestPublished' in fest);
+      assert.ok(
+        typeof fest.acknowledgedAt === 'string' || fest.acknowledgedAt === null,
+      );
     });
   });
 });
@@ -131,6 +138,9 @@ test('the organizer scenario shows every badge variant', () => {
     'attending',
     'attending',
     'attending',
+    'organizing',
+    'organizing',
+    'organizing',
     'organizing',
     'organizing',
     'organizing',
@@ -190,6 +200,24 @@ test('the organizer scenario shows every badge variant', () => {
   // One fest is dated before the campaign so a past-dated card is always
   // present whenever this fixture is viewed.
   assert.ok(SCENARIOS.organizer.fests.some((f) => f.date < '2026-09-01'));
+  // Every event-card publication rung is reviewable from a share link.
+  const organizingEvents = SCENARIOS.organizer.fests.filter(
+    (f) => f.role === 'organizing' && f.applicationStatus === null,
+  );
+  assert.ok(
+    organizingEvents.some(
+      (f) => f.mlhPublished && !f.acknowledgedAt && !f.hacktoberfestPublished,
+    ),
+  );
+  assert.ok(
+    organizingEvents.some(
+      (f) => f.mlhPublished && f.acknowledgedAt && !f.hacktoberfestPublished,
+    ),
+  );
+  assert.ok(organizingEvents.some((f) => f.hacktoberfestPublished));
+  assert.ok(
+    organizingEvents.some((f) => f.mlhPublished === false && f.manageUrl),
+  );
 });
 
 test('nothing-done has zero fests, exercising the invitation state', () => {
