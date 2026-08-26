@@ -1027,7 +1027,7 @@ export const my = {
     checks: {
       title: 'Checking your event details',
       labels: {
-        coordinates: 'Venue pin',
+        coordinates: 'Venue coordinates',
         name: 'Fest name',
         duration: 'Duration',
       },
