@@ -1014,8 +1014,9 @@ export const my = {
        the replay can never drift from the cards it retells. */
     opening: {
       title: 'You’re nearly there!',
+      /* "Four" counts the statements array below - keep them in step. */
       body: (name) =>
-        `You applied, you were approved, you published. Three quick confirmations and ${name} heads to hacktoberfest.com.`,
+        `You applied, you were approved, you published. Four quick confirmations and ${name} heads to hacktoberfest.com.`,
       cta: 'Let’s go',
     },
     title: 'Final acknowledgements',
