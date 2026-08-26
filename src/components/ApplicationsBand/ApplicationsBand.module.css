@@ -164,6 +164,21 @@
   white-space: nowrap;
 }
 
+/* The acknowledgements rung's footer is a button, not a link — it opens
+   the modal. This is only the user-agent reset, and it sits ABOVE
+   .cardAction on purpose: at equal specificity the later rule wins, so
+   everything .cardAction declares (border-top, padding, font sizing,
+   colors) lands on the button untouched, and the two footers can never
+   drift. Don't move it below, and don't restate .cardAction values here. */
+.cardActionButton {
+  width: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
 /* A real card's link is its footer: full-width bar under an ink rule,
    label left, arrow right — matching the fests cards. */
 .cardAction {
@@ -183,23 +198,6 @@
 /* colors.paper — the same quiet hover the milestone headers use. */
 .cardAction:hover {
   background: #f2f2eb;
-}
-
-/* The acknowledgements rung's footer is a button, not a link - it opens
-   the modal. Same geometry and voice as the link action; the resets undo
-   only what the user agent adds. NOT `border: 0` or `font: inherit`:
-   this class sits after .cardAction in the file, and those shorthands
-   would clobber its ink top rule and its 0.9rem/700 label - the footer
-   must be indistinguishable from its link siblings. */
-.cardActionButton {
-  width: 100%;
-  border: 0;
-  /* colors.ink - restated because the border shorthand above resets it. */
-  border-top: 2px solid #10201d;
-  background: none;
-  font-family: inherit;
-  text-align: inherit;
-  cursor: pointer;
 }
 
 /* The no-applications ghost: dashed like the fests band's empty state — a
