@@ -17,29 +17,51 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
    to compare the address and the pin, so that slide has to show both. */
 const VENUE_SLIDE = 1;
 
+/* The same square-cap check the card badges draw, sized by its parent. */
+const CheckMark = ({ className }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M4 12.5 9.5 18 20 6.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="4"
+      strokeLinecap="square"
+    />
+  </svg>
+);
+
 /* The final acknowledgements - /my's first overlay, in the same brand
    dress as the /fests check-in modal: ink border, maroon hard shadow,
-   press-in opening.
+   press-in opening. The hero's pixel squares open it and the progress row
+   reuses them, because for the host this IS a hero moment: the last step
+   between their Fest and the public directory.
 
    Native <dialog> on purpose, matching that modal's reasoning: showModal()
    gives the top layer (above the grain overlay), focus trapping, Escape,
    and ::backdrop without a hand-rolled trap. The dialog's close event is
-   the single exit path - Escape, "Not yet", the backdrop, and a confirmed
-   submission all funnel through onClose, which is where the caller hands
-   focus back to the card button.
+   the single exit path - Escape, "Not yet", the backdrop, and Done on the
+   success pane all funnel through onClose, which is where the caller
+   hands focus back to the card button.
 
    One statement per slide: each acknowledgement gets the host's full
    attention, and Next refuses to advance until its box is ticked - so
    reaching Confirm IS having agreed to all three. Back re-opens an
    earlier slide with its tick kept; nothing is submitted until the last
-   slide's Confirm. The endpoint is idempotent first-write-wins, so a
-   double confirm is safe. */
+   slide's Confirm, and a successful submit lands on the "All set" pane
+   rather than snapping the dialog shut mid-click. The endpoint is
+   idempotent first-write-wins, so a double confirm is safe. */
 const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const statements = my.acknowledgements.statements;
   const [step, setStep] = useState(0);
   const [checked, setChecked] = useState(() => statements.map(() => false));
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
   const dialogRef = useRef(null);
 
   useEffect(() => {
@@ -69,7 +91,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
     try {
       const result = await acknowledgeFest(fest.id);
       onAcknowledged(fest.id, result.acknowledgedAt);
-      dialogRef.current?.close();
+      setDone(true);
     } catch {
       setSubmitting(false);
       setError(my.acknowledgements.failure);
@@ -95,74 +117,137 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       }}
       aria-labelledby="acknowledgements-title"
     >
-      <h3 id="acknowledgements-title" className={styles.heading}>
-        {my.acknowledgements.title}
-      </h3>
-      <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
-      <p className={styles.progress} aria-live="polite">
-        {my.acknowledgements.progress(step + 1, statements.length)}
-      </p>
-      {step === VENUE_SLIDE && (
-        <div className={styles.venue}>
-          <p className={styles.venueLede}>
-            {my.acknowledgements.venueCheck.intro}{' '}
-            {my.acknowledgements.venueCheck.wrongLead}
-            <a
-              className={styles.venueEmail}
-              href={`mailto:${my.acknowledgements.venueCheck.wrongEmail}`}
-            >
-              {my.acknowledgements.venueCheck.wrongEmail}
-            </a>
-            {my.acknowledgements.venueCheck.wrongTail}
-          </p>
-          {fest.venueAddress && (
-            <p className={styles.venueAddress}>{fest.venueAddress}</p>
-          )}
-          {typeof fest.latitude === 'number' &&
-          typeof fest.longitude === 'number' ? (
-            <div className={styles.mapWrapper}>
-              <VenueMap latitude={fest.latitude} longitude={fest.longitude} />
-            </div>
-          ) : (
-            <p className={styles.venueNoPin}>{my.acknowledgements.noPin}</p>
-          )}
-        </div>
-      )}
-      {/* Keyed by step so a slide change remounts the label - screen
-          readers re-announce the new statement rather than watching text
-          mutate inside one node. */}
-      <label key={step} className={styles.statement}>
-        <input type="checkbox" checked={checked[step]} onChange={toggle} />
-        <span>{statements[step]}</span>
-      </label>
-      {error && (
-        <p className={styles.error} role="alert">
-          {error}
-        </p>
-      )}
-      <div className={styles.actions}>
-        <button
-          type="button"
-          className={styles.confirm}
-          onClick={next}
-          disabled={submitting}
-        >
-          {last ? my.acknowledgements.confirm : my.acknowledgements.next}
-        </button>
-        {step > 0 ? (
-          <button type="button" className={styles.cancel} onClick={back}>
-            {my.acknowledgements.back}
-          </button>
-        ) : (
-          <button
-            type="button"
-            className={styles.cancel}
-            onClick={() => dialogRef.current?.close()}
-          >
-            {my.acknowledgements.cancel}
-          </button>
-        )}
+      {/* The hero's four squares - the site's mark for a beginning. */}
+      <div className={styles.squares} aria-hidden="true">
+        <span className={styles.squareOrange} />
+        <span className={styles.squareSky} />
+        <span className={styles.squareOchre} />
+        <span className={styles.squarePink} />
       </div>
+      {done ? (
+        <>
+          <div className={styles.successMark} aria-hidden="true">
+            <CheckMark className={styles.successCheck} />
+          </div>
+          <h3 id="acknowledgements-title" className={styles.heading}>
+            {my.acknowledgements.success.title}
+          </h3>
+          <p className={styles.intro}>
+            {my.acknowledgements.success.body(fest.name)}
+          </p>
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.confirm}
+              onClick={() => dialogRef.current?.close()}
+            >
+              {my.acknowledgements.success.done}
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className={styles.eyebrow}>{my.acknowledgements.eyebrow}</p>
+          <h3 id="acknowledgements-title" className={styles.heading}>
+            {my.acknowledgements.title}
+          </h3>
+          <p className={styles.intro}>{my.acknowledgements.intro(fest.name)}</p>
+          {/* The progress squares fill as slides are ticked: forest for
+              done ground, orange for where the host stands. The text
+              counter beside them is the accessible narration. */}
+          <div className={styles.progress}>
+            <div className={styles.progressSquares} aria-hidden="true">
+              {statements.map((statement, index) => (
+                <span
+                  key={statement}
+                  className={
+                    index < step
+                      ? `${styles.progressSquare} ${styles.progressDone}`
+                      : index === step
+                        ? `${styles.progressSquare} ${styles.progressHere}`
+                        : styles.progressSquare
+                  }
+                />
+              ))}
+            </div>
+            <p className={styles.progressLabel} aria-live="polite">
+              {my.acknowledgements.progress(step + 1, statements.length)}
+            </p>
+          </div>
+          {step === VENUE_SLIDE && (
+            <div className={styles.venue}>
+              <p className={styles.venueLede}>
+                {my.acknowledgements.venueCheck.intro}{' '}
+                {my.acknowledgements.venueCheck.wrongLead}
+                <a
+                  className={styles.venueEmail}
+                  href={`mailto:${my.acknowledgements.venueCheck.wrongEmail}`}
+                >
+                  {my.acknowledgements.venueCheck.wrongEmail}
+                </a>
+                {my.acknowledgements.venueCheck.wrongTail}
+              </p>
+              {fest.venueAddress && (
+                <p className={styles.venueAddress}>{fest.venueAddress}</p>
+              )}
+              {typeof fest.latitude === 'number' &&
+              typeof fest.longitude === 'number' ? (
+                <div className={styles.mapWrapper}>
+                  <VenueMap
+                    latitude={fest.latitude}
+                    longitude={fest.longitude}
+                  />
+                </div>
+              ) : (
+                <p className={styles.venueNoPin}>{my.acknowledgements.noPin}</p>
+              )}
+            </div>
+          )}
+          {/* Keyed by step so a slide change remounts the label - screen
+              readers re-announce the new statement rather than watching
+              text mutate inside one node. */}
+          <label key={step} className={styles.statement}>
+            <input
+              className={styles.statementInput}
+              type="checkbox"
+              checked={checked[step]}
+              onChange={toggle}
+            />
+            <span className={styles.statementBox} aria-hidden="true">
+              <CheckMark className={styles.statementCheck} />
+            </span>
+            <span className={styles.statementText}>{statements[step]}</span>
+          </label>
+          {error && (
+            <p className={styles.error} role="alert">
+              {error}
+            </p>
+          )}
+          <div className={styles.actions}>
+            <button
+              type="button"
+              className={styles.confirm}
+              onClick={next}
+              disabled={submitting}
+            >
+              {last ? my.acknowledgements.confirm : my.acknowledgements.next}
+            </button>
+            {step > 0 ? (
+              <button type="button" className={styles.cancel} onClick={back}>
+                {my.acknowledgements.back}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={styles.cancel}
+                onClick={() => dialogRef.current?.close()}
+              >
+                {my.acknowledgements.cancel}
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </dialog>
   );
 };

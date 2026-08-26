@@ -67,9 +67,93 @@
   color: #284b44;
 }
 
-/* The slide counter, in the badges' mono voice. */
+/* The hero's four flush pixel squares, the site's mark for a beginning
+   - this is the host's hero moment, so it opens the same way. */
+.squares {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.squareOrange,
+.squareSky,
+.squareOchre,
+.squarePink {
+  width: 14px;
+  height: 14px;
+}
+
+.squareOrange {
+  /* colors.orange */
+  background: #e53927;
+}
+
+.squareSky {
+  /* colors.sky */
+  background: #8bb2de;
+}
+
+.squareOchre {
+  /* colors.ochre */
+  background: #f5b726;
+}
+
+.squarePink {
+  /* colors.pink */
+  background: #e97b77;
+}
+
+/* The hero's eyebrow voice, in the accent that says "act". */
+.eyebrow {
+  margin: 0 0 6px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.orange */
+  color: #e53927;
+}
+
+/* Progress as pixel steps: the same square vocabulary as the strip
+   above, one square per statement. Forest is the site's "done" ground,
+   orange is where the host stands, the outline is what remains. The mono
+   counter beside them carries the accessible narration. */
 .progress {
-  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.progressSquares {
+  display: flex;
+  gap: 4px;
+}
+
+.progressSquare {
+  width: 14px;
+  height: 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+  transition: background 150ms ease;
+}
+
+.progressDone {
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+.progressHere {
+  /* colors.orange */
+  background: #e53927;
+}
+
+.progressLabel {
+  margin: 0;
   /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
@@ -131,7 +215,7 @@
 
 .statement {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: flex-start;
   margin: 0 0 12px;
   /* Two lines' worth whatever the slide says, so the buttons don't jump
@@ -141,10 +225,70 @@
   cursor: pointer;
 }
 
-.statement input {
-  margin-top: 4px;
+/* The real input stays for keyboard and screen readers; the painted box
+   below is what everyone sees. */
+.statementInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* A checkbox in the card grammar: ink border, white ground, and the
+   buttons' hard shadow - which presses in as the tick lands, so agreeing
+   feels like pressing something real. */
+.statementBox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+  transition:
+    background 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.statementCheck {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+  opacity: 0;
+}
+
+.statementInput:checked + .statementBox {
   /* colors.forest */
-  accent-color: #3d5f58;
+  background: #3d5f58;
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 1px 1px 0 #671912;
+}
+
+.statementInput:checked + .statementBox .statementCheck {
+  opacity: 1;
+}
+
+.statementInput:focus-visible + .statementBox {
+  /* colors.ink */
+  box-shadow: 0 0 0 4px #10201d;
+}
+
+.statementText {
+  min-width: 0;
 }
 
 .error {
@@ -159,6 +303,30 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 20px;
+}
+
+/* The success pane's mark: the forest "done" ground at a size the
+   square-cap check stays crisp. */
+.successMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0 0 12px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.maroon */
+  box-shadow: 4px 4px 0 #671912;
+}
+
+.successCheck {
+  width: 26px;
+  height: 26px;
+  /* colors.white */
+  color: #f7f7f2;
 }
 
 /* Primary: the house button, same bones as the check-in modal's CTA. */
@@ -239,7 +407,9 @@
   }
 
   .confirm,
-  .cancel {
+  .cancel,
+  .statementBox,
+  .progressSquare {
     transition: none;
   }
 }

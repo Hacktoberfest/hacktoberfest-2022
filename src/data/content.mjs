@@ -1008,8 +1008,17 @@ export const my = {
      PLACEHOLDER, marked for review before launch. */
   acknowledgements: {
     cta: 'Complete final acknowledgements',
+    eyebrow: 'The final step',
     title: 'Final acknowledgements',
     intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
+    /* The landing after the last Confirm: the one moment the flow gets to
+       celebrate, so it closes with a full stop instead of vanishing. */
+    success: {
+      title: 'All set.',
+      body: (name) =>
+        `That's everything. The final checks run automatically, and ${name} appears on hacktoberfest.com once they pass.`,
+      done: 'Done',
+    },
     /* All three statements are real, reviewed copy. The venue slide
        (index 1) also renders the address line and the map pin the
        statement asks the host to check. */
