@@ -148,3 +148,26 @@ export const eventCardState = (fest) => {
   if (fest.mlhPublished && fest.acknowledgedAt) return 'checks-underway';
   return 'published';
 };
+
+/* Where a host edits the Fest itself. MLH's manageUrl for an approved
+   event is the bare Organizer HQ event page, and the fields the
+   publication checks complain about - the name, the running time - live
+   one segment further on, at /edit. Mirrors applicationEditUrl in the
+   API, which does the same for the application form and for the same
+   reason: the form is the route that actually works.
+
+   Only the OHQ event shape (numeric id, slug, nothing after it) is
+   rewritten; any other manage link MLH ever sends is handed back
+   untouched rather than pointed at a route that may not exist. The shape
+   is matched on the path, not the host, so the fixtures' example.invalid
+   links exercise the real thing in a mocked build. */
+const OHQ_EVENT_URL = /^https:\/\/[^/]+\/events\/\d+-[^/?#]+$/;
+
+export const festEditUrl = (fest) => {
+  const manageUrl =
+    fest && typeof fest.manageUrl === 'string' && fest.manageUrl
+      ? fest.manageUrl
+      : null;
+  if (!manageUrl) return null;
+  return OHQ_EVENT_URL.test(manageUrl) ? `${manageUrl}/edit` : manageUrl;
+};

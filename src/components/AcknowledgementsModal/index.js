@@ -9,6 +9,7 @@ import {
 } from 'components/icons/badges';
 import { my } from 'data/content.mjs';
 import { acknowledgeFest } from 'lib/acknowledgements.mjs';
+import { festEditUrl } from 'lib/fests.mjs';
 
 import styles from './AcknowledgementsModal.module.css';
 
@@ -18,6 +19,13 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
   ssr: false,
   loading: () => <div className={styles.mapSkeleton} aria-hidden="true" />,
 });
+
+/* The checks a host can clear on their own: both are fields on the
+   Organizer HQ event form, so the pane can hand them the form and get
+   out of the way. Coordinates is not one of them - a venue MLH has not
+   placed on the map is ours to sort, not theirs - and neither is any
+   check id we do not recognise, so both keep the email. */
+const SELF_FIXABLE_CHECKS = new Set(['name', 'duration']);
 
 /* Which slide renders the venue check - the statement that asks the host
    to compare the address and the pin, so that slide has to show both. */
@@ -90,6 +98,14 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const failedChecks = (fest.publicationChecks ?? []).filter(
     (check) => !check.passed,
   );
+  /* Whether this failure is the host's to fix: every failed check has to
+     be one of theirs, and there has to be a form to send them to. Anything
+     else falls back to the email, which covers every case. */
+  const editUrl = festEditUrl(fest);
+  const hostCanFix =
+    failedChecks.length > 0 &&
+    Boolean(editUrl) &&
+    failedChecks.every((check) => SELF_FIXABLE_CHECKS.has(check.id));
   /* The opening pane plays first: the stamped headline and the badge
      ladder replay. "Let's go" is the only way forward from it. */
   const [started, setStarted] = useState(false);
@@ -318,7 +334,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               }}
             >
               <p className={styles.checksWarningLead}>
-                {my.acknowledgements.checks.warningLead}
+                {hostCanFix
+                  ? my.acknowledgements.checks.updateLead
+                  : my.acknowledgements.checks.warningLead}
               </p>
               {failedChecks.map((check) => (
                 <p key={check.id} className={styles.checksWarningItem}>
@@ -327,7 +345,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
                 </p>
               ))}
               <p className={styles.checksWarningItem}>
-                {my.acknowledgements.checks.warningBody}
+                {hostCanFix
+                  ? my.acknowledgements.checks.updateBody
+                  : my.acknowledgements.checks.warningBody}
               </p>
             </div>
           )}
@@ -336,12 +356,23 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               Only a failure needs actions. */}
           {failedChecks.length > 0 && (
             <div className={styles.actions}>
-              <a
-                className={styles.confirm}
-                href={`mailto:${my.acknowledgements.checks.email}`}
-              >
-                {my.acknowledgements.checks.emailCta}
-              </a>
+              {hostCanFix ? (
+                <a
+                  className={styles.confirm}
+                  href={editUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {my.acknowledgements.checks.updateCta}
+                </a>
+              ) : (
+                <a
+                  className={styles.confirm}
+                  href={`mailto:${my.acknowledgements.checks.email}`}
+                >
+                  {my.acknowledgements.checks.emailCta}
+                </a>
+              )}
               <button
                 type="button"
                 className={styles.cancel}

@@ -150,9 +150,12 @@
   animation-delay: 2.3s;
 }
 
+/* Ready to publish and the rung above it both wear the hosting orange,
+   as they do on the cards: from here on the ladder is the host's to
+   climb. The last rung is told apart by its pulse, not its colour. */
 .openingApproved {
-  /* colors.forest */
-  background: #3d5f58;
+  /* colors.orange */
+  background: #e53927;
   /* colors.white */
   color: #f7f7f2;
   animation-delay: 3s;

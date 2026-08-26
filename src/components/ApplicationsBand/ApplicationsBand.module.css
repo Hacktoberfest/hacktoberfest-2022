@@ -119,10 +119,10 @@
 }
 
 /* Revisions required: the deep red of the palette, inverted like the
-   green "done" badges but pulling the opposite way — the one rung that
-   asks the host to act, so it carries the only alarm colour on the card.
-   orangeDeep rather than the hosting orange keeps it clear of the
-   journey's own colours. */
+   other "act now" badges but pulling the opposite way — the one rung
+   that asks the host to fix something rather than finish it, so it
+   carries the only alarm colour on the card. orangeDeep rather than the
+   hosting orange keeps it clear of the rungs below. */
 .badgeRejected {
   /* colors.orangeDeep */
   background: #b8301f;
@@ -130,12 +130,23 @@
   color: #f7f7f2;
 }
 
-/* Application approved and Event Published: green, inverted — the two
-   badges that read "done". The published rung shares the colour rather
-   than taking the fests band's hosting orange: it is the same journey one
-   step on, and its own star icon already sets it apart. No .badgeHosting
-   here — "Hosting" is October's word, in Your Fests. */
-.badgeApproved {
+/* Ready to publish and One step left: the hosting orange, inverted —
+   the same badge a host wears beside their name in the welcome strip.
+   Both rungs are waiting on the host, not on us, and the colour is the
+   card saying so before the CTA repeats it. */
+.badgeHostsMove {
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+/* Final checks underway and Event Published: green, inverted — the two
+   rungs that are not the host's. Ours are running, or they have run and
+   the Fest is live; either way there is nothing on the card for the host
+   to do, which is exactly what the orange above means and this does not.
+   No .badgeHosting here — "Hosting" is October's word, in Your Fests. */
+.badgeOurMove {
   /* colors.forest */
   background: #3d5f58;
   /* colors.white */

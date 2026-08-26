@@ -37,13 +37,13 @@ import styles from './ApplicationsBand.module.css';
    application that made it all the way — which is also why nothing here
    past-tenses by date the way Your Fests does.
 
-   It reuses the approved rung's green rather than the hosting orange:
-   both are "done" states, and the publish is the same journey one step
-   on, not a different colour of thing. The two are told apart by the
-   API's shape — an approved application whose event MLH has published
-   arrives as an event card (no applicationStatus), while one still
-   unpublished falls back to an application card and keeps the
-   "Application approved" rung above.
+   Colour splits the ladder by whose move it is: the rungs waiting on the
+   host wear the hosting orange, and the rungs waiting on us (our checks
+   running, and the published Fest they end at) wear the green. The two are told apart by the API's shape —
+   an approved application whose event MLH has published arrives as an
+   event card (no applicationStatus), while one still unpublished falls
+   back to an application card and keeps the "Ready to publish" rung
+   above.
 
    Participation badges don't exist here: organizing entries carry no
    status. */
@@ -65,7 +65,7 @@ const badgeFor = (fest) => {
   if (fest.applicationStatus === 'approved') {
     return {
       label: my.fests.applicationBadges.approved,
-      className: `${styles.badge} ${styles.badgeApproved}`,
+      className: `${styles.badge} ${styles.badgeHostsMove}`,
       icon: <CheckIcon className={styles.badgeIcon} />,
     };
   }
@@ -85,27 +85,27 @@ const badgeFor = (fest) => {
   if (state === 'needs-acknowledgements') {
     return {
       label: my.fests.eventBadges.needsAcknowledgements,
-      className: `${styles.badge} ${styles.badgeApplication}`,
+      className: `${styles.badge} ${styles.badgeHostsMove}`,
       icon: <AlertIcon className={styles.badgeIcon} />,
     };
   }
   if (state === 'checks-underway') {
     return {
       label: my.fests.eventBadges.checksUnderway,
-      className: styles.badge,
+      className: `${styles.badge} ${styles.badgeOurMove}`,
       icon: <HourglassIcon className={styles.badgeIcon} />,
     };
   }
   if (state === 'approved-private') {
     return {
       label: my.fests.applicationBadges.approved,
-      className: `${styles.badge} ${styles.badgeApproved}`,
+      className: `${styles.badge} ${styles.badgeHostsMove}`,
       icon: <CheckIcon className={styles.badgeIcon} />,
     };
   }
   return {
     label: my.applications.publishedBadge,
-    className: `${styles.badge} ${styles.badgeApproved}`,
+    className: `${styles.badge} ${styles.badgeOurMove}`,
     icon: <StarIcon className={styles.badgeIcon} />,
   };
 };

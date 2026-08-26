@@ -472,10 +472,19 @@ const WIRING = [
     token: '{PREPTEMBER && <CountdownBand />}',
     why: 'the countdown is what Preptember mode shows in place of the hidden bands; without it the flag only removes content.',
   },
+  /* Two entries rather than one: the whole call is not a stable token
+     (the band took a second prop and this test started failing on a
+     formatting change alone), so the mount and its flag are pinned
+     separately. */
   {
     file: 'src/pages/my.js',
-    token: '{PREPTEMBER && <ApplicationsBand experience={experience} />}',
+    token: '<ApplicationsBand',
     why: "Preptember's second band: the user's own applications, and — via its ghost — the page's one apply CTA. Without it September's hub is a countdown over nothing.",
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '{PREPTEMBER && (',
+    why: 'the applications band is gated on the flag like every other September band; ungated it would render into the October hub too.',
   },
   {
     file: 'src/pages/my.js',

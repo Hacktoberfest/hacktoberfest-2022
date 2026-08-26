@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   eventCardState,
   festDidNotAttend,
+  festEditUrl,
   festIsPast,
   festTimeRange,
   formatFestDate,
@@ -286,4 +287,56 @@ test('eventCardState: the four publication states', () => {
     ),
     'published',
   );
+});
+
+/* The edit link behind the checks pane's "Update event" CTA. The bare
+   OHQ event page is where a host lands from the cards; the form that
+   fixes a name or a running time is one segment further on. */
+test('festEditUrl points an OHQ event link at its edit form', () => {
+  assert.equal(
+    festEditUrl({
+      manageUrl: 'https://organize.mlh.com/events/14711-frenchtoastfest',
+    }),
+    'https://organize.mlh.com/events/14711-frenchtoastfest/edit',
+  );
+  /* The fixtures' own origin, so a mocked build exercises the real
+     rewrite rather than the fallback. */
+  assert.equal(
+    festEditUrl({
+      manageUrl: 'https://example.invalid/events/14693-horta-hacktober-bash',
+    }),
+    'https://example.invalid/events/14693-horta-hacktober-bash/edit',
+  );
+});
+
+/* Anything that is not an OHQ event page is handed back as it came:
+   /edit is only known to exist on that one route, and the application
+   links MLH sends for the rungs below already point at their own form. */
+test('festEditUrl leaves every other manage link alone', () => {
+  assert.equal(
+    festEditUrl({
+      manageUrl: 'https://organize.mlh.com/applications/47507/edit',
+    }),
+    'https://organize.mlh.com/applications/47507/edit',
+  );
+  assert.equal(
+    festEditUrl({
+      manageUrl: 'https://organize.mlh.com/events/14711-frenchtoastfest/edit',
+    }),
+    'https://organize.mlh.com/events/14711-frenchtoastfest/edit',
+  );
+  assert.equal(
+    festEditUrl({ manageUrl: 'https://organize.mlh.com/events/14711' }),
+    'https://organize.mlh.com/events/14711',
+  );
+});
+
+/* No manage link, no CTA: the checks pane falls back to the email, which
+   covers every failure anyway. */
+test('festEditUrl is null without a manage link', () => {
+  assert.equal(festEditUrl({ manageUrl: null }), null);
+  assert.equal(festEditUrl({ manageUrl: '' }), null);
+  assert.equal(festEditUrl({}), null);
+  assert.equal(festEditUrl(null), null);
+  assert.equal(festEditUrl(undefined), null);
 });

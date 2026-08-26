@@ -1031,16 +1031,29 @@ export const my = {
         name: 'Fest name',
         duration: 'Duration',
       },
+      /* Each failed check says what is wrong and, where the host can put
+         it right themselves, what right looks like. Coordinates is the
+         one they cannot: a pin only MLH can place, so its line stays a
+         diagnosis and its CTA stays the email. */
       failures: {
         coordinates: 'Your venue has not been placed on the map yet.',
-        name: 'Your Fest\u2019s name does not match the required format.',
+        name: 'Your Fest has been renamed. Its name needs to read \u201cHacktoberfest Hack Day <City> x <Partner>\u201d or \u201cHacktoberfest Meet Up <City> x <Partner>\u201d, joining multiple partners with \u201c&\u201d.',
         duration:
-          'Your Fest\u2019s running time is outside the allowed window.',
+          'Your Fest\u2019s running time is outside the allowed window. It needs to run for between 3 and 12 hours.',
         generic: 'One of your event details needs attention.',
       },
       warningLead: 'We need to fix something together first.',
+      /* The lead when every failed check is the host's own to fix.
+         Nothing to do together: the pane hands them the form instead. */
+      updateLead: 'Something to fix before your Fest goes live.',
       warningBody:
         'Please email the Hacktoberfest team and we\u2019ll help get your Fest live as quickly as possible.',
+      /* The wait is real. MLH's events reach us through the same
+         five-minute sync as everything else, so a host who fixes their
+         event and comes straight back would fail the identical check. */
+      updateBody:
+        'Update your event on MLH, then wait five minutes before trying this again. That is how long your changes take to reach us.',
+      updateCta: 'Update event',
       email: 'hacktoberfest@mlh.io',
       emailCta: 'Email hacktoberfest@mlh.io',
       close: 'Close',
@@ -1269,7 +1282,10 @@ export const my = {
     applicationBadges: {
       draft: 'Application started',
       submitted: 'Application submitted',
-      approved: 'Application approved',
+      /* Approved, but the event is not public yet: the rung names the
+         host's next move rather than MLH's last one, because that move
+         is the only thing left between here and a live Fest. */
+      approved: 'Ready to publish',
       /* MLH's `rejected`, which OHQ uses for "we sent this back to you":
          the reviewers want changes, and the application reopens for the
          host. Resubmitting returns it to the submitted rung. */
