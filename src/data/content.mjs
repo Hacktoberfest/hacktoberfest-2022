@@ -1003,6 +1003,164 @@ export const my = {
       cta: 'Start another application',
     },
   },
+  /* The final acknowledgements modal - the last thing between an
+     MLH-published Fest and the public directory. Statement copy is
+     PLACEHOLDER, marked for review before launch. */
+  acknowledgements: {
+    cta: 'Complete final acknowledgements',
+    /* The opening pane: the stamped headline, then the host's own badge
+       ladder replayed as a five-second resume of everything they already
+       did. Rung labels come from the badges themselves (my.fests), so
+       the replay can never drift from the cards it retells. */
+    opening: {
+      title: 'You’re nearly there!',
+      /* "Four" counts the statements array below - keep them in step. */
+      body: (name) =>
+        `You applied, you were approved, you published. Four quick confirmations and ${name} heads to hacktoberfest.com.`,
+      cta: 'Let’s go',
+    },
+    /* The pre-flight pane between the opening and the statements: the
+       three automated checks FestNet will hold the Fest to. All passing
+       walks straight into the statements; any failure stops the flow
+       with the matching explanation, because acknowledging an event that
+       cannot publish would only break the confetti's promise. */
+    checks: {
+      title: 'Checking your event details',
+      labels: {
+        coordinates: 'Venue coordinates',
+        name: 'Fest name',
+        duration: 'Duration',
+      },
+      failures: {
+        coordinates: 'Your venue has not been placed on the map yet.',
+        name: 'Your Fest\u2019s name does not match the required format.',
+        duration:
+          'Your Fest\u2019s running time is outside the allowed window.',
+        generic: 'One of your event details needs attention.',
+      },
+      warningLead: 'We need to fix something together first.',
+      warningBody:
+        'Please email the Hacktoberfest team and we\u2019ll help get your Fest live as quickly as possible.',
+      email: 'hacktoberfest@mlh.io',
+      emailCta: 'Email hacktoberfest@mlh.io',
+      close: 'Close',
+    },
+    title: 'Final acknowledgements',
+    intro: (name) => `Confirm these to put ${name} on hacktoberfest.com.`,
+    /* The landing after the last Confirm: the one moment the flow gets to
+       celebrate, so it closes with confetti instead of vanishing. */
+    success: {
+      title: 'Congratulations!',
+      body: (name) =>
+        `${name} is now live on hacktoberfest.com. It can take up to five minutes to become publicly visible.`,
+      done: 'Done',
+    },
+    /* All three statements are real, reviewed copy. The venue slide
+       (index 1) also renders the address line and the map pin the
+       statement asks the host to check. */
+    statements: [
+      'I acknowledge that I will follow all Major League Hacking guidelines for my event, including keeping it in person and keeping spending within the policy-approved limits and categories. If my plans need to deviate from these guidelines, I will check with MLH first at hacktoberfest@mlh.io. I understand that unapproved deviations may put my reimbursement eligibility and my ability to work with MLH on future events at risk.',
+      'I have double checked that the address and map pin above match my venue.',
+      'I understand that I must email hacktoberfest@mlh.io before changing key details of my Fest, including its name, dates, and times, and that I must wait for Major League Hacking to approve a change before making it. If I change these details without checking in first, my Fest will automatically be hidden from hacktoberfest.com.',
+      /* The one statement that speaks for the Fest by name - a function
+         of it, resolved where the modal knows which Fest is confirming. */
+      (name) =>
+        `I, on behalf of ${name}, promise to abide by the MLH Code of Conduct.`,
+    ],
+    /* MLH's Code of Conduct, VERBATIM from
+       github.com/MLH/mlh-policies/blob/main/code-of-conduct.md (last
+       updated April 16th 2026). Like the mission statement: never edit
+       individual lines, replace the whole thing when MLH revises it.
+       Rendered in the modal's scroll-through box, which the host must
+       read to the end before the accept box unlocks. */
+    codeOfConduct: {
+      hint: 'Scroll to the end of the Code of Conduct to accept it.',
+      blocks: [
+        {
+          lead: true,
+          text: 'TL;DR. Be respectful. Harassment and abuse are never tolerated. If you are in a situation that makes you uncomfortable at an MLH Member Event, if the event itself creates an unsafe or inappropriate environment, or if interacting with an MLH representative or event organizer makes you uncomfortable, please report it using the procedures included in this document.',
+        },
+        {
+          text: 'Major League Hacking (MLH) stands for inclusivity. We believe that every single person has the right to hack in a safe and welcoming environment.',
+        },
+        {
+          text: 'Harassment includes but is not limited to offensive verbal or written comments related to gender, age, sexual orientation, disability, physical appearance, body size, race, religion, social class, economic status, and veteran status. Additional cases of harassment include but are not limited to sharing sexual images, violent depictions, vulgar language, deliberate intimidation, stalking, following, brigading, doxxing, harassing photography or recording, sustained disruption of talks or other events, inappropriate physical contact, and unwelcome sexual attention.',
+        },
+        {
+          text: 'In particular, attendees should not use sexualized images, activities, or other material both in their hacks and during the event. Booth staff (including volunteers) should not use sexualized clothing/uniforms/costumes or otherwise create a sexualized environment.',
+        },
+        {
+          text: 'If what you\u2019re doing is making someone feel uncomfortable, that counts as harassment and is enough reason to stop doing it. Participants asked to stop any harassing behavior are expected to comply immediately.',
+        },
+        {
+          text: 'Sponsors, judges, mentors, volunteers, organizers, MLH staff, and anyone else participating in the event are also subject to the anti-harassment policy.',
+        },
+        {
+          text: 'If a participant engages in harassing behavior, MLH may take any action it deems appropriate, including warning the offender or expulsion from the event with no eligibility for reimbursement or refund of any type.',
+        },
+        {
+          text: 'If you are being harassed, notice that someone else is being harassed, or have any other concerns, please contact MLH using the reporting procedures defined below.',
+        },
+        {
+          text: 'MLH representatives can help participants contact campus security or local law enforcement, provide escorts, or otherwise assist those experiencing harassment to feel safe for the duration of the event. We value your attendance.',
+        },
+        {
+          text: 'We expect participants to follow these rules at all hackathon venues, hackathon-related social events, hackathon-supplied transportation, and online interactions related to the event.',
+        },
+        { heading: 'Reporting Procedures' },
+        {
+          text: 'If you feel uncomfortable or think there may be a potential violation of the code of conduct, please report it immediately using one of the following methods. All reporters have the right to remain anonymous.',
+        },
+        {
+          text: 'By sending information to the general reporting line, your report will go to our incident response team members.',
+        },
+        {
+          list: [
+            'North America General Reporting - +1 409 202 6060, incidents@mlh.io',
+            'Canada General Reporting - +1 343 453 4532, incidents@mlh.io',
+            'UK General Reporting - +44 800 808 5675, incidents@mlh.io',
+            'Europe General Reporting - +44 333 038 5995, incidents@mlh.io',
+            'Asia-Pacific General Reporting - +91 000 80004 02492, incidents@mlh.io',
+            'India General Reporting - 000 80004 02492, incidents@mlh.io',
+          ],
+        },
+        { heading: 'Special Incidents' },
+        {
+          text: 'If you are uncomfortable reporting your situation to one or more of these people or need to contact any of them directly in case of emergency, direct contact details are listed below.',
+        },
+        {
+          list: [
+            'Mary Siebert - +1 (516) 362-1835, mary@mlh.io',
+            'Swift - +1 (347) 220-8667, swift@mlh.io',
+          ],
+        },
+        {
+          text: 'MLH reserves the right to revise, make exceptions to, or otherwise amend these policies in whole or in part. If you have any questions regarding these policies, please contact MLH by e-mail at incidents@mlh.io.',
+        },
+        { text: 'This document was last updated on: April 16th 2026' },
+      ],
+    },
+    /* The venue slide's guidance: what the map is, and what to do when it
+       is wrong. Split around the address so the email renders as a mailto
+       link. */
+    venueCheck: {
+      intro: 'Your venue, exactly as it will appear on hacktoberfest.com.',
+      wrongLead: 'Wrong address or pin? Email ',
+      wrongEmail: 'hacktoberfest@mlh.io',
+      wrongTail: ' before continuing.',
+    },
+    /* When the venue slide has no pin to draw: the geocode has not run
+       yet, so the address line has to carry the check alone. */
+    noPin: 'The map pin is still being placed. Check the address above.',
+    /* One statement per slide; the counter keeps the host oriented. */
+    progress: (step, total) => `${step} of ${total}`,
+    next: 'Next',
+    back: 'Back',
+    confirm: 'Confirm',
+    cancel: 'Not yet',
+    incomplete: 'Confirm this statement to continue.',
+    failure: 'That did not go through. Try again in a moment.',
+  },
   /* The host resources band, under Your Applications. The handbook and
      the team's inbox are open to everyone: reading one and writing to the
      other is how someone decides to apply, and neither can be gated in
@@ -1112,13 +1270,27 @@ export const my = {
       draft: 'Application started',
       submitted: 'Application submitted',
       approved: 'Application approved',
+      /* MLH's `rejected`, which OHQ uses for "we sent this back to you":
+         the reviewers want changes, and the application reopens for the
+         host. Resubmitting returns it to the submitted rung. */
+      rejected: 'Revisions required',
+    },
+    /* The organizing EVENT card rungs - which of MLH's world and ours the
+       Fest has reached. See eventCardState in lib/fests.mjs. */
+    eventBadges: {
+      needsAcknowledgements: 'One step left',
+      checksUnderway: 'Final checks underway',
     },
     applicationCtas: {
       draft: 'Finish your application',
       submitted: 'View application',
-      approved: 'Manage event',
+      /* The approved rung's next act is publishing the event in MLH, and
+         the CTA names it - the link is the OHQ event page where that
+         happens. */
+      approved: 'Publish event',
+      rejected: 'Revise your application',
     },
-    viewFestCta: 'View Fest',
+    viewFestCta: 'View fest',
   },
   error: {
     title: 'We couldn’t load your Hacktoberfest',

@@ -1,0 +1,823 @@
+/* The /fests check-in modal's dress, statement rows added: native dialog
+   in the card grammar (ink border, white ground, maroon hard shadow) with
+   the press-in opening. Keep the two in step - they are the same modal in
+   the reader's eye. */
+.modal {
+  width: min(calc(100% - 30px), 520px);
+  padding: 28px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+}
+
+.modal[open] {
+  animation: modal-press-in 220ms ease-out;
+}
+
+@keyframes modal-press-in {
+  from {
+    opacity: 0;
+    transform: translate(-6px, -6px);
+    /* colors.maroon */
+    box-shadow: 12px 12px 0 #671912;
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+    /* colors.maroon */
+    box-shadow: 6px 6px 0 #671912;
+  }
+}
+
+.modal::backdrop {
+  /* colors.ink at 65% */
+  background: rgba(16, 32, 29, 0.65);
+}
+
+.modal[open]::backdrop {
+  animation: backdrop-fade-in 180ms ease-out;
+}
+
+@keyframes backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* The opening pane: centered, the stamped headline first, then the
+   ladder, then the words - each beat arriving after the last. Every
+   animation here settles to the same composition reduced-motion shows
+   immediately. */
+.opening {
+  text-align: center;
+}
+
+.openingTitle {
+  display: inline-block;
+  margin: 6px 0 22px;
+  padding: 12px 18px;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+  animation: stamp 1s 0.3s both;
+}
+
+@keyframes stamp {
+  0% {
+    opacity: 0;
+    transform: translate(-14px, -40px) scale(1.4);
+    /* colors.maroon */
+    box-shadow: 18px 18px 0 #671912;
+  }
+  55% {
+    opacity: 1;
+    transform: translate(2px, 2px) scale(0.98);
+    /* colors.maroon */
+    box-shadow: 2px 2px 0 #671912;
+  }
+  75% {
+    transform: translate(0, 0) scale(1.02);
+    /* colors.maroon */
+    box-shadow: 7px 7px 0 #671912;
+  }
+  100% {
+    transform: none;
+    /* colors.maroon */
+    box-shadow: 6px 6px 0 #671912;
+  }
+}
+
+.openingLadder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 22px;
+}
+
+/* The card badges' own dress at ladder scale - same tints, same mono
+   voice, arriving one rung after another. */
+.openingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  animation: rung 0.5s both;
+}
+
+.openingBadgeIcon {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+.openingDraft {
+  /* colors.orangeLight */
+  background: #f9c9c2;
+  animation-delay: 1.6s;
+}
+
+.openingSubmitted {
+  /* colors.pinkLight */
+  background: #f6c4c1;
+  animation-delay: 2.3s;
+}
+
+.openingApproved {
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.white */
+  color: #f7f7f2;
+  animation-delay: 3s;
+}
+
+.openingFinal {
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  animation:
+    rung 0.5s 3.7s both,
+    finalPulse 1.6s 4.5s infinite;
+}
+
+@keyframes rung {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes finalPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.openingBody {
+  margin: 0 0 4px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation: fadeup 0.5s 4.4s both;
+}
+
+.openingActions {
+  justify-content: center;
+  animation: fadeup 0.5s 4.7s both;
+}
+
+@keyframes fadeup {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Heading left, progress right, one line: the counter reads as the
+   modal's page number. Centered on the heading's single line of caps. */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.intro {
+  margin: 0 0 16px;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+/* Progress as pixel steps: the same square vocabulary as the strip
+   above, one square per statement. Forest is the site's "done" ground,
+   orange is where the host stands, the outline is what remains. The mono
+   counter beside them carries the accessible narration. */
+.progress {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.progressSquares {
+  display: flex;
+  gap: 4px;
+}
+
+.progressSquare {
+  width: 14px;
+  height: 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+  transition: background 150ms ease;
+}
+
+.progressDone {
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+.progressHere {
+  /* colors.orange */
+  background: #e53927;
+}
+
+.progressLabel {
+  margin: 0;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* Each step's body slides in from the side the host is heading toward;
+   the header row and the buttons stay put, so focus never resets
+   mid-walk. The success pane rides the same entrance. */
+.slide {
+  /* Clear air under the header row, whatever the slide opens with - the
+     intro paragraph on slide one, the checkbox on the later ones. Also
+     the confetti's positioning context on the success pane. */
+  position: relative;
+  margin-top: 14px;
+  animation: slideFwd 240ms ease-out both;
+}
+
+.slideBack {
+  animation: slideBackIn 240ms ease-out both;
+}
+
+@keyframes slideFwd {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slideBackIn {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The venue slide's evidence, one bordered unit: the address is the
+   map's own caption, in the card grammar's ink border like the /fests
+   directory map. */
+.venue {
+  margin: 0 0 14px;
+}
+
+.venueLede {
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+.venueEmail {
+  /* colors.maroon - the check-in modal's link color. */
+  color: #671912;
+}
+
+.venueUnit {
+  /* colors.ink */
+  border: 2px solid #10201d;
+}
+
+.venueBar {
+  margin: 0;
+  padding: 8px 12px;
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.venueNoPin {
+  margin: 0;
+  padding: 10px 12px;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.mapWrapper {
+  height: 190px;
+  overflow: hidden;
+}
+
+.mapSkeleton {
+  height: 190px;
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+/* The pre-flight checks pane: each row fades in, then its verdict square
+   pops - forest for a pass, the revisions red for a failure. */
+.checksPane {
+  padding-top: 4px;
+}
+
+.checkRows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 18px 0 4px;
+}
+
+.checkRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeup 0.4s ease-out both;
+}
+
+.checkVerdict {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+}
+
+.checkVerdictIcon {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+  opacity: 0;
+  animation: verdictIcon 0.2s ease-out both;
+  animation-delay: inherit;
+}
+
+.checkPass {
+  animation: verdictPass 0.3s ease-out both;
+}
+
+.checkFail {
+  animation: verdictFail 0.3s ease-out both;
+}
+
+@keyframes verdictPass {
+  from {
+    background: transparent;
+    transform: scale(0.7);
+  }
+  to {
+    /* colors.forest */
+    background: #3d5f58;
+    transform: scale(1);
+  }
+}
+
+@keyframes verdictFail {
+  from {
+    background: transparent;
+    transform: scale(0.7);
+  }
+  to {
+    /* colors.orangeDeep */
+    background: #b8301f;
+    transform: scale(1);
+  }
+}
+
+@keyframes verdictIcon {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.checkLabel {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* The stop sign: the revisions red on the application-started tint, in
+   the card grammar. Arrives after the verdicts have landed. */
+.checksWarning {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  /* colors.orangeDeep */
+  border: 2px solid #b8301f;
+  /* colors.orangeLight */
+  background: #f9c9c2;
+  animation: fadeup 0.4s ease-out both;
+}
+
+.checksWarningLead {
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.checksWarningItem {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* The Code of Conduct scroll-through: the document in a bordered well
+   the host reads to the end before the accept box unlocks. Paper ground
+   so the scrollable area reads as a different surface than the modal. */
+.coc {
+  margin: 0 0 14px;
+}
+
+.cocBox {
+  max-height: 190px;
+  overflow-y: auto;
+  padding: 12px 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.cocBox:focus-visible {
+  /* colors.ink */
+  outline: 3px solid #10201d;
+  outline-offset: 2px;
+}
+
+.cocText {
+  margin: 0 0 10px;
+}
+
+.cocLead {
+  font-weight: 600;
+}
+
+.cocHeading {
+  margin: 14px 0 8px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cocList {
+  margin: 0 0 10px;
+  padding-left: 18px;
+}
+
+.cocList li {
+  margin: 0 0 4px;
+}
+
+.cocHint {
+  margin: 8px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.8rem;
+}
+
+/* Until the document has been read, the accept row is visibly locked. */
+.statementLocked {
+  cursor: default;
+}
+
+.statementLocked .statementBox {
+  opacity: 0.45;
+}
+
+.statement {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin: 0 0 12px;
+  /* Two lines' worth whatever the slide says, so the buttons don't jump
+     as the statements change length. */
+  min-height: 3em;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* The real input stays for keyboard and screen readers; the painted box
+   below is what everyone sees. */
+.statementInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* A checkbox in the card grammar: ink border, white ground, and the
+   buttons' hard shadow - which presses in as the tick lands, so agreeing
+   feels like pressing something real. */
+.statementBox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+  transition:
+    background 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.statementCheck {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+  opacity: 0;
+}
+
+.statementInput:checked + .statementBox {
+  /* colors.forest */
+  background: #3d5f58;
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 1px 1px 0 #671912;
+}
+
+.statementInput:checked + .statementBox .statementCheck {
+  opacity: 1;
+}
+
+.statementInput:focus-visible + .statementBox {
+  /* colors.ink */
+  box-shadow: 0 0 0 4px #10201d;
+}
+
+.statementText {
+  min-width: 0;
+}
+
+.error {
+  margin: 0 0 4px;
+  font-weight: 600;
+  /* colors.orangeDeep - the same red the revisions badge wears. */
+  color: #b8301f;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* The confetti: brand pixels raining gently over the success pane,
+   clipped to it, behind nothing clickable. Each piece falls and tumbles
+   on its own inline-set lane and clock, fading before it re-drops. */
+.confetti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.confettiPiece {
+  position: absolute;
+  top: -16px;
+  animation-name: confettiFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(300px) rotate(540deg);
+  }
+}
+
+/* The success pane's mark: the forest "done" ground at a size the
+   square-cap check stays crisp. */
+.successMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  /* The one pane with no header row above it - the mark carries the
+     modal's headroom itself. */
+  margin: 10px 0 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.maroon */
+  box-shadow: 4px 4px 0 #671912;
+}
+
+.successCheck {
+  width: 26px;
+  height: 26px;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+/* Primary: the house button, same bones as the check-in modal's CTA. */
+.confirm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.confirm:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Ghost variant: same bones, card ground, ink label. */
+.cancel {
+  padding: 12px 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.confirm:not(:disabled):hover,
+.cancel:hover {
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+}
+
+.confirm:focus-visible,
+.cancel:focus-visible {
+  /* colors.ink */
+  box-shadow: 0 0 0 5px #10201d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal[open],
+  .modal[open]::backdrop {
+    animation: none;
+  }
+
+  .confirm,
+  .cancel,
+  .statementBox,
+  .progressSquare {
+    transition: none;
+  }
+
+  .openingTitle,
+  .openingBadge,
+  .openingFinal,
+  .openingBody,
+  .openingActions,
+  .slide,
+  .slideBack {
+    animation: none;
+  }
+
+  .checkRow,
+  .checkPass,
+  .checkFail,
+  .checkVerdictIcon,
+  .checksWarning {
+    animation-duration: 0s;
+    animation-delay: 0s;
+  }
+
+  .confettiPiece {
+    display: none;
+  }
+}

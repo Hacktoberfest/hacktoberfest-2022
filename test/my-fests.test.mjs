@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import {
+  eventCardState,
   festDidNotAttend,
   festIsPast,
   festTimeRange,
@@ -25,6 +26,9 @@ const fest = (overrides) => ({
   status: 'registered',
   role: 'attending',
   registrationUrl: null,
+  mlhPublished: null,
+  hacktoberfestPublished: null,
+  acknowledgedAt: null,
   ...overrides,
 });
 
@@ -157,7 +161,9 @@ test('isHost: in-progress applications and attending alone do not', () => {
   assert.equal(isHost([]), false);
   assert.equal(isHost(undefined), false);
   assert.equal(isHost([fest(), fest({ status: 'checked_in' })]), false);
-  for (const applicationStatus of ['draft', 'submitted']) {
+  // rejected included: revisions required means the application is back
+  // in the host's hands, not that MLH has made them a host.
+  for (const applicationStatus of ['draft', 'submitted', 'rejected']) {
     assert.equal(
       isHost([
         fest({
@@ -187,6 +193,12 @@ test('hasApplied: a sent application opens the thank-you gate', () => {
     hasApplied([fest({ role: 'organizing', applicationStatus: null })]),
     true,
   );
+  /* Revisions required is still an application with MLH's reviewers —
+     the host has answered the why-host pitch already. */
+  assert.equal(
+    hasApplied([fest({ role: 'organizing', applicationStatus: 'rejected' })]),
+    true,
+  );
   assert.equal(
     hasApplied([
       fest(),
@@ -206,4 +218,72 @@ test('hasApplied: drafts, attending, and junk do not', () => {
     false,
   );
   assert.equal(hasApplied([fest(), fest({ status: 'checked_in' })]), false);
+});
+
+test('eventCardState: only organizing event cards have one', () => {
+  assert.equal(eventCardState(fest({ role: 'attending' })), null);
+  assert.equal(
+    eventCardState(
+      fest({ role: 'organizing', applicationStatus: 'submitted' }),
+    ),
+    null,
+  );
+});
+
+test('eventCardState: the four publication states', () => {
+  const card = (over) =>
+    fest({ role: 'organizing', applicationStatus: null, ...over });
+
+  assert.equal(
+    eventCardState(
+      card({
+        mlhPublished: true,
+        hacktoberfestPublished: false,
+        acknowledgedAt: null,
+      }),
+    ),
+    'needs-acknowledgements',
+  );
+  assert.equal(
+    eventCardState(
+      card({
+        mlhPublished: true,
+        hacktoberfestPublished: false,
+        acknowledgedAt: '2026-08-25T20:05:33.000Z',
+      }),
+    ),
+    'checks-underway',
+  );
+  assert.equal(
+    eventCardState(
+      card({
+        mlhPublished: true,
+        hacktoberfestPublished: true,
+        acknowledgedAt: '2026-08-25T20:05:33.000Z',
+      }),
+    ),
+    'published',
+  );
+  assert.equal(
+    eventCardState(
+      card({
+        mlhPublished: false,
+        hacktoberfestPublished: false,
+        acknowledgedAt: null,
+      }),
+    ),
+    'approved-private',
+  );
+  /* A payload from before these fields existed (or a stale cache) keeps
+     today's behavior: the published rung. */
+  assert.equal(
+    eventCardState(
+      card({
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
+      }),
+    ),
+    'published',
+  );
 });

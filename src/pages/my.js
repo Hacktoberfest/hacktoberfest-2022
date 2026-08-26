@@ -76,6 +76,25 @@ const My = () => {
     globalThis.location.href = signOutDestination();
   }, []);
 
+  /* A confirmed acknowledgement flips the card to "Final checks underway"
+     without a refetch: the POST's own 200 carries the timestamp, which is
+     more current than any cached payload. Written through to the cache so
+     a reload does not resurrect the ask. */
+  const onFestAcknowledged = useCallback((festId, acknowledgedAt) => {
+    setExperience((current) => {
+      if (!current) return current;
+      const next = {
+        ...current,
+        fests: current.fests.map((fest) =>
+          fest.id === festId ? { ...fest, acknowledgedAt } : fest,
+        ),
+      };
+      const session = getSession();
+      if (session) writeCachedExperience(session, next);
+      return next;
+    });
+  }, []);
+
   useEffect(() => {
     /* location.search rather than useRouter().query, and no isReady gate.
        Same reasoning as /auth/callback/, which carries the long version: an
@@ -236,7 +255,12 @@ const My = () => {
         {state === 'ready' && experience && (
           <>
             {PREPTEMBER && <CountdownBand />}
-            {PREPTEMBER && <ApplicationsBand experience={experience} />}
+            {PREPTEMBER && (
+              <ApplicationsBand
+                experience={experience}
+                onFestAcknowledged={onFestAcknowledged}
+              />
+            )}
             {/* `approved` is isHost, not isOrganizing: a draft or
                submitted application keeps the operational resources
                locked — funding, swag, and a listing only become real

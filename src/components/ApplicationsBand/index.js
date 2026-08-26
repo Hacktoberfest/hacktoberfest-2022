@@ -1,7 +1,23 @@
+import { useCallback, useRef, useState } from 'react';
+
+import AcknowledgementsModal from 'components/AcknowledgementsModal';
 import { my } from 'data/content.mjs';
 import { MY_HOST_APPLY_URL } from 'data/links';
+import {
+  AlertIcon,
+  CheckIcon,
+  HourglassIcon,
+  PencilIcon,
+  PlaneIcon,
+  StarIcon,
+} from 'components/icons/badges';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
-import { festTimeRange, formatFestDate, organizingFests } from 'lib/fests.mjs';
+import {
+  eventCardState,
+  festTimeRange,
+  formatFestDate,
+  organizingFests,
+} from 'lib/fests.mjs';
 
 import styles from './ApplicationsBand.module.css';
 
@@ -13,67 +29,6 @@ import styles from './ApplicationsBand.module.css';
    Fests when the flag flips. The ghost stands in when there is nothing to
    list, and its CTA is the application itself — the one ask Preptember
    exists to make. */
-
-/* The same three badge icons the fests band draws, same geometry notes:
-   filled silhouettes for the pencil and star (stroked detail turns to
-   mush at 11px), the star drawn about (12,13) for optical centering. */
-const PencilIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path d="M4 20l1.2-4.4L16 4.8 19.2 8 8.4 18.8 4 20z" fill="currentColor" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M4 12.5 9.5 18 20 6.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-      strokeLinecap="square"
-    />
-  </svg>
-);
-
-/* A paper plane — the application is sent, out of the organizer's hands.
-   Filled silhouette like the pencil and star. */
-const PlaneIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M22 3 2 10.6l6.6 2.3.8 6.5 3.2-4.5 5.2 4.1L22 3z"
-      fill="currentColor"
-    />
-  </svg>
-);
-
-const StarIcon = () => (
-  <svg
-    className={styles.badgeIcon}
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path
-      d="M12 3 L14.65 9.36 L21.51 9.91 L16.28 14.39 L17.88 21.09 L12 17.5 L6.12 21.09 L7.72 14.39 L2.49 9.91 L9.35 9.36 Z"
-      fill="currentColor"
-    />
-  </svg>
-);
 
 /* The application badge ladder — the fests band's application rungs,
    with a published event as the top rung. That fallback says
@@ -97,55 +52,117 @@ const badgeFor = (fest) => {
     return {
       label: my.fests.applicationBadges.draft,
       className: `${styles.badge} ${styles.badgeApplication}`,
-      icon: <PencilIcon />,
+      icon: <PencilIcon className={styles.badgeIcon} />,
     };
   }
   if (fest.applicationStatus === 'submitted') {
     return {
       label: my.fests.applicationBadges.submitted,
       className: styles.badge,
-      icon: <PlaneIcon />,
+      icon: <PlaneIcon className={styles.badgeIcon} />,
     };
   }
   if (fest.applicationStatus === 'approved') {
     return {
       label: my.fests.applicationBadges.approved,
       className: `${styles.badge} ${styles.badgeApproved}`,
-      icon: <CheckIcon />,
+      icon: <CheckIcon className={styles.badgeIcon} />,
+    };
+  }
+  /* MLH sent the application back for changes. Red, inverted: the one
+     rung where the next move is the host's, and the card should say so
+     before the title does. */
+  if (fest.applicationStatus === 'rejected') {
+    return {
+      label: my.fests.applicationBadges.rejected,
+      className: `${styles.badge} ${styles.badgeRejected}`,
+      icon: <AlertIcon className={styles.badgeIcon} />,
+    };
+  }
+  /* Past the application rungs the card is a real event, and the badge
+     names which of the two worlds it has reached: MLH's, or ours too. */
+  const state = eventCardState(fest);
+  if (state === 'needs-acknowledgements') {
+    return {
+      label: my.fests.eventBadges.needsAcknowledgements,
+      className: `${styles.badge} ${styles.badgeApplication}`,
+      icon: <AlertIcon className={styles.badgeIcon} />,
+    };
+  }
+  if (state === 'checks-underway') {
+    return {
+      label: my.fests.eventBadges.checksUnderway,
+      className: styles.badge,
+      icon: <HourglassIcon className={styles.badgeIcon} />,
+    };
+  }
+  if (state === 'approved-private') {
+    return {
+      label: my.fests.applicationBadges.approved,
+      className: `${styles.badge} ${styles.badgeApproved}`,
+      icon: <CheckIcon className={styles.badgeIcon} />,
     };
   }
   return {
     label: my.applications.publishedBadge,
     className: `${styles.badge} ${styles.badgeApproved}`,
-    icon: <StarIcon />,
+    icon: <StarIcon className={styles.badgeIcon} />,
   };
 };
 
-/* Same either/or as the fests band: an application links back to MLH's
-   form, a live event links to its public page. Application cards never
-   carry a registrationUrl, so there is no precedence fight. */
-const linkFor = (fest) => {
+/* The card's one action. Application cards keep their ladder CTAs; event
+   cards act by publication state: the acknowledgements rung renders a
+   BUTTON (it opens the modal, it navigates nowhere), a private event
+   links where the host manages it, and anything with a public page links
+   there. */
+const actionFor = (fest) => {
   if (fest.manageUrl && fest.applicationStatus) {
     return {
+      kind: 'link',
       href: fest.manageUrl,
       label:
         my.fests.applicationCtas[fest.applicationStatus] ||
         my.fests.applicationCtas.submitted,
     };
   }
-  if (fest.registrationUrl) {
-    return { href: fest.registrationUrl, label: my.fests.viewFestCta };
+  const state = eventCardState(fest);
+  if (state === 'needs-acknowledgements') {
+    return { kind: 'button', label: my.acknowledgements.cta };
+  }
+  if (state === 'approved-private' && fest.manageUrl) {
+    return {
+      kind: 'link',
+      href: fest.manageUrl,
+      label: my.fests.applicationCtas.approved,
+    };
+  }
+  /* The listing page, not the register form: a host checking their
+     published Fest wants to see what the public sees. registrationUrl
+     stays as the fallback for payloads from before websiteUrl shipped. */
+  const viewUrl = fest.websiteUrl || fest.registrationUrl;
+  if (viewUrl) {
+    return {
+      kind: 'link',
+      href: viewUrl,
+      label: my.fests.viewFestCta,
+    };
   }
   return null;
 };
 
-const ApplicationCard = ({ fest }) => {
+const ApplicationCard = ({ fest, onFestAcknowledged }) => {
   const badge = badgeFor(fest);
-  const link = linkFor(fest);
+  const action = actionFor(fest);
   const location = [fest.city, fest.country].filter(Boolean).join(', ');
   const date = formatFestDate(fest.date);
   const time = festTimeRange(fest);
   const flagCode = countryCodeFor(fest.country);
+  const [ackOpen, setAckOpen] = useState(false);
+  const ackButtonRef = useRef(null);
+  const closeAck = useCallback(() => {
+    setAckOpen(false);
+    ackButtonRef.current?.focus();
+  }, []);
 
   return (
     <article className={styles.card}>
@@ -172,22 +189,40 @@ const ApplicationCard = ({ fest }) => {
       {/* Same footer action bar as the fests cards — the card's one link
          spans its bottom edge, so every linked card ends in the same
          tap target. */}
-      {link && (
+      {action && action.kind === 'link' && (
         <a
           className={styles.cardAction}
-          href={link.href}
+          href={action.href}
           target="_blank"
           rel="noopener noreferrer"
         >
-          {link.label}
+          {action.label}
           <span aria-hidden="true">→</span>
         </a>
+      )}
+      {action && action.kind === 'button' && (
+        <button
+          type="button"
+          ref={ackButtonRef}
+          className={`${styles.cardAction} ${styles.cardActionButton}`}
+          onClick={() => setAckOpen(true)}
+        >
+          {action.label}
+          <span aria-hidden="true">→</span>
+        </button>
+      )}
+      {ackOpen && (
+        <AcknowledgementsModal
+          fest={fest}
+          onClose={closeAck}
+          onAcknowledged={onFestAcknowledged}
+        />
       )}
     </article>
   );
 };
 
-const ApplicationsBand = ({ experience }) => {
+const ApplicationsBand = ({ experience, onFestAcknowledged }) => {
   const fests = organizingFests(experience.fests);
 
   /* The ghost always closes the list — the application is Preptember's
@@ -206,7 +241,11 @@ const ApplicationsBand = ({ experience }) => {
 
       <div className={styles.list}>
         {fests.map((fest) => (
-          <ApplicationCard key={fest.id} fest={fest} />
+          <ApplicationCard
+            key={fest.id}
+            fest={fest}
+            onFestAcknowledged={onFestAcknowledged}
+          />
         ))}
         <div className={styles.ghostCard}>
           <div className={styles.ghostContent}>
