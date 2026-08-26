@@ -585,6 +585,109 @@ export const signedOut = {
   cta: 'Back to Hacktoberfest',
 };
 
+export const fests = {
+  title: 'Find a Fest | Hacktoberfest 2026',
+  description:
+    'Search Hacktoberfest 2026 Fests by name, city, or country, or find the one nearest you on the map.',
+  eyebrow: 'The Fests',
+  heading: { lead: 'Find a Fest', accent: 'near you.' },
+  intro:
+    'Every Fest is a one-day, in-person event, either a Hack Day or a Meet Up, hosted by local organizers. Search by name or city, or use your location to see what is closest.',
+  searchPlaceholder: 'Search by name, city, or country',
+  searchLabel: 'Search Fests',
+  locationCta: 'Use my location',
+  locationPending: 'Finding you…',
+  /* The same button once a position is in hand: granting location sorts by
+     distance and puts a "km away" on every card, and this is how someone
+     undoes all of it and gets the date order back. Named for what it
+     clears rather than the sort it restores, because clearing is the
+     larger half of what it does. */
+  locationClearCta: 'Clear location',
+  locationUnavailable:
+    'We could not use your location. Try searching by city instead.',
+  resultsCountSingular: 'Fest found',
+  resultsCountPlural: 'Fests found',
+  emptyTitle: 'No Fests match your search.',
+  emptyBody: 'Try a different name, city, or country.',
+  loading: 'Loading Fests…',
+  error: {
+    title: 'We could not load the Fests directory.',
+    body: 'Something went wrong on our end.',
+    retryCta: 'Try again',
+  },
+  registerCta: 'Register',
+  /* The two Fest formats, badged on the card and in the modal. Read out of
+     the Fest's name rather than the API's own format field, which says
+     "hackathon" for every Hacktoberfest event there is — see
+     lib/festFormat.mjs. A name that follows neither convention gets no
+     badge, which is why there is no third entry here. */
+  /* The partner a Fest is run with, split out of the event name (MLH welds
+     the two together). A label rather than a sentence: the host's own name
+     follows it, and "Hosted by Hack the 6ix" should read as one line on the
+     card, not a claim the site is making. */
+  hostedBy: 'Hosted by',
+  formatBadges: {
+    hackDay: 'Hack Day',
+    meetUp: 'Meet Up',
+  },
+  /* What each format actually is, in the modal, for someone deciding
+     whether to go. Deliberately the same facts /host gives would-be hosts
+     (host.formats.cards) turned to face the other way: hands on keyboard
+     and prizes for a Hack Day, less structure and maybe speakers for a
+     Meet Up. One set of facts, two audiences, so the two pages can never
+     describe the same format differently.
+
+     Nothing here promises anything a Fest has not signed up to. What a
+     given Fest is doing on the day is its host's to say, and when the API
+     carries descriptions this sits above one rather than standing in for
+     it. */
+  formatBlurbs: {
+    hackDay:
+      'A mini-hackathon. Hands on keyboard for the day, building and shipping with open source AI, with prizes for the best projects.',
+    meetUp:
+      'A community gathering. Less structure, same spirit: there may be speakers, or it may simply be a chance to meet the open source people near you.',
+  },
+  /* The detail modal a card opens. It exists to hold what a card cannot:
+     which building, and the Fest's own page. Everything else in here is
+     the card's copy reused, so there is no second wording of the same
+     fact to drift. */
+  modal: {
+    close: 'Close',
+    /* The map marker's way into the same modal a card title opens. The
+       card needs no such label — its trigger is the Fest's own name — but
+       a popup already showing the name needs a verb. */
+    detailsCta: 'Details',
+  },
+  /* Past Fests stay in the directory rather than vanishing — a city with
+     one Fest that has already run should not read as a city with none —
+     but they sink below the upcoming ones and grey out. The badge is what
+     says so in words: greying is a colour, and a colour is not something
+     everyone reading this page receives. */
+  pastBadge: 'Past',
+  distanceUnit: 'km away',
+  formatFilter: {
+    label: 'Filter by format',
+    all: 'All',
+    hackDay: 'Hack Days',
+    meetUp: 'Meet Ups',
+  },
+  viewToggle: {
+    label: 'Choose how Fests are shown',
+    list: 'List',
+    map: 'Map',
+  },
+  /* Closes the page below the directory: whatever the search found (or
+     didn't), the answer to a missing Fest is hosting one. Points at
+     /host, which carries the formats and the application. */
+  hostCallout: {
+    title: 'No Fest near you? That’s your cue.',
+    body: 'Every Fest on this list exists because someone local decided to make it happen. Anyone can host one: a funded Hack Day or a casual Meet Up. If your city isn’t on the map yet, you’re exactly the person to fix that.',
+    cta: 'Host a Fest',
+    photoAlt:
+      'Hack Day participants working on laptops around a table while a host leans in to help',
+  },
+};
+
 /* Copy for /host, the organizer-facing page. A Fest is one of two formats:
    a Hack Day (a funded mini-hackathon — people build projects) or a Meet Up
    (a lighter gathering, no projects, no MLH funding). "Hack Day" here is an

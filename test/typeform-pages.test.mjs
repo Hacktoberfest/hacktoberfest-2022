@@ -109,10 +109,10 @@ test('the header carries the Learn about Hosting link and the Apply to Host CTA'
   });
 });
 
-/* The homepage nav dropped its section anchors — during Preptember the
-   nav is three cross-page destinations, the same on every page. The
-   sections themselves still exist with their ids; only the nav links to
-   them are gone. */
+/* The homepage nav dropped its section anchors — it is cross-page
+   destinations only now, the same set on every page. The sections
+   themselves still exist with their ids; only the nav links to them are
+   gone. */
 test('the homepage nav carries no section anchor links', async () => {
   const html = await readOutput('index.html');
 

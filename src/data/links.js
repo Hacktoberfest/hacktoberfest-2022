@@ -39,6 +39,13 @@ export const DIGITALOCEAN_URL = tagged('https://www.digitalocean.com', {
   content: 'partner-digitalocean',
 });
 
+/* The fests directory now exists on this site, so this is a real internal
+   route rather than the reserved-TLD placeholder it used to be. The guard in
+   my-pages.test.mjs that demanded a placeholder here has been narrowed to the
+   URLs that are still unresolved -- that guard existing is why this swap is a
+   deliberate change and not a silent one. */
+export const FIND_A_FEST_URL = '/fests/';
+
 /* The one link that leaves for the MLH application, reached from /my's
    Preptember pitch band. /host and the nav both send would-be organizers
    to /my rather than straight out, so every application now starts on the

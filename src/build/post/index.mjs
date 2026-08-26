@@ -1,11 +1,19 @@
 import buildMode from './buildMode.mjs';
 import cache from './cache.mjs';
+import closedRoutes from './closedRoutes.mjs';
 
 const main = async () => {
   /* Fatal, and should be: it records what mode this build baked, and
      scripts/check-build-mode.mjs refuses to serve a build whose record
      disagrees with it. A build we cannot describe is not one to ship. */
   await buildMode();
+
+  /* Before the cache purge, so nothing re-publishes a route this step is
+     about to take out of the export. Fatal like buildMode and unlike the
+     cache step: a closed route that stayed in `out/` is copy shipping that
+     was meant to be held back, which is a worse outcome than a failed
+     build. See data/closedRoutes.mjs. */
+  await closedRoutes();
 
   /* Never fatal, and this is the whole lesson of Aug 21, 2026.
 

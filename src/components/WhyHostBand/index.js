@@ -2,14 +2,16 @@ import { my } from 'data/content.mjs';
 
 import styles from './WhyHostBand.module.css';
 
-/* The band that closes /my during Preptember, right above the footer,
-   making the case for hosting a Fest. Full-bleed sky chapter with a white
-   callout box on it, photo on desktop, one CTA to /host/.
+/* The band that closes /my during Preptember, right above the footer —
+   the fests directory's HostCallout ("No Fest near you? That's your
+   cue.") retold as "why host". Same design: a full-bleed sky chapter with
+   the white callout box on it, photo on desktop, one CTA to /host/.
 
-   Built as a CSS Module rather than styled-components: on /my, which
-   exports in its loading state and renders this band only after the
-   client-side fetch, styled-components CSS is never emitted, so the band
-   would reach production unstyled. The no-styled-components guard in
+   Rebuilt as a CSS Module rather than reusing HostCallout itself: that
+   component is styled-components, and on /my — which exports in its
+   loading state and renders this band only after the client-side fetch —
+   styled-components CSS is never emitted, so the band would reach
+   production unstyled. The no-styled-components guard in
    my-pages.test.mjs is what keeps this from regressing. */
 const WhyHostBand = () => (
   <section className={styles.root} aria-labelledby="why-host-title">

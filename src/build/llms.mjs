@@ -1,10 +1,12 @@
 import { writeFile } from 'fs/promises';
 
+import { routeIsClosed } from '../data/closedRoutes.mjs';
 import {
   aiContext,
   answerLinks,
   answerText,
   faq,
+  fests,
   getInvolved,
   headingText,
   hero,
@@ -29,12 +31,18 @@ const paragraphs = (...blocks) => blocks.flat().filter(Boolean).join('\n\n');
 const bullets = (items) => items.map((item) => `- ${item}`).join('\n');
 
 /* The orientation file's "Start here" list, each on-site entry tagged with
-   the route it points at. `route: null` is an entry that is not a page —
-   llms-full.txt is a file. */
+   the route it points at so a closed route drops out of the list instead of
+   sending an answer engine to a 404. See data/closedRoutes.mjs. `route:
+   null` is an entry that is not a page — llms-full.txt is a file, and the
+   pruner never touches it. */
 const START_HERE = [
   {
     route: '/',
     text: '[Hacktoberfest 2026](./): The event overview, the mission, and how to get involved.',
+  },
+  {
+    route: '/fests/',
+    text: '[Find a Fest](./fests/): Search Fests by name, city, or country, or find the one nearest you on the map.',
   },
   {
     route: '/host/',
@@ -54,13 +62,16 @@ const START_HERE = [
   },
 ];
 
+const openEntries = (entries) =>
+  entries.filter((entry) => !entry.route || !routeIsClosed(entry.route));
+
 const llmsIndex = () =>
   paragraphs(
     '# Hacktoberfest 2026',
     `> ${siteMeta.description}`,
     aiContext.orientation,
     '## Start here',
-    bullets(START_HERE.map((entry) => entry.text)),
+    bullets(openEntries(START_HERE).map((entry) => entry.text)),
     '## Taking part',
     bullets(aiContext.participation),
     `## ${timeline.eyebrow}`,
@@ -117,6 +128,15 @@ const llmsFull = () =>
     '## After signing up',
     `${subscribed.eyebrow}. ${headingText(subscribed.heading)}`,
     subscribed.body,
+    /* Whole sections come and go with their route: the full-text file is
+       the site's copy, and a closed page's copy is not on the site. */
+    routeIsClosed('/fests/')
+      ? []
+      : [
+          '## Find a Fest',
+          `${fests.eyebrow}. ${headingText(fests.heading)}`,
+          fests.intro,
+        ],
     '## Host a Fest',
     `${host.eyebrow}. ${headingText(host.heading)}`,
     host.intro,

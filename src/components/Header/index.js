@@ -16,17 +16,17 @@ import {
   Wordmark,
 } from './Header.styles';
 
-/* The same three destinations on every page — the homepage's section
-   anchor links are gone, so the nav no longer changes shape between
-   pages. `standalone` only decides where the wordmark goes: home from
-   other pages, back to the top on the landing page itself.
+/* The same destinations on every page — the homepage's section anchor
+   links are gone, so the nav no longer changes shape between pages.
+   `standalone` only decides where the wordmark goes: home from other
+   pages, back to the top on the landing page itself.
 
    "Home" leads, spelled out rather than left to the wordmark: on the
    landing page the wordmark scrolls to the top rather than navigating,
    so without this link the way home is a logo that doesn't look like
-   one. "Find a Fest" is gone with the directory it pointed at — /fests
-   is not part of this release, and a nav link is the loudest way to
-   advertise a route that isn't there.
+   one. "Find a Fest" normally follows it — the one link for someone who
+   wants to attend rather than run a Fest — but it is temporarily off the
+   nav below until the directory launches.
 
    "Apply to Host" wears the CTA chip: during Preptember the nav's one
    ask is the signed-in hub, where the countdown and the application
@@ -34,7 +34,7 @@ import {
    someone weighing whether to host reads the pitch before the detail.
 
    Below the tablet breakpoint the links collapse behind a hamburger
-   toggle — there's no room for four items plus the wordmark at phone
+   toggle — there's no room for five items plus the wordmark at phone
    widths. */
 const Header = ({ standalone = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -86,6 +86,10 @@ const Header = ({ standalone = false }) => {
             <PageNavLink href="/" onClick={() => setMenuOpen(false)}>
               Home
             </PageNavLink>
+            {/* Find a Fest is off the nav until the directory launches —
+                the route stays open for anyone holding a link, this is
+                only the advertisement coming down. Restore by removing
+                this comment wrapper. */}
             <PageNavLink href="/host/" onClick={() => setMenuOpen(false)}>
               Learn about Hosting
             </PageNavLink>

@@ -1,0 +1,1682 @@
+/* Page-width wrapper. CSS Modules can't import Shell (styled-components),
+   so its width rule is restated here — same values PageHero.module.css
+   already restates for the same reason. */
+.page {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px clamp(48px, 7vw, 90px);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  /* Stretch so the search input and location button share one height. */
+  align-items: stretch;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+
+/* Search and location welded into one instrument — glyph chip, field,
+   location segment behind one border and one shadow — the same
+   bar/body/chip grammar as the map strip. forestDeep shadow like the
+   map's frame, so the section and the map it controls read as one kit.
+   The field was also the ONLY flat control on a page of hard shadows,
+   which made the most important control on the page look the least
+   pressable. */
+.searchBar {
+  display: flex;
+  flex: 1 1 320px;
+  align-items: stretch;
+  /* colors.ink / colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  /* colors.forestDeep */
+  box-shadow: 5px 5px 0 #2e4742;
+}
+/* Focus lives on the bar, not the input: the global halo inside a welded
+   bar reads as a broken inner box. The whole instrument's shadow turning
+   ink is a state change no one misses. */
+.searchBar:focus-within {
+  box-shadow: 5px 5px 0 #10201d;
+}
+
+.searchGlyph {
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  border-right: 2px solid #10201d;
+  /* colors.paperDeep */
+  background: #e4e5da;
+  font-size: 1.05rem;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.searchInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.searchInput:focus-visible {
+  /* The bar carries the focus state; a ring inside it is clutter. */
+  outline: none;
+  box-shadow: none;
+}
+
+.locationButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 0;
+  border-left: 2px solid #10201d;
+  /* colors.sky */
+  background: #8bb2de;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono — same face as the header's Host a Fest CTA */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+/* The map's own "you are here" marker, restated: the ochre dot that this
+   button puts on the map. */
+.locationButton::before {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border-radius: 50%;
+  /* colors.ochre */
+  background: #f5b726;
+  border: 1.5px solid #10201d;
+}
+/* A segment cannot press into a shadow it shares, so its press is tonal. */
+.locationButton:hover:not(:disabled) {
+  background: #79a3d3;
+}
+.locationButton:disabled {
+  cursor: not-allowed;
+  /* colors.paperDeep / colors.muted */
+  background: #e4e5da;
+  color: #52635f;
+}
+.locationButton:disabled::before {
+  /* colors.rule */
+  background: #8ca59e;
+}
+
+.locationHint {
+  flex-basis: 100%;
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.85rem;
+}
+
+.resultsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+}
+
+/* The format chips: they say what the search found, per format, and
+   narrow to one kind — in the red/blue the pins and cards already speak.
+   Swatches restate the pin colours; counts sit muted beside the word. */
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterChip {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px 6px;
+  /* colors.ink / colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.filterChip:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+.filterChipActive {
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.forestDeep — the bar's shadow, at chip scale. */
+  box-shadow: 2px 2px 0 #2e4742;
+}
+.filterChipActive:hover {
+  background: #10201d;
+}
+
+/* The pin colour, restated at chip scale. */
+.filterSwatch {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  border: 1.5px solid #10201d;
+}
+.filterChip[data-filter='hackDay'] .filterSwatch {
+  /* colors.orange */
+  background: #e53927;
+}
+.filterChip[data-filter='meetUp'] .filterSwatch {
+  /* colors.sky */
+  background: #8bb2de;
+}
+.filterChipActive .filterSwatch {
+  border-color: #f7f7f2;
+}
+
+.filterCount {
+  /* colors.muted */
+  color: #52635f;
+}
+.filterChipActive .filterCount {
+  /* colors.rule */
+  color: #8ca59e;
+}
+
+.viewToggle {
+  display: flex;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white — the shadow needs a solid ground behind the buttons. */
+  background: #f7f7f2;
+  /* The depth every other control here has; ink, since the toggle has no
+     format of its own. */
+  box-shadow: 3px 3px 0 #10201d;
+}
+
+.viewButton {
+  padding: 8px 14px;
+  border: 0;
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  /* fonts.mono — same face as the toolbar buttons */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.viewButton + .viewButton {
+  /* colors.ink */
+  border-left: 2px solid #10201d;
+}
+
+.viewButtonActive {
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 18px;
+}
+
+.mapWrapper {
+  overflow: hidden;
+  height: clamp(360px, 65vh, 640px);
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* The same hard offset every card and CTA on this site casts, at the
+     card's own 6px. colors.forestDeep — the map is the one element here
+     with no format of its own, so it takes the site's green rather than
+     an accent, matching the green it is now tinted with.
+
+     6px of shadow sits outside the border, so the row below needs to
+     clear it or the two touch. */
+  margin-bottom: 6px;
+  box-shadow: 6px 6px 0 #2e4742;
+}
+
+.mapSkeleton {
+  height: 100%;
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+/* ---- MapLibre's own furniture, in this site's idiom ----------------
+   Zoom buttons, attribution and the cooperative-gesture overlay all ship
+   rounded, white and soft-shadowed, which is another website's design
+   sitting on top of ours. Restyled rather than hidden: they are all doing
+   real jobs, and the attribution is required by OpenStreetMap's licence.
+
+   Written against both maps at once. The directory map is the only one
+   with zoom buttons — the modal's is a single pin at a fixed zoom — but
+   the attribution and the gesture overlay appear on both, and a rule that
+   covers a control the modal does not have costs nothing. Doubled
+   selectors rather than a shared class because these are MapLibre's
+   elements, not ours to put a class on. */
+
+.mapWrapper :global(.maplibregl-ctrl-group),
+.modalMap :global(.maplibregl-ctrl-group) {
+  border-radius: 0;
+  /* colors.ink / colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  /* colors.forestDeep — the map frame's own shadow, at control scale. */
+  box-shadow: 3px 3px 0 #2e4742;
+}
+
+.mapWrapper :global(.maplibregl-ctrl-group button),
+.modalMap :global(.maplibregl-ctrl-group button) {
+  width: 30px;
+  height: 30px;
+  border-radius: 0;
+  background: none;
+  cursor: pointer;
+}
+/* The divider between stacked buttons, at the border's own weight. */
+.mapWrapper :global(.maplibregl-ctrl-group button + button),
+.modalMap :global(.maplibregl-ctrl-group button + button) {
+  border-top: 2px solid #10201d;
+}
+.mapWrapper :global(.maplibregl-ctrl-group button:hover),
+.modalMap :global(.maplibregl-ctrl-group button:hover) {
+  /* colors.paperDeep. Tonal, not a press: these buttons share one shadow,
+     and a segment cannot press into a shadow it does not own. */
+  background: #e4e5da;
+}
+/* MapLibre disables a zoom button at the ends of the range. */
+.mapWrapper :global(.maplibregl-ctrl-group button:disabled),
+.modalMap :global(.maplibregl-ctrl-group button:disabled) {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+.mapWrapper :global(.maplibregl-ctrl-group button:focus-visible),
+.modalMap :global(.maplibregl-ctrl-group button:focus-visible) {
+  /* Inside the group's own border, so focus thickens an edge rather than
+     drawing a second box around a box. Cancels the global ink halo. */
+  outline: 3px solid #10201d;
+  outline-offset: -3px;
+  box-shadow: none;
+}
+
+/* MapLibre's glyphs are a mid grey with hairline strokes, which reads as
+   thin and washed beside this site's type. Ours are ink at the border's
+   weight, drawn square-capped like everything else here.
+
+   The `.maplibregl-ctrl button` prefix is not decoration: MapLibre's own
+   rule is `.maplibregl-ctrl button.maplibregl-ctrl-zoom-in
+   .maplibregl-ctrl-icon`, whose element selector out-specifies a
+   three-class override. Matching its shape is what makes these win. */
+.mapWrapper
+  :global(
+    .maplibregl-ctrl button.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon
+  ),
+.modalMap
+  :global(
+    .maplibregl-ctrl button.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon
+  ) {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29'%3E%3Cpath d='M14.5 8.5v12M8.5 14.5h12' stroke='%2310201d' stroke-width='2.5' stroke-linecap='square'/%3E%3C/svg%3E");
+}
+.mapWrapper
+  :global(
+    .maplibregl-ctrl button.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon
+  ),
+.modalMap
+  :global(
+    .maplibregl-ctrl button.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon
+  ) {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='29' height='29'%3E%3Cpath d='M8.5 14.5h12' stroke='%2310201d' stroke-width='2.5' stroke-linecap='square'/%3E%3C/svg%3E");
+}
+
+/* Attribution: required by OpenStreetMap's licence, so it is styled to
+   belong rather than shrunk out of the way. Compact mode keeps it a
+   toggle until someone asks. */
+.mapWrapper :global(.maplibregl-ctrl-attrib),
+.modalMap :global(.maplibregl-ctrl-attrib) {
+  border-radius: 0;
+  /* colors.paper, and nothing else. A border here read as a shadow: it
+     sits in the map's own bottom-right corner, so an ink edge on its top
+     and left closed a box against the map's own frame and gave a credit
+     line the weight of a control. The paper ground is separation enough
+     against a tinted basemap. */
+  background: #f2f2eb;
+  border: 0;
+}
+/* MapLibre tints its toggle a translucent white, which shows as a second
+   panel inside the first. */
+.mapWrapper :global(.maplibregl-ctrl-attrib-button),
+.modalMap :global(.maplibregl-ctrl-attrib-button) {
+  background-color: transparent;
+}
+.mapWrapper :global(.maplibregl-ctrl-attrib-inner),
+.modalMap :global(.maplibregl-ctrl-attrib-inner) {
+  /* fonts.mono, small: this is a credit, not a caption. */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.02em;
+  /* colors.muted */
+  color: #52635f;
+}
+.mapWrapper :global(.maplibregl-ctrl-attrib-inner a),
+.modalMap :global(.maplibregl-ctrl-attrib-inner a) {
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* The overlay that says "use ctrl + scroll to zoom" when a plain scroll
+   crosses the map. It exists because the maps use cooperative gestures so
+   the page keeps its scroll; ink and mono, like every other message. */
+.mapWrapper :global(.maplibregl-cooperative-gesture-screen),
+.modalMap :global(.maplibregl-cooperative-gesture-screen) {
+  /* colors.ink at reading opacity over the basemap. */
+  background: rgba(16, 32, 29, 0.66);
+  /* colors.white */
+  color: #f7f7f2;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 650;
+}
+
+/* A flex ROW now: body on the left, date tile on the right. The card had
+   an empty right half and a date buried third in a stack of four lines;
+   this spends the one on the other. */
+.card {
+  /* The one colour that says what kind of Fest this is. It drives the hard
+     shadow and the badge outline together, so those two can never end up
+     telling different stories, and it is the only thing the four state
+     rules below have to set.
+
+     Default is ink: a Fest whose name follows neither convention gets no
+     badge, so its card must not borrow either format's colour. */
+  --fest-accent: #10201d;
+
+  /* Anchor for the trigger's stretched ::after. */
+  position: relative;
+  display: flex;
+  /* On the CARD, not just the trigger. The trigger's ::after covers the
+     whole card, but the flag and the date tile come after it in the DOM
+     and paint above it, so those two corners kept the default arrow while
+     everything between them said pointer. The card behaves as one control
+     — one press, one hover, one destination — so it should say so
+     everywhere, and it has no other interactive child to disagree with. */
+  cursor: pointer;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  box-shadow: 6px 6px 0 var(--fest-accent);
+
+  /* Matches the duration every button on the site uses for the same
+     gesture. See the hover rules below. */
+  transition:
+    translate 0.12s ease,
+    box-shadow 0.12s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    /* The house pattern, from components/Button.js: the hover state still
+       applies, it just arrives instantly. Feedback is not motion. */
+    transition: none;
+  }
+}
+
+/* The format colours, and immediately after them the one that outranks
+   both. THE ORDER OF THESE FOUR RULES IS LOAD-BEARING: they have identical
+   specificity, so only source order makes past win, and getting it wrong
+   fails silently — a past Meet Up simply keeps its blue and nobody notices
+   until they go looking at August. Kept adjacent so the ordering is
+   visible rather than forty lines apart.
+
+   colors.maroon for Hack Day, which is what every card wore before formats
+   were told apart, and colors.skyDeep for Meet Up: warm for the day you
+   build something, cool for the evening you meet people. */
+.card[data-format='hackDay'] {
+  --fest-accent: #671912;
+}
+.card[data-format='meetUp'] {
+  --fest-accent: #1f4e6b;
+}
+.card[data-past='true'] {
+  /* colors.rule */
+  --fest-accent: #8ca59e;
+}
+
+/* The body owns the padding the card used to carry; flex: 1 pushes the
+   footer to the bottom edge. */
+/* A Fest that has already happened. It stays in the directory — a city
+   whose one Fest has run should not read as a city with none — but it
+   sinks below the upcoming ones and recedes: paper ground instead of
+   white, the loud maroon shadow swapped for the quiet rule grey, and the
+   ink title dropped to muted. Muted on paperDeep is 4.99:1, so the card
+   is quieter without becoming harder to read.
+
+   Colour carries none of this on its own, which is why the card also
+   grows a "Past" badge and drops its register link. */
+.card[data-past='true'] {
+  border-color: #8ca59e;
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+.card[data-past='true'] .cardTitle {
+  /* colors.muted */
+  color: #52635f;
+}
+/* Beside the country now, not pinned to the corner. A hairline in the
+   site's own rule grey rather than ink: at 16px an ink border is a frame
+   around a stamp, and all this needs is an edge so a flag with white in it
+   does not bleed into the card.
+
+   Written as its own selector, which it briefly was not: an earlier edit
+   spliced these declarations into the middle of the past-card selector
+   below, leaving `.card[data-past='true'] .cardFlag` as the ONLY rule and
+   every non-past flag with no styling at all. Valid CSS, so nothing
+   complained. */
+.cardFlag {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  /* flag-icons sizes .fis at 1em off two classes, so font-size is what
+     actually controls the box. */
+  font-size: 16px;
+  /* colors.rule */
+  border: 1px solid #8ca59e;
+}
+/* Loses its colour with the rest of a past card; a full-saturation flag on
+   a grey card is the one thing that would still read as live. */
+.card[data-past='true'] .cardFlag {
+  filter: grayscale(1);
+}
+
+/* The name and its format, on one line. Baseline-aligned so the tag sits
+   on the heading's own line rather than floating in the middle of it, and
+   wrapping so a long place name pushes the tag under itself instead of
+   squeezing it. */
+.cardHeadingRow {
+  display: flex;
+  flex-wrap: wrap;
+  /* Centred, not baseline-aligned. Baseline lines the tag's own text up
+     with the heading's, but the tag is a padded pill around much smaller
+     type — so matching the text left the box itself sitting high. What
+     wants centring is the pill against the word, not one row of letters
+     against another. */
+  align-items: center;
+  gap: 4px 8px;
+  /* Clear of the flag square in the corner, as the title used to be. */
+  padding-right: 36px;
+}
+
+/* The application status tags on /my, in this page's palette: mono,
+   borderless, rounded, a flat tint carrying ink text (see
+   ApplicationsBand.module.css). Filled rather than outlined because it now
+   sits beside a heading rather than floating above one — an outline at
+   this size next to 1.35rem type reads as a input field, not a label.
+
+   A tint of the format's own colour rather than the colour itself: the
+   card's shadow is already saying it at full strength, and two objects at
+   full strength on one card is how the badge row got noisy in the first
+   place. */
+.cardFormatBadge {
+  display: inline-flex;
+  align-items: center;
+  /* Top-heavy on purpose, and this is the difference between the tag being
+     centred and looking centred. The label is all caps, so its ink runs
+     from cap height to the baseline with no descenders under it — but the
+     line box is sized for descenders regardless, leaving roughly twice as
+     much space below the letters as above. Centring the box therefore
+     hangs the letters high in it.
+
+     line-height: 1 pins the box to the text, and the extra weight on top
+     pushes the letters back down toward the middle.
+
+     7.5/6.5, which is very nearly symmetric — and the three failed attempts
+     before it (8/2, 8/4, 10/4) were all chasing a correction that was not
+     needed, because the tool measuring them was broken in two ways at
+     once.
+
+     It measured `textContent`, "Hack Day", while what paints is
+     `text-transform: uppercase` — so it counted a descender on the "y"
+     that never renders and put the ink's bottom 2px lower than it is. And
+     it found the baseline with a `vertical-align: baseline` strut appended
+     to this element, which is `display: inline-flex` — inside a flex
+     container that strut is a flex item, vertical-align does nothing to
+     it, and the "baseline" it reported was wherever align-items happened
+     to put it.
+
+     Measured properly, from the text node's own line box and the font's
+     ascent, 10/4 left 10.38px above the letters and 5.23px below. The
+     letters were sitting visibly low the whole time. They now sit 7.88px
+     from the top and 7.73px from the bottom.
+
+     line-height: 1 stays: it is what keeps the box tied to the text rather
+     than to the font's descender space. */
+  line-height: 1;
+  padding: 7.5px 9px 6.5px;
+  border-radius: 6px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono, as /my's tags use */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cardFormatBadge[data-format='hackDay'] {
+  /* colors.orangeLight — the warm end, same family as the maroon shadow */
+  background: #f9c9c2;
+}
+.cardFormatBadge[data-format='meetUp'] {
+  /* colors.skyLight — the cool end, same family as the skyDeep shadow */
+  background: #d7e5f4;
+}
+/* A past card's ground is already paperDeep, so a pale tint would vanish
+   into it. Rule grey holds its edge there and still carries ink text. */
+.card[data-past='true'] .cardFormatBadge {
+  /* colors.rule */
+  background: #8ca59e;
+}
+
+/* The card's click target. A bare button reset so the Fest name keeps the
+   heading's own type, plus a stretched ::after that takes the pointer over
+   the whole card. Only the pointer: the button itself stays exactly as
+   wide as its text, so the focus ring outlines the name rather than
+   drawing a rectangle around the entire card. */
+.cardTrigger {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+/* The stretched hit area, and it reaches PAST the card on purpose.
+
+   The card presses `translate: 3px 3px` on hover, so a hit area flush
+   with the card's edges retreats from a cursor sitting in the top or left
+   3px: hover starts, the card moves down-right out from under the
+   pointer, hover ends, the card springs back, hover starts again. A
+   flicker loop that reads as "the hover does not work here" rather than
+   as motion — and it bites hardest on the leftmost column, whose left
+   edge is the one a pointer crosses arriving from the page margin, where
+   the other columns are usually entered by landing well inside them.
+
+   -5px covers the 3px press with room to spare, so the band where the
+   target can still slip out lands outside the card's visible edge, in the
+   grid gap. The gap is 18px and two neighbouring halos come to 10px, so
+   they never meet and no card can steal another's clicks. */
+.cardTrigger::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+}
+/* No underline on hover. The trigger is a whole card, not a link in a
+   sentence, and underlining just the name made the ground change and the
+   text change look like two different things reacting. The background is
+   the hover state; the name is only where the control happens to live.
+
+   Nothing is lost for keyboard users: focus still draws the global ring,
+   which is a border rather than a decoration and reads on the name
+   precisely because that is what Tab lands on. */
+
+/* The card presses INTO its own shadow on hover, which is what every
+   button on this site does (components/Button.js: translate 2px 2px while
+   the shadow goes 5px to 3px). Translate plus shadow always sums to the
+   resting 6px, so the card's bottom-right edge stays exactly where it is
+   and only the depth under it changes — the card sinks toward the page
+   rather than sliding across it.
+
+   It also sets up the modal it opens: the card presses in, and what comes
+   out of it presses out. Same gesture, opposite directions.
+
+   Pointer-only, since a keyboard user is on the name and has the focus
+   ring. The ground still changes too, because the press alone is small
+   and the stretched half of the target needs to look like a target. */
+.card:has(.cardTrigger:hover) {
+  /* colors.paper */
+  background: #f2f2eb;
+  translate: 3px 3px;
+  box-shadow: 3px 3px 0 var(--fest-accent);
+}
+/* Further in on the way down, so the click has somewhere to land. */
+.card:has(.cardTrigger:active) {
+  translate: 5px 5px;
+  box-shadow: 1px 1px 0 var(--fest-accent);
+}
+.card[data-past='true']:has(.cardTrigger:hover) {
+  /* colors.paperDeep is already this card's ground; go one step further. */
+  background: #dcdccf;
+}
+.cardBody {
+  flex: 1 1 auto;
+  padding: 18px 18px 14px;
+}
+
+.cardTitle {
+  margin: 0;
+  /* The flag clearance moved to .cardHeadingRow, which now wraps this and
+     the format tag — keeping it here too would indent the tag as well. */
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* Bigger than it was, because it now holds one word rather than four:
+     the site name and the format came off (lib/festName.mjs), so what is
+     left is the only thing that tells one card from another and it can
+     carry the weight. */
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.15;
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* The date tile. Its own column on the card's right edge, divided by the
+   same ink rule the modal's where-panel uses. */
+.cardDateTile {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1px;
+  margin: 0;
+  /* Fixed, so the rule dividing the tile from the card lands in the same
+     place on every card in the grid. Sized off the widest thing that can
+     sit in it — two tabular digits at 32.5px — with room to spare. */
+  width: 64px;
+  padding: 10px 8px;
+  /* colors.ink */
+  border-left: 2px solid #10201d;
+}
+.card[data-past='true'] .cardDateTile {
+  border-left-color: #8ca59e;
+}
+.cardTileWeekday,
+.cardTileMonth {
+  /* fonts.mono, as the format badge and the toolbar buttons use */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.cardTileWeekday {
+  /* colors.muted — the day of the week is orientation, not the fact */
+  color: #52635f;
+}
+.cardTileMonth {
+  /* colors.ink */
+  color: #10201d;
+}
+.cardTileDay {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* Barlow's default figures are proportional, so "24" set 8px wider than
+     "17" and every tile in the grid came out a different size. Tabular
+     figures are the actual fix — a fixed tile width alone would centre
+     numerals that still visibly disagree with each other. */
+  font-variant-numeric: tabular-nums;
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+  /* colors.ink */
+  color: #10201d;
+}
+.card[data-past='true'] .cardTileDay,
+.card[data-past='true'] .cardTileMonth {
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* The partner, last and quietest. It used to sit directly under the title
+   in bolder type than the location beneath it, which put whoever is
+   helping run a Fest above where and when the Fest is. */
+.cardHost {
+  margin: 4px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.88rem;
+}
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 7px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.92rem;
+}
+
+.cardDistance {
+  white-space: nowrap;
+}
+
+/* The card's link is its footer: full-width bar under an ink rule,
+   label left, arrow right — matching /my's cards. */
+
+.empty,
+.loading,
+.error {
+  padding: 26px 20px;
+  /* colors.ink */
+  border: 2px dashed #10201d;
+  /* colors.muted — the ghost-card treatment from /my's fests band: the
+     cards' shadow offset, in grey-green so it stays subordinate to the
+     real cards' maroon. */
+  box-shadow: 6px 6px 0 #52635f;
+}
+
+.emptyTitle,
+.errorTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.emptyBody,
+.errorBody {
+  max-width: 52ch;
+  margin: 8px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  line-height: 1.5;
+}
+
+.retryButton {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 10px 18px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.pink */
+  background: #e97b77;
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .locationButton {
+    transition: none;
+  }
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .page {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .page {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* The detail modal. A native <dialog>, so the browser owns the backdrop,
+   the top layer and the focus trap; these rules only dress it. */
+/* Enter and exit, entirely in CSS so no JavaScript has to know how long
+   the animation takes or when it finished — which matters more than it
+   sounds, because the `close` event this would otherwise hang off does not
+   fire in every browser (see FestModal).
+
+   `allow-discrete` is what lets `display` and `overlay` take part in a
+   transition instead of snapping: without it the dialog would leave the
+   top layer on the first frame of the exit and vanish mid-fade.
+   @starting-style supplies the values to animate FROM on entry, since
+   there is no previous state for a element that was display:none.
+
+   A browser with neither simply gets no animation. Nothing breaks: the
+   dialog opens and closes exactly as it did before this rule existed. */
+.modal {
+  /* The closed state, which is also what the exit animates TO: pressed
+     flat into the page and offset down-right into the space its shadow
+     occupies when raised. Opening reverses it — the modal lifts up-left
+     out of the page and throws the shadow beneath it.
+
+     This is the site's own button idiom run backwards. Every button here
+     presses INTO its shadow on hover (translate 2px 2px, shadow 4px → 2px);
+     the modal releases out of one. A fade was in nobody else's language on
+     this site — there is no opacity animation anywhere in it, the Loader's
+     squares jump rather than fade — which is why it read as borrowed.
+
+     Opacity survives on the exit only. Entry does not list it, so the
+     modal is fully drawn from its first frame and the movement is the
+     whole entrance; leaving without it would snap a 760px panel out of
+     existence in one frame. */
+  opacity: 0;
+  translate: 8px 8px;
+  /* Flat against the page while closed. The shadow extending as the modal
+     rises is what makes it read as lifting off rather than fading in: the
+     hard offset shadow is this site's depth cue everywhere else, so
+     animating it is animating the thing that already means "raised".
+
+     The slight overshoot on translate and box-shadow is the pop — it
+     passes its resting offset and settles back. Opacity stays on a plain
+     ease, because overshooting opacity means flickering past 1. */
+  box-shadow: 0 0 0 var(--fest-accent);
+
+  /* This is the EXIT transition. A property's transition is read from the
+     state being moved TO, so the rules here run on close and the ones on
+     [open] run on open — which is the only way to give the shadow a delay
+     going in without it also lingering on the way out.
+
+     Leaving is not the place for a flourish: the shadow collapses first
+     and quickly, so the modal is already flat by the time it has faded. */
+  transition:
+    opacity 140ms ease,
+    translate 160ms ease,
+    box-shadow 100ms ease,
+    display 160ms allow-discrete,
+    overlay 160ms allow-discrete;
+  /* Narrow by default. A Fest with no coordinates has an address, a date
+     and two buttons in it, and 760px of modal around four lines of text
+     reads as something failed to load. */
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  overflow-y: auto;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  color: #10201d;
+
+  /* The modal wears its card's colour, so opening one never changes what
+     kind of Fest it looks like. Default ink, for a Fest whose name follows
+     neither convention. */
+  --fest-accent: #10201d;
+}
+
+/* SAME LOAD-BEARING ORDER AS THE CARDS: identical specificity, so only
+   source order puts past above the two formats. */
+.modal[data-format='hackDay'] {
+  /* colors.maroon */
+  --fest-accent: #671912;
+}
+.modal[data-format='meetUp'] {
+  /* colors.skyDeep */
+  --fest-accent: #1f4e6b;
+}
+/* A past Fest's modal keeps its colour. The card in the grid greys out to
+   sink in a list of upcoming ones, but an opened modal has already been
+   chosen — reading it through a grey wash helped nobody. Only the accent
+   goes to rule, so the shadow says "past" and the content stays legible. */
+.modal[data-past='true'] {
+  /* colors.rule */
+  --fest-accent: #8ca59e;
+}
+
+/* Wide enough for two only when there are two. :has() rather than a
+   second attribute on the dialog, so the column count is stated once, on
+   the element that actually does the splitting. */
+.modal:has([data-columns='two']) {
+  /* Wide enough that a 360px panel and a full-measure text column both
+     fit without either being squeezed. */
+  width: min(880px, calc(100vw - 32px));
+}
+
+.modal[open] {
+  opacity: 1;
+  translate: 0 0;
+  box-shadow: 8px 8px 0 var(--fest-accent);
+
+  /* The ENTRY transition, and the delay on box-shadow is the point of it.
+     Without one the shadow grew while the modal was still fading up, so
+     the pop happened to something half-transparent and read as part of
+     the fade rather than as a thing landing. It now waits for the fade to
+     finish, then throws the shadow out on its own.
+
+     200ms is the opacity duration exactly: the modal is fully there before
+     anything pops. The overshoot is stronger here than the rise uses,
+     since this is now a gesture in its own right rather than one strand of
+     three moving together. */
+  /* Opacity is deliberately absent: unlisted means it jumps to 1 on the
+     first frame instead of fading, so the lift is the entrance.
+
+     The shadow still trails the movement rather than growing with it,
+     which is what makes it a pop rather than a slide. 140ms starts it just
+     before the lift finishes, so the two overlap by a hair and the shadow
+     snaps out as the modal settles. */
+  transition:
+    translate 180ms cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    box-shadow 240ms cubic-bezier(0.34, 1.56, 0.64, 1) 140ms,
+    display 380ms allow-discrete,
+    overlay 380ms allow-discrete;
+}
+/* What the entry animates FROM: flat on the page and slightly low. */
+/* What the entry animates FROM. No opacity here — it is not transitioned
+   on the way in, so the modal starts fully drawn and merely pressed in. */
+@starting-style {
+  .modal[open] {
+    translate: 8px 8px;
+    box-shadow: 0 0 0 var(--fest-accent);
+  }
+}
+.modal::backdrop {
+  /* colors.ink, deep enough that the page behind reads as switched off
+     rather than dimmed. The forest ground the site sits on is already dark
+     and mid-saturation, so a light scrim over it barely registered and the
+     modal was competing with the cards behind it instead of replacing
+     them. Still ink rather than black: the browser's default near-black
+     belongs to no palette. */
+  background: rgb(16 32 29 / 72%);
+  opacity: 0;
+
+  /* The EXIT, and 160ms is not a taste decision. The dialog's own
+     display/overlay transition is 160ms, and the backdrop leaves the top
+     layer with the dialog — so a longer fade here does not play out, it
+     gets cut off partway and the scrim snaps away under the closing
+     modal. Anything set here must match the dialog's exit, or be shorter. */
+  transition:
+    opacity 160ms ease,
+    display 160ms allow-discrete,
+    overlay 160ms allow-discrete;
+}
+.modal[open]::backdrop {
+  opacity: 1;
+
+  /* The ENTRY, matched to the modal's lift rather than to its whole
+     entrance: the scrim and the panel arrive together, and the shadow pops
+     afterwards on its own. */
+  transition:
+    opacity 180ms ease,
+    display 180ms allow-discrete,
+    overlay 180ms allow-discrete;
+}
+@starting-style {
+  .modal[open]::backdrop {
+    opacity: 0;
+  }
+}
+/* The rise is the part that reads as motion; the fade is what stops the
+   modal appearing out of nowhere. Reduced motion keeps the fade, drops the
+   movement, and shortens the whole thing to near-instant. */
+@media (prefers-reduced-motion: reduce) {
+  /* No rise and no pop. The shadow is present from the first frame rather
+     than growing into place, so the modal still looks raised without
+     anything having moved. */
+  .modal,
+  .modal[open] {
+    translate: none;
+    box-shadow: 8px 8px 0 var(--fest-accent);
+    transition-duration: 1ms;
+    /* Kills the entry delay too, or the modal would sit there for a fifth
+       of a second doing nothing at all. */
+    transition-delay: 0ms;
+  }
+  .modal::backdrop,
+  .modal[open]::backdrop {
+    transition-duration: 1ms;
+  }
+}
+/* A banded section rather than content floating at the top of a panel.
+   Paper ground and an ink rule under it, which is how every other chapter
+   on this site separates itself — and what turns "a heading, then some
+   stuff" into a header and a body.
+
+   It earns its keep as soon as the Fest descriptions arrive: prose in the
+   left column needs something to start beneath, or the first paragraph
+   just runs on from the host line. */
+.modalHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 22px;
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+}
+/* The flag and the words, as one row. Its height is the height of the
+   text, which is what the flag stretches to — measured against the words
+   rather than against the header, so the 44px close button on the far side
+   cannot set it. */
+.modalIdentity {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* min-width: 0 because a flex item will not shrink below its content
+   otherwise, and a long Fest name would push the close button off. */
+.modalHeaderText {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.modalHeading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  /* colors.ink */
+  color: #10201d;
+}
+.modalHost {
+  /* Tight to the name above it: the two are one identity, not two facts
+     that happen to be stacked. */
+  margin: 2px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1rem;
+  font-weight: 700;
+}
+/* The header's left slot, which the logo used to hold. It is as tall as
+   the name and the host line together, so the three read as one block
+   rather than a square sitting next to some text.
+
+   Three selectors deep on purpose: flag-icons sizes .fi.fis off font-size
+   and 1em of width, and that is two classes — anything shorter loses to it
+   and the flag snaps back to a font-size square. font-size: 0 takes the
+   library's em-based sizing out of the picture entirely, leaving stretch
+   to set the height and aspect-ratio to square it. */
+.modal .modalHeader .modalFlag {
+  flex: 0 0 auto;
+  /* 54px is the name and the host line together: 27.6 of heading, the 2px
+     between them, and 24.8 of host. Measured, not picked — the three read
+     as one block because the square is exactly as tall as the words.
+
+     A fixed size rather than align-self: stretch, which was tried and does
+     not work here: the flag's width is content-based, so a stretched
+     height gives aspect-ratio nothing to derive a width from and the whole
+     thing collapses to its 4px of border. Fixed also degrades better — a
+     heading long enough to wrap would otherwise inflate the flag to 80px
+     of flag, and the mark would start shouting over the name it belongs
+     to. It top-aligns instead.
+
+     Set through font-size because flag-icons sizes .fi.fis at 1em square
+     off two classes, which outranks anything shorter than this selector. */
+  width: 54px;
+  height: 54px;
+  font-size: 54px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+}
+/* Everything below the header. One column by default — which is what a
+   Fest with no coordinates gets, and what every viewport too narrow to
+   split usefully gets — and two once there is a map to sit beside the
+   words.
+
+   640px rather than the tablet token: this is about the modal's own width,
+   not the page's, and below it two columns would be two cramped ones. */
+/* No padding of its own: the where-panel runs to the modal's edges, so
+   the gutters belong to the columns rather than to the grid. */
+.modalBody {
+  display: grid;
+}
+@media (min-width: 640px) {
+  .modalBody[data-columns='two'] {
+    /* 360 rather than the 230 this started at. The text column is capped at
+       46ch regardless, so width handed to the panel costs the prose
+       nothing until the panel eats past that cap — and 230 was under the
+       width a map's own attribution needs to sit on one line, which is a
+       fair sign the map was being asked to live somewhere too small. */
+    grid-template-columns: minmax(0, 1fr) 360px;
+
+    /* Both rows declared EXPLICITLY, and that is load-bearing rather than
+       tidiness: the panel below spans `1 / -1`, and -1 counts back from the
+       last explicit line. With rows left implicit there are no explicit
+       lines to count from, so -1 resolved to the end of row one and the
+       panel stopped short of the action band instead of running past it.
+
+       The second row is auto, so it collapses to nothing on a past Fest,
+       which has no band to put in it. */
+    grid-template-rows: 1fr auto;
+    align-items: stretch;
+  }
+  .modalBody[data-columns='two'] .modalPlace {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
+  .modalBody[data-columns='two'] .modalActions {
+    grid-column: 1;
+  }
+}
+/* The body's text column: the date now, and the Fest's own description
+   when there is one. Sized for prose rather than for a single line —
+   max-width in ch so a paragraph breaks at a readable measure instead of
+   running the full half-width of the modal. */
+.modalDetails {
+  min-width: 0;
+  max-width: 46ch;
+  padding: 20px 22px 22px;
+}
+/* The map and the address as one block: the pin says roughly where, the
+   words say exactly where, and they belong to each other. */
+.modalPlace {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+/* Only a panel once there are two columns. Stacked, it is just the address
+   under the body and wants the body's own gutters. */
+@media (min-width: 640px) {
+  .modalBody[data-columns='two'] .modalPlace {
+    /* colors.ink */
+    border-left: 2px solid #10201d;
+  }
+}
+/* Stacked with no map at all, the address is the last thing in the modal
+   and owns the bottom gutter itself. */
+.modalBody:not([data-columns='two']) .modalPlace {
+  padding: 0;
+}
+/* Pinned to the foot of the panel: the map above takes the slack, so this
+   sits on the modal's bottom edge whatever height the body comes to. */
+.modalAddressBlock {
+  /* Stacked, it lines up with the body's own gutters. */
+  padding: 12px 22px 22px;
+}
+/* Tighter inside the panel, where 22px of a 230px column is a lot of it. */
+@media (min-width: 640px) {
+  .modalBody[data-columns='two'] .modalAddressBlock {
+    padding: 12px 14px 14px;
+  }
+}
+.modalVenue {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.modalAddress {
+  margin: 2px 0 0;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 0.95rem;
+  font-style: normal;
+  line-height: 1.5;
+}
+/* Each line on its own row without a run of <br> tags to maintain. */
+.modalAddressLine {
+  display: block;
+}
+/* Fills whatever height the column beside it comes to, with a floor so a
+   Fest with a one-line address still gets a usable map rather than a
+   letterbox. In one column it is just the floor. */
+/* flex: 1 so the map absorbs whatever height the other column turns out to
+   need. It is the one element here that takes arbitrary height gracefully
+   — a taller map is simply more map — which means neither column can
+   strand dead space whichever one runs longer. That matters most for the
+   thing that has not arrived yet: a Fest description will make the left
+   column grow by an unknown amount.
+
+   Only a bottom rule in the panel, because the panel's own left border and
+   the modal's edges supply the other three. */
+.modalMap,
+.modalMapSkeleton {
+  flex: 1 1 auto;
+  /* A floor, not a height — flex: 1 above means the map grows past this
+     whenever the other column is taller. Raised with the panel: 170 was a
+     sensible minimum at 230px wide and a letterbox at 360. */
+  min-height: 215px;
+  overflow: hidden;
+  /* colors.ink */
+  border-top: 2px solid #10201d;
+  border-bottom: 2px solid #10201d;
+}
+/* The rule above the map is for the stacked layout, where the map arrives
+   directly under the end of a paragraph with nothing marking the join and
+   every other seam in this modal is a line.
+
+   In two columns it has to go: the panel starts flush under the header,
+   whose own bottom rule already draws exactly that line, and keeping this
+   one would double it.
+
+   Width, not data-columns, is what decides — which is worth saying because
+   the rule that used to sit here tested `:not([data-columns='two'])` and
+   could never match. The attribute is set from hasCoords and the map is
+   rendered from hasCoords, so a stacked map always carries the two-column
+   attribute; only the media query knows whether the columns happened. */
+@media (min-width: 640px) {
+  .modalBody[data-columns='two'] .modalMap,
+  .modalBody[data-columns='two'] .modalMapSkeleton {
+    border-top: 0;
+  }
+}
+/* The skeleton and the veil wear the MAP'S OWN ground, not the page's
+   paper: the tinted basemap's background colour, per format, so the cover
+   and the loaded map share ground and the lift is a map gaining detail
+   rather than a grey card becoming a map. These hexes are what
+   lib/mapStyle.mjs produces from the basemap's #a3a3a3 background —
+   tintHex(#a3a3a3, accent) — and the test suite pins tintHex, so a drift
+   in the tint math shows up there rather than silently diverging from
+   these literals. Past and no-format take the untinted ground, matching
+   their untinted maps. Same source-order tiebreak as everywhere. */
+.modalMapSkeleton {
+  background: #a3a3a3;
+}
+.modal[data-format='hackDay'] .modalMapSkeleton {
+  background: #ba908c;
+}
+.modal[data-format='meetUp'] .modalMapSkeleton {
+  background: #91a7b5;
+}
+.modal[data-past='true'] .modalMapSkeleton {
+  background: #a3a3a3;
+}
+
+/* The map element is a frame now; MapLibre draws into the canvas layer
+   and the veil sits above it. */
+.modalMap {
+  position: relative;
+}
+.modalMapCanvas {
+  position: absolute;
+  inset: 0;
+}
+/* Covers the canvas while the map is showing the wrong Fest — see
+   FestLocationMap. The skeleton's paper, so "not settled yet" and "still
+   loading" look like the same calm thing, and a quick fade out so the
+   reveal is not a pop. */
+.modalMapVeil {
+  position: absolute;
+  inset: 0;
+  /* The map's untinted ground — see .modalMapSkeleton above. */
+  background: #a3a3a3;
+  opacity: 1;
+  /* No transition here: covering must be instant, or the cover is itself
+     a fade with the previous Fest's map visible under it. A property's
+     transition is read from the state moved TO, so the fade lives only on
+     the settled state below — snap on, ease off. */
+  transition: none;
+  pointer-events: none;
+}
+.modal[data-format='hackDay'] .modalMapVeil {
+  background: #ba908c;
+}
+.modal[data-format='meetUp'] .modalMapVeil {
+  background: #91a7b5;
+}
+.modal[data-past='true'] .modalMapVeil {
+  background: #a3a3a3;
+}
+.modalMapVeil[data-settled='true'] {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+/* The Fest's kind, in prose, under the date. Ink rather than the muted
+   grey the lines around it use: this is the modal telling you what you
+   would be turning up to, which is the reason the modal is open. */
+/* Ink and weighted, above a muted blurb: the date is the fact someone came
+   for, and it was previously the quieter of the two. */
+.modalDate {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.modalBlurb {
+  margin: 12px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.modalMeta {
+  margin: 10px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.95rem;
+}
+/* The closing band, mirroring the header's: paper ground and an ink rule.
+   Only as wide as the column it closes, though — the panel beside it runs
+   the full height, so the rule stops where the map begins. The action
+   belongs to the reading column, not to the map. */
+.modalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 22px;
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border-top: 2px solid #10201d;
+}
+/* The nav's Apply to Host CTA, in a modal. Same pink on ink, same maroon
+   shadow, and the same press on hover — see NavCta in Header.styles.js.
+
+   The resting shadow goes 3px to 4px to match it, because the hover is
+   defined against it: translate plus shadow always sums to the resting
+   offset, so the button's bottom-right edge stays put and only the depth
+   under it changes. At 3px the press would have been 1.5px of movement,
+   which is not a press so much as a twitch.
+
+   `translate` rather than the header's `transform` — identical result, and
+   it is what the cards in this stylesheet already press with. */
+.modalPrimaryAction {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.pink */
+  background: #e97b77;
+  /* colors.ink */
+  color: #10201d;
+  /* colors.maroon */
+  box-shadow: 4px 4px 0 #671912;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    translate 150ms ease,
+    box-shadow 150ms ease;
+}
+.modalPrimaryAction:hover {
+  translate: 2px 2px;
+  box-shadow: 2px 2px 0 #671912;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* The hover still applies, it just arrives instantly — the house pattern,
+     and what NavCta does. */
+  .modalPrimaryAction {
+    transition: none;
+  }
+}
+/* A square icon button at the top right rather than a full-width bar at
+   the bottom. The bar was the last thing in the modal, which meant the way
+   out was below the map and the actions and off-screen on a short viewport;
+   the corner is where a dismissal is looked for and it never scrolls away.
+
+   Sized past 44px so it clears the pointer-target minimum, and the icon
+   inside it is smaller than the hit area rather than the same size. */
+.modalClose {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 2px solid transparent;
+  background: none;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+}
+.modalClose svg {
+  width: 20px;
+  height: 20px;
+}
+.modalClose:hover {
+  /* colors.ink */
+  border-color: #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+/* The map popup, restyled from MapLibre's defaults into the site's own
+   idiom: MapLibre ships a rounded white bubble with a blur shadow and a
+   pointer tip, all of which reads as another website. The shell is
+   stripped bare here and the strip below carries the whole design. */
+.mapWrapper :global(.maplibregl-popup-content) {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.mapWrapper :global(.maplibregl-popup-tip) {
+  display: none;
+}
+
+/* One strip, one control: name, format-coloured meta, arrow. The shadow
+   carries the format the way the cards' shadows do, and the bar restates
+   the pin. Ink defaults for a Fest whose name claims neither format. */
+.mapTag {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  /* colors.ink / colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  /* The accent as a property, like the modal's --fest-accent: the entry
+     and exit states below re-declare the shadow, and a property means
+     they say "no shadow" once instead of once per format. Ink default. */
+  --tag-accent: #10201d;
+  box-shadow: 4px 4px 0 var(--tag-accent);
+  translate: 0 0;
+  /* The ENTRY transition — a property's transition is read from the state
+     moved TO. The site's press idiom run in reverse, as the modal does:
+     the strip starts pressed flat where its shadow will land and releases
+     up-left, throwing the shadow beneath it. The bezier overshoots
+     slightly, which is the pop. No opacity: nothing on this site fades. */
+  transition:
+    translate 150ms cubic-bezier(0.3, 1.3, 0.5, 1),
+    box-shadow 150ms cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+/* Where the strip animates FROM on insertion. MapLibre re-inserts the
+   popup container on every open, and insertion is what @starting-style
+   keys on, so this runs each time without any JS on the way in. */
+@starting-style {
+  .mapTag {
+    translate: 3px 3px;
+    box-shadow: 0 0 0 var(--tag-accent);
+  }
+}
+.mapTag[data-format='hackDay'] {
+  /* colors.maroon */
+  --tag-accent: #671912;
+}
+.mapTag[data-format='meetUp'] {
+  /* colors.skyDeep */
+  --tag-accent: #1f4e6b;
+}
+
+.mapTagBar {
+  width: 10px;
+  /* colors.ink */
+  background: #10201d;
+  border-right: 2px solid #10201d;
+}
+.mapTag[data-format='hackDay'] .mapTagBar {
+  /* colors.orange — the pin's own colour, restated */
+  background: #e53927;
+}
+.mapTag[data-format='meetUp'] .mapTagBar {
+  /* colors.sky */
+  background: #8bb2de;
+}
+
+.mapTagBody {
+  display: block;
+  padding: 8px 11px 7px 10px;
+}
+
+.mapTagName {
+  display: block;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.05;
+  /* colors.ink */
+  color: #10201d;
+  white-space: nowrap;
+}
+
+.mapTagMeta {
+  display: block;
+  margin-top: 4px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+  white-space: nowrap;
+}
+.mapTagMeta b {
+  font-weight: 700;
+  /* colors.ink */
+  color: #10201d;
+}
+.mapTag[data-format='hackDay'] .mapTagMeta b {
+  /* colors.maroon */
+  color: #671912;
+}
+.mapTag[data-format='meetUp'] .mapTagMeta b {
+  /* colors.skyDeep */
+  color: #1f4e6b;
+}
+
+/* Past outranks format: grey shadow, grey bar, and the word "Past" muted
+   like the rest of the line. Equal specificity with the format rules
+   above, so source order is what makes these win — same load-bearing
+   ordering as the cards'. */
+.mapTag[data-past='true'] {
+  /* colors.rule */
+  --tag-accent: #8ca59e;
+}
+.mapTag[data-past='true'] .mapTagBar {
+  background: #8ca59e;
+}
+.mapTag[data-past='true'] .mapTagMeta b {
+  /* colors.muted */
+  color: #52635f;
+}
+
+.mapTagGo {
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  border-left: 2px solid #10201d;
+  /* colors.paperDeep */
+  background: #e4e5da;
+  font-size: 0.95rem;
+  font-weight: 700;
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* MapLibre focuses the popup content on open, and the content here IS the
+   button — so the UA focus ring appeared around every strip, a rounded
+   two-tone box in nobody's design. Suppressed, and replaced with a mark
+   in the strip's own furniture: the arrow chip inverts to ink. Visible
+   for keyboard users, quiet enough that the strip does not wear a frame
+   for simply having been opened. */
+.mapTag:focus-visible {
+  outline: none;
+  /* The global :focus-visible also sets a 5px ink box-shadow halo, which
+     on this strip replaces the format shadow with a black frame. Restate
+     the strip's own shadow so focus changes the arrow chip and nothing
+     else. Must stay before the exit rules: equal specificity, and the
+     exit's collapsed shadow has to win while both apply. */
+  box-shadow: 4px 4px 0 var(--tag-accent);
+}
+.mapTag:focus-visible .mapTagGo {
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+/* The EXIT: pressed back into the page, shadow collapsing first and
+   faster, exactly as the modal leaves — departure is not the place for a
+   flourish. JS holds the popup in the DOM just long enough for this to
+   run (see FestsMap), because MapLibre removes it instantly otherwise.
+   Equal specificity with the format and past rules above, so it must
+   stay after them in source order to win while exiting. */
+.mapTag[data-exiting='true'] {
+  translate: 3px 3px;
+  box-shadow: 0 0 0 var(--tag-accent);
+  transition:
+    translate 110ms ease,
+    box-shadow 90ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No motion means no motion: the strip appears and disappears in place.
+     There is no opacity fallback because the strip never fades anyway. */
+  .mapTag,
+  .mapTag[data-exiting='true'] {
+    transition: none;
+  }
+  @starting-style {
+    .mapTag {
+      translate: 0 0;
+      box-shadow: 4px 4px 0 var(--tag-accent);
+    }
+  }
+}
+
+/* The Fest pins are canvas images now (see FestsMap: they cluster, and
+   clustering lives in the map, not the DOM), so their raised selected
+   state is baked into the -sel icons rather than styled here. Only the
+   origin dot is still an element. */
+
+/* Text for screen readers only. The card and the modal both say "past"
+   visually — grey treatment, a date gone by, a position at the foot of the
+   list — and none of that reaches a screen reader, so the word is kept
+   here instead of on screen. Clip rather than display:none, which would
+   remove it from the accessibility tree along with the layout. */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

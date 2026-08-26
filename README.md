@@ -18,8 +18,9 @@ built with [Next.js](https://nextjs.org).
 
 ### Mocked or live
 
-`/my` is live by default: with `NEXT_PUBLIC_API_BASE_URL` unset, the code
-defaults it to `https://hacktoberfest-api.mlh.com` (see
+`/my` and the `/fests` directory are live by default: with
+`NEXT_PUBLIC_API_BASE_URL` unset, the code defaults it to
+`https://hacktoberfest-api.mlh.com` (see
 [`src/lib/apiBase.mjs`](src/lib/apiBase.mjs)), because production cannot set
 the variable — the zero-configuration build has to be the production one.
 

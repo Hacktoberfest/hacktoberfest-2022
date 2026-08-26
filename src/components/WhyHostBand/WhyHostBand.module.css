@@ -1,6 +1,6 @@
-/* This band's design (see the note in index.js). Values mirror
-   styles/tokens: the full-bleed chapter on colors.sky with ink borders,
-   and the white box marked out by the skyDeep shadow. */
+/* HostCallout's design (see the note in index.js), in CSS Module form.
+   Values mirror styles/tokens: the full-bleed chapter on colors.sky with
+   ink borders, and the white box marked out by the skyDeep shadow. */
 .root {
   /* The chapter owns its separation from the band above — the closing
      gutter the last in-flow band would otherwise carry, kept here so

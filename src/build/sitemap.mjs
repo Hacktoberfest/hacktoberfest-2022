@@ -2,6 +2,8 @@ import { writeFile } from 'fs/promises';
 import { SitemapStream, streamToPromise } from 'sitemap';
 import { Readable } from 'stream';
 
+import { routeIsClosed } from '../data/closedRoutes.mjs';
+
 const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
 
 /* Every public page, in one place. The sitemap is generated from this
@@ -14,7 +16,13 @@ const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
    sitemap and the heal both follow. Pages that must stay out of the
    sitemap (the sign-in path) are verified via AUTH_PAGES in cache.mjs
    instead. */
-export const SITE_PAGES = ['/', '/host/', '/sponsor/', '/questions/'];
+export const SITE_PAGES = [
+  '/',
+  '/fests/',
+  '/host/',
+  '/sponsor/',
+  '/questions/',
+];
 
 const sitemap = async () => {
   // Define the sitemap URLs
@@ -28,8 +36,12 @@ const sitemap = async () => {
   // Create the sitemap generation stream
   const stream = new SitemapStream({ hostname: BASE_URL });
 
+  /* A closed route is pruned out of `out/` by the postbuild step, so listing
+     it here would point crawlers at a 404. See data/closedRoutes.mjs. */
+  const open = urls.filter((entry) => !routeIsClosed(entry.url));
+
   // Write the URLs and get the sitemap data
-  Readable.from(urls).pipe(stream);
+  Readable.from(open).pipe(stream);
   const sitemap = await streamToPromise(stream).then((data) => data.toString());
 
   // Write the sitemap out

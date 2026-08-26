@@ -13,7 +13,7 @@ import { festEditUrl } from 'lib/fests.mjs';
 
 import styles from './AcknowledgementsModal.module.css';
 
-/* Client-only, same as the /fests directory map: Leaflet touches window
+/* Client-only, same as the /fests directory map: MapLibre touches window
    at import time, which the static export's build pass does not have. */
 const VenueMap = dynamic(() => import('./VenueMap'), {
   ssr: false,
