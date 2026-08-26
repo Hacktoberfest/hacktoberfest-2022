@@ -23,6 +23,10 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
    to compare the address and the pin, so that slide has to show both. */
 const VENUE_SLIDE = 1;
 
+/* The Code of Conduct slide: the accept box stays locked until the host
+   has scrolled the document to its end. */
+const COC_SLIDE = 3;
+
 /* The success pane's confetti: brand pixels on fixed lanes with fixed
    timing. Deterministic on purpose - no randomness at render, so every
    host gets the same celebration and hydration has nothing to disagree
@@ -69,6 +73,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  /* Flips once the Code of Conduct has been scrolled to the bottom, and
+     stays flipped - re-reading is welcome but never re-required. */
+  const [cocRead, setCocRead] = useState(false);
   /* The opening pane plays first: the stamped headline and the badge
      ladder replay. "Let's go" is the only way forward from it. */
   const [started, setStarted] = useState(false);
@@ -110,6 +117,18 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
       setSubmitting(false);
       setError(my.acknowledgements.failure);
     }
+  };
+
+  /* Within 24px of the bottom counts as the bottom - trackpads and
+     momentum scrolling rarely land on the exact last pixel. */
+  const cocScrolled = (el) =>
+    el.scrollTop + el.clientHeight >= el.scrollHeight - 24;
+
+  /* Ref callback rather than an effect: the slide wrapper remounts this
+     box on every visit to the slide, and a box that never needs to
+     scroll (a tall viewport) must unlock immediately. */
+  const cocBoxRef = (el) => {
+    if (el && !cocRead && cocScrolled(el)) setCocRead(true);
   };
 
   const back = () => {
@@ -296,11 +315,71 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
                 </div>
               </div>
             )}
-            <label className={styles.statement}>
+            {step === COC_SLIDE && (
+              <div className={styles.coc}>
+                <div
+                  className={styles.cocBox}
+                  ref={cocBoxRef}
+                  onScroll={(event) => {
+                    if (!cocRead && cocScrolled(event.currentTarget))
+                      setCocRead(true);
+                  }}
+                  tabIndex={0}
+                  role="region"
+                  aria-label="MLH Code of Conduct"
+                >
+                  {my.acknowledgements.codeOfConduct.blocks.map(
+                    (block, index) => {
+                      if (block.heading) {
+                        return (
+                          <p key={index} className={styles.cocHeading}>
+                            {block.heading}
+                          </p>
+                        );
+                      }
+                      if (block.list) {
+                        return (
+                          <ul key={index} className={styles.cocList}>
+                            {block.list.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        );
+                      }
+                      return (
+                        <p
+                          key={index}
+                          className={
+                            block.lead
+                              ? `${styles.cocText} ${styles.cocLead}`
+                              : styles.cocText
+                          }
+                        >
+                          {block.text}
+                        </p>
+                      );
+                    },
+                  )}
+                </div>
+                {!cocRead && (
+                  <p className={styles.cocHint}>
+                    {my.acknowledgements.codeOfConduct.hint}
+                  </p>
+                )}
+              </div>
+            )}
+            <label
+              className={
+                step === COC_SLIDE && !cocRead
+                  ? `${styles.statement} ${styles.statementLocked}`
+                  : styles.statement
+              }
+            >
               <input
                 className={styles.statementInput}
                 type="checkbox"
                 checked={checked[step]}
+                disabled={step === COC_SLIDE && !cocRead}
                 onChange={toggle}
               />
               <span className={styles.statementBox} aria-hidden="true">

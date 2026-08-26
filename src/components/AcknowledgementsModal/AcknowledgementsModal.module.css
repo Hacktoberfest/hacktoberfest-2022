@@ -383,6 +383,76 @@
   background: #f2f2eb;
 }
 
+/* The Code of Conduct scroll-through: the document in a bordered well
+   the host reads to the end before the accept box unlocks. Paper ground
+   so the scrollable area reads as a different surface than the modal. */
+.coc {
+  margin: 0 0 14px;
+}
+
+.cocBox {
+  max-height: 190px;
+  overflow-y: auto;
+  padding: 12px 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.cocBox:focus-visible {
+  /* colors.ink */
+  outline: 3px solid #10201d;
+  outline-offset: 2px;
+}
+
+.cocText {
+  margin: 0 0 10px;
+}
+
+.cocLead {
+  font-weight: 600;
+}
+
+.cocHeading {
+  margin: 14px 0 8px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cocList {
+  margin: 0 0 10px;
+  padding-left: 18px;
+}
+
+.cocList li {
+  margin: 0 0 4px;
+}
+
+.cocHint {
+  margin: 8px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.8rem;
+}
+
+/* Until the document has been read, the accept row is visibly locked. */
+.statementLocked {
+  cursor: default;
+}
+
+.statementLocked .statementBox {
+  opacity: 0.45;
+}
+
 .statement {
   display: flex;
   gap: 12px;
