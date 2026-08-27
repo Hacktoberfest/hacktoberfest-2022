@@ -150,9 +150,15 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
   const flagCode = displayed ? countryCodeFor(displayed.country) : null;
   const formatBlurb =
     displayed && displayed.format ? fests.formatBlurbs[displayed.format] : null;
-  const canRegister = Boolean(
-    displayed && displayed.registrationUrl && !festIsPast(displayed, today),
-  );
+  /* The button says Register but it opens the Fest's own page, not the
+     registration form: the page carries the pitch and its own register
+     control, and landing straight on the form skipped the part someone
+     still deciding needed. The form URL stays only as a fallback for a
+     Fest whose page has not been published. */
+  const registerHref = displayed
+    ? displayed.websiteUrl || displayed.registrationUrl
+    : null;
+  const canRegister = Boolean(registerHref && !festIsPast(displayed, today));
   /* Coordinates AND a key to draw them with. Gating on the key here rather
      than inside the map is deliberate: hasCoords also decides whether the
      modal splits into two columns, so a build without a key would otherwise
@@ -370,16 +376,16 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                 the modal's edge to the panel's and stops — the action
                 belongs to the reading column, not to the map.
 
-                Register, and only Register. There is no Fest website to
-                send anyone to: every Fest lives on MLH's own event page and
-                the registration link is that page's front door. A past Fest
-                has nothing to register for, so the band is absent rather
-                than empty. */}
+                Register, and only Register, and it opens the Fest's own
+                page rather than the registration form: the page is where
+                someone still deciding gets the pitch, and it has its own
+                register control. A past Fest has nothing to register for,
+                so the band is absent rather than empty. */}
             {canRegister && (
               <div className={styles.modalActions}>
                 <a
                   className={styles.modalPrimaryAction}
-                  href={displayed.registrationUrl}
+                  href={registerHref}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
