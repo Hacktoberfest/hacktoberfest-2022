@@ -68,9 +68,35 @@ export const InfoButton = styled(TypeformButton)`
 /* --- Sponsor wall ------------------------------------------------------ */
 
 export const WallRoot = styled.section`
-  padding-block: clamp(80px, 9vw, 124px);
+  padding: 64px 0;
   border-bottom: 2px solid ${colors.ink};
   background: ${colors.paper};
+
+  @media (min-width: ${breakpoints.tablet}) {
+    padding: 80px 0 120px;
+  }
+`;
+
+export const WallHeadingWrap = styled(Shell)`
+  margin-bottom: 48px;
+`;
+
+export const WallHeading = styled.h2`
+  max-width: none;
+  margin: 0;
+  font-family: ${fonts.display};
+  font-size: clamp(2.25rem, 4vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-wrap: balance;
+
+  em {
+    color: ${colors.orange};
+    font-family: inherit;
+    font-style: normal;
+    font-weight: inherit;
+  }
 `;
 
 /* A fixed grid rather than auto-fit: the top row is the three partner
@@ -79,7 +105,7 @@ export const WallRoot = styled.section`
    rows instead of a ragged tail. */
 export const WallGrid = styled(Shell)`
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 14px;
   margin: 0 auto;
   padding-left: 0;
@@ -92,6 +118,7 @@ export const WallGrid = styled(Shell)`
 
 export const WallItem = styled.li`
   display: flex;
+  flex-direction: column;
 `;
 
 export const WallLink = styled.a.attrs({
@@ -103,7 +130,7 @@ export const WallLink = styled.a.attrs({
   align-items: center;
   justify-content: center;
   min-height: 104px;
-  padding: 20px;
+  padding: 14px;
   border: 2px solid ${colors.ink};
   background: ${colors.white};
   transition:
@@ -127,38 +154,96 @@ export const WallLink = styled.a.attrs({
 
 export const WallLogo = styled.img`
   display: block;
-  width: min(100%, 150px);
-  max-height: 48px;
+  width: min(100%, ${(props) => (props.$wide ? '200px' : '150px')});
+  max-height: 52px;
   object-fit: contain;
 `;
 
 /* The partner marks live in the wall grid now, first three tiles: the
    same white tile as a sponsor logo, with a small role label on top.
-   The icon components are inline SVGs, so the tile sizes them itself. */
-export const PartnerTileLink = styled(WallLink)`
+   Label and tile sit inside one anchor, so the whole composite is the
+   click target and lifts together on hover. The icon components are
+   inline SVGs, so the tile sizes them itself. */
+export const PartnerTileLink = styled.a.attrs({
+  target: '_blank',
+  rel: 'noopener noreferrer',
+})`
+  display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: 10px;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 ${colors.maroon};
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  &:focus-visible {
+    outline: 3px solid ${colors.orange};
+    outline-offset: 3px;
+  }
+`;
+
+export const PartnerTileBody = styled.span`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 104px;
+  padding: 14px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
 
   svg {
     width: auto;
     max-width: 100%;
-    height: 30px;
+    height: 42px;
   }
 `;
 
 export const PartnerTileLabel = styled.span`
-  color: ${colors.inkSoft};
+  display: flex;
+  min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 7px 12px;
+  border: 2px solid ${colors.ink};
+  border-bottom: 0;
+  background: ${colors.forest};
+  color: ${colors.white};
   font-family: ${fonts.mono};
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  line-height: 1.25;
   text-transform: uppercase;
+
+  &::before {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+    background: ${(props) => (props.$presenter ? colors.ochre : colors.sky)};
+    /* Deep green, not maroon: on the forest ground the maroon offset
+       reads muddy, the way the hero's partner chips already shadow. */
+    box-shadow: 3px 3px 0 ${colors.forestDeep};
+    content: '';
+  }
 `;
 
 /* The presenting partner reads louder than anyone else on the wall: a
    double-width seat in the top row, its wordmark a step larger. */
 export const PresenterItem = styled(WallItem)`
-  grid-column: span 2;
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-column: span 2;
+  }
 `;
 
 export const PresenterTileLink = styled(PartnerTileLink)`
@@ -198,11 +283,12 @@ export const WallBand = styled.a.attrs({
   rel: 'noopener noreferrer',
 })`
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  min-height: 94px;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: space-between;
-  gap: 16px;
-  padding: 22px 28px;
+  gap: 24px;
+  padding: 18px 24px;
   border: 2px dashed ${colors.ink};
   color: ${colors.ink};
   text-decoration: none;
@@ -214,6 +300,11 @@ export const WallBand = styled.a.attrs({
   &:focus-visible {
     outline: 3px solid ${colors.orange};
     outline-offset: 3px;
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    flex-direction: row;
+    align-items: center;
   }
 `;
 
@@ -230,6 +321,7 @@ export const WallBandButton = styled.span`
   display: inline-flex;
   min-height: 44px;
   align-items: center;
+  justify-content: center;
   padding: 10px 20px;
   border: 2px solid ${colors.ink};
   background: ${colors.pink};

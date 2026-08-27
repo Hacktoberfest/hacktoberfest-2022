@@ -29,6 +29,7 @@ import {
   PartnershipGrid,
   PartnershipHeading,
   PartnershipRoot,
+  PartnerTileBody,
   PartnerTileLabel,
   PartnerTileLink,
   PresenterItem,
@@ -53,6 +54,8 @@ import {
   WallBandTitle,
   WallBandWrap,
   WallGrid,
+  WallHeading,
+  WallHeadingWrap,
   WallItem,
   WallLink,
   WallLogo,
@@ -67,15 +70,11 @@ import {
 const SponsorSection = () => (
   <>
     <WallRoot aria-labelledby="sponsor-wall-heading">
-      <SectionIntro>
-        <div>
-          <Eyebrow>{sponsor.wall.eyebrow}</Eyebrow>
-          <SectionHeading id="sponsor-wall-heading">
-            {sponsor.wall.heading.lead} <em>{sponsor.wall.heading.accent}</em>
-          </SectionHeading>
-        </div>
-        <SectionIntroCopy>{sponsor.wall.intro}</SectionIntroCopy>
-      </SectionIntro>
+      <WallHeadingWrap>
+        <WallHeading id="sponsor-wall-heading">
+          {sponsor.wall.heading.lead} <em>{sponsor.wall.heading.accent}</em>
+        </WallHeading>
+      </WallHeadingWrap>
       <WallGrid as="ul" aria-label="Hacktoberfest 2026 partners and sponsors">
         <WallItem>
           <PartnerTileLink
@@ -83,7 +82,9 @@ const SponsorSection = () => (
             aria-label="Visit Major League Hacking"
           >
             <PartnerTileLabel>{hero.poweredByLabel}</PartnerTileLabel>
-            <MlhLogo />
+            <PartnerTileBody>
+              <MlhLogo />
+            </PartnerTileBody>
           </PartnerTileLink>
         </WallItem>
         <WallItem>
@@ -92,7 +93,9 @@ const SponsorSection = () => (
             aria-label="Visit DEV"
           >
             <PartnerTileLabel>{hero.poweredByLabel}</PartnerTileLabel>
-            <DevLogo />
+            <PartnerTileBody>
+              <DevLogo />
+            </PartnerTileBody>
           </PartnerTileLink>
         </WallItem>
         <PresenterItem>
@@ -100,14 +103,22 @@ const SponsorSection = () => (
             href={SPONSOR_PARTNER_DIGITALOCEAN_URL}
             aria-label="Visit DigitalOcean"
           >
-            <PartnerTileLabel>{hero.presentingLabel}</PartnerTileLabel>
-            <DigitalOceanLogo />
+            <PartnerTileLabel $presenter>
+              {hero.presentingLabel}
+            </PartnerTileLabel>
+            <PartnerTileBody>
+              <DigitalOceanLogo />
+            </PartnerTileBody>
           </PresenterTileLink>
         </PresenterItem>
         {sponsors.map((entry) => (
           <WallItem key={entry.slug}>
             <WallLink href={entry.url} aria-label={`Visit ${entry.name}`}>
-              <WallLogo src={entry.logo} alt="" />
+              <WallLogo
+                src={entry.logo}
+                alt=""
+                $wide={entry.slug === 'backboard'}
+              />
             </WallLink>
           </WallItem>
         ))}

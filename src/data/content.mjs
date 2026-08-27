@@ -894,18 +894,15 @@ export const sponsor = {
   setupCta: 'Start sponsor setup',
   infoCta: 'Request partnership info',
   wall: {
-    eyebrow: 'Confirmed sponsors',
     heading: {
-      lead: 'Already backed by teams',
-      accent: 'building what’s next.',
+      lead: 'Meet the teams making',
+      accent: 'Hacktoberfest happen.',
     },
-    intro:
-      'Join the organizations putting open source AI into builders’ hands at 300+ Fests.',
     /* The grid's dashed empty seat and the band that closes the wall:
        the section ends on the invitation, not on a logo. */
     ghost: 'Your logo here',
     band: {
-      title: 'Build what’s next alongside them.',
+      title: 'Take your place in the lineup.',
       cta: 'Start sponsor setup',
     },
   },

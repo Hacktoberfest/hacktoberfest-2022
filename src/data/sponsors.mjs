@@ -55,4 +55,18 @@ export const sponsors = [
     url: tagged('https://github.com', { content: 'sponsor-logo-github' }),
     logo: '/sponsors/github.svg',
   },
+  {
+    name: 'Sentry',
+    slug: 'sentry',
+    url: tagged('https://sentry.io', { content: 'sponsor-logo-sentry' }),
+    logo: '/sponsors/sentry.svg',
+  },
+  {
+    name: 'Backboard.io',
+    slug: 'backboard',
+    url: tagged('https://backboard.io', {
+      content: 'sponsor-logo-backboard',
+    }),
+    logo: '/sponsors/backboard.svg',
+  },
 ];

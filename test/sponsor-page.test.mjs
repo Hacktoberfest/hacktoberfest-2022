@@ -56,6 +56,24 @@ test('/sponsor renders the partner marks as tagged tiles in the wall', async () 
       `missing partner tile: ${url}`,
     );
   });
+  assert.equal(
+    (html.match(/Powered by/g) || []).length,
+    2,
+    'both powered-by partner labels render',
+  );
+  assert.ok(html.includes('Presenting partner'));
+  assert.ok(
+    html.includes('fill="#000"'),
+    'DigitalOcean retains its black mark',
+  );
+});
+
+test('/sponsor uses the compact sponsor-wall heading and invitation', async () => {
+  const html = await readOutput('sponsor/index.html');
+  assert.ok(html.includes('Meet the teams making'));
+  assert.ok(html.includes('Hacktoberfest happen.'));
+  assert.ok(html.includes('Take your place in the lineup.'));
+  assert.ok(!html.includes('Already backed by teams'));
 });
 
 test('/sponsor carries the campaign stats and partnership benefits', async () => {
