@@ -460,6 +460,30 @@
   }
 }
 
+.checkAdvisory {
+  animation: verdictAdvisory 0.3s ease-out both;
+}
+
+/* Brand yellow, deliberately neither the pass forest nor the fail red:
+   an advisory miss is a nudge, and the ink icon keeps its contrast on the
+   light ground. */
+@keyframes verdictAdvisory {
+  from {
+    background: transparent;
+    transform: scale(0.7);
+  }
+  to {
+    /* colors.yellow */
+    background: #f5b726;
+    transform: scale(1);
+  }
+}
+
+.checkAdvisory .checkVerdictIcon {
+  /* colors.ink */
+  color: #10201d;
+}
+
 @keyframes verdictIcon {
   from {
     opacity: 0;
@@ -495,6 +519,24 @@
   margin: 0 0 4px;
   font-size: 0.9rem;
   line-height: 1.5;
+}
+
+/* The nudge's calmer cousin to .checksWarning: same card grammar, brand
+   yellow instead of the stop-sign red, because nothing here is wrong. */
+.checksNote {
+  margin: 14px 0 4px;
+  padding: 12px 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.yellow, washed */
+  background: #fbe3a9;
+  animation: fadeup 0.4s ease-out both;
+}
+
+/* The nudge's actions arrive with it rather than instantly: same fadeup,
+   delay set inline alongside the note's. */
+.checksPane .actions {
+  animation: fadeup 0.4s ease-out both;
 }
 
 /* The Code of Conduct scroll-through: the document in a bordered well
@@ -722,6 +764,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* Some of these actions are links (Update event, the email CTA), and a
+     button-dressed link underlining itself breaks the disguise. */
+  text-decoration: none;
   padding: 12px 22px;
   /* colors.ink */
   border: 2px solid #10201d;
@@ -752,6 +797,10 @@
 
 /* Ghost variant: same bones, card ground, ink label. */
 .cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   padding: 12px 22px;
   /* colors.ink */
   border: 2px solid #10201d;

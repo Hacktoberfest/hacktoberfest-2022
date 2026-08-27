@@ -150,11 +150,24 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
   const flagCode = displayed ? countryCodeFor(displayed.country) : null;
   const formatBlurb =
     displayed && displayed.format ? fests.formatBlurbs[displayed.format] : null;
+  /* The host's own words, split on blank-ish lines into paragraphs so a
+     multi-paragraph description keeps its shape. Rendered as text on
+     purpose: it is host-authored, and this modal is no place to interpret
+     markup. When the host has written nothing the standard per-format
+     blurb below stands in, so the modal always has something true to say. */
+  const descriptionParagraphs = displayed?.description
+    ? displayed.description
+        .split(/\r?\n+/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+    : null;
   /* The button says Register but it opens the Fest's own page, not the
-     registration form: the page carries the pitch and its own register
-     control, and landing straight on the form skipped the part someone
-     still deciding needed. The form URL stays only as a fallback for a
-     Fest whose page has not been published. */
+     registration form: the page carries its own register control, and
+     landing straight on the form skipped the part someone still deciding
+     needed. That deciding step now begins here — the description above is
+     the same pitch the page opens with — so the button hands over a reader
+     who has already been told what this Fest is. The form URL stays only
+     as a fallback for a Fest whose page has not been published. */
   const registerHref = displayed
     ? displayed.websiteUrl || displayed.registrationUrl
     : null;
@@ -321,12 +334,23 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                 </p>
               )}
 
-              {/* What this kind of Fest is, for someone deciding whether to
-                  go. Absent when the name claims neither format — better
+              {/* What this Fest is, for someone deciding whether to go.
+                  The host's own description when they have written one in
+                  Organizer HQ; otherwise the standard blurb for its format,
+                  and absent when the name claims neither format — better
                   nothing than a description of the wrong thing. */}
-              {formatBlurb && (
-                <p className={styles.modalBlurb}>{formatBlurb}</p>
-              )}
+              {descriptionParagraphs
+                ? descriptionParagraphs.map((paragraph, index) => (
+                    <p
+                      key={`${index}-${paragraph.slice(0, 24)}`}
+                      className={styles.modalBlurb}
+                    >
+                      {paragraph}
+                    </p>
+                  ))
+                : formatBlurb && (
+                    <p className={styles.modalBlurb}>{formatBlurb}</p>
+                  )}
 
               {typeof distanceKm === 'number' && (
                 <p className={styles.modalMeta}>
@@ -377,10 +401,10 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                 belongs to the reading column, not to the map.
 
                 Register, and only Register, and it opens the Fest's own
-                page rather than the registration form: the page is where
-                someone still deciding gets the pitch, and it has its own
-                register control. A past Fest has nothing to register for,
-                so the band is absent rather than empty. */}
+                page rather than the registration form: the page carries
+                the whole pitch this modal only summarises, and it has its
+                own register control. A past Fest has nothing to register
+                for, so the band is absent rather than empty. */}
             {canRegister && (
               <div className={styles.modalActions}>
                 <a

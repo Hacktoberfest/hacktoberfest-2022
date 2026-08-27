@@ -36,6 +36,12 @@ export const FESTS_FIXTURES = [
     id: 'fest-brooklyn',
     name: 'Hacktoberfest Hack Day Brooklyn',
     hostedBy: 'Brooklyn JS',
+    /* The one fixture with a host-written description, so the mocked build
+       shows the override and the paragraph split. Every other entry leaves
+       it out and falls back to the standard per-format blurb, which is the
+       common case in the live data. */
+    description:
+      'Join Brooklyn JS for a full day of open source hacking at the library. Bring a laptop and a project, or come find one - maintainers from a dozen local projects will be tagging good first issues all week.\n\nLunch and an espresso cart are on us. Prizes at 6 for the best shipped pull request, the best first-ever contribution, and the best lightning talk about a bug.',
     format: 'hackDay',
     city: 'Brooklyn',
     state: 'New York',

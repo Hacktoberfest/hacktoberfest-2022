@@ -154,6 +154,7 @@ export const SCENARIOS = Object.freeze({
           { id: 'coordinates', passed: true },
           { id: 'name', passed: true },
           { id: 'duration', passed: true },
+          { id: 'description', passed: true },
         ],
       },
       /* A hosted Fest already behind us: same "Hosting" role, past-tensed
@@ -184,11 +185,14 @@ export const SCENARIOS = Object.freeze({
           { id: 'coordinates', passed: true },
           { id: 'name', passed: true },
           { id: 'duration', passed: true },
+          { id: 'description', passed: true },
         ],
       },
       /* Published in MLH but not here yet: the acknowledgements ask. The
          "One step left" badge and the modal are reviewable from a share
-         link on this card. */
+         link on this card. Its description check misses on purpose - this
+         is the fixture that demos the advisory nudge, the pane pausing on
+         Continue instead of blocking. */
       {
         id: 'fest-azores',
         name: 'Hacktober Fest Azores',
@@ -214,6 +218,7 @@ export const SCENARIOS = Object.freeze({
           { id: 'coordinates', passed: true },
           { id: 'name', passed: true },
           { id: 'duration', passed: true },
+          { id: 'description', passed: false },
         ],
       },
       /* Published in MLH but failing an automated check: the checks pane
@@ -244,6 +249,7 @@ export const SCENARIOS = Object.freeze({
           { id: 'coordinates', passed: true },
           { id: 'name', passed: false },
           { id: 'duration', passed: true },
+          { id: 'description', passed: true },
         ],
       },
       /* Acknowledged, waiting on FestNet's checks - the quiet rung
@@ -273,6 +279,7 @@ export const SCENARIOS = Object.freeze({
           { id: 'coordinates', passed: true },
           { id: 'name', passed: true },
           { id: 'duration', passed: true },
+          { id: 'description', passed: true },
         ],
       },
       /* The event exists but the host has not published it in MLH - the
@@ -304,6 +311,7 @@ export const SCENARIOS = Object.freeze({
           { id: 'coordinates', passed: true },
           { id: 'name', passed: true },
           { id: 'duration', passed: true },
+          { id: 'description', passed: true },
         ],
       },
       /* An event application in flight: the Fest-to-be exists only as the

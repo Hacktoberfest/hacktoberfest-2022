@@ -1130,6 +1130,7 @@ export const my = {
         coordinates: 'Venue coordinates',
         name: 'Fest name',
         duration: 'Duration',
+        description: 'Description',
       },
       /* Each failed check says what is wrong and, where the host can put
          it right themselves, what right looks like. Coordinates is the
@@ -1141,6 +1142,19 @@ export const my = {
         duration:
           'Your Fest\u2019s running time is outside the allowed window. It needs to run for between 3 and 12 hours.',
         generic: 'One of your event details needs attention.',
+      },
+      /* The advisory verdict: a miss that nudges but must not stop the
+         flow. Fests were being approved before MLH's API carried
+         descriptions at all, so the directory shows standard per-format
+         copy whenever a host has not written their own - absence costs
+         them personality, not publication. The fix lives on the same
+         Organizer HQ form as the event name, which is where the CTA
+         points. */
+      advisory: {
+        lead: 'Make your Fest your own.',
+        description:
+          'You haven\u2019t set a custom description for your Fest. This is what potential attendees will see when deciding whether to attend! We recommend setting a custom description in Organizer HQ using the link below before continuing. You can update it at any time.',
+        continueCta: 'Continue',
       },
       warningLead: 'We need to fix something together first.',
       /* The lead when every failed check is the host's own to fix.

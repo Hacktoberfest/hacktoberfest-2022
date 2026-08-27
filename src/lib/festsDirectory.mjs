@@ -152,6 +152,15 @@ export const festFromEvent = (event) => {
     postalCode: address.postalCode || null,
     lat: typeof address.latitude === 'number' ? address.latitude : null,
     lng: typeof address.longitude === 'number' ? address.longitude : null,
+    /* The host's own description, written in Organizer HQ and mirrored
+       through the API. Null until they write one, which is most Fests: the
+       modal falls back to the standard per-format blurb. Whitespace is not
+       a description. Host-authored free text - the modal renders it as
+       text, never as HTML. */
+    description:
+      typeof event.description === 'string' && event.description.trim()
+        ? event.description.trim()
+        : null,
     date: venueDate(event.startsAt, event.timeZone),
     time: venueTime(event.startsAt, event.endsAt, event.timeZone),
     registrationUrl: event.registrationUrl || null,

@@ -27,6 +27,13 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
    check id we do not recognise, so both keep the email. */
 const SELF_FIXABLE_CHECKS = new Set(['name', 'duration']);
 
+/* Checks that nudge rather than block. A missing description costs a Fest
+   its own voice on the directory, not its listing - the site falls back to
+   standard per-format copy, and Fests were approved before MLH stored
+   descriptions at all. So its miss pauses the pane on a Continue button
+   instead of stopping the flow. */
+const ADVISORY_CHECKS = new Set(['description']);
+
 /* Which slide renders the venue check - the statement that asks the host
    to compare the address and the pin, so that slide has to show both. */
 const VENUE_SLIDE = 1;
@@ -96,7 +103,12 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
      an API from before they shipped) skips the pane rather than blocking
      the host on data we do not have. */
   const failedChecks = (fest.publicationChecks ?? []).filter(
-    (check) => !check.passed,
+    (check) => !check.passed && !ADVISORY_CHECKS.has(check.id),
+  );
+  /* Advisory misses ride the same pane but never block: they pause the
+     walk-on so the nudge gets read, and Continue is always offered. */
+  const advisoryMisses = (fest.publicationChecks ?? []).filter(
+    (check) => !check.passed && ADVISORY_CHECKS.has(check.id),
   );
   /* Whether this failure is the host's to fix: every failed check has to
      be one of theirs, and there has to be a form to send them to. Anything
@@ -125,6 +137,10 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
   useEffect(() => {
     if (!started || checksCleared || done) return undefined;
     if (!fest.publicationChecks || failedChecks.length > 0) return undefined;
+    /* An advisory miss holds the pane too - not because the host cannot
+       proceed, but because a pane that walks itself away mid-read is a
+       nudge nobody receives. Continue is theirs to press. */
+    if (advisoryMisses.length > 0) return undefined;
     const reduced =
       typeof globalThis.matchMedia === 'function' &&
       globalThis.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -139,6 +155,7 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
     done,
     fest.publicationChecks,
     failedChecks.length,
+    advisoryMisses.length,
   ]);
 
   const toggle = () => {
@@ -309,7 +326,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
                   className={
                     check.passed
                       ? `${styles.checkVerdict} ${styles.checkPass}`
-                      : `${styles.checkVerdict} ${styles.checkFail}`
+                      : ADVISORY_CHECKS.has(check.id)
+                        ? `${styles.checkVerdict} ${styles.checkAdvisory}`
+                        : `${styles.checkVerdict} ${styles.checkFail}`
                   }
                   style={{ animationDelay: `${0.9 + index * 0.7}s` }}
                 >
@@ -351,9 +370,59 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               </p>
             </div>
           )}
+          {/* The nudge, only when nothing is actually broken: a failure
+              outranks it, and the host will pass this way again. Not a
+              role=alert - nothing is wrong. */}
+          {failedChecks.length === 0 && advisoryMisses.length > 0 && (
+            <div
+              className={styles.checksNote}
+              style={{
+                animationDelay: `${1.3 + (fest.publicationChecks?.length ?? 0) * 0.7}s`,
+              }}
+            >
+              <p className={styles.checksWarningLead}>
+                {my.acknowledgements.checks.advisory.lead}
+              </p>
+              {advisoryMisses.map((check) => (
+                <p key={check.id} className={styles.checksWarningItem}>
+                  {my.acknowledgements.checks.advisory[check.id] ?? ''}
+                </p>
+              ))}
+            </div>
+          )}
+          {failedChecks.length === 0 && advisoryMisses.length > 0 && (
+            <div
+              className={styles.actions}
+              style={{
+                animationDelay: `${1.5 + (fest.publicationChecks?.length ?? 0) * 0.7}s`,
+              }}
+            >
+              {/* The fix leads and the walk-on follows: the nudge exists to
+                  hand the host the form, so the form is the primary action.
+                  Continue only dresses as primary when there is no form to
+                  offer - a lone secondary button would look disabled. */}
+              {editUrl && (
+                <a
+                  className={styles.confirm}
+                  href={editUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {my.acknowledgements.checks.updateCta}
+                </a>
+              )}
+              <button
+                type="button"
+                className={editUrl ? styles.cancel : styles.confirm}
+                onClick={() => setChecksCleared(true)}
+              >
+                {my.acknowledgements.checks.advisory.continueCta}
+              </button>
+            </div>
+          )}
           {/* No buttons while the verdicts land - the pane walks itself
               into the statements in a moment, and Escape still bails out.
-              Only a failure needs actions. */}
+              Only a failure or a nudge needs actions. */}
           {failedChecks.length > 0 && (
             <div className={styles.actions}>
               {hostCanFix ? (

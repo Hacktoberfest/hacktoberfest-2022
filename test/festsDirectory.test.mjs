@@ -83,6 +83,7 @@ test('normalizes API events into the card shape', async (t) => {
       postalCode: '11201',
       lat: 40.6782,
       lng: -73.9442,
+      description: null,
       date: '2026-10-03',
       /* 14:00–22:00 UTC is 10 AM – 6 PM in New York (EDT). */
       time: '10:00 AM – 6:00 PM',
@@ -122,6 +123,7 @@ test('drops non-object entries and tolerates a missing address', async (t) => {
       postalCode: null,
       lat: null,
       lng: null,
+      description: null,
       date: '2026-10-03',
       time: '10:00 AM – 6:00 PM',
       registrationUrl: null,
@@ -142,6 +144,30 @@ test('returns an empty list when the payload has no events array', async (t) => 
 test('throws when the API responds with a non-OK status', async (t) => {
   withFetch(t, () => ({ ok: false, status: 503 }));
   await assert.rejects(() => getFestsDirectory());
+});
+
+test('festFromEvent carries a host description and nulls everything else', () => {
+  assert.equal(
+    festFromEvent({ ...EVENT, description: 'We hack, then pizza.' })
+      .description,
+    'We hack, then pizza.',
+  );
+  /* Trimmed, because the modal splits on newlines and a stray trailing
+     one would render an empty paragraph. */
+  assert.equal(
+    festFromEvent({ ...EVENT, description: '  We hack.\n' }).description,
+    'We hack.',
+  );
+  assert.equal(festFromEvent(EVENT).description, null);
+  assert.equal(
+    festFromEvent({ ...EVENT, description: null }).description,
+    null,
+  );
+  assert.equal(
+    festFromEvent({ ...EVENT, description: '   ' }).description,
+    null,
+  );
+  assert.equal(festFromEvent({ ...EVENT, description: 42 }).description, null);
 });
 
 test('festFromEvent falls back to the slug when the id is null', () => {
