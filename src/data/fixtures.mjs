@@ -192,10 +192,11 @@ export const SCENARIOS = Object.freeze({
          "One step left" badge and the modal are reviewable from a share
          link on this card. Its description check misses on purpose - this
          is the fixture that demos the advisory nudge, the pane pausing on
-         Continue instead of blocking. */
+         Continue instead of blocking. Named as a Meet Up so the first
+         statement's bold no-reimbursement line is reviewable here too. */
       {
         id: 'fest-azores',
-        name: 'Hacktober Fest Azores',
+        name: 'Hacktoberfest Meet Up Azores',
         city: 'Ponta Delgada',
         country: 'Portugal',
         date: '2026-10-12',

@@ -9,6 +9,7 @@ import {
 } from 'components/icons/badges';
 import { my } from 'data/content.mjs';
 import { acknowledgeFest } from 'lib/acknowledgements.mjs';
+import { festFormatFromName } from 'lib/festFormat.mjs';
 import { festEditUrl } from 'lib/fests.mjs';
 
 import styles from './AcknowledgementsModal.module.css';
@@ -33,6 +34,10 @@ const SELF_FIXABLE_CHECKS = new Set(['name', 'duration']);
    descriptions at all. So its miss pauses the pane on a Continue button
    instead of stopping the flow. */
 const ADVISORY_CHECKS = new Set(['description']);
+
+/* Which slide speaks about spending and reimbursement eligibility - for
+   a Meetup it carries the bold reminder that only Hack Days have any. */
+const REIMBURSEMENT_SLIDE = 0;
 
 /* Which slide renders the venue check - the statement that asks the host
    to compare the address and the pin, so that slide has to show both. */
@@ -87,6 +92,9 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
      the Fest's behalf by name, so it arrives as a function of it. */
   const statementText = (entry) =>
     typeof entry === 'function' ? entry(fest.name) : entry;
+  /* Read from the name, the same way the /fests directory badges do -
+     the API's own format field cannot tell the two formats apart. */
+  const isMeetup = festFormatFromName(fest.name) === 'meetUp';
   const [step, setStep] = useState(0);
   const [checked, setChecked] = useState(() => statements.map(() => false));
   const [error, setError] = useState(null);
@@ -601,6 +609,11 @@ const AcknowledgementsModal = ({ fest, onClose, onAcknowledged }) => {
               </span>
               <span className={styles.statementText}>
                 {statementText(statements[step])}
+                {step === REIMBURSEMENT_SLIDE && isMeetup && (
+                  <strong className={styles.statementAppendix}>
+                    {my.acknowledgements.meetupReimbursement}
+                  </strong>
+                )}
               </span>
             </label>
           </div>

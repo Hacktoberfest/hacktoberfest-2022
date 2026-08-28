@@ -687,6 +687,14 @@
   min-width: 0;
 }
 
+/* The Meetup no-reimbursement line: a bold paragraph of its own under
+   the statement, not a clause riding the end of it. */
+.statementAppendix {
+  display: block;
+  margin-top: 12px;
+  font-weight: 700;
+}
+
 .error {
   margin: 0 0 4px;
   font-weight: 600;

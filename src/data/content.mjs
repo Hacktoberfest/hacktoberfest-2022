@@ -1185,6 +1185,12 @@ export const my = {
     /* All three statements are real, reviewed copy. The venue slide
        (index 1) also renders the address line and the map pin the
        statement asks the host to check. */
+    /* A bold paragraph of its own under the first statement when the Fest
+       is a Meetup: that statement mentions reimbursement eligibility, and
+       only Hack Days have any. Said here so a Meetup host never reads the
+       spending line as a promise of funding. */
+    meetupReimbursement:
+      'I understand that only Hack Days are eligible for reimbursement. Meetups are not eligible for reimbursement.',
     statements: [
       'I acknowledge that I will follow all Major League Hacking guidelines for my event, including keeping it in person and keeping spending within the policy-approved limits and categories. If my plans need to deviate from these guidelines, I will check with MLH first at hacktoberfest@mlh.io. I understand that unapproved deviations may put my reimbursement eligibility and my ability to work with MLH on future events at risk.',
       'I have double checked that the address and map pin above match my venue.',
