@@ -592,7 +592,7 @@ export const fests = {
   eyebrow: 'The Fests',
   heading: { lead: 'Find a Fest', accent: 'near you.' },
   intro:
-    'Every Fest is a one-day, in-person event, either a Hack Day or a Meet Up, hosted by local organizers. Search by name or city, or use your location to see what is closest.',
+    'Every Fest is a one-day, in-person event, either a Hack Day or a Meetup, hosted by local organizers. Search by name or city, or use your location to see what is closest.',
   searchPlaceholder: 'Search by name, city, or country',
   searchLabel: 'Search Fests',
   locationCta: 'Use my location',
@@ -628,13 +628,13 @@ export const fests = {
   hostedBy: 'Hosted by',
   formatBadges: {
     hackDay: 'Hack Day',
-    meetUp: 'Meet Up',
+    meetUp: 'Meetup',
   },
   /* What each format actually is, in the modal, for someone deciding
      whether to go. Deliberately the same facts /host gives would-be hosts
      (host.formats.cards) turned to face the other way: hands on keyboard
      and prizes for a Hack Day, less structure and maybe speakers for a
-     Meet Up. One set of facts, two audiences, so the two pages can never
+     Meetup. One set of facts, two audiences, so the two pages can never
      describe the same format differently.
 
      Nothing here promises anything a Fest has not signed up to. What a
@@ -669,7 +669,7 @@ export const fests = {
     label: 'Filter by format',
     all: 'All',
     hackDay: 'Hack Days',
-    meetUp: 'Meet Ups',
+    meetUp: 'Meetups',
   },
   viewToggle: {
     label: 'Choose how Fests are shown',
@@ -681,7 +681,7 @@ export const fests = {
      /host, which carries the formats and the application. */
   hostCallout: {
     title: 'No Fest near you? That’s your cue.',
-    body: 'Every Fest on this list exists because someone local decided to make it happen. Anyone can host one: a funded Hack Day or a casual Meet Up. If your city isn’t on the map yet, you’re exactly the person to fix that.',
+    body: 'Every Fest on this list exists because someone local decided to make it happen. Anyone can host one: a funded Hack Day or a casual Meetup. If your city isn’t on the map yet, you’re exactly the person to fix that.',
     cta: 'Host a Fest',
     photoAlt:
       'Hack Day participants working on laptops around a table while a host leans in to help',
@@ -1094,12 +1094,12 @@ export const my = {
     publishedBadge: 'Event Published',
     ghost: {
       title: 'Start your first application.',
-      body: 'Anyone can host a Fest this October — a funded Hack Day or a lighter Meet Up with swag. Applications are confirmed on a rolling basis, usually within a week.',
+      body: 'Anyone can host a Fest this October — a funded Hack Day or a lighter Meetup with swag. Applications are confirmed on a rolling basis, usually within a week.',
       cta: 'Apply to host a Fest',
     },
     ghostMore: {
       title: 'Host another Fest.',
-      body: 'Want to run both a Hack Day and a Meet Up? Want to run Fests in multiple cities? The sky’s the limit.',
+      body: 'Want to run both a Hack Day and a Meetup? Want to run Fests in multiple cities? The sky’s the limit.',
       cta: 'Start another application',
     },
   },
@@ -1138,7 +1138,7 @@ export const my = {
          diagnosis and its CTA stays the email. */
       failures: {
         coordinates: 'Your venue has not been placed on the map yet.',
-        name: 'Your Fest has been renamed. Its name needs to read \u201cHacktoberfest Hack Day <City> x <Partner>\u201d or \u201cHacktoberfest Meet Up <City> x <Partner>\u201d, joining multiple partners with \u201c&\u201d.',
+        name: 'Your Fest has been renamed. Its name needs to read \u201cHacktoberfest Hack Day <City>\u201d or \u201cHacktoberfest Meetup <City>\u201d, optionally followed by \u201c x <Partner>\u201d, joining multiple partners with \u201c&\u201d.',
         duration:
           'Your Fest\u2019s running time is outside the allowed window. It needs to run for between 3 and 12 hours.',
         generic: 'One of your event details needs attention.',
