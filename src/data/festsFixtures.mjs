@@ -37,11 +37,14 @@ export const FESTS_FIXTURES = [
     name: 'Hacktoberfest Hack Day Brooklyn',
     hostedBy: 'Brooklyn JS',
     /* The one fixture with a host-written description, so the mocked build
-       shows the override and the paragraph split. Every other entry leaves
+       shows the override, the paragraph split and every kind of markdown the
+       modal renders: bold, italic, a list and a link. CRLF on purpose - that
+       is what Organizer HQ's textarea sends, and it is what the live payload
+       carries on all ten host-written descriptions. Every other entry leaves
        it out and falls back to the standard per-format blurb, which is the
        common case in the live data. */
     description:
-      'Join Brooklyn JS for a full day of open source hacking at the library. Bring a laptop and a project, or come find one - maintainers from a dozen local projects will be tagging good first issues all week.\n\nLunch and an espresso cart are on us. Prizes at 6 for the best shipped pull request, the best first-ever contribution, and the best lightning talk about a bug.',
+      'Join Brooklyn JS for a full day of open source hacking at the library. Bring a laptop and a project, or come find one - maintainers from a dozen local projects will be tagging **good first issues** all week.\r\n\r\nWhat to bring:\r\n- A laptop and a charger\r\n- A GitHub account\r\n- *Optionally*, a project you are stuck on\r\n\r\nLunch and an espresso cart are on us. Prizes at 6 for the best shipped pull request. Full schedule at [brooklynjs.example](https://example.invalid/brooklynjs).',
     format: 'hackDay',
     city: 'Brooklyn',
     state: 'New York',

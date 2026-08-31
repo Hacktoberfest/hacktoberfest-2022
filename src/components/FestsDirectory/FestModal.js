@@ -6,6 +6,7 @@ import { fests } from 'data/content.mjs';
 import { basemapIsAvailable } from 'lib/basemapSource.mjs';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
 import { festIsPast, festWeekday, formatFestDate } from 'lib/festDate.mjs';
+import { parseFestDescription } from 'lib/festDescription.mjs';
 
 import styles from './FestsDirectory.module.css';
 
@@ -15,6 +16,61 @@ const FestLocationMap = dynamic(() => import('./FestLocationMap'), {
 });
 
 const copy = fests.modal;
+
+/* One parseFestDescription `parts` array. Every kind of part reduces to a
+   text node, a <strong>, an <em> or an <a> - there is no branch that turns a
+   host's text into markup, which is what keeps this safe by construction
+   rather than by sanitising. */
+const DescriptionParts = ({ parts }) =>
+  parts.map((part, index) => {
+    if (part.href) {
+      /* Always outbound: parseFestDescription only keeps http(s) and mailto
+         hrefs, so the rel guard that has to come with target="_blank" is
+         never optional here - unlike FaqList, whose links can be our own. */
+      return (
+        <a
+          key={index}
+          href={part.href}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          {part.text}
+        </a>
+      );
+    }
+
+    if (part.bold) return <strong key={index}>{part.text}</strong>;
+    if (part.italic) return <em key={index}>{part.text}</em>;
+
+    return part.text;
+  });
+
+/* The host's description, block by block. Paragraphs keep .modalBlurb so a
+   description and the per-format blurb it replaces read identically; the two
+   list kinds get their own class for the indent a bare <ul> in a modal
+   would otherwise lack. */
+const DescriptionBlocks = ({ blocks }) =>
+  blocks.map((block, index) => {
+    if (block.type === 'paragraph') {
+      return (
+        <p key={index} className={styles.modalBlurb}>
+          <DescriptionParts parts={block.parts} />
+        </p>
+      );
+    }
+
+    const List = block.type === 'orderedList' ? 'ol' : 'ul';
+
+    return (
+      <List key={index} className={styles.modalBlurbList}>
+        {block.items.map((item, itemIndex) => (
+          <li key={itemIndex}>
+            <DescriptionParts parts={item.parts} />
+          </li>
+        ))}
+      </List>
+    );
+  });
 
 /* One Fest, opened from its card or its map marker.
 
@@ -150,17 +206,17 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
   const flagCode = displayed ? countryCodeFor(displayed.country) : null;
   const formatBlurb =
     displayed && displayed.format ? fests.formatBlurbs[displayed.format] : null;
-  /* The host's own words, split on blank-ish lines into paragraphs so a
-     multi-paragraph description keeps its shape. Rendered as text on
-     purpose: it is host-authored, and this modal is no place to interpret
-     markup. When the host has written nothing the standard per-format
-     blurb below stands in, so the modal always has something true to say. */
-  const descriptionParagraphs = displayed?.description
-    ? displayed.description
-        .split(/\r?\n+/)
-        .map((line) => line.trim())
-        .filter(Boolean)
-    : null;
+  /* The host's own words, as markdown - which is what Organizer HQ takes,
+     so a host who writes a bulleted schedule or a **bold** date must not be
+     shown their own asterisks. parseFestDescription returns blocks rather
+     than HTML, and DescriptionBlocks below renders them as React nodes, so
+     nothing a host writes is ever interpreted as markup: see
+     lib/festDescription.mjs. When the host has written nothing the standard
+     per-format blurb stands in, so the modal always has something true to
+     say. */
+  const descriptionBlocks = displayed?.description
+    ? parseFestDescription(displayed.description)
+    : [];
   /* The button says Register but it opens the Fest's own page, not the
      registration form: the page carries its own register control, and
      landing straight on the form skipped the part someone still deciding
@@ -339,18 +395,13 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                   Organizer HQ; otherwise the standard blurb for its format,
                   and absent when the name claims neither format — better
                   nothing than a description of the wrong thing. */}
-              {descriptionParagraphs
-                ? descriptionParagraphs.map((paragraph, index) => (
-                    <p
-                      key={`${index}-${paragraph.slice(0, 24)}`}
-                      className={styles.modalBlurb}
-                    >
-                      {paragraph}
-                    </p>
-                  ))
-                : formatBlurb && (
-                    <p className={styles.modalBlurb}>{formatBlurb}</p>
-                  )}
+              {descriptionBlocks.length > 0 ? (
+                <DescriptionBlocks blocks={descriptionBlocks} />
+              ) : (
+                formatBlurb && (
+                  <p className={styles.modalBlurb}>{formatBlurb}</p>
+                )
+              )}
 
               {typeof distanceKm === 'number' && (
                 <p className={styles.modalMeta}>

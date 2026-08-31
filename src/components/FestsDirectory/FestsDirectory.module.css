@@ -1365,6 +1365,28 @@
   font-size: 0.95rem;
   line-height: 1.55;
 }
+/* A list inside a host's description. Matches .modalBlurb's colour, size and
+   rhythm exactly - the two alternate within one description, and a list that
+   read as a different voice from the paragraph above it would look like a
+   quote from somewhere else. The padding is the indent a bare list loses
+   inside the modal's own reset. */
+.modalBlurbList {
+  margin: 12px 0 0;
+  padding-left: 20px;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.modalBlurbList li + li {
+  margin-top: 4px;
+}
+.modalBlurb a,
+.modalBlurbList a {
+  /* colors.ink — a host's link earns the same underline as ours. */
+  color: #0f2e2a;
+  text-decoration: underline;
+}
 .modalMeta {
   margin: 10px 0 0;
   /* colors.muted */
