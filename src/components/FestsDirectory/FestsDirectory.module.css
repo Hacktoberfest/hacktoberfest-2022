@@ -1156,11 +1156,11 @@
 }
 @media (min-width: 640px) {
   .modalBody[data-columns='two'] {
-    /* 360 rather than the 230 this started at. The text column is capped at
-       46ch regardless, so width handed to the panel costs the prose
-       nothing until the panel eats past that cap — and 230 was under the
-       width a map's own attribution needs to sit on one line, which is a
-       fair sign the map was being asked to live somewhere too small. */
+    /* 360 rather than the 230 this started at. 230 was under the width a
+       map's own attribution needs to sit on one line, which is a fair sign
+       the map was being asked to live somewhere too small. What is left
+       goes to the prose, which now uses all of it: this column's width is
+       what sets the measure, since .modalDetails no longer caps it. */
     grid-template-columns: minmax(0, 1fr) 360px;
 
     /* Both rows declared EXPLICITLY, and that is load-bearing rather than
@@ -1183,13 +1183,70 @@
   }
 }
 /* The body's text column: the date now, and the Fest's own description
-   when there is one. Sized for prose rather than for a single line —
-   max-width in ch so a paragraph breaks at a readable measure instead of
-   running the full half-width of the modal. */
+   when there is one.
+
+   No max-width. It used to cap the measure at 46ch, which only ever bound
+   in the two-column layout - the modal is 880px there, so this column is
+   520 - and every pixel it saved was left on the right, giving the prose a
+   22px gutter on one side and about 150 on the other. The column's own
+   padding sets both gutters now, and the measure lands near 62 characters
+   at this width, inside the range that reads comfortably. */
 .modalDetails {
   min-width: 0;
-  max-width: 46ch;
   padding: 20px 22px 22px;
+}
+/* A long description scrolls inside its own column rather than growing the
+   modal around it.
+
+   Host descriptions have no length limit at either end of the pipe and the
+   live ones run past 1,600 characters. This column sizes the grid row, and
+   the panel beside it spans that row with a flex: 1 map inside, so an
+   unbounded description was setting the height of everything: measured on
+   a 1280x900 viewport, one took the modal to its 868px ceiling with 1,551px
+   of content scrolling inside it and stretched the map to 1,357px - a strip
+   four times its natural size, most of it empty ocean.
+
+   Capped, the same description leaves the modal at 621px with the map at
+   423, against the 563 and 365 a short one produces. So the modal barely
+   moves between a Fest with two lines and a Fest with two thousand
+   characters, and the description scrolls instead.
+
+   440px because it is a comfortable read at this measure - about fifteen
+   lines - and lands the modal near the height a typical Fest already has.
+   The map keeps its own flex behaviour underneath; this only stops the
+   prose from driving it.
+
+   Only in two columns: stacked, there is no map to hold still and the
+   description IS the body, so the modal scrolling is the description
+   scrolling. */
+@media (min-width: 640px) {
+  .modalBody[data-columns='two'] .modalDetails {
+    max-height: 440px;
+    overflow-y: auto;
+    /* The page behind a modal should not scroll when the description runs
+       out - the reader is inside a dialog, and reaching the end of it is
+       not a request to move the grid underneath. */
+    overscroll-behavior: contain;
+  }
+  /* Text going soft at the cut, so the boundary reads as more to come
+     rather than as a paragraph that stops mid-sentence.
+
+     A mask rather than a gradient overlay in the paper colour: the column
+     is transparent and sits on the modal's ground, and painting a fake
+     ground over it would have to know that colour and repeat it. Masking
+     fades to whatever is actually behind.
+
+     data-more, set by the modal from the column's own scroll position,
+     means this appears only when something is below the fold and lifts at
+     the end of the scroll - a fade sitting permanently over the last line
+     of a finished description reads as text that failed to load. */
+  .modalBody[data-columns='two'] .modalDetails[data-more='true'] {
+    mask-image: linear-gradient(
+      to bottom,
+      #000 calc(100% - 34px),
+      transparent calc(100% - 4px)
+    );
+  }
 }
 /* The map and the address as one block: the pin says roughly where, the
    words say exactly where, and they belong to each other. */

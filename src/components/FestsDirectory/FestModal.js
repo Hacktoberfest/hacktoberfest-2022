@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Close from 'components/icons/Close';
 import { fests } from 'data/content.mjs';
@@ -132,6 +132,37 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
      all, so the second call never happened there and the whole path looked
      correct. Every browser that implements `close` properly hit it. */
   const selfClosing = useRef(false);
+  /* The text column, and whether it has anything below the fold. Drives the
+     fade at its foot: a description that fits must not wear one, and neither
+     must one already scrolled to its end - a permanent gradient over the
+     last line reads as text that failed to load rather than as more to come. */
+  const detailsRef = useRef(null);
+  const [descriptionMore, setDescriptionMore] = useState(false);
+
+  const measureDetails = useCallback(() => {
+    const el = detailsRef.current;
+    if (!el) return;
+
+    /* 1px of slack: fractional layout means scrollTop + clientHeight lands
+       just short of scrollHeight at the very bottom often enough to leave a
+       fade on permanently. */
+    const remaining = el.scrollHeight - el.clientHeight - el.scrollTop;
+    setDescriptionMore(remaining > 1);
+  }, []);
+
+  /* What comes after the open: a web font landing, the window resizing, the
+     map's own load moving the row. The measurement AT the open is taken by
+     the effect below, the moment showModal() has run - see the note there. */
+  useEffect(() => {
+    if (!fest) return;
+
+    const el = detailsRef.current;
+    if (!el || typeof ResizeObserver === 'undefined') return;
+
+    const observer = new ResizeObserver(measureDetails);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [fest, measureDetails]);
 
   useEffect(() => {
     if (fest) lastFest.current = fest;
@@ -143,11 +174,19 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
 
     if (fest) {
       if (!dialog.open) dialog.showModal();
+      /* Straight after showModal and not before it: until then the dialog
+         is display: none, the text column has no box, and every height
+         reads 0 - so a measurement taken earlier in this commit finds
+         nothing to scroll and the fade never appears. Reading scrollHeight
+         here forces the layout synchronously, which is why this needs no
+         frame to wait for; a description that arrives with the modal is
+         measured in the same tick it opens in. */
+      measureDetails();
     } else if (dialog.open) {
       selfClosing.current = true;
       dialog.close();
     }
-  }, [fest]);
+  }, [fest, measureDetails]);
 
   /* What is on screen. Derived rather than held in state, and that is the
      whole of a bug worth remembering.
@@ -377,7 +416,12 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                 spanning both, because a row that spans sits under the
                 TALLER column — which was the map — and that left the
                 button stranded in an empty quadrant. */}
-            <div className={styles.modalDetails}>
+            <div
+              ref={detailsRef}
+              className={styles.modalDetails}
+              onScroll={measureDetails}
+              data-more={descriptionMore ? 'true' : undefined}
+            >
               {(date || displayed.time) && (
                 <p className={styles.modalDate}>
                   {weekday && date ? `${weekday}, ${date}` : date}
