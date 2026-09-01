@@ -35,22 +35,22 @@
   "dependencies": {
     "@protomaps/basemaps": "^5.7.2",
     "@typeform/embed-react": "^5.0.0",
-    "country-list": "^2.3.0",
+    "country-list": "^2.4.1",
     "flag-icons": "^7.5.0",
-    "html-react-parser": "^5.2.5",
-    "maplibre-gl": "^5.24.0",
-    "markdown-it": "^14.1.0",
-    "next": "^15.3.9",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "html-react-parser": "^6.1.7",
+    "maplibre-gl": "^6.6.0",
+    "markdown-it": "^15.0.1",
+    "next": "^16.3.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "serve": "^14.2.6",
-    "sitemap": "^8.0.0",
-    "styled-components": "^6.1.18"
+    "sitemap": "^9.0.1",
+    "styled-components": "^6.5.3"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.0.0",
-    "prettier": "^3.5.3",
-    "webpack": "^5.99.8"
+    "lint-staged": "^17.4.1",
+    "prettier": "^3.9.6",
+    "webpack": "^5.110.2"
   }
 }
