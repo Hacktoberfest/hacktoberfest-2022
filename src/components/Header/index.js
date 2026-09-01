@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import Banner from 'components/Banner';
 import Close from 'components/icons/Close';
 import HacktoberfestLogo from 'components/icons/HacktoberfestLogo';
 import Hamburger from 'components/icons/Hamburger';
+import { PREPTEMBER } from 'data/preptember.mjs';
 
 import {
   HeaderRoot,
@@ -62,6 +64,12 @@ const Header = ({ standalone = false }) => {
   return (
     <>
       <SkipLink href="#main">Skip to content</SkipLink>
+      {/* Above the nav rather than in it: the banner scrolls away with the
+          page while the nav stays put, and it sits after the skip link so
+          the first thing on the keyboard's path is still the way past all
+          of this. Every page renders Header, so this is what makes the
+          strip site-wide. */}
+      {PREPTEMBER && <Banner />}
       <HeaderRoot>
         <Nav as="nav" aria-label="Main navigation">
           <Wordmark

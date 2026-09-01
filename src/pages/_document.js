@@ -1,6 +1,8 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
+import { bannerPrePaintScript } from '../lib/banner.mjs';
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const styledComponentsSheet = new ServerStyleSheet();
@@ -93,6 +95,15 @@ class MyDocument extends Document {
 })();`,
             }}
           />
+          {/* Marks <html> for someone who has already closed the site
+              banner, before anything paints. The strip is in every page's
+              server-rendered HTML — it has to be, or it would pop in and
+              shove the page down a frame after load — so hiding the closed
+              state is CSS's job, and CSS needs the answer before the first
+              frame rather than after hydration. Inline and in the head for
+              that reason; components/Banner then unmounts the strip
+              outright once React is running. */}
+          <script dangerouslySetInnerHTML={{ __html: bannerPrePaintScript }} />
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link
             rel="icon"

@@ -15,6 +15,24 @@
 
 export const headingText = ({ lead, accent }) => `${lead} ${accent}`;
 
+/* The strip above the nav, on every page. Preptember's one ask, in the
+   one place nobody has to scroll to find: every other pointer at hosting
+   is either below the fold or on a page somebody has to choose to visit
+   first.
+
+   It links to /host rather than the nav's /my, deliberately: the nav's
+   CTA is for someone who has already decided, while a banner interrupts
+   someone who has not, and /host is the page that makes the case.
+
+   Rendered only while PREPTEMBER is true (data/preptember.mjs), so the
+   October 1st deploy that flips the hub out of its September state takes
+   the banner with it rather than leaving the site wishing people a happy
+   Preptember in the middle of Hacktoberfest. */
+export const banner = {
+  message: 'It’s Preptember! Get your Fest applications in.',
+  close: 'Close banner',
+};
+
 export const hero = {
   /* Two lines so phones can break between the clauses rather than mid-phrase;
      they share one line, separator restored, from tablet up. */
