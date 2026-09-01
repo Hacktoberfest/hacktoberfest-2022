@@ -1,14 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import {
-  FAQ_UPDATES_FORM,
-  HERO_ATTEND_FORM,
-  SPONSOR_HERO_FORM,
-  SPONSOR_PARTNERSHIP_FORM,
-  WAYS_IN_PERSON_FORM,
-  WAYS_ONLINE_FORM,
-} from '../src/data/typeforms.mjs';
+import * as typeforms from '../src/data/typeforms.mjs';
+
+const { SPONSOR_HERO_FORM, SPONSOR_PARTNERSHIP_FORM, WAYS_ONLINE_FORM } =
+  typeforms;
 
 const campaign = (content) => ({
   utm_source: 'hacktoberfest.com',
@@ -17,29 +13,32 @@ const campaign = (content) => ({
   utm_content: content,
 });
 
-test('configures every interest popup with placement attribution', () => {
-  // 'nav-host' retired with the nav popup — the header CTA links to /host/
-  // now. 'host-apply' retired too: that CTA is an internal link to /my
-  // now, asserted in host-page.test.mjs. 'hero-host', 'faq-host' and
-  // 'get-involved-host' went the same way when applications opened — all
-  // three link to /host/ now, asserted in typeform-pages.test.mjs. What
-  // is left presets organizer_interest false or nothing at all: no host
-  // ask on the site opens a form any more.
-  assert.deepEqual(HERO_ATTEND_FORM, {
-    id: 'JIRQyVOq',
-    tracking: campaign('hero-attend'),
-    hidden: { organizer_interest: 'false' },
-  });
-  assert.deepEqual(WAYS_IN_PERSON_FORM, {
-    id: 'JIRQyVOq',
-    tracking: campaign('ways-in-person'),
-    hidden: { organizer_interest: 'false' },
-  });
+test('configures the one surviving interest popup with placement attribution', () => {
+  // Every host ask left this form long ago — 'nav-host', 'host-apply',
+  // 'hero-host', 'faq-host' and 'get-involved-host' are all links now.
+  // The attendee asks followed when the Fests directory opened:
+  // 'hero-attend', 'faq-updates' and 'ways-in-person' go to /fests/,
+  // asserted in typeform-pages.test.mjs. The online card is the last
+  // placement standing, because the online event has no page to link at.
   assert.deepEqual(WAYS_ONLINE_FORM, {
     id: 'JIRQyVOq',
     tracking: campaign('ways-online'),
     hidden: { organizer_interest: 'false' },
   });
+});
+
+/* The retired configs, pinned as absent. Deleting a placement is the whole
+   point of the change; a config quietly reappearing would put an interest
+   form back in front of people the directory can already answer. */
+test('exports no attendee interest popup', () => {
+  ['HERO_ATTEND_FORM', 'FAQ_UPDATES_FORM', 'WAYS_IN_PERSON_FORM'].forEach(
+    (name) =>
+      assert.equal(
+        typeforms[name],
+        undefined,
+        `${name} is retired: the attendee ask links to /fests/ now`,
+      ),
+  );
 });
 
 test('configures the sponsor popups with their own form and placements', () => {
@@ -53,13 +52,5 @@ test('configures the sponsor popups with their own form and placements', () => {
   assert.deepEqual(SPONSOR_PARTNERSHIP_FORM, {
     id: 'kShwvA2e',
     tracking: campaign('sponsor-partnership-info'),
-  });
-});
-
-test('configures the inline FAQ popup', () => {
-  // The PR question is a contributor's, so it presets nothing.
-  assert.deepEqual(FAQ_UPDATES_FORM, {
-    id: 'JIRQyVOq',
-    tracking: campaign('faq-updates'),
   });
 });

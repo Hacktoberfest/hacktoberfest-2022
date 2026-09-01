@@ -1,4 +1,5 @@
 import Button from 'components/Button';
+import LlmsNote from 'components/LlmsNote';
 import { faq } from 'data/content.mjs';
 
 import FaqList from './FaqList';
@@ -8,8 +9,6 @@ import {
   FaqHeading,
   FaqIntro,
   FaqIntroCopy,
-  FaqLlmsLink,
-  FaqLlmsNote,
   FaqRoot,
 } from './FaqSection.styles';
 
@@ -40,9 +39,9 @@ const FaqSection = () => (
       <Button href={faq.homepage.cta.href}>{faq.homepage.cta.label}</Button>
     </FaqCtaRow>
 
-    <FaqLlmsNote>
-      <FaqLlmsLink href="/llms.txt">{faq.llmsNote}</FaqLlmsLink>
-    </FaqLlmsNote>
+    {/* The same aside /fests carries under its directory, one component
+        for both. This one stays on the site: llms.txt is a file here. */}
+    <LlmsNote href="/llms.txt">{faq.llmsNote}</LlmsNote>
   </FaqRoot>
 );
 

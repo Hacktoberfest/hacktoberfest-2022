@@ -15,6 +15,17 @@
 export const LIVE_API_BASE_URL = 'https://hacktoberfest-api.mlh.com';
 export const MOCKED_SENTINEL = 'mocked';
 
+/* The public events snapshot as an absolute URL, for the two places that
+   publish the endpoint rather than call it: the LLM note under the /fests
+   directory (via FESTS_API_URL in data/links.js) and the crawler files
+   (src/build/llms.mjs). Deliberately built on LIVE_API_BASE_URL and not on
+   the resolved base — an address a reader is given has to be the live one
+   even in a mocked build, where the resolved base is ''. Callers inside the
+   app still go through resolveApiBaseUrl; this constant is only ever
+   printed. Lives here, beside the origin it is made of, so the build
+   scripts can import it without reaching into a .js file. */
+export const LIVE_EVENTS_URL = `${LIVE_API_BASE_URL}/api/events`;
+
 /* Resolves the raw env value to the API origin the build will call, or ''
    for the mocked build — every mock-vs-live seam switches on that
    falsiness, unchanged. */

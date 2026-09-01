@@ -195,29 +195,8 @@ export const FaqCtaRow = styled(Shell)`
   margin-top: 36px;
 `;
 
-/* The wink under the panel, tucked into the section's bottom-right corner.
-   Set well clear of the panel — the offset shadow eats the first 7px, and
-   this is an aside rather than part of the list. */
-export const FaqLlmsNote = styled(Shell)`
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 40px;
-`;
-
-export const FaqLlmsLink = styled.a`
-  color: ${colors.muted};
-  font-family: ${fonts.mono};
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-
-  &:hover {
-    color: ${colors.ink};
-  }
-`;
+/* The wink under the panel moved to components/LlmsNote, which /fests
+   renders too — the two asides have to keep looking like one thing. */
 
 export const FaqFormLink = styled(TypeformButton)`
   ${inlineLink}

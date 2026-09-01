@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 import { buttonStyles } from 'components/Button';
 import Shell from 'components/Shell';
-import TypeformButton from 'components/TypeformButton.mjs';
 import { breakpoints, colors, fonts } from 'styles/tokens';
 
 export const HeroRoot = styled.section`
@@ -177,9 +176,9 @@ export const HeroButton = styled.a`
 
 /* Button's ghost variant — transparent with the shared offset shadow — so
    this reads as a real button beside the primary without competing with it.
-   The variant sat unused since the old attend button was cut; this is the
-   same job back. */
-export const HeroSecondaryButton = styled(TypeformButton).attrs({
+   A link like its primary now: the attendee ask stopped being an interest
+   form when the directory opened, so this goes to /fests/. */
+export const HeroSecondaryButton = styled.a.attrs({
   $variant: 'secondary',
 })`
   ${buttonStyles}

@@ -1,4 +1,4 @@
-import { WAYS_IN_PERSON_FORM, WAYS_ONLINE_FORM } from 'data/typeforms.mjs';
+import { WAYS_ONLINE_FORM } from 'data/typeforms.mjs';
 
 import {
   Eyebrow,
@@ -10,6 +10,7 @@ import {
   WaysHeading,
   WaysIntro,
   WaysIntroCopy,
+  WaysLink,
   WaysReward,
   WaysRoot,
   WaysTag,
@@ -22,8 +23,8 @@ const WAYS = [
     copy: 'Build for a day with your local community and demo what you made.',
     reward:
       'Earn the limited-edition Hacktoberfest 2026 t-shirt, only available by attending in person.',
-    cta: 'Join a Fest',
-    form: WAYS_IN_PERSON_FORM,
+    cta: 'Find a Fest near you',
+    href: '/fests/',
   },
   {
     tag: 'Online',
@@ -45,8 +46,8 @@ const WaysInSection = () => (
         </WaysHeading>
       </div>
       <WaysIntroCopy>
-        Sign up once and tell us how you want to take part &mdash; we&apos;ll
-        point you to a Fest near you or to the online event.
+        Browse the Fests happening near you, or sign up to hear about the online
+        event.
       </WaysIntroCopy>
     </WaysIntro>
 
@@ -57,7 +58,11 @@ const WaysInSection = () => (
           <WaysCardTitle>{way.title}</WaysCardTitle>
           <WaysCardCopy>{way.copy}</WaysCardCopy>
           <WaysReward>{way.reward}</WaysReward>
-          <WaysButton form={way.form}>{way.cta}</WaysButton>
+          {way.href ? (
+            <WaysLink href={way.href}>{way.cta}</WaysLink>
+          ) : (
+            <WaysButton form={way.form}>{way.cta}</WaysButton>
+          )}
         </WaysCard>
       ))}
     </WaysGrid>

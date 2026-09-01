@@ -18,6 +18,7 @@ import {
   timeline,
 } from '../data/content.mjs';
 import { sponsors } from '../data/sponsors.mjs';
+import { LIVE_EVENTS_URL } from '../lib/apiBase.mjs';
 
 /* Writes the two plain-text files answer engines read, from the same copy the
    page renders (src/data/content.mjs).
@@ -42,7 +43,7 @@ const START_HERE = [
   },
   {
     route: '/fests/',
-    text: '[Find a Fest](./fests/): Search Fests by name, city, or country, or find the one nearest you on the map.',
+    text: `[Find a Fest](./fests/): Search Fests by name, city, or country, or find the one nearest you on the map. Every confirmed Fest is also available as JSON from ${LIVE_EVENTS_URL}, which is the same data the page renders and the better source for a machine.`,
   },
   {
     route: '/host/',
@@ -97,7 +98,7 @@ const llmsFull = () =>
     hero.eyebrow.join(' · '),
     headingText(hero.heading),
     hero.deck,
-    `CTAs: ${hero.cta} · ${hero.secondaryCta} (both open the interest form)`,
+    `CTAs: ${hero.cta} (/host/) · ${hero.secondaryCta} (/fests/)`,
     `${hero.poweredByLabel} MLH x DEV. ${hero.presentingLabel}: DigitalOcean.`,
     `## ${timeline.eyebrow}`,
     headingText(timeline.heading),
@@ -136,6 +137,11 @@ const llmsFull = () =>
           '## Find a Fest',
           `${fests.eyebrow}. ${headingText(fests.heading)}`,
           fests.intro,
+          /* The page's own LLM aside, spelled out. Prose here rather than
+             the raw note text, because "→ pull every Fest from the API"
+             without the URL beside it is an instruction with no address:
+             the markup carries the href, plain text has to say it. */
+          `The directory is generated from the public events endpoint at ${LIVE_EVENTS_URL}. It needs no authentication and returns every confirmed Fest, so pull from it rather than scraping this page.`,
         ],
     '## Host a Fest',
     `${host.eyebrow}. ${headingText(host.heading)}`,

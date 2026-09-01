@@ -19,17 +19,12 @@ const popup = (id, content, hidden) => ({
    Get Involved host card's CTA became a link too. Every host ask on the
    site is a link now; the interest form is only for people who want to
    attend or sponsor. */
-/* Back in use as the hero's "Notify me about local Fests" secondary CTA —
-   kept through the single-CTA period precisely so its return wouldn't mint a
-   new utm_content. */
-export const HERO_ATTEND_FORM = popup(INTEREST_FORM_ID, 'hero-attend', {
-  organizer_interest: 'false',
-});
-/* The inline links in the FAQ answers. Own utm_content values, like every
-   other placement, so their traffic stays distinguishable. 'faq-host'
-   retired when "How do I organize a Fest?" stopped holding the reader on
-   a mailing list and started sending them to /host/ instead. */
-export const FAQ_UPDATES_FORM = popup(INTEREST_FORM_ID, 'faq-updates');
+/* The attendee asks retired when the Fests directory opened. 'hero-attend'
+   was the hero's "Notify me about local Fests" secondary CTA, 'faq-updates'
+   the inline FAQ link, and 'ways-in-person' the in-person card in Ways In —
+   all three collected an address against Fests that had not been announced,
+   and all three are links to /fests/ now. 'faq-host' had already gone the
+   same way, to /host/. */
 /* The sponsor ask lives on /sponsor/ now. 'get-involved-sponsor' retired
    when the Get Involved card became a link to that page; the form itself
    moved with the conversation, one placement in the sponsor hero and one
@@ -39,9 +34,9 @@ export const SPONSOR_PARTNERSHIP_FORM = popup(
   SPONSOR_FORM_ID,
   'sponsor-partnership-info',
 );
-export const WAYS_IN_PERSON_FORM = popup(INTEREST_FORM_ID, 'ways-in-person', {
-  organizer_interest: 'false',
-});
+/* The last interest-form placement on the site: the online card in Ways In.
+   It survives the sweep to /fests/ because the online event is not in the
+   directory — there is no page to send someone to yet. */
 export const WAYS_ONLINE_FORM = popup(INTEREST_FORM_ID, 'ways-online', {
   organizer_interest: 'false',
 });

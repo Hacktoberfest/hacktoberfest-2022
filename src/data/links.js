@@ -1,3 +1,4 @@
+import { LIVE_EVENTS_URL } from '../lib/apiBase.mjs';
 import { campaignFor } from './campaign.mjs';
 
 /* Ordinary outbound links and Typeform popups use the same campaign values;
@@ -45,6 +46,17 @@ export const DIGITALOCEAN_URL = tagged('https://www.digitalocean.com', {
    URLs that are still unresolved -- that guard existing is why this swap is a
    deliberate change and not a silent one. */
 export const FIND_A_FEST_URL = '/fests/';
+
+/* The API's public events snapshot, the destination of the LLM note under
+   the /fests directory. The same endpoint lib/festsDirectory.mjs fetches to
+   build the page, offered to a crawler directly: JSON beats scraping cards.
+
+   The URL itself is LIVE_EVENTS_URL in lib/apiBase.mjs, beside the origin
+   it is built from and reachable from the .mjs build scripts; this is the
+   name the pages use, so /fests imports its link from data/links.js like
+   every other page. Untagged, like the handbook and the Discord invite:
+   utm params on an API endpoint are attribution noise. */
+export const FESTS_API_URL = LIVE_EVENTS_URL;
 
 /* The one link that leaves for the MLH application, reached from /my's
    Preptember pitch band. /host and the nav both send would-be organizers

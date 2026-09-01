@@ -3,8 +3,10 @@ import Head from 'next/head';
 import FestsDirectory from 'components/FestsDirectory';
 import Header from 'components/Header';
 import HostCallout from 'components/HostCallout';
+import LlmsNote from 'components/LlmsNote';
 import PageHero from 'components/PageHero';
 import { fests } from 'data/content.mjs';
+import { FESTS_API_URL } from 'data/links';
 import { absoluteUrl, meta } from 'data/meta';
 
 const FESTS_URL = absoluteUrl('/fests/');
@@ -46,6 +48,12 @@ const Fests = () => (
         <p>{fests.intro}</p>
       </PageHero>
       <FestsDirectory />
+      {/* Under the directory, above the host invitation: a crawler that
+          has read the cards is offered the JSON they were rendered from,
+          before the page changes the subject to hosting. */}
+      <LlmsNote href={FESTS_API_URL} external>
+        {fests.llmsNote}
+      </LlmsNote>
       <HostCallout />
     </main>
   </>

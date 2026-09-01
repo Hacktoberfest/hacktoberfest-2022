@@ -108,13 +108,13 @@ test('every closed route is absent from the export', async () => {
   }
 });
 
-/* Find a Fest is OFF the nav until the directory launches: the route
-   stays open for anyone holding a link, but the site does not advertise
-   it yet. This pins the half that is easy to lose — the page itself must
-   still export — and the nav's shape around the absent link. When the
-   directory launches, this test flips back to asserting the link sits
-   behind Home. */
-test('the homepage nav holds Find a Fest back, route still open', async () => {
+/* Find a Fest is ON the nav: the directory is published, so the site
+   advertises it, and the position matters as much as the presence. It
+   sits directly behind Home and ahead of the host-facing links — it is
+   the one destination there for someone who wants to attend rather than
+   run a Fest, and it is where every retired "notify me about local
+   Fests" ask now points. */
+test('the homepage nav offers Find a Fest behind Home', async () => {
   const html = await readOutput('index.html');
   const nav = html.match(
     /<nav[^>]*aria-label="Main navigation"[\s\S]*?<\/nav>/,
@@ -122,15 +122,21 @@ test('the homepage nav holds Find a Fest back, route still open', async () => {
   assert.ok(nav, 'the main navigation is missing from the homepage');
 
   assert.match(nav[0], /<a[^>]*href="\/"[^>]*>Home<\/a>/);
-  assert.ok(
-    !nav[0].includes('Find a Fest'),
-    'the nav advertises Find a Fest, which is held back until launch',
-  );
+  assert.match(nav[0], /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
   assert.match(nav[0], /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
+
+  const order = ['>Home<', '>Find a Fest<', '>Learn about Hosting<'].map(
+    (label) => nav[0].indexOf(label),
+  );
+  assert.deepEqual(
+    order,
+    [...order].sort((a, b) => a - b),
+    'Find a Fest belongs between Home and Learn about Hosting',
+  );
 
   assert.ok(
     !(await missing('fests/index.html')),
-    'the /fests route must stay exported while off the nav',
+    'the /fests route must stay exported now that the nav advertises it',
   );
 });
 
@@ -150,6 +156,38 @@ test('the sitemap and llms files carry the open route', async () => {
 
   const llmsFull = await readOutput('llms-full.txt');
   assert.match(llmsFull, /## Find a Fest/);
+});
+
+/* The page's LLM aside and its two plain-text echoes. A crawler that finds
+   the directory should be told, in every form it might read, that the
+   Fests are live data behind a public endpoint — scraping the cards gets a
+   snapshot of whatever was approved at build time. Pinned as the absolute
+   live URL: a relative path here would be an address a crawler on another
+   origin cannot resolve, which is the one way this note can be useless. */
+test('the Fests directory points machines at the public events endpoint', async () => {
+  const html = await readOutput('fests/index.html');
+  const endpoint = 'https://hacktoberfest-api.mlh.com/api/events';
+
+  assert.match(
+    html,
+    new RegExp(`<a[^>]*href="${endpoint}"[^>]*>[^<]*API</a>`),
+    'the /fests LLM note should link to the events endpoint',
+  );
+  // Off-site, so it opens in its own tab and leaks no referrer chain.
+  assert.match(
+    html,
+    new RegExp(`<a[^>]*href="${endpoint}"[^>]*target="_blank"`),
+  );
+
+  const [llms, llmsFull] = await Promise.all([
+    readOutput('llms.txt'),
+    readOutput('llms-full.txt'),
+  ]);
+  assert.ok(llms.includes(endpoint), 'llms.txt misses the events endpoint');
+  assert.ok(
+    llmsFull.includes(endpoint),
+    'llms-full.txt misses the events endpoint',
+  );
 });
 
 /* The fixtures are the directory's stand-in data until the API has real

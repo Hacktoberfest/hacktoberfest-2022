@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { buttonStyles } from 'components/Button';
 import Shell from 'components/Shell';
@@ -113,7 +113,12 @@ export const WaysReward = styled.p`
   font-weight: 760;
 `;
 
-export const WaysButton = styled(TypeformButton)`
+/* The two cards' CTAs have to be indistinguishable, and they are no longer
+   the same element: the in-person card links to the published directory
+   while the online card still opens the interest form, since there is
+   nothing to link an online sign-up at yet. One block of styles, worn by
+   an anchor and by a popup trigger. */
+const waysCta = css`
   ${buttonStyles}
   align-self: start;
   margin-top: 26px;
@@ -125,4 +130,12 @@ export const WaysButton = styled(TypeformButton)`
   &:focus-visible {
     box-shadow: 0 0 0 5px ${colors.ink};
   }
+`;
+
+export const WaysLink = styled.a`
+  ${waysCta}
+`;
+
+export const WaysButton = styled(TypeformButton)`
+  ${waysCta}
 `;

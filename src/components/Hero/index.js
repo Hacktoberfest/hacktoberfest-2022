@@ -3,7 +3,6 @@ import DigitalOceanLogo from 'components/icons/DigitalOceanLogo';
 import MlhLogo from 'components/icons/MlhLogo';
 import { hero } from 'data/content.mjs';
 import { DEV_URL, DIGITALOCEAN_URL, MLH_URL } from 'data/links';
-import { HERO_ATTEND_FORM } from 'data/typeforms.mjs';
 import { colors } from 'styles/tokens';
 
 import {
@@ -69,11 +68,12 @@ const Hero = () => (
       </HeroHeading>
       <HeroDeck>{hero.deck}</HeroDeck>
       <HeroActions>
-        {/* The host CTA hands off to /host/, which carries the formats and
-            the application. Only the attendee ask is still a form, since
-            there is nothing to sign up for yet. */}
+        {/* Both asks are links now. The host CTA hands off to /host/,
+            which carries the formats and the application; the attendee
+            CTA hands off to the published directory, which is what the
+            old "notify me" interest form was standing in for. */}
         <HeroButton href="/host/">{hero.cta}</HeroButton>
-        <HeroSecondaryButton form={HERO_ATTEND_FORM}>
+        <HeroSecondaryButton href="/fests/">
           {hero.secondaryCta}
         </HeroSecondaryButton>
       </HeroActions>

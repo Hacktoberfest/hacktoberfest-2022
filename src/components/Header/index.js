@@ -24,9 +24,10 @@ import {
    "Home" leads, spelled out rather than left to the wordmark: on the
    landing page the wordmark scrolls to the top rather than navigating,
    so without this link the way home is a logo that doesn't look like
-   one. "Find a Fest" normally follows it — the one link for someone who
-   wants to attend rather than run a Fest — but it is temporarily off the
-   nav below until the directory launches.
+   one. "Find a Fest" follows it: the one link for someone who wants to
+   attend rather than run a Fest, and the destination every "notify me
+   when Fests are announced" ask used to stand in for. The Fests are
+   published, so the site points at them directly.
 
    "Apply to Host" wears the CTA chip: during Preptember the nav's one
    ask is the signed-in hub, where the countdown and the application
@@ -86,10 +87,9 @@ const Header = ({ standalone = false }) => {
             <PageNavLink href="/" onClick={() => setMenuOpen(false)}>
               Home
             </PageNavLink>
-            {/* Find a Fest is off the nav until the directory launches —
-                the route stays open for anyone holding a link, this is
-                only the advertisement coming down. Restore by removing
-                this comment wrapper. */}
+            <PageNavLink href="/fests/" onClick={() => setMenuOpen(false)}>
+              Find a Fest
+            </PageNavLink>
             <PageNavLink href="/host/" onClick={() => setMenuOpen(false)}>
               Learn about Hosting
             </PageNavLink>

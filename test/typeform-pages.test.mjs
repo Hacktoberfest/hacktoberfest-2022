@@ -42,16 +42,19 @@ test('rejects Typeform outbound URLs only when they are anchor href values', () 
   );
 });
 
-test('exports every visible homepage Typeform CTA as a button', async () => {
+/* The homepage carries no Typeform popup at all now. Every host ask left
+   as applications opened — the nav, the hero CTA, the FAQ's organize
+   answer and the Get Involved host card all link to /host/, asserted
+   below. The sponsor ask graduated to /sponsor/ the same way. The
+   attendee ask was the last one standing, and it graduated to /fests/
+   when the directory opened: "Notify me about local Fests" is a link to
+   the published Fests now, not a popup collecting an address against
+   Fests nobody could see. */
+test('the homepage opens no Typeform popup', async () => {
   const html = await readOutput('index.html');
-  // Every host ask left this list as applications opened — the nav, the
-  // hero CTA, the FAQ's organize answer and the Get Involved host card
-  // all link to /host/ now, asserted below. The sponsor ask left too,
-  // graduating to /sponsor/ the same way. What remains is the attendee
-  // ask.
-  const labels = ['Notify me about local Fests'];
 
-  labels.forEach((label) => assert.match(html, buttonFor(label)));
+  assert.doesNotMatch(html, buttonFor('Notify me about local Fests'));
+  assert.doesNotMatch(html, /data-tf-popup/);
   assertNoTypeformOutboundAnchors(html);
 });
 
@@ -90,12 +93,26 @@ test('every homepage host ask links to /host/', async () => {
   assert.doesNotMatch(html, /<a[^>]*href="\/sponsor\/"[^>]*target="_blank"/);
 });
 
+/* The attendee ask, the last popup on the page, now a link to the
+   directory. Pinned as an anchor for the same reason the host asks are:
+   nothing should quietly fall back to a form. */
+test('the homepage attendee ask links to /fests/', async () => {
+  const html = await readOutput('index.html');
+
+  assert.match(
+    html,
+    linkTo('/fests/', 'Find a Fest near you'),
+    'the hero secondary CTA should link to /fests/',
+  );
+  assert.doesNotMatch(html, /<a[^>]*href="\/fests\/"[^>]*target="_blank"/);
+});
+
 /* The header's CTA graduated twice: from a Typeform popup to a /host/
    link, then to "Apply to Host" — during Preptember the nav's one ask
    is the signed-in hub, and "Learn about Hosting" stands as the first
    plain link. These pages still carry no Typeform button at all — the
    sweep for outbound Typeform anchors is what remains. */
-test('the header carries the Learn about Hosting link and the Apply to Host CTA', async () => {
+test('the header carries Find a Fest, Learn about Hosting and the Apply to Host CTA', async () => {
   const pages = await Promise.all([
     readOutput('404.html'),
     readOutput('subscribed/index.html'),
@@ -103,6 +120,7 @@ test('the header carries the Learn about Hosting link and the Apply to Host CTA'
   ]);
 
   pages.forEach((html) => {
+    assert.match(html, /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
     assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
     assert.match(html, /<a[^>]*href="\/my\/"[^>]*>Apply to Host<\/a>/);
     assertNoTypeformOutboundAnchors(html);

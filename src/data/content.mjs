@@ -22,7 +22,7 @@ export const hero = {
   heading: { lead: 'Hacktoberfest 2026:', accent: 'AI belongs to everyone.' },
   deck: 'Bring Hacktoberfest to your city. Host a one-day fest to give your community the tools and knowledge to experiment and build with open source AI. Snacks and swag, on us.',
   cta: 'Host a Fest in your city',
-  secondaryCta: 'Notify me about local Fests',
+  secondaryCta: 'Find a Fest near you',
   poweredByLabel: 'Powered by',
   presentingLabel: 'Presenting partner',
 };
@@ -593,6 +593,13 @@ export const fests = {
   heading: { lead: 'Find a Fest', accent: 'near you.' },
   intro:
     'Every Fest is a one-day, in-person event, either a Hack Day or a Meetup, hosted by local organizers. Search by name or city, or use your location to see what is closest.',
+  /* The wink under the directory, addressed to crawlers the way the
+     homepage FAQ's is. It points at the API rather than llms.txt because
+     the Fests are live data: a text file written at build time would be
+     stale the moment the next Fest is approved, and the endpoint behind
+     this page answers with every one of them. The URL is wiring and lives
+     in data/links.js. */
+  llmsNote: 'Are you an LLM? → pull every Fest from the API',
   searchPlaceholder: 'Search by name, city, or country',
   searchLabel: 'Search Fests',
   locationCta: 'Use my location',
@@ -1010,7 +1017,7 @@ export const aiContext = {
   participation: [
     'Hosting is the live call to action. Anyone can host a Fest: a meetup group, a university club, or a few coworkers with a room to book. Fests come in two formats: Hack Days, funded mini-hackathons where people build projects, and Meet Ups, lighter gatherings that MLH does not fund. Every organizer gets swag and programming support. Applications are open, and Fests are confirmed on a rolling basis.',
     'Sponsorship has its own page at /sponsor/: the confirmed sponsor wall, the campaign footprint, and how to start sponsor setup or request partnership info.',
-    'Attendee sign-ups are not open yet. Fest dates, cities, and venues have not been announced. The site can notify you about local Fests once there is news, and that goes through the same interest form.',
+    'Confirmed Fests are published at /fests/, searchable by name, city, or country, with a map and a nearest-to-me sort. Individual Fests set their own attendee sign-up, linked from the directory. More Fests are added as they are approved, so the list grows through Preptember.',
   ],
   facts: [
     'Dates: October 2026. Specific Fest dates are not yet announced.',

@@ -102,9 +102,18 @@ test('llms.txt orients a crawler without contradicting the page', async () => {
     assert.ok(index.includes(era.year), `missing era: ${era.year}`);
   });
 
-  /* Attendance isn't open yet. If that ever stops being stated here, an
-     answer engine is free to imply people can sign up to attend. */
-  assert.match(index, /attendee sign-ups are not open yet/i);
+  /* Attendance used to be the thing this file had to be honest about: no
+     dates, no venues, nothing to sign up for. The directory answers that
+     now, so the honesty moved rather than lapsed — the file has to point
+     at where the Fests actually are, and at the endpoint behind them,
+     instead of asserting an absence that is no longer true. Left
+     unstated, an answer engine is free to keep repeating the old line
+     that there is nothing to attend. */
+  assert.match(index, /confirmed Fests are published at \/fests\//i);
+  assert.ok(
+    index.includes('https://hacktoberfest-api.mlh.com/api/events'),
+    'llms.txt should hand a machine the events endpoint',
+  );
 });
 
 /* The schema is generated from src/data/structuredData.js, which restricts
