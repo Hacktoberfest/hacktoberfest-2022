@@ -118,6 +118,18 @@ export const SPONSOR_SETUP_PARTNERSHIP_URL = tagged(SPONSOR_PORTAL_SIGNUP, {
   content: 'sponsor-partnership-setup',
 });
 
+/* The homepage wall's partner seats. Same destinations again, their own
+   utm_content: a placement is a placement. The powered-by seat shows
+   MLH and DEV together but links to mlh.com, so there is no DEV entry. */
+export const HOME_WALL_MLH_URL = tagged('https://mlh.com', {
+  content: 'home-wall-mlh',
+});
+
+export const HOME_WALL_DIGITALOCEAN_URL = tagged(
+  'https://www.digitalocean.com',
+  { content: 'home-wall-digitalocean' },
+);
+
 /* The partner band on /sponsor. Same destinations as the homepage hero's
    chips, but their own utm_content: a placement is a placement. */
 export const SPONSOR_PARTNER_MLH_URL = tagged('https://mlh.com', {

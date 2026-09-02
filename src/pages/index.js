@@ -12,6 +12,7 @@ import GetInvolvedSection from 'components/GetInvolvedSection';
 import Header from 'components/Header';
 import Hero from 'components/Hero';
 import MissionSection from 'components/MissionSection';
+import SponsorWallSection from 'components/SponsorWallSection';
 import TimelineSection from 'components/TimelineSection';
 import { meta } from 'data/meta';
 import { homepageJsonLdScript } from 'data/structuredData';
@@ -75,6 +76,7 @@ const Home = () => (
       {/* <CurriculumSection /> */}
       <TimelineSection />
       <MissionSection />
+      <SponsorWallSection />
       <GetInvolvedSection />
       <FaqSection />
     </main>

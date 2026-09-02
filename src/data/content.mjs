@@ -118,6 +118,16 @@ export const mission = {
   ],
 };
 
+/* The homepage sponsor wall: the /sponsor roster shown as pure credit, no
+   recruitment asks (those live on /sponsor). Header follows the shared
+   section pattern: mono eyebrow, display heading, intro on the right. */
+export const homeWall = {
+  eyebrow: 'Partners & sponsors',
+  heading: { lead: 'Backing the', accent: 'builders.' },
+  intro:
+    'Hacktoberfest is powered by MLH and DEV and presented by DigitalOcean. Alongside them, this year’s sponsors cover the Fests, the swag, and the participant packs that reach builders around the world.',
+};
+
 export const getInvolved = {
   eyebrow: 'Get involved',
   heading: { lead: 'Help make it', accent: 'happen.' },

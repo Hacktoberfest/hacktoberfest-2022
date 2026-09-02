@@ -6,67 +6,26 @@ import { tagged } from './links.js';
    only available asset is an og-image social card rather than a logo, so
    it stays off the wall until a real logo lands.
 
-   Each url carries its own utm_content ('sponsor-logo-<slug>'), the same
-   per-placement attribution every other outbound link on the site uses. */
-export const sponsors = [
-  {
-    name: 'Tiger Data',
-    slug: 'tiger-data',
-    url: tagged('https://www.tigerdata.com', {
-      content: 'sponsor-logo-tiger-data',
-    }),
-    logo: '/sponsors/tiger-data.svg',
-  },
-  {
-    name: 'Snowflake',
-    slug: 'snowflake',
-    url: tagged('https://www.snowflake.com', {
-      content: 'sponsor-logo-snowflake',
-    }),
-    logo: '/sponsors/snowflake.svg',
-  },
-  {
-    name: 'MongoDB',
-    slug: 'mongodb',
-    url: tagged('https://www.mongodb.com', { content: 'sponsor-logo-mongodb' }),
-    logo: '/sponsors/mongodb.svg',
-  },
-  {
-    name: 'Gauge',
-    slug: 'gauge',
-    url: tagged('https://www.withgauge.com', { content: 'sponsor-logo-gauge' }),
-    logo: '/sponsors/gauge.svg',
-  },
-  {
-    name: 'Solana',
-    slug: 'solana',
-    url: tagged('https://solana.com', { content: 'sponsor-logo-solana' }),
-    logo: '/sponsors/solana.svg',
-  },
-  {
-    name: 'Render',
-    slug: 'render',
-    url: tagged('https://render.com', { content: 'sponsor-logo-render' }),
-    logo: '/sponsors/render.svg',
-  },
-  {
-    name: 'GitHub',
-    slug: 'github',
-    url: tagged('https://github.com', { content: 'sponsor-logo-github' }),
-    logo: '/sponsors/github.svg',
-  },
-  {
-    name: 'Sentry',
-    slug: 'sentry',
-    url: tagged('https://sentry.io', { content: 'sponsor-logo-sentry' }),
-    logo: '/sponsors/sentry.svg',
-  },
-  {
-    name: 'Backboard.io',
-    slug: 'backboard',
-    url: tagged('https://backboard.io', {
-      content: 'sponsor-logo-backboard',
-    }),
-    logo: '/sponsors/backboard.svg',
-  },
+   Each entry carries one tagged URL per placement, the same per-placement
+   attribution every other outbound link on the site uses: `url` is the
+   /sponsor wall ('sponsor-logo-<slug>'), `homeUrl` the homepage wall
+   ('home-sponsor-logo-<slug>'). */
+const roster = [
+  { name: 'Tiger Data', slug: 'tiger-data', site: 'https://www.tigerdata.com' },
+  { name: 'Snowflake', slug: 'snowflake', site: 'https://www.snowflake.com' },
+  { name: 'MongoDB', slug: 'mongodb', site: 'https://www.mongodb.com' },
+  { name: 'Gauge', slug: 'gauge', site: 'https://www.withgauge.com' },
+  { name: 'Solana', slug: 'solana', site: 'https://solana.com' },
+  { name: 'Render', slug: 'render', site: 'https://render.com' },
+  { name: 'GitHub', slug: 'github', site: 'https://github.com' },
+  { name: 'Sentry', slug: 'sentry', site: 'https://sentry.io' },
+  { name: 'Backboard.io', slug: 'backboard', site: 'https://backboard.io' },
 ];
+
+export const sponsors = roster.map(({ name, slug, site }) => ({
+  name,
+  slug,
+  url: tagged(site, { content: `sponsor-logo-${slug}` }),
+  homeUrl: tagged(site, { content: `home-sponsor-logo-${slug}` }),
+  logo: `/sponsors/${slug}.svg`,
+}));
