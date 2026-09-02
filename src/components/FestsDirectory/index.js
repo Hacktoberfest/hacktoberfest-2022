@@ -30,20 +30,13 @@ const FestsMap = dynamic(() => import('./FestsMap'), {
 });
 
 /* ?view=map is honoured only when a map can actually be drawn. Without a
-   Google Maps key the parameter names a view that does not exist, and an
-   old link carrying it would land someone on a blank rectangle with no
-   toggle to get back — the button that would have done it is gone for the
-   same reason. Both readers of the parameter go through here so there is
-   one answer rather than two that can drift. */
-/* The map view's launch switch. False hides the List/Map toggle and makes
-   ?view=map read as the list — the map code all stays, and flipping this
-   back to true is the whole relaunch. Off temporarily for launch. */
-const MAP_VIEW_ENABLED = false;
-
+   basemap key the parameter names a view that does not exist, and an old
+   link carrying it would land someone on a blank rectangle with no toggle
+   to get back — the button that would have done it is gone for the same
+   reason. Both readers of the parameter go through here so there is one
+   answer rather than two that can drift. */
 const viewFromParams = (params) =>
-  params.get(VIEW_PARAM) === 'map' && MAP_VIEW_ENABLED && basemapIsAvailable()
-    ? 'map'
-    : 'list';
+  params.get(VIEW_PARAM) === 'map' && basemapIsAvailable() ? 'map' : 'list';
 
 /* How long typing has to stop before the next keystroke earns its own
    history entry. Long enough that a word typed at speed is one entry
@@ -479,7 +472,12 @@ const FestsDirectory = () => {
             </button>
           ))}
         </div>
-        {MAP_VIEW_ENABLED && (
+        {/* The whole group, not just the Map button, hangs on a drawable
+            basemap. Without a key that button leads to a blank rectangle,
+            and a control that goes nowhere is worse than one absent — the
+            reader cannot tell a broken map from an empty one. A lone List
+            button that toggles nothing is no better, so both go together. */}
+        {basemapIsAvailable() && (
           <div
             className={styles.viewToggle}
             role="group"
@@ -497,24 +495,18 @@ const FestsDirectory = () => {
             >
               {festsContent.viewToggle.list}
             </button>
-            {/* Only offered when a map can actually be drawn. Without a
-              Google Maps key this button leads to a blank rectangle, and a
-              control that goes nowhere is worse than one absent — the
-              reader cannot tell a broken map from an empty one. */}
-            {basemapIsAvailable() && (
-              <button
-                type="button"
-                className={
-                  view === 'map'
-                    ? `${styles.viewButton} ${styles.viewButtonActive}`
-                    : styles.viewButton
-                }
-                aria-pressed={view === 'map'}
-                onClick={() => selectView('map')}
-              >
-                {festsContent.viewToggle.map}
-              </button>
-            )}
+            <button
+              type="button"
+              className={
+                view === 'map'
+                  ? `${styles.viewButton} ${styles.viewButtonActive}`
+                  : styles.viewButton
+              }
+              aria-pressed={view === 'map'}
+              onClick={() => selectView('map')}
+            >
+              {festsContent.viewToggle.map}
+            </button>
           </div>
         )}
       </div>
