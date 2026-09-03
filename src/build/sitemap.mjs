@@ -21,6 +21,7 @@ export const SITE_PAGES = [
   '/fests/',
   '/host/',
   '/sponsor/',
+  '/schedule/',
   '/questions/',
 ];
 

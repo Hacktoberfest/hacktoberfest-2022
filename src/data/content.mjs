@@ -1018,6 +1018,107 @@ export const sponsor = {
   },
 };
 
+/* Copy for /schedule, October's online programme as a calendar.
+
+   Only the online events: Global Hack Week, workshops, streams, ceremonies,
+   challenges. The 300+ community Fests stay on /fests, where a map and a
+   search can do them justice — ten of them per calendar cell could not. The
+   callout at the foot of the page is the bridge between the two, aimed at
+   someone reading an online schedule who would rather be in a room.
+
+   Event type labels are NOT here: they come from lib/scheduleTypes.mjs,
+   which also owns each type's colour and, crucially, can name a type the
+   frontend has never seen. Copy split across two files would drift the
+   moment FestNet added one. */
+export const schedule = {
+  title: 'October Schedule | Hacktoberfest 2026',
+  description:
+    'Every online Hacktoberfest 2026 event in October: Global Hack Week, workshops, streams and ceremonies, in your own time zone.',
+  eyebrow: 'The schedule',
+  heading: { lead: 'A month of', accent: 'things to join.' },
+  intro:
+    'Everything happening online this October, in your time zone or any other. Global Hack Week, workshops, streams, and the ceremonies that open and close the month.',
+  monthLabel: 'October 2026',
+  /* What has already happened folds away by default, behind this. The count
+     goes in the label because "3 past events" is a reason to press it and
+     "Past events" is not. */
+  pastToggle: {
+    show: 'Show what has already happened',
+    hide: 'Hide past events',
+    /* Rendered as `${count} ${one|many}`. */
+    one: 'past event',
+    many: 'past events',
+  },
+  /* The reader's zone is filled in at render time. It always shows: a
+     schedule that says "2:00 PM" without saying whose is no use to most of
+     the people reading it. */
+  timeZoneNote: 'Times in',
+  /* Appended to the reader's own zone in the switcher, so it stays findable
+     after they have wandered off to another one. */
+  zoneYours: '· yours',
+  /* The combobox's empty state, when a query matches no zone at all. */
+  zoneNoMatches: 'No matching time zones',
+  loading: 'Loading the schedule…',
+  error: {
+    title: 'We could not load the schedule.',
+    body: 'Something went wrong on our end.',
+    retryCta: 'Try again',
+  },
+  empty: {
+    title: 'The schedule is not published yet.',
+    body: 'October’s online programme goes up closer to the time. Check back soon.',
+  },
+  allDayLabel: 'All day',
+  /* The chip on a livestream's time. "Stream" at rest — the appointment you
+     can show up to — and "On air" while the window is actually open, which is
+     the only state the brand orange is allowed to announce. */
+  streamChip: 'Stream',
+  onAirChip: 'On air',
+  /* The DEV challenge runs all month as weekly submission windows. The
+     kicker tells the truth per round — the stream's clock decides which of
+     these a card wears, so four rounds stop all claiming to be open at once.
+     `upcoming` is completed with the opening weekday ("Opens Monday"). */
+  roundKicker: {
+    upcoming: 'Opens',
+    open: 'Submissions open',
+    closed: 'Closed',
+  },
+  /* The rail ledger: both ends of the window, aligned so the column of four
+     rounds reads like a table. */
+  roundLedger: { opens: 'Opens', closes: 'Closes' },
+  /* The close stub that sits at the deadline's own date. */
+  lastDayLabel: 'Last day',
+  /* The stream's structural whispers: a numbered rule between Mondays, and an
+     ochre one at the seam between what has happened and what has not. */
+  weekLabel: 'Week',
+  todayLabel: 'Today',
+  /* The rounds are one challenge reset weekly, so each block names its week —
+     the same count the stream's week rules use, anchored on the first round. */
+  roundLabel: 'Week',
+  /* Over a sponsor's mark, so a logo beside an event never reads as the
+     event's organiser. */
+  presentedByLabel: 'Presented by',
+  multiDayLabel: 'Runs several days',
+  modal: {
+    close: 'Close',
+    hostedBy: 'Hosted by',
+    /* Null on some events: not everything on the schedule has a page to send
+       people to yet, and a dead button is worse than none. */
+    /* Named for where it goes, not what the modal already is: the reader is
+       looking at the event's details, so a button reading "Event details"
+       promised more of what they had. It opens the event's own page. */
+    cta: 'Open event page',
+  },
+  /* Closes the page. The counterpart to the host callout that closes /fests:
+     that one answers "no Fest near me", this one answers "I would rather be
+     in a room than on a call". */
+  festsCallout: {
+    title: 'Would rather be in a room?',
+    body: 'Hundreds of Fests are happening in person this October, hosted by local communities around the world. Find the one nearest you.',
+    cta: 'Find a Fest',
+  },
+};
+
 export const notFound = {
   title: 'Page not found | Hacktoberfest 2026',
   eyebrow: 'Error 404',

@@ -9,17 +9,27 @@
    it is: closing a route is adding an entry here, and reopening one is
    deleting it.
 
-   Empty today, and that is the mechanism resting rather than the mechanism
-   unused. /fests is the entry this file was written for — the directory had
-   nothing real to list until approved Fests were published, so the route
-   closed behind a removed nav link. It is open again, so the entry is gone
-   and the nav link is back (components/Header). Nothing else has ever been
-   closed.
+   /fests is the entry this file was written for — the directory had nothing
+   real to list until approved Fests were published, so the route closed
+   behind a removed nav link. It is open again, so the entry is gone and the
+   nav link is back (components/Header).
+
+   /schedule is closed, and the reason has changed since it was first added
+   here. It was closed because GET /api/schedule did not exist and the live
+   page would have rendered only its error state. That endpoint now exists
+   and serves the real programme — the page is closed now because it is
+   still being worked on, and shipping a half-finished calendar is a
+   different mistake from shipping a broken one.
+
+   So do not reopen this on the strength of the API being live: that is no
+   longer what the entry is waiting for. It comes out when the page itself
+   is ready, which is a judgement call rather than a check somebody can
+   run.
 
    Entries are routes as the sitemap writes them: leading and trailing
    slash, matching next.config.js's trailingSlash. One path segment only —
    the pruner throws on a nested route rather than guess at where Next put
    its chunk. */
-export const CLOSED_ROUTES = [];
+export const CLOSED_ROUTES = ['/schedule/'];
 
 export const routeIsClosed = (route) => CLOSED_ROUTES.includes(route);

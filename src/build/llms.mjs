@@ -14,6 +14,7 @@ import {
   mission,
   siteMeta,
   sponsor,
+  schedule,
   subscribed,
   timeline,
 } from '../data/content.mjs';
@@ -52,6 +53,10 @@ const START_HERE = [
   {
     route: '/sponsor/',
     text: '[Sponsor Hacktoberfest](./sponsor/): The confirmed sponsor wall, the campaign footprint, and what a partnership carries.',
+  },
+  {
+    route: '/schedule/',
+    text: '[October schedule](./schedule/): Every online event in October — Global Hack Week, workshops, streams, and the opening and closing ceremonies.',
   },
   {
     route: '/questions/',
@@ -174,6 +179,17 @@ const llmsFull = () =>
       (benefit) => `${benefit.title}: ${benefit.copy}`,
     ),
     `CTAs: ${sponsor.setupCta} (the sponsor portal) · ${sponsor.infoCta} (opens the sponsorship form).`,
+    /* Whole sections come and go with their route, the same rule the Fests
+       section follows above: /schedule is closed until the API serves it, and
+       a crawler must not be told about copy that is not on the site. */
+    ...(routeIsClosed('/schedule/')
+      ? []
+      : [
+          '## October schedule',
+          `${schedule.eyebrow}. ${headingText(schedule.heading)}`,
+          schedule.intro,
+          `${schedule.monthLabel}. ${schedule.festsCallout.title} ${schedule.festsCallout.body} (CTA: ${schedule.festsCallout.cta} — ./fests/)`,
+        ]),
   );
 
 const write = (name, body) =>

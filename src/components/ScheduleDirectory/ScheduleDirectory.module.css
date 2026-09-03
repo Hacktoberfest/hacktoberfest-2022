@@ -1,0 +1,1332 @@
+/* /schedule's directory. CSS Modules rather than styled-components because
+   everything here renders after a client-side fetch, where styled-components
+   ships no CSS — the same reason FestsDirectory is written this way.
+
+   Palette values are restated as literals with a comment naming the token,
+   the convention the other CSS Modules in this repo follow: a module cannot
+   import styles/tokens.js. Event type colours are the exception — they arrive
+   as inline styles from lib/scheduleTypes.mjs, because which colour a bar
+   takes is data, not style. */
+
+/* The stream sits on paperDeep rather than the page's paper, which is what
+   makes a card look raised at all. Paper against white is a contrast of 1.05 —
+   the two are the same colour to the eye, and only the border and the shadow
+   were saying "card". Against paperDeep it is 1.18, and white starts reading as
+   a surface above the page.
+
+   Deepening the ground rather than whitening the card, because white is
+   already the lightest tone the palette has: there is nowhere above it to go.
+   Three steps now carry the whole hierarchy — paperDeep ground, paper for what
+   has finished, white for what has not. */
+.root {
+  padding-block: clamp(40px, 5vw, 64px);
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+.inner {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .inner {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* --- Header bar ---------------------------------------------------------
+
+   The month is a plain heading and the zone is an actual control. The earlier
+   bar welded both into a search-bar-style instrument, which promised a control
+   that was not one — the instrument treatment below is earned by the select
+   and given only to the select. The ochre dot is still the map's "you are
+   here", marking whose time is being shown. */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 14px 18px;
+  margin-bottom: 26px;
+}
+
+.month {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.zonePicker {
+  position: relative;
+  display: flex;
+  max-width: 100%;
+  align-items: stretch;
+  /* colors.ink / colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  /* colors.forestDeep, the instrument shadow the fests search bar uses */
+  box-shadow: 5px 5px 0 #2e4742;
+}
+
+/* The whole instrument darkens its shadow on focus, the way the search bar
+   does — the halo inside a welded bar reads as a broken inner box. */
+.zonePicker:focus-within {
+  box-shadow: 5px 5px 0 #10201d;
+}
+
+.zoneDot {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  align-self: center;
+  border: 1.5px solid #10201d;
+  border-radius: 50%;
+  margin-left: 12px;
+  /* colors.ochre */
+  background: #f5b726;
+}
+
+.zoneLabel {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px 9px 8px;
+  border-right: 2px solid #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.zoneInput {
+  /* Wide enough for "America/Toronto · yours" whole — measured, 30ch left it
+     1px short and the ellipsis ate the final letter — while the genuinely long
+     zones (America/North_Dakota/New_Salem) ellipsise rather than clip. */
+  width: 32ch;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 9px 10px;
+  border: 0;
+  /* colors.sky, the segment colour the location button wears on /fests */
+  background: #8bb2de;
+  /* colors.ink */
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 650;
+}
+
+.zoneChevron {
+  display: flex;
+  align-items: center;
+  padding: 0 10px 0 2px;
+  /* the input's own sky, so the two read as one segment */
+  background: #8bb2de;
+  color: #10201d;
+  cursor: pointer;
+  font-size: 0.6rem;
+}
+
+.zoneInput::placeholder {
+  /* colors.inkSoft — the current zone showing through while a query is
+     typed, not an empty-field grey. */
+  color: #284b44;
+  opacity: 0.75;
+}
+
+/* The instrument carries the focus state; a ring inside it is clutter. */
+.zoneInput:focus-visible {
+  outline: none;
+}
+
+/* The matches, hung under the instrument's right edge. In the top layer of
+   the page but not a modal: a click elsewhere simply closes it. */
+.zoneList {
+  position: absolute;
+  z-index: 30;
+  top: calc(100% + 8px);
+  right: -2px;
+  width: max(100%, 300px);
+  max-height: 320px;
+  padding: 4px;
+  margin: 0;
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  box-shadow: 5px 5px 0 #2e4742;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.zoneOption {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.68rem;
+}
+
+/* The keyboard highlight and the pointer hover are one state, driven from the
+   component so aria-activedescendant can point at the same row the eye is on. */
+.zoneOption[data-active='true'] {
+  /* colors.ochre */
+  background: #f5b726;
+}
+
+/* The zone currently in force, marked with the instrument's own dot. */
+.zoneOption[aria-selected='true']::before {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #10201d;
+  border-radius: 50%;
+  margin-right: 8px;
+  background: #f5b726;
+  content: '';
+}
+
+.zoneEmpty {
+  padding: 10px;
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.65rem;
+}
+
+/* --- The stream --------------------------------------------------------
+
+   Everything below speaks the physical language /fests and /my share.
+
+   `--accent` is set per item from its event type's DEEP partner, never the
+   surface hue: a shadow the same value as the thing casting it does not read
+   as depth, which is why --fest-accent over on /fests is maroon and skyDeep
+   rather than orange and sky.
+
+   The press is the house gesture, from components/Button.js and the fest card:
+   translate 3px 3px while the shadow goes 6px to 3px, so the two always sum to
+   the resting offset and the bottom-right edge never moves. The row sinks
+   toward the page rather than sliding across it. Pointer-only, via :has(), so
+   a keyboard user gets the focus ring instead and the whole item moves as one
+   object rather than the button inside it. */
+
+.stream {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  gap: 14px;
+  list-style: none;
+}
+
+.streamItem {
+  /* Resolved from the type's accent, which the component supplies inline, with
+     ink for anything whose type could not be read — an unstyled item still
+     casts a real shadow rather than none.
+
+     The indirection is load-bearing: an inline custom property beats every
+     rule in this sheet, so if the component set --accent directly then
+     [data-past] below could never grey a finished row out. */
+  --accent: var(--type-accent, #10201d);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* The press lives on the buttons themselves, never on the item. It used to be
+   `.streamItem:has(button:hover)` — written for flat rows and wrong the moment
+   the feature nested six buttons inside one item: hovering any row INSIDE
+   Global Hack Week translated the whole container, and the matching shadow
+   rule pressed every row in it at once. A button is the entire visible object
+   here, so it can carry its own gesture. */
+@media (prefers-reduced-motion: reduce) {
+  .sessionRow,
+  .roundBlock,
+  .closeStub,
+  .feature,
+  .featureHead {
+    transition: none;
+  }
+
+  .streamChip[data-onair='true']::before {
+    animation: none;
+  }
+}
+
+/* --- The date tile ------------------------------------------------------
+
+   Lifted from the fest card, and built on the same festDateParts, so the two
+   tiles can never disagree about what weekday a date is. A fixed width, so
+   every row in the stream shares a left edge to scan down. */
+
+.tile {
+  display: flex;
+  width: 62px;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.paperDeep */
+  background: #e4e5da;
+  /* Set explicitly, never inherited. The tile carries its own pale ground into
+     whatever it is placed on, so a dark parent — the round block sets white
+     type on ink — would otherwise hand the day number white-on-white and
+     delete it. The weekday and month were only spared because they name their
+     own colour below. */
+  color: #10201d;
+  line-height: 1.1;
+}
+
+.tileWeekday,
+.tileMonth {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.tileDay {
+  margin: 1px 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* --- Logos --------------------------------------------------------------
+
+   Logos are NOT square. Global Hack Week's is a 9.6:1 lockup with the event's
+   own name set into it; another host might supply a round mark, a wordmark, or
+   anything else. So the slot constrains HEIGHT and lets width follow the image,
+   capped so a very wide lockup cannot push the row's own text off the end.
+
+   The initials fallback keeps a fixed square, because that one is ours to shape
+   and a run of rows should not jog left and right down the column. */
+
+/* A sponsor credit in a row: small, quiet, and to the right of the name. */
+.ribbonLogo {
+  max-width: 96px;
+  height: 26px;
+  flex: none;
+  object-fit: contain;
+  object-position: right center;
+}
+
+/* What a lockup falls back to when its image is missing or fails: the name
+   itself, set as the wordmark it was standing in for. Not initials — a lockup's
+   caller has already dropped the wordmark, so initials would leave the event
+   unnamed. */
+.lockupFallback {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.9rem, 3.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+/* A sponsor credit: the mark with its four characters of attribution, so a
+   logo beside an event never reads as the event's organiser. */
+.credit {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: end;
+  gap: 3px;
+}
+
+.creditLabel {
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* The feature header's slot. Taller and much wider than a row's, because this
+   is where a name logo actually gets to be one — it is standing in for a
+   2.4rem wordmark. Left-aligned, since that is where the wordmark began.
+
+   The asset is trimmed to its own artwork before it ships, which is why the
+   spacing here is plain margins rather than negative ones: the first version
+   carried 7.5% transparent padding at the top and 14% at the bottom, so the
+   lockup floated inside its own box and read as adrift from the dates under
+   it. Trim new logos the same way rather than compensating in CSS, which only
+   ever fits one image. */
+.cardLogo {
+  max-width: 320px;
+  height: 38px;
+  flex: none;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* Below tablet a wide lockup would take the whole header row, so it gives up
+   the width first. */
+@media (max-width: 767px) {
+  .cardLogo {
+    max-width: 180px;
+    height: 34px;
+  }
+}
+
+/* --- Session row -------------------------------------------------------- */
+
+/* The quiet tier. Sessions are the page's routine content and there are nine
+   of them; giving each the full ink-and-shadow treatment left the eye nowhere
+   to rest and spent depth — the site's language for importance — on saying
+   nothing. A hairline at rest, and the shadow arrives with the cursor: the
+   gesture survives, the noise does not. Rounds keep 6px and the feature keeps
+   8px, so depth reads as hierarchy again. */
+.sessionRow {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  padding: 7px 10px;
+  /* colors.rule-strong */
+  border: 1px solid #8ca59e;
+  /* colors.white */
+  background: #f7f7f2;
+  /* The spine: 3px of the type's accent on the leading edge, drawn inset so
+     the geometry never moves. Depth stays hover-only on this tier, but the
+     type colour should not — nine rows that only declare what they are under
+     the cursor made the resting stream read monochrome. Past rows grey
+     automatically, because the spine reads the same --accent the shadow does. */
+  box-shadow: inset 3px 0 0 var(--accent);
+  cursor: pointer;
+  gap: 14px;
+  /* tile, name, sponsor credit, time. The credit column collapses to nothing
+     when there is no sponsor, which is most events. */
+  grid-template-columns: auto 1fr auto auto;
+  text-align: left;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    translate 0.12s ease;
+}
+
+/* The quiet tier is also the SMALL tier. Measured, a session ran 86px against
+   the round's 90 and the feature header's 90 — three near-equal masses, so
+   size said nothing and only decoration ranked them. The session's tile drops
+   to a compact cut and the row to ~64px; rounds and the feature keep the full
+   62px tile, so mass now agrees with depth about what matters. */
+.sessionRow .tile {
+  width: 46px;
+  padding: 3px 2px;
+}
+
+.sessionRow .tileDay {
+  font-size: 1.05rem;
+}
+
+/* The full 6px on hover, not a diffident 3: the shadow is the row waking up,
+   and it animates in through the transition above rather than snapping. The
+   press then sinks INTO it — translate and shadow always summing to 6 — which
+   is the same physics every resting-shadow card on the site uses; a session
+   simply starts the gesture from hover instead of from rest. */
+.sessionRow:hover {
+  /* colors.paper — the ground shifts too. The spine rides along in the list:
+     a lone outer shadow here would erase it for exactly the moment the reader
+     is looking at the row. */
+  background: #f2f2eb;
+  border-color: #10201d;
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    6px 6px 0 var(--accent);
+}
+
+.sessionRow:active {
+  box-shadow:
+    inset 3px 0 0 var(--accent),
+    3px 3px 0 var(--accent);
+  translate: 3px 3px;
+}
+
+.sessionRow:focus-visible {
+  outline: 3px solid #10201d;
+  outline-offset: 3px;
+}
+
+.rowWhat {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+}
+
+/* The name with its type badge beside it, wrapping when the row is narrow.
+   One rule for where a label lives — beside the title — on sessions and
+   rounds alike; the badge used to sit under the name on one and across the
+   row on the other. */
+.rowText,
+.titleRow {
+  display: flex;
+  min-width: 0;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 6px 10px;
+}
+
+.rowName {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+}
+
+/* The fest card's format badge, ported: filled with the pale end of the type's
+   own family, set in ink, 6px radius. Filled rather than outlined because that
+   is what /fests does, and a page that badges the same idea two ways is two
+   pages.
+
+   line-height: 1 with top-heavy padding is the optical centring that badge
+   works out at length: the label is all caps, so its ink runs from cap height
+   to baseline with no descenders, while the line box is sized for descenders
+   regardless and hangs the letters high. Pinning the box to the text and
+   weighting the top puts them back in the middle. */
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7.5px 9px 6.5px;
+  border-radius: 6px;
+  background: var(--type-tint, #e4e5da);
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono, as /my's tags and the fest badge use */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* A past row's ground is already paper, so a pale tint would half-vanish into
+   it. Rule grey holds its edge and still carries ink — the same substitution
+   /fests makes on a past card. */
+.streamItem[data-past='true'] .typeBadge {
+  /* colors.rule */
+  background: #8ca59e;
+}
+
+/* The time is the datum this page exists to give out, and it was the smallest
+   text on it — 0.6rem computed to under 10px. Data-sized now, and ink-soft
+   rather than muted: quiet next to the name, but no longer fine print. */
+.rowTime {
+  display: inline-flex;
+  align-items: center;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  /* colors.inkSoft */
+  color: #284b44;
+  gap: 8px;
+}
+
+/* The STREAM chip on a livestream's time — the rail as the row's verb slot:
+   watch live at three, the way a round's rail says submit by Sunday. Keyed to
+   the livestream tint and its deep partner, the same pair the spine and
+   shadow use, so the chip and the row agree about what colour "stream" is. */
+.streamChip {
+  flex: none;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  /* Optical: mono caps sit high in their box, so the top needs the extra. */
+  padding: 3.5px 6px 2.5px;
+  background: var(--type-tint, #d7e5f4);
+  color: var(--type-accent, #1f4e6b);
+  text-transform: uppercase;
+}
+
+/* While the window is actually open the chip is the one place the brand
+   orange gets to speak on this page, and it earns a heartbeat. Live-ness is
+   an instant, not a reading of the clock face, so this never varies by zone. */
+.streamChip[data-onair='true'] {
+  display: inline-flex;
+  align-items: center;
+  /* colors.brandOrangeDeep / colors.white — the deep partner, not the brand
+     orange itself: white on #e53927 measured 3.95:1, under AA's 4.5 for text
+     this small, and the deep shade is the one the shadows already taught the
+     page to read as serious. 5.6:1. */
+  background: #b8301f;
+  color: #f7f7f2;
+  gap: 5px;
+}
+
+.streamChip[data-onair='true']::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: onAirPulse 1.4s ease-in-out infinite;
+  background: currentColor;
+  content: '';
+}
+
+@keyframes onAirPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* The tile is aria-hidden, so the date is spelled out here for anyone not
+   reading it off the tile. */
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- Round block --------------------------------------------------------
+
+   Same skeleton as a session, louder ground: a round is a deadline rather than
+   an appointment, and four of them recurring is what makes the month's rhythm
+   visible. */
+
+.roundBlock {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  padding: 13px 12px;
+  border: 2px solid #10201d;
+  /* The white ticket. Neutral like the DEV Challenges branding, and distinct
+     from a session not by hue but by weight: sessions are hairline with no
+     resting shadow, a round is the only white card that carries the full 2px
+     border and a resting shadow. The earlier ink block earned its keep as a
+     stage for the sponsor plate; sponsors ride on livestreams now, so the
+     weight went with them. */
+  background: #f7f7f2;
+  box-shadow: 6px 6px 0 var(--accent);
+  cursor: pointer;
+  gap: 14px;
+  /* tile, text, sponsor credit, deadline. */
+  grid-template-columns: auto 1fr auto auto;
+  text-align: left;
+  /* Every property the states below touch, or the ones left out snap while
+     the rest ease — which is exactly the bug this list once had: it named
+     box-shadow alone, so the hover's translate jumped while its shadow
+     animated. */
+  transition:
+    background 0.12s ease,
+    box-shadow 0.12s ease,
+    translate 0.12s ease;
+}
+
+/* ONE hover grammar for the whole stream: hover is the card at full presence
+   — 6px shadow, paper ground, unmoved — and active is the press, translate
+   and shadow summing to the resting offset. A session starts the gesture
+   from no shadow and a round starts it from six, so hovering a session grows
+   its shadow in while hovering a round only shifts its ground; the states
+   they arrive at are identical. */
+.roundBlock:hover {
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+.roundBlock:active {
+  box-shadow: 3px 3px 0 var(--accent);
+  translate: 3px 3px;
+}
+
+.roundBlock:focus-visible {
+  outline: 3px solid #10201d;
+  outline-offset: 3px;
+}
+
+.roundText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.roundWhen {
+  /* colors.ochreDeep — the one warm note on the ticket, matching the shadow
+     the challenge type casts. */
+  color: #284b44;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The rail ledger: both ends of the window, labels right-aligned into a
+   shared gutter so the column of four rounds reads like a table. */
+.roundLedger {
+  display: flex;
+  flex-direction: column;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-align: right;
+  white-space: nowrap;
+  /* colors.inkSoft */
+  color: #284b44;
+  gap: 3px;
+}
+
+.ledgerLabel {
+  display: inline-block;
+  /* Wide enough for CLOSES with its tracking — at 4em the box overflowed and
+     the label ran into its date. */
+  width: 4.8em;
+  margin-right: 6px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: right;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* --- The close stub ------------------------------------------------------
+
+   The round's other end: session-height, dashed where the ticket is solid —
+   a door drawn shutting, not a second ticket. It presses like everything
+   else; the dash is the identity, the physics are the house's. */
+.closeStub {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  padding: 7px 10px;
+  /* colors.ink */
+  border: 2px dashed #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  cursor: pointer;
+  gap: 14px;
+  grid-template-columns: auto 1fr auto;
+  text-align: left;
+  transition:
+    background 0.12s ease,
+    box-shadow 0.12s ease,
+    translate 0.12s ease;
+}
+
+.closeStub .tile {
+  width: 46px;
+  padding: 3px 2px;
+  border-style: dashed;
+  /* colors.white — the tile is a date that marks an ending, so it gives up
+     its solid ground along with its solid edge. */
+  background: #f7f7f2;
+}
+
+.closeStub .tileDay {
+  font-size: 1.05rem;
+}
+
+.closeStub:hover {
+  /* colors.paper */
+  background: #f2f2eb;
+  box-shadow: 6px 6px 0 var(--accent);
+}
+
+.closeStub:active {
+  box-shadow: 3px 3px 0 var(--accent);
+  translate: 3px 3px;
+}
+
+.closeStub:focus-visible {
+  outline: 3px solid #10201d;
+  outline-offset: 3px;
+}
+
+.roundName {
+  margin-top: 3px;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+/* --- Feature container --------------------------------------------------
+
+   Global Hack Week. The same grammar at a larger scale: 8px at rest because it
+   is the biggest object on the page, and the press proportionally deeper. */
+
+.feature {
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  box-shadow: 8px 8px 0 var(--accent);
+  transition:
+    box-shadow 0.12s ease,
+    translate 0.12s ease;
+}
+
+/* The container joins the same grammar: hover is tonal — the header deepens
+   to its type's own shadow colour, the way the fests location button darkens
+   in place — and active is the press. Scoped to the container's OWN header
+   both times: a hover on the rows nested in its body must not press the box
+   around them. */
+.feature:has(> .featureHead:hover) > .featureHead {
+  background: var(--accent);
+}
+
+.feature:has(> .featureHead:active) {
+  box-shadow: 5px 5px 0 var(--accent);
+  translate: 3px 3px;
+}
+
+.featureHead {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  padding: 16px;
+  border: 0;
+  border-bottom: 2px solid #10201d;
+  /* The type's own colour rather than a hardcoded one, so a feature's header,
+     its tint and its shadow all come from the same place and cannot drift
+     apart when a type is recoloured. Forest for an `event`, which is what
+     Global Hack Week is. */
+  background: var(--type-color, #3d5f58);
+  /* colors.white */
+  color: #f7f7f2;
+  cursor: pointer;
+  gap: 16px;
+  grid-template-columns: auto 1fr auto;
+  text-align: left;
+  transition: background 0.12s ease;
+}
+
+.featureHead:focus-visible {
+  outline: 3px solid #10201d;
+  outline-offset: -6px;
+}
+
+/* A plaque rather than a tile: a tile holds one day, and the only thing worth
+   saying about a week is its range. Stacked like the tile all the same — the
+   range over the month — so the two read as the same object at two widths
+   rather than two different ideas. */
+.plaque {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  color: #10201d;
+  line-height: 1.1;
+}
+
+.plaqueRange {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.plaqueMonth {
+  margin-top: 2px;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  /* colors.muted, as the tile's own month uses */
+  color: #52635f;
+}
+
+.featureText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.featureName {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.9rem, 3.4vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+/* Inset, so what is inside the container reads as inside it, in the pale end
+   of the same family the header uses. */
+.featureBody {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin: 0;
+  gap: 14px;
+  background: var(--type-tint, #cfdad7);
+  list-style: none;
+}
+
+/* The stream's structure, drawn as whispers: a rule between Mondays so the
+   month has visible weeks, and an ochre one at the seam between what has
+   happened and what has not. Mono and small on purpose — these are the grid
+   lines the calendar view used to give away for free, not headings. */
+.weekRule {
+  display: flex;
+  align-items: center;
+  margin: 4px 0 -4px;
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.6rem;
+  gap: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.weekRule::after {
+  height: 1px;
+  flex: 1;
+  /* colors.rule-strong */
+  background: #8ca59e;
+  content: '';
+}
+
+.todayRule {
+  /* colors.ochreDeep on the line's ochre */
+  color: #8a5d13;
+}
+
+.todayRule::after {
+  height: 2px;
+  background: #f5b726;
+}
+
+/* --- Past ---------------------------------------------------------------
+
+   What has already happened folds away by default and comes back on request.
+   Shown, it recedes rather than disappearing: the accent drops to the rule
+   grey, the ground goes paperDeep and the type dims. That is exactly what a
+   past Fest card does on /fests — --fest-accent: #8ca59e and a grey ground —
+   and for the same reason, that a month with nothing above today reads as a
+   month that never happened.
+
+   data-past is on the item, so one attribute restyles the whole entry rather
+   than every part of it separately. */
+
+.pastToggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  margin-bottom: 14px;
+  /* colors.rule-strong — dashed, the ghost treatment /fests gives its empty
+     tile: this is a placeholder for content rather than content. */
+  border: 2px dashed #8ca59e;
+  background: transparent;
+  cursor: pointer;
+  gap: 14px;
+  text-align: left;
+}
+
+.pastToggle:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+.pastToggle:focus-visible {
+  outline: 3px solid #10201d;
+  outline-offset: 2px;
+}
+
+.pastCount {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+.pastAction {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* colors.rule: a finished thing casts a grey shadow rather than its type's.
+   This is why the component sets --type-accent and not --accent — see the note
+   on .streamItem above. */
+.streamItem[data-past='true'] {
+  --accent: #8ca59e;
+}
+
+.streamItem[data-past='true'] .sessionRow,
+.streamItem[data-past='true'] .closeStub,
+.streamItem[data-past='true'] .feature {
+  /* colors.paper — a step down from white, a step up from the ground, so a
+     finished row recedes without dissolving into the page. */
+  background: #f2f2eb;
+}
+
+.streamItem[data-past='true'] .roundBlock {
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.streamItem[data-past='true'] .roundWhen {
+  color: #52635f;
+}
+
+.streamItem[data-past='true'] .featureHead {
+  filter: saturate(0.4);
+}
+
+.streamItem[data-past='true'] .rowName,
+.streamItem[data-past='true'] .roundName {
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* A finished stream's chip goes grey with the rest of the row: the sky tint
+   is a promise about the future, and these rows have none left. (It can never
+   still read ON AIR here — past means ended.) */
+.streamItem[data-past='true'] .streamChip {
+  /* colors.paperDeep / colors.muted */
+  background: #e4e5da;
+  color: #52635f;
+}
+
+/* Below tablet the tile plus a date column would leave the name almost
+   nothing, so the time moves under the name and the tile keeps its place. */
+@media (max-width: 767px) {
+  .sessionRow,
+  .roundBlock,
+  .closeStub {
+    grid-template-columns: auto 1fr;
+  }
+
+  .rowTime,
+  .roundLedger {
+    grid-column: 2;
+    margin-top: -4px;
+  }
+
+  .roundLedger {
+    align-items: start;
+    margin-top: 0;
+    text-align: left;
+  }
+
+  .ledgerLabel {
+    text-align: left;
+  }
+
+  .closeStub {
+    row-gap: 3px;
+  }
+
+  .closeStub .rowTime {
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  /* The compact tier has to survive the wrap, or the third crit's hierarchy
+     dies at 375px: with the stack left to auto-placement a session measured
+     113px against the round's 114 — near-equal masses again — and the sponsor
+     credit landed in the empty column UNDER the tile, which is also where its
+     ghost label appeared. Everything that is not the tile lives in column
+     two: name, then time, then the credit on its own line (credit plus chip
+     plus time is ~300px, which one 375px line cannot hold). */
+  .sessionRow {
+    row-gap: 3px;
+  }
+
+  .sessionRow .rowTime {
+    grid-row: 2;
+    margin-top: 0;
+  }
+
+  .sessionRow .credit {
+    flex-direction: row;
+    align-items: center;
+    grid-row: 3;
+    grid-column: 2;
+    justify-self: start;
+    gap: 6px;
+  }
+
+  .featureHead {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+/* --- States ------------------------------------------------------------- */
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: clamp(60px, 8vw, 110px);
+  padding-inline: 20px;
+  gap: 10px;
+  /* The same ground the ready state uses, so the page does not change colour
+     under the reader when the fetch lands. */
+  background: #e4e5da;
+  text-align: center;
+}
+
+.stateTitle {
+  margin: 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.stateBody {
+  max-width: 46ch;
+  margin: 0;
+  color: #52635f;
+}
+
+.retry {
+  appearance: none;
+  margin-top: 10px;
+  padding: 12px 22px;
+  border: 2px solid #10201d;
+  /* colors.pink on colors.maroon */
+  background: #e97b77;
+  box-shadow: 5px 5px 0 #671912;
+  color: #10201d;
+  cursor: pointer;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+
+/* --- Modal -------------------------------------------------------------- */
+
+/* The row presses in; what comes out of it presses out. Same gesture, opposite
+   directions — the fest modal's entrance, and its reasoning: the shadow is
+   delayed past the movement so it snaps out as the modal settles rather than
+   growing with it, which is the difference between a pop and a slide. */
+.modal {
+  --accent: #10201d;
+
+  width: min(calc(100% - 32px), 560px);
+  padding: 0;
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 8px 8px 0 var(--accent);
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .modal[open] {
+    transition:
+      translate 180ms cubic-bezier(0.2, 0.9, 0.3, 1.2),
+      box-shadow 240ms cubic-bezier(0.34, 1.56, 0.64, 1) 140ms;
+  }
+
+  /* What it animates FROM: pressed into the page, with no shadow yet. */
+  @starting-style {
+    .modal[open] {
+      translate: 8px 8px;
+      box-shadow: 0 0 0 var(--accent);
+    }
+  }
+}
+
+.modal::backdrop {
+  background: rgb(16 32 29 / 62%);
+}
+
+.modalInner {
+  position: relative;
+  padding: clamp(22px, 4vw, 32px);
+}
+
+.modalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 2px solid #10201d;
+  background: transparent;
+  color: #10201d;
+  cursor: pointer;
+}
+
+.modalHead {
+  display: flex;
+  align-items: center;
+  padding-right: 40px;
+  gap: 14px;
+}
+
+/* A lockup gets the band the feature header gives it, for the same reason:
+   these assets are often white-on-transparent and would vanish on paper. The
+   band is the event's own type colour, bled to the modal's edges so it reads
+   as a header rather than a swatch sitting inside one. */
+.modalHead[data-lockup='true'] {
+  display: block;
+  padding: 18px clamp(22px, 4vw, 32px);
+  margin: calc(-1 * clamp(22px, 4vw, 32px)) calc(-1 * clamp(22px, 4vw, 32px))
+    clamp(22px, 4vw, 32px);
+  border-bottom: 2px solid #10201d;
+  background: var(--type-color, #3d5f58);
+}
+
+.modalLockup {
+  max-width: min(100%, 320px);
+  height: 44px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+/* The close button sits over the band now, so it takes the band's own
+   contrast rather than the paper's. */
+.modalHead[data-lockup='true'] ~ * .modalClose,
+.modal:has(.modalHead[data-lockup='true']) .modalClose {
+  /* colors.white */
+  border-color: #f7f7f2;
+  color: #f7f7f2;
+}
+
+.modalTitle {
+  margin: 8px 0 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.modalFacts {
+  display: grid;
+  margin: 22px 0 0;
+  gap: 12px;
+}
+
+.modalFacts dt {
+  margin-bottom: 2px;
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.modalFacts dd {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* The When fact hosts the ON AIR chip beside its time, the same pairing the
+   stream's rows use. */
+.modalWhen {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalCopy {
+  margin: 18px 0 0;
+  color: #284b44;
+  font-size: 0.95rem;
+}
+
+.modalCta {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  padding: 10px 20px;
+  border: 2px solid #10201d;
+  margin-top: 22px;
+  background: #e97b77;
+  box-shadow: 5px 5px 0 #671912;
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 650;
+  text-decoration: none;
+}
