@@ -171,3 +171,36 @@ export const festEditUrl = (fest) => {
   if (!manageUrl) return null;
   return OHQ_EVENT_URL.test(manageUrl) ? `${manageUrl}/edit` : manageUrl;
 };
+
+/* Today's calendar date in a given zone, as YYYY-MM-DD.
+
+   'en-CA' because its short date format IS ISO order, which is what makes the
+   string comparison below correct without any Date arithmetic — the same
+   reason the rest of this file compares ISO date strings directly. An absent
+   or unusable zone falls back to the reader's own clock: Intl throws a
+   RangeError on a zone it does not know, and a host seeing the card a few
+   hours early is a far smaller failure than a host whose Fest is underway
+   seeing no card at all. */
+const todayInZone = (nowMs, timeZone) => {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      ...options,
+      timeZone: timeZone || undefined,
+    }).format(new Date(nowMs));
+  } catch (_) {
+    return new Intl.DateTimeFormat('en-CA', options).format(new Date(nowMs));
+  }
+};
+
+/* Whether the check-ins card has anything to say yet.
+
+   Nobody checks in before the doors open, so a count shown in September is a
+   zero that reads as a fault. It appears on the day of the event — in the
+   VENUE's zone, not the reader's — and stays from then on, so a past Fest
+   keeps its final count. */
+export const checkInsVisible = (fest, nowMs) => {
+  if (!fest || !hasValidDate(fest)) return false;
+  return todayInZone(nowMs, fest.timeZone) >= fest.date;
+};

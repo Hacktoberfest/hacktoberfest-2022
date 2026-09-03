@@ -6,12 +6,14 @@ import {
   RETURN_TO_STORAGE_KEY,
   SESSION_STORAGE_KEY,
   canPersistSession,
+  clearReturnTo,
   clearSession,
   displayName,
   getSession,
   isMissingEmailOnly,
   parseSession,
   saveSession,
+  stashReturnTo,
   takeReturnTo,
 } from '../src/lib/session.mjs';
 
@@ -450,6 +452,70 @@ test('takeReturnTo clears the stashed value after reading it', () => {
       assert.equal(takeReturnTo(), '/my/');
     },
   );
+});
+
+/* stashReturnTo and clearReturnTo are the other two callers of
+   sessionStorage's RETURN_TO_STORAGE_KEY slot — every page that wants a
+   destination remembered, or wants a stale one gone, goes through these
+   rather than touching storage directly. */
+test('stashReturnTo stores a safe path for takeReturnTo to pick up', () => {
+  withMockStorage('sessionStorage', {}, (mock) => {
+    stashReturnTo('/my/fest/?id=abc123');
+    assert.equal(mock.getItem(RETURN_TO_STORAGE_KEY), '/my/fest/?id=abc123');
+    assert.equal(takeReturnTo(), '/my/fest/?id=abc123');
+  });
+});
+
+test('stashReturnTo refuses a protocol-relative value', () => {
+  withMockStorage('sessionStorage', {}, (mock) => {
+    stashReturnTo('//evil.example');
+    assert.equal(mock.getItem(RETURN_TO_STORAGE_KEY), null);
+  });
+});
+
+test('stashReturnTo refuses a value that only looks safe before the parser strips it', () => {
+  withMockStorage('sessionStorage', {}, (mock) => {
+    stashReturnTo('/\t/evil.example');
+    assert.equal(mock.getItem(RETURN_TO_STORAGE_KEY), null);
+  });
+});
+
+test('stashReturnTo does not throw when sessionStorage throws on access', () => {
+  withThrowingStorage('sessionStorage', () => {
+    assert.doesNotThrow(() => stashReturnTo('/my/fest/?id=abc123'));
+  });
+});
+
+test('stashReturnTo does not throw when sessionStorage is unavailable', () => {
+  assert.doesNotThrow(() => stashReturnTo('/my/fest/?id=abc123'));
+});
+
+test('clearReturnTo removes a stashed value', () => {
+  withMockStorage(
+    'sessionStorage',
+    { [RETURN_TO_STORAGE_KEY]: '/my/fest/?id=abc123' },
+    (mock) => {
+      clearReturnTo();
+      assert.equal(mock.getItem(RETURN_TO_STORAGE_KEY), null);
+      assert.equal(takeReturnTo(), '/my/');
+    },
+  );
+});
+
+test('clearReturnTo does not throw when there is nothing stashed', () => {
+  withMockStorage('sessionStorage', {}, () => {
+    assert.doesNotThrow(() => clearReturnTo());
+  });
+});
+
+test('clearReturnTo does not throw when sessionStorage throws on access', () => {
+  withThrowingStorage('sessionStorage', () => {
+    assert.doesNotThrow(() => clearReturnTo());
+  });
+});
+
+test('clearReturnTo does not throw when sessionStorage is unavailable', () => {
+  assert.doesNotThrow(() => clearReturnTo());
 });
 
 /* startLogin branches on API_BASE_URL, which session.mjs reads once at

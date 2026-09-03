@@ -31,8 +31,18 @@ const PageHero = ({ lead, accent, eyebrow, actions, children }) => (
         <span className={styles.squarePink} />
       </div>
       {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+      {/* The accent half is optional. Every static page supplies one, but
+          /my/fest/ names a Fest, and a Fest whose name carries no partner
+          has nothing to put in the em — an empty one would leave a stray
+          space and an empty element in the h1. */}
       <h1 className={styles.heading}>
-        {lead} <em>{accent}</em>
+        {lead}
+        {accent ? (
+          <>
+            {' '}
+            <em>{accent}</em>
+          </>
+        ) : null}
       </h1>
       {children}
       {actions && <div className={styles.actions}>{actions}</div>}

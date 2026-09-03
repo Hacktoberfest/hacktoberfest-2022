@@ -22,7 +22,7 @@ test('a 502 replaces the hub with the MLH outage surface', () => {
    and a 4xx is our own request being wrong; neither is an MLH outage, and
    claiming otherwise would tell the participant something false. */
 test('every other status falls through to the generic error surface', () => {
-  [400, 403, 404, 429, 500, 503].forEach((status) =>
+  [400, 429, 500, 503].forEach((status) =>
     assert.equal(
       pageStateForError({ status }),
       'error',
@@ -105,4 +105,15 @@ test('a malformed response is still the expired-link screen', () => {
   assert.equal(callbackStateForSession(undefined), 'failed');
   assert.equal(callbackStateForSession(null), 'failed');
   assert.equal(callbackStateForSession('not an object'), 'failed');
+});
+
+test('a 403 is its own state, not a generic error', () => {
+  // The dashboard is scoped to one event's hosts. "You are not a host of this
+  // Fest" and "something went wrong" need different words and different next
+  // steps, and only one of them is worth a retry button.
+  assert.equal(pageStateForError({ status: 403 }), 'forbidden');
+});
+
+test('a 404 is its own state', () => {
+  assert.equal(pageStateForError({ status: 404 }), 'notFound');
 });

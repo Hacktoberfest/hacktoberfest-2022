@@ -5,7 +5,7 @@ import Header from 'components/Header';
 import Loader from 'components/Loader';
 import MessagePage from 'components/MessagePage';
 import { login } from 'data/content.mjs';
-import { canPersistSession, startLogin } from 'lib/session.mjs';
+import { canPersistSession, startLogin, takeReturnTo } from 'lib/session.mjs';
 
 /* The hand-off point. startLogin is the only thing that knows whether the
    session is real or mocked, so this page never changes when the backend
@@ -41,7 +41,14 @@ const Login = () => {
       return;
     }
 
-    startLogin('/my/');
+    /* A stashed return-to belongs to the page that stashed it: /my/fest/
+       sends people here, and signing in should land them back on the Fest
+       they asked for rather than on the hub. takeReturnTo both sanitises
+       the value and clears it as it reads, which is safe to do here and
+       nowhere else on this hop: startLogin immediately restashes whatever
+       it is handed for the round trip through MyMLH, so the destination
+       never actually goes missing. */
+    startLogin(takeReturnTo());
   }, []);
 
   return (

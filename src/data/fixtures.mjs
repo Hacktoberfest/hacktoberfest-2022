@@ -35,6 +35,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '6:00 PM',
         endsAt: '2026-10-24T22:00:00.000Z',
+        timeZone: 'America/New_York',
         status: 'registered',
         role: 'attending',
         registrationUrl: null,
@@ -65,6 +66,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '9:30 AM',
         endTime: '5:00 PM',
         endsAt: '2026-08-01T16:00:00.000Z',
+        timeZone: 'Europe/London',
         status: 'checked_in',
         role: 'attending',
         registrationUrl: null,
@@ -108,6 +110,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '9:30 AM',
         endTime: '5:00 PM',
         endsAt: '2026-08-01T16:00:00.000Z',
+        timeZone: 'Europe/London',
         status: 'checked_in',
         role: 'attending',
         registrationUrl: null,
@@ -129,6 +132,41 @@ export const SCENARIOS = Object.freeze({
     addressValidated: true,
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
+      /* Co-branded, the way MLH actually names a partnered Fest: the
+         partner arrives welded to the event name after an "x". Here so the
+         split treatment - the Fest as the heading, "Hosted by" underneath -
+         is reviewable, since it is common in the live series and no other
+         fixture exercises it. */
+      {
+        id: 'fest-toronto',
+        name: 'Hacktoberfest Hack Day Toronto x SharkHacks3',
+        city: 'Toronto',
+        country: 'Canada',
+        date: '2026-10-24',
+        startTime: '9:00 AM',
+        endTime: '6:00 PM',
+        endsAt: '2026-10-24T22:00:00.000Z',
+        timeZone: 'America/Toronto',
+        status: null,
+        role: 'organizing',
+        registrationUrl: 'https://example.invalid/fests/toronto',
+        websiteUrl: 'https://example.invalid/events/toronto',
+        applicationStatus: null,
+        manageUrl:
+          'https://example.invalid/events/14695-hacktoberfest-hack-day-toronto',
+        mlhPublished: true,
+        hacktoberfestPublished: true,
+        acknowledgedAt: '2026-08-22T09:00:00.000Z',
+        latitude: 43.6532,
+        longitude: -79.3832,
+        venueAddress: '100 Queen Street West, Toronto, ON, M5H 2N2, Canada',
+        publicationChecks: [
+          { id: 'coordinates', passed: true },
+          { id: 'name', passed: true },
+          { id: 'duration', passed: true },
+          { id: 'description', passed: true },
+        ],
+      },
       {
         id: 'fest-tokyo',
         name: 'Hacktober Fest Tokyo',
@@ -138,6 +176,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '7:00 PM',
         endsAt: '2026-10-17T10:00:00.000Z',
+        timeZone: 'Asia/Tokyo',
         status: null,
         role: 'organizing',
         registrationUrl: 'https://example.invalid/fests/tokyo',
@@ -169,6 +208,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '5:00 PM',
         endsAt: '2026-08-01T07:00:00.000Z',
+        timeZone: 'Australia/Melbourne',
         status: null,
         role: 'organizing',
         registrationUrl: 'https://example.invalid/fests/melbourne',
@@ -203,6 +243,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '6:00 PM',
         endsAt: '2026-10-12T18:00:00.000Z',
+        timeZone: 'Atlantic/Azores',
         status: null,
         role: 'organizing',
         registrationUrl: 'https://example.invalid/fests/azores',
@@ -234,6 +275,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '6:00 PM',
         endsAt: '2026-10-15T18:00:00.000Z',
+        timeZone: 'Atlantic/Azores',
         status: null,
         role: 'organizing',
         registrationUrl: 'https://example.invalid/fests/horta',
@@ -264,6 +306,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '9:00 AM',
         endTime: '5:00 PM',
         endsAt: '2026-10-20T16:00:00.000Z',
+        timeZone: 'Europe/Lisbon',
         status: null,
         role: 'organizing',
         registrationUrl: 'https://example.invalid/fests/braga',
@@ -295,6 +338,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '4:00 PM',
         endsAt: '2026-10-27T16:00:00.000Z',
+        timeZone: 'Europe/Lisbon',
         status: null,
         role: 'organizing',
         registrationUrl: null,
@@ -327,6 +371,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '6:00 PM',
         endsAt: '2026-10-10T18:00:00.000Z',
+        timeZone: null,
         status: null,
         role: 'organizing',
         registrationUrl: null,
@@ -353,6 +398,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '6:00 PM',
         endsAt: '2026-10-31T18:00:00.000Z',
+        timeZone: null,
         status: null,
         role: 'organizing',
         registrationUrl: null,
@@ -379,6 +425,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '6:00 PM',
         endsAt: '2026-10-18T18:00:00.000Z',
+        timeZone: null,
         status: null,
         role: 'organizing',
         registrationUrl: null,
@@ -407,6 +454,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '9:00 AM',
         endTime: '5:00 PM',
         endsAt: '2026-10-25T16:00:00.000Z',
+        timeZone: null,
         status: null,
         role: 'organizing',
         registrationUrl: null,
@@ -430,6 +478,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '11:00 AM',
         endTime: '8:00 PM',
         endsAt: '2026-10-24T18:00:00.000Z',
+        timeZone: 'Europe/Berlin',
         status: 'registered',
         role: 'attending',
         registrationUrl: 'https://example.invalid/fests/berlin',
@@ -453,6 +502,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '9:30 AM',
         endTime: '5:00 PM',
         endsAt: '2026-08-01T16:00:00.000Z',
+        timeZone: 'Africa/Lagos',
         status: 'checked_in',
         role: 'attending',
         registrationUrl: null,
@@ -478,6 +528,7 @@ export const SCENARIOS = Object.freeze({
         startTime: '10:00 AM',
         endTime: '4:00 PM',
         endsAt: '2026-08-01T14:00:00.000Z',
+        timeZone: 'Europe/Oslo',
         status: 'registered',
         role: 'attending',
         registrationUrl: null,
@@ -494,6 +545,46 @@ export const SCENARIOS = Object.freeze({
       },
     ],
   },
+});
+
+/* The per-Fest dashboards, keyed by the fest ids used in SCENARIOS above.
+   Mocked builds only, same as everything else here — and the only way this
+   page is reviewable before October, since MLH's real counters read 0 for
+   almost every event until the day.
+
+   fest-melbourne has already happened, so it is the one that demonstrates
+   the check-ins card; fest-tokyo and fest-azores are both still ahead, so
+   they show registrations only. Neither has a pack in transit: nothing has
+   shipped, so "not yet shipped" is the state worth reviewing. */
+export const FEST_DASHBOARDS = Object.freeze({
+  'fest-tokyo': {
+    registrationsCount: 48,
+    checkInsCount: 31,
+    trackingNumbers: [],
+  },
+  'fest-melbourne': {
+    registrationsCount: 52,
+    checkInsCount: 38,
+    trackingNumbers: [],
+  },
+  'fest-toronto': {
+    registrationsCount: 31,
+    checkInsCount: 0,
+    trackingNumbers: [],
+  },
+  'fest-azores': {
+    registrationsCount: 12,
+    checkInsCount: 0,
+    trackingNumbers: [],
+  },
+});
+
+/* What an event with no dashboard row of its own shows: a Fest nobody has
+   registered for yet, which is the truthful September answer. */
+export const EMPTY_FEST_DASHBOARD = Object.freeze({
+  registrationsCount: 0,
+  checkInsCount: 0,
+  trackingNumbers: [],
 });
 
 export const DEFAULT_SCENARIO = 'no-address';

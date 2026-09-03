@@ -10,19 +10,28 @@
    are the parts that need the router and the storage. */
 import { isMissingEmailOnly, parseSession } from './session.mjs';
 
-/* The only two statuses with a surface of their own. 401 means a stale token,
+/* Four statuses, each with a surface of its own. 401 means a stale token,
    which sends someone back to sign in rather than to an error screen they
-   cannot act on; 502 is the one status that means MLH itself is unreachable.
+   cannot act on; 502 is the one status that means MLH itself is unreachable;
+   403 and 404 arrived with /my/fest/, which is scoped to one event's hosts:
+   "this Fest is not yours" and "there is no such Fest" are different
+   sentences with different next steps, and neither is worth a retry.
 
    A lookup rather than a chain of ifs, because the response carries exactly
-   one status: the two can never both apply, so there is no order to get
-   right. This replaced an ordered pair of ifs whose guard was an error object
-   answering 401 to the first read of .status and 502 to the second — the one
-   shape that could tell the orderings apart. It failed if they were swapped,
-   but it also passed silently once anyone read .status into a local, and it
-   failed spuriously for anyone who added a behaviour-preserving branch in
-   front. Nothing here can be reordered, so nothing needs guarding. */
-const STATES = { 401: 'signedOut', 502: 'mlhDown' };
+   one status: none of the four can ever apply together, so there is no order
+   to get right. This replaced an ordered pair of ifs whose guard was an error
+   object answering 401 to the first read of .status and 502 to the second —
+   the one shape that could tell the orderings apart. It failed if they were
+   swapped, but it also passed silently once anyone read .status into a
+   local, and it failed spuriously for anyone who added a
+   behaviour-preserving branch in front. Nothing here can be reordered, so
+   nothing needs guarding. */
+const STATES = {
+  401: 'signedOut',
+  403: 'forbidden',
+  404: 'notFound',
+  502: 'mlhDown',
+};
 
 export const pageStateForError = (error) => {
   const status = error && error.status;

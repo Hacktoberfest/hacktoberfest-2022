@@ -136,9 +136,15 @@ const actionFor = (fest) => {
       label: my.fests.applicationCtas.approved,
     };
   }
-  /* The listing page, not the register form: a host checking their
-     published Fest wants to see what the public sees. registrationUrl
-     stays as the fallback for payloads from before websiteUrl shipped. */
+  /* The dashboard is where a host's own Fest lives now: the listing and the
+     Organizer HQ link both moved onto it, so the card needs one destination
+     rather than three. The acknowledgements rung is the exception, handled
+     above — that button is the most time-critical thing on this page and does
+     not get buried a click deeper. */
+  const href = dashboardHref(fest);
+  if (href) {
+    return { kind: 'internal', href, label: my.dashboard.openCta };
+  }
   const viewUrl = fest.websiteUrl || fest.registrationUrl;
   if (viewUrl) {
     return {
@@ -149,6 +155,11 @@ const actionFor = (fest) => {
   }
   return null;
 };
+
+/* Where this card's own dashboard lives. Application cards have none: there
+   is no event behind them yet, and the API has nothing to answer with. */
+const dashboardHref = (fest) =>
+  fest.applicationStatus ? null : `/my/fest/?id=${encodeURIComponent(fest.id)}`;
 
 const ApplicationCard = ({ fest, onFestAcknowledged }) => {
   const badge = badgeFor(fest);
@@ -185,6 +196,15 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
             {time && <span className={styles.cardTime}> · {time}</span>}
           </p>
         )}
+        {/* The footer belongs to whatever the rung most needs a host to do
+           next — completing acknowledgements, or publishing in MLH — and
+           the dashboard takes the quieter spot in the body whenever the
+           footer is already spoken for. */}
+        {action && action.kind !== 'internal' && dashboardHref(fest) && (
+          <a className={styles.cardDashboardLink} href={dashboardHref(fest)}>
+            {my.dashboard.openCta}
+          </a>
+        )}
       </div>
       {/* Same footer action bar as the fests cards — the card's one link
          spans its bottom edge, so every linked card ends in the same
@@ -196,6 +216,12 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
+          {action.label}
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
+      {action && action.kind === 'internal' && (
+        <a className={styles.cardAction} href={action.href}>
           {action.label}
           <span aria-hidden="true">→</span>
         </a>

@@ -1,0 +1,292 @@
+/* The Fest dashboard's body, under the shared PageHero.
+
+   Two dresses, both the site's own. The counts wear CountdownBand's — sky
+   ground, ink header bar, skyDeep hard shadow — because they are the same
+   kind of thing: a number the site is keeping on a host's behalf. The pack
+   card wears the paper-and-maroon dress the /my bands wear, because it is a
+   statement rather than a figure.
+
+   CSS Modules cannot import src/styles/tokens.js or compose Shell, so every
+   colour is inlined with its token named in a comment, and Shell's width
+   rules are restated on .root — same conventions as ApplicationsBand,
+   WelcomeBand and MyStatus.module.css. All CSS Module, no
+   styled-components: this page renders entirely in the browser, where
+   styled-components ship no CSS. See PageHero's note. */
+/* Same width as every band on /my, so the counts, the pack card and the
+   host resources band below all sit on one column edge. The closing gutter
+   is the bands' own clamp, because HostResourcesBand's `closing` variant
+   subtracts exactly that value to seat itself against the page. */
+.root {
+  display: grid;
+  gap: 28px;
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 26px clamp(48px, 7vw, 90px);
+}
+
+/* The bands' full width ladder, all three rungs, so this page and /my keep
+   one column edge at every size. Miss the middle rung and the cards sit 5px
+   proud of the host resources band below them on any desktop screen. */
+@media (min-width: 768px) {
+  .root {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .root {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* The flag rides in the hero's eyebrow, on the forest band, in the same ink
+   frame the /my cards give theirs.
+
+   font-size must match width and height: flag-icons sizes .fis at 1em and
+   its two-class selector outranks this one, so without it the flag takes
+   the eyebrow's type size for its width and the square is stretched into a
+   rectangle. Same reason ApplicationsBand states all three.
+
+   22px rather than 20 because box-sizing is border-box site-wide, so the
+   2px frame comes out of the box: this leaves the flag itself at the 18px
+   the eyebrow's type wants. */
+.flag {
+  width: 22px;
+  height: 22px;
+  margin-right: 9px;
+  font-size: 22px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  vertical-align: -5px;
+}
+
+/* PageHero's actions, in components/Button's dress without its
+   styled-components: same geometry, same hover, same focus ring. */
+.action {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  /* colors.ink border, colors.pink ground, colors.maroon shadow */
+  border: 2px solid #10201d;
+  background: #e97b77;
+  box-shadow: 5px 5px 0 #671912;
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* Button's secondary variant, copied whole rather than half: white type on
+   a transparent ground, a translucent white edge, and the shadow in
+   colors.forestDeep — the deep green the hero's own chips shadow with, so
+   it is present on the forest band without competing with the primary's
+   maroon. It inverts to a white ground on hover, as the real one does. */
+.actionGhost {
+  border-color: rgba(255, 255, 255, 0.72);
+  background: transparent;
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.forestDeep */
+  box-shadow: 5px 5px 0 #2e4742;
+}
+
+.action:hover {
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+}
+
+.actionGhost:hover {
+  /* colors.white ground, colors.ink type */
+  background: #f7f7f2;
+  color: #10201d;
+  /* colors.forestDeep */
+  box-shadow: 3px 3px 0 #2e4742;
+}
+
+.action:focus-visible {
+  /* colors.ink */
+  box-shadow: 0 0 0 5px #10201d;
+}
+
+.actionGhost:focus-visible {
+  /* colors.white — ink would vanish into the forest band behind it. */
+  box-shadow: 0 0 0 5px #f7f7f2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action {
+    transition: none;
+  }
+}
+
+.cards {
+  display: grid;
+  gap: 24px;
+}
+
+/* Two equal columns, filling the row. There are always exactly two cards -
+   check-ins is locked before the day rather than absent - so the pair spans
+   the same column the pack card and the host resources band below it do.
+   An earlier version capped each card, which left the row short of them on
+   any wide screen. */
+@media (min-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.counter {
+  /* colors.ink border, colors.sky ground, colors.skyDeep shadow */
+  border: 2px solid #10201d;
+  background: #8bb2de;
+  box-shadow: 7px 7px 0 #1f4e6b;
+}
+
+/* Before the doors open. Same geometry, drained of the sky: a card that
+   says what will be here rather than a gap where a card will appear, and
+   plainly not a live number - a grey 0 would still read as a count. */
+.counterLocked {
+  /* colors.paperDeep ground, colors.rule shadow */
+  background: #e4e5da;
+  box-shadow: 7px 7px 0 #8ca59e;
+}
+
+.counterLocked .counterHead {
+  /* colors.muted ground */
+  background: #52635f;
+}
+
+.counterLockedBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 132px;
+  padding: 22px 20px 24px;
+  /* colors.muted */
+  color: #52635f;
+  text-align: center;
+}
+
+.lockIcon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  fill: currentColor;
+}
+
+.counterHead {
+  margin: 0;
+  padding: 12px 18px;
+  /* colors.ink ground, colors.white type */
+  background: #10201d;
+  color: #f7f7f2;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.counterBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 22px 16px 24px;
+  text-align: center;
+}
+
+.stat {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(3.4rem, 11vw, 6rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.statCaption {
+  /* colors.ink, softened against the sky rather than swapped for muted:
+     muted grey on this ground reads as disabled. */
+  color: #10201d;
+  font-size: 0.9rem;
+  opacity: 0.82;
+}
+
+.pack {
+  display: grid;
+  gap: 8px;
+  padding: 22px 24px;
+  /* colors.ink border, colors.white ground, colors.maroon shadow — the same
+     card the /my bands use. */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 6px 6px 0 #671912;
+}
+
+@media (min-width: 768px) {
+  .pack {
+    grid-template-columns: 200px 1fr;
+    align-items: baseline;
+    gap: 24px;
+  }
+}
+
+.packTitle {
+  margin: 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.packBody {
+  display: grid;
+  gap: 8px;
+}
+
+.packLine {
+  margin: 0;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+.trackingLabel {
+  margin: 4px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.trackingList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trackingNumber {
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  word-break: break-all;
+}

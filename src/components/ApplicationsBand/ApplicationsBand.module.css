@@ -175,6 +175,20 @@
   white-space: nowrap;
 }
 
+/* Where a host opens this Fest's own dashboard, on the cards whose footer
+   action is already spoken for by the rung's own next step - completing
+   the acknowledgements, or publishing in MLH. Quiet on purpose: it must
+   not compete with the ask. Cards with no such step carry the dashboard
+   as their footer action instead and never render this. */
+.cardDashboardLink {
+  display: inline-block;
+  margin-top: 10px;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
 /* The acknowledgements rung's footer is a button, not a link — it opens
    the modal. This is only the user-agent reset, and it sits ABOVE
    .cardAction on purpose: at equal specificity the later rule wins, so

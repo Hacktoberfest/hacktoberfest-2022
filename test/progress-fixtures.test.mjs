@@ -149,10 +149,13 @@ test('every fixture carries a fests array with well-formed entries', () => {
 
 test('the organizer scenario shows every badge variant', () => {
   const roles = SCENARIOS.organizer.fests.map((f) => f.role).sort();
+  /* One organizing entry per rung, plus the co-branded Fest that carries a
+     partner in its name - the split the hero and the directory both make. */
   assert.deepEqual(roles, [
     'attending',
     'attending',
     'attending',
+    'organizing',
     'organizing',
     'organizing',
     'organizing',

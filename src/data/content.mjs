@@ -1138,6 +1138,56 @@ export const my = {
       cta: 'Start another application',
     },
   },
+  /* /my/fest/ — one Fest, as its hosts see it. The numbers come from MLH:
+     registrations always, check-ins from the day of the event onward (nobody
+     checks in before the doors open, and a zero shown in September reads as a
+     fault). */
+  dashboard: {
+    title: 'Your Fest | Hacktoberfest 2026',
+    backCta: 'Back to your Hacktoberfest',
+    openCta: 'Open Fest dashboard',
+    viewCta: 'View Fest page',
+    manageCta: 'Manage in Organizer HQ',
+    registrations: {
+      title: 'Registrations',
+      label: 'Registrations for your Fest',
+    },
+    checkIns: {
+      title: 'Check-ins',
+      label: 'People checked in on the day',
+      /* Before the day. The card stands there greyed rather than absent, so
+         a host learns the number is coming instead of wondering where it
+         went - and it never shows a 0, which would read as nobody came. */
+      locked: 'Check-ins open on the day of your Fest.',
+    },
+    /* The event pack. Nothing has shipped yet, so "not yet shipped" is the
+       state that got designed; the shipped copy below exists so that the day
+       a real tracking number lands, the card cannot go on claiming nothing
+       has shipped. It is deliberately plain and will be replaced by a proper
+       shipped state once there is real data to design against. */
+    pack: {
+      title: 'Event pack',
+      notShipped: 'Your event pack has not yet shipped.',
+      shipped: 'Your event pack is on its way.',
+      trackingLabel: 'Tracking numbers',
+    },
+    forbidden: {
+      eyebrow: 'Fest dashboard',
+      heading: { lead: 'This Fest', accent: 'is not yours.' },
+      body: 'You are not listed as a host of this Fest. If you think you should be, ask the host who applied to add you in Organizer HQ.',
+    },
+    notFound: {
+      eyebrow: 'Fest dashboard',
+      heading: { lead: 'We could not', accent: 'find that Fest.' },
+      /* Three reasons, because the API cannot tell them apart and neither
+         should the copy: a wrong id, an event not yet in our mirror, and a
+         cancelled Fest, whose row IS mirrored but which the card builder
+         drops - 16 cancelled events sit in the table today. Naming
+         cancellation is what stops this page asserting something false to a
+         host whose Fest was called off. */
+      body: 'The link may be wrong, or the Fest may be unpublished or cancelled. Your own Fests are all on your Hacktoberfest page.',
+    },
+  },
   /* The final acknowledgements modal - the last thing between an
      MLH-published Fest and the public directory. Statement copy is
      PLACEHOLDER, marked for review before launch. */

@@ -252,6 +252,24 @@ const isSafeReturnTo = (value) => {
   }
 };
 
+/* Every page that wants a destination remembered goes through here rather
+   than touching sessionStorage itself -- this file is the one place that
+   already knows the key, the guard, and what counts as safe to write back
+   later. Rejecting an unsafe value at the write end, not just the read end,
+   means a value that could never be navigated to is never even kept. */
+export const stashReturnTo = (returnTo) => {
+  if (!isSafeReturnTo(returnTo)) return;
+
+  const store = sessionStore();
+  if (!store) return;
+
+  try {
+    store.setItem(RETURN_TO_STORAGE_KEY, returnTo);
+  } catch (_) {
+    // Nothing left to do; takeReturnTo will fall back to /my/.
+  }
+};
+
 /* Reads the stashed destination and clears it in one go: it is only ever
    meaningful once, for the login currently in flight. */
 export const takeReturnTo = () => {
@@ -264,6 +282,20 @@ export const takeReturnTo = () => {
     return isSafeReturnTo(value) ? value : DEFAULT_RETURN_TO;
   } catch (_) {
     return DEFAULT_RETURN_TO;
+  }
+};
+
+/* The other half of the same discipline: a redirect that has nowhere in
+   particular to send anyone back to should not let someone else's abandoned
+   stash survive to hijack it. Safe to call even when nothing is stashed. */
+export const clearReturnTo = () => {
+  const store = sessionStore();
+  if (!store) return;
+
+  try {
+    store.removeItem(RETURN_TO_STORAGE_KEY);
+  } catch (_) {
+    // Nothing to clear if we can't reach storage in the first place.
   }
 };
 

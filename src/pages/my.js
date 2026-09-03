@@ -22,6 +22,7 @@ import { hasApplied, isHost } from 'lib/fests.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
 import {
   API_BASE_URL,
+  clearReturnTo,
   clearSession,
   getSession,
   signOutDestination,
@@ -115,6 +116,11 @@ const My = () => {
 
     const session = getSession();
     if (!session) {
+      /* /my/ is the default destination /login/ already falls back to, so
+         there is nothing here worth stashing — but clearing is what stops
+         someone else's abandoned stash (say, a /my/fest/ visit nobody
+         finished signing into) from surviving to hijack this sign-in. */
+      clearReturnTo();
       replace('/login/');
       return undefined;
     }
@@ -169,6 +175,7 @@ const My = () => {
         const next = pageStateForError(error);
         if (next === 'signedOut') {
           clearSession();
+          clearReturnTo(); // same reasoning as the no-session check above
           replace('/login/');
           return;
         }
@@ -248,7 +255,16 @@ const My = () => {
            `inline`, so it drops that surface's full-bleed forest and
            viewport-tall column and waits on the page's own paper. */}
         {state === 'loading' && <MyLoading inline />}
-        {state === 'error' && <MyError onRetry={retry} />}
+        {/* Every state that is not one of this page's own renders the error
+           surface, rather than only 'error'. pageStateForError is shared with
+           /my/fest/, which needs states this page has no band for (a Fest
+           that is not yours, a Fest that does not exist), and a status this
+           page cannot name should offer a retry rather than leave the hub
+           blank below the welcome band. 'mlhDown' never reaches here - it
+           returns the whole-page surface above. */}
+        {state !== 'loading' && state !== 'ready' && (
+          <MyError onRetry={retry} />
+        )}
         {/* Preptember mode (data/preptember.mjs): the hub is two bands,
            the countdown then Your Applications, since September's work
            is getting a Fest organized. */}

@@ -64,3 +64,34 @@ export const MyMlhDown = () => (
     {my.mlhDown.body}
   </MessagePage>
 );
+
+/* The two refusals /my/fest/ can meet. Both are MessagePage for the same
+   reason MyMlhDown is: they replace the whole page, they carry its only
+   heading, and neither is worth a retry button — re-fetching cannot make a
+   Fest yours, or make one exist. role="status" because they replace the
+   loader's live region; see the note above. */
+export const MyForbidden = () => (
+  <MessagePage
+    role="status"
+    eyebrow={my.dashboard.forbidden.eyebrow}
+    heading={my.dashboard.forbidden.heading.lead}
+    accent={my.dashboard.forbidden.heading.accent}
+    cta={my.dashboard.backCta}
+    ctaHref="/my/"
+  >
+    {my.dashboard.forbidden.body}
+  </MessagePage>
+);
+
+export const MyNotFound = () => (
+  <MessagePage
+    role="status"
+    eyebrow={my.dashboard.notFound.eyebrow}
+    heading={my.dashboard.notFound.heading.lead}
+    accent={my.dashboard.notFound.heading.accent}
+    cta={my.dashboard.backCta}
+    ctaHref="/my/"
+  >
+    {my.dashboard.notFound.body}
+  </MessagePage>
+);
