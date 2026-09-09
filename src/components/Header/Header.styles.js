@@ -149,7 +149,10 @@ export const NavLinks = styled.div`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    &,
+    &[data-animate='true'] {
+      transition: none;
+    }
   }
 
   @media (min-width: ${breakpoints.tablet}) {
@@ -265,32 +268,43 @@ export const NavGroupRoot = styled.div`
   }
 `;
 
-export const NavGroupButton = styled.button`
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0;
-  border: none;
-  background: none;
+/* Below tablet width the group's label is plain text over its links — an
+   eyebrow, not a control — and the button is not in the DOM's accessible
+   tree at all (display: none). From tablet up the two swap. Two elements
+   rather than one restyled, because a button that does nothing is still a
+   button to a screen reader. */
+export const NavGroupEyebrow = styled.span`
+  display: block;
   color: ${colors.white};
-  cursor: default;
-  font: inherit;
-  /* Mobile: an eyebrow over the group's links, not a control. */
   font-size: 0.66rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.75;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    display: none;
+  }
+`;
+
+/* The button exists only from tablet up — below that the group's label is
+   the plain-text NavGroupEyebrow above. */
+export const NavGroupButton = styled.button`
+  display: none;
+  padding: 0;
+  border: none;
+  background: none;
+  color: ${colors.white};
+  font: inherit;
 
   & > svg {
     display: none;
   }
 
   @media (min-width: ${breakpoints.tablet}) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     cursor: pointer;
-    font-size: inherit;
-    letter-spacing: inherit;
-    text-transform: none;
-    opacity: 1;
 
     &:hover {
       text-decoration: underline;
@@ -357,7 +371,10 @@ export const NavGroupPanel = styled.ul`
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: none;
+    &,
+    &[data-animate='true'] {
+      transition: none;
+    }
   }
 `;
 

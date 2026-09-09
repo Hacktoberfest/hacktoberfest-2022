@@ -52,7 +52,13 @@ const Header = ({ standalone = false }) => {
     const closeOnEscape = (event) => {
       if (event.key !== 'Escape') return;
       if (openGroup) {
-        setEscapedGroup(openGroup);
+        /* Return focus to the button only if focus was in the nav; an
+           Escape pressed elsewhere while a hover-opened panel is live
+           should close it, not yank focus into the header. */
+        const active = document.activeElement;
+        if (active && active.closest && active.closest('[data-nav-group]')) {
+          setEscapedGroup(openGroup);
+        }
         setOpenGroup(null);
       }
       setMenuOpen(false);
@@ -119,7 +125,7 @@ const Header = ({ standalone = false }) => {
               Array.isArray(entry.items) ? (
                 <div key={entry.label} data-nav-group>
                   <NavGroup
-                    id={`nav-group-${entry.label.toLowerCase().replace(/[^a-z]+/g, '-')}`}
+                    id={`nav-group-${entry.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                     label={entry.label}
                     items={entry.items}
                     open={

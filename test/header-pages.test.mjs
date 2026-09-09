@@ -16,18 +16,22 @@ const readOutput = (route) =>
 for (const route of SITE_PAGES) {
   test(`${route} renders both dropdown buttons, closed, with their panels`, async () => {
     const html = await readOutput(route);
+    const nav = html.match(
+      /<nav[^>]*aria-label="Main navigation"[\s\S]*?<\/nav>/,
+    );
+    assert.ok(nav, `${route}: the main navigation is missing`);
     for (const group of navGroups(NAV)) {
       const button = new RegExp(
         `<button[^>]*aria-expanded="false"[^>]*>\\s*${group.label}`,
       );
       assert.match(
-        html,
+        nav[0],
         button,
         `${route}: no closed button for ${group.label}`,
       );
       for (const item of group.items) {
         assert.ok(
-          html.includes(`href="${item.href}"`),
+          nav[0].includes(`href="${item.href}"`),
           `${route}: ${group.label} panel is missing ${item.label} (${item.href})`,
         );
       }

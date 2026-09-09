@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import {
   NavGroupButton,
+  NavGroupEyebrow,
   NavGroupLink,
   NavGroupPanel,
   NavGroupRoot,
@@ -68,7 +69,18 @@ const NavGroup = ({
   }, [open]);
 
   return (
-    <NavGroupRoot onMouseEnter={hoverOpen} onMouseLeave={hoverClose}>
+    <NavGroupRoot
+      onMouseEnter={hoverOpen}
+      onMouseLeave={hoverClose}
+      onBlur={(event) => {
+        /* Keyboard users generate no mouseleave; when focus moves out of
+           the group — to the next button, or out of the nav — the panel
+           should not float open behind them. relatedTarget is null when
+           focus leaves the document; treat that as leaving too. */
+        if (!event.currentTarget.contains(event.relatedTarget)) onClose();
+      }}
+    >
+      <NavGroupEyebrow>{label}</NavGroupEyebrow>
       <NavGroupButton
         ref={buttonRef}
         type="button"
@@ -88,6 +100,7 @@ const NavGroup = ({
       </NavGroupButton>
       <NavGroupPanel
         id={id}
+        aria-label={label}
         data-open={open === true ? 'true' : 'false'}
         data-animate={animate ? 'true' : 'false'}
       >
