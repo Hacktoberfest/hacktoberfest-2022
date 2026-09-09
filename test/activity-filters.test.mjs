@@ -1,0 +1,85 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+
+import { ACTIVITIES } from '../src/data/eligibility.mjs';
+import {
+  TYPE_ORDER,
+  chipsFor,
+  earnedCount,
+  filterActivities,
+} from '../src/lib/activityFilters.mjs';
+
+/* The pure half of the chips on /activities/. Chips derive from whatever
+   the catalogue holds, so a type with no activities has no chip and a type
+   that gains entries gains one without a code change. */
+
+const merged = (over = {}) =>
+  ACTIVITIES.map((activity) => ({
+    ...activity,
+    completed: false,
+    completedAt: null,
+    source: null,
+    ...(over[activity.id] || {}),
+  }));
+
+test('the type order is fixed', () => {
+  assert.deepEqual(TYPE_ORDER, ['online', 'inperson', 'dev', 'tools']);
+});
+
+test('signed out: All plus one chip per type present, in order, with counts', () => {
+  const chips = chipsFor(merged(), { signedIn: false });
+  assert.equal(chips[0].key, 'all');
+  assert.equal(chips[0].count, ACTIVITIES.length);
+  const typeChips = chips.slice(1);
+  assert.ok(typeChips.every((chip) => TYPE_ORDER.includes(chip.key)));
+  assert.deepEqual(
+    typeChips.map((chip) => chip.key),
+    TYPE_ORDER.filter((type) => ACTIVITIES.some((a) => a.type === type)),
+  );
+  typeChips.forEach((chip) => {
+    assert.equal(
+      chip.count,
+      ACTIVITIES.filter((a) => a.type === chip.key).length,
+    );
+  });
+  assert.ok(!chips.some((chip) => chip.key === 'todo'));
+});
+
+test('a type with no activities gets no chip', () => {
+  const chips = chipsFor(merged(), { signedIn: false });
+  assert.ok(!chips.some((chip) => chip.key === 'dev'));
+});
+
+test('signed in: Still to do is last and counts the undone', () => {
+  const chips = chipsFor(merged({ fest: { completed: true } }), {
+    signedIn: true,
+  });
+  const todo = chips[chips.length - 1];
+  assert.equal(todo.key, 'todo');
+  assert.equal(todo.count, ACTIVITIES.length - 1);
+});
+
+test('filtering keeps catalogue order and drops only the others', () => {
+  const list = merged({ fest: { completed: true } });
+  assert.deepEqual(filterActivities(list, 'all'), list);
+  assert.deepEqual(
+    filterActivities(list, 'online').map((a) => a.id),
+    ACTIVITIES.filter((a) => a.type === 'online').map((a) => a.id),
+  );
+  assert.deepEqual(
+    filterActivities(list, 'todo').map((a) => a.id),
+    ACTIVITIES.filter((a) => a.id !== 'fest').map((a) => a.id),
+  );
+  assert.deepEqual(filterActivities(list, 'nonsense'), list);
+});
+
+test('earnedCount counts completed activities only', () => {
+  assert.equal(earnedCount(merged()), 0);
+  assert.equal(
+    earnedCount(
+      merged({ fest: { completed: true }, ghw: { completed: true } }),
+    ),
+    2,
+  );
+  assert.equal(earnedCount(null), 0);
+});

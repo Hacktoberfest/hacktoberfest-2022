@@ -8,6 +8,10 @@
    alter the page's copy, and an activity the backend has not heard of still
    renders correctly.
 
+   `type` and `art` are presentation too: the type is the chip and the
+   sticker's colour on /activities/, `art` is a key into
+   components/ActivitiesPage/stickerArt.js. Eligibility math reads neither.
+
    The ids are the slugs FestNet creates for the season. An id the API sends
    that is not here is dropped; an id here the API does not send reads as
    not done. `requiresDevLink` is kept as a field ActivityCard honours, though
@@ -23,6 +27,8 @@ export const ACTIVITIES = Object.freeze([
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
+    type: 'online',
+    art: 'play',
   }),
   Object.freeze({
     id: 'ghw',
@@ -32,6 +38,8 @@ export const ACTIVITIES = Object.freeze([
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
+    type: 'online',
+    art: 'globe',
   }),
   Object.freeze({
     id: 'fest',
@@ -41,6 +49,8 @@ export const ACTIVITIES = Object.freeze([
     href: '/fests/',
     ctaLabel: 'Find a Fest',
     surface: 'fests',
+    type: 'inperson',
+    art: 'pin',
   }),
   Object.freeze({
     id: 'dev-relay',
@@ -50,5 +60,7 @@ export const ACTIVITIES = Object.freeze([
     href: null,
     ctaLabel: 'Install',
     surface: 'card',
+    type: 'tools',
+    art: 'plug',
   }),
 ]);

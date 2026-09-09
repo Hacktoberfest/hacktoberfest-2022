@@ -1899,6 +1899,12 @@ export const activitiesPage = {
   heading: { lead: 'Earn your', accent: 'stickers.' },
   intro:
     'Hacktoberfest is a month of things to do, online and in person. Do any one of them and we mail you a sticker pack. Do enough and you’ve completed Hacktoberfest.',
+  /* The one line of progress on this page. The card with the milestones
+     lives on /my; here a signed-in visitor gets a count and the way there. */
+  strip: {
+    count: (earned, total) => `${earned} of ${total} earned`,
+    hubCta: 'See your progress on My Hacktoberfest',
+  },
   how: {
     heading: { lead: 'How it', accent: 'works.' },
     steps: (complete) => [
@@ -1935,6 +1941,24 @@ export const activitiesPage = {
        action, one failure surface on this page rather than two. */
     unknown:
       'We couldn’t load which of these you’ve done, so nothing here is marked done yet.',
+    /* The chips above the cards. `types` is keyed by the catalogue's type;
+       TYPE_ORDER in lib/activityFilters.mjs fixes the order, this fixes
+       the words. A type with no activities never shows. */
+    types: {
+      online: 'Online',
+      inperson: 'In person',
+      dev: 'DEV challenges',
+      tools: 'Tools',
+    },
+    filters: {
+      label: 'Filter by type',
+      all: 'All',
+      todo: 'Still to do',
+      chip: (label, count) => `${label} · ${count}`,
+      empty: 'Nothing left in this set. Every sticker here is earned.',
+    },
+    /* The tab hung under a peeled sticker. */
+    earned: 'Earned',
   },
   get: {
     heading: { lead: 'What you', accent: 'get.' },

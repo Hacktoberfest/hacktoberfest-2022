@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { activitiesPage } from '../src/data/content.mjs';
+import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 
 /* Copy shape, and the voice rules every band follows. */
 
@@ -59,9 +60,27 @@ test('the copy keeps the house voice', () => {
   const strings = collectStrings(activitiesPage);
   strings.push(...activitiesPage.how.steps(3));
   strings.push(activitiesPage.list.doneOn('October 5'));
+  strings.push(activitiesPage.list.filters.chip('Online', 2));
+  strings.push(activitiesPage.strip.count(3, 4));
   const prose = strings.join(' ');
   assert.doesNotMatch(prose, /hack\s*day/i);
   assert.doesNotMatch(prose, /Meet Up/);
   assert.doesNotMatch(prose, /—/, 'no em dashes in new copy');
   assert.doesNotMatch(prose, /[^\\]'/, 'apostrophes are curly');
+});
+
+test('every type has a label, and the chips have their words', () => {
+  TYPE_ORDER.forEach((type) => {
+    assert.ok(activitiesPage.list.types[type], `${type} has no label`);
+  });
+  assert.equal(activitiesPage.list.filters.all, 'All');
+  assert.equal(activitiesPage.list.filters.todo, 'Still to do');
+  assert.equal(activitiesPage.list.filters.chip('Online', 2), 'Online · 2');
+  assert.ok(activitiesPage.list.filters.empty.length > 10);
+  assert.equal(activitiesPage.list.earned, 'Earned');
+});
+
+test('the strip counts in sticker words and points at the hub', () => {
+  assert.equal(activitiesPage.strip.count(3, 4), '3 of 4 earned');
+  assert.match(activitiesPage.strip.hubCta, /My Hacktoberfest/);
 });

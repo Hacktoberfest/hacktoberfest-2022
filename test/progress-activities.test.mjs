@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
+import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 
 test('the catalogue is the season’s four activities, by the slugs FestNet uses', () => {
   assert.deepEqual(
@@ -48,4 +49,11 @@ test('every activity declares its surface; only fest renders in My Fests', () =>
     ACTIVITIES.filter((a) => a.surface === 'fests').map((a) => a.id),
     ['fest'],
   );
+});
+
+test('every activity has a type and an art key', () => {
+  ACTIVITIES.forEach((activity) => {
+    assert.ok(TYPE_ORDER.includes(activity.type), `${activity.id} type`);
+    assert.match(activity.art, /^[a-z]+$/, `${activity.id} art`);
+  });
 });
