@@ -14,6 +14,7 @@ import {
   selectScenario,
 } from '../data/fixtures.mjs';
 import { apiFetch } from './apiClient.mjs';
+import { progressForExperience } from './progress.mjs';
 import { API_BASE_URL, displayName } from './session.mjs';
 
 /* The data a scenario name stands for. Never throws: an unknown name, and
@@ -109,9 +110,10 @@ export const getExperience = async (session, options) => {
       .catch(() => {});
   }
 
-  const [profile, festsBody] = await Promise.all([
+  const [profile, festsBody, progress] = await Promise.all([
     profilePromise,
     apiFetch('/api/me/fests'),
+    progressForExperience(),
   ]);
 
   return {
@@ -135,6 +137,11 @@ export const getExperience = async (session, options) => {
        is no unknown address state, and inventing one here would be designing
        a third state in the wrong file. Ship the API half first. */
     addressValidated: Boolean(festsBody.hasAddress),
+    /* Live now: the tracker's completions, keyed by the slugs the
+       catalogue uses, and the two milestone counts the API serves. The
+       fixture's activities are only ever used by the mocked build. */
+    activities: progress.activities,
+    thresholds: progress.thresholds,
     user: userFromProfile(mocked.user, profile),
   };
 };

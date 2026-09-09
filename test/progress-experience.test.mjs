@@ -52,6 +52,17 @@ const routeFetch = ({
     if (String(url).endsWith('/api/me/fests')) {
       return { ok: true, status: 200, json: async () => fests };
     }
+    if (String(url).endsWith('/api/me/progress')) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          thresholds: { stickers: 1, complete: 3 },
+          completedCount: 0,
+          challenges: [],
+        }),
+      };
+    }
     throw new Error(`Unexpected fetch in test: ${url}`);
   };
   return calls;
@@ -70,6 +81,7 @@ test('getExperience fetches both split endpoints and merges the real user over t
   assert.deepEqual(calls.sort(), [
     'https://api.test.invalid/api/me/fests',
     'https://api.test.invalid/api/me/profile',
+    'https://api.test.invalid/api/me/progress',
   ]);
   assert.equal(result.user.name, 'Grace Hopper');
   assert.equal(result.user.email, 'real@example.invalid');
