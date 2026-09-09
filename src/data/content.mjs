@@ -1899,4 +1899,31 @@ export const activitiesPage = {
   heading: { lead: 'Earn your', accent: 'stickers.' },
   intro:
     'Hacktoberfest is a month of things to do, online and in person. Do any one of them and we mail you a sticker pack. Do enough and you’ve completed Hacktoberfest.',
+  how: {
+    heading: { lead: 'How it', accent: 'works.' },
+    steps: (complete) => [
+      'Sign in with your MyMLH account, so we know who did what.',
+      'Add a postal address to that account. It’s where the stickers go.',
+      `Complete any one activity to earn a sticker pack, and ${complete} in total to complete Hacktoberfest.`,
+    ],
+    signIn: 'Sign in to see your progress',
+  },
+  list: {
+    heading: { lead: 'The', accent: 'activities.' },
+    done: 'Done',
+    doneOn: (date) => `Done ${date}`,
+    /* How a completion was earned, in words. The keys are the API's source
+       vocabulary; the values never repeat it. */
+    source: {
+      event_checkins: 'from your check-ins',
+      import: 'from the Global Hack Week roster',
+      api: 'from Dev Relay',
+      manual: 'confirmed by the Hacktoberfest team',
+    },
+  },
+  get: {
+    heading: { lead: 'What you', accent: 'get.' },
+    body: 'A sticker pack in the mail for your first activity, with more waiting at an in-person Fest. All swag is while supplies last.',
+    faqCta: 'Read the FAQs',
+  },
 };

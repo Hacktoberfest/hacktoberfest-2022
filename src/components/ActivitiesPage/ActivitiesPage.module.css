@@ -1,0 +1,136 @@
+/* Shared band geometry, identical to StickersBand so edges align. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.steps {
+  margin: 0 0 18px;
+  padding-left: 1.4em;
+  /* colors.inkSoft */
+  color: #284b44;
+  line-height: 1.6;
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* One activity per row, the homepage grammar: ink border, white paper,
+   offset shadow. Stacked rather than the hub's carousel because this page
+   is the detail, and a row can carry the completion line. */
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 18px;
+  padding: 18px 20px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+}
+
+.rowTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.rowDetail {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  line-height: 1.5;
+}
+
+.rowDone {
+  /* colors.forest */
+  color: #3d5f58;
+  font-weight: 700;
+}
+
+.rowCta {
+  justify-self: start;
+  padding: 10px 18px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.pink */
+  background: #e97b77;
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.rowCta:hover {
+  /* colors.pinkLight */
+  background: #f6c4c1;
+}
+
+.signIn {
+  display: inline-block;
+  margin-top: 6px;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 24px;
+  }
+
+  .rowCta {
+    grid-row: 1 / span 3;
+    grid-column: 2;
+    align-self: center;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

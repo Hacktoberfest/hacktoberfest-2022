@@ -2,6 +2,7 @@ import { writeFile } from 'fs/promises';
 
 import { routeIsClosed } from '../data/closedRoutes.mjs';
 import {
+  activitiesPage,
   aiContext,
   answerLinks,
   answerText,
@@ -57,6 +58,10 @@ const START_HERE = [
   {
     route: '/schedule/',
     text: '[October schedule](./schedule/): Every online event in October — Global Hack Week, workshops, streams, and the opening and closing ceremonies.',
+  },
+  {
+    route: '/activities/',
+    text: '[Activities](./activities/): The activities that earn a sticker pack and complete Hacktoberfest, and how completion is tracked.',
   },
   {
     route: '/questions/',
@@ -189,6 +194,15 @@ const llmsFull = () =>
           `${schedule.eyebrow}. ${headingText(schedule.heading)}`,
           schedule.intro,
           `${schedule.monthLabel}. ${schedule.festsCallout.title} ${schedule.festsCallout.body} (CTA: ${schedule.festsCallout.cta} — ./fests/)`,
+        ]),
+    ...(routeIsClosed('/activities/')
+      ? []
+      : [
+          '## Activities',
+          `${activitiesPage.eyebrow}. ${headingText(activitiesPage.heading)}`,
+          activitiesPage.intro,
+          activitiesPage.how.steps(3).join(' '),
+          activitiesPage.get.body,
         ]),
   );
 
