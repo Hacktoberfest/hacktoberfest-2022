@@ -3,8 +3,11 @@ import test from 'node:test';
 
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 
-test('there are exactly five ways to qualify', () => {
-  assert.equal(ACTIVITIES.length, 5);
+test('the catalogue is the season’s four activities, by the slugs FestNet uses', () => {
+  assert.deepEqual(
+    ACTIVITIES.map((activity) => activity.id),
+    ['livestreams', 'ghw', 'fest', 'dev-relay'],
+  );
 });
 
 test('every activity has a stable unique id', () => {
@@ -18,13 +21,18 @@ test('every activity has copy and a destination', () => {
     assert.ok(activity.label.length > 0, `${activity.id} needs a label`);
     assert.ok(activity.detail.length > 0, `${activity.id} needs a detail`);
     assert.ok(activity.ctaLabel.length > 0, `${activity.id} needs a CTA`);
-    assert.match(activity.href, /^https:\/\//, `${activity.id} needs an href`);
+    assert.match(
+      activity.href,
+      /^(https:\/\/|\/)/,
+      `${activity.id} needs an href`,
+    );
   });
 });
 
-test('the Fest activity never calls itself a hack day', () => {
+test('the copy never says hack day or Meet Up', () => {
   const prose = ACTIVITIES.map((a) => `${a.label} ${a.detail}`).join(' ');
   assert.doesNotMatch(prose, /hack\s*day/i);
+  assert.doesNotMatch(prose, /Meet Up/);
 });
 
 test('every activity declares its surface; only fest renders in My Fests', () => {
@@ -34,9 +42,8 @@ test('every activity declares its surface; only fest renders in My Fests', () =>
       `${activity.id} has no surface`,
     ),
   );
-  const festSurfaced = ACTIVITIES.filter((a) => a.surface === 'fests');
   assert.deepEqual(
-    festSurfaced.map((a) => a.id),
+    ACTIVITIES.filter((a) => a.surface === 'fests').map((a) => a.id),
     ['fest'],
   );
 });

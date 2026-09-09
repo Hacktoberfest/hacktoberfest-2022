@@ -7,7 +7,9 @@ import { firstName, initials } from '../src/lib/profile.mjs';
 
 test('exactly the DEV-sourced activities require the DEV link', () => {
   const flagged = ACTIVITIES.filter((a) => a.requiresDevLink).map((a) => a.id);
-  assert.deepEqual(flagged.sort(), ['dev-challenge', 'dev-post']);
+  // No activity needs the DEV link this season. The hint machinery stays in
+  // ActivityCard for the day one does.
+  assert.deepEqual(flagged, []);
 });
 
 test('every fixture user carries the new profile fields', () => {

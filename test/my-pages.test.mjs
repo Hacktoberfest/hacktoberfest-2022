@@ -284,13 +284,19 @@ test('the /my feature contains no styled-components', async () => {
    placeholders sit on the reserved .invalid TLD so they can never resolve —
    when a real URL arrives, this test fails and forces a deliberate update.
    FIND_A_FEST_URL has now graduated that way: the /fests/ directory exists
-   on this site, so it is asserted below as a real internal route instead. */
+   on this site, so it is asserted below as a real internal route instead.
+   The season's four activities carry the same split: livestreams, ghw and
+   fest point at real on-site routes (the schedule and fests directory), and
+   only dev-relay is still a placeholder pending its real destination. */
 test('placeholder outbound URLs still use the reserved TLD', () => {
+  const graduatedActivities = ['livestreams', 'ghw', 'fest'];
   ACTIVITIES.forEach((activity) =>
     assert.match(
       activity.href,
-      /example\.invalid/,
-      `${activity.id} looks like a real URL — update this test when it is`,
+      graduatedActivities.includes(activity.id) ? /^\// : /example\.invalid/,
+      graduatedActivities.includes(activity.id)
+        ? `${activity.id} should point at an on-site route`
+        : `${activity.id} looks like a real URL — update this test when it is`,
     ),
   );
 

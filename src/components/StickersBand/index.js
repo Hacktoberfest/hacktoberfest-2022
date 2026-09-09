@@ -4,19 +4,13 @@ import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import {
   completedCount,
-  MILESTONE_ACTIVITIES,
   mergeActivities,
   progressLevel,
+  thresholdsOf,
 } from 'lib/eligibility.mjs';
 
 import MilestoneGroup from './MilestoneGroup';
 import styles from './StickersBand.module.css';
-
-const INTRO_BY_LEVEL = [
-  my.stickers.intro.pending,
-  my.stickers.intro.stickersEarned,
-  my.stickers.intro.complete,
-];
 
 /* All qualification UI lives here: one card, two collapsible milestone
    sections split by a rule. Each section owns its own three-row checklist;
@@ -43,8 +37,17 @@ const StickersBand = ({ experience }) => {
     ? completedCount(mergeActivities(experience.activities))
     : 0;
 
+  const { complete } = thresholdsOf(experience);
   const activity1Done = done >= 1;
-  const activity3Done = done >= MILESTONE_ACTIVITIES;
+  const activity3Done = done >= complete;
+
+  /* Built here, not at module scope, so the intro copy can carry the
+     experience's own complete threshold rather than always saying "3". */
+  const INTRO_BY_LEVEL = [
+    my.stickers.intro.pending(complete),
+    my.stickers.intro.stickersEarned(complete),
+    my.stickers.intro.complete,
+  ];
 
   /* Milestone 1's own counter: its three rows are signed-in (always
      done on this page), address, and the any-1-activity requirement —
@@ -126,9 +129,9 @@ const StickersBand = ({ experience }) => {
         key: 'activity',
         done: activity3Done,
         title: activity3Done
-          ? my.stickers.steps.activity3.done
-          : my.stickers.steps.activity3.title,
-        detail: my.stickers.steps.activity3.detail,
+          ? my.stickers.steps.activity3.done(complete)
+          : my.stickers.steps.activity3.title(complete),
+        detail: my.stickers.steps.activity3.detail(complete),
       },
     ],
   };

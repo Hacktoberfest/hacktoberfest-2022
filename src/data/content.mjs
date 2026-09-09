@@ -1587,10 +1587,10 @@ export const my = {
        one shows is progressLevel()'s job — this object only holds the
        words. */
     intro: {
-      pending:
-        'Two milestones this October: do any one activity to earn a Hacktoberfest sticker pack in the mail, then complete three in total to finish Hacktoberfest.',
-      stickersEarned:
-        'You’ve earned your stickers. Complete three activities total to finish Hacktoberfest.',
+      pending: (n) =>
+        `Two milestones this October: do any one activity to earn a Hacktoberfest sticker pack in the mail, then complete ${n} in total to finish Hacktoberfest.`,
+      stickersEarned: (n) =>
+        `You’ve earned your stickers. Complete ${n} activities total to finish Hacktoberfest.`,
       complete:
         'You’ve completed Hacktoberfest 2026. Nothing left to do but wait for your stickers in the mail.',
     },
@@ -1647,9 +1647,9 @@ export const my = {
         done: 'Activity requirement met.',
       },
       activity3: {
-        title: 'Complete 3 activities total',
-        detail: 'Any combination of three activities below counts.',
-        done: '3 activities complete.',
+        title: (n) => `Complete ${n} activities total`,
+        detail: (n) => `Any combination of ${n} activities below counts.`,
+        done: (n) => `${n} activities complete.`,
       },
     },
   },

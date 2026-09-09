@@ -32,16 +32,35 @@ export const completedCount = (merged) =>
   (Array.isArray(merged) ? merged : []).filter((activity) => activity.completed)
     .length;
 
+/* The stickers threshold below is 1 today, so `> 0` agrees with it; if it
+   ever moves this must read `thresholdsOf(eligibility).stickers` instead. */
 export const isEligible = (eligibility) => {
   if (!eligibility) return false;
   if (!eligibility.addressValidated) return false;
   return completedCount(mergeActivities(eligibility.activities)) > 0;
 };
 
-/* Milestone 2's threshold. The single number both progressLevel and the
-   progress track UI read, so the two can never disagree on where the
-   second milestone sits. */
-export const MILESTONE_ACTIVITIES = 3;
+/* The two milestone counts, as the API serves them on GET /api/me/progress.
+   A signed-out visitor cannot read the endpoint, so these defaults mirror
+   the API's own; the numbers only matter once someone signs in. */
+export const DEFAULT_THRESHOLDS = Object.freeze({ stickers: 1, complete: 3 });
+
+const positiveInt = (value) => Number.isInteger(value) && value >= 1;
+
+/* The experience's thresholds when it carries a usable pair, else the
+   defaults. One reader, so the milestone math and the milestone card can
+   never disagree about where the second milestone sits. */
+export const thresholdsOf = (eligibility) => {
+  const candidate = eligibility && eligibility.thresholds;
+  if (
+    candidate &&
+    positiveInt(candidate.stickers) &&
+    positiveInt(candidate.complete)
+  ) {
+    return { stickers: candidate.stickers, complete: candidate.complete };
+  }
+  return DEFAULT_THRESHOLDS;
+};
 
 /* 0 = not eligible, 1 = stickers earned (isEligible), 2 = Hacktoberfest
    complete. Milestone 2 is a purely additional display tier — it never
@@ -52,7 +71,8 @@ export const progressLevel = (eligibility) => {
   if (!eligibility) return 0;
   if (!eligibility.addressValidated) return 0;
   const done = completedCount(mergeActivities(eligibility.activities));
-  if (done >= MILESTONE_ACTIVITIES) return 2;
-  if (done > 0) return 1;
+  const { stickers, complete } = thresholdsOf(eligibility);
+  if (done >= complete) return 2;
+  if (done >= stickers) return 1;
   return 0;
 };

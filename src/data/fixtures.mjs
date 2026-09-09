@@ -22,8 +22,9 @@ export const SCENARIOS = Object.freeze({
   'no-address': {
     user: { ...USER, devLinked: false },
     addressValidated: false,
+    thresholds: { stickers: 1, complete: 3 },
     activities: [
-      { id: 'dev-challenge', completed: true, completedAt: '2026-10-12' },
+      { id: 'livestreams', completed: true, completedAt: '2026-10-12' },
     ],
     fests: [
       {
@@ -55,6 +56,7 @@ export const SCENARIOS = Object.freeze({
   eligible: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
+    thresholds: { stickers: 1, complete: 3 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
       {
@@ -86,7 +88,8 @@ export const SCENARIOS = Object.freeze({
   'nothing-done': {
     user: { ...USER, devLinked: false },
     addressValidated: false,
-    activities: [{ id: 'dev-challenge', completed: false }],
+    thresholds: { stickers: 1, complete: 3 },
+    activities: [{ id: 'livestreams', completed: false }],
     fests: [],
   },
   /* Milestone 2 (Hacktoberfest complete): three activities done, same
@@ -95,9 +98,10 @@ export const SCENARIOS = Object.freeze({
   complete: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
+    thresholds: { stickers: 1, complete: 3 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
-      { id: 'livestream', completed: true, completedAt: '2026-10-05' },
+      { id: 'livestreams', completed: true, completedAt: '2026-10-05' },
       { id: 'dev-relay', completed: true, completedAt: '2026-10-02' },
     ],
     fests: [
@@ -130,6 +134,7 @@ export const SCENARIOS = Object.freeze({
   organizer: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
+    thresholds: { stickers: 1, complete: 3 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
       /* Co-branded, the way MLH actually names a partnered Fest: the

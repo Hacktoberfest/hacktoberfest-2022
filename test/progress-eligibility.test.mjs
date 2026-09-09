@@ -4,10 +4,11 @@ import test from 'node:test';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import {
   completedCount,
+  DEFAULT_THRESHOLDS,
   isEligible,
-  MILESTONE_ACTIVITIES,
   mergeActivities,
   progressLevel,
+  thresholdsOf,
 } from '../src/lib/eligibility.mjs';
 
 test('mergeActivities returns every known activity in catalogue order', () => {
@@ -29,21 +30,21 @@ test('an activity the API omits is treated as not completed', () => {
 
 test('an activity id the page has never heard of is ignored', () => {
   const merged = mergeActivities([
-    { id: 'a-sixth-thing', completed: true },
-    { id: 'livestream', completed: true, completedAt: '2026-10-04' },
+    { id: 'a-fifth-thing', completed: true },
+    { id: 'livestreams', completed: true, completedAt: '2026-10-04' },
   ]);
 
-  assert.equal(merged.length, 5);
+  assert.equal(merged.length, 4);
   assert.equal(
-    merged.find((a) => a.id === 'livestream').completedAt,
+    merged.find((a) => a.id === 'livestreams').completedAt,
     '2026-10-04',
   );
 });
 
 test('malformed entries do not throw', () => {
-  assert.equal(mergeActivities().length, 5);
-  assert.equal(mergeActivities(null).length, 5);
-  assert.equal(mergeActivities([null, undefined, {}, 7]).length, 5);
+  assert.equal(mergeActivities().length, 4);
+  assert.equal(mergeActivities(null).length, 4);
+  assert.equal(mergeActivities([null, undefined, {}, 7]).length, 4);
   assert.equal(completedCount(mergeActivities([null, {}])), 0);
 });
 
@@ -53,7 +54,7 @@ test('completedCount counts only completed activities', () => {
     completedCount(
       mergeActivities([
         { id: 'fest', completed: true },
-        { id: 'dev-post', completed: false },
+        { id: 'dev-relay', completed: false },
       ]),
     ),
     1,
@@ -82,8 +83,8 @@ test('isEligible is safe on missing or empty input', () => {
 
 /* Milestone 1 (stickers) and Milestone 2 (Hacktoberfest complete) are a
    purely additional display tier — the sticker-mailing rule itself never
-   changes. MILESTONE_ACTIVITIES is the single number both the derivation
-   and the UI read, so the threshold can't drift between them. */
+   changes. DEFAULT_THRESHOLDS.complete is the single number both the
+   derivation and the UI read, so the threshold can't drift between them. */
 const activitiesDone = (count) =>
   ACTIVITIES.slice(0, count).map((activity) => ({
     id: activity.id,
@@ -109,17 +110,17 @@ test('progressLevel is 1 once any activity is done, below the milestone-2 thresh
   assert.equal(
     progressLevel({
       addressValidated: true,
-      activities: activitiesDone(MILESTONE_ACTIVITIES - 1),
+      activities: activitiesDone(DEFAULT_THRESHOLDS.complete - 1),
     }),
     1,
   );
 });
 
-test('progressLevel is 2 once MILESTONE_ACTIVITIES are done', () => {
+test('progressLevel is 2 once DEFAULT_THRESHOLDS.complete are done', () => {
   assert.equal(
     progressLevel({
       addressValidated: true,
-      activities: activitiesDone(MILESTONE_ACTIVITIES),
+      activities: activitiesDone(DEFAULT_THRESHOLDS.complete),
     }),
     2,
   );
@@ -152,4 +153,43 @@ test('progressLevel reaching milestone 1 never disagrees with isEligible', () =>
       `disagreement for ${JSON.stringify(eligibility)}`,
     );
   });
+});
+
+test('thresholdsOf reads the experience and falls back to the defaults', () => {
+  assert.deepEqual(thresholdsOf({}), DEFAULT_THRESHOLDS);
+  assert.deepEqual(thresholdsOf(null), DEFAULT_THRESHOLDS);
+  assert.deepEqual(thresholdsOf({ thresholds: { stickers: 1, complete: 4 } }), {
+    stickers: 1,
+    complete: 4,
+  });
+  // Anything that is not a positive integer pair is not a threshold.
+  assert.deepEqual(
+    thresholdsOf({ thresholds: { stickers: 0, complete: 4 } }),
+    DEFAULT_THRESHOLDS,
+  );
+  assert.deepEqual(
+    thresholdsOf({ thresholds: { stickers: '1', complete: 3 } }),
+    DEFAULT_THRESHOLDS,
+  );
+});
+
+test('progressLevel reaches 2 at the experience’s own complete threshold', () => {
+  const done = (n) =>
+    ACTIVITIES.slice(0, n).map((a) => ({ id: a.id, completed: true }));
+  assert.equal(
+    progressLevel({
+      addressValidated: true,
+      activities: done(2),
+      thresholds: { stickers: 1, complete: 2 },
+    }),
+    2,
+  );
+  assert.equal(
+    progressLevel({
+      addressValidated: true,
+      activities: done(2),
+      thresholds: { stickers: 1, complete: 3 },
+    }),
+    1,
+  );
 });
