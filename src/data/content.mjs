@@ -1594,6 +1594,8 @@ export const my = {
       complete:
         'You’ve completed Hacktoberfest 2026. Nothing left to do but wait for your stickers in the mail.',
     },
+    /* Under the card on /my: the detail lives on /activities/. */
+    detailCta: 'See every activity',
     /* Each milestone is its own group: title, and the badge text for its
        reached and not-yet-reached states. Milestone 2's not-yet badge is a
        function since it carries the live activity count. */

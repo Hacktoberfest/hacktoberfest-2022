@@ -1,4 +1,4 @@
-import styles from './StickersBand.module.css';
+import styles from './Milestones.module.css';
 
 /* One milestone section inside the single shared card, as a native
    <details>/<summary> disclosure — same technique as the homepage FAQ

@@ -260,6 +260,7 @@ test('the /my feature contains no styled-components', async () => {
     'WhyHostBand',
     'ThankYouBand',
     'StickersBand',
+    'Milestones',
     'ActivitiesBand',
     'FestsBand',
     'MyStatus',
