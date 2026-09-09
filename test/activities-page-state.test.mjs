@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import {
-  milestoneSlot,
+  progressSlot,
   publicActivities,
 } from '../src/lib/activitiesPageState.mjs';
 
@@ -24,27 +24,24 @@ test('publicActivities is the whole catalogue, undone', () => {
 
 test('no session: the sign-in slot, whatever the fetch status', () => {
   assert.equal(
-    milestoneSlot({ hasSession: false, status: 'loading' }),
+    progressSlot({ hasSession: false, status: 'loading' }),
     'signIn',
   );
-  assert.equal(milestoneSlot({ hasSession: false, status: 'ready' }), 'signIn');
-  assert.equal(milestoneSlot({ hasSession: false, status: 'error' }), 'signIn');
+  assert.equal(progressSlot({ hasSession: false, status: 'ready' }), 'signIn');
+  assert.equal(progressSlot({ hasSession: false, status: 'error' }), 'signIn');
 });
 
 test('signed in and loading: a placeholder, never the sign-in link', () => {
   assert.equal(
-    milestoneSlot({ hasSession: true, status: 'loading' }),
+    progressSlot({ hasSession: true, status: 'loading' }),
     'placeholder',
   );
 });
 
-test('signed in and ready: the milestone card', () => {
-  assert.equal(
-    milestoneSlot({ hasSession: true, status: 'ready' }),
-    'milestones',
-  );
+test('signed in and ready: the strip', () => {
+  assert.equal(progressSlot({ hasSession: true, status: 'ready' }), 'strip');
 });
 
 test('signed in and the fetch failed: the retry slot, not signed out', () => {
-  assert.equal(milestoneSlot({ hasSession: true, status: 'error' }), 'error');
+  assert.equal(progressSlot({ hasSession: true, status: 'error' }), 'error');
 });

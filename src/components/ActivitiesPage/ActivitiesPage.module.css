@@ -247,22 +247,22 @@
   margin-top: 6px;
 }
 
-/* The milestone slot's failure surface: signed in, but the fetch that
-   would show progress did not land. Same retry button as MyStatus's
-   MyError, so the two "something failed, try again" moments on the site
-   read as one pattern rather than two. */
-.milestoneError {
+/* The notice above the cards: signed in, but the fetch that would show
+   progress did not land. Same retry button as MyStatus's MyError, so the
+   two "something failed, try again" moments on the site read as one
+   pattern rather than two. */
+.notice {
   margin-top: 6px;
 }
 
-.milestoneErrorBody {
+.noticeBody {
   margin: 0 0 10px;
   /* colors.inkSoft */
   color: #284b44;
   line-height: 1.5;
 }
 
-.milestoneErrorRetry {
+.retry {
   padding: 10px 18px;
   /* colors.ink */
   border: 2px solid #10201d;
@@ -281,14 +281,103 @@
 }
 
 /* The site's press-down hover (Button.js): slide into the shadow. */
-.milestoneErrorRetry:hover {
+.retry:hover {
   /* colors.maroon */
   box-shadow: 3px 3px 0 #671912;
   transform: translate(2px, 2px);
 }
 
+/* The chips: mono buttons, ink-on-paper inverted when pressed. Below the
+   tablet breakpoint the row scrolls sideways rather than wrapping, so the
+   cards start at the same height whatever the count. */
+.chips {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 18px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.chip {
+  flex: none;
+  padding: 8px 12px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.chip[aria-pressed='true'] {
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.chip:focus-visible {
+  /* colors.orange */
+  outline: 3px solid #e53927;
+  outline-offset: 2px;
+}
+
+/* Only Still to do can empty the grid. */
+.empty {
+  margin: 0;
+  padding: 28px 16px;
+  text-align: center;
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* The page's one line of progress, under the hero. Client-only: it
+   renders once the signed-in fetch resolves and never in the export. */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  width: min(calc(100% - 30px), 1280px);
+  margin: 18px auto 0;
+  padding: 12px 16px;
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+}
+
+.stripCount {
+  /* colors.ochre */
+  color: #f5b726;
+  font-weight: 700;
+}
+
+.stripLink {
+  margin-left: auto;
+  /* colors.sky */
+  color: #8bb2de;
+  text-underline-offset: 3px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .milestoneErrorRetry {
+  .retry {
     transition: none;
   }
 
@@ -306,10 +395,23 @@
   .cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .chips {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
+  .strip {
+    width: min(calc(100% - 40px), 1280px);
+  }
 }
 
 @media (min-width: 1700px) {
   .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+
+  .strip {
     width: min(calc(100% - 40px), 1440px);
   }
 }

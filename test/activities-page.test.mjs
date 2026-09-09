@@ -42,6 +42,27 @@ test('the export carries no progress: the rows render after the seam answers', a
     !html.includes(activitiesPage.list.unknown),
     'the rows-band error notice is in the static export',
   );
+  assert.ok(
+    !html.includes(activitiesPage.list.filters.todo),
+    'the Still to do chip label is in the static export',
+  );
+  assert.ok(
+    !html.includes(activitiesPage.list.filters.empty),
+    'the empty-filter note is in the static export',
+  );
+  assert.ok(
+    !html.includes(activitiesPage.strip.hubCta),
+    'the progress strip link is in the static export',
+  );
+  assert.ok(
+    !html.includes(
+      activitiesPage.list.filters.chip(
+        activitiesPage.list.filters.all,
+        ACTIVITIES.length,
+      ),
+    ),
+    'the All chip is in the static export',
+  );
 });
 
 test('the sitemap and llms.txt list it', async () => {

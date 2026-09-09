@@ -2,11 +2,13 @@ import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
 
 import ActivitiesPage from 'components/ActivitiesPage';
+import styles from 'components/ActivitiesPage/ActivitiesPage.module.css';
 import Header from 'components/Header';
 import PageHero from 'components/PageHero';
 import { activitiesPage } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
-import { milestoneSlot, publicActivities } from 'lib/activitiesPageState.mjs';
+import { progressSlot, publicActivities } from 'lib/activitiesPageState.mjs';
+import { earnedCount } from 'lib/activityFilters.mjs';
 import { DEFAULT_THRESHOLDS } from 'lib/eligibility.mjs';
 import { getExperience } from 'lib/experience.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
@@ -17,18 +19,17 @@ const ACTIVITIES_URL = absoluteUrl('/activities/');
 
 /* Public, and never a wall: this is where the nav's Activities entry lands,
    so a visitor with no session reads the same page with the sign-in link in
-   place of their milestones.
+   place of their progress.
 
    One data path per state, not two: signed out, `getProgress(null, ...)`
    needs no network at all — src/lib/progress.mjs already special-cases a
    null session — and is the whole answer. Signed in, `getExperience` alone
-   carries everything the page needs (activities, thresholds and the
-   address flag the milestone card reads), so the two seams are never both
-   in flight for the same visitor; this used to fetch /api/me/progress
-   twice, once here and once inside getExperience.
+   carries everything the page needs (activities and thresholds), so the
+   two seams are never both in flight for the same visitor; this used to
+   fetch /api/me/progress twice, once here and once inside getExperience.
 
    `hasSession` is read synchronously from storage, not from either fetch's
-   result, so `milestoneSlot` (lib/activitiesPageState.mjs) never shows the
+   result, so `progressSlot` (lib/activitiesPageState.mjs) never shows the
    sign-in link to someone who is signed in but whose data has not arrived
    yet. The rows are public content and render from
    `publicActivities()`/`DEFAULT_THRESHOLDS` for as long as there is
@@ -36,16 +37,19 @@ const ACTIVITIES_URL = absoluteUrl('/activities/');
    and if it fails with anything other than a dead session — so a
    transient failure never collapses the whole page to the signed-out
    shape. A 401 clears the session and re-enters the signed-out state; any
-   other error stays signed in, with a retry in the milestone slot. */
+   other error stays signed in, with a retry in the progress slot. The
+   milestone card itself is /my's now; here the one-line strip is the only
+   progress this page shows. */
 const Activities = () => {
   const [hasSession, setHasSession] = useState(false);
   const [status, setStatus] = useState('idle');
   const [activities, setActivities] = useState(publicActivities);
   const [thresholds, setThresholds] = useState(DEFAULT_THRESHOLDS);
-  const [experience, setExperience] = useState(null);
   const [attempt, setAttempt] = useState(0);
 
   const retry = useCallback(() => setAttempt((value) => value + 1), []);
+
+  const slot = progressSlot({ hasSession, status });
 
   useEffect(() => {
     const scenario = new URLSearchParams(globalThis.location.search).get(
@@ -62,7 +66,6 @@ const Activities = () => {
         setHasSession(false);
         setActivities(result.activities);
         setThresholds(result.thresholds);
-        setExperience(null);
         setStatus('ready');
       });
 
@@ -88,7 +91,7 @@ const Activities = () => {
            API-shaped entries, and rows need the label and the link. Going
            through progressFromPayload rather than mergeActivities keeps
            `source` alive either way — mergeActivities drops it, and
-           ActivityRow's "how" phrase needs it — and the merge is
+           StickerCard's "how" phrase needs it — and the merge is
            idempotent, so both arrive the same. */
         setActivities(
           progressFromPayload({
@@ -97,7 +100,6 @@ const Activities = () => {
           }).activities,
         );
         setThresholds(result.thresholds);
-        setExperience(result);
         setStatus('ready');
       })
       .catch((error) => {
@@ -153,6 +155,19 @@ const Activities = () => {
         >
           <p>{activitiesPage.intro}</p>
         </PageHero>
+        {slot === 'strip' && (
+          <div className={styles.strip} role="status">
+            <span className={styles.stripCount}>
+              {activitiesPage.strip.count(
+                earnedCount(activities),
+                activities.length,
+              )}
+            </span>
+            <a className={styles.stripLink} href="/my/">
+              {activitiesPage.strip.hubCta}
+            </a>
+          </div>
+        )}
         {/* Rendered only once the seam answers, so the export carries the
             hero and nothing personal; the rows arrive with the first paint
             after hydration in every build. */}
@@ -161,8 +176,7 @@ const Activities = () => {
             activities={activities}
             thresholds={thresholds}
             signedIn={hasSession}
-            milestone={milestoneSlot({ hasSession, status })}
-            experience={experience}
+            slot={slot}
             onRetry={retry}
           />
         )}

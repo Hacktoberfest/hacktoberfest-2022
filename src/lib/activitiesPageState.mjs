@@ -3,7 +3,7 @@
    harness, so anything left inside the page's effect is reachable only by
    rendering it.
 
-   Together they are the fix for two review findings. `milestoneSlot`
+   Together they are the fix for two review findings. `progressSlot`
    never answers 'signIn' for a visitor who has a session — the earlier bug
    read "signed in" off the fetch result rather than off the session, so it
    was briefly false while the fetch was still in flight and the sign-in
@@ -27,7 +27,12 @@ import { mergeActivities } from './eligibility.mjs';
 export const publicActivities = () =>
   mergeActivities([]).map((activity) => ({ ...activity, source: null }));
 
-/* Which slot the how-it-works band's milestone area shows.
+/* Which slot the page shows for progress. The how-it-works band no longer
+   owns a milestone card — that lives on /my now — so this decides whether
+   the page shows the sign-in link (no session), nothing (signed in, the
+   fetch still in flight), the one-line progress strip under the hero
+   (signed in and resolved), or the retry notice (the fetch failed on
+   anything other than a dead session).
 
    `hasSession` is read synchronously from storage by the caller — whether
    a session exists at all, never whether the signed-in fetch has answered
@@ -39,9 +44,9 @@ export const publicActivities = () =>
    anything other than a dead session — a 401 is the caller's job to turn
    back into `hasSession: false` before this is ever asked again, see
    src/pages/activities.js. */
-export const milestoneSlot = ({ hasSession, status }) => {
+export const progressSlot = ({ hasSession, status }) => {
   if (!hasSession) return 'signIn';
-  if (status === 'ready') return 'milestones';
+  if (status === 'ready') return 'strip';
   if (status === 'error') return 'error';
   return 'placeholder';
 };
