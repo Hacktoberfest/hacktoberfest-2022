@@ -38,6 +38,10 @@ test('the export carries no progress: the rows render after the seam answers', a
     !html.includes(activitiesPage.how.error.body),
     'the milestone error notice is in the static export',
   );
+  assert.ok(
+    !html.includes(activitiesPage.list.unknown),
+    'the rows-band error notice is in the static export',
+  );
 });
 
 test('the sitemap and llms.txt list it', async () => {

@@ -16,7 +16,11 @@ import styles from './ActivitiesPage.module.css';
    session), 'placeholder' (signed in, the fetch is still in flight —
    nothing renders here, deliberately never the sign-in link), 'milestones'
    (the shared card, once `experience` has resolved), or 'error' (the fetch
-   failed on anything other than a dead session — a notice with a retry). */
+   failed on anything other than a dead session — a notice with a retry).
+   'error' also puts a matching notice above the rows band: every row
+   there renders undone in that state (see src/pages/activities.js), and
+   without a line saying the completion state failed to load, that reads
+   as "you've done none of these" rather than "we don't know yet". */
 const ActivitiesPage = ({
   activities,
   thresholds,
@@ -68,6 +72,20 @@ const ActivitiesPage = ({
         {activitiesPage.list.heading.lead}{' '}
         <em>{activitiesPage.list.heading.accent}</em>
       </h2>
+      {milestone === 'error' && (
+        <div className={styles.milestoneError} role="status">
+          <p className={styles.milestoneErrorBody}>
+            {activitiesPage.list.unknown}
+          </p>
+          <button
+            type="button"
+            className={styles.milestoneErrorRetry}
+            onClick={onRetry}
+          >
+            {activitiesPage.how.error.cta}
+          </button>
+        </div>
+      )}
       <ul className={styles.rows}>
         {activities.map((activity) => (
           <ActivityRow

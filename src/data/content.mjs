@@ -1928,6 +1928,13 @@ export const activitiesPage = {
       api: 'from Dev Relay',
       manual: 'confirmed by the Hacktoberfest team',
     },
+    /* Shown above the rows when the signed-in fetch failed: the rows
+       still render, undone, and without this line that reads as "you
+       haven’t done any of these" rather than "we don’t know yet". The
+       retry button beside it reuses how.error.cta — same word, same
+       action, one failure surface on this page rather than two. */
+    unknown:
+      'We couldn’t load which of these you’ve done, so nothing here is marked done yet.',
   },
   get: {
     heading: { lead: 'What you', accent: 'get.' },
