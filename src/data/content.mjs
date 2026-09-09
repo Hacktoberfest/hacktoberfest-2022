@@ -1884,3 +1884,17 @@ export const authCallback = {
      tell the same story. */
   blocked: sessionBlocked,
 };
+
+/* /activities/: what a participant completes to earn a sticker pack and to
+   complete Hacktoberfest. Public; signed in, the milestones and done marks
+   appear. Every count is a function of the threshold the API serves, never
+   a literal three. The bands' copy arrives with the bands. */
+export const activitiesPage = {
+  title: 'Activities | Hacktoberfest 2026',
+  description:
+    'The activities that earn a Hacktoberfest 2026 sticker pack: attend livestreams, complete Global Hack Week, attend a Fest, install Dev Relay. Do one for stickers, more to complete October.',
+  eyebrow: 'Attend online',
+  heading: { lead: 'Earn your', accent: 'stickers.' },
+  intro:
+    'Hacktoberfest is a month of things to do, online and in person. Do any one of them and we mail you a sticker pack. Do enough and you’ve completed Hacktoberfest.',
+};
