@@ -293,9 +293,12 @@
 .chips {
   display: flex;
   gap: 8px;
-  margin: 14px 0 18px;
+  /* The 4px of inline padding, given back by the margin, keeps the first
+     and last chips' focus rings inside the scroll box instead of clipped
+     at its edges. */
+  margin: 14px -4px 18px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding: 0 4px 4px;
 }
 
 .chip {

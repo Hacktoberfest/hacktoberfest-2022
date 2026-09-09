@@ -5,8 +5,8 @@ import Milestones, { milestoneState } from 'components/Milestones';
 import styles from './StickersBand.module.css';
 
 /* The hub's qualification band: heading, an intro that changes with the
-   level, and the shared milestone card. The card itself lives in
-   components/Milestones so /activities/ renders the same one. */
+   level, and the milestone card. The card lives in components/Milestones
+   with its pure half, milestoneState, which is read here too. */
 const StickersBand = ({ experience }) => {
   const { level, complete } = milestoneState(experience);
   const intro = [

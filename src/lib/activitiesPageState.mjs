@@ -8,10 +8,10 @@
    read "signed in" off the fetch result rather than off the session, so it
    was briefly false while the fetch was still in flight and the sign-in
    link flashed at someone who did not need it. `publicActivities` is what
-   the row band falls back to whenever there is nothing more specific to
+   the cards fall back to whenever there is nothing more specific to
    show — signed out, the signed-in fetch still in flight, or that fetch
    having failed — so a transient failure no longer collapses the whole
-   page to the signed-out shape; the rows are public content regardless of
+   page to the signed-out shape; the cards are public content regardless of
    whether the signed-in fetch ever succeeds.
 
    Relative import, matching every other file in lib/: Node resolves this

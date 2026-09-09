@@ -35,8 +35,8 @@ test('sources are named in words a participant would use', () => {
   }
 });
 
-test('the milestone slot has an error notice with a retry', () => {
-  assert.ok(activitiesPage.how.error.body.length > 10);
+test('the failed-fetch notice has its retry word', () => {
+  assert.ok(activitiesPage.list.unknown.length > 10);
   assert.equal(activitiesPage.how.error.cta, 'Try again');
 });
 

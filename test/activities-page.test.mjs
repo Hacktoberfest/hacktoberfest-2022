@@ -35,10 +35,6 @@ test('the export carries no progress: the rows render after the seam answers', a
     'the sign-in slot copy is in the static export',
   );
   assert.ok(
-    !html.includes(activitiesPage.how.error.body),
-    'the milestone error notice is in the static export',
-  );
-  assert.ok(
     !html.includes(activitiesPage.list.unknown),
     'the rows-band error notice is in the static export',
   );

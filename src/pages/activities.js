@@ -31,7 +31,7 @@ const ACTIVITIES_URL = absoluteUrl('/activities/');
    `hasSession` is read synchronously from storage, not from either fetch's
    result, so `progressSlot` (lib/activitiesPageState.mjs) never shows the
    sign-in link to someone who is signed in but whose data has not arrived
-   yet. The rows are public content and render from
+   yet. The cards are public content and render from
    `publicActivities()`/`DEFAULT_THRESHOLDS` for as long as there is
    nothing more specific to show — while the signed-in fetch is in flight,
    and if it fails with anything other than a dead session — so a
@@ -88,7 +88,7 @@ const Activities = () => {
         if (cancelled) return;
         /* Merged onto the catalogue here, not trusted as already merged:
            live, the seam has done it; mocked, the fixture carries only the
-           API-shaped entries, and rows need the label and the link. Going
+           API-shaped entries, and cards need the label and the link. Going
            through progressFromPayload rather than mergeActivities keeps
            `source` alive either way — mergeActivities drops it, and
            StickerCard's "how" phrase needs it — and the merge is
@@ -109,7 +109,7 @@ const Activities = () => {
           enterSignedOut();
           return;
         }
-        /* Anything else: keep the public rows already on screen (set
+        /* Anything else: keep the public cards already on screen (set
            above, before this fetch started) and show the retry slot. */
         setStatus('error');
       });
@@ -169,7 +169,7 @@ const Activities = () => {
           </div>
         )}
         {/* Rendered only once the seam answers, so the export carries the
-            hero and nothing personal; the rows arrive with the first paint
+            hero and nothing personal; the cards arrive with the first paint
             after hydration in every build. */}
         {status !== 'idle' && (
           <ActivitiesPage
