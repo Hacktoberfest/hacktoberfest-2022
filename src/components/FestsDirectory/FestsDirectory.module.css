@@ -789,14 +789,6 @@
 
 /* The in-person menu never mentions stickers, so the card does: attending
    is one of the activities. */
-.stickersNote {
-  margin: 8px 0 0;
-  /* colors.forest */
-  color: #3d5f58;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-
 .cardDistance {
   white-space: nowrap;
 }

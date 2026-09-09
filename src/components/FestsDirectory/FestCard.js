@@ -125,11 +125,6 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
             {fests.hostedBy} {fest.hostedBy}
           </p>
         )}
-        {/* Inside the body, under the facts: the card is a two-column flex
-            row (body and date tile), so a third child would become a third
-            column. Only for Fests still to come; a past one cannot be
-            attended, so it cannot count. */}
-        {!isPast && <p className={styles.stickersNote}>{fests.stickersNote}</p>}
       </div>
 
       {/* The date, as an object rather than a line of text, in the half of

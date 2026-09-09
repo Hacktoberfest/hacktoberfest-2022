@@ -7,7 +7,7 @@ import PageHero from 'components/PageHero';
 import { activitiesPage } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
 import { milestoneSlot, publicActivities } from 'lib/activitiesPageState.mjs';
-import { DEFAULT_THRESHOLDS } from 'lib/eligibility.mjs';
+import { DEFAULT_THRESHOLDS, mergeActivities } from 'lib/eligibility.mjs';
 import { getExperience } from 'lib/experience.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
 import { getProgress } from 'lib/progress.mjs';
@@ -83,7 +83,11 @@ const Activities = () => {
     getExperience(session, { scenario })
       .then((result) => {
         if (cancelled) return;
-        setActivities(result.activities);
+        /* Merged onto the catalogue here, not trusted as already merged:
+           live, the seam has done it; mocked, the fixture carries only the
+           API-shaped entries, and rows need the label and the link. The
+           merge is idempotent, so both arrive the same. */
+        setActivities(mergeActivities(result.activities));
         setThresholds(result.thresholds);
         setExperience(result);
         setStatus('ready');

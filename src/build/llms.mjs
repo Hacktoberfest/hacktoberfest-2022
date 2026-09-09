@@ -108,7 +108,7 @@ const llmsFull = () =>
     hero.eyebrow.join(' · '),
     headingText(hero.heading),
     hero.deck,
-    `CTAs: ${hero.cta} (/schedule/) · ${hero.secondaryCta} (/fests/) · ${hero.hostLink} (/host/)`,
+    `CTAs: ${hero.cta} (/schedule/) · ${hero.secondaryCta} (/fests/)`,
     `${hero.poweredByLabel} MLH x DEV. ${hero.presentingLabel}: DigitalOcean.`,
     `## ${timeline.eyebrow}`,
     headingText(timeline.heading),

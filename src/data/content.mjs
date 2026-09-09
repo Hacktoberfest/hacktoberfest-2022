@@ -41,7 +41,6 @@ export const hero = {
   deck: 'A month of livestreams, Global Hack Week, and 300+ one-day Fests in cities around the world, all about building with open source AI. Turn up online, in person, or both.',
   cta: 'Attend online',
   secondaryCta: 'Find a Fest',
-  hostLink: 'Or host a Fest in your city',
   poweredByLabel: 'Powered by',
   presentingLabel: 'Presenting partner',
 };
@@ -700,7 +699,6 @@ export const fests = {
      says so in words: greying is a colour, and a colour is not something
      everyone reading this page receives. */
   pastBadge: 'Past',
-  stickersNote: 'Counts toward your stickers',
   distanceUnit: 'km away',
   formatFilter: {
     label: 'Filter by format',

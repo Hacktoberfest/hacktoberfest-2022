@@ -20,7 +20,6 @@ import {
   Eyebrow,
   EyebrowLine,
   HeroActions,
-  HeroAside,
   HeroButton,
   HeroDeck,
   HeroHeading,
@@ -69,15 +68,14 @@ const Hero = () => (
       </HeroHeading>
       <HeroDeck>{hero.deck}</HeroDeck>
       <HeroActions>
-        {/* The two worlds, in the nav's own words. Hosting is a text link
-            beneath: a different visitor, and the Get involved section
+        {/* The two worlds, in the nav's own words. Hosting is not asked
+            for here: a different visitor, and the Get involved section
             carries the pitch. */}
         <HeroButton href="/schedule/">{hero.cta}</HeroButton>
         <HeroSecondaryButton href="/fests/">
           {hero.secondaryCta}
         </HeroSecondaryButton>
       </HeroActions>
-      <HeroAside href="/host/">{hero.hostLink}</HeroAside>
       <HeroPartners>
         <HeroPartnerGroup>
           <HeroPartnerLabel>{hero.poweredByLabel}</HeroPartnerLabel>
