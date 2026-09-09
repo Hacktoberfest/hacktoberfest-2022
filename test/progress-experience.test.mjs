@@ -87,8 +87,8 @@ test('getExperience fetches both split endpoints and merges the real user over t
   assert.equal(result.user.email, 'real@example.invalid');
   assert.equal(result.user.avatarUrl, null);
 
-  // Activities still come from the fixtures; fests are live now, and this
-  // profile carries none, so the fallback empty list is correct here.
+  // Fests and activities are live now; this profile carries no fests, so
+  // the fallback empty list is correct here.
   assert.ok(Array.isArray(result.activities));
   assert.deepEqual(result.fests, []);
 

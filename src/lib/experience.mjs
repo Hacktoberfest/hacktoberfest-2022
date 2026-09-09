@@ -95,11 +95,12 @@ export const getExperience = async (session, options) => {
      ?scenario=mlh-down fire in a live build — see the note on mockFailure. */
   const mocked = fixtureFor(scenario);
 
-  /* Two endpoints, deliberately: the profile is a milliseconds DB read and
-     the fests half is MLH round trips. Fetched in parallel, and the profile
-     also surfaces early through onProfile so /my can put the participant's
-     name on screen while the slow half is still in flight. Ship the API
-     half first (both endpoints), as with every seam in this file. */
+  /* Three endpoints, deliberately: the profile and the progress payload
+     are milliseconds DB reads and the fests half is MLH round trips.
+     Fetched in parallel, and the profile also surfaces early through
+     onProfile so /my can put the participant's name on screen while the
+     slow half is still in flight. Ship the API half first (all three
+     endpoints), as with every seam in this file. */
   const profilePromise = apiFetch('/api/me/profile');
   if (onProfile) {
     profilePromise
@@ -124,10 +125,8 @@ export const getExperience = async (session, options) => {
        to the empty state rather than crashing or passing fixture fests off
        as the user's. */
     fests: Array.isArray(festsBody.fests) ? festsBody.fests : [],
-    /* Live. Activities and stickers are still mocked and become real in
-       their own phase; /my never has to know which is which. The API sends
-       only a boolean; the address itself never reaches this app, by design
-       on both sides.
+    /* Live. The API sends only a boolean; the address itself never reaches
+       this app, by design on both sides.
 
        Deploy-order hazard, recorded rather than defended against: Boolean()
        maps an absent hasAddress to false, exactly as it maps a real false, so
