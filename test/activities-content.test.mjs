@@ -34,6 +34,11 @@ test('sources are named in words a participant would use', () => {
   }
 });
 
+test('the milestone slot has an error notice with a retry', () => {
+  assert.ok(activitiesPage.how.error.body.length > 10);
+  assert.equal(activitiesPage.how.error.cta, 'Try again');
+});
+
 test('the copy keeps the house voice', () => {
   const prose = JSON.stringify(activitiesPage);
   assert.doesNotMatch(prose, /hack\s*day/i);

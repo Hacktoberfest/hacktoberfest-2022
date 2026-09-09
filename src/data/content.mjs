@@ -1907,6 +1907,14 @@ export const activitiesPage = {
       `Complete any one activity to earn a sticker pack, and ${complete} in total to complete Hacktoberfest.`,
     ],
     signIn: 'Sign in to see your progress',
+    /* The milestone slot's other failure mode: signed in, but the fetch
+       that would show progress did not land. The rows above still show
+       the full catalogue, so this only ever speaks about the milestones,
+       not the page as a whole. */
+    error: {
+      body: 'We couldn’t load your progress. Try again to see what you’ve already done.',
+      cta: 'Try again',
+    },
   },
   list: {
     heading: { lead: 'The', accent: 'activities.' },

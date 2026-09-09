@@ -30,6 +30,14 @@ test('the export carries no progress: the rows render after the seam answers', a
     );
   }
   assert.ok(!html.includes(activitiesPage.list.done));
+  assert.ok(
+    !html.includes(activitiesPage.how.signIn),
+    'the sign-in slot copy is in the static export',
+  );
+  assert.ok(
+    !html.includes(activitiesPage.how.error.body),
+    'the milestone error notice is in the static export',
+  );
 });
 
 test('the sitemap and llms.txt list it', async () => {
