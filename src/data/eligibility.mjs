@@ -46,7 +46,8 @@ export const ACTIVITIES = Object.freeze([
     id: 'dev-relay',
     label: 'Install Dev Relay',
     detail: 'Connect your editor and it counts automatically.',
-    href: 'https://example.invalid/hacktoberfest/dev-relay',
+    // The real URL is not known yet; this lands once Dev Relay has one.
+    href: null,
     ctaLabel: 'Install',
     surface: 'card',
   }),

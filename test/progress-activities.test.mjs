@@ -16,15 +16,17 @@ test('every activity has a stable unique id', () => {
   ids.forEach((id) => assert.match(id, /^[a-z0-9-]+$/, `${id} is not a slug`));
 });
 
-test('every activity has copy and a destination', () => {
+/* href is null for an activity whose real destination is not known yet
+   (dev-relay this season) — the renderers skip its CTA rather than ship
+   a placeholder link. Every other activity needs a real destination. */
+test('every activity has copy, and a destination or none yet', () => {
   ACTIVITIES.forEach((activity) => {
     assert.ok(activity.label.length > 0, `${activity.id} needs a label`);
     assert.ok(activity.detail.length > 0, `${activity.id} needs a detail`);
     assert.ok(activity.ctaLabel.length > 0, `${activity.id} needs a CTA`);
-    assert.match(
-      activity.href,
-      /^(https:\/\/|\/)/,
-      `${activity.id} needs an href`,
+    assert.ok(
+      activity.href === null || /^(https:\/\/|\/)/.test(activity.href),
+      `${activity.id} needs an href, or null`,
     );
   });
 });

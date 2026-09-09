@@ -16,7 +16,7 @@ const formatDate = (iso) => {
 };
 
 const ActivityRow = ({ activity, signedIn }) => {
-  const external = /^https?:\/\//.test(activity.href);
+  const external = /^https?:\/\//.test(activity.href || '');
   const date = activity.completedAt ? formatDate(activity.completedAt) : null;
   const how = activity.source
     ? activitiesPage.list.source[activity.source]
@@ -33,14 +33,17 @@ const ActivityRow = ({ activity, signedIn }) => {
           {how ? `, ${how}` : ''}
         </p>
       )}
-      <a
-        className={styles.rowCta}
-        href={activity.href}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener noreferrer' : undefined}
-      >
-        {activity.ctaLabel}
-      </a>
+      {/* No destination yet — skip the CTA rather than ship a dead link. */}
+      {activity.href && (
+        <a
+          className={styles.rowCta}
+          href={activity.href}
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer' : undefined}
+        >
+          {activity.ctaLabel}
+        </a>
+      )}
     </li>
   );
 };

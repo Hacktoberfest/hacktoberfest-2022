@@ -30,14 +30,17 @@ const ActivityCard = ({ activity, accentIndex, devLinked }) => {
       <h3 className={styles.cardTitle}>{activity.label}</h3>
       <p className={styles.cardDetail}>{activity.detail}</p>
       {showDevHint && <p className={styles.devHint}>{my.activities.devHint}</p>}
-      <a
-        className={styles.cardCta}
-        href={activity.href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {activity.ctaLabel}
-      </a>
+      {/* No destination yet — skip the CTA rather than ship a dead link. */}
+      {activity.href && (
+        <a
+          className={styles.cardCta}
+          href={activity.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {activity.ctaLabel}
+        </a>
+      )}
     </article>
   );
 };

@@ -282,25 +282,27 @@ test('the /my feature contains no styled-components', async () => {
   assert.deepEqual(offenders, []);
 });
 
-/* The real destinations are open questions for the backend team. All
-   placeholders sit on the reserved .invalid TLD so they can never resolve —
-   when a real URL arrives, this test fails and forces a deliberate update.
-   FIND_A_FEST_URL has now graduated that way: the /fests/ directory exists
-   on this site, so it is asserted below as a real internal route instead.
-   The season's four activities carry the same split: livestreams, ghw and
-   fest point at real on-site routes (the schedule and fests directory), and
-   only dev-relay is still a placeholder pending its real destination. */
-test('placeholder outbound URLs still use the reserved TLD', () => {
-  const graduatedActivities = ['livestreams', 'ghw', 'fest'];
-  ACTIVITIES.forEach((activity) =>
-    assert.match(
-      activity.href,
-      graduatedActivities.includes(activity.id) ? /^\// : /example\.invalid/,
-      graduatedActivities.includes(activity.id)
-        ? `${activity.id} should point at an on-site route`
-        : `${activity.id} looks like a real URL — update this test when it is`,
-    ),
-  );
+/* No catalogue entry ever ships a placeholder that merely looks like a
+   real, dead link. FIND_A_FEST_URL has graduated that way: the /fests/
+   directory exists on this site, so it is asserted below as a real
+   internal route instead. The season's four activities carry the same
+   rule: every href is either a real on-site route (livestreams, ghw and
+   fest point at the schedule and fests directory) or null, which the
+   renderers treat as "no destination yet" rather than rendering a CTA
+   that goes nowhere — that is dev-relay's state until it has a public
+   URL. A placeholder on the reserved .invalid TLD would fail here just
+   like a bare guess would. */
+test('catalogue hrefs are never placeholder-looking dead links', () => {
+  ACTIVITIES.forEach((activity) => {
+    assert.ok(
+      activity.href === null || /^\//.test(activity.href),
+      `${activity.id} href should be null or an on-site route`,
+    );
+    assert.ok(
+      !String(activity.href).includes('.invalid'),
+      `${activity.id} should not ship a placeholder .invalid URL`,
+    );
+  });
 
   /* devConnectHref graduated the same way the address CTA did: DEV's own
      account settings page is where a participant connects (and later
