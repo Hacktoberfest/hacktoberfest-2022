@@ -166,7 +166,29 @@ test('the organizer scenario shows every badge variant', () => {
     'organizing',
     'organizing',
     'organizing',
+    'organizing',
   ]);
+  /* The two halves of the acknowledged-but-unlisted rung, which share
+     every field except the verdicts: one waiting on the next sync, one
+     failing a check and waiting on nobody. */
+  const acknowledgedUnlisted = SCENARIOS.organizer.fests.filter(
+    (f) =>
+      f.role === 'organizing' &&
+      f.applicationStatus === null &&
+      f.mlhPublished &&
+      !f.hacktoberfestPublished &&
+      f.acknowledgedAt,
+  );
+  assert.ok(
+    acknowledgedUnlisted.some((f) =>
+      f.publicationChecks.every((c) => c.passed),
+    ),
+  );
+  assert.ok(
+    acknowledgedUnlisted.some((f) =>
+      f.publicationChecks.some((c) => c.id === 'name' && !c.passed),
+    ),
+  );
   // Both tenses of the hosting badge: one organized fest still ahead, one
   // already past at any campaign-time "now".
   const organizingDates = SCENARIOS.organizer.fests

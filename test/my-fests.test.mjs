@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { my } from '../src/data/content.mjs';
 import {
+  SELF_FIXABLE_CHECKS,
+  blockingCheckFailures,
   eventCardState,
   festDidNotAttend,
   festEditUrl,
@@ -289,6 +292,95 @@ test('eventCardState: the four publication states', () => {
   );
 });
 
+/* The acknowledged-but-unlisted rung splits by WHOSE move it is. FestNet
+   re-runs the publication checks on every sync, so a Fest that was live can
+   fail one later - a host renaming their event in Organizer HQ is the case
+   this was written for. "Final checks underway" tells that host to sit tight
+   while nothing is happening, so a blocking failure gets its own rung. */
+test("eventCardState: a blocking check failure is the host's move, not ours", () => {
+  const card = (over) =>
+    fest({
+      role: 'organizing',
+      applicationStatus: null,
+      mlhPublished: true,
+      hacktoberfestPublished: false,
+      acknowledgedAt: '2026-08-25T20:05:33.000Z',
+      ...over,
+    });
+
+  assert.equal(
+    eventCardState(
+      card({
+        name: 'B54 x Hacktoberfest Hack Day Nairobi',
+        publicationChecks: [
+          { id: 'coordinates', passed: true },
+          { id: 'name', passed: false },
+          { id: 'duration', passed: true },
+          { id: 'description', passed: true },
+        ],
+      }),
+    ),
+    'checks-failed',
+  );
+
+  /* Every check passing is the honest wait: the Fest is queued for the next
+     sync and the wording it gets is true. */
+  assert.equal(
+    eventCardState(
+      card({
+        publicationChecks: [
+          { id: 'coordinates', passed: true },
+          { id: 'name', passed: true },
+          { id: 'duration', passed: true },
+          { id: 'description', passed: true },
+        ],
+      }),
+    ),
+    'checks-underway',
+  );
+});
+
+/* The advisory verdict nudges, it does not block: FestNet publishes a Fest
+   with no description, so a card that stopped on one would invent a problem
+   the host cannot see the effect of. */
+test('eventCardState: an advisory miss alone stays the honest wait', () => {
+  assert.equal(
+    eventCardState(
+      fest({
+        role: 'organizing',
+        applicationStatus: null,
+        mlhPublished: true,
+        hacktoberfestPublished: false,
+        acknowledgedAt: '2026-08-25T20:05:33.000Z',
+        publicationChecks: [
+          { id: 'name', passed: true },
+          { id: 'description', passed: false },
+        ],
+      }),
+    ),
+    'checks-underway',
+  );
+});
+
+/* A published Fest outranks its checks. The stored column is what the
+   website actually filters on, and FestNet can hold a listed Fest through a
+   failure; re-deriving a verdict here would contradict it. */
+test('eventCardState: a listed Fest stays published even with a failing check', () => {
+  assert.equal(
+    eventCardState(
+      fest({
+        role: 'organizing',
+        applicationStatus: null,
+        mlhPublished: true,
+        hacktoberfestPublished: true,
+        acknowledgedAt: '2026-08-25T20:05:33.000Z',
+        publicationChecks: [{ id: 'name', passed: false }],
+      }),
+    ),
+    'published',
+  );
+});
+
 /* The edit link behind the checks pane's "Update event" CTA. The bare
    OHQ event page is where a host lands from the cards; the form that
    fixes a name or a running time is one segment further on. */
@@ -339,4 +431,77 @@ test('festEditUrl is null without a manage link', () => {
   assert.equal(festEditUrl({}), null);
   assert.equal(festEditUrl(null), null);
   assert.equal(festEditUrl(undefined), null);
+});
+
+/* The modal names the failing check in the host's own words, and falls back
+   to a generic line for anything it has no sentence for. That fallback is a
+   safety net, not a plan: a check the API can emit with no copy of its own
+   would tell a host "one of your event details needs attention" and leave
+   them to guess which. Every blocking check the two rule sets carry today
+   gets its own label and its own sentence. */
+test('every blocking check has host-facing copy of its own', () => {
+  const BLOCKING = ['coordinates', 'name', 'duration'];
+  for (const id of BLOCKING) {
+    assert.ok(
+      my.acknowledgements.checks.labels[id],
+      `no label for the ${id} check`,
+    );
+    assert.ok(
+      my.acknowledgements.checks.failures[id],
+      `no failure sentence for the ${id} check`,
+    );
+  }
+  // The advisory verdict never reaches the modal, but the pane still names it.
+  assert.ok(my.acknowledgements.checks.labels.description);
+});
+
+/* The modal reuses the acknowledgements pane's sentences rather than
+   restating them, so these are the only strings it adds. */
+test('the failing rung carries its own badge, CTA and modal copy', () => {
+  assert.ok(my.fests.eventBadges.checksFailed);
+  assert.ok(my.fests.checksFailed.cta);
+  assert.ok(my.fests.checksFailed.title);
+  assert.ok(my.fests.checksFailed.intro);
+  assert.ok(my.fests.checksFailed.listLead);
+  assert.notEqual(
+    my.fests.eventBadges.checksFailed,
+    my.fests.eventBadges.checksUnderway,
+  );
+});
+
+/* SELF_FIXABLE_CHECKS decides whether a host is handed the Organizer HQ
+   form or the email. Coordinates are the one they cannot place themselves,
+   so a set containing it must fall back to the email however many of the
+   others are failing alongside. */
+test("coordinates are not the host's to fix", () => {
+  assert.ok(SELF_FIXABLE_CHECKS.has('name'));
+  assert.ok(SELF_FIXABLE_CHECKS.has('duration'));
+  assert.ok(!SELF_FIXABLE_CHECKS.has('coordinates'));
+});
+
+/* blockingCheckFailures is what both the badge and the modal read, so an
+   absent or malformed set must be no failures rather than a guess. */
+test('blockingCheckFailures degrades rather than accusing', () => {
+  assert.deepEqual(blockingCheckFailures({}), []);
+  assert.deepEqual(blockingCheckFailures({ publicationChecks: null }), []);
+  assert.deepEqual(blockingCheckFailures({ publicationChecks: 'junk' }), []);
+  assert.deepEqual(
+    blockingCheckFailures({ publicationChecks: [null, undefined] }),
+    [],
+  );
+  assert.deepEqual(
+    blockingCheckFailures({
+      publicationChecks: [{ id: 'description', passed: false }],
+    }),
+    [],
+  );
+  assert.deepEqual(
+    blockingCheckFailures({
+      publicationChecks: [
+        { id: 'name', passed: false },
+        { id: 'duration', passed: true },
+      ],
+    }),
+    [{ id: 'name', passed: false }],
+  );
 });

@@ -1602,6 +1602,26 @@ export const my = {
     eventBadges: {
       needsAcknowledgements: 'One step left',
       checksUnderway: 'Final checks underway',
+      /* The rung for a Fest whose checks are failing. Deliberately not a
+         wait: nothing is running, and the move is the host's. */
+      checksFailed: 'Action needed',
+    },
+    /* The rung a host lands on when FestNet's checks fail after they have
+       acknowledged: the Fest is off the website and nothing is running.
+       The badge says a move is needed, and this names which one.
+
+       Every sentence about a specific check is reused from the
+       acknowledgements pane rather than written again, so the two surfaces
+       cannot describe the same failure differently. */
+    checksFailed: {
+      cta: 'See what needs fixing',
+      title: 'Your Fest is not listed yet',
+      /* Said before the list, and true whichever check failed: hosts told
+         only "action needed" have no way to know the Fest came off the
+         site, or that it goes back up by itself once the check passes. */
+      intro:
+        'Your Fest is not on the Hacktoberfest website at the moment. We check these details every few minutes, so it will be listed again as soon as this is put right.',
+      listLead: 'What needs fixing',
     },
     applicationCtas: {
       draft: 'Finish your application',

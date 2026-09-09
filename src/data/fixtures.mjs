@@ -326,6 +326,40 @@ export const SCENARIOS = Object.freeze({
           { id: 'description', passed: true },
         ],
       },
+      /* Acknowledged, and then renamed in Organizer HQ to lead with the
+         partner. FestNet re-runs the checks every sync, so the name now
+         fails and the Fest is not listed: the rung where nothing is
+         running and the move is the host's. */
+      {
+        id: 'fest-guimaraes',
+        name: 'Sparkfleet x Hacktoberfest Hack Day Guimaraes',
+        city: 'Guimaraes',
+        country: 'Portugal',
+        date: '2026-10-21',
+        startTime: '10:00 AM',
+        endTime: '6:00 PM',
+        endsAt: '2026-10-21T17:00:00.000Z',
+        timeZone: 'Europe/Lisbon',
+        status: null,
+        role: 'organizing',
+        registrationUrl: 'https://example.invalid/fests/guimaraes',
+        websiteUrl: 'https://example.invalid/events/guimaraes',
+        applicationStatus: null,
+        manageUrl:
+          'https://example.invalid/events/14692-hacktober-fest-guimaraes',
+        mlhPublished: true,
+        hacktoberfestPublished: false,
+        acknowledgedAt: '2026-08-24T11:15:00.000Z',
+        latitude: 41.4425,
+        longitude: -8.2918,
+        venueAddress: '12 Rua de Santa Maria, Guimaraes, 4800-443, Portugal',
+        publicationChecks: [
+          { id: 'coordinates', passed: true },
+          { id: 'name', passed: false },
+          { id: 'duration', passed: true },
+          { id: 'description', passed: true },
+        ],
+      },
       /* The event exists but the host has not published it in MLH - the
          approved rung, told apart from the Porto application card by its
          source: this one is a real Event row. */

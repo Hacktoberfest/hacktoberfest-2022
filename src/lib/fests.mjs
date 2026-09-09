@@ -129,23 +129,56 @@ export const festTimeRange = (fest) => {
   return end ? `${start} – ${end}` : start;
 };
 
-/* Which of the four publication rungs an organizing EVENT card sits on -
+/* Checks that nudge rather than block. A missing description costs a Fest
+   its own voice on the directory, not its listing: FestNet publishes
+   without one and the site falls back to standard per-format copy.
+   Exported so the acknowledgements pane and the card ladder below cannot
+   drift on which verdicts actually stop a Fest going live. */
+export const ADVISORY_CHECKS = new Set(['description']);
+
+/* Failures a host can put right themselves, on the Organizer HQ form
+   festEditUrl points at. Coordinates are the one they cannot: a pin only
+   MLH can place, so a set containing it falls back to the email. */
+export const SELF_FIXABLE_CHECKS = new Set(['name', 'duration']);
+
+/* The failed verdicts that genuinely gate publication, read from the
+   pass/fail set the API recomputes on every read. An absent or malformed
+   set is no failures rather than a guess: a stale cache, or an API from
+   before the checks shipped, should not accuse a host of a problem we
+   cannot actually see. */
+export const blockingCheckFailures = (fest) =>
+  (Array.isArray(fest.publicationChecks) ? fest.publicationChecks : []).filter(
+    (check) => check && !check.passed && !ADVISORY_CHECKS.has(check.id),
+  );
+
+/* Which of the five publication rungs an organizing EVENT card sits on -
    an application card (applicationStatus set) has its own ladder and
    returns null here.
 
    The order is the truth ladder: our published flag beats everything
-   (the Fest is on the website); MLH's own switch comes next (a private
-   event has nothing to acknowledge yet); then the acknowledgement
-   decides between asking the host and waiting on FestNet's checks. A
-   payload from before these fields existed falls through to 'published',
-   which is exactly what those cards showed before. */
+   (the Fest is on the website, and FestNet can hold a listed Fest through
+   a check failure, so re-deriving a verdict over the top of that column
+   would contradict it); MLH's own switch comes next (a private event has
+   nothing to acknowledge yet); then the acknowledgement decides between
+   asking the host and reading the checks. A payload from before these
+   fields existed falls through to 'published', which is exactly what
+   those cards showed before.
+
+   The last rung splits by whose move it is. FestNet re-runs the checks on
+   every sync, so a Fest can fail one long after it was acknowledged - a
+   host renaming their event in Organizer HQ is the case this exists for.
+   Both halves were once 'checks-underway', which told that host to sit
+   tight while nothing was happening and no one was coming. */
 export const eventCardState = (fest) => {
   if (fest.role !== 'organizing' || fest.applicationStatus) return null;
   if (fest.hacktoberfestPublished) return 'published';
   if (fest.mlhPublished === false) return 'approved-private';
   if (fest.mlhPublished && !fest.acknowledgedAt)
     return 'needs-acknowledgements';
-  if (fest.mlhPublished && fest.acknowledgedAt) return 'checks-underway';
+  if (fest.mlhPublished && fest.acknowledgedAt)
+    return blockingCheckFailures(fest).length > 0
+      ? 'checks-failed'
+      : 'checks-underway';
   return 'published';
 };
 
