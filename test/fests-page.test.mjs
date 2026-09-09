@@ -113,8 +113,8 @@ test('every closed route is absent from the export', async () => {
    sits directly behind Home and ahead of the host-facing links — it is
    the one destination there for someone who wants to attend rather than
    run a Fest, and it is where every retired "notify me about local
-   Fests" ask now points. */
-test('the homepage nav offers Find a Fest behind Home', async () => {
+   Fests" ask now points. It now lives in the Attend in-person dropdown. */
+test('the homepage nav offers Find a Fest, with hosting behind it', async () => {
   const html = await readOutput('index.html');
   const nav = html.match(
     /<nav[^>]*aria-label="Main navigation"[\s\S]*?<\/nav>/,
@@ -122,16 +122,18 @@ test('the homepage nav offers Find a Fest behind Home', async () => {
   assert.ok(nav, 'the main navigation is missing from the homepage');
 
   assert.match(nav[0], /<a[^>]*href="\/"[^>]*>Home<\/a>/);
+  /* Both live in the Attend in-person panel now: Find a Fest first, for
+     someone who wants to attend rather than run one, then Host a Fest. */
   assert.match(nav[0], /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
-  assert.match(nav[0], /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
+  assert.match(nav[0], /<a[^>]*href="\/host\/"[^>]*>Host a Fest<\/a>/);
 
-  const order = ['>Home<', '>Find a Fest<', '>Learn about Hosting<'].map(
-    (label) => nav[0].indexOf(label),
+  const order = ['>Home<', '>Find a Fest<', '>Host a Fest<'].map((label) =>
+    nav[0].indexOf(label),
   );
   assert.deepEqual(
     order,
     [...order].sort((a, b) => a - b),
-    'Find a Fest belongs between Home and Learn about Hosting',
+    'Find a Fest belongs between Home and Host a Fest',
   );
 
   assert.ok(

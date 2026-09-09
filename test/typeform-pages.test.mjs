@@ -108,11 +108,13 @@ test('the homepage attendee ask links to /fests/', async () => {
 });
 
 /* The header's CTA graduated twice: from a Typeform popup to a /host/
-   link, then to "Apply to Host" — during Preptember the nav's one ask
-   is the signed-in hub, and "Learn about Hosting" stands as the first
-   plain link. These pages still carry no Typeform button at all — the
-   sweep for outbound Typeform anchors is what remains. */
-test('the header carries Find a Fest, Learn about Hosting and the Apply to Host CTA', async () => {
+   link, then to "Apply to Host" during Preptember. Preptember is over on
+   this branch, so the chip reads "My Hacktoberfest" and leads to the
+   signed-in hub; "Host a Fest" (behind the Attend in-person dropdown)
+   stands as the in-person world's second destination, after Find a Fest.
+   These pages still carry no Typeform button at all — the sweep for
+   outbound Typeform anchors is what remains. */
+test('the header carries Find a Fest, Host a Fest and the My Hacktoberfest CTA', async () => {
   const pages = await Promise.all([
     readOutput('404.html'),
     readOutput('subscribed/index.html'),
@@ -121,8 +123,8 @@ test('the header carries Find a Fest, Learn about Hosting and the Apply to Host 
 
   pages.forEach((html) => {
     assert.match(html, /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
-    assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
-    assert.match(html, /<a[^>]*href="\/my\/"[^>]*>Apply to Host<\/a>/);
+    assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Host a Fest<\/a>/);
+    assert.match(html, /<a[^>]*href="\/my\/"[^>]*>\s*My Hacktoberfest\s*<\/a>/);
     assertNoTypeformOutboundAnchors(html);
   });
 });
@@ -140,5 +142,5 @@ test('the homepage nav carries no section anchor links', async () => {
   assert.ok(nav, 'the main navigation is missing from the homepage');
 
   assert.doesNotMatch(nav[0], /href="#(?!top)/);
-  assert.match(nav[0], /<a[^>]*href="\/my\/"[^>]*>Apply to Host<\/a>/);
+  assert.match(nav[0], /<a[^>]*href="\/my\/"[^>]*>\s*My Hacktoberfest\s*<\/a>/);
 });

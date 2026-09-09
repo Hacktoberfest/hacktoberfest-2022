@@ -4,6 +4,7 @@ import Banner from 'components/Banner';
 import Close from 'components/icons/Close';
 import HacktoberfestLogo from 'components/icons/HacktoberfestLogo';
 import Hamburger from 'components/icons/Hamburger';
+import { NAV } from 'data/nav.mjs';
 import { PREPTEMBER } from 'data/preptember.mjs';
 
 import {
@@ -17,28 +18,17 @@ import {
   SkipLink,
   Wordmark,
 } from './Header.styles';
+import NavGroup from './NavGroup';
 
-/* The same destinations on every page — the homepage's section anchor
-   links are gone, so the nav no longer changes shape between pages.
+/* The nav is data/nav.mjs: Home, a verb per world with its two
+   destinations, FAQs. Header owns only the chip, whose label follows the
+   Preptember flag, and the open/closed state of the two dropdowns.
+
    `standalone` only decides where the wordmark goes: home from other
    pages, back to the top on the landing page itself.
 
-   "Home" leads, spelled out rather than left to the wordmark: on the
-   landing page the wordmark scrolls to the top rather than navigating,
-   so without this link the way home is a logo that doesn't look like
-   one. "Find a Fest" follows it: the one link for someone who wants to
-   attend rather than run a Fest, and the destination every "notify me
-   when Fests are announced" ask used to stand in for. The Fests are
-   published, so the site points at them directly.
-
-   "Apply to Host" wears the CTA chip: during Preptember the nav's one
-   ask is the signed-in hub, where the countdown and the application
-   live. Hosting info and the FAQs sit between the two, in that order:
-   someone weighing whether to host reads the pitch before the detail.
-
-   Below the tablet breakpoint the links collapse behind a hamburger
-   toggle — there's no room for five items plus the wordmark at phone
-   widths. */
+   Below the tablet breakpoint everything collapses behind the hamburger,
+   where each dropdown becomes a labelled section of the list. */
 const Header = ({ standalone = false }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -50,16 +40,49 @@ const Header = ({ standalone = false }) => {
     setAnimate(true);
   }, []);
 
+  /* Which dropdown is open, by label; null for none; 'escaped' is a
+     transient value the group reads to return focus to its button. One
+     open at a time — opening one closes the other. */
+  const [openGroup, setOpenGroup] = useState(null);
+  const [escapedGroup, setEscapedGroup] = useState(null);
+
   useEffect(() => {
-    if (!menuOpen) return undefined;
+    if (!menuOpen && !openGroup) return undefined;
 
     const closeOnEscape = (event) => {
-      if (event.key === 'Escape') setMenuOpen(false);
+      if (event.key !== 'Escape') return;
+      if (openGroup) {
+        setEscapedGroup(openGroup);
+        setOpenGroup(null);
+      }
+      setMenuOpen(false);
+    };
+
+    const closeOnOutsideClick = (event) => {
+      if (!openGroup) return;
+      if (event.target.closest && event.target.closest('[data-nav-group]'))
+        return;
+      setOpenGroup(null);
     };
 
     window.addEventListener('keydown', closeOnEscape);
-    return () => window.removeEventListener('keydown', closeOnEscape);
-  }, [menuOpen]);
+    document.addEventListener('mousedown', closeOnOutsideClick);
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape);
+      document.removeEventListener('mousedown', closeOnOutsideClick);
+    };
+  }, [menuOpen, openGroup]);
+
+  useEffect(() => {
+    if (escapedGroup === null) return undefined;
+    const clear = setTimeout(() => setEscapedGroup(null), 0);
+    return () => clearTimeout(clear);
+  }, [escapedGroup]);
+
+  const closeAll = () => {
+    setOpenGroup(null);
+    setMenuOpen(false);
+  };
 
   return (
     <>
@@ -92,20 +115,48 @@ const Header = ({ standalone = false }) => {
             data-open={menuOpen ? 'true' : 'false'}
             data-animate={animate ? 'true' : 'false'}
           >
-            <PageNavLink href="/" onClick={() => setMenuOpen(false)}>
-              Home
-            </PageNavLink>
-            <PageNavLink href="/fests/" onClick={() => setMenuOpen(false)}>
-              Find a Fest
-            </PageNavLink>
-            <PageNavLink href="/host/" onClick={() => setMenuOpen(false)}>
-              Learn about Hosting
-            </PageNavLink>
-            <PageNavLink href="/questions/" onClick={() => setMenuOpen(false)}>
-              FAQs
-            </PageNavLink>
-            <NavCta href="/my/" onClick={() => setMenuOpen(false)}>
-              Apply to Host
+            {NAV.map((entry) =>
+              Array.isArray(entry.items) ? (
+                <div key={entry.label} data-nav-group>
+                  <NavGroup
+                    id={`nav-group-${entry.label.toLowerCase().replace(/[^a-z]+/g, '-')}`}
+                    label={entry.label}
+                    items={entry.items}
+                    open={
+                      openGroup === entry.label
+                        ? true
+                        : escapedGroup === entry.label
+                          ? 'escaped'
+                          : false
+                    }
+                    animate={animate}
+                    onOpen={() => setOpenGroup(entry.label)}
+                    onClose={() =>
+                      setOpenGroup((current) =>
+                        current === entry.label ? null : current,
+                      )
+                    }
+                    onToggle={() => {
+                      setEscapedGroup(null);
+                      setOpenGroup((current) =>
+                        current === entry.label ? null : entry.label,
+                      );
+                    }}
+                    onPick={closeAll}
+                  />
+                </div>
+              ) : (
+                <PageNavLink
+                  key={entry.href}
+                  href={entry.href}
+                  onClick={closeAll}
+                >
+                  {entry.label}
+                </PageNavLink>
+              ),
+            )}
+            <NavCta href="/my/" onClick={closeAll}>
+              {PREPTEMBER ? 'Apply to Host' : 'My Hacktoberfest'}
             </NavCta>
           </NavLinks>
         </Nav>

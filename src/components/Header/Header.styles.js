@@ -123,7 +123,7 @@ export const NavLinks = styled.div`
   left: 0;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 22px;
   padding: 20px 15px 24px;
   border-bottom: 2px solid ${colors.ink};
   background: ${colors.forest};
@@ -244,5 +244,138 @@ export const NavCta = styled.a`
   @media (min-width: ${breakpoints.tablet}) {
     padding: 10px 17px;
     font-size: inherit;
+  }
+`;
+
+/* One dropdown: a button and the panel it controls. The panel is always in
+   the DOM and hidden by attribute for the reason NavLinks gives — a panel
+   that first appeared on click would appear unstyled on this static
+   export. Below tablet width the group is a labelled section of the
+   slide-down list, always expanded; the button becomes a static eyebrow
+   and the attribute stops mattering. */
+export const NavGroupRoot = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    display: block;
+  }
+`;
+
+export const NavGroupButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: ${colors.white};
+  cursor: default;
+  font: inherit;
+  /* Mobile: an eyebrow over the group's links, not a control. */
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.75;
+
+  & > svg {
+    display: none;
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    cursor: pointer;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: none;
+    opacity: 1;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    & > svg {
+      display: block;
+      width: 10px;
+      height: 10px;
+      transition: transform 150ms ease;
+    }
+
+    &[aria-expanded='true'] > svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    & > svg {
+      transition: none;
+    }
+  }
+`;
+
+/* The links. In the slide-down list they are simply indented under their
+   eyebrow. From tablet up they are a floating panel under the button, shown
+   by [data-open="true"], with the same fade NavLinks uses and the same
+   post-mount gate on the transition. */
+export const NavGroupPanel = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0 0 0 14px;
+  list-style: none;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    position: absolute;
+    top: calc(100% + 14px);
+    left: -18px;
+    min-width: 200px;
+    gap: 0;
+    padding: 6px 0;
+    border: 2px solid ${colors.ink};
+    background: ${colors.forest};
+    box-shadow: 4px 4px 0 ${colors.ink};
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+
+    &[data-animate='true'] {
+      transition:
+        opacity 150ms ease,
+        transform 150ms ease,
+        visibility 0s linear 150ms;
+    }
+
+    &[data-open='true'] {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition-delay: 0s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+`;
+
+export const NavGroupLink = styled.a`
+  display: block;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    padding: 10px 18px;
+
+    &:hover,
+    &:focus-visible {
+      background: ${colors.forestDeep};
+      text-decoration: none;
+    }
   }
 `;

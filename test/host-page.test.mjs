@@ -124,7 +124,7 @@ test('/host links the hosting guide and the apply CTA', async () => {
 
 test('the homepage nav links to /host/', async () => {
   const html = await readOutput('index.html');
-  assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
+  assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Host a Fest<\/a>/);
 });
 
 /* The handbook the guide band points at is the same one /my's host
