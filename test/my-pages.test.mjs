@@ -514,6 +514,8 @@ const WIRING = [
     token: '{PREPTEMBER && (',
     why: 'the applications band is gated on the flag like every other September band; ungated it would render into the October hub too.',
   },
+  {
+    file: 'src/pages/my.js',
     token: '<HostResourcesBand approved={isHost(experience.fests)}',
     count: 2,
     why: 'the resources band and its approval gate, in both modes (always during Preptember, organizers-only in October). `approved` must come from isHost at both sites — passing isOrganizing (or true) unlocks funding and swag for draft applications, promising what MLH has not granted.',

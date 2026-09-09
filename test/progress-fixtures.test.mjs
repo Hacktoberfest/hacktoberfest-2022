@@ -7,7 +7,6 @@ import {
   selectScenario,
 } from '../src/data/fixtures.mjs';
 import { isEligible, progressLevel } from '../src/lib/eligibility.mjs';
-import { getExperience } from '../src/lib/experience.mjs';
 import { festDidNotAttend } from '../src/lib/fests.mjs';
 
 /* This file evaluates experience.mjs in the mocked build. Leaving the
