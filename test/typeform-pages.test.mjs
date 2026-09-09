@@ -69,13 +69,12 @@ test('the homepage opens no Typeform popup', async () => {
 
    The hero's headline ask stopped being hosting once the nav grew two
    worlds: the hero CTA now leads with /schedule/ (see the schedule ask
-   test below), and hosting moved to the text link beneath the two
-   buttons — still worded as an invitation to host, still pinned here. */
+   test below) and the hero carries no host link at all, by decision. The
+   Get involved card is the homepage's one host ask. */
 test('every homepage host ask links to /host/', async () => {
   const html = await readOutput('index.html');
 
   const labels = [
-    'Or host a Fest in your city', // the hero's text link
     'Host a Fest', // the Get Involved host card
   ];
 
