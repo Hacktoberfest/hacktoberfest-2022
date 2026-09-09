@@ -1580,11 +1580,120 @@ export const my = {
         'The Hacktoberfest Applications Team: Stephen, Jacklyn & Quinn',
     },
   },
-  /* Trimmed to what ApplicationsBand still borrows from the (deleted)
-     fests band: the application badge/CTA ladder and the fallback link
-     label. Everything else the fests band owned (heading, lede, status
-     and role badges, the find/host ghosts) left with it. */
+  stickers: {
+    heading: { lead: 'Your', accent: 'progress.' },
+    /* Three states, not two: nothing earned yet, stickers earned but still
+       short of Milestone 2, and Milestone 2 (Hacktoberfest complete). Which
+       one shows is progressLevel()'s job — this object only holds the
+       words. */
+    intro: {
+      pending:
+        'Two milestones this October: do any one activity to earn a Hacktoberfest sticker pack in the mail, then complete three in total to finish Hacktoberfest.',
+      stickersEarned:
+        'You’ve earned your stickers. Complete three activities total to finish Hacktoberfest.',
+      complete:
+        'You’ve completed Hacktoberfest 2026. Nothing left to do but wait for your stickers in the mail.',
+    },
+    /* Each milestone is its own group: title, and the badge text for its
+       reached and not-yet-reached states. Milestone 2's not-yet badge is a
+       function since it carries the live activity count. */
+    /* Both pendingBadges are the same "x of y" shape, deliberately — a
+       plain "Not yet" next to a live count read as two different kinds of
+       label for the same kind of information. The two counts mean
+       different things, though: Milestone 1 has three separate
+       requirements (signed in, address, any 1 activity), so its badge
+       counts those. Milestone 2 has exactly ONE requirement — "complete 3
+       activities" — so its badge is 0 of 1 or 1 of 1, never a raw
+       activity count. */
+    groups: {
+      stickers: {
+        tag: 'Milestone 1',
+        description: 'Earn a Hacktoberfest sticker pack',
+        reachedBadge: 'Earned',
+        pendingBadge: (done, total) => `${done} of ${total}`,
+      },
+      complete: {
+        tag: 'Milestone 2',
+        description: 'Complete Hacktoberfest',
+        reachedBadge: 'Complete',
+        pendingBadge: (done, total) => `${done} of ${total}`,
+      },
+    },
+    /* Every row carries a detail line, shown regardless of done/pending
+       state — a fixed description of what the requirement is, distinct
+       from the title, which is the only piece that flips wording once
+       the row is done. */
+    steps: {
+      signedIn: {
+        title: 'Signed in with MyMLH.',
+        detail: 'The MyMLH account you used to sign in.',
+      },
+      /* The CTA's destination is MLH_ADDRESS_URL in data/links.js — a real
+         link, so it lives with the other tagged outbound links rather than
+         as a placeholder here. */
+      address: {
+        title: 'Add your address to your MyMLH account',
+        detail: 'We mail your stickers to the address on your MyMLH account.',
+        done: 'Address added.',
+        cta: 'Add address',
+      },
+      /* The two groups' third row: same activity count, two different
+         thresholds. "Complete 3 activities total" always states the
+         Milestone 2 target, never "0 of 3" phrasing on its own — the count
+         is folded in below, in the group's own pending badge. */
+      activity1: {
+        title: 'Do any 1 activity',
+        detail: 'Complete any one of the activities below.',
+        done: 'Activity requirement met.',
+      },
+      activity3: {
+        title: 'Complete 3 activities total',
+        detail: 'Any combination of three activities below counts.',
+        done: '3 activities complete.',
+      },
+    },
+  },
+  activities: {
+    heading: { lead: 'Pick an', accent: 'activity.' },
+    done: 'Done',
+    devHint:
+      'We can only detect this once your DEV account is linked to MyMLH.',
+    /* Screen-reader labels for the carousel controls. */
+    carouselLabel: 'Activities',
+    previous: 'Previous activities',
+    next: 'Next activities',
+  },
   fests: {
+    heading: { lead: 'Your', accent: 'Fests.' },
+    lede: 'A Fest is a one-day, in-person event in your city, either a Hack Day or a Meet Up.',
+    /* Badges come from the participation status the API sends —
+       "Registered" until the organizer scans you in, "Checked in" after.
+       Never derived from the calendar: a registered no-show stays
+       "Registered" forever, which is the truth. */
+    statusBadges: {
+      registered: 'Registered',
+      checkedIn: 'Checked in',
+      /* Derived, not an API status: still 'registered' twelve hours after
+         the fest ended means the organizer never scanned this person in. */
+      didNotAttend: 'Did not attend',
+    },
+    /* Organized events carry no participation status, so their badge is the
+       role, past-tensed once the day is over. "Hosting", not "Organizing" —
+       the site's vocabulary for running a Fest is hosting (/host/, "Host a
+       Fest"); the API's role field stays `organizing`, which is MLH's word
+       for it. */
+    roleBadges: {
+      organizing: 'Hosting',
+      organized: 'Hosted',
+    },
+    /* An event application in flight — the organizer's Fest before it is a
+       Fest. The badge names where the application stands (MLH's ladder:
+       draft → submitted → approved). The two pre-approval CTAs send the
+       organizer to MLH's application form; the approved CTA says "Manage
+       event" because the API swaps the card's manageUrl to the Organizer
+       HQ event page at that rung. Approved applications normally render
+       as the real event instead; the approved strings only show in the
+       gap before the event goes public. */
     applicationBadges: {
       draft: 'Application started',
       submitted: 'Application submitted',
@@ -1613,6 +1722,34 @@ export const my = {
       rejected: 'Revise your application',
     },
     viewFestCta: 'View fest',
+    /* The two ghost cards in the fests grid — dashed like the directory's
+       empty state: slots waiting to be filled, not Fests. findGhost stands
+       in for the grid when there are no Fests yet, paired with hostGhost's
+       standing nudge that Fests need hosts too. */
+    findGhost: {
+      title: 'Find your first Fest.',
+      body: 'Hundreds of one-day Fests are happening across the world this October. There’s probably one near you.',
+      cta: 'Find a Fest',
+    },
+    /* The find ghost's second voice, once any Fest is on the list —
+       registered, checked in, hosting, or hosted alike. It replaced the
+       pink Find a Fest button that used to sit under the grid: one find
+       CTA, always in the grid, in whichever voice fits. */
+    findGhostMore: {
+      title: 'Register for another Fest.',
+      body: 'Fests run all October, all over the world. Grab a spot at another one near you.',
+      cta: 'Find a Fest',
+    },
+    hostGhost: {
+      title: 'Host your own Fest.',
+      body: 'No Fest near you, or want to lead one yourself? Anyone can host a Hack Day or a Meetup.',
+      /* Swapped in when the user is already registered for a Fest but not
+         hosting one — "No Fest near you" doesn't apply to someone who
+         found theirs. */
+      bodyRegistered:
+        'Want to lead one yourself? Anyone can host a Hack Day or a Meetup.',
+      cta: 'Host a Fest',
+    },
   },
   error: {
     title: 'We couldn’t load your Hacktoberfest',

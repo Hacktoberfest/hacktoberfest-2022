@@ -1,0 +1,293 @@
+/* Shared band geometry — identical width rules to WelcomeBand so every
+   band's left edge aligns. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* One shared card, following the original single-card convention (ink
+   border, orange-deep shadow) rather than a per-milestone box. */
+/* Matches the homepage timeline's 2014 card (TimelineSection.styles.js) —
+   same ink border, white background, and maroon shadow. */
+.card {
+  padding: 6px 20px 4px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+}
+
+.section {
+  padding: 14px 0;
+}
+
+/* The horizontal line splitting the two milestones. */
+.section + .section {
+  /* colors.rule */
+  border-top: 1px solid #8ca59e;
+}
+
+/* Same technique as the homepage FAQ (FaqSection.styles.js): animate the
+   built-in ::details-content wrapper between 0 and its natural height —
+   interpolate-size is what lets an "auto"-ish keyword interpolate at all.
+   Browsers without support (Safari ≤ current, Firefox) ignore this and
+   keep the instant native toggle, which is the designed fallback, not a
+   bug — same as the FAQ. */
+@media (prefers-reduced-motion: no-preference) {
+  .section {
+    interpolate-size: allow-keywords;
+  }
+
+  .section::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      content-visibility 250ms allow-discrete,
+      block-size 250ms ease;
+  }
+
+  .section[open]::details-content {
+    block-size: auto;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.sectionHeader::-webkit-details-marker {
+  display: none;
+}
+
+/* colors.paper — one step below the card's white, the same quiet tint the
+   page background uses. */
+.sectionHeader:hover {
+  background: #f2f2eb;
+}
+
+.headerText {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Matches the homepage cards' tag (InvolvedTag in
+   GetInvolvedSection.styles.js) — same shape, colors, and type. */
+.groupTag {
+  align-self: flex-start;
+  padding: 5px 10px;
+  /* colors.white */
+  color: #f7f7f2;
+  border-radius: 6px;
+  /* colors.ink */
+  background: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Matches the homepage FAQ's question heading (FaqQuestionText in
+   FaqSection.styles.js) — same font, size, weight, and tracking. */
+.groupTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.groupBadge {
+  margin-left: auto;
+  padding: 4px 10px;
+  /* colors.rule */
+  border: 1px dashed #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badgeReached.accentOchre {
+  /* colors.ink */
+  border: 1px solid #10201d;
+  /* colors.ochre */
+  background: #f5b726;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.badgeReached.accentForest {
+  /* colors.ink */
+  border: 1px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+/* A plain CSS triangle, rotating open/closed — no icon font in this
+   feature, matching the rest of it using plain glyphs (✓) over icons. */
+.chevron {
+  width: 0;
+  height: 0;
+  flex: 0 0 auto;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  /* colors.muted */
+  border-left: 6px solid #52635f;
+  transition: transform 0.15s ease-out;
+}
+
+.section[open] .chevron {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+.steps {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 0;
+  /* colors.rule */
+  border-top: 1px solid #8ca59e;
+}
+
+.tick {
+  display: flex;
+  width: 23px;
+  height: 23px;
+  flex: 0 0 23px;
+  align-items: center;
+  justify-content: center;
+  /* colors.white */
+  color: #f7f7f2;
+  border-radius: 50%;
+  /* colors.forest */
+  background: #3d5f58;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.tick.pending {
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  background: transparent;
+}
+
+.stepText {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.stepTitle {
+  font-weight: 600;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.stepDetail {
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.stepCta {
+  margin-left: auto;
+  padding: 8px 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.stepCta:hover {
+  /* colors.orangeDeep */
+  background: #b8301f;
+}
+
+@media (max-width: 768px) {
+  .step {
+    flex-wrap: wrap;
+  }
+
+  .stepCta {
+    margin-left: 36px;
+  }
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

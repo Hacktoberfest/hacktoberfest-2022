@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { my } from '../src/data/content.mjs';
 import {
   eventCardState,
   festDidNotAttend,
@@ -177,6 +178,19 @@ test('isHost: in-progress applications and attending alone do not', () => {
       false,
     );
   }
+});
+
+/* The find ghost always closes the fests grid, in one of two voices:
+   "find your first" for an empty list, "register for another" once any
+   Fest is on it — registered, checked in, hosting, or hosted alike.
+   Both voices need all three pieces, since either can be the grid's
+   find CTA. */
+test('the fests band carries both find-ghost voices', () => {
+  [my.fests.findGhost, my.fests.findGhostMore].forEach((ghost) => {
+    assert.ok(ghost.title);
+    assert.ok(ghost.body);
+    assert.ok(ghost.cta);
+  });
 });
 
 test('hasApplied: a sent application opens the thank-you gate', () => {

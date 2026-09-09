@@ -2,11 +2,14 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
+import ActivitiesBand from 'components/ActivitiesBand';
 import ApplicationsBand from 'components/ApplicationsBand';
 import CountdownBand from 'components/CountdownBand';
+import FestsBand from 'components/FestsBand';
 import Header from 'components/Header';
 import HostResourcesBand from 'components/HostResourcesBand';
 import { MyError, MyLoading, MyMlhDown } from 'components/MyStatus';
+import StickersBand from 'components/StickersBand';
 import ThankYouBand from 'components/ThankYouBand';
 import WelcomeBand from 'components/WelcomeBand';
 import WhyHostBand from 'components/WhyHostBand';
@@ -18,7 +21,7 @@ import {
   readCachedExperience,
   writeCachedExperience,
 } from 'lib/experienceCache.mjs';
-import { hasApplied, isHost } from 'lib/fests.mjs';
+import { hasApplied, isHost, isOrganizing } from 'lib/fests.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
 import {
   API_BASE_URL,
@@ -293,6 +296,20 @@ const My = () => {
               ) : (
                 <WhyHostBand />
               ))}
+            {!PREPTEMBER && <StickersBand experience={experience} />}
+            {!PREPTEMBER && <ActivitiesBand experience={experience} />}
+            {!PREPTEMBER && <FestsBand experience={experience} />}
+            {/* October keeps the resources band, but only for organizers
+               — isOrganizing, not isHost, because someone mid-application
+               needs the handbook most. Below Your Fests, beside the
+               hosting cards it serves. `closing` because it ends the
+               page here: FestsBand's gutter above stands in for the
+               band's top padding, and the band takes over the closing
+               gutter — which FestsBand simply keeps for non-organizers,
+               who never render this band at all. */}
+            {!PREPTEMBER && isOrganizing(experience.fests) && (
+              <HostResourcesBand approved={isHost(experience.fests)} closing />
+            )}
           </>
         )}
       </main>

@@ -6,6 +6,8 @@ import {
   SCENARIOS,
   selectScenario,
 } from '../src/data/fixtures.mjs';
+import { isEligible, progressLevel } from '../src/lib/eligibility.mjs';
+import { getExperience } from '../src/lib/experience.mjs';
 import { festDidNotAttend } from '../src/lib/fests.mjs';
 
 /* This file evaluates experience.mjs in the mocked build. Leaving the
@@ -36,6 +38,21 @@ test('selectScenario passes through every known name', () => {
   ].forEach((name) => assert.equal(selectScenario(name), name));
 });
 
+test('the fixtures actually represent the states they claim', () => {
+  assert.equal(isEligible(SCENARIOS.eligible), true);
+  assert.equal(isEligible(SCENARIOS['no-address']), false);
+  assert.equal(SCENARIOS['no-address'].addressValidated, false);
+  assert.equal(isEligible(SCENARIOS['nothing-done']), false);
+  assert.equal(
+    SCENARIOS['nothing-done'].activities.every((a) => !a.completed),
+    true,
+  );
+});
+
+test('the complete scenario reaches milestone 2', () => {
+  assert.equal(progressLevel(SCENARIOS.complete), 2);
+});
+
 test('every fixture carries a user', () => {
   Object.values(SCENARIOS).forEach((fixture) =>
     assert.match(fixture.user.email, /@/),
@@ -44,7 +61,7 @@ test('every fixture carries a user', () => {
 
 test('getExperience resolves the requested fixture', async () => {
   const result = await getExperience(null, { scenario: 'eligible' });
-  assert.equal(result.addressValidated, true);
+  assert.equal(isEligible(result), true);
 });
 
 test('getExperience defaults to the no-address scenario', async () => {
@@ -247,7 +264,6 @@ test('the organizer scenario shows every badge variant', () => {
 
 test('nothing-done has zero fests, exercising the invitation state', () => {
   assert.deepEqual(SCENARIOS['nothing-done'].fests, []);
-  assert.ok(SCENARIOS['nothing-done'].activities.every((a) => !a.completed));
 });
 
 test('eligible completes the fest activity with a matching past fest', () => {

@@ -3,6 +3,8 @@ import { access, readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
 import { authError, my, signedOut } from '../src/data/content.mjs';
+import { ACTIVITIES } from '../src/data/eligibility.mjs';
+import { FIND_A_FEST_URL } from '../src/data/links.js';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -92,8 +94,10 @@ test('the /my stylesheet is emitted and linked from the page', async () => {
   const css = await readLinkedCss(html, '/my');
 
   // The band card treatments: ink border plus the accent-deep shadows.
+  assert.match(css, /#b8301f/, 'orangeDeep shadow missing');
   assert.match(css, /#671912/, 'maroon shadow missing');
   assert.match(css, /#1f4e6b/, 'skyDeep shadow missing');
+  assert.match(css, /#8a5d13/, 'ochreDeep shadow missing');
 });
 
 /* The export renders /my in its loading state, which makes the loading
@@ -255,6 +259,9 @@ test('the /my feature contains no styled-components', async () => {
     'HostResourcesBand',
     'WhyHostBand',
     'ThankYouBand',
+    'StickersBand',
+    'ActivitiesBand',
+    'FestsBand',
     'MyStatus',
   ];
   const offenders = [];
@@ -273,16 +280,37 @@ test('the /my feature contains no styled-components', async () => {
   assert.deepEqual(offenders, []);
 });
 
-/* devConnectHref graduated the same way the address CTA did: DEV's own
-   account settings page is where a participant connects (and later
-   manages) the MyMLH link. Pinned so it cannot silently regress to a
-   placeholder. Both button states use it — connect and manage land on
-   the same page. */
-test('devConnectHref points at DEV account settings', () => {
+/* The real destinations are open questions for the backend team. All
+   placeholders sit on the reserved .invalid TLD so they can never resolve —
+   when a real URL arrives, this test fails and forces a deliberate update.
+   FIND_A_FEST_URL has now graduated that way: the /fests/ directory exists
+   on this site, so it is asserted below as a real internal route instead. */
+test('placeholder outbound URLs still use the reserved TLD', () => {
+  ACTIVITIES.forEach((activity) =>
+    assert.match(
+      activity.href,
+      /example\.invalid/,
+      `${activity.id} looks like a real URL — update this test when it is`,
+    ),
+  );
+
+  /* devConnectHref graduated the same way the address CTA did: DEV's own
+     account settings page is where a participant connects (and later
+     manages) the MyMLH link. Pinned so it cannot silently regress to a
+     placeholder. Both button states use it — connect and manage land on
+     the same page. */
   assert.equal(
     my.identity.devConnectHref,
     'https://dev.to/settings/account',
     'devConnectHref should point at DEV account settings',
+  );
+
+  /* Graduated, and pinned so it cannot silently regress to a placeholder or
+     drift off-site: the fests directory is a page on this domain now. */
+  assert.equal(
+    FIND_A_FEST_URL,
+    '/fests/',
+    'FIND_A_FEST_URL should point at the on-site fests directory',
   );
 });
 
@@ -486,10 +514,19 @@ const WIRING = [
     token: '{PREPTEMBER && (',
     why: 'the applications band is gated on the flag like every other September band; ungated it would render into the October hub too.',
   },
+    token: '<HostResourcesBand approved={isHost(experience.fests)}',
+    count: 2,
+    why: 'the resources band and its approval gate, in both modes (always during Preptember, organizers-only in October). `approved` must come from isHost at both sites — passing isOrganizing (or true) unlocks funding and swag for draft applications, promising what MLH has not granted.',
+  },
   {
     file: 'src/pages/my.js',
-    token: '<HostResourcesBand approved={isHost(experience.fests)} />',
-    why: '`approved` must come from isHost, not isOrganizing (or true) — passing either unlocks funding and swag for draft applications, promising what MLH has not granted.',
+    token: '<HostResourcesBand approved={isHost(experience.fests)} closing />',
+    why: "October's site must pass `closing`: below Your Fests the band swaps its top padding for the page-closing gutter. Without it the page ends with the card nearly touching the footer, under a double gap above.",
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '{!PREPTEMBER && isOrganizing(experience.fests) && (',
+    why: "October's gate on the resources band: outside Preptember it shows only to hosts and in-flight applicants — isOrganizing, not isHost, because someone mid-application needs the handbook most. Ungated, every participant gets a hosting toolkit they never asked for.",
   },
   {
     file: 'src/pages/my.js',
@@ -500,6 +537,21 @@ const WIRING = [
     file: 'src/pages/my.js',
     token: '<ThankYouBand user={experience.user} />',
     why: 'the thank-you side of the fork. The gate token above cannot see which branch each band sits on (prettier wraps the ternary across lines), so this pins the postcard\'s presence — deleting it, or swapping the branches and "simplifying" one away, has to come through here. `user` because the card\'s back greets the host by name.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '{!PREPTEMBER && <StickersBand experience={experience} />}',
+    why: 'Preptember mode must hide "Your progress." — an ungated StickersBand renders milestones for a campaign that has not started.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '{!PREPTEMBER && <ActivitiesBand experience={experience} />}',
+    why: 'Preptember mode must hide "Pick an activity." — an ungated ActivitiesBand offers activities that do not count yet.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '{!PREPTEMBER && <FestsBand experience={experience} />}',
+    why: 'Preptember mode must hide "Your Fests." — the organizing entries it would show are exactly what the applications band lists, and two copies of the same cards argue with each other.',
   },
   {
     file: 'src/components/WelcomeBand/index.js',
