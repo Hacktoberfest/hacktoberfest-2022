@@ -38,22 +38,25 @@
   line-height: 1.6;
 }
 
-.rows {
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* One activity per row, the homepage grammar: ink border, white paper,
-   offset shadow. Stacked rather than the hub's carousel because this page
-   is the detail, and a row can carry the completion line. */
-.row {
+/* The card: sticker column at the left, centred against the whole card so
+   a one-line detail and a three-line detail put their sticker in the same
+   place. Homepage grammar otherwise: ink border, white paper, maroon
+   offset shadow. */
+.card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 16px;
   align-items: center;
-  margin-bottom: 18px;
-  padding: 18px 20px;
+  padding: 16px;
   /* colors.ink */
   border: 2px solid #10201d;
   /* colors.white */
@@ -62,7 +65,137 @@
   box-shadow: 6px 6px 0 #671912;
 }
 
-.rowTitle {
+/* The die-cut slot the sticker sits in. When the sticker peels the dashed
+   ring is what shows behind it. */
+.slot {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  /* colors.rule */
+  border: 1.5px dashed #8ca59e;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  /* colors.white */
+  border: 3px solid #f7f7f2;
+  /* colors.ink */
+  outline: 2px solid #10201d;
+  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.sticker svg {
+  width: 58%;
+  height: 58%;
+}
+
+.card:hover .sticker {
+  transform: rotate(-4deg) translateY(-2px);
+}
+
+/* Earned: peeled off the slot, at an angle, with the heavier shadow of a
+   thing that has been lifted, and a tab hung under the slot. */
+.card[data-earned='true'] .sticker,
+.card[data-earned='true']:hover .sticker {
+  transform: rotate(-9deg) translate(6px, -6px);
+  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
+.earnedTab {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  z-index: 1;
+  transform: translateX(-50%) rotate(-6deg);
+  padding: 2px 6px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.orange */
+  background: #e53927;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.body {
+  display: grid;
+  gap: 4px;
+  align-content: center;
+}
+
+/* The type, as a tag on the card and a ground on the sticker. One class
+   per type carries both: on .sticker it is the background, on .type the
+   pale background and deep text. */
+.type {
+  justify-self: start;
+  margin-bottom: 2px;
+  padding: 2px 6px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* colors.sky / skyLight / skyDeep */
+.sticker.type_online {
+  background: #8bb2de;
+}
+.type.type_online {
+  background: #d7e5f4;
+  color: #1f4e6b;
+}
+/* colors.pink / pinkLight / orangeDeep */
+.sticker.type_inperson {
+  background: #e97b77;
+}
+.type.type_inperson {
+  background: #f6c4c1;
+  color: #b8301f;
+}
+/* colors.ochre / ochreLight (new literal, no token yet) / ochreDeep */
+.sticker.type_dev {
+  background: #f5b726;
+}
+.type.type_dev {
+  background: #fbe2a4;
+  color: #8a5d13;
+}
+/* colors.rule / paperDeep / inkSoft */
+.sticker.type_tools {
+  background: #8ca59e;
+}
+.type.type_tools {
+  background: #e4e5da;
+  color: #284b44;
+}
+
+.cardTitle {
   margin: 0;
   /* fonts.display */
   font-family:
@@ -70,25 +203,28 @@
   font-size: clamp(1.2rem, 2vw, 1.5rem);
   font-weight: 700;
   letter-spacing: -0.01em;
+  line-height: 1.1;
   /* colors.ink */
   color: #10201d;
 }
 
-.rowDetail {
+.cardDetail {
   margin: 0;
   /* colors.muted */
   color: #52635f;
   line-height: 1.5;
 }
 
-.rowDone {
+.cardDone {
+  margin: 2px 0 0;
   /* colors.forest */
   color: #3d5f58;
   font-weight: 700;
 }
 
-.rowCta {
+.cardCta {
   justify-self: start;
+  margin-top: 6px;
   padding: 10px 18px;
   /* colors.ink */
   border: 2px solid #10201d;
@@ -101,7 +237,7 @@
   white-space: nowrap;
 }
 
-.rowCta:hover {
+.cardCta:hover {
   /* colors.pinkLight */
   background: #f6c4c1;
 }
@@ -155,6 +291,10 @@
   .milestoneErrorRetry {
     transition: none;
   }
+
+  .sticker {
+    transition: none;
+  }
 }
 
 /* breakpoints.tablet */
@@ -163,15 +303,8 @@
     width: min(calc(100% - 40px), 1280px);
   }
 
-  .row {
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 24px;
-  }
-
-  .rowCta {
-    grid-row: 1 / span 3;
-    grid-column: 2;
-    align-self: center;
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

@@ -1,8 +1,8 @@
 import Milestones from 'components/Milestones';
 import { activitiesPage } from 'data/content.mjs';
 
-import ActivityRow from './ActivityRow';
 import styles from './ActivitiesPage.module.css';
+import StickerCard from './StickerCard';
 
 /* The three bands under the hero.
 
@@ -86,9 +86,9 @@ const ActivitiesPage = ({
           </button>
         </div>
       )}
-      <ul className={styles.rows}>
+      <ul className={styles.cards}>
         {activities.map((activity) => (
-          <ActivityRow
+          <StickerCard
             key={activity.id}
             activity={activity}
             signedIn={signedIn}
