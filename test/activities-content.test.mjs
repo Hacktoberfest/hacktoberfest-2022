@@ -39,8 +39,27 @@ test('the milestone slot has an error notice with a retry', () => {
   assert.equal(activitiesPage.how.error.cta, 'Try again');
 });
 
+/* JSON.stringify drops function values entirely, so it silently skips
+   how.steps and list.doneOn (and any function-valued copy added later) —
+   exactly the sort of place a straight apostrophe could hide. This walks
+   the object collecting every string instead, then adds the two
+   functions' own output by calling them with a representative argument. */
+const collectStrings = (value, acc = []) => {
+  if (typeof value === 'string') {
+    acc.push(value);
+  } else if (Array.isArray(value)) {
+    value.forEach((item) => collectStrings(item, acc));
+  } else if (value && typeof value === 'object') {
+    Object.values(value).forEach((item) => collectStrings(item, acc));
+  }
+  return acc;
+};
+
 test('the copy keeps the house voice', () => {
-  const prose = JSON.stringify(activitiesPage);
+  const strings = collectStrings(activitiesPage);
+  strings.push(...activitiesPage.how.steps(3));
+  strings.push(activitiesPage.list.doneOn('October 5'));
+  const prose = strings.join(' ');
   assert.doesNotMatch(prose, /hack\s*day/i);
   assert.doesNotMatch(prose, /Meet Up/);
   assert.doesNotMatch(prose, /—/, 'no em dashes in new copy');
