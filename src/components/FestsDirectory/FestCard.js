@@ -151,6 +151,7 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
           </span>
         </p>
       )}
+      <p className={styles.stickersNote}>{fests.stickersNote}</p>
     </article>
   );
 };

@@ -243,3 +243,18 @@ export const HeroPartnerTimes = styled.span`
   font-size: 1rem;
   font-weight: 700;
 `;
+
+/* The third ask, as a text link under the two buttons: hosting is a
+   different visitor's intent and no longer the hero's headline. */
+export const HeroAside = styled.a`
+  margin-top: 14px;
+  color: ${colors.white};
+  font-family: ${fonts.mono};
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    text-decoration-thickness: 2px;
+  }
+`;

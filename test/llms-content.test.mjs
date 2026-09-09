@@ -49,6 +49,7 @@ const sharedCopy = [
   hero.deck,
   hero.cta,
   hero.secondaryCta,
+  hero.hostLink,
   timeline.intro,
   ...timeline.eras.flatMap((era) => [era.title, era.copy]),
   ...mission.paragraphs.map(answerText),

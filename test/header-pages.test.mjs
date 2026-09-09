@@ -54,6 +54,12 @@ test('the chip reads for October and lands on the hub', async () => {
 
 test('the label is a button, not a link', async () => {
   const html = await readOutput('/');
-  assert.doesNotMatch(html, /<a[^>]*>\s*Attend online\s*</);
-  assert.doesNotMatch(html, /<a[^>]*>\s*Attend in-person\s*</);
+  /* Scoped to the nav: the homepage hero's primary button also reads
+     "Attend online", and that one is a link to /schedule/ on purpose. */
+  const nav = html.match(
+    /<nav[^>]*aria-label="Main navigation"[\s\S]*?<\/nav>/,
+  );
+  assert.ok(nav, 'the main navigation is missing');
+  assert.doesNotMatch(nav[0], /<a[^>]*>\s*Attend online\s*</);
+  assert.doesNotMatch(nav[0], /<a[^>]*>\s*Attend in-person\s*</);
 });

@@ -65,12 +65,17 @@ test('the homepage opens no Typeform popup', async () => {
    /host/ — but the FAQ restructure retired it. Its successor,
    how-to-apply-to-host, links straight out to the MLH host portal
    instead (see test/faq-content.test.mjs), so it no longer belongs to
-   the /host/ set this test guards. */
+   the /host/ set this test guards.
+
+   The hero's headline ask stopped being hosting once the nav grew two
+   worlds: the hero CTA now leads with /schedule/ (see the schedule ask
+   test below), and hosting moved to the text link beneath the two
+   buttons — still worded as an invitation to host, still pinned here. */
 test('every homepage host ask links to /host/', async () => {
   const html = await readOutput('index.html');
 
   const labels = [
-    'Host a Fest in your city', // the hero CTA
+    'Or host a Fest in your city', // the hero's text link
     'Host a Fest', // the Get Involved host card
   ];
 
@@ -93,6 +98,20 @@ test('every homepage host ask links to /host/', async () => {
   assert.doesNotMatch(html, /<a[^>]*href="\/sponsor\/"[^>]*target="_blank"/);
 });
 
+/* The hero's headline ask, in the nav's own words: online is the first
+   door, so the primary button leads to the schedule rather than the
+   Fests directory or the hosting page. */
+test('the homepage schedule ask links to /schedule/', async () => {
+  const html = await readOutput('index.html');
+
+  assert.match(
+    html,
+    linkTo('/schedule/', 'Attend online'),
+    'the hero primary CTA should link to /schedule/',
+  );
+  assert.doesNotMatch(html, /<a[^>]*href="\/schedule\/"[^>]*target="_blank"/);
+});
+
 /* The attendee ask, the last popup on the page, now a link to the
    directory. Pinned as an anchor for the same reason the host asks are:
    nothing should quietly fall back to a form. */
@@ -101,7 +120,7 @@ test('the homepage attendee ask links to /fests/', async () => {
 
   assert.match(
     html,
-    linkTo('/fests/', 'Find a Fest near you'),
+    linkTo('/fests/', 'Find a Fest'),
     'the hero secondary CTA should link to /fests/',
   );
   assert.doesNotMatch(html, /<a[^>]*href="\/fests\/"[^>]*target="_blank"/);

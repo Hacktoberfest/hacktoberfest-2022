@@ -20,6 +20,7 @@ import {
   Eyebrow,
   EyebrowLine,
   HeroActions,
+  HeroAside,
   HeroButton,
   HeroDeck,
   HeroHeading,
@@ -68,15 +69,15 @@ const Hero = () => (
       </HeroHeading>
       <HeroDeck>{hero.deck}</HeroDeck>
       <HeroActions>
-        {/* Both asks are links now. The host CTA hands off to /host/,
-            which carries the formats and the application; the attendee
-            CTA hands off to the published directory, which is what the
-            old "notify me" interest form was standing in for. */}
-        <HeroButton href="/host/">{hero.cta}</HeroButton>
+        {/* The two worlds, in the nav's own words. Hosting is a text link
+            beneath: a different visitor, and the Get involved section
+            carries the pitch. */}
+        <HeroButton href="/schedule/">{hero.cta}</HeroButton>
         <HeroSecondaryButton href="/fests/">
           {hero.secondaryCta}
         </HeroSecondaryButton>
       </HeroActions>
+      <HeroAside href="/host/">{hero.hostLink}</HeroAside>
       <HeroPartners>
         <HeroPartnerGroup>
           <HeroPartnerLabel>{hero.poweredByLabel}</HeroPartnerLabel>

@@ -38,9 +38,10 @@ export const hero = {
      they share one line, separator restored, from tablet up. */
   eyebrow: ['October 2026 · 300+ events', 'In person and online'],
   heading: { lead: 'Hacktoberfest 2026:', accent: 'AI belongs to everyone.' },
-  deck: 'Bring Hacktoberfest to your city. Host a one-day fest to give your community the tools and knowledge to experiment and build with open source AI. Snacks and swag, on us.',
-  cta: 'Host a Fest in your city',
-  secondaryCta: 'Find a Fest near you',
+  deck: 'A month of livestreams, Global Hack Week, and 300+ one-day Fests in cities around the world, all about building with open source AI. Turn up online, in person, or both.',
+  cta: 'Attend online',
+  secondaryCta: 'Find a Fest',
+  hostLink: 'Or host a Fest in your city',
   poweredByLabel: 'Powered by',
   presentingLabel: 'Presenting partner',
 };
@@ -617,7 +618,7 @@ export const fests = {
   title: 'Find a Fest | Hacktoberfest 2026',
   description:
     'Search Hacktoberfest 2026 Fests by name, city, or country, or find the one nearest you on the map.',
-  eyebrow: 'The Fests',
+  eyebrow: 'Attend in-person',
   heading: { lead: 'Find a Fest', accent: 'near you.' },
   intro:
     'Every Fest is a one-day, in-person event, either a Hack Day or a Meetup, hosted by local organizers. Search by name or city, or use your location to see what is closest.',
@@ -699,6 +700,7 @@ export const fests = {
      says so in words: greying is a colour, and a colour is not something
      everyone reading this page receives. */
   pastBadge: 'Past',
+  stickersNote: 'Counts toward your stickers',
   distanceUnit: 'km away',
   formatFilter: {
     label: 'Filter by format',
@@ -735,7 +737,7 @@ export const host = {
   title: 'Host a Fest | Hacktoberfest 2026',
   description:
     'Bring Hacktoberfest to your city. Host a one-day, in-person Hack Day or Meet Up about open source AI. Compare the formats, see the support organizers get, and apply to host.',
-  eyebrow: 'Host a Fest',
+  eyebrow: 'Attend in-person · Host a Fest',
   heading: { lead: 'Bring Hacktoberfest', accent: 'to your city.' },
   intro: 'Anyone can host a Fest. Choose between a Hack Day or a Meet Up.',
   formats: {
@@ -1034,7 +1036,7 @@ export const schedule = {
   title: 'October Schedule | Hacktoberfest 2026',
   description:
     'Every online Hacktoberfest 2026 event in October: Global Hack Week, workshops, streams and ceremonies, in your own time zone.',
-  eyebrow: 'The schedule',
+  eyebrow: 'Attend online',
   heading: { lead: 'A month of', accent: 'things to join.' },
   intro:
     'Everything happening online this October, in your time zone or any other. Global Hack Week, workshops, streams, and the ceremonies that open and close the month.',
