@@ -46,6 +46,21 @@ test('challenges become activities in catalogue order, merged by slug', () => {
   assert.equal(byId.fest.source, null);
 });
 
+/* /activities/ signed in feeds an already-merged result back through this
+   function (see src/pages/activities.js), rather than the bare API
+   entries — it must not drop `source` on that second pass, or the "how"
+   phrase on the row would disappear once the page re-renders. */
+test('is idempotent over its own output, source included', () => {
+  const first = progressFromPayload(payload());
+  const second = progressFromPayload({
+    thresholds: first.thresholds,
+    challenges: first.activities,
+  });
+  assert.deepEqual(second.activities, first.activities);
+  const byId = Object.fromEntries(second.activities.map((a) => [a.id, a]));
+  assert.equal(byId.livestreams.source, 'event_checkins');
+});
+
 test('the catalogue’s copy wins over the API’s name', () => {
   const { activities } = progressFromPayload(
     payload({
