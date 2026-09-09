@@ -12,8 +12,10 @@ import {
 import MilestoneGroup from './MilestoneGroup';
 import styles from './Milestones.module.css';
 
-/* The numbers both pages read. Pure so /activities/ can print "N of M"
-   without rendering the card. */
+/* The pure half of the card: the numbers, with no JSX. Exported so
+   StickersBand can pick its intro copy by level without rendering the
+   card itself (components/StickersBand/index.js), and for any other
+   caller that ever needs the numbers alone. */
 export const milestoneState = (experience) => {
   const level = progressLevel(experience);
   const addressValidated = Boolean(experience && experience.addressValidated);
