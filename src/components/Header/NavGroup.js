@@ -17,6 +17,8 @@ import {
    button's native activation), Tab through the links, and close with
    Escape, which the parent handles and which returns focus here. Hover
    never opens a panel for a keyboard user because focus does not hover.
+   A pointer click on a label whose panel hover already opened keeps it
+   open rather than toggling it shut. Hover owns the close on such devices.
 
    The label is a button that only opens. It is not also a link to a hub
    page — two behaviours on one target — and Schedule and Find a Fest are
@@ -86,7 +88,15 @@ const NavGroup = ({
         type="button"
         aria-expanded={open === true}
         aria-controls={id}
-        onClick={onToggle}
+        onClick={(event) => {
+          /* On a pointer device the hover has usually opened the panel
+             before the click lands, and a toggle would shut it — the
+             click meant "open". Keyboard activation arrives as a click
+             with detail 0 and touch devices cannot hover; both still
+             toggle, so Enter closes what Enter opened. */
+          if (open === true && event.detail > 0 && canHover()) return;
+          onToggle();
+        }}
       >
         {label}
         <svg viewBox="0 0 10 10" aria-hidden="true">
