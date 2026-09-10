@@ -1,0 +1,12 @@
+/* The hub's ground. Every other page stands on paper (the body, in
+   _app.js); /my stands one step deeper, the homepage's Get involved band
+   move, so its white cards and the sticker book's open page lift off the
+   ground by a clear step rather than the five points between paper and
+   white. CSS Module, as the hub's bands are: the page renders after a
+   client-side fetch, where styled-components ship no CSS. The footer paints
+   its own ground and needs nothing. Palette value restated as a literal
+   with the token named beside it, the convention the modules follow. */
+.hub {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}

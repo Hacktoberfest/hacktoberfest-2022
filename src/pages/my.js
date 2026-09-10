@@ -31,6 +31,8 @@ import {
   signOutDestination,
 } from 'lib/session.mjs';
 
+import styles from './my.module.css';
+
 /* The only component in the feature with effects.
 
    The static export has no server, so the signed-in check has to run in the
@@ -219,7 +221,7 @@ const My = () => {
           ) : null}
         </Head>
         <Header standalone />
-        <main id="main">
+        <main id="main" className={styles.hub}>
           {state === 'loading' ? <MyLoading /> : <MyMlhDown />}
         </main>
       </>
@@ -239,7 +241,7 @@ const My = () => {
         ) : null}
       </Head>
       <Header standalone />
-      <main id="main">
+      <main id="main" className={styles.hub}>
         {/* The welcome band renders in the error and profile-first loading
            states too: the heading and account area belong to the page, and
            the surface below — the error card, or the loading animation —
