@@ -1,4 +1,5 @@
 import { activitiesPage } from 'data/content.mjs';
+import { formatEarnedDate } from 'lib/earnedDate.mjs';
 
 import styles from './ActivityCard.module.css';
 import { ART } from './stickerArt';
@@ -19,20 +20,12 @@ import { ART } from './stickerArt';
    linked DEV account says so until the account is linked. No activity
    needs it this season; the field is honoured so the day one does, the
    card already knows what to say. */
-const formatDate = (iso) => {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  });
-};
-
 const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
   const earned = Boolean(signedIn && activity.completed);
   const external = /^https?:\/\//.test(activity.href || '');
-  const date = activity.completedAt ? formatDate(activity.completedAt) : null;
+  const date = activity.completedAt
+    ? formatEarnedDate(activity.completedAt)
+    : null;
   const how = activity.source
     ? activitiesPage.list.source[activity.source]
     : null;

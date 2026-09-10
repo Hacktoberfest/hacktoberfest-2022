@@ -1,5 +1,6 @@
 import { ART } from 'components/ActivityCard/stickerArt';
 import { activitiesPage, my } from 'data/content.mjs';
+import { formatEarnedDate } from 'lib/earnedDate.mjs';
 
 import styles from './Album.module.css';
 
@@ -7,8 +8,8 @@ import styles from './Album.module.css';
    slot, centred, its name under it, and one line of status. Earned, the
    sticker peels off the slot, leaning its own way (Album.module.css), with
    a tick on its corner that is the one thing that says "earned" for
-   assistive tech; the line under the name says when, or where it came
-   from for a sticker with no date. Not yet, the sticker is a grey
+   assistive tech; the line under the name says when (never earlier than October 1,
+   lib/earnedDate.mjs), or where it came from for a sticker with no date. Not yet, the sticker is a grey
    silhouette and the line is the way to earn it, or "Not yet" for a
    sticker with no destination.
 
@@ -16,20 +17,12 @@ import styles from './Album.module.css';
    deliberately: the page is the type, so no type chip; the detail and
    the source live on /activities/, a link away. The sticker is the point
    here. */
-const formatDate = (iso) => {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'UTC',
-  });
-};
-
 const StickerCell = ({ sticker }) => {
   const earned = Boolean(sticker.completed);
   const external = /^https?:\/\//.test(sticker.href || '');
-  const date = sticker.completedAt ? formatDate(sticker.completedAt) : null;
+  const date = sticker.completedAt
+    ? formatEarnedDate(sticker.completedAt)
+    : null;
   const how = sticker.source
     ? activitiesPage.list.source[sticker.source]
     : null;
