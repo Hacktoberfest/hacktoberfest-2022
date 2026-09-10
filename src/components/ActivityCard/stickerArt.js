@@ -10,10 +10,11 @@ export const ART = {
       <path d="M7 4v16l13-8z" fill="#10201d" />
     </svg>
   ),
-  globe: (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroke}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" />
+  /* Global Hack Week's own mark is a lightning bolt (ghw.mlh.io), so its
+     sticker is one too. */
+  bolt: (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M13 2L4 14h6l-1 8 8-12h-6z" fill="#10201d" />
     </svg>
   ),
   pin: (

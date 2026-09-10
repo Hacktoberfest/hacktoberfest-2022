@@ -58,24 +58,62 @@ const Body = styled.p`
   color: ${colors.inkSoft};
 `;
 
-const Actions = styled.div`
-  display: flex;
+const Cta = styled(Button)`
+  margin-top: 22px;
+`;
+
+/* The print laid on the box, the treatment HostCallout gives /fests: a
+   white mount inside the ink keyline, the maroon press-down shadow (the
+   box's own is skyDeep, so the two never merge), a couple of degrees of
+   tilt. Unlike HostCallout's, this one stays on phones, smaller and above
+   the words: a room full of people is the argument, and the phone is
+   where most people will read it. */
+const Photo = styled.img`
+  display: block;
+  width: min(100%, 300px);
+  height: auto;
+  aspect-ratio: 3 / 2;
+  padding: 8px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  object-fit: cover;
+  box-shadow: 7px 7px 0 ${colors.maroon};
+  transform: rotate(-2deg);
+  /* First on phones, so the picture opens the box; the grid puts it in
+     the right-hand column from desktop up. */
+  order: -1;
 
   @media (min-width: ${breakpoints.desktop}) {
-    justify-content: end;
+    width: 100%;
+    max-width: 380px;
+    padding: 10px;
+    order: 0;
+    justify-self: end;
   }
 `;
 
-const ScheduleCallout = () => (
+/* `to` is where the button lands: the directory from /schedule, whose
+   reader already knows what a Fest is, and the in-person landing page
+   from /online, whose reader does not. */
+const ScheduleCallout = ({ to = 'fests' }) => (
   <CalloutRoot aria-labelledby="schedule-fests-callout">
     <CalloutBox>
       <div>
         <Title id="schedule-fests-callout">{schedule.festsCallout.title}</Title>
         <Body>{schedule.festsCallout.body}</Body>
+        {to === 'in-person' ? (
+          <Cta href="/in-person/">{schedule.festsCallout.inPersonCta}</Cta>
+        ) : (
+          <Cta href="/fests/">{schedule.festsCallout.cta}</Cta>
+        )}
       </div>
-      <Actions>
-        <Button href="/fests/">{schedule.festsCallout.cta}</Button>
-      </Actions>
+      <Photo
+        src={schedule.festsCallout.photo}
+        alt={schedule.festsCallout.photoAlt}
+        loading="lazy"
+        width="640"
+        height="427"
+      />
     </CalloutBox>
   </CalloutRoot>
 );

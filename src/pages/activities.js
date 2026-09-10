@@ -2,13 +2,12 @@ import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
 
 import ActivitiesPage from 'components/ActivitiesPage';
-import styles from 'components/ActivitiesPage/ActivitiesPage.module.css';
 import Header from 'components/Header';
 import PageHero from 'components/PageHero';
+import ProgressStrip from 'components/ProgressStrip';
 import { activitiesPage } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
 import { progressSlot, publicActivities } from 'lib/activitiesPageState.mjs';
-import { earnedCount } from 'lib/activityFilters.mjs';
 import { DEFAULT_THRESHOLDS } from 'lib/eligibility.mjs';
 import { getExperience } from 'lib/experience.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
@@ -38,8 +37,9 @@ const ACTIVITIES_URL = absoluteUrl('/activities/');
    transient failure never collapses the whole page to the signed-out
    shape. A 401 clears the session and re-enters the signed-out state; any
    other error stays signed in, with a retry in the progress slot. The
-   milestone card itself is /my's now; here the one-line strip is the only
-   progress this page shows. */
+   milestone card itself is /my's now; here the progress strip
+   (components/ProgressStrip, shared with /my) is the only progress this
+   page shows. */
 const Activities = () => {
   const [hasSession, setHasSession] = useState(false);
   const [status, setStatus] = useState('idle');
@@ -156,17 +156,10 @@ const Activities = () => {
           <p>{activitiesPage.intro}</p>
         </PageHero>
         {slot === 'strip' && (
-          <div className={styles.strip} role="status">
-            <span className={styles.stripCount}>
-              {activitiesPage.strip.count(
-                earnedCount(activities),
-                activities.length,
-              )}
-            </span>
-            <a className={styles.stripLink} href="/my/">
-              {activitiesPage.strip.hubCta}
-            </a>
-          </div>
+          <ProgressStrip
+            activities={activities}
+            cta={{ href: '/my/', label: activitiesPage.strip.hubCta }}
+          />
         )}
         {/* Rendered only once the seam answers, so the export carries the
             hero and nothing personal; the cards arrive with the first paint

@@ -190,3 +190,21 @@ test('every event appears exactly once, plus one close stub per round', () => {
     'one stub per multi-day round, no more',
   );
 });
+
+/* The stream draws three row treatments; the legend beside the zone control
+   names them, and the challenge chip is the rail's word for a window. */
+test('the legend names every row treatment and the rail has a word for a window', async () => {
+  const { schedule } = await import('../src/data/content.mjs');
+  assert.deepEqual(Object.keys(schedule.legend), ['stream', 'round', 'close']);
+  Object.values(schedule.legend).forEach((label) => {
+    assert.match(label, /^[A-Z]/);
+    assert.doesNotMatch(label, /—/);
+  });
+  assert.equal(schedule.challengeChip, 'Challenge');
+  assert.ok(schedule.legendLabel.length > 0);
+  /* The line that says what a check-in counts for, and where the rest is. */
+  assert.match(schedule.countsNote.text, /check-in/);
+  assert.match(schedule.countsNote.text, /activity/);
+  assert.doesNotMatch(schedule.countsNote.text, /sticker/);
+  assert.ok(schedule.countsNote.cta);
+});

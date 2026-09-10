@@ -102,8 +102,8 @@ const WelcomeBand = ({ user, host, onSignOut }) => {
               <a
                 className={
                   devLinked
-                    ? styles.actionButton
-                    : `${styles.actionButton} ${styles.actionPending}`
+                    ? `hf-button hf-button--outline hf-button--small ${styles.actionButton}`
+                    : `hf-button hf-button--outline hf-button--small ${styles.actionButton} ${styles.actionPending}`
                 }
                 href={my.identity.devConnectHref}
                 target="_blank"
@@ -115,7 +115,7 @@ const WelcomeBand = ({ user, host, onSignOut }) => {
                   : my.identity.devConnectCta}
               </a>
               <a
-                className={styles.actionButton}
+                className={`hf-button hf-button--outline hf-button--small ${styles.actionButton}`}
                 href={MLH_ACCOUNT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -125,7 +125,7 @@ const WelcomeBand = ({ user, host, onSignOut }) => {
               </a>
               <button
                 type="button"
-                className={styles.actionButton}
+                className={`hf-button hf-button--outline hf-button--small ${styles.actionButton}`}
                 onClick={onSignOut}
               >
                 {my.identity.signOut}

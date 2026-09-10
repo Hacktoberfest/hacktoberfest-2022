@@ -53,7 +53,7 @@ const MilestoneGroup = ({
           </span>
           {row.cta && (
             <a
-              className={styles.stepCta}
+              className={`hf-button hf-button--small ${styles.stepCta}`}
               href={row.href}
               target="_blank"
               rel="noopener noreferrer"

@@ -123,9 +123,16 @@ test('the homepage nav offers Find a Fest, with hosting behind it', async () => 
 
   assert.match(nav[0], /<a[^>]*href="\/"[^>]*>Home<\/a>/);
   /* Both live in the Attend in-person panel now: Find a Fest first, for
-     someone who wants to attend rather than run one, then Host a Fest. */
-  assert.match(nav[0], /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
-  assert.match(nav[0], /<a[^>]*href="\/host\/"[^>]*>Host a Fest<\/a>/);
+     someone who wants to attend rather than run one, then Host a Fest. The
+     label is the anchor's first span; the line under it is the second. */
+  assert.match(
+    nav[0],
+    /<a[^>]*href="\/fests\/"[^>]*>(?:<span[^>]*>)?Find a Fest<\/span>/,
+  );
+  assert.match(
+    nav[0],
+    /<a[^>]*href="\/host\/"[^>]*>(?:<span[^>]*>)?Host a Fest<\/span>/,
+  );
 
   const order = ['>Home<', '>Find a Fest<', '>Host a Fest<'].map((label) =>
     nav[0].indexOf(label),

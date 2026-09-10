@@ -12,7 +12,9 @@ import {
   headingText,
   hero,
   host,
+  inPerson,
   mission,
+  online,
   siteMeta,
   sponsor,
   schedule,
@@ -42,6 +44,14 @@ const START_HERE = [
   {
     route: '/',
     text: '[Hacktoberfest 2026](./): The event overview, the mission, and how to get involved.',
+  },
+  {
+    route: '/online/',
+    text: '[Attend online](./online/): What has changed this year, how to earn the sticker pack from anywhere, and what completing Hacktoberfest means.',
+  },
+  {
+    route: '/in-person/',
+    text: '[Attend in person](./in-person/): What a Fest is, what has changed this year, and how a day in a room earns the sticker pack.',
   },
   {
     route: '/fests/',
@@ -101,6 +111,63 @@ const llmsIndex = () =>
     bullets(aiContext.facts),
   );
 
+/* One world landing page as prose (components/WorldLanding renders the
+   same object), or nothing while its route is closed. */
+const worldSection = (route, title, world) =>
+  routeIsClosed(route)
+    ? []
+    : [
+        `## ${title}`,
+        `${world.eyebrow}. ${headingText(world.heading)}`,
+        world.intro,
+        world.facts ? world.facts.join(' · ') : [],
+        world.happens
+          ? [
+              `${world.happens.eyebrow}. ${headingText(world.happens.heading)}`,
+              world.happens.intro,
+              world.happens.items.map(
+                (item) =>
+                  `${item.title} — ${item.copy} (${item.time}; ${item.earns}.)`,
+              ),
+            ]
+          : [],
+        world.formats
+          ? [
+              `${world.formats.eyebrow}. ${headingText(world.formats.heading)}`,
+              world.formats.intro,
+              world.formats.cards.map(
+                (card) => `${card.tag} — ${card.title} ${card.lines.join(' ')}`,
+              ),
+            ]
+          : [],
+        `${world.thenNow.eyebrow}. ${headingText(world.thenNow.heading)}`,
+        world.thenNow.intro,
+        world.thenNow.cards.map(
+          (card) => `${card.tag} — ${card.title} ${card.points.join(' ')}`,
+        ),
+        `${world.thenNow.quote.lead} ${world.thenNow.quote.accent}`,
+        `${world.rewards.eyebrow}. ${headingText(world.rewards.heading)}`,
+        world.rewards.intro,
+        world.rewards.items.map(
+          (item) => `${item.title} (${item.where}) — ${item.copy}`,
+        ),
+        world.rewards.ghost
+          ? `${world.rewards.ghost.title} (${world.rewards.ghost.where}) — ${world.rewards.ghost.copy} (CTA: ${world.rewards.ghost.cta} — ${world.rewards.ghost.href})`
+          : [],
+        `${world.earn.eyebrow}. ${headingText(world.earn.heading)}`,
+        world.earn.intro,
+        world.earn.steps.map(
+          (step, index) => `Step ${index + 1} — ${step.title}: ${step.copy}`,
+        ),
+        world.complete.body,
+        `${world.faq.eyebrow}. ${headingText(world.faq.heading)} ${world.faq.intro} (The answers are under Common questions above.)`,
+        world.closing
+          ? /* No sign-in path here: the llms files carry no /login or /my,
+               which test/my-pages.test.mjs holds them to. */
+            `${world.closing.eyebrow}. ${headingText(world.closing.heading)} ${world.closing.body} (CTAs: ${world.closing.cta.label} — signs in · ${world.closing.reminder} — opens the interest form.)`
+          : [],
+      ];
+
 const llmsFull = () =>
   paragraphs(
     '# Hacktoberfest 2026 — Complete site copy',
@@ -153,6 +220,10 @@ const llmsFull = () =>
              the markup carries the href, plain text has to say it. */
           `The directory is generated from the public events endpoint at ${LIVE_EVENTS_URL}. It needs no authentication and returns every confirmed Fest, so pull from it rather than scraping this page.`,
         ],
+    /* The two world landing pages, each gated on its route the way the
+       Fests section is: a closed page's copy is not on the site. */
+    ...worldSection('/online/', 'Attend online', online),
+    ...worldSection('/in-person/', 'Attend in person', inPerson),
     '## Host a Fest',
     `${host.eyebrow}. ${headingText(host.heading)}`,
     host.intro,

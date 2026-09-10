@@ -96,7 +96,11 @@ const ScheduleDirectory = () => {
       <div className={styles.state}>
         <h2 className={styles.stateTitle}>{schedule.error.title}</h2>
         <p className={styles.stateBody}>{schedule.error.body}</p>
-        <button type="button" className={styles.retry} onClick={load}>
+        <button
+          type="button"
+          className={`hf-button ${styles.retry}`}
+          onClick={load}
+        >
           {schedule.error.retryCta}
         </button>
       </div>
@@ -123,6 +127,33 @@ const ScheduleDirectory = () => {
             earned by the select and only the select. */}
         <div className={styles.toolbar}>
           <h2 className={styles.month}>{schedule.monthLabel}</h2>
+          {/* What the three row treatments mean, drawn as they are drawn:
+              the spined stream row, the bordered challenge window, the
+              dashed last day. Beside the zone control, so the two things
+              a reader needs to decode the stream sit together. */}
+          <ul className={styles.legend} aria-label={schedule.legendLabel}>
+            <li className={styles.legendItem}>
+              <span
+                className={`${styles.legendSwatch} ${styles.legendStream}`}
+                aria-hidden="true"
+              />
+              {schedule.legend.stream}
+            </li>
+            <li className={styles.legendItem}>
+              <span
+                className={`${styles.legendSwatch} ${styles.legendRound}`}
+                aria-hidden="true"
+              />
+              {schedule.legend.round}
+            </li>
+            <li className={styles.legendItem}>
+              <span
+                className={`${styles.legendSwatch} ${styles.legendClose}`}
+                aria-hidden="true"
+              />
+              {schedule.legend.close}
+            </li>
+          </ul>
           <ZonePicker
             zones={zones}
             value={timeZone}
@@ -130,6 +161,14 @@ const ScheduleDirectory = () => {
             onChange={setTimeZone}
           />
         </div>
+
+        {/* What a check-in counts for, for the reader who arrived here
+            before meeting the activities; the mechanics are on
+            /activities/, and this is the pointer. */}
+        <p className={styles.countsNote}>
+          {schedule.countsNote.text}{' '}
+          <a href="/activities/">{schedule.countsNote.cta}</a>
+        </p>
 
         <AgendaStream
           events={events}

@@ -336,7 +336,11 @@ const FestsDirectory = () => {
         <div className={styles.error} role="status">
           <h2 className={styles.errorTitle}>{festsContent.error.title}</h2>
           <p className={styles.errorBody}>{festsContent.error.body}</p>
-          <button type="button" className={styles.retryButton} onClick={load}>
+          <button
+            type="button"
+            className={`hf-button ${styles.retryButton}`}
+            onClick={load}
+          >
             {festsContent.error.retryCta}
           </button>
         </div>

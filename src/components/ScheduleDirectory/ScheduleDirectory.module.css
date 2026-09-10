@@ -69,6 +69,64 @@
   line-height: 1;
 }
 
+/* The legend: three swatches drawn the way the rows are drawn, at chip
+   scale, in the mono the stream's whispers use. It sits between the month
+   and the zone control and drops to its own line first when the row wraps. */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 auto 0 0;
+  padding: 0 0 6px;
+  gap: 8px 16px;
+  list-style: none;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legendSwatch {
+  display: inline-block;
+  width: 22px;
+  height: 14px;
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+/* The stream row: hairline with the sky spine. colors.rule / colors.skyDeep */
+.legendStream {
+  border: 1px solid #8ca59e;
+  box-shadow: inset 3px 0 0 #1f4e6b;
+}
+
+/* The challenge window: the ink border. */
+.legendRound {
+  border: 2px solid #10201d;
+}
+
+/* The last day: the same, dashed. */
+.legendClose {
+  border: 2px dashed #10201d;
+}
+
+@media (min-width: 768px) {
+  .legend {
+    margin-right: 18px;
+  }
+}
+
 .zonePicker {
   position: relative;
   display: flex;
@@ -214,6 +272,25 @@
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
   font-size: 0.65rem;
+}
+
+/* The one line between the toolbar and the stream: what a check-in is
+   and what it counts for, with the way to the activities. Body face,
+   inkSoft, a reading measure; the link underlined in the house offset. */
+.countsNote {
+  max-width: 72ch;
+  margin: -8px 0 22px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.countsNote a {
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 600;
+  text-underline-offset: 3px;
 }
 
 /* --- The stream --------------------------------------------------------
@@ -644,13 +721,13 @@
   padding: 13px 12px;
   border: 2px solid #10201d;
   /* The white ticket. Neutral like the DEV Challenges branding, and distinct
-     from a session not by hue but by weight: sessions are hairline with no
-     resting shadow, a round is the only white card that carries the full 2px
-     border and a resting shadow. The earlier ink block earned its keep as a
-     stage for the sponsor plate; sponsors ride on livestreams now, so the
-     weight went with them. */
+     from a session by the ink border and the CHALLENGE chip in its rail, not
+     by depth: a challenge opening is not more important than a stream, and
+     the resting shadow it used to carry made it the heaviest thing on the
+     page. It joins the sessions' physics instead, hairline-quiet at rest and
+     the full shadow arriving with the cursor. Global Hack Week keeps its
+     8px: it is the one container, and the one thing depth still ranks. */
   background: #f7f7f2;
-  box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
   /* tile, text, sponsor credit, deadline. */
@@ -668,13 +745,12 @@
 
 /* ONE hover grammar for the whole stream: hover is the card at full presence
    — 6px shadow, paper ground, unmoved — and active is the press, translate
-   and shadow summing to the resting offset. A session starts the gesture
-   from no shadow and a round starts it from six, so hovering a session grows
-   its shadow in while hovering a round only shifts its ground; the states
-   they arrive at are identical. */
+   and shadow summing to the resting offset. Sessions and rounds now start
+   the gesture from the same place, no shadow, and arrive at the same one. */
 .roundBlock:hover {
   /* colors.paper */
   background: #f2f2eb;
+  box-shadow: 6px 6px 0 var(--accent);
 }
 
 .roundBlock:active {
@@ -702,6 +778,21 @@
     Consolas, monospace;
   font-size: 0.6rem;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The window's word in the rail, where a livestream's rail says STREAM:
+   the same chip, keyed to the challenge type's tint and deep partner, so the
+   chip and the row's hover shadow agree about what colour "challenge" is. */
+.windowChip {
+  align-self: flex-end;
+  margin-bottom: 4px;
+  padding: 3.5px 6px 2.5px;
+  background: var(--type-tint, #e4e5da);
+  color: var(--type-accent, #284b44);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -1055,7 +1146,8 @@
 
 /* A finished stream's chip goes grey with the rest of the row: the sky tint
    is a promise about the future, and these rows have none left. (It can never
-   still read ON AIR here — past means ended.) */
+   still read ON AIR here — past means ended.) The window chip follows. */
+.streamItem[data-past='true'] .windowChip,
 .streamItem[data-past='true'] .streamChip {
   /* colors.paperDeep / colors.muted */
   background: #e4e5da;
@@ -1081,6 +1173,10 @@
     align-items: start;
     margin-top: 0;
     text-align: left;
+  }
+
+  .windowChip {
+    align-self: flex-start;
   }
 
   .ledgerLabel {
@@ -1156,21 +1252,9 @@
   color: #52635f;
 }
 
+/* Placement only: the retry is .hf-button (src/styles/buttons.css). */
 .retry {
-  appearance: none;
   margin-top: 10px;
-  padding: 12px 22px;
-  border: 2px solid #10201d;
-  /* colors.pink on colors.maroon */
-  background: #e97b77;
-  box-shadow: 5px 5px 0 #671912;
-  color: #10201d;
-  cursor: pointer;
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
-    Consolas, monospace;
-  font-size: 0.85rem;
-  font-weight: 650;
 }
 
 /* --- Modal -------------------------------------------------------------- */

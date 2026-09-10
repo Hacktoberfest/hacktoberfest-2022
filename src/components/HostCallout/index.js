@@ -14,10 +14,12 @@ import { breakpoints, colors, fonts } from 'styles/tokens';
    screen whatever the directory's client-side fetch is doing — loading,
    error, or a search with no matches. */
 
+/* Sky on /fests; pink on /in-person, where it is that world's own colour
+   and the sky is kept for the callout that points online. */
 const CalloutRoot = styled.section`
   padding-block: clamp(48px, 6vw, 90px);
   border-block: 2px solid ${colors.ink};
-  background: ${colors.sky};
+  background: ${(props) => (props.$tone === 'pink' ? colors.pink : colors.sky)};
 `;
 
 const CalloutBox = styled(Shell)`
@@ -28,7 +30,8 @@ const CalloutBox = styled(Shell)`
   /* Same surface as the Fest cards; the skyDeep shadow (instead of their
      maroon) is what marks this box out as a different kind of thing. */
   background: ${colors.white};
-  box-shadow: 6px 6px 0 ${colors.skyDeep};
+  box-shadow: 6px 6px 0
+    ${(props) => (props.$tone === 'pink' ? colors.maroon : colors.skyDeep)};
 
   @media (min-width: ${breakpoints.desktop}) {
     grid-template-columns: 1.6fr 1fr;
@@ -83,7 +86,10 @@ const CalloutPhoto = styled.img`
     border: 2px solid ${colors.ink};
     background: ${colors.white};
     object-fit: cover;
-    box-shadow: 7px 7px 0 ${colors.maroon};
+    /* Maroon on the sky band; on the pink band the box already casts
+       maroon, so the print takes skyDeep and the two stay apart. */
+    box-shadow: 7px 7px 0
+      ${(props) => (props.$tone === 'pink' ? colors.skyDeep : colors.maroon)};
     /* Rotating the print, not the mount, would need a wrapper element;
        tilting the whole thing is the same picture and one tag fewer. The
        box's padding is wider than the corners this throws out. */
@@ -94,9 +100,9 @@ const CalloutPhoto = styled.img`
   }
 `;
 
-const HostCallout = () => (
-  <CalloutRoot aria-labelledby="host-callout-title">
-    <CalloutBox>
+const HostCallout = ({ tone = 'sky' }) => (
+  <CalloutRoot aria-labelledby="host-callout-title" $tone={tone}>
+    <CalloutBox $tone={tone}>
       <div>
         <CalloutTitle id="host-callout-title">
           {fests.hostCallout.title}
@@ -105,6 +111,7 @@ const HostCallout = () => (
         <CalloutCta href="/host/">{fests.hostCallout.cta}</CalloutCta>
       </div>
       <CalloutPhoto
+        $tone={tone}
         src="/fests-why-host.jpg"
         alt={fests.hostCallout.photoAlt}
         loading="lazy"

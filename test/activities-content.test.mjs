@@ -9,9 +9,9 @@ import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 test('the page has its meta and hero', () => {
   assert.match(activitiesPage.title, /Hacktoberfest 2026/);
   assert.ok(activitiesPage.description.length > 40);
-  assert.equal(activitiesPage.eyebrow, 'Attend online');
-  assert.equal(activitiesPage.heading.lead, 'Earn your');
-  assert.equal(activitiesPage.heading.accent, 'stickers.');
+  assert.match(activitiesPage.eyebrow, /^Attend online/);
+  assert.equal(activitiesPage.heading.lead, 'Do the activities,');
+  assert.equal(activitiesPage.heading.accent, 'earn the rewards.');
 });
 
 test('the how-it-works steps read the threshold rather than hardcoding it', () => {
@@ -56,6 +56,25 @@ const collectStrings = (value, acc = []) => {
   return acc;
 };
 
+/* The vocabulary: you do activities; "sticker" only ever means the pack.
+   Every band carries an eyebrow, and What you get points at both worlds. */
+test('activities are activities, and the bands have their eyebrows', () => {
+  const strings = collectStrings(activitiesPage);
+  strings.push(activitiesPage.strip.count(1, 4));
+  const prose = strings.join(' ');
+  assert.doesNotMatch(
+    prose,
+    /stickers? (earned|go\b)|is a sticker|Every sticker/i,
+  );
+  assert.ok(activitiesPage.how.eyebrow);
+  assert.ok(activitiesPage.list.eyebrow);
+  assert.ok(activitiesPage.get.eyebrow);
+  assert.deepEqual(
+    activitiesPage.get.worlds.map((world) => world.href),
+    ['/online/', '/in-person/'],
+  );
+});
+
 test('the copy keeps the house voice', () => {
   const strings = collectStrings(activitiesPage);
   strings.push(...activitiesPage.how.steps(3));
@@ -77,10 +96,10 @@ test('every type has a label, and the chips have their words', () => {
   assert.equal(activitiesPage.list.filters.todo, 'Still to do');
   assert.equal(activitiesPage.list.filters.chip('Online', 2), 'Online · 2');
   assert.ok(activitiesPage.list.filters.empty.length > 10);
-  assert.equal(activitiesPage.list.earned, 'Earned');
+  assert.equal(activitiesPage.list.earned, 'Done');
 });
 
-test('the strip counts in sticker words and points at the hub', () => {
-  assert.equal(activitiesPage.strip.count(3, 4), '3 of 4 earned');
+test('the strip counts activities and points at the hub', () => {
+  assert.equal(activitiesPage.strip.count(3, 4), '3 of 4 activities done');
   assert.match(activitiesPage.strip.hubCta, /My Hacktoberfest/);
 });

@@ -219,6 +219,70 @@ export const faq = {
         { text: '.' },
       ],
     },
+    /* The three questions a first-timer asks before any of the others,
+       written for the /online landing page and true everywhere. */
+    {
+      id: 'is-it-free',
+      section: 'general',
+      question: 'Is it free?',
+      answer: [
+        {
+          text: 'Yes. Every Fest is free to attend, and everything online is free too: the streams, the build week, the activities, and the sticker pack we mail you. All you need is a free MyMLH account.',
+        },
+      ],
+    },
+    {
+      id: 'need-to-be-a-developer',
+      section: 'general',
+      question: 'Do I need to be a developer?',
+      answer: [
+        {
+          text: 'No. The streams and the build week are for anyone curious about open source AI, whatever you have built before. Some activities involve code, and the sessions are there to help you write it.',
+        },
+      ],
+    },
+    {
+      id: 'what-is-mymlh',
+      section: 'general',
+      question: 'What is MyMLH?',
+      answer: [
+        {
+          text: 'The free account every MLH event uses. It is how a livestream knows you were there, how a Fest checks you in, and where the address for your stickers lives. Sign in once and it works for the whole month.',
+        },
+      ],
+    },
+    /* The practical questions before a first Fest, written for the
+       /in-person landing page and true everywhere. */
+    {
+      id: 'what-to-bring',
+      section: 'fests',
+      question: 'What should I bring to a Fest?',
+      answer: [
+        {
+          text: 'A laptop and its charger, and whatever you like to build with. The host provides the room, the wifi and the programme, and a Hack Day usually has food.',
+        },
+      ],
+    },
+    {
+      id: 'come-alone',
+      section: 'fests',
+      question: 'Can I come on my own?',
+      answer: [
+        {
+          text: 'Yes, and most people do. At a Hack Day the host will help you find a team on the day; a Meetup needs no team at all.',
+        },
+      ],
+    },
+    {
+      id: 'more-than-one-fest',
+      section: 'fests',
+      question: 'Can I go to more than one Fest?',
+      answer: [
+        {
+          text: 'Yes. Each Fest you check in at counts as an activity, so a second Fest takes you closer to completing Hacktoberfest.',
+        },
+      ],
+    },
     {
       id: 'how-2026-differs',
       section: 'general',
@@ -275,6 +339,16 @@ export const faq = {
           // Corrected per the design spec: "worldwide are welcome" read as
           // plural agreement with "worldwide" rather than with "Anyone".
           text: 'Anyone aged 13 and older worldwide is welcome to participate, subject to U.S. export controls and embargo restrictions.',
+        },
+      ],
+    },
+    {
+      id: 'need-a-fest',
+      section: 'general',
+      question: 'Do I need to attend a Fest to take part?',
+      answer: [
+        {
+          text: 'No. Every online activity counts on its own, and the sticker pack is mailed anywhere in the world. A Fest is one more activity to add if there is one near you, and the only way to get a T-shirt.',
         },
       ],
     },
@@ -810,7 +884,7 @@ export const host = {
       {
         id: 'build',
         src: '/host-strip-build.jpg',
-        alt: 'Three attendees huddled around a laptop, deep in a build',
+        alt: 'Three attendees building together at a past Fest',
       },
       {
         id: 'pitch',
@@ -830,7 +904,7 @@ export const host = {
       {
         id: 'friends',
         src: '/host-strip-friends.jpg',
-        alt: 'An attendee flashing a peace sign while catching up with friends',
+        alt: 'Attendees catching up between sessions at a past Fest',
       },
       {
         id: 'thumbs',
@@ -918,6 +992,510 @@ export const host = {
     cta: 'Apply to host a Fest',
   },
 };
+/* The two world landing pages: the marketing case for attending online
+   and for attending in person, each in three moves. Hacktoberfest is back
+   and has changed; you can earn the sticker pack this way, and here is
+   how, including what completing the month means; and the questions
+   people ask first. The mechanics (which activities, which sessions,
+   which Fests, which dates) live on /activities/, /schedule/ and /fests/,
+   so nothing here names a session, a date or a Fest. Both render through
+   components/WorldLanding, so they share one shape; the FAQ bands render
+   faq.items by id, the way the homepage callout does.
+
+   Each page speaks only for its own world. The online page never mentions
+   Fests (test/online-content.test.mjs holds it to that); the in-person
+   page mentions online only in the callout that closes it, and the online
+   page returns the favour with schedule.festsCallout. */
+export const online = {
+  title: 'Attend Online | Hacktoberfest 2026',
+  description:
+    'Hacktoberfest is back and has changed: build with open source AI from anywhere, earn the 2026 sticker pack online, and complete Hacktoberfest with three activities. No pull requests required.',
+  eyebrow: 'Attend online · October 2026',
+  heading: { lead: 'Hacktoberfest is back.', accent: 'And it has grown up.' },
+  /* Written for someone who has never heard of Hacktoberfest: what it
+     is, when, and that it is free, before anything about what changed.
+     `introShort` is the phone's version, so the first screen there still
+     reaches the buttons. */
+  intro:
+    'Hacktoberfest is a free, month-long celebration of open source, every October. This year it is about building with open source AI, and you can do the whole thing online from wherever you are. Turn up, do the activities, and the rewards are yours.',
+  introShort:
+    'A free, month-long celebration of open source, every October. This year it is about building with open source AI, and you can do all of it online.',
+  /* The facts a stranger wants before reading on, as a strip of chips. */
+  facts: [
+    'Free',
+    'All of October',
+    'Online, in your time zone',
+    'Anyone 13 and over',
+  ],
+  /* Low commitment first: the sign-in ask lives in How it works, beside
+     the step that explains MyMLH, and again in the closing band. */
+  cta: 'See the schedule',
+  ctaHref: '/schedule/',
+  secondaryCta: 'How it works',
+  secondaryHref: '#how-it-works',
+  /* The hero's object: the pack, as a paper card with the stickers on
+     it. `accent` is the world's colour for the heading's second line. */
+  hero: { object: 'pack', accent: 'sky' },
+  pack: { label: 'Hacktoberfest 2026 · sticker pack' },
+  /* What an October online actually looks like: three of the things to
+     do, by name, each with what you do, roughly how long, and what it
+     counts for, and a fourth card pointing at the rest. Programme names
+     are fine here; dates and sessions are not, so nothing ties to the
+     schedule. */
+  happens: {
+    eyebrow: 'What happens online',
+    heading: { lead: 'A month of things to do,', accent: 'wherever you are.' },
+    intro:
+      'Three of the things to do this October, all online, in your own time zone. Most take an hour. One takes a week. The full list is on the activities page.',
+    items: [
+      {
+        id: 'streams',
+        art: 'play',
+        title: 'Livestreams',
+        copy: 'Builders and maintainers, live, most weeks in October. Turn up, check in with the code on screen, and it counts.',
+        time: 'About an hour each',
+        earns: 'Two of them count as one activity',
+        cta: 'See the schedule',
+        href: '/schedule/',
+      },
+      {
+        id: 'ghw',
+        art: 'bolt',
+        title: 'Global Hack Week',
+        copy: 'One week in the middle of the month: a session a day, and something to ship by the end of it. Check in to each session.',
+        time: 'One week, at your own pace',
+        earns: 'Finish it and it counts as an activity',
+        cta: 'See the schedule',
+        href: '/schedule/',
+      },
+      {
+        id: 'challenges',
+        art: 'pen',
+        title: 'DEV Challenges',
+        copy: 'Build something with open source AI and write it up on DEV. A new challenge every week, with prizes for the best.',
+        time: 'An evening, or a weekend',
+        earns: 'For the prizes, and the practice',
+        cta: 'See the activities',
+        href: '/activities/',
+      },
+    ],
+    /* The fourth card: there is more than fits here, and the activities
+       page is where all of it lives. Drawn as a ghost, dashed, the way
+       the rewards band draws the thing this page does not hold. */
+    more: {
+      title: 'And more',
+      copy: 'Tools to install, and whatever else October brings. Every activity, with what it takes and what it counts for, is on the activities page.',
+      cta: 'See the activities',
+      href: '/activities/',
+    },
+  },
+  /* The returner's story, below completion rather than at the top: a
+     first-timer needs what and how before why it changed. */
+  thenNow: {
+    late: true,
+    eyebrow: 'New this year',
+    heading: { lead: 'Done this before?', accent: 'It has changed.' },
+    intro:
+      'Hacktoberfest was built on a simple challenge: open four pull requests, earn a T-shirt. A generation found open source that way. It also buried maintainers under low-effort PRs. So the challenge has changed.',
+    cards: [
+      {
+        id: 'then',
+        tag: '2014 to 2025',
+        /* A non-breaking hyphen (U+2011), so a phone never splits the
+           shirt from its T. */
+        title: 'Four pull requests, one T\u2011shirt.',
+        points: [
+          'Contributions counted, one at a time, anywhere, alone.',
+          'A flood of AI-generated PRs, and maintainers burning out under it.',
+        ],
+      },
+      {
+        id: 'now',
+        tag: '2026',
+        title: 'Build with open source AI, together.',
+        points: [
+          'Activities, not pull requests: things you turn up to and things you build.',
+          'A month of it online, from wherever you are, in your own time zone.',
+          'Open-weight models, open source agents, and the tools to try them yourself.',
+        ],
+      },
+    ],
+    /* The mission's own line, restated as the section's close. */
+    quote: {
+      lead: 'Open source was never defined by a PR counter.',
+      accent: 'AI belongs to everyone.',
+    },
+  },
+  /* The rewards, introduced as a set before the page says how to earn
+     them: nobody arriving here knows what "the pack" is yet. `where`
+     is the chip on each card, and it is where the two worlds differ.
+     `art` names the sticker drawn in the card's slot (WorldLanding). */
+  rewards: {
+    eyebrow: 'The rewards',
+    heading: { lead: 'What you', accent: 'can earn.' },
+    intro:
+      'Everything an October online can earn you. Here is what is on the table.',
+    items: [
+      {
+        id: 'pack',
+        art: 'pack',
+        where: 'Online or in person',
+        title: 'The 2026 sticker pack',
+        copy: 'Custom Hacktoberfest stickers and other envelope-friendly things, mailed anywhere in the world. Your first activity earns it.',
+      },
+      {
+        id: 'badges',
+        art: 'badge',
+        where: 'Online or in person',
+        title: 'DEV badges',
+        copy: 'A badge on your DEV profile for taking part.',
+      },
+    ],
+    /* The ghost box after the two cards: the T-shirt, which this page
+       cannot give, and the one place the online page sends the reader to
+       the other world before the closing callout. */
+    ghost: {
+      where: 'In person only',
+      title: 'Want the T\u2011shirt? Be in the room.',
+      copy: 'The Hacktoberfest T\u2011shirt is handed out at Fests, the in-person events, by the host, while supplies last. It is the one reward that needs you there.',
+      cta: 'Attend in person',
+      href: '/in-person/',
+    },
+  },
+  earn: {
+    eyebrow: 'Earning the pack',
+    heading: { lead: 'Here’s how', accent: 'it works.' },
+    intro:
+      'Three steps, and the first two you can do tonight. Then any activity, any time in October, from anywhere.',
+    /* `art` names the drawing in each step's die-cut slot
+       (components/WorldLanding): the MLH mark, an envelope, a sticker. */
+    steps: [
+      {
+        art: 'mlh',
+        title: 'Sign in with MyMLH',
+        copy: 'It’s free and takes about a minute. This will let us keep track of your progress.',
+      },
+      {
+        art: 'envelope',
+        title: 'Tell us where to send your stickers',
+        copy: 'Add a postal address to your MyMLH account. We ship worldwide.',
+      },
+      {
+        art: 'peel',
+        title: 'Complete any activity',
+        copy: 'Then, congratulations, you just earned a Hacktoberfest 2026 sticker pack!',
+      },
+    ],
+    /* The page's one ask, here beside the step that explains it. */
+    signIn: { cta: 'Sign in with MyMLH', href: '/login/' },
+    cta: 'See the activities',
+    ctaHref: '/activities/',
+  },
+  complete: {
+    /* The line under the steps: the pack is the first reward, not the last. No finish line and no count here; the card beside it shows the milestones. */
+    body: 'After you’ve earned your sticker pack, keep participating in Hacktoberfest to unlock extra rewards, such as DEV badges and bonus swag.',
+    /* The milestone card from /my, drawn mid-October as an illustration of
+       what completion looks like. Static copy: this is a picture of the
+       card, not the card. `stickers` are the three in the second
+       milestone's row; the earned one peels when the band scrolls in. */
+    card: {
+      milestone1: {
+        tag: 'Milestone 1',
+        title: 'Earn a Hacktoberfest sticker pack',
+        badge: 'Earned',
+        rows: [
+          {
+            title: 'Signed in with MyMLH.',
+            detail: 'The MyMLH account you used to sign in.',
+          },
+          {
+            title: 'Address on your MyMLH account.',
+            detail:
+              'We mail your sticker pack to the address on your MyMLH account.',
+          },
+          {
+            title: 'One activity done.',
+            detail: 'The first activity, and the pack is on its way.',
+          },
+        ],
+      },
+      milestone2: {
+        tag: 'Milestone 2',
+        title: 'Complete Hacktoberfest',
+        badge: '1 of 3 activities',
+        stickers: [
+          { type: 'online', art: 'play', earned: true },
+          { type: 'online', art: 'bolt' },
+          { type: 'tools', art: 'plug' },
+        ],
+        caption:
+          'Two more, whenever you like, and Hacktoberfest 2026 is complete.',
+      },
+    },
+  },
+  faq: {
+    eyebrow: 'Common questions',
+    heading: { lead: 'New here?', accent: 'Start with these.' },
+    intro: 'The questions people ask first. The full list is on the FAQ page.',
+    ids: [
+      'what-is-hacktoberfest',
+      'is-it-free',
+      'need-to-be-a-developer',
+      'what-is-mymlh',
+      'why-moving-away-from-prs',
+      'who-is-eligible',
+    ],
+    cta: { label: 'See all FAQs', href: '/questions/' },
+  },
+};
+
+export const inPerson = {
+  title: 'Attend In Person | Hacktoberfest 2026',
+  description:
+    'Hacktoberfest is back and it is coming to your city: hundreds of one-day Fests about open source AI, hosted by local communities. Find one near you, check in at the door, and earn the sticker pack.',
+  eyebrow: 'Attend in-person · October 2026',
+  heading: {
+    lead: 'Hacktoberfest is back.',
+    accent: 'And it is coming to a city near you.',
+  },
+  intro:
+    'A Fest is a free, one-day, in-person Hacktoberfest event, hosted by a local community, all about building with open source AI. There are hundreds of them this October, in cities around the world. Find one near you, check in at the door, and the rewards are yours: a sticker pack in the mail, a T\u2011shirt on the day, and more.',
+  introShort:
+    'A Fest is a free, one-day, in-person event about building with open source AI, hosted by a local community. Hundreds of them, this October. Find one near you.',
+  facts: [
+    'Free',
+    'One day, in person',
+    'Hundreds of cities',
+    'Anyone 13 and over',
+  ],
+  /* One ask in the hero: find a Fest. Hosting has its own page, reached
+     from the nav and the FAQ slice. */
+  cta: 'Find a Fest',
+  ctaHref: '/fests/',
+  secondaryCta: null,
+  secondaryHref: null,
+  /* The hero's object: two prints from past Fests, the /host strip's
+     photos reused rather than new assets. A pair that contrasts: the
+     social side of a Fest and the building side. */
+  hero: {
+    object: 'prints',
+    accent: 'pink',
+    photos: [
+      {
+        src: '/host-strip-friends.jpg',
+        alt: 'An attendee flashing a peace sign while catching up with friends',
+      },
+      {
+        src: '/host-strip-build.jpg',
+        alt: 'Three attendees huddled around a laptop, deep in a build',
+      },
+    ],
+  },
+  /* What a Fest is like, before the page uses the word again: the two
+     formats side by side, the shape of the day, what to bring and who is
+     in the room. The facts are the host page's and the FAQ's. */
+  formats: {
+    eyebrow: 'What a Fest is like',
+    heading: { lead: 'One day,', accent: 'two ways to spend it.' },
+    intro:
+      'Every Fest is one day, up to twelve hours, in a room with your local community. Which kind of day depends on the host.',
+    cards: [
+      {
+        id: 'hack-day',
+        tag: 'Hack Day',
+        title: 'A mini hackathon.',
+        lines: [
+          'Kick off in the morning, build with open source AI through the day, demo at the end.',
+          'Prizes for the best projects, and usually food.',
+          'Bring a laptop and, if you like, a team. The host will help you find one.',
+        ],
+      },
+      {
+        id: 'meetup',
+        tag: 'Meetup',
+        title: 'A community gathering.',
+        lines: [
+          'Talks, workshops or a panel, and time to meet the people who came.',
+          'No project to ship and no team to find.',
+          'Bring curiosity. A laptop helps for the workshops.',
+        ],
+      },
+    ],
+  },
+  /* The returner's story, below completion: a first-timer needs what a
+     Fest is before why it changed. */
+  thenNow: {
+    late: true,
+    eyebrow: 'New this year',
+    heading: { lead: 'Less alone,', accent: 'more together.' },
+    intro:
+      'Hacktoberfest used to be something you did by yourself: four pull requests, wherever you happened to be, and a T-shirt in the post if you finished. This year it happens in rooms, with the people who live near you.',
+    cards: [
+      {
+        id: 'then',
+        tag: '2014 to 2025',
+        title: 'Four pull requests, on your own.',
+        points: [
+          'A challenge you did alone, at a laptop.',
+          'Contributions counted, one at a time.',
+          'A T\u2011shirt in the post, if you finished.',
+        ],
+      },
+      {
+        id: 'now',
+        tag: '2026',
+        title: 'A day with your community.',
+        points: [
+          'Fests in cities worldwide, hosted by the people who live there.',
+          'Two formats: a Hack Day to build and demo, or a Meetup to learn and talk.',
+          'Open-weight models, open source agents, and the people to try them with.',
+        ],
+      },
+    ],
+    quote: {
+      lead: 'Open source was never defined by a PR counter.',
+      accent: 'AI belongs to everyone.',
+    },
+  },
+  rewards: {
+    eyebrow: 'The rewards',
+    heading: { lead: 'What you', accent: 'can earn.' },
+    intro:
+      'Two things only a room can give, and everything an online activity earns. Here is what is on the table this October.',
+    items: [
+      {
+        id: 'tee',
+        art: 'tee',
+        where: 'In person only',
+        title: 'The Hacktoberfest T\u2011shirt',
+        copy: 'Handed out on the day by the host, while supplies last. Being in the room is what makes you eligible.',
+      },
+      {
+        id: 'pack',
+        art: 'pack',
+        where: 'Online or in person',
+        title: 'The 2026 sticker pack',
+        copy: 'Custom Hacktoberfest stickers and other envelope-friendly things, mailed to you. Checking in at a Fest earns it, the same pack online attendees get.',
+      },
+      {
+        id: 'prizes',
+        art: 'prize',
+        where: 'Hack Days',
+        title: 'Prizes for the best projects',
+        copy: 'Every Hack Day ends with demos and prize categories. Build something on the day and it is in the running.',
+      },
+      {
+        id: 'badges',
+        art: 'badge',
+        where: 'Online or in person',
+        title: 'DEV badges',
+        copy: 'A badge on your DEV profile for taking part.',
+      },
+    ],
+  },
+  earn: {
+    eyebrow: 'Earning the pack',
+    heading: { lead: 'Here’s how', accent: 'it works.' },
+    intro:
+      'Checking in at the door is what counts. Three steps, and the first two you can do tonight.',
+    /* The drawings: the map pin, a ticket, and the Fest sticker mid-peel. */
+    steps: [
+      {
+        art: 'pin',
+        title: 'Find a Fest near you',
+        copy: 'Search by name or city, or use your location to see what is closest. Every Fest is one day.',
+      },
+      {
+        art: 'ticket',
+        title: 'Register on the Fest’s page',
+        copy: 'Every Fest has one, with the date, the venue and a register button. Use your MyMLH account: it is also where your sticker pack gets posted.',
+      },
+      {
+        art: 'checkin',
+        title: 'Check in at the door',
+        copy: 'The host scans you in, and that is what counts: the sticker pack is on its way, and you are eligible for a T\u2011shirt while supplies last.',
+      },
+    ],
+    cta: 'Find a Fest',
+    ctaHref: '/fests/',
+    aside:
+      'Every confirmed Fest, with its date and venue, is on the Fests page.',
+  },
+  complete: {
+    body: 'A Fest is one activity. Keep going with another Fest, or with the online activities, any time in October, and three in total completes Hacktoberfest 2026. No rush: your progress lives on My Hacktoberfest, activity by activity. The T\u2011shirt is the host’s to hand out on the day; it is not tracked here.',
+    card: {
+      milestone1: {
+        tag: 'Milestone 1',
+        title: 'Earn a Hacktoberfest sticker pack',
+        badge: 'Earned',
+        rows: [
+          {
+            title: 'Signed in with MyMLH.',
+            detail: 'The MyMLH account you used to sign in.',
+          },
+          {
+            title: 'Address on your MyMLH account.',
+            detail:
+              'We mail your sticker pack to the address on your MyMLH account.',
+          },
+          {
+            title: 'Checked in at a Fest.',
+            detail: 'The first activity, and the pack is on its way.',
+          },
+        ],
+      },
+      milestone2: {
+        tag: 'Milestone 2',
+        title: 'Complete Hacktoberfest',
+        badge: '1 of 3 activities',
+        stickers: [
+          { type: 'inperson', art: 'pin', earned: true },
+          { type: 'online', art: 'play' },
+          { type: 'online', art: 'bolt' },
+        ],
+        caption:
+          'Two more, whenever you like, and Hacktoberfest 2026 is complete.',
+      },
+    },
+  },
+  /* The page's proof: the soonest Fests, read live from the directory's
+     endpoint (components/NearbyFests). */
+  nearby: {
+    eyebrow: 'Fests near you',
+    heading: { lead: 'The next', accent: 'few.' },
+    intro:
+      'The soonest Fests on the calendar. The full directory has every confirmed Fest, with search, a map, and the one nearest you.',
+    cta: 'See every Fest',
+    loading: 'Loading the next Fests…',
+    empty:
+      'The first Fests go on the calendar soon. The directory is where they will appear.',
+  },
+  faq: {
+    eyebrow: 'Before you go',
+    heading: { lead: 'Questions', accent: 'before you go.' },
+    intro: 'The practical ones first. The full list is on the FAQ page.',
+    ids: [
+      'is-it-free',
+      'what-to-bring',
+      'come-alone',
+      'more-than-one-fest',
+      'what-is-a-fest',
+      'fest-formats',
+      'will-everyone-get-a-tshirt',
+      'how-to-apply-to-host',
+    ],
+    cta: { label: 'See all FAQs', href: '/questions/' },
+  },
+  /* Closes the page, the way schedule.festsCallout closes the online one:
+     the one place this page points at the other world. */
+  onlineCallout: {
+    title: 'No Fest near you?',
+    body: 'Everything online counts just the same. Livestreams, challenges and a week-long build, all from wherever you are, and the sticker pack ships worldwide. Or bring a Fest to your city: anyone can host one.',
+    cta: 'Attend online',
+    secondaryCta: 'Host a Fest',
+  },
+};
+
 export const sponsor = {
   title: 'Sponsor Hacktoberfest | Hacktoberfest 2026',
   description:
@@ -1039,6 +1617,13 @@ export const schedule = {
   intro:
     'Everything happening online this October, in your time zone or any other. Global Hack Week, workshops, streams, and the ceremonies that open and close the month.',
   monthLabel: 'October 2026',
+  /* One line between the toolbar and the stream, for the reader who has
+     not met the activities yet: what a check-in is and what it counts
+     for. The mechanics live on /activities/; this is the pointer. */
+  countsNote: {
+    text: 'Every livestream shows a check-in code. Two check-ins count as one activity, and Global Hack Week counts when you check in to each of its sessions.',
+    cta: 'See the activities',
+  },
   /* What has already happened folds away by default, behind this. The count
      goes in the label because "3 past events" is a reason to press it and
      "Past events" is not. */
@@ -1088,6 +1673,18 @@ export const schedule = {
   roundLedger: { opens: 'Opens', closes: 'Closes' },
   /* The close stub that sits at the deadline's own date. */
   lastDayLabel: 'Last day',
+  /* The rail chip on a challenge round: the window's word, where a
+     livestream's rail says Stream. */
+  challengeChip: 'Challenge',
+  /* The legend beside the zone control, one entry per row treatment the
+     stream draws: the spined stream row, the bordered challenge window,
+     and the dashed last-day stub. */
+  legendLabel: 'How to read the stream',
+  legend: {
+    stream: 'Stream',
+    round: 'Challenge window',
+    close: 'Last day',
+  },
   /* The stream's structural whispers: a numbered rule between Mondays, and an
      ochre one at the seam between what has happened and what has not. */
   weekLabel: 'Week',
@@ -1116,6 +1713,15 @@ export const schedule = {
     title: 'Would rather be in a room?',
     body: 'Hundreds of Fests are happening in person this October, hosted by local communities around the world. Find the one nearest you.',
     cta: 'Find a Fest',
+    /* On /online the same callout sends the reader to the in-person
+       landing page rather than straight to the directory: they have not
+       heard the case for a room yet. */
+    inPersonCta: 'Attend in person',
+    /* The print on the callout: a room full of people, which is the whole
+       pitch. One of the /host strip's photos, reused rather than a new
+       asset. */
+    photo: '/host-strip-crowd.jpg',
+    photoAlt: 'A crowd of Fest attendees sharing a laugh between sessions',
   },
 };
 
@@ -1635,7 +2241,8 @@ export const my = {
          as a placeholder here. */
       address: {
         title: 'Add your address to your MyMLH account',
-        detail: 'We mail your stickers to the address on your MyMLH account.',
+        detail:
+          'We mail your sticker pack to the address on your MyMLH account.',
         done: 'Address added.',
         cta: 'Add address',
       },
@@ -1655,15 +2262,11 @@ export const my = {
       },
     },
   },
+  /* The band's heading only: the cards are components/ActivityCard, whose
+     words live under activitiesPage.list so /my and /activities/ say the
+     same things about the same four activities. */
   activities: {
     heading: { lead: 'Pick an', accent: 'activity.' },
-    done: 'Done',
-    devHint:
-      'We can only detect this once your DEV account is linked to MyMLH.',
-    /* Screen-reader labels for the carousel controls. */
-    carouselLabel: 'Activities',
-    previous: 'Previous activities',
-    next: 'Next activities',
   },
   fests: {
     heading: { lead: 'Your', accent: 'Fests.' },
@@ -1895,21 +2498,27 @@ export const activitiesPage = {
   title: 'Activities | Hacktoberfest 2026',
   description:
     'The activities that earn a Hacktoberfest 2026 sticker pack: attend livestreams, complete Global Hack Week, attend a Fest, install Dev Relay. Do one for stickers, more to complete October.',
-  eyebrow: 'Attend online',
-  heading: { lead: 'Earn your', accent: 'stickers.' },
+  eyebrow: 'Attend online · Activities',
+  heading: { lead: 'Do the activities,', accent: 'earn the rewards.' },
   intro:
-    'Hacktoberfest is a month of things to do, online and in person. Do any one of them and we mail you a sticker pack. Do enough and you’ve completed Hacktoberfest.',
+    'Hacktoberfest is a month of things to do, online and in person. Each one is an activity. Do any one of them and we mail you the sticker pack; do enough and you’ve completed Hacktoberfest.',
   /* The one line of progress on this page. The card with the milestones
      lives on /my; here a signed-in visitor gets a count and the way there. */
   strip: {
-    count: (earned, total) => `${earned} of ${total} earned`,
+    count: (done, total) => `${done} of ${total} activities done`,
     hubCta: 'See your progress on My Hacktoberfest',
   },
+  /* Eyebrows on every band, and the two-tone heading only on the band
+     that is the page's thesis, the activities themselves. */
   how: {
-    heading: { lead: 'How it', accent: 'works.' },
+    eyebrow: 'How it works',
+    heading: {
+      lead: 'Three steps,',
+      accent: 'and the first two you can do tonight.',
+    },
     steps: (complete) => [
       'Sign in with your MyMLH account, so we know who did what.',
-      'Add a postal address to that account. It’s where the stickers go.',
+      'Add a postal address to that account. It’s where the sticker pack goes.',
       `Complete any one activity to earn a sticker pack, and ${complete} in total to complete Hacktoberfest.`,
     ],
     signIn: 'Sign in to see your progress',
@@ -1920,6 +2529,7 @@ export const activitiesPage = {
     },
   },
   list: {
+    eyebrow: 'The activities',
     heading: { lead: 'The', accent: 'activities.' },
     done: 'Done',
     doneOn: (date) => `Done ${date}`,
@@ -1952,14 +2562,24 @@ export const activitiesPage = {
       all: 'All',
       todo: 'Still to do',
       chip: (label, count) => `${label} · ${count}`,
-      empty: 'Nothing left in this set. Every sticker here is earned.',
+      empty: 'Nothing left in this set. Every activity here is done.',
     },
-    /* The tab hung under a peeled sticker. */
-    earned: 'Earned',
+    /* The tab hung under a peeled sticker: the activity is done. */
+    earned: 'Done',
+    /* Under an activity that can only be detected through a linked DEV
+       account, on /my, until the account is linked. */
+    devHint:
+      'We can only detect this once your DEV account is linked to MyMLH.',
   },
   get: {
-    heading: { lead: 'What you', accent: 'get.' },
-    body: 'A sticker pack in the mail for your first activity, with more waiting at an in-person Fest. All swag is while supplies last.',
+    eyebrow: 'What you get',
+    heading: { lead: 'The rewards,', accent: 'in short.' },
+    body: 'A sticker pack in the mail for your first activity, a badge on your DEV profile, and a T\u2011shirt on the day if you check in at a Fest, while supplies last. The two landing pages have the long version.',
+    /* The way to each world's own page, where the rewards are laid out. */
+    worlds: [
+      { label: 'Attending online', href: '/online/' },
+      { label: 'Attending in person', href: '/in-person/' },
+    ],
     faqCta: 'Read the FAQs',
   },
 };

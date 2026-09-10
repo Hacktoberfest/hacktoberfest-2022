@@ -1,20 +1,13 @@
-/* Shared band geometry — identical width rules to WelcomeBand. */
+/* Shared band geometry, identical width rules to WelcomeBand. The cards
+   themselves are components/ActivityCard; this sheet only places them. */
 .band {
   width: min(calc(100% - 30px), 1280px);
   margin-inline: auto;
   padding-block: 40px 8px;
 }
 
-.bandHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
 .heading {
-  margin: 0;
+  margin: 0 0 18px;
   /* fonts.display */
   font-family:
     'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -30,196 +23,26 @@
   font-style: normal;
 }
 
-.arrows {
-  display: none;
-}
-
-/* breakpoints.tablet — arrows are a pointer convenience; touch widths
-   scroll the carousel directly. */
-@media (min-width: 768px) {
-  .arrows {
-    display: flex;
-    gap: 8px;
-  }
-}
-
-.arrowButton {
-  width: 40px;
-  height: 40px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.white */
-  background: #f7f7f2;
-  color: #10201d;
-  cursor: pointer;
-  font: inherit;
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-
-/* Ink-on-white inverts — the same treatment the old tracker CTAs used. */
-.arrowButton:hover {
-  /* colors.ink */
-  background: #10201d;
-  /* colors.white */
-  color: #f7f7f2;
-}
-
-/* The carousel: native horizontal scrolling with snap points. The bottom
-   padding gives the offset shadows room inside the scrollport, and the
-   small negative inline margins put the first card's left edge back on
-   the band's grid line while still letting shadows paint. */
-.scroller {
-  display: flex;
-  gap: 22px;
-  margin-inline: -4px;
-  overflow-x: auto;
-  padding: 4px 12px 16px 4px;
-  scroll-snap-type: x mandatory;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .scroller {
-    scroll-behavior: auto;
-  }
-}
-
-/* Big-thing treatment: ink border, offset shadow in the accent's deep
-   tone, and a full-width art panel on top. Fixed flex-basis makes each
-   card a carousel slide; the 82vw cap keeps a card and a sliver of the
-   next visible on phones, which is what says "this scrolls". */
-.card {
-  position: relative;
-  display: flex;
-  min-width: 0;
-  flex: 0 0 min(320px, 82vw);
-  flex-direction: column;
-  padding: 24px 20px;
-  scroll-snap-align: start;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.white */
-  background: #f7f7f2;
-}
-
-/* Bleeds to the card's edges (against its padding) and crops like a
-   photo via the SVG's preserveAspectRatio slice. */
-.cardArt {
-  display: block;
-  overflow: hidden;
-  height: 120px;
-  margin: -24px -20px 0;
-  /* colors.ink */
-  border-bottom: 2px solid #10201d;
-}
-
-.cardArt svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-/* Sits over the art panel's top-right corner when the activity is done —
-   the checklist ticks' forest-and-check grammar, card-sized, in the
-   milestone tag's treatment (mono, borderless, rounded) like every other
-   badge on the page. The card's own position:relative anchors it; the
-   art panel is the card's first 120px, so a 10px inset lands it inside
-   the art. */
-.completeBadge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  border-radius: 6px;
-  /* colors.forest */
-  background: #3d5f58;
-  /* colors.white */
-  color: #f7f7f2;
-  /* fonts.mono */
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
-    'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* Accent assignments cycle the homepage hero's square colors, each shadow
-   the accent's deep partner. */
-.accent0 {
-  /* colors.orangeDeep */
-  box-shadow: 7px 7px 0 #b8301f;
-}
-
-.accent1 {
-  /* colors.skyDeep */
-  box-shadow: 7px 7px 0 #1f4e6b;
-}
-
-.accent2 {
-  /* colors.ochreDeep */
-  box-shadow: 7px 7px 0 #8a5d13;
-}
-
-.accent3 {
-  /* colors.maroon */
-  box-shadow: 7px 7px 0 #671912;
-}
-
-.cardTitle {
-  margin: 14px 0 0;
-  /* fonts.display */
-  font-family:
-    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  /* colors.ink */
-  color: #10201d;
-}
-
-.cardDetail {
-  margin: 8px 0 14px;
-  /* colors.inkSoft */
-  color: #284b44;
-  line-height: 1.5;
-}
-
-.devHint {
-  margin: -6px 0 14px;
-  /* colors.muted */
-  color: #52635f;
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
-
-.cardCta {
-  margin-top: auto;
-  padding: 10px 18px;
-  align-self: flex-start;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  background: transparent;
-  color: #10201d;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.cardCta:hover {
-  /* colors.ink */
-  background: #10201d;
-  /* colors.white */
-  color: #f7f7f2;
+/* The same grid /activities/ lays its catalogue in, so the four cards are
+   the same four objects on both pages. The right and bottom padding give
+   the offset shadows room. */
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0 6px 6px 0;
+  list-style: none;
 }
 
 /* breakpoints.tablet */
 @media (min-width: 768px) {
   .band {
     width: min(calc(100% - 40px), 1280px);
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

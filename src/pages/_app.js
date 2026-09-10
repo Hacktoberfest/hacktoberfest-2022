@@ -3,6 +3,9 @@
    third-party CSS has to enter through _app in the pages router. */
 import 'flag-icons/css/flag-icons.min.css';
 import 'maplibre-gl/dist/maplibre-gl.css';
+/* The button classes the client-rendered surfaces share; see the note at
+   the top of that file. */
+import 'styles/buttons.css';
 
 import Head from 'next/head';
 import { createGlobalStyle } from 'styled-components';

@@ -262,6 +262,18 @@ export const NavGroupRoot = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  /* The world's colour (data/nav.mjs accent), read by the open button's
+     underline and the panel's rule below. Static rules keyed on a DOM
+     attribute, for the reason NavLinks gives. */
+  --group-accent: ${colors.white};
+
+  &[data-accent='sky'] {
+    --group-accent: ${colors.sky};
+  }
+
+  &[data-accent='pink'] {
+    --group-accent: ${colors.pink};
+  }
 
   @media (min-width: ${breakpoints.tablet}) {
     display: block;
@@ -304,10 +316,24 @@ export const NavGroupButton = styled.button`
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    padding-bottom: 2px;
+    /* The underline is drawn, not text-decoration, so it can take the
+       world's colour and sit under the chevron too. The negative margin
+       gives back the padding and border, so the label stays on the same
+       line as Home and FAQs beside it. */
+    margin-bottom: -4px;
+    border-bottom: 2px solid transparent;
     cursor: pointer;
 
     &:hover {
-      text-decoration: underline;
+      border-bottom-color: ${colors.white};
+    }
+
+    /* The world's colour while the panel is open, and all the time on
+       the pages that belong to this world (data-current on the root). */
+    &[aria-expanded='true'],
+    [data-current='true'] > & {
+      border-bottom-color: var(--group-accent);
     }
 
     & > svg {
@@ -343,14 +369,19 @@ export const NavGroupPanel = styled.ul`
 
   @media (min-width: ${breakpoints.tablet}) {
     position: absolute;
-    top: calc(100% + 14px);
+    top: calc(100% + 12px);
     left: -18px;
-    min-width: 200px;
+    min-width: 280px;
     gap: 0;
     padding: 6px 0;
+    /* The card language the rest of the site speaks: ink border, a hard
+       offset in ink (the panel is forest on forest, and maroon fought the
+       accent rule), and the world's colour as a rule along the top, where
+       the label's underline points. */
     border: 2px solid ${colors.ink};
+    border-top: 4px solid var(--group-accent);
     background: ${colors.forest};
-    box-shadow: 4px 4px 0 ${colors.ink};
+    box-shadow: 5px 5px 0 ${colors.ink};
     opacity: 0;
     visibility: hidden;
     transform: translateY(-4px);
@@ -387,12 +418,40 @@ export const NavGroupLink = styled.a`
   }
 
   @media (min-width: ${breakpoints.tablet}) {
-    padding: 10px 18px;
+    padding: 11px 18px;
 
     &:hover,
     &:focus-visible {
       background: ${colors.forestDeep};
       text-decoration: none;
     }
+
+    &:hover span:first-child,
+    &:focus-visible span:first-child {
+      text-decoration: underline;
+      text-decoration-color: var(--group-accent);
+      text-underline-offset: 3px;
+    }
+  }
+`;
+
+export const NavGroupLinkLabel = styled.span`
+  display: block;
+  font-weight: 650;
+`;
+
+/* One line under the label, in the body face rather than mono: it is a
+   sentence about the page, not a control. Only in the floating panel;
+   below tablet the links are a plain list under an eyebrow. */
+export const NavGroupLinkDescription = styled.span`
+  display: none;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    display: block;
+    margin-top: 3px;
+    font-family: ${fonts.sans};
+    font-size: 0.8rem;
+    line-height: 1.35;
+    opacity: 0.8;
   }
 `;

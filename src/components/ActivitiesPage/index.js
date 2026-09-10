@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import ActivityCard from 'components/ActivityCard';
 import { activitiesPage } from 'data/content.mjs';
 import { chipsFor, filterActivities } from 'lib/activityFilters.mjs';
 
 import ActivityFilters from './ActivityFilters';
 import styles from './ActivitiesPage.module.css';
-import StickerCard from './StickerCard';
 
 /* The bands under the hero.
 
@@ -48,66 +48,103 @@ const ActivitiesPage = ({
   return (
     <>
       <section className={styles.band} aria-labelledby="how-heading">
-        <h2 id="how-heading" className={styles.heading}>
-          {activitiesPage.how.heading.lead}{' '}
-          <em>{activitiesPage.how.heading.accent}</em>
-        </h2>
-        <ol className={styles.steps}>
-          {activitiesPage.how.steps(thresholds.complete).map((step) => (
-            <li key={step}>{step}</li>
-          ))}
-        </ol>
-        {slot === 'signIn' && (
-          <a className={styles.signIn} href="/login/">
-            {activitiesPage.how.signIn}
-          </a>
-        )}
+        <div className={styles.inner}>
+          <p className={styles.eyebrow}>{activitiesPage.how.eyebrow}</p>
+          {/* Single colour: the two-tone heading is the activities band's,
+              the page's thesis, and only that band's. */}
+          <h2 id="how-heading" className={styles.headingPlain}>
+            {activitiesPage.how.heading.lead}{' '}
+            {activitiesPage.how.heading.accent}
+          </h2>
+          {/* Numbered because they happen in this order, as cards, the
+              way the landing pages draw them. */}
+          <ol className={styles.steps}>
+            {activitiesPage.how.steps(thresholds.complete).map((step, i) => (
+              <li key={step} className={styles.step}>
+                <span className={styles.stepNumber} aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+          {slot === 'signIn' && (
+            <a className="hf-button" href="/login/">
+              {activitiesPage.how.signIn}
+            </a>
+          )}
+        </div>
       </section>
 
-      <section className={styles.band} aria-labelledby="list-heading">
-        <h2 id="list-heading" className={styles.heading}>
-          {activitiesPage.list.heading.lead}{' '}
-          <em>{activitiesPage.list.heading.accent}</em>
-        </h2>
-        <ActivityFilters
-          chips={chips}
-          active={offered ? filter : 'all'}
-          onChange={setFilter}
-        />
-        {slot === 'error' && (
-          <div className={styles.notice} role="status">
-            <p className={styles.noticeBody}>{activitiesPage.list.unknown}</p>
-            <button type="button" className={styles.retry} onClick={onRetry}>
-              {activitiesPage.how.error.cta}
-            </button>
-          </div>
-        )}
-        {shown.length > 0 ? (
-          <ul className={styles.cards}>
-            {shown.map((activity) => (
-              <StickerCard
-                key={activity.id}
-                activity={activity}
-                signedIn={signedIn}
-              />
-            ))}
-          </ul>
-        ) : (
-          <p className={styles.empty} role="status">
-            {activitiesPage.list.filters.empty}
-          </p>
-        )}
+      <section
+        className={`${styles.band} ${styles.bandDeep}`}
+        aria-labelledby="list-heading"
+      >
+        <div className={styles.inner}>
+          <p className={styles.eyebrow}>{activitiesPage.list.eyebrow}</p>
+          <h2 id="list-heading" className={styles.heading}>
+            {activitiesPage.list.heading.lead}{' '}
+            <em>{activitiesPage.list.heading.accent}</em>
+          </h2>
+          <ActivityFilters
+            chips={chips}
+            active={offered ? filter : 'all'}
+            onChange={setFilter}
+          />
+          {slot === 'error' && (
+            <div className={styles.notice} role="status">
+              <p className={styles.noticeBody}>{activitiesPage.list.unknown}</p>
+              <button
+                type="button"
+                className="hf-button hf-button--small"
+                onClick={onRetry}
+              >
+                {activitiesPage.how.error.cta}
+              </button>
+            </div>
+          )}
+          {shown.length > 0 ? (
+            <ul className={styles.cards}>
+              {shown.map((activity) => (
+                <ActivityCard
+                  key={activity.id}
+                  activity={activity}
+                  signedIn={signedIn}
+                />
+              ))}
+            </ul>
+          ) : (
+            <p className={styles.empty} role="status">
+              {activitiesPage.list.filters.empty}
+            </p>
+          )}
+        </div>
       </section>
 
       <section className={styles.band} aria-labelledby="get-heading">
-        <h2 id="get-heading" className={styles.heading}>
-          {activitiesPage.get.heading.lead}{' '}
-          <em>{activitiesPage.get.heading.accent}</em>
-        </h2>
-        <p className={styles.intro}>{activitiesPage.get.body}</p>
-        <a className={styles.signIn} href="/questions/">
-          {activitiesPage.get.faqCta}
-        </a>
+        <div className={styles.inner}>
+          <p className={styles.eyebrow}>{activitiesPage.get.eyebrow}</p>
+          <h2 id="get-heading" className={styles.headingPlain}>
+            {activitiesPage.get.heading.lead}{' '}
+            {activitiesPage.get.heading.accent}
+          </h2>
+          <p className={styles.intro}>{activitiesPage.get.body}</p>
+          {/* The long version lives on each world's landing page. */}
+          <div className={styles.links}>
+            {activitiesPage.get.worlds.map((world) => (
+              <a
+                key={world.href}
+                className="hf-button hf-button--outline hf-button--small"
+                href={world.href}
+              >
+                {world.label}
+              </a>
+            ))}
+            <a className={styles.signIn} href="/questions/">
+              {activitiesPage.get.faqCta}
+            </a>
+          </div>
+        </div>
       </section>
     </>
   );

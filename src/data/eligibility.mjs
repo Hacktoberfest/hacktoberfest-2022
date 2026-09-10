@@ -39,7 +39,7 @@ export const ACTIVITIES = Object.freeze([
     ctaLabel: 'See the schedule',
     surface: 'card',
     type: 'online',
-    art: 'globe',
+    art: 'bolt',
   }),
   Object.freeze({
     id: 'fest',

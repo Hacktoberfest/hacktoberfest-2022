@@ -4,6 +4,8 @@ import {
   NavGroupButton,
   NavGroupEyebrow,
   NavGroupLink,
+  NavGroupLinkDescription,
+  NavGroupLinkLabel,
   NavGroupPanel,
   NavGroupRoot,
 } from './Header.styles';
@@ -32,6 +34,8 @@ const canHover = () =>
 const NavGroup = ({
   id,
   label,
+  accent,
+  current,
   items,
   open,
   animate,
@@ -72,6 +76,8 @@ const NavGroup = ({
 
   return (
     <NavGroupRoot
+      data-accent={accent}
+      data-current={current ? 'true' : 'false'}
       onMouseEnter={hoverOpen}
       onMouseLeave={hoverClose}
       onBlur={(event) => {
@@ -86,6 +92,7 @@ const NavGroup = ({
       <NavGroupButton
         ref={buttonRef}
         type="button"
+        aria-current={current ? 'true' : undefined}
         aria-expanded={open === true}
         aria-controls={id}
         onClick={(event) => {
@@ -116,8 +123,16 @@ const NavGroup = ({
       >
         {items.map((item) => (
           <li key={item.href}>
+            {/* The label and, from tablet up, one line under it saying what
+                the page is. Below tablet the group's links are a plain
+                indented list and the line would be noise, so it hides. */}
             <NavGroupLink href={item.href} onClick={onPick}>
-              {item.label}
+              <NavGroupLinkLabel>{item.label}</NavGroupLinkLabel>
+              {item.description && (
+                <NavGroupLinkDescription>
+                  {item.description}
+                </NavGroupLinkDescription>
+              )}
             </NavGroupLink>
           </li>
         ))}

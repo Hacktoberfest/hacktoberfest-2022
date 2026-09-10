@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Banner from 'components/Banner';
@@ -29,7 +30,24 @@ import NavGroup from './NavGroup';
 
    Below the tablet breakpoint everything collapses behind the hamburger,
    where each dropdown becomes a labelled section of the list. */
+/* The world the current page belongs to, by route: a group whose items
+   include the page is marked current, and its label keeps the world's
+   underline whether or not the panel is open. Read from the router's
+   pathname, which the static export knows at build time; the trailing
+   slash is normalised because Next reports '/online' for '/online/'. */
+const currentGroup = (pathname) => {
+  const route = `${(pathname || '').replace(/\/+$/, '')}/`;
+  const group = NAV.find(
+    (entry) =>
+      Array.isArray(entry.items) &&
+      entry.items.some((item) => item.href === route),
+  );
+  return group ? group.label : null;
+};
+
 const Header = ({ standalone = false }) => {
+  const { pathname } = useRouter();
+  const current = currentGroup(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [animate, setAnimate] = useState(false);
 
@@ -127,6 +145,8 @@ const Header = ({ standalone = false }) => {
                   <NavGroup
                     id={`nav-group-${entry.label.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                     label={entry.label}
+                    accent={entry.accent}
+                    current={current === entry.label}
                     items={entry.items}
                     open={
                       openGroup === entry.label

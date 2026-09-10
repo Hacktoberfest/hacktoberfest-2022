@@ -12,7 +12,7 @@ test('the nav is Home, two verbs, and FAQs, in that order', () => {
   );
 });
 
-test('each verb holds exactly the two agreed destinations', () => {
+test('each verb holds exactly the agreed destinations', () => {
   const groups = Object.fromEntries(
     navGroups(NAV).map((group) => [
       group.label,
@@ -20,8 +20,8 @@ test('each verb holds exactly the two agreed destinations', () => {
     ]),
   );
   assert.deepEqual(groups, {
-    'Attend online': ['Schedule', 'Activities'],
-    'Attend in-person': ['Find a Fest', 'Host a Fest'],
+    'Attend online': ['Overview', 'Schedule', 'Activities'],
+    'Attend in-person': ['Overview', 'Find a Fest', 'Host a Fest'],
   });
 });
 
@@ -49,5 +49,20 @@ test('labels are sentence case', () => {
     // FAQs), so only shout-case is refused.
     assert.notEqual(label, label.toUpperCase(), `${label} is all caps`);
     assert.match(label, /^[A-Z]/, `${label} does not start with a capital`);
+  }
+});
+
+/* Each dropdown link carries one line under its label so the panel says
+   what the page is, not only what it is called. Sentence case, a full
+   stop, and none of the house's refused punctuation. */
+test('every destination carries a one-line description', () => {
+  for (const group of navGroups(NAV)) {
+    assert.ok(group.accent, `${group.label} has no accent`);
+    for (const item of group.items) {
+      assert.equal(typeof item.description, 'string', `${item.label}`);
+      assert.match(item.description, /^[A-Z].*\.$/, `${item.label}`);
+      assert.doesNotMatch(item.description, /—/, `${item.label}: em dash`);
+      assert.ok(item.description.length <= 60, `${item.label}: too long`);
+    }
   }
 });

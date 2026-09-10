@@ -1,11 +1,44 @@
-/* Shared band geometry, identical to StickersBand so edges align. */
+/* The page's bands: full-bleed grounds that alternate (paper, paperDeep,
+   paper), each with the shell-width inner column every other band on the
+   site uses. StickersBand on /my shares the width rules. */
 .band {
-  width: min(calc(100% - 30px), 1280px);
-  margin-inline: auto;
-  padding-block: 40px 8px;
+  padding-block: clamp(56px, 7vw, 80px);
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
 }
 
-.heading {
+.band:last-of-type {
+  border-bottom: 0;
+}
+
+/* The activities themselves sit a step darker, so the white cards read
+   as raised. colors.paperDeep */
+.bandDeep {
+  background: #e4e5da;
+}
+
+.inner {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+}
+
+.eyebrow {
+  margin: 0 0 13px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading,
+.headingPlain {
+  max-width: 22ch;
   margin: 0;
   /* fonts.display */
   font-family:
@@ -14,6 +47,7 @@
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
+  text-wrap: balance;
 }
 
 .heading em {
@@ -23,19 +57,67 @@
 }
 
 .intro {
-  margin: 10px 0 18px;
+  max-width: 62ch;
+  margin: 14px 0 22px;
   /* colors.inkSoft */
   color: #284b44;
   font-size: 1.02rem;
   line-height: 1.55;
 }
 
+/* The three steps as cards, numbered in the ochre square the landing
+   pages use: they happen in this order. */
 .steps {
-  margin: 0 0 18px;
-  padding-left: 1.4em;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+  margin: 24px 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  padding: 22px 24px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
   /* colors.inkSoft */
   color: #284b44;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+.stepNumber {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.ochre */
+  background: #f5b726;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* The way onward from What you get: the two worlds as outline buttons,
+   the FAQs as a link. */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
 }
 
 .cards {
@@ -45,201 +127,6 @@
   margin: 0;
   padding: 0;
   list-style: none;
-}
-
-/* The card: sticker column at the left, centred against the whole card so
-   a one-line detail and a three-line detail put their sticker in the same
-   place. Homepage grammar otherwise: ink border, white paper, maroon
-   offset shadow. */
-.card {
-  display: grid;
-  grid-template-columns: 72px minmax(0, 1fr);
-  gap: 16px;
-  align-items: center;
-  padding: 16px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.white */
-  background: #f7f7f2;
-  /* colors.maroon */
-  box-shadow: 6px 6px 0 #671912;
-}
-
-/* The die-cut slot the sticker sits in. When the sticker peels the dashed
-   ring is what shows behind it. */
-.slot {
-  position: relative;
-  width: 72px;
-  height: 72px;
-}
-
-.slot::before {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  /* colors.rule */
-  border: 1.5px dashed #8ca59e;
-}
-
-.sticker {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  /* colors.white */
-  border: 3px solid #f7f7f2;
-  /* colors.ink */
-  outline: 2px solid #10201d;
-  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
-.sticker svg {
-  width: 58%;
-  height: 58%;
-}
-
-.card:hover .sticker {
-  transform: rotate(-4deg) translateY(-2px);
-}
-
-/* Earned: peeled off the slot, at an angle, with the heavier shadow of a
-   thing that has been lifted, and a tab hung under the slot. */
-.card[data-earned='true'] .sticker,
-.card[data-earned='true']:hover .sticker {
-  transform: rotate(-9deg) translate(6px, -6px);
-  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
-}
-
-.earnedTab {
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  z-index: 1;
-  transform: translateX(-50%) rotate(-6deg);
-  padding: 2px 6px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.orange */
-  background: #e53927;
-  /* colors.white */
-  color: #f7f7f2;
-  /* fonts.mono */
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
-    'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.body {
-  display: grid;
-  gap: 4px;
-  align-content: center;
-}
-
-/* The type, as a tag on the card and a ground on the sticker. One class
-   per type carries both: on .sticker it is the background, on .type the
-   pale background and deep text. */
-.type {
-  justify-self: start;
-  margin-bottom: 2px;
-  padding: 2px 6px;
-  /* fonts.mono */
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
-    'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* colors.sky / skyLight / skyDeep */
-.sticker.type_online {
-  background: #8bb2de;
-}
-.type.type_online {
-  background: #d7e5f4;
-  color: #1f4e6b;
-}
-/* colors.pink / pinkLight / orangeDeep */
-.sticker.type_inperson {
-  background: #e97b77;
-}
-.type.type_inperson {
-  background: #f6c4c1;
-  color: #b8301f;
-}
-/* colors.ochre / ochreLight (new literal, no token yet) / ochreDeep */
-.sticker.type_dev {
-  background: #f5b726;
-}
-.type.type_dev {
-  background: #fbe2a4;
-  color: #8a5d13;
-}
-/* colors.rule / paperDeep / inkSoft */
-.sticker.type_tools {
-  background: #8ca59e;
-}
-.type.type_tools {
-  background: #e4e5da;
-  color: #284b44;
-}
-
-.cardTitle {
-  margin: 0;
-  /* fonts.display */
-  font-family:
-    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-  /* colors.ink */
-  color: #10201d;
-}
-
-.cardDetail {
-  margin: 0;
-  /* colors.muted */
-  color: #52635f;
-  line-height: 1.5;
-}
-
-.cardDone {
-  margin: 2px 0 0;
-  /* colors.forest */
-  color: #3d5f58;
-  font-weight: 700;
-}
-
-.cardCta {
-  justify-self: start;
-  margin-top: 6px;
-  padding: 10px 18px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.pink */
-  background: #e97b77;
-  /* colors.ink */
-  color: #10201d;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.cardCta:hover {
-  /* colors.pinkLight */
-  background: #f6c4c1;
 }
 
 .signIn {
@@ -262,43 +149,18 @@
   line-height: 1.5;
 }
 
-.retry {
-  padding: 10px 18px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.orange */
-  background: #e53927;
-  /* colors.white */
-  color: #f7f7f2;
-  cursor: pointer;
-  font: inherit;
-  font-weight: 700;
-  /* colors.maroon */
-  box-shadow: 5px 5px 0 #671912;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
-}
+/* The retry beside it is the site's button (src/styles/buttons.css), the
+   same one MyStatus's MyError presses, so the two "something failed, try
+   again" moments on the site read as one pattern rather than two. */
 
-/* The site's press-down hover (Button.js): slide into the shadow. */
-.retry:hover {
-  /* colors.maroon */
-  box-shadow: 3px 3px 0 #671912;
-  transform: translate(2px, 2px);
-}
-
-/* The chips: mono buttons, ink-on-paper inverted when pressed. Below the
-   tablet breakpoint the row scrolls sideways rather than wrapping, so the
-   cards start at the same height whatever the count. */
+/* The chips: mono buttons, ink-on-paper inverted when pressed. They wrap
+   at every width: there are only ever a few, and a row that scrolls
+   sideways hid the last one on phones with nothing to say so. */
 .chips {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  /* The 4px of inline padding, given back by the margin, keeps the first
-     and last chips' focus rings inside the scroll box instead of clipped
-     at its edges. */
-  margin: 14px -4px 18px;
-  overflow-x: auto;
-  padding: 0 4px 4px;
+  margin: 14px 0 18px;
 }
 
 .chip {
@@ -345,76 +207,27 @@
   color: #52635f;
 }
 
-/* The page's one line of progress, under the hero. Client-only: it
-   renders once the signed-in fetch resolves and never in the export. */
-.strip {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px 16px;
-  width: min(calc(100% - 30px), 1280px);
-  margin: 18px auto 0;
-  padding: 12px 16px;
-  /* colors.ink */
-  background: #10201d;
-  /* colors.white */
-  color: #f7f7f2;
-  /* fonts.mono */
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
-    'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.8rem;
-}
-
-.stripCount {
-  /* colors.ochre */
-  color: #f5b726;
-  font-weight: 700;
-}
-
-.stripLink {
-  margin-left: auto;
-  /* colors.sky */
-  color: #8bb2de;
-  text-underline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .retry {
-    transition: none;
-  }
-
-  .sticker {
-    transition: none;
-  }
-}
-
 /* breakpoints.tablet */
 @media (min-width: 768px) {
-  .band {
+  .inner {
     width: min(calc(100% - 40px), 1280px);
   }
 
-  .cards {
+  .cards,
+  .steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
 
-  .chips {
-    flex-wrap: wrap;
-    overflow: visible;
-  }
-
-  .strip {
-    width: min(calc(100% - 40px), 1280px);
+/* breakpoints.desktop */
+@media (min-width: 1024px) {
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1700px) {
-  .band {
-    width: min(calc(100% - 40px), 1440px);
-  }
-
-  .strip {
+  .inner {
     width: min(calc(100% - 40px), 1440px);
   }
 }

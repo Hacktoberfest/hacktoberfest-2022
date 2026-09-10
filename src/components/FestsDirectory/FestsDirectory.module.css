@@ -206,6 +206,9 @@
 
 .viewToggle {
   display: flex;
+  /* Right edge of its row whether or not the chips left it room on theirs:
+     when the row wraps, the toggle should not slide to the left margin. */
+  margin-left: auto;
   /* colors.ink */
   border: 2px solid #10201d;
   /* colors.white — the shadow needs a solid ground behind the buttons. */
@@ -827,23 +830,37 @@
   line-height: 1.5;
 }
 
+/* Placement only: the retry is .hf-button (src/styles/buttons.css). */
 .retryButton {
-  display: inline-block;
   margin-top: 14px;
-  padding: 10px 18px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.pink */
-  background: #e97b77;
-  /* colors.ink */
-  color: #10201d;
-  font-weight: 700;
-  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .locationButton {
     transition: none;
+  }
+}
+
+/* Under 480px the location segment took 40% of the bar and broke its label
+   mid-phrase, squeezing the field to a few characters. It stays welded to
+   the instrument but drops beneath the field, full width: one border, one
+   shadow, two rows. The chevron on the search glyph's right and the
+   segment's left edge are swapped for a top edge. */
+@media (max-width: 479px) {
+  .searchBar {
+    flex-wrap: wrap;
+  }
+
+  .searchInput {
+    flex-basis: 0;
+  }
+
+  .locationButton {
+    flex-basis: 100%;
+    justify-content: center;
+    border-left: 0;
+    /* colors.ink */
+    border-top: 2px solid #10201d;
   }
 }
 

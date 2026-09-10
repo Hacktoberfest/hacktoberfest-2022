@@ -36,7 +36,7 @@ export const MyError = ({ onRetry }) => (
        state, this one included. */}
     <h2 className={styles.errorTitle}>{my.error.title}</h2>
     <p className={styles.errorBody}>{my.error.body}</p>
-    <button type="button" className={styles.retryButton} onClick={onRetry}>
+    <button type="button" className="hf-button" onClick={onRetry}>
       {my.error.cta}
     </button>
   </div>

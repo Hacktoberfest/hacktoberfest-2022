@@ -1,6 +1,8 @@
 import { host } from 'data/content.mjs';
 import { HOST_HANDBOOK_URL } from 'data/links';
 
+import PhotoStrip from './PhotoStrip';
+
 import {
   ApplyBody,
   ApplyButton,
@@ -23,12 +25,7 @@ import {
   GuideTitle,
   PhotoPrintMain,
   PhotoPrintOverlay,
-  PhotoReel,
-  PhotoReelTrack,
   PhotoStack,
-  PhotoStripItem,
-  PhotoStripPrint,
-  PhotoStripRoot,
   SectionHeading,
   SectionIntro,
   SectionIntroCopy,
@@ -98,38 +95,7 @@ const HostSection = () => (
       </FormatGrid>
     </FormatsRoot>
 
-    <PhotoStripRoot aria-label={host.photoStrip.label}>
-      <PhotoReel>
-        <PhotoReelTrack>
-          {host.photoStrip.photos.map((photo, index) => (
-            <PhotoStripItem key={photo.id}>
-              <PhotoStripPrint
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                width="640"
-                height="427"
-                $tilt={index % 2 === 0 ? -1.8 : 1.4}
-              />
-            </PhotoStripItem>
-          ))}
-          {/* The strip again, so the reel has somewhere to wrap to. Pure
-             repetition for the eyes: hidden from AT, empty alts. */}
-          {host.photoStrip.photos.map((photo, index) => (
-            <PhotoStripItem key={`${photo.id}-loop`} aria-hidden="true">
-              <PhotoStripPrint
-                src={photo.src}
-                alt=""
-                loading="lazy"
-                width="640"
-                height="427"
-                $tilt={index % 2 === 0 ? -1.8 : 1.4}
-              />
-            </PhotoStripItem>
-          ))}
-        </PhotoReelTrack>
-      </PhotoReel>
-    </PhotoStripRoot>
+    <PhotoStrip />
 
     <SupportRoot aria-labelledby="host-support-title">
       <SupportSplit>

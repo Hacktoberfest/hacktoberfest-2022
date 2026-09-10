@@ -1,0 +1,102 @@
+/* The progress strip: a paper card with the hard shadow, the same object
+   the milestone card and the activity cards are, at one line tall. CSS
+   Module because both surfaces that render it do so after a client-side
+   fetch. Palette literals carry the token's name beside them. */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  width: min(calc(100% - 30px), 1280px);
+  margin: 18px auto 0;
+  padding: 12px 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+}
+
+.slots {
+  display: flex;
+  gap: 6px;
+}
+
+/* One slot per activity: the dashed die-cut ring from the activity card,
+   filled and lifted once earned. Colour is the type's, so the strip and
+   the cards below it agree about which sticker is which. */
+.slot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  /* colors.rule */
+  border: 1.5px dashed #8ca59e;
+  background: transparent;
+}
+
+.slot[data-earned='true'] {
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: var(--slot-fill, #e97b77);
+  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
+}
+
+/* colors.sky / pink / ochre / rule, the sticker grounds on ActivityCard */
+.type_online {
+  --slot-fill: #8bb2de;
+}
+.type_inperson {
+  --slot-fill: #e97b77;
+}
+.type_dev {
+  --slot-fill: #f5b726;
+}
+.type_tools {
+  --slot-fill: #8ca59e;
+}
+
+.count {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.link {
+  margin-left: auto;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  /* colors.ink */
+  color: #10201d;
+  text-underline-offset: 3px;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .strip {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .strip {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* Inside a band (/my) the band already carries the width, so the strip
+   takes the band's and keeps a little room below for the card that follows. */
+.strip.inBand {
+  width: auto;
+  margin: 0 6px 24px 0;
+}

@@ -217,23 +217,10 @@
   font-size: 0.9rem;
 }
 
+/* Placement only: the button is .hf-button at its card size
+   (src/styles/buttons.css), the same one every card on the site presses. */
 .stepCta {
   margin-left: auto;
-  padding: 8px 16px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.orange */
-  background: #e53927;
-  /* colors.white */
-  color: #f7f7f2;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.stepCta:hover {
-  /* colors.orangeDeep */
-  background: #b8301f;
 }
 
 @media (max-width: 768px) {

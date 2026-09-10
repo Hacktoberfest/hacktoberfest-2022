@@ -140,8 +140,15 @@ test('the header carries Find a Fest, Host a Fest and the My Hacktoberfest CTA',
   ]);
 
   pages.forEach((html) => {
-    assert.match(html, /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
-    assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Host a Fest<\/a>/);
+    /* The label is the anchor's first span; the description follows it. */
+    assert.match(
+      html,
+      /<a[^>]*href="\/fests\/"[^>]*>(?:<span[^>]*>)?Find a Fest<\/span>/,
+    );
+    assert.match(
+      html,
+      /<a[^>]*href="\/host\/"[^>]*>(?:<span[^>]*>)?Host a Fest<\/span>/,
+    );
     assert.match(html, /<a[^>]*href="\/my\/"[^>]*>\s*My Hacktoberfest\s*<\/a>/);
     assertNoTypeformOutboundAnchors(html);
   });

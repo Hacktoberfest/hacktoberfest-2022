@@ -18,6 +18,8 @@ const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
    instead. */
 export const SITE_PAGES = [
   '/',
+  '/online/',
+  '/in-person/',
   '/fests/',
   '/host/',
   '/sponsor/',
