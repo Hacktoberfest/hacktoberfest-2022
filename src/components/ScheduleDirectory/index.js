@@ -121,16 +121,28 @@ const ScheduleDirectory = () => {
       {/* The band is full-bleed so its ground runs edge to edge; the column
           inside it carries the shell width. */}
       <div className={styles.inner}>
-        {/* The month as a plain heading, the zone as an actual control. The
-            previous bar welded both into a search-bar-style instrument, which
-            promised a control that was not one — the instrument treatment is
-            earned by the select and only the select. */}
-        <div className={styles.toolbar}>
-          <h2 className={styles.month}>{schedule.monthLabel}</h2>
-          {/* What the three row treatments mean, drawn as they are drawn:
-              the spined stream row, the bordered challenge window, the
-              dashed last day. Beside the zone control, so the two things
-              a reader needs to decode the stream sit together. */}
+        {/* The interior section grammar /activities/ uses: the month as a
+            mono eyebrow, a display heading with its orange accent, and the
+            intro under it. The intro is what a check-in counts for, for the
+            reader who arrived here before meeting the activities; the
+            mechanics are on /activities/, and this is the pointer. */}
+        <div className={styles.header}>
+          <p className={styles.eyebrow}>{schedule.monthLabel}</p>
+          <h2 className={styles.heading}>
+            {schedule.sectionHeading.lead}{' '}
+            <em>{schedule.sectionHeading.accent}</em>
+          </h2>
+          <p className={styles.countsNote}>
+            {schedule.countsNote.text}{' '}
+            <a href="/activities/">{schedule.countsNote.cta}</a>
+          </p>
+        </div>
+
+        {/* The two things a reader needs to decode the stream, on one row:
+            the legend, drawn the way the rows are drawn (the shadowed stream
+            card, the ink-shadowed challenge window, the dashed last day),
+            and the zone control. */}
+        <div className={styles.tools}>
           <ul className={styles.legend} aria-label={schedule.legendLabel}>
             <li className={styles.legendItem}>
               <span
@@ -161,14 +173,6 @@ const ScheduleDirectory = () => {
             onChange={setTimeZone}
           />
         </div>
-
-        {/* What a check-in counts for, for the reader who arrived here
-            before meeting the activities; the mechanics are on
-            /activities/, and this is the pointer. */}
-        <p className={styles.countsNote}>
-          {schedule.countsNote.text}{' '}
-          <a href="/activities/">{schedule.countsNote.cta}</a>
-        </p>
 
         <AgendaStream
           events={events}

@@ -17,9 +17,14 @@
    Deepening the ground rather than whitening the card, because white is
    already the lightest tone the palette has: there is nowhere above it to go.
    Three steps now carry the whole hierarchy — paperDeep ground, paper for what
-   has finished, white for what has not. */
+   has finished, white for what has not.
+
+   The band closes with the ink rule every other band on the reworked pages
+   carries, and takes their interior padding rhythm. */
 .root {
-  padding-block: clamp(40px, 5vw, 64px);
+  padding-block: clamp(56px, 7vw, 80px);
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
   /* colors.paperDeep */
   background: #e4e5da;
 }
@@ -41,51 +46,80 @@
   }
 }
 
-/* --- Header bar ---------------------------------------------------------
+/* --- Header -------------------------------------------------------------
 
-   The month is a plain heading and the zone is an actual control. The earlier
-   bar welded both into a search-bar-style instrument, which promised a control
-   that was not one — the instrument treatment below is earned by the select
-   and given only to the select. The ochre dot is still the map's "you are
-   here", marking whose time is being shown. */
+   The interior section grammar /activities/ uses, restated from
+   ActivitiesPage.module.css: a mono eyebrow, the display heading with its
+   orange accent, the intro under it. The month is the eyebrow; the heading
+   says what the list answers; the intro is the check-in line. */
 
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: end;
-  justify-content: space-between;
-  gap: 14px 18px;
-  margin-bottom: 26px;
+.header {
+  margin-bottom: 22px;
 }
 
-.month {
+.eyebrow {
+  margin: 0 0 13px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.forest */
+  color: #3d5f58;
+}
+
+.heading {
+  max-width: 22ch;
   margin: 0;
   /* fonts.display */
   font-family:
     'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  font-size: clamp(2.05rem, 3vw, 3rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   line-height: 1;
+  text-wrap: balance;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+/* The two things a reader needs to decode the stream, on one row under the
+   header: the legend on the left, the zone control on the right. Wraps to
+   two rows on a phone, legend first. */
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
+  margin-bottom: 22px;
 }
 
 /* The legend: three swatches drawn the way the rows are drawn, at chip
-   scale, in the mono the stream's whispers use. It sits between the month
-   and the zone control and drops to its own line first when the row wraps. */
+   scale. Mono at the tag size, bold, so it reads with the chips beside it
+   rather than as fine print. */
 .legend {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin: 0 auto 0 0;
-  padding: 0 0 6px;
-  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  gap: 8px 18px;
   list-style: none;
   /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   /* colors.muted */
   color: #52635f;
@@ -94,39 +128,38 @@
 .legendItem {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 }
 
 .legendSwatch {
   display: inline-block;
-  width: 22px;
-  height: 14px;
+  width: 24px;
+  height: 16px;
   /* colors.white */
   background: #f7f7f2;
 }
 
-/* The stream row: hairline with the sky spine. colors.rule / colors.skyDeep */
+/* The stream row: the ink card with its sky shadow. colors.ink / skyDeep */
 .legendStream {
-  border: 1px solid #8ca59e;
-  box-shadow: inset 3px 0 0 #1f4e6b;
+  border: 2px solid #10201d;
+  box-shadow: 3px 3px 0 #1f4e6b;
 }
 
-/* The challenge window: the ink border. */
+/* The challenge window: the same card with the challenge type's ink shadow. */
 .legendRound {
   border: 2px solid #10201d;
+  box-shadow: 3px 3px 0 #10201d;
 }
 
-/* The last day: the same, dashed. */
+/* The last day: the dashed ghost. colors.rule */
 .legendClose {
-  border: 2px dashed #10201d;
+  border: 2px dashed #8ca59e;
+  background: transparent;
 }
 
-@media (min-width: 768px) {
-  .legend {
-    margin-right: 18px;
-  }
-}
-
+/* The zone control, dressed as the /activities/ filter chip: ink border,
+   white ground, mono at the chip size, no shadow. It is a combobox in a
+   chip's clothes; the listbox below is where the control shows itself. */
 .zonePicker {
   position: relative;
   display: flex;
@@ -135,74 +168,59 @@
   /* colors.ink / colors.white */
   border: 2px solid #10201d;
   background: #f7f7f2;
-  /* colors.forestDeep, the instrument shadow the fests search bar uses */
-  box-shadow: 5px 5px 0 #2e4742;
 }
 
-/* The whole instrument darkens its shadow on focus, the way the search bar
-   does — the halo inside a welded bar reads as a broken inner box. */
+/* The chip carries the focus state, in the orange ring /activities/ and /my
+   use; a ring inside it would read as a broken inner box. */
 .zonePicker:focus-within {
-  box-shadow: 5px 5px 0 #10201d;
-}
-
-.zoneDot {
-  width: 9px;
-  height: 9px;
-  flex: none;
-  align-self: center;
-  border: 1.5px solid #10201d;
-  border-radius: 50%;
-  margin-left: 12px;
-  /* colors.ochre */
-  background: #f5b726;
+  /* colors.orange */
+  outline: 3px solid #e53927;
+  outline-offset: 2px;
 }
 
 .zoneLabel {
   display: flex;
   align-items: center;
-  padding: 9px 12px 9px 8px;
-  border-right: 2px solid #10201d;
+  padding: 8px 4px 8px 12px;
   /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.62rem;
-  font-weight: 650;
-  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
 .zoneInput {
-  /* Wide enough for "America/Toronto · yours" whole — measured, 30ch left it
-     1px short and the ellipsis ate the final letter — while the genuinely long
-     zones (America/North_Dakota/New_Salem) ellipsise rather than clip. */
-  width: 32ch;
+  /* Wide enough for "America/Toronto · yours" whole at this size, while the
+     genuinely long zones (America/North_Dakota/New_Salem) ellipsise rather
+     than clip. */
+  width: 26ch;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 9px 10px;
+  padding: 8px 6px;
   border: 0;
-  /* colors.sky, the segment colour the location button wears on /fests */
-  background: #8bb2de;
-  /* colors.ink */
+  /* colors.white / colors.ink */
+  background: #f7f7f2;
   color: #10201d;
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.68rem;
-  font-weight: 650;
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 .zoneChevron {
   display: flex;
   align-items: center;
-  padding: 0 10px 0 2px;
-  /* the input's own sky, so the two read as one segment */
-  background: #8bb2de;
+  padding: 0 12px 0 2px;
+  background: #f7f7f2;
   color: #10201d;
   cursor: pointer;
-  font-size: 0.6rem;
+  font-size: 0.72rem;
 }
 
 .zoneInput::placeholder {
@@ -212,13 +230,12 @@
   opacity: 0.75;
 }
 
-/* The instrument carries the focus state; a ring inside it is clutter. */
 .zoneInput:focus-visible {
   outline: none;
 }
 
-/* The matches, hung under the instrument's right edge. In the top layer of
-   the page but not a modal: a click elsewhere simply closes it. */
+/* The matches, hung under the chip's right edge. In the top layer of the
+   page but not a modal: a click elsewhere simply closes it. */
 .zoneList {
   position: absolute;
   z-index: 30;
@@ -231,7 +248,6 @@
   border: 2px solid #10201d;
   /* colors.white */
   background: #f7f7f2;
-  box-shadow: 5px 5px 0 #2e4742;
   list-style: none;
   overflow-y: auto;
 }
@@ -252,15 +268,14 @@
   background: #f5b726;
 }
 
-/* The zone currently in force, marked with the instrument's own dot. */
+/* The zone currently in force, marked with an ink square. */
 .zoneOption[aria-selected='true']::before {
   display: inline-block;
   width: 8px;
   height: 8px;
-  border: 1.5px solid #10201d;
-  border-radius: 50%;
   margin-right: 8px;
-  background: #f5b726;
+  /* colors.ink */
+  background: #10201d;
   content: '';
 }
 
@@ -274,15 +289,15 @@
   font-size: 0.65rem;
 }
 
-/* The one line between the toolbar and the stream: what a check-in is
-   and what it counts for, with the way to the activities. Body face,
-   inkSoft, a reading measure; the link underlined in the house offset. */
+/* The intro under the heading: what a check-in is and what it counts for,
+   with the way to the activities. The /activities/ intro measure and size;
+   the link underlined in the house offset. */
 .countsNote {
-  max-width: 72ch;
-  margin: -8px 0 22px;
+  max-width: 62ch;
+  margin: 14px 0 0;
   /* colors.inkSoft */
   color: #284b44;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   line-height: 1.55;
 }
 
@@ -312,9 +327,10 @@
 .stream {
   display: flex;
   flex-direction: column;
-  padding: 0;
+  /* Room on the right for the 6px shadows; the gap holds them apart. */
+  padding: 0 8px 0 0;
   margin: 0;
-  gap: 14px;
+  gap: 18px;
   list-style: none;
 }
 
@@ -368,8 +384,8 @@
   padding: 6px 4px;
   /* colors.ink */
   border: 2px solid #10201d;
-  /* colors.paperDeep */
-  background: #e4e5da;
+  /* colors.white */
+  background: #f7f7f2;
   /* Set explicitly, never inherited. The tile carries its own pale ground into
      whatever it is placed on, so a dark parent — the round block sets white
      type on ink — would otherwise hand the day number white-on-white and
@@ -381,11 +397,12 @@
 
 .tileWeekday,
 .tileMonth {
-  /* fonts.mono */
+  /* fonts.mono, at the tag size the activity card's labels use */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.55rem;
+  font-size: 0.62rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   /* colors.muted */
@@ -450,7 +467,8 @@
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.55rem;
+  font-size: 0.62rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   /* colors.muted */
@@ -486,27 +504,23 @@
 
 /* --- Session row -------------------------------------------------------- */
 
-/* The quiet tier. Sessions are the page's routine content and there are nine
-   of them; giving each the full ink-and-shadow treatment left the eye nowhere
-   to rest and spent depth — the site's language for importance — on saying
-   nothing. A hairline at rest, and the shadow arrives with the cursor: the
-   gesture survives, the noise does not. Rounds keep 6px and the feature keeps
-   8px, so depth reads as hierarchy again. */
+/* The house card, the one object every list on the site is made of: white,
+   the 2px ink border, and the 6px shadow in the type's deep colour at rest.
+   An earlier cut drew sessions as hairline rows with an inset spine and kept
+   the shadow for hover, to rank them under the rounds; it ranked them under
+   the rest of the site instead, and nine of the fourteen entries stopped
+   looking like the fest cards and activity cards they sit beside. The type
+   colour now lives in the shadow, where /fests keeps it. */
 .sessionRow {
   display: grid;
   width: 100%;
   align-items: center;
-  padding: 7px 10px;
-  /* colors.rule-strong */
-  border: 1px solid #8ca59e;
+  padding: 10px 14px;
+  /* colors.ink */
+  border: 2px solid #10201d;
   /* colors.white */
   background: #f7f7f2;
-  /* The spine: 3px of the type's accent on the leading edge, drawn inset so
-     the geometry never moves. Depth stays hover-only on this tier, but the
-     type colour should not — nine rows that only declare what they are under
-     the cursor made the resting stream read monochrome. Past rows grey
-     automatically, because the spine reads the same --accent the shadow does. */
-  box-shadow: inset 3px 0 0 var(--accent);
+  box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
   /* tile, name, sponsor credit, time. The credit column collapses to nothing
@@ -515,50 +529,37 @@
   text-align: left;
   transition:
     background 0.12s ease,
-    border-color 0.12s ease,
     box-shadow 0.12s ease,
     translate 0.12s ease;
 }
 
-/* The quiet tier is also the SMALL tier. Measured, a session ran 86px against
-   the round's 90 and the feature header's 90 — three near-equal masses, so
-   size said nothing and only decoration ranked them. The session's tile drops
-   to a compact cut and the row to ~64px; rounds and the feature keep the full
-   62px tile, so mass now agrees with depth about what matters. */
+/* Sessions and stubs take a 56px tile, a step under the round's 62, so the
+   row stays the lighter mass without needing a second drawing style. */
 .sessionRow .tile {
-  width: 46px;
-  padding: 3px 2px;
+  width: 56px;
+  padding: 5px 3px;
 }
 
 .sessionRow .tileDay {
-  font-size: 1.05rem;
+  font-size: 1.3rem;
 }
 
-/* The full 6px on hover, not a diffident 3: the shadow is the row waking up,
-   and it animates in through the transition above rather than snapping. The
-   press then sinks INTO it — translate and shadow always summing to 6 — which
-   is the same physics every resting-shadow card on the site uses; a session
-   simply starts the gesture from hover instead of from rest. */
+/* The house gesture, from components/Button.js and the fest card: hover is
+   tonal, active is the press, translate and shadow summing to the resting
+   offset so the bottom-right edge never moves. */
 .sessionRow:hover {
-  /* colors.paper — the ground shifts too. The spine rides along in the list:
-     a lone outer shadow here would erase it for exactly the moment the reader
-     is looking at the row. */
+  /* colors.paper */
   background: #f2f2eb;
-  border-color: #10201d;
-  box-shadow:
-    inset 3px 0 0 var(--accent),
-    6px 6px 0 var(--accent);
 }
 
 .sessionRow:active {
-  box-shadow:
-    inset 3px 0 0 var(--accent),
-    3px 3px 0 var(--accent);
+  box-shadow: 3px 3px 0 var(--accent);
   translate: 3px 3px;
 }
 
 .sessionRow:focus-visible {
-  outline: 3px solid #10201d;
+  /* colors.orange, the ring /activities/ and /my use */
+  outline: 3px solid #e53927;
   outline-offset: 3px;
 }
 
@@ -582,41 +583,36 @@
   gap: 6px 10px;
 }
 
+/* The activity card's title, so a session and an activity are set the same. */
 .rowName {
   font-family:
     'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.05;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
 }
 
-/* The fest card's format badge, ported: filled with the pale end of the type's
-   own family, set in ink, 6px radius. Filled rather than outlined because that
-   is what /fests does, and a page that badges the same idea two ways is two
-   pages.
-
-   line-height: 1 with top-heavy padding is the optical centring that badge
-   works out at length: the label is all caps, so its ink runs from cap height
-   to baseline with no descenders, while the line box is sized for descenders
-   regardless and hangs the letters high. Pinning the box to the text and
-   weighting the top puts them back in the middle. */
-.typeBadge {
+/* The activity card's tag (ActivityCard.module.css .type), which is the one
+   tag grammar this page uses: square, the pale end of the type's family as
+   ground, its deep partner as text. The type badge in the modal, the STREAM
+   chip and the CHALLENGE chip are all this one rule with different words. */
+.typeBadge,
+.streamChip,
+.windowChip {
   display: inline-flex;
   align-items: center;
-  padding: 7.5px 9px 6.5px;
-  border-radius: 6px;
+  padding: 2px 6px;
   background: var(--type-tint, #e4e5da);
-  /* colors.ink */
-  color: #10201d;
-  /* fonts.mono, as /my's tags and the fest badge use */
+  color: var(--type-accent, #10201d);
+  /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
     'Roboto Mono', Menlo, Consolas, monospace;
   font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -629,37 +625,28 @@
   background: #8ca59e;
 }
 
-/* The time is the datum this page exists to give out, and it was the smallest
-   text on it — 0.6rem computed to under 10px. Data-sized now, and ink-soft
-   rather than muted: quiet next to the name, but no longer fine print. */
+/* The time is the datum this page exists to give out: the data size the
+   reworked pages use for mono lines, in ink. */
 .rowTime {
   display: inline-flex;
   align-items: center;
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 0.02em;
   white-space: nowrap;
-  /* colors.inkSoft */
-  color: #284b44;
+  /* colors.ink */
+  color: #10201d;
   gap: 8px;
 }
 
 /* The STREAM chip on a livestream's time — the rail as the row's verb slot:
-   watch live at three, the way a round's rail says submit by Sunday. Keyed to
-   the livestream tint and its deep partner, the same pair the spine and
-   shadow use, so the chip and the row agree about what colour "stream" is. */
+   watch live at three, the way a round's rail says submit by Sunday. Drawn by
+   the tag rule above; keyed to the livestream tint and its deep partner, the
+   same pair the shadow uses. */
 .streamChip {
   flex: none;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  /* Optical: mono caps sit high in their box, so the top needs the extra. */
-  padding: 3.5px 6px 2.5px;
-  background: var(--type-tint, #d7e5f4);
-  color: var(--type-accent, #1f4e6b);
-  text-transform: uppercase;
 }
 
 /* While the window is actually open the chip is the one place the brand
@@ -710,24 +697,21 @@
 
 /* --- Round block --------------------------------------------------------
 
-   Same skeleton as a session, louder ground: a round is a deadline rather than
-   an appointment, and four of them recurring is what makes the month's rhythm
-   visible. */
+   The same card as a session, taller: a round is a deadline rather than an
+   appointment, and the ledger in its rail needs two lines. Distinct from a
+   session by the CHALLENGE chip and the ink shadow the challenge type casts,
+   not by a different drawing style. Global Hack Week keeps its 8px: it is the
+   one container, and the one thing depth ranks. */
 
 .roundBlock {
   display: grid;
   width: 100%;
   align-items: center;
-  padding: 13px 12px;
+  padding: 12px 14px;
   border: 2px solid #10201d;
-  /* The white ticket. Neutral like the DEV Challenges branding, and distinct
-     from a session by the ink border and the CHALLENGE chip in its rail, not
-     by depth: a challenge opening is not more important than a stream, and
-     the resting shadow it used to carry made it the heaviest thing on the
-     page. It joins the sessions' physics instead, hairline-quiet at rest and
-     the full shadow arriving with the cursor. Global Hack Week keeps its
-     8px: it is the one container, and the one thing depth still ranks. */
+  /* colors.white */
   background: #f7f7f2;
+  box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
   /* tile, text, sponsor credit, deadline. */
@@ -743,14 +727,10 @@
     translate 0.12s ease;
 }
 
-/* ONE hover grammar for the whole stream: hover is the card at full presence
-   — 6px shadow, paper ground, unmoved — and active is the press, translate
-   and shadow summing to the resting offset. Sessions and rounds now start
-   the gesture from the same place, no shadow, and arrive at the same one. */
+/* ONE gesture for the whole stream: hover is tonal, active is the press. */
 .roundBlock:hover {
   /* colors.paper */
   background: #f2f2eb;
-  box-shadow: 6px 6px 0 var(--accent);
 }
 
 .roundBlock:active {
@@ -759,7 +739,8 @@
 }
 
 .roundBlock:focus-visible {
-  outline: 3px solid #10201d;
+  /* colors.orange */
+  outline: 3px solid #e53927;
   outline-offset: 3px;
 }
 
@@ -770,30 +751,24 @@
 }
 
 .roundWhen {
-  /* colors.ochreDeep — the one warm note on the ticket, matching the shadow
-     the challenge type casts. */
-  color: #284b44;
+  /* colors.ochreDeep — the one warm note on the ticket, the colour the
+     today rule's label uses. */
+  color: #8a5d13;
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 /* The window's word in the rail, where a livestream's rail says STREAM:
-   the same chip, keyed to the challenge type's tint and deep partner, so the
-   chip and the row's hover shadow agree about what colour "challenge" is. */
+   drawn by the tag rule, keyed to the challenge type's tint and deep partner,
+   so the chip and the row's shadow agree about what colour "challenge" is. */
 .windowChip {
   align-self: flex-end;
-  margin-bottom: 4px;
-  padding: 3.5px 6px 2.5px;
-  background: var(--type-tint, #e4e5da);
-  color: var(--type-accent, #284b44);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  margin-bottom: 3px;
 }
 
 /* The rail ledger: both ends of the window, labels right-aligned into a
@@ -808,8 +783,8 @@
   letter-spacing: 0.02em;
   text-align: right;
   white-space: nowrap;
-  /* colors.inkSoft */
-  color: #284b44;
+  /* colors.ink */
+  color: #10201d;
   gap: 3px;
 }
 
@@ -819,7 +794,7 @@
      the label ran into its date. */
   width: 4.8em;
   margin-right: 6px;
-  font-size: 0.6rem;
+  font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-align: right;
@@ -830,65 +805,69 @@
 
 /* --- The close stub ------------------------------------------------------
 
-   The round's other end: session-height, dashed where the ticket is solid —
-   a door drawn shutting, not a second ticket. It presses like everything
-   else; the dash is the identity, the physics are the house's. */
+   The round's other end, drawn as the site draws a thing that is not there
+   yet: the dashed rule-grey ghost the empty fest tile and the empty sticker
+   slot use, on no ground of its own. A door drawn shutting, not a second
+   ticket. It has no shadow to press into, so hover is tonal only. */
 .closeStub {
   display: grid;
   width: 100%;
   align-items: center;
-  padding: 7px 10px;
-  /* colors.ink */
-  border: 2px dashed #10201d;
-  /* colors.white */
-  background: #f7f7f2;
+  padding: 8px 14px;
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  background: transparent;
   cursor: pointer;
   gap: 14px;
   grid-template-columns: auto 1fr auto;
   text-align: left;
-  transition:
-    background 0.12s ease,
-    box-shadow 0.12s ease,
-    translate 0.12s ease;
+  transition: background 0.12s ease;
 }
 
 .closeStub .tile {
-  width: 46px;
-  padding: 3px 2px;
+  width: 56px;
+  padding: 5px 3px;
   border-style: dashed;
-  /* colors.white — the tile is a date that marks an ending, so it gives up
-     its solid ground along with its solid edge. */
-  background: #f7f7f2;
+  /* the tile is a date that marks an ending, so it gives up its solid ground
+     along with its solid edge */
+  background: transparent;
 }
 
 .closeStub .tileDay {
+  font-size: 1.3rem;
+}
+
+.closeStub .rowName {
   font-size: 1.05rem;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+.closeStub .roundWhen {
+  /* colors.muted */
+  color: #52635f;
 }
 
 .closeStub:hover {
   /* colors.paper */
   background: #f2f2eb;
-  box-shadow: 6px 6px 0 var(--accent);
-}
-
-.closeStub:active {
-  box-shadow: 3px 3px 0 var(--accent);
-  translate: 3px 3px;
 }
 
 .closeStub:focus-visible {
-  outline: 3px solid #10201d;
+  /* colors.orange */
+  outline: 3px solid #e53927;
   outline-offset: 3px;
 }
 
+/* The activity card's title, as .rowName. */
 .roundName {
   margin-top: 3px;
   font-family:
     'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
 }
 
 /* --- Feature container --------------------------------------------------
@@ -942,7 +921,8 @@
 }
 
 .featureHead:focus-visible {
-  outline: 3px solid #10201d;
+  /* colors.orange */
+  outline: 3px solid #e53927;
   outline-offset: -6px;
 }
 
@@ -977,8 +957,9 @@
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.09em;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   /* colors.muted, as the tile's own month uses */
   color: #52635f;
@@ -999,15 +980,17 @@
   line-height: 1;
 }
 
-/* Inset, so what is inside the container reads as inside it, in the pale end
-   of the same family the header uses. */
+/* Inset, so what is inside the container reads as inside it, on the same
+   paperDeep the stream sits on: the rows nested here are the same cards as
+   the rows outside, and they should sit on the same ground. The extra on the
+   right and bottom is room for their shadows. colors.paperDeep */
 .featureBody {
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 18px 26px 22px 18px;
   margin: 0;
-  gap: 14px;
-  background: var(--type-tint, #cfdad7);
+  gap: 18px;
+  background: #e4e5da;
   list-style: none;
 }
 
@@ -1018,14 +1001,15 @@
 .weekRule {
   display: flex;
   align-items: center;
-  margin: 4px 0 -4px;
+  margin: 6px 0 -6px;
   color: #52635f;
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
   gap: 10px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -1081,7 +1065,8 @@
 }
 
 .pastToggle:focus-visible {
-  outline: 3px solid #10201d;
+  /* colors.orange */
+  outline: 3px solid #e53927;
   outline-offset: 2px;
 }
 
@@ -1101,8 +1086,9 @@
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.07em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   /* colors.muted */
   color: #52635f;
@@ -1116,16 +1102,16 @@
 }
 
 .streamItem[data-past='true'] .sessionRow,
-.streamItem[data-past='true'] .closeStub,
+.streamItem[data-past='true'] .roundBlock,
 .streamItem[data-past='true'] .feature {
   /* colors.paper — a step down from white, a step up from the ground, so a
-     finished row recedes without dissolving into the page. */
+     finished row recedes without dissolving into the page. The border goes
+     to the rule grey with the shadow, as a past fest card's does. */
+  border-color: #8ca59e;
   background: #f2f2eb;
 }
 
 .streamItem[data-past='true'] .roundBlock {
-  /* colors.paper */
-  background: #f2f2eb;
   /* colors.muted */
   color: #52635f;
 }
@@ -1134,8 +1120,10 @@
   color: #52635f;
 }
 
+/* A finished container's head swaps to the rule grey rather than fading in
+   place: the site greys things by changing their colour, never by filtering. */
 .streamItem[data-past='true'] .featureHead {
-  filter: saturate(0.4);
+  background: #8ca59e;
 }
 
 .streamItem[data-past='true'] .rowName,
@@ -1373,8 +1361,9 @@
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
     Consolas, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -1397,20 +1386,8 @@
   font-size: 0.95rem;
 }
 
+/* Placement only: the CTA is .hf-button (src/styles/buttons.css), the same
+   button the retry above and every other surface uses. */
 .modalCta {
-  display: inline-flex;
-  min-height: 46px;
-  align-items: center;
-  padding: 10px 20px;
-  border: 2px solid #10201d;
   margin-top: 22px;
-  background: #e97b77;
-  box-shadow: 5px 5px 0 #671912;
-  color: #10201d;
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
-    Consolas, monospace;
-  font-size: 0.8rem;
-  font-weight: 650;
-  text-decoration: none;
 }

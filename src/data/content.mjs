@@ -1617,9 +1617,14 @@ export const schedule = {
   intro:
     'Everything happening online this October, in your time zone or any other. Global Hack Week, workshops, streams, and the ceremonies that open and close the month.',
   monthLabel: 'October 2026',
-  /* One line between the toolbar and the stream, for the reader who has
-     not met the activities yet: what a check-in is and what it counts
-     for. The mechanics live on /activities/; this is the pointer. */
+  /* The stream's own heading, in the interior section grammar /activities/
+     uses: the month label sits above it as the eyebrow, the accent is set
+     in orange. The hero already says what the month is; this says what the
+     list under it answers. */
+  sectionHeading: { lead: 'What is on,', accent: 'and when.' },
+  /* The intro under that heading, for the reader who has not met the
+     activities yet: what a check-in is and what it counts for. The
+     mechanics live on /activities/; this is the pointer. */
   countsNote: {
     text: 'Every livestream shows a check-in code. Two check-ins count as one activity, and Global Hack Week counts when you check in to each of its sessions.',
     cta: 'See the activities',

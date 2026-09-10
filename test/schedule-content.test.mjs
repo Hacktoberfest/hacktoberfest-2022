@@ -208,3 +208,15 @@ test('the legend names every row treatment and the rail has a word for a window'
   assert.doesNotMatch(schedule.countsNote.text, /sticker/);
   assert.ok(schedule.countsNote.cta);
 });
+
+/* The stream's own heading, in the interior section grammar the activities
+   page uses: a lead, an accent set in orange, and the month as the eyebrow
+   above it. */
+test('the stream has a section heading with an accent and no em dashes', async () => {
+  const { schedule } = await import('../src/data/content.mjs');
+  assert.ok(schedule.sectionHeading.lead.length > 0);
+  assert.ok(schedule.sectionHeading.accent.length > 0);
+  assert.doesNotMatch(schedule.sectionHeading.lead, /—/);
+  assert.doesNotMatch(schedule.sectionHeading.accent, /—/);
+  assert.notEqual(schedule.sectionHeading.accent, schedule.heading.accent);
+});
