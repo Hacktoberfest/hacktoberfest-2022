@@ -2205,6 +2205,12 @@ export const my = {
       `${total} stickers to earn this October. Two are required, the rest are yours to choose. Any one activity sticker earns the pack in the mail, and ${n} activity stickers unlocks the bonus holographic sticker.`,
     tabsLabel: 'Sticker book pages',
     tabCount: (earned, total) => `${earned} of ${total}`,
+    /* Two pages wear a mark instead of their name at their head
+       (components/Album); the tabs stay words. DEV's logo leads and `rest`
+       follows it; `name` is what the logo stands for, read out ahead of
+       the rest and never drawn. Global Hack Week's lockup carries its own
+       name, as the image's alt, from activitiesPage.list.types. */
+    devMark: { name: 'DEV', rest: 'Challenges' },
     /* One line under each page's title, keyed by tab. A type without a
        line here still renders, with no note. */
     pages: {

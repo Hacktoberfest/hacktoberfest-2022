@@ -120,6 +120,36 @@
   line-height: 1.1;
 }
 
+/* The two marks a page can wear in place of its name at its head
+   (PageTitle in index.js), sized by the type they replace. DEV's logo is
+   a square set to the line's height, the word after it in the title's own
+   type. Global Hack Week's lockup is a wide strip (about 12:1) with the
+   event's name set into it, so it takes the title's width and its height
+   follows. */
+.mark {
+  display: block;
+  width: auto;
+  height: 1.05em;
+  flex: 0 0 auto;
+}
+
+.lockup {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+}
+
+/* Words for assistive tech only: the name a mark stands for. */
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .tabCount {
   /* fonts.mono */
   font-family:
@@ -179,6 +209,9 @@
 }
 
 .pageTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
   margin: 0;
   /* fonts.display */
   font-family:

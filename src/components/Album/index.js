@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import DevLogo from 'components/icons/DevLogo';
 import { activitiesPage, my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import {
@@ -40,6 +41,36 @@ const ACCENTS = {
   inperson: 'accent_inperson',
 };
 
+/* Global Hack Week's lockup, the one the schedule draws (data/
+   scheduleFixtures.mjs ships it for the mocked build). It sets the
+   event's name, so it stands where the label would and carries the label
+   as its alt. */
+const GHW_LOCKUP = '/schedule/global-hack-week.png';
+
+const label = (key) => activitiesPage.list.types[key] || key;
+
+/* A page's name at its head. Two pages wear a mark there rather than
+   their name in type: DEV's logo ahead of "Challenges" (my.album.devMark),
+   and Global Hack Week's lockup. The tabs down the side stay words, all
+   six alike, and the words stay in the tree here too, so the page is
+   named the same for assistive tech whichever way it is drawn. */
+const PageTitle = ({ type }) => {
+  const text = label(type);
+  if (type === 'ghw') {
+    return <img className={styles.lockup} src={GHW_LOCKUP} alt={text} />;
+  }
+  if (type === 'dev') {
+    return (
+      <>
+        <DevLogo className={styles.mark} />
+        <span className={styles.srOnly}>{my.album.devMark.name} </span>
+        {my.album.devMark.rest}
+      </>
+    );
+  }
+  return text;
+};
+
 const Album = ({ experience }) => {
   const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
   const tabs = bookTabs(stickers);
@@ -51,8 +82,6 @@ const Album = ({ experience }) => {
 
   const { complete } = milestoneState(experience);
   const intro = my.album.intro(total, complete);
-
-  const label = (key) => activitiesPage.list.types[key] || key;
 
   const onKeyDown = (event) => {
     const index = tabs.findIndex((entry) => entry.key === current);
@@ -124,7 +153,9 @@ const Album = ({ experience }) => {
               data-open={entry.key === current ? 'true' : undefined}
             >
               <div className={styles.pageHead}>
-                <h3 className={styles.pageTitle}>{label(entry.key)}</h3>
+                <h3 className={styles.pageTitle}>
+                  <PageTitle type={entry.key} />
+                </h3>
                 {my.album.pages[entry.key] && (
                   <p className={styles.pageNote}>{my.album.pages[entry.key]}</p>
                 )}
