@@ -15,16 +15,28 @@ import {
 
 export const REQUIRED_TAB = 'required';
 
-/* The API's word for where a completion came from; MyMLH is the source of
-   both required stickers. activitiesPage.list.source names it in words. */
+/* The book's word for where a required sticker came from; MyMLH is the
+   source of both unless an admin granted one by hand. The API writes these
+   rows with source 'api', whose label on this site names DevRelay, so the
+   payload's word is never shown for a required sticker. */
 const MLH_SOURCE = 'mlh';
+const MANUAL_SOURCE = 'manual';
 
 /* Every sticker in the book, in book order, as ActivityCard wants them:
    the catalogue's words plus `completed`, `completedAt` and `source`.
 
    `experience.activities` may be the API's raw entries or the merged rows
    lib/progress.mjs produced; mergeActivities handles both, and the source
-   is read off the same entries since the merge drops it. */
+   is read off the same entries since the merge drops it.
+
+   `experience.required` is the API's required entries, `{ id, completed,
+   completedAt, source }`, as lib/progress.mjs trims them. Each required
+   sticker is earned when its row says so OR the live fact does: signing in
+   is earned by being here, and the address by `addressValidated`, which
+   covers the first load after adding one, when /api/me/fests triggers the
+   grant in parallel with the progress read. A row stays earned when the
+   live flag is off: completions latch, and the mailing gate (eligibility.mjs)
+   reads the flag on its own. */
 export const bookStickers = (experience, { addressHref = null } = {}) => {
   const addressValidated = Boolean(experience && experience.addressValidated);
   const entries = Array.isArray(experience && experience.activities)
@@ -39,8 +51,20 @@ export const bookStickers = (experience, { addressHref = null } = {}) => {
       ]),
   );
 
+  const recorded = new Map(
+    (Array.isArray(experience && experience.required)
+      ? experience.required
+      : []
+    )
+      .filter((entry) => entry && typeof entry.id === 'string')
+      .map((entry) => [entry.id, entry]),
+  );
+
   const required = REQUIRED_STICKERS.map((sticker) => {
-    const completed = sticker.id === 'address' ? addressValidated : true;
+    const entry = recorded.get(sticker.id);
+    const onRecord = Boolean(entry && entry.completed);
+    const completed =
+      sticker.id === 'address' ? onRecord || addressValidated : true;
     const ctaLabel =
       completed && sticker.doneCtaLabel
         ? sticker.doneCtaLabel
@@ -50,8 +74,9 @@ export const bookStickers = (experience, { addressHref = null } = {}) => {
       href: sticker.id === 'address' ? addressHref : sticker.href,
       ctaLabel,
       completed,
-      completedAt: null,
-      source: MLH_SOURCE,
+      completedAt: onRecord ? entry.completedAt || null : null,
+      source:
+        onRecord && entry.source === MANUAL_SOURCE ? MANUAL_SOURCE : MLH_SOURCE,
     };
   });
 

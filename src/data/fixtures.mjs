@@ -22,6 +22,19 @@ export const SCENARIOS = Object.freeze({
   'no-address': {
     user: { ...USER, devLinked: false },
     addressValidated: false,
+    /* The two required stickers as the API serves them on /api/me/progress:
+       what the book reads for completedAt and source. Kept consistent with
+       addressValidated above so a fixture never shows an address sticker
+       the mailing gate disagrees with. */
+    required: [
+      {
+        id: 'signin',
+        completed: true,
+        completedAt: '2026-09-20T09:00:00.000Z',
+        source: 'api',
+      },
+      { id: 'address', completed: false, completedAt: null, source: null },
+    ],
     thresholds: { stickers: 1, complete: 3 },
     activities: [
       { id: 'livestreams', completed: true, completedAt: '2026-10-12' },
@@ -56,6 +69,20 @@ export const SCENARIOS = Object.freeze({
   eligible: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
+    required: [
+      {
+        id: 'signin',
+        completed: true,
+        completedAt: '2026-09-20T09:00:00.000Z',
+        source: 'api',
+      },
+      {
+        id: 'address',
+        completed: true,
+        completedAt: '2026-09-21T09:00:00.000Z',
+        source: 'api',
+      },
+    ],
     thresholds: { stickers: 1, complete: 3 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
@@ -88,6 +115,15 @@ export const SCENARIOS = Object.freeze({
   'nothing-done': {
     user: { ...USER, devLinked: false },
     addressValidated: false,
+    required: [
+      {
+        id: 'signin',
+        completed: true,
+        completedAt: '2026-09-20T09:00:00.000Z',
+        source: 'api',
+      },
+      { id: 'address', completed: false, completedAt: null, source: null },
+    ],
     thresholds: { stickers: 1, complete: 3 },
     activities: [{ id: 'livestreams', completed: false }],
     fests: [],
@@ -98,6 +134,20 @@ export const SCENARIOS = Object.freeze({
   complete: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
+    required: [
+      {
+        id: 'signin',
+        completed: true,
+        completedAt: '2026-09-20T09:00:00.000Z',
+        source: 'api',
+      },
+      {
+        id: 'address',
+        completed: true,
+        completedAt: '2026-09-21T09:00:00.000Z',
+        source: 'api',
+      },
+    ],
     thresholds: { stickers: 1, complete: 3 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
@@ -134,6 +184,20 @@ export const SCENARIOS = Object.freeze({
   organizer: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
+    required: [
+      {
+        id: 'signin',
+        completed: true,
+        completedAt: '2026-09-20T09:00:00.000Z',
+        source: 'api',
+      },
+      {
+        id: 'address',
+        completed: true,
+        completedAt: '2026-09-21T09:00:00.000Z',
+        source: 'api',
+      },
+    ],
     thresholds: { stickers: 1, complete: 3 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [

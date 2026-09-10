@@ -271,3 +271,21 @@ test('eligible completes the fest activity with a matching past fest', () => {
   );
   assert.ok(SCENARIOS.eligible.fests.some((f) => f.date < '2026-09-01'));
 });
+
+test('every data fixture carries the required stickers, consistent with its address flag', () => {
+  Object.entries(SCENARIOS)
+    .filter(([, fixture]) => 'addressValidated' in fixture)
+    .forEach(([name, fixture]) => {
+      const byId = new Map(fixture.required.map((entry) => [entry.id, entry]));
+      assert.equal(byId.get('signin').completed, true, name);
+      assert.equal(
+        byId.get('address').completed,
+        fixture.addressValidated,
+        `${name}: the address sticker follows addressValidated`,
+      );
+      fixture.required.forEach((entry) => {
+        assert.equal(entry.completed, Boolean(entry.completedAt), name);
+        assert.equal(entry.completed, entry.source !== null, name);
+      });
+    });
+});

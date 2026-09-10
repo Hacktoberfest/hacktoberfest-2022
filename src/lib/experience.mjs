@@ -141,6 +141,10 @@ export const getExperience = async (session, options) => {
        fixture's activities are only ever used by the mocked build. */
     activities: progress.activities,
     thresholds: progress.thresholds,
+    /* Live. The two required stickers as completions, for the book's
+       completedAt and source. An API answering without them gives an empty
+       list, and the book falls back to the live facts above. */
+    required: Array.isArray(progress.required) ? progress.required : [],
     user: userFromProfile(mocked.user, profile),
   };
 };

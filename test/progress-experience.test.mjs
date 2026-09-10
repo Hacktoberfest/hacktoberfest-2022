@@ -65,6 +65,15 @@ const routeFetch = ({
           completedCount: 1,
           challenges: [
             {
+              id: 'signin',
+              name: 'Signed in with MyMLH',
+              description: null,
+              required: true,
+              completed: true,
+              completedAt: '2026-10-01T09:00:00.000Z',
+              source: 'api',
+            },
+            {
               id: 'livestreams',
               completed: true,
               completedAt: '2026-10-05T19:12:00.000Z',
@@ -114,6 +123,17 @@ test('getExperience fetches all three split endpoints and merges the real user o
   assert.equal(byId.ghw.completed, false);
   assert.equal(byId.fest.completed, false);
   assert.equal(byId['dev-relay'].completed, false);
+
+  // The required entries flow through beside the activities, trimmed to
+  // what the book reads.
+  assert.deepEqual(result.required, [
+    {
+      id: 'signin',
+      completed: true,
+      completedAt: '2026-10-01T09:00:00.000Z',
+      source: 'api',
+    },
+  ]);
 
   /* devLinked is live now. A profile that doesn't carry it maps to false —
      the same deploy-order stance as hasAddress: ship the API half first,

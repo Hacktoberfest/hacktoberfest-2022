@@ -252,3 +252,105 @@ test('nothing to read is an unearned book, never a crash', () => {
   assert.equal(bookStickers(undefined)[0].completed, true);
   assert.equal(bookStickers(undefined)[1].completed, false);
 });
+
+test('a recorded required completion supplies when it was earned', () => {
+  const book = bookStickers(
+    experience({
+      addressValidated: true,
+      required: [
+        {
+          id: 'signin',
+          completed: true,
+          completedAt: '2026-09-20T09:00:00.000Z',
+          source: 'api',
+        },
+        {
+          id: 'address',
+          completed: true,
+          completedAt: '2026-09-21T09:00:00.000Z',
+          source: 'api',
+        },
+      ],
+    }),
+  );
+  const signin = book.find((s) => s.id === 'signin');
+  const address = book.find((s) => s.id === 'address');
+  assert.equal(signin.completed, true);
+  assert.equal(signin.completedAt, '2026-09-20T09:00:00.000Z');
+  assert.equal(address.completed, true);
+  assert.equal(address.completedAt, '2026-09-21T09:00:00.000Z');
+});
+
+test('the address sticker is earned by the live flag even before the row lands', () => {
+  const book = bookStickers(
+    experience({
+      addressValidated: true,
+      required: [
+        { id: 'address', completed: false, completedAt: null, source: null },
+      ],
+    }),
+  );
+  const address = book.find((s) => s.id === 'address');
+  assert.equal(address.completed, true);
+  assert.equal(address.completedAt, null);
+  assert.equal(address.ctaLabel, 'Update address');
+});
+
+test('a latched address completion stays earned when the live flag is off', () => {
+  const book = bookStickers(
+    experience({
+      addressValidated: false,
+      required: [
+        {
+          id: 'address',
+          completed: true,
+          completedAt: '2026-09-21T09:00:00.000Z',
+          source: 'api',
+        },
+      ],
+    }),
+  );
+  assert.equal(book.find((s) => s.id === 'address').completed, true);
+});
+
+test('signing in is never unearned, whatever the payload says', () => {
+  const book = bookStickers(
+    experience({
+      required: [
+        { id: 'signin', completed: false, completedAt: null, source: null },
+      ],
+    }),
+  );
+  assert.equal(book.find((s) => s.id === 'signin').completed, true);
+});
+
+test("a required sticker's source is the MyMLH word, or manual when granted by hand", () => {
+  const book = bookStickers(
+    experience({
+      addressValidated: true,
+      required: [
+        {
+          id: 'signin',
+          completed: true,
+          completedAt: '2026-09-20T09:00:00.000Z',
+          source: 'api',
+        },
+        {
+          id: 'address',
+          completed: true,
+          completedAt: '2026-09-21T09:00:00.000Z',
+          source: 'manual',
+        },
+      ],
+    }),
+  );
+  assert.equal(book.find((s) => s.id === 'signin').source, 'mlh');
+  assert.equal(book.find((s) => s.id === 'address').source, 'manual');
+});
+
+test('an experience with no required list behaves as before', () => {
+  const book = bookStickers(experience({ addressValidated: true }));
+  assert.equal(book.find((s) => s.id === 'signin').completed, true);
+  assert.equal(book.find((s) => s.id === 'address').completed, true);
+  assert.equal(book.find((s) => s.id === 'address').source, 'mlh');
+});

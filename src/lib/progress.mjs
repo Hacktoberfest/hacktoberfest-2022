@@ -19,11 +19,19 @@ import {
   mergeActivities,
   thresholdsOf,
 } from './eligibility.mjs';
+import { REQUIRED_STICKERS } from '../data/eligibility.mjs';
 import { API_BASE_URL } from './session.mjs';
 
-/* Pure. `challenges` in, `activities` out, merged onto the catalogue by
-   slug so an id the API invents is dropped and an id it forgets reads as
-   not done. `source` rides along for the activities page, which says how a
+/* The two required stickers the book knows. A required slug the API adds
+   later is dropped here exactly as an unknown activity is. */
+const REQUIRED_IDS = new Set(REQUIRED_STICKERS.map((sticker) => sticker.id));
+
+/* Pure. `challenges` in, `activities` and `required` out. Activities are
+   merged onto the catalogue by slug so an id the API invents is dropped
+   and an id it forgets reads as not done. `required` is the payload's
+   required entries the book knows, in payload order, trimmed to what the
+   book reads; the sticker book merges them onto REQUIRED_STICKERS itself.
+   `source` rides along for the activities page, which says how a
    completion was earned; the hub ignores it. */
 export const progressFromPayload = (payload) => {
   const body = payload && typeof payload === 'object' ? payload : {};
@@ -43,7 +51,22 @@ export const progressFromPayload = (payload) => {
     source: sources.get(activity.id) ?? null,
   }));
 
-  return { thresholds: thresholdsOf(body), activities };
+  const required = challenges
+    .filter(
+      (entry) =>
+        entry &&
+        typeof entry.id === 'string' &&
+        entry.required === true &&
+        REQUIRED_IDS.has(entry.id),
+    )
+    .map((entry) => ({
+      id: entry.id,
+      completed: Boolean(entry.completed),
+      completedAt: (entry.completed && entry.completedAt) || null,
+      source: entry.completed ? (entry.source ?? null) : null,
+    }));
+
+  return { thresholds: thresholdsOf(body), activities, required };
 };
 
 /* Signed out, or nothing to merge: the catalogue, undone. */
@@ -53,6 +76,7 @@ const undone = () => ({
     ...activity,
     source: null,
   })),
+  required: [],
 });
 
 const mockedProgress = (scenario) => {

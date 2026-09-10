@@ -123,3 +123,73 @@ test('a malformed payload is every activity undone', () => {
     );
   }
 });
+
+test('required entries come out beside the activities, not inside them', () => {
+  const { activities, required } = progressFromPayload(
+    payload({
+      challenges: [
+        {
+          id: 'signin',
+          name: 'Signed in with MyMLH',
+          description: null,
+          required: true,
+          completed: true,
+          completedAt: '2026-10-01T09:00:00.000Z',
+          source: 'api',
+        },
+        {
+          id: 'address',
+          name: 'Address on file',
+          description: null,
+          required: true,
+          completed: false,
+          completedAt: null,
+          source: null,
+        },
+        {
+          id: 'livestreams',
+          name: 'Attend two livestreams',
+          description: null,
+          required: false,
+          completed: true,
+          completedAt: '2026-10-05T19:12:00.000Z',
+          source: 'event_checkins',
+        },
+      ],
+    }),
+  );
+
+  assert.deepEqual(required, [
+    {
+      id: 'signin',
+      completed: true,
+      completedAt: '2026-10-01T09:00:00.000Z',
+      source: 'api',
+    },
+    { id: 'address', completed: false, completedAt: null, source: null },
+  ]);
+  assert.equal(activities.length, ACTIVITIES.length);
+  assert.ok(activities.every((activity) => activity.id !== 'signin'));
+});
+
+test('a required slug the book does not know is dropped, like any unknown id', () => {
+  const { required } = progressFromPayload(
+    payload({
+      challenges: [
+        {
+          id: 'oath',
+          required: true,
+          completed: true,
+          completedAt: '2026-10-01',
+          source: 'api',
+        },
+      ],
+    }),
+  );
+  assert.deepEqual(required, []);
+});
+
+test('a payload with no required field, or none at all, gives an empty list', () => {
+  assert.deepEqual(progressFromPayload(payload()).required, []);
+  assert.deepEqual(progressFromPayload(null).required, []);
+});
