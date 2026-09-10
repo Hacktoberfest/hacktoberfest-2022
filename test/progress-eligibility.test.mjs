@@ -34,7 +34,7 @@ test('an activity id the page has never heard of is ignored', () => {
     { id: 'livestreams', completed: true, completedAt: '2026-10-04' },
   ]);
 
-  assert.equal(merged.length, 4);
+  assert.equal(merged.length, ACTIVITIES.length);
   assert.equal(
     merged.find((a) => a.id === 'livestreams').completedAt,
     '2026-10-04',
@@ -42,9 +42,12 @@ test('an activity id the page has never heard of is ignored', () => {
 });
 
 test('malformed entries do not throw', () => {
-  assert.equal(mergeActivities().length, 4);
-  assert.equal(mergeActivities(null).length, 4);
-  assert.equal(mergeActivities([null, undefined, {}, 7]).length, 4);
+  assert.equal(mergeActivities().length, ACTIVITIES.length);
+  assert.equal(mergeActivities(null).length, ACTIVITIES.length);
+  assert.equal(
+    mergeActivities([null, undefined, {}, 7]).length,
+    ACTIVITIES.length,
+  );
   assert.equal(completedCount(mergeActivities([null, {}])), 0);
 });
 

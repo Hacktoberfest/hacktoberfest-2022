@@ -76,7 +76,8 @@ test('the catalogue’s copy wins over the API’s name', () => {
     }),
   );
   const fest = activities.find((a) => a.id === 'fest');
-  assert.equal(fest.label, 'Attend a Fest in person');
+  assert.equal(fest.label, ACTIVITIES.find((a) => a.id === 'fest').label);
+  assert.notEqual(fest.label, 'Something else');
 });
 
 test('an id the catalogue lacks is dropped; one the API lacks reads undone', () => {

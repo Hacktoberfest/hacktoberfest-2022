@@ -23,7 +23,13 @@ const merged = (over = {}) =>
   }));
 
 test('the type order is fixed', () => {
-  assert.deepEqual(TYPE_ORDER, ['online', 'inperson', 'dev', 'tools']);
+  assert.deepEqual(TYPE_ORDER, [
+    'dev',
+    'livestreams',
+    'ghw',
+    'tools',
+    'inperson',
+  ]);
 });
 
 test('signed out: All plus one chip per type present, in order, with counts', () => {
@@ -46,8 +52,15 @@ test('signed out: All plus one chip per type present, in order, with counts', ()
 });
 
 test('a type with no activities gets no chip', () => {
-  const chips = chipsFor(merged(), { signedIn: false });
-  assert.ok(!chips.some((chip) => chip.key === 'dev'));
+  /* Every type has entries this season, so take one away: a catalogue
+     with no Tools gets no Tools chip, and the others keep their order. */
+  const withoutTools = merged().filter((activity) => activity.type !== 'tools');
+  const chips = chipsFor(withoutTools, { signedIn: false });
+  assert.ok(!chips.some((chip) => chip.key === 'tools'));
+  assert.deepEqual(
+    chips.slice(1).map((chip) => chip.key),
+    TYPE_ORDER.filter((type) => withoutTools.some((a) => a.type === type)),
+  );
 });
 
 test('signed in: Still to do is last and counts the undone', () => {
@@ -63,8 +76,8 @@ test('filtering keeps catalogue order and drops only the others', () => {
   const list = merged({ fest: { completed: true } });
   assert.deepEqual(filterActivities(list, 'all'), list);
   assert.deepEqual(
-    filterActivities(list, 'online').map((a) => a.id),
-    ACTIVITIES.filter((a) => a.type === 'online').map((a) => a.id),
+    filterActivities(list, 'ghw').map((a) => a.id),
+    ACTIVITIES.filter((a) => a.type === 'ghw').map((a) => a.id),
   );
   assert.deepEqual(
     filterActivities(list, 'todo').map((a) => a.id),

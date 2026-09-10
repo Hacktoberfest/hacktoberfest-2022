@@ -2,14 +2,14 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
-import ActivitiesBand from 'components/ActivitiesBand';
+import Album from 'components/Album';
 import ApplicationsBand from 'components/ApplicationsBand';
 import CountdownBand from 'components/CountdownBand';
 import FestsBand from 'components/FestsBand';
 import Header from 'components/Header';
+import RewardsBand from 'components/RewardsBand';
 import HostResourcesBand from 'components/HostResourcesBand';
 import { MyError, MyLoading, MyMlhDown } from 'components/MyStatus';
-import StickersBand from 'components/StickersBand';
 import ThankYouBand from 'components/ThankYouBand';
 import WelcomeBand from 'components/WelcomeBand';
 import WhyHostBand from 'components/WhyHostBand';
@@ -296,8 +296,11 @@ const My = () => {
               ) : (
                 <WhyHostBand />
               ))}
-            {!PREPTEMBER && <StickersBand experience={experience} />}
-            {!PREPTEMBER && <ActivitiesBand experience={experience} />}
+            {/* The hub's progress, as two bands: the two rewards the
+               stickers add up to, then the sticker book, every sticker
+               there is to earn on a page per type. */}
+            {!PREPTEMBER && <RewardsBand experience={experience} />}
+            {!PREPTEMBER && <Album experience={experience} />}
             {!PREPTEMBER && <FestsBand experience={experience} />}
             {/* October keeps the resources band, but only for organizers
                — isOrganizing, not isHost, because someone mid-application

@@ -1,0 +1,368 @@
+/* The rewards band on /my, above the sticker book. CSS Module because the
+   hub renders after a client-side fetch, where styled-components ship no
+   CSS. Palette values are restated as literals with the token named
+   beside each, the convention the other modules follow; the sticker,
+   slot, tag and badge rules restate the sticker book's
+   (Album.module.css), since a CSS Module cannot import another. */
+
+/* Shared band geometry, identical width rules to WelcomeBand so every
+   band's left edge aligns. Extra room above: the account strip hangs
+   half below the hero. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 72px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  max-width: 64ch;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* Two cards side by side from tablet width, in the homepage grammar: ink
+   border, white paper, maroon hard shadow. The right padding gives the
+   shadows room. */
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  margin: 0;
+  padding: 0 8px 0 0;
+  list-style: none;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+  padding: 18px 20px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+}
+
+.body {
+  display: grid;
+  gap: 6px;
+  align-content: center;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.title {
+  margin: 4px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.why {
+  margin: 0 0 4px;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Placement only: the button is .hf-button (src/styles/buttons.css). */
+.cta {
+  justify-self: start;
+  margin-top: 8px;
+}
+
+/* The die-cut slot and the sticker in it, as the sticker book draws them. */
+.slot {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+}
+
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  /* colors.rule */
+  border: 1.5px dashed #8ca59e;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  /* colors.white */
+  border: 3px solid #f7f7f2;
+  /* colors.ink */
+  outline: 2px solid #10201d;
+  color: #10201d;
+  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.sticker svg {
+  width: 58%;
+  height: 58%;
+}
+
+/* Earned: peeled off the slot, at an angle, with the heavier shadow of a
+   thing that has been lifted, each card leaning its own way, and a tick
+   on the sticker's corner. Not yet: a grey silhouette, as the book's
+   stickers are. colors.paperDeep / rule / forest / white / ink */
+.card[data-earned='true'] .sticker {
+  transform: rotate(-9deg);
+  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
+.card:nth-child(2)[data-earned='true'] .sticker {
+  transform: rotate(6deg);
+  box-shadow: 3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
+.card:not([data-earned='true']) .sticker {
+  background: #e4e5da;
+  color: #8ca59e;
+  outline-color: #8ca59e;
+  box-shadow: none;
+}
+
+.tick {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
+  color: #f7f7f2;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* The rewards' grounds: the pack on ochre; the holographic sticker as a
+   sweep of the brand colours, the placeholder for a holo finish until the
+   real sticker is drawn. The pips take the book's grounds, one per page,
+   so the meter reads as the book filling up. colors.ochre / sky / pink /
+   ochre / forest / ink / orange / rule / white */
+.groundPack {
+  background: #f5b726;
+}
+.groundComplete {
+  background: conic-gradient(from 210deg, #f5b726, #e97b77, #8bb2de, #f5b726);
+}
+.ground_required {
+  background: #3d5f58;
+  color: #f7f7f2;
+}
+.ground_dev {
+  background: #10201d;
+  color: #f7f7f2;
+}
+.ground_livestreams {
+  background: #8bb2de;
+}
+.ground_ghw {
+  background: #e53927;
+}
+.ground_tools {
+  background: #8ca59e;
+}
+.ground_inperson {
+  background: #e97b77;
+}
+
+.needs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.need {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tick {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  /* colors.white */
+  color: #f7f7f2;
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.tickOn {
+  border: 0;
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+.meter {
+  display: flex;
+  gap: 6px;
+}
+
+.pip {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border-radius: 50%;
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.pip svg {
+  width: 60%;
+  height: 60%;
+}
+
+.pipOn {
+  /* colors.white / ink */
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+}
+
+.meterLabel {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.76rem;
+}
+
+/* The milestone tag and badge, as the sticker book and the fest cards
+   draw them: mono, rounded tag on ink; dashed badge while pending, ochre
+   for the pack, ochre-deep for completion. */
+.tag {
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  /* colors.rule */
+  border: 1px dashed #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badgeOchre {
+  /* colors.ink */
+  border: 1px solid #10201d;
+  /* colors.ochre */
+  background: #f5b726;
+  color: #10201d;
+}
+
+.badgeDeep {
+  /* colors.ink */
+  border: 1px solid #10201d;
+  /* colors.ochreDeep */
+  background: #8a5d13;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .slot {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+}

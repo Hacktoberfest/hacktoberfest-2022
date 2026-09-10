@@ -1,0 +1,500 @@
+/* The sticker book on /my. CSS Module because the hub renders after a
+   client-side fetch, where styled-components ship no CSS. Palette values
+   are restated as literals with the token named beside each, the
+   convention the other modules follow. */
+
+/* Shared band geometry, identical width rules to WelcomeBand so every
+   band's left edge aligns. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  max-width: 64ch;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* The book: one card in the homepage grammar (ink border, white paper,
+   maroon hard shadow). Tabs, the open page, and the spine are its three
+   regions. The right margin gives the shadow room, as the strip and the
+   card grids do. */
+.album {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-right: 8px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+}
+
+/* The tabs: two-up across the top on a phone, wrapping rather than
+   scrolling sideways so the last tab is never hidden with nothing to say
+   so; a column down the left from tablet width. Each carries its page's
+   colour as a rule along the edge the page is on, the same colour the
+   stickers on that page wear. */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 14px 12px;
+  border: 0;
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  /* The accent rule: along the top on a phone (the page is below), along
+     the left from tablet (the page is to the right). */
+  box-shadow: inset 0 5px 0 var(--tab-accent, #10201d);
+}
+
+/* The dividers of the two-up grid: between the columns, and above every
+   row but the first. colors.rule */
+.tab:nth-child(odd) {
+  border-right: 1.5px solid #8ca59e;
+}
+
+.tab:nth-child(n + 3) {
+  border-top: 1.5px solid #8ca59e;
+}
+
+.tab:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+.tab[aria-selected='true'] {
+  /* colors.white, the page's paper: the open tab is part of the page. */
+  background: #f7f7f2;
+}
+
+.tab:focus-visible {
+  /* colors.orange */
+  outline: 3px solid #e53927;
+  outline-offset: -5px;
+}
+
+.tabLabel {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.tabCount {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* One colour per page, the same on the tab's rule and on the page's
+   stickers, so tab and sticker agree about which page is which and no two
+   pages share one. colors.forest / ink / sky / orange / rule / pink */
+.accent_required {
+  --tab-accent: #3d5f58;
+}
+.accent_dev {
+  --tab-accent: #10201d;
+}
+.accent_livestreams {
+  --tab-accent: #8bb2de;
+}
+.accent_ghw {
+  --tab-accent: #e53927;
+}
+.accent_tools {
+  --tab-accent: #8ca59e;
+}
+.accent_inperson {
+  --tab-accent: #e97b77;
+}
+
+/* The pages, every one rendered and stacked in the same grid cell so the
+   book stands as tall as its tallest page whichever is open. Only the
+   open page is visible; the others keep their height and nothing else. */
+.pages {
+  display: grid;
+}
+
+.page {
+  grid-area: 1 / 1;
+  padding: 18px 22px 22px 16px;
+  visibility: hidden;
+}
+
+.page[data-open='true'] {
+  visibility: visible;
+}
+
+.pageHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin-bottom: 14px;
+}
+
+.pageTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.pageNote {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+/* The cells: a perforated sheet, dashed rules between them drawn as each
+   cell's top and left edge, with the grid pulled up and left by one rule
+   so the first row and column's rules sit on the page's own edge and are
+   never doubled. Two across on a phone, three from tablet width. */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* colors.rule */
+  border-top: 1.5px dashed #8ca59e;
+  border-left: 1.5px dashed #8ca59e;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  min-height: 196px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px 14px 18px;
+  /* colors.rule */
+  border-right: 1.5px dashed #8ca59e;
+  border-bottom: 1.5px dashed #8ca59e;
+  text-align: center;
+}
+
+/* Matches the milestone tag's treatment: ink, mono, rounded. */
+.cellTag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cellTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.cellDone {
+  margin: 0;
+  /* colors.forestDeep */
+  color: #2e4742;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.cellStatus {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.78rem;
+}
+
+.cellLink {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  /* colors.ink */
+  color: #10201d;
+  text-underline-offset: 3px;
+}
+
+/* The die-cut slot and the sticker in it, as the activity card draws
+   them (ActivityCard.module.css): the dashed ring shows behind a peeled
+   sticker. */
+.slot {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+}
+
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  /* colors.rule */
+  border: 1.5px dashed #8ca59e;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  /* colors.white */
+  border: 3px solid #f7f7f2;
+  /* colors.ink */
+  outline: 2px solid #10201d;
+  color: #10201d;
+  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.sticker svg {
+  width: 58%;
+  height: 58%;
+}
+
+.cell:hover .sticker {
+  transform: rotate(-4deg) translateY(-2px);
+}
+
+/* Not yet earned: a grey silhouette in the slot, the way a stamp book
+   shows the ones still to collect. The page's colour arrives with the
+   sticker. Wins over the grounds below by specificity. colors.paperDeep /
+   rule */
+.cell:not([data-earned='true']) .sticker {
+  background: #e4e5da;
+  color: #8ca59e;
+  outline-color: #8ca59e;
+  box-shadow: none;
+}
+
+/* Earned: lifted off the slot, with the heavier shadow of a thing that
+   has been peeled, and leaning its own way by its place in the row so a
+   full page looks stuck down by hand rather than stamped. Rotation only,
+   about the slot's centre, so the sticker stays where the slot is; the
+   shadow does the lifting. Hover keeps the lean. */
+.cell[data-earned='true'] .sticker,
+.cell[data-earned='true']:hover .sticker {
+  transform: rotate(-9deg);
+  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
+.cell[data-earned='true']:nth-child(3n + 2) .sticker,
+.cell[data-earned='true']:nth-child(3n + 2):hover .sticker {
+  transform: rotate(6deg);
+  box-shadow: 3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
+.cell[data-earned='true']:nth-child(3n) .sticker,
+.cell[data-earned='true']:nth-child(3n):hover .sticker {
+  transform: rotate(-4deg);
+}
+
+/* The tick on an earned sticker's corner: forest on white, the rewards
+   band's tick moved onto the sticker. colors.forest / white / ink */
+.tick {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
+  color: #f7f7f2;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* The grounds, each its page's colour (the accents above, and the same
+   values on ActivityCard for /activities/): the dark ones carry a white
+   glyph. colors.forest / ink / sky / orange / rule / pink / white */
+.ground_required {
+  background: #3d5f58;
+  color: #f7f7f2;
+}
+.ground_dev {
+  background: #10201d;
+  color: #f7f7f2;
+}
+.ground_livestreams {
+  background: #8bb2de;
+}
+.ground_ghw {
+  background: #e53927;
+}
+.ground_tools {
+  background: #8ca59e;
+}
+.ground_inperson {
+  background: #e97b77;
+}
+
+/* The spine along the bottom: the book's count and the way to the public
+   catalogue. */
+.spine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  padding: 10px 16px;
+  /* colors.ink */
+  border-top: 2px solid #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+.spineCount {
+  margin-right: auto;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.spineLink {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  /* colors.ink */
+  color: #10201d;
+  text-underline-offset: 3px;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .album {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .tabs {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    border-bottom: 0;
+    /* colors.ink */
+    border-right: 2px solid #10201d;
+  }
+
+  .tab,
+  .tab:nth-child(odd),
+  .tab:nth-child(n + 3) {
+    border-top: 0;
+    border-right: 0;
+    /* colors.rule */
+    border-bottom: 1.5px solid #8ca59e;
+    box-shadow: inset 5px 0 0 var(--tab-accent, #10201d);
+  }
+
+  /* The open tab joins the page: it covers the divider between them. The
+     last tab keeps its bottom rule, so the list ends with a line rather
+     than running out into the column's paper. */
+  .tab[aria-selected='true'] {
+    margin-right: -2px;
+    padding-right: 16px;
+  }
+
+  .cells {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .spine {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+}

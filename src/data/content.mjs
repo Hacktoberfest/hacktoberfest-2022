@@ -2186,87 +2186,97 @@ export const my = {
         'The Hacktoberfest Applications Team: Stephen, Jacklyn & Quinn',
     },
   },
-  stickers: {
-    heading: { lead: 'Your', accent: 'progress.' },
-    /* Three states, not two: nothing earned yet, stickers earned but still
-       short of Milestone 2, and Milestone 2 (Hacktoberfest complete). Which
-       one shows is progressLevel()'s job — this object only holds the
-       words. */
-    intro: {
-      pending: (n) =>
-        `Two milestones this October: do any one activity to earn a Hacktoberfest sticker pack in the mail, then complete ${n} in total to finish Hacktoberfest.`,
-      stickersEarned: (n) =>
-        `You’ve earned your stickers. Complete ${n} activities total to finish Hacktoberfest.`,
-      complete:
-        'You’ve completed Hacktoberfest 2026. Nothing left to do but wait for your stickers in the mail.',
+  /* The sticker book (components/Album): every sticker there is to earn,
+     required ones first, on a page per type. The cards inside are
+     components/ActivityCard, whose words live under activitiesPage.list so
+     /my and /activities/ say the same things about the same activities;
+     the tab labels are activitiesPage.list.types for the same reason. */
+  album: {
+    heading: { lead: 'Your', accent: 'sticker book.' },
+    /* One line, whatever the state: what the book is. The state lives on
+       the rewards band above it (my.rewards.intro). `total` is the whole
+       book, `n` the activity count Milestone 2 asks for. */
+    intro: (total, n) =>
+      `${total} stickers to earn this October. Two are required, the rest are yours to choose. Any one activity sticker earns the pack in the mail, and ${n} activity stickers unlocks the bonus holographic sticker.`,
+    tabsLabel: 'Sticker book pages',
+    tabCount: (earned, total) => `${earned} of ${total}`,
+    /* One line under each page's title, keyed by tab. A type without a
+       line here still renders, with no note. */
+    pages: {
+      required: 'Both, before anything ships.',
+      dev: 'From your DEV account, once it is linked to MyMLH.',
+      livestreams: 'Check in with the code on screen and it counts.',
+      ghw: 'A week of challenges, five stickers to earn from it.',
+      tools:
+        'Connect an account, an editor or a server, and it counts on its own.',
+      inperson: 'Checking in at the door is what counts.',
     },
-    /* Under the card on /my: the detail lives on /activities/. */
-    detailCta: 'See every activity',
-    /* Each milestone is its own group: title, and the badge text for its
-       reached and not-yet-reached states. Milestone 2's not-yet badge is a
-       function since it carries the live activity count. */
-    /* Both pendingBadges are the same "x of y" shape, deliberately — a
-       plain "Not yet" next to a live count read as two different kinds of
-       label for the same kind of information. The two counts mean
-       different things, though: Milestone 1 has three separate
-       requirements (signed in, address, any 1 activity), so its badge
-       counts those. Milestone 2 has exactly ONE requirement — "complete 3
-       activities" — so its badge is 0 of 1 or 1 of 1, never a raw
-       activity count. */
-    groups: {
-      stickers: {
-        tag: 'Milestone 1',
-        description: 'Earn a Hacktoberfest sticker pack',
-        reachedBadge: 'Earned',
-        pendingBadge: (done, total) => `${done} of ${total}`,
-      },
-      complete: {
-        tag: 'Milestone 2',
-        description: 'Complete Hacktoberfest',
-        reachedBadge: 'Complete',
-        pendingBadge: (done, total) => `${done} of ${total}`,
-      },
+    /* The cells on a page: the sticker, its name, one line of status. The
+       line under an earned sticker is the date, or its source in words
+       (activitiesPage.list.source); `earned` is the tick's name for
+       assistive tech, the one place the word is said. */
+    cell: {
+      required: 'Required',
+      earned: 'Earned',
+      notYet: 'Not yet',
     },
-    /* Every row carries a detail line, shown regardless of done/pending
-       state — a fixed description of what the requirement is, distinct
-       from the title, which is the only piece that flips wording once
-       the row is done. */
-    steps: {
-      signedIn: {
-        title: 'Signed in with MyMLH.',
-        detail: 'The MyMLH account you used to sign in.',
-      },
-      /* The CTA's destination is MLH_ADDRESS_URL in data/links.js — a real
-         link, so it lives with the other tagged outbound links rather than
-         as a placeholder here. */
-      address: {
-        title: 'Add your address to your MyMLH account',
-        detail:
-          'We mail your sticker pack to the address on your MyMLH account.',
-        done: 'Address added.',
-        cta: 'Add address',
-      },
-      /* The two groups' third row: same activity count, two different
-         thresholds. "Complete 3 activities total" always states the
-         Milestone 2 target, never "0 of 3" phrasing on its own — the count
-         is folded in below, in the group's own pending badge. */
-      activity1: {
-        title: 'Do any 1 activity',
-        detail: 'Complete any one of the activities below.',
-        done: 'Activity requirement met.',
-      },
-      activity3: {
-        title: (n) => `Complete ${n} activities total`,
-        detail: (n) => `Any combination of ${n} activities below counts.`,
-        done: (n) => `${n} activities complete.`,
-      },
+    /* The spine along the bottom: the book's count and the way to the
+       public catalogue. */
+    spine: {
+      count: (earned, total) => `${earned} of ${total} in the book`,
+      detailCta: 'See every activity',
     },
   },
-  /* The band's heading only: the cards are components/ActivityCard, whose
-     words live under activitiesPage.list so /my and /activities/ say the
-     same things about the same four activities. */
-  activities: {
-    heading: { lead: 'Pick an', accent: 'activity.' },
+  /* The rewards band (components/RewardsBand), above the book: the two
+     milestones as two more stickers, earned by earning stickers, each a
+     card with its badge, a line saying what happens next in its state,
+     and what it needs. The intro changes with the level. `n` is the
+     activity count Milestone 2 asks for (thresholds.complete). */
+  rewards: {
+    heading: { lead: 'Your', accent: 'rewards.' },
+    intro: {
+      pending: (n) =>
+        `Two stickers you earn by earning stickers. Any one activity sticker puts the pack in the mail; ${n} activity stickers unlocks the bonus holographic sticker, and that is Hacktoberfest complete.`,
+      stickersEarned: (n) =>
+        `Your sticker pack is on its way. Earn ${n} activity stickers in total to unlock the bonus holographic sticker and complete Hacktoberfest.`,
+      complete:
+        'You’ve completed Hacktoberfest 2026. The bonus holographic sticker is unlocked, and your sticker pack is in the mail.',
+    },
+    pack: {
+      tag: 'Milestone 1',
+      title: 'Sticker pack in the mail',
+      reachedBadge: 'Earned',
+      pendingBadge: (done, total) => `${done} of ${total}`,
+      why: {
+        earned: 'Your pack ships to the address on your MyMLH account.',
+        addressFirst: 'Add your address, then earn any one activity sticker.',
+        addressAfter:
+          'An activity sticker is in the book. Add an address and the pack ships.',
+        activity: 'Earn any one activity sticker and the pack ships.',
+      },
+      needs: {
+        signedIn: 'Signed in',
+        address: 'Address',
+        activity: 'Any 1 activity',
+      },
+      /* The CTA's destination is MLH_ADDRESS_URL in data/links.js. */
+      addressCta: 'Add address',
+    },
+    complete: {
+      tag: 'Milestone 2',
+      title: 'The bonus holographic sticker',
+      reachedBadge: 'Unlocked',
+      pendingBadge: (done, total) => `${done} of ${total}`,
+      why: {
+        earned: 'Unlocked, and Hacktoberfest 2026 is complete.',
+        locked: (n) =>
+          `Opens once the pack ships. ${n} activity stickers in total, ${n + 2} in the book with the two required.`,
+        remaining: (left) =>
+          `${left} more activity sticker${left === 1 ? '' : 's'} unlocks it, and completes Hacktoberfest.`,
+      },
+      meterLabel: (filled, target) =>
+        `${filled} of ${target} stickers toward the holographic sticker`,
+    },
   },
   fests: {
     heading: { lead: 'Your', accent: 'Fests.' },
@@ -2497,7 +2507,7 @@ export const authCallback = {
 export const activitiesPage = {
   title: 'Activities | Hacktoberfest 2026',
   description:
-    'The activities that earn a Hacktoberfest 2026 sticker pack: attend livestreams, complete Global Hack Week, attend a Fest, install Dev Relay. Do one for stickers, more to complete October.',
+    'The activities that earn a Hacktoberfest 2026 sticker pack: livestreams, Global Hack Week, Fests in person, DEV challenges, DevRelay and DigitalOcean. Do one for stickers, more to complete October.',
   eyebrow: 'Attend online · Activities',
   heading: { lead: 'Do the activities,', accent: 'earn the rewards.' },
   intro:
@@ -2538,8 +2548,10 @@ export const activitiesPage = {
     source: {
       event_checkins: 'from your check-ins',
       import: 'from the Global Hack Week roster',
-      api: 'from Dev Relay',
+      api: 'from DevRelay',
       manual: 'confirmed by the Hacktoberfest team',
+      /* The two required stickers in the book on /my. */
+      mlh: 'from your MyMLH account',
     },
     /* Shown above the rows when the signed-in fetch failed: the rows
        still render, undone, and without this line that reads as "you
@@ -2552,10 +2564,15 @@ export const activitiesPage = {
        TYPE_ORDER in lib/activityFilters.mjs fixes the order, this fixes
        the words. A type with no activities never shows. */
     types: {
-      online: 'Online',
-      inperson: 'In person',
-      dev: 'DEV challenges',
+      dev: 'DEV Challenges',
+      livestreams: 'Livestreams',
+      ghw: 'Global Hack Week',
       tools: 'Tools',
+      inperson: 'In Person',
+      /* The sticker book's Required page on /my (lib/stickerBook.mjs): the
+         two stickers everyone earns. Not in TYPE_ORDER, so /activities/
+         never offers it as a chip. */
+      required: 'Required',
     },
     filters: {
       label: 'Filter by type',

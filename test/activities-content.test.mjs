@@ -29,6 +29,7 @@ test('sources are named in words a participant would use', () => {
     'event_checkins',
     'import',
     'manual',
+    'mlh',
   ]);
   for (const value of Object.values(activitiesPage.list.source)) {
     assert.doesNotMatch(value, /sweep|import|api|manual/i);

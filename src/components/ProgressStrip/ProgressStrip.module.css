@@ -42,15 +42,19 @@
   box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
 }
 
-/* colors.sky / pink / ochre / rule, the sticker grounds on ActivityCard */
-.type_online {
+/* colors.sky / orange / pink / ink / rule, the sticker grounds on
+   ActivityCard */
+.type_livestreams {
   --slot-fill: #8bb2de;
+}
+.type_ghw {
+  --slot-fill: #e53927;
 }
 .type_inperson {
   --slot-fill: #e97b77;
 }
 .type_dev {
-  --slot-fill: #f5b726;
+  --slot-fill: #10201d;
 }
 .type_tools {
   --slot-fill: #8ca59e;

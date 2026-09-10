@@ -1,6 +1,6 @@
 /* The page's bands: full-bleed grounds that alternate (paper, paperDeep,
    paper), each with the shell-width inner column every other band on the
-   site uses. StickersBand on /my shares the width rules. */
+   site uses. The sticker book on /my shares the width rules. */
 .band {
   padding-block: clamp(56px, 7vw, 80px);
   /* colors.ink */

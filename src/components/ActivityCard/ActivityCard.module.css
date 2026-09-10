@@ -48,8 +48,9 @@
   border-radius: 50%;
   /* colors.white */
   border: 3px solid #f7f7f2;
-  /* colors.ink */
+  /* colors.ink, the glyph's colour too: the art draws in currentColor */
   outline: 2px solid #10201d;
+  color: #10201d;
   box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
   transition:
     transform 0.18s ease,
@@ -122,15 +123,27 @@
 }
 
 /* colors.sky / skyLight / skyDeep */
-.card.type_online {
+.card.type_livestreams {
   --card-accent: #1f4e6b;
 }
-.sticker.type_online {
+.sticker.type_livestreams {
   background: #8bb2de;
 }
-.type.type_online {
+.type.type_livestreams {
   background: #d7e5f4;
   color: #1f4e6b;
+}
+/* Global Hack Week: orange, the colour its tab in the sticker book wears.
+   colors.orange / orangeLight / orangeDeep */
+.card.type_ghw {
+  --card-accent: #b8301f;
+}
+.sticker.type_ghw {
+  background: #e53927;
+}
+.type.type_ghw {
+  background: #f9c9c2;
+  color: #b8301f;
 }
 /* colors.pink / pinkLight / orangeDeep */
 .card.type_inperson {
@@ -143,16 +156,29 @@
   background: #f6c4c1;
   color: #b8301f;
 }
-/* colors.ochre / ochreLight (new literal, no token yet) / ochreDeep */
+/* DEV Challenges: ink, DEV's own black and the colour its tab in the
+   sticker book wears, with a white glyph. colors.ink / white */
 .card.type_dev {
-  --card-accent: #8a5d13;
+  --card-accent: #10201d;
 }
 .sticker.type_dev {
-  background: #f5b726;
+  background: #10201d;
+  color: #f7f7f2;
 }
 .type.type_dev {
-  background: #fbe2a4;
-  color: #8a5d13;
+  background: #10201d;
+  color: #f7f7f2;
+}
+/* The two required stickers in the sticker book on /my: forest, the
+   colour their page's tab wears, with a white glyph, and the ink tag the
+   milestone tag wears. colors.forest / ink / white */
+.sticker.type_required {
+  background: #3d5f58;
+  color: #f7f7f2;
+}
+.type.type_required {
+  background: #10201d;
+  color: #f7f7f2;
 }
 /* colors.rule / paperDeep / forestDeep / inkSoft */
 .card.type_tools {

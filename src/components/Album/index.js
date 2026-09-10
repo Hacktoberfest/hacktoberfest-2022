@@ -1,0 +1,153 @@
+import { useState } from 'react';
+
+import { activitiesPage, my } from 'data/content.mjs';
+import { MLH_ADDRESS_URL } from 'data/links';
+import {
+  bookCounts,
+  bookStickers,
+  bookTabs,
+  defaultTab,
+  filterBook,
+  milestoneState,
+} from 'lib/stickerBook.mjs';
+
+import styles from './Album.module.css';
+import StickerCell from './StickerCell';
+
+/* The sticker book: every sticker there is to earn this October, on a
+   page per type, with the two required ones first. Tabs down the side
+   (two-up across the top on a phone), the open page's cells, and along
+   the bottom the spine: the book's count and the way to the public
+   catalogue. What the stickers add up to is the rewards band above this
+   one (components/RewardsBand).
+
+   The pure half is lib/stickerBook.mjs: which stickers, which tabs, which
+   page the book opens on. The cells are this feature's own (StickerCell):
+   the page is the type, so they say less than the activity card
+   /activities/ draws, and give the sticker the room.
+
+   The open tab is client state and nothing more. It is seeded once at
+   mount from progress (the page holding the next sticker) and the reader
+   moves it from there; a fresh fetch remounts. Arrow keys move between
+   tabs, the usual tablist behaviour, so the row is one tab stop rather
+   than six. */
+const ACCENTS = {
+  required: 'accent_required',
+  dev: 'accent_dev',
+  livestreams: 'accent_livestreams',
+  ghw: 'accent_ghw',
+  tools: 'accent_tools',
+  inperson: 'accent_inperson',
+};
+
+const Album = ({ experience }) => {
+  const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
+  const tabs = bookTabs(stickers);
+  const [tab, setTab] = useState(() => defaultTab(stickers));
+  /* A tab that no longer exists (a type the catalogue dropped) falls back
+     to the first page rather than an empty one. */
+  const current = tabs.some((entry) => entry.key === tab) ? tab : tabs[0].key;
+  const { earned, total } = bookCounts(stickers);
+
+  const { complete } = milestoneState(experience);
+  const intro = my.album.intro(total, complete);
+
+  const label = (key) => activitiesPage.list.types[key] || key;
+
+  const onKeyDown = (event) => {
+    const index = tabs.findIndex((entry) => entry.key === current);
+    let next = null;
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      next = tabs[(index + 1) % tabs.length];
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      next = tabs[(index - 1 + tabs.length) % tabs.length];
+    } else if (event.key === 'Home') {
+      next = tabs[0];
+    } else if (event.key === 'End') {
+      next = tabs[tabs.length - 1];
+    }
+    if (!next) return;
+    event.preventDefault();
+    setTab(next.key);
+    const button = event.currentTarget.querySelector(
+      `[data-tab="${next.key}"]`,
+    );
+    if (button) button.focus();
+  };
+
+  return (
+    <section className={styles.band} aria-labelledby="album-heading">
+      <h2 id="album-heading" className={styles.heading}>
+        {my.album.heading.lead} <em>{my.album.heading.accent}</em>
+      </h2>
+      <p className={styles.intro}>{intro}</p>
+      <div className={styles.album}>
+        <div
+          className={styles.tabs}
+          role="tablist"
+          aria-label={my.album.tabsLabel}
+          onKeyDown={onKeyDown}
+        >
+          {tabs.map((entry) => (
+            <button
+              key={entry.key}
+              type="button"
+              role="tab"
+              id={`album-tab-${entry.key}`}
+              data-tab={entry.key}
+              aria-selected={entry.key === current}
+              aria-controls={`album-page-${entry.key}`}
+              tabIndex={entry.key === current ? 0 : -1}
+              className={`${styles.tab} ${styles[ACCENTS[entry.key]] || ''}`}
+              onClick={() => setTab(entry.key)}
+            >
+              <span className={styles.tabLabel}>{label(entry.key)}</span>
+              <span className={styles.tabCount}>
+                {my.album.tabCount(entry.earned, entry.count)}
+              </span>
+            </button>
+          ))}
+        </div>
+        {/* Every page renders, stacked in one grid cell with only the open
+            one visible, so the book is always as tall as its tallest page
+            and never jumps as the reader turns it. A closed page is
+            visibility: hidden, which also takes it out of the tab order
+            and the accessibility tree. */}
+        <div className={styles.pages}>
+          {tabs.map((entry) => (
+            <div
+              key={entry.key}
+              className={styles.page}
+              role="tabpanel"
+              id={`album-page-${entry.key}`}
+              aria-labelledby={`album-tab-${entry.key}`}
+              data-open={entry.key === current ? 'true' : undefined}
+            >
+              <div className={styles.pageHead}>
+                <h3 className={styles.pageTitle}>{label(entry.key)}</h3>
+                {my.album.pages[entry.key] && (
+                  <p className={styles.pageNote}>{my.album.pages[entry.key]}</p>
+                )}
+              </div>
+              <ul className={styles.cells}>
+                {filterBook(stickers, entry.key).map((sticker) => (
+                  <StickerCell key={sticker.id} sticker={sticker} />
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className={styles.spine}>
+          <span className={styles.spineCount}>
+            {my.album.spine.count(earned, total)}
+          </span>
+          <a className={styles.spineLink} href="/activities/">
+            {my.album.spine.detailCta}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Album;

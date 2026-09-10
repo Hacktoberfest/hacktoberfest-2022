@@ -4,10 +4,31 @@ import test from 'node:test';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 
-test('the catalogue is the season’s four activities, by the slugs FestNet uses', () => {
+/* livestreams, fest, dev-relay and ghw are ids FestNet already uses; the
+   rest are this site's guesses until FestNet confirms its slugs (see the
+   note on ACTIVITIES). */
+test('the catalogue is the season’s seventeen activities, by slug', () => {
   assert.deepEqual(
     ACTIVITIES.map((activity) => activity.id),
-    ['livestreams', 'ghw', 'fest', 'dev-relay'],
+    [
+      'livestreams',
+      'livestreams-3',
+      'livestreams-5',
+      'livestream-launch',
+      'fest',
+      'host-fest',
+      'dev-relay',
+      'dev-connect',
+      'dev-building',
+      'dev-writing',
+      'ghw',
+      'ghw-livestream',
+      'ghw-points-5',
+      'ghw-points-10',
+      'ghw-points-20',
+      'discord',
+      'digitalocean',
+    ],
   );
 });
 
@@ -18,8 +39,9 @@ test('every activity has a stable unique id', () => {
 });
 
 /* href is null for an activity whose real destination is not known yet
-   (dev-relay this season) — the renderers skip its CTA rather than ship
-   a placeholder link. Every other activity needs a real destination. */
+   (DevRelay, the two DEV challenges and the DigitalOcean connect this
+   season) — the renderers skip its CTA rather than ship a placeholder
+   link. Every other activity needs a real destination. */
 test('every activity has copy, and a destination or none yet', () => {
   ACTIVITIES.forEach((activity) => {
     assert.ok(activity.label.length > 0, `${activity.id} needs a label`);

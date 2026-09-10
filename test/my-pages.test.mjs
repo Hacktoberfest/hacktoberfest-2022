@@ -93,11 +93,16 @@ test('the /my stylesheet is emitted and linked from the page', async () => {
   const html = await readOutput('my/index.html');
   const css = await readLinkedCss(html, '/my');
 
-  // The band card treatments: ink border plus the accent-deep shadows.
-  assert.match(css, /#b8301f/, 'orangeDeep shadow missing');
+  // The band card treatments: the maroon hard shadow every card on the
+  // hub wears, and the sticker book's grounds (Album.module.css): sky,
+  // pink, ochre and rule for the four activity types, forest for the
+  // completion reward, so a book with no CSS cannot pass as styled.
   assert.match(css, /#671912/, 'maroon shadow missing');
-  assert.match(css, /#1f4e6b/, 'skyDeep shadow missing');
-  assert.match(css, /#8a5d13/, 'ochreDeep shadow missing');
+  assert.match(css, /#8bb2de/, 'sky sticker ground missing');
+  assert.match(css, /#e97b77/, 'pink sticker ground missing');
+  assert.match(css, /#f5b726/, 'ochre sticker ground missing');
+  assert.match(css, /#8ca59e/, 'rule sticker ground missing');
+  assert.match(css, /#3d5f58/, 'forest completion ground missing');
 });
 
 /* The export renders /my in its loading state, which makes the loading
@@ -259,9 +264,8 @@ test('the /my feature contains no styled-components', async () => {
     'HostResourcesBand',
     'WhyHostBand',
     'ThankYouBand',
-    'StickersBand',
-    'Milestones',
-    'ActivitiesBand',
+    'RewardsBand',
+    'Album',
     'ActivitiesPage',
     'FestsBand',
     'MyStatus',
@@ -294,9 +298,12 @@ test('the /my feature contains no styled-components', async () => {
    like a bare guess would. */
 test('catalogue hrefs are never placeholder-looking dead links', () => {
   ACTIVITIES.forEach((activity) => {
+    /* On-site routes, or a real off-site destination (the DEV connect
+       sticker points at DEV's own account settings, the address the
+       account strip already offers). */
     assert.ok(
-      activity.href === null || /^\//.test(activity.href),
-      `${activity.id} href should be null or an on-site route`,
+      activity.href === null || /^(\/|https:\/\/)/.test(activity.href),
+      `${activity.id} href should be null, an on-site route, or https`,
     );
     assert.ok(
       !String(activity.href).includes('.invalid'),
@@ -552,13 +559,13 @@ const WIRING = [
   },
   {
     file: 'src/pages/my.js',
-    token: '{!PREPTEMBER && <StickersBand experience={experience} />}',
-    why: 'Preptember mode must hide "Your progress." — an ungated StickersBand renders milestones for a campaign that has not started.',
+    token: '{!PREPTEMBER && <RewardsBand experience={experience} />}',
+    why: 'Preptember mode must hide "Your rewards." — an ungated RewardsBand renders milestones for a campaign that has not started.',
   },
   {
     file: 'src/pages/my.js',
-    token: '{!PREPTEMBER && <ActivitiesBand experience={experience} />}',
-    why: 'Preptember mode must hide "Pick an activity." — an ungated ActivitiesBand offers activities that do not count yet.',
+    token: '{!PREPTEMBER && <Album experience={experience} />}',
+    why: 'Preptember mode must hide "Your sticker book." — an ungated Album offers stickers that cannot be earned yet.',
   },
   {
     file: 'src/pages/my.js',
