@@ -91,6 +91,11 @@ const RewardsBand = ({ experience, justEarned }) => {
      (lib/justEarned.mjs) gets its moment: the card is marked and the
      stylesheet does the rest. */
   const fresh = (id) => (justEarned && justEarned.has(id) ? 'true' : undefined);
+  /* Once the Completionist card is on the page the first two are done
+     with: they fold to a line each (sticker, tag, title, stamp) and share
+     one row above it, so the card still in play has the room. */
+  const compact = rewards.completionist.shown;
+  const cardClass = `${styles.card} ${compact ? styles.cardCompact : ''}`;
   const { pack, complete, completionist } = my.rewards;
   const intro = [
     my.rewards.intro.pending(rewards.complete),
@@ -115,9 +120,9 @@ const RewardsBand = ({ experience, justEarned }) => {
         {my.rewards.heading.lead} <em>{my.rewards.heading.accent}</em>
       </h2>
       <p className={styles.intro}>{intro}</p>
-      <ul className={styles.cards}>
+      <ul className={`${styles.cards} ${compact ? styles.cardsCompact : ''}`}>
         <li
-          className={styles.card}
+          className={cardClass}
           data-earned={rewards.pack.earned ? 'true' : undefined}
           data-just-earned={fresh(MILESTONE_IDS.pack)}
         >
@@ -147,21 +152,23 @@ const RewardsBand = ({ experience, justEarned }) => {
               </span>
             </div>
             <h3 className={styles.title}>{pack.title}</h3>
-            <p className={styles.why}>{packWhy(rewards)}</p>
-            <ul className={styles.needs}>
-              <Need
-                label={pack.needs.signedIn}
-                sticker={rewards.pack.needs.signedIn ? bySlug.signin : null}
-              />
-              <Need
-                label={pack.needs.address}
-                sticker={rewards.pack.needs.address ? bySlug.address : null}
-              />
-              <Need
-                label={pack.needs.activity}
-                sticker={rewards.pack.needs.activity ? firstActivity : null}
-              />
-            </ul>
+            {!compact && <p className={styles.why}>{packWhy(rewards)}</p>}
+            {!compact && (
+              <ul className={styles.needs}>
+                <Need
+                  label={pack.needs.signedIn}
+                  sticker={rewards.pack.needs.signedIn ? bySlug.signin : null}
+                />
+                <Need
+                  label={pack.needs.address}
+                  sticker={rewards.pack.needs.address ? bySlug.address : null}
+                />
+                <Need
+                  label={pack.needs.activity}
+                  sticker={rewards.pack.needs.activity ? firstActivity : null}
+                />
+              </ul>
+            )}
             {!rewards.addressValidated && (
               <a
                 className={`hf-button hf-button--small ${styles.cta}`}
@@ -175,7 +182,7 @@ const RewardsBand = ({ experience, justEarned }) => {
           </div>
         </li>
         <li
-          className={styles.card}
+          className={cardClass}
           data-earned={rewards.completion.earned ? 'true' : undefined}
           data-just-earned={fresh(MILESTONE_IDS.complete)}
         >
@@ -208,17 +215,21 @@ const RewardsBand = ({ experience, justEarned }) => {
               </span>
             </div>
             <h3 className={styles.title}>{complete.title}</h3>
-            <p className={styles.why}>{completeWhy(rewards)}</p>
-            <Meter
-              pips={rewards.completion.pips}
-              target={rewards.completion.target}
-            />
-            <p className={styles.meterLabel}>
-              {complete.meterLabel(
-                rewards.completion.pips.length,
-                rewards.completion.target,
-              )}
-            </p>
+            {!compact && <p className={styles.why}>{completeWhy(rewards)}</p>}
+            {!compact && (
+              <Meter
+                pips={rewards.completion.pips}
+                target={rewards.completion.target}
+              />
+            )}
+            {!compact && (
+              <p className={styles.meterLabel}>
+                {complete.meterLabel(
+                  rewards.completion.pips.length,
+                  rewards.completion.target,
+                )}
+              </p>
+            )}
           </div>
         </li>
         {/* Milestone 3, for people already complete: the card only exists

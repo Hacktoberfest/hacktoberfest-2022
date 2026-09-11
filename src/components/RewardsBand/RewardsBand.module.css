@@ -105,6 +105,54 @@
   line-height: 1.5;
 }
 
+/* The first two cards once the third is on the page: a line each, the
+   sticker smaller, no body copy, no requirements, no meter. They share a
+   row at every width, since a line needs little of it, and the
+   Completionist card takes the row under them. On a phone the pair is
+   narrow enough that the milestone tag would not fit beside the stamp,
+   so the tag goes and the title names the milestone alone; it returns
+   at tablet width below. */
+.cardsCompact {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cardCompact {
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+}
+
+.cardCompact .slot {
+  width: 44px;
+  height: 44px;
+}
+
+.cardCompact .body {
+  gap: 4px;
+}
+
+.cardCompact .title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.cardCompact .tag {
+  display: none;
+}
+
+.cardCompact .badge {
+  padding: 3px 7px;
+  font-size: 0.6rem;
+}
+
+/* The Completionist card takes the row under the first two, at every
+   width. */
+.cardWide {
+  grid-column: 1 / -1;
+}
+
 /* Placement only: the button is .hf-button (src/styles/buttons.css). */
 .cta {
   justify-self: start;
@@ -438,14 +486,35 @@
     grid-template-columns: 96px minmax(0, 1fr);
   }
 
-  /* The Completionist card takes the row under the first two. */
-  .cardWide {
-    grid-column: 1 / -1;
+  .cardCompact {
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .cardCompact .tag {
+    display: inline-block;
+    padding: 3px 7px;
+    font-size: 0.6rem;
+  }
+
+  .cardCompact .title {
+    font-size: 1.1rem;
+  }
+
+  .cardCompact .slot {
+    width: 64px;
+    height: 64px;
   }
 
   .slot {
     width: 96px;
     height: 96px;
+  }
+
+  .cardCompact .slot {
+    width: 64px;
+    height: 64px;
   }
 }
 
