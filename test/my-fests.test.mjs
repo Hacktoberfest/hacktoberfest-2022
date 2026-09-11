@@ -5,6 +5,7 @@ import { my } from '../src/data/content.mjs';
 import {
   SELF_FIXABLE_CHECKS,
   blockingCheckFailures,
+  calendarFests,
   eventCardState,
   festDidNotAttend,
   festEditUrl,
@@ -134,6 +135,52 @@ test('formatFestDate renders a human date and rejects junk', () => {
   assert.equal(formatFestDate('October-ish'), null);
   assert.equal(formatFestDate(undefined), null);
   assert.equal(formatFestDate(''), null);
+});
+
+test('calendarFests: events of every role stay, applications of every rung go', () => {
+  const list = calendarFests([
+    fest({ id: 'a', date: '2026-10-20', status: 'registered' }),
+    fest({
+      id: 'app-draft',
+      date: '2026-10-03',
+      role: 'organizing',
+      applicationStatus: 'draft',
+    }),
+    fest({ id: 'b', date: '2026-10-05', status: 'checked_in' }),
+    fest({
+      id: 'app-submitted',
+      date: '2026-10-04',
+      role: 'organizing',
+      applicationStatus: 'submitted',
+    }),
+    fest({
+      id: 'hosting',
+      date: '2026-10-12',
+      role: 'organizing',
+      applicationStatus: null,
+    }),
+    fest({
+      id: 'app-approved',
+      date: '2026-10-06',
+      role: 'organizing',
+      applicationStatus: 'approved',
+    }),
+    fest({
+      id: 'app-rejected',
+      date: '2026-10-07',
+      role: 'organizing',
+      applicationStatus: 'rejected',
+    }),
+  ]);
+  assert.deepEqual(
+    list.map((entry) => entry.id),
+    ['b', 'hosting', 'a'],
+  );
+});
+
+test('calendarFests: junk degrades to an empty list', () => {
+  assert.deepEqual(calendarFests(null), []);
+  assert.deepEqual(calendarFests([null, 'x', 3]), []);
 });
 
 test('isHost: a real organized Fest makes a host, whatever its tense', () => {

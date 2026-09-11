@@ -63,9 +63,9 @@ const My = () => {
              earn on a page per type. */}
           <RewardsBand experience={experience} />
           <Album experience={experience} />
-          {/* Complete, hosting cards included: this is the participant's
-             calendar, and the hosting hub is the richer view of the same
-             Fests. The host resources band lives there now. */}
+          {/* The participant's calendar, hosting cards included, but not
+             applications: those live on the hosting hub, the richer view
+             of the same Fests. The host resources band lives there now. */}
           <FestsBand experience={experience} />
         </>
       )}

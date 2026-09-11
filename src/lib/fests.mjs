@@ -73,6 +73,22 @@ export const festDidNotAttend = (fest, nowMs) => {
   return nowMs - endMs >= NO_SHOW_GRACE_MS;
 };
 
+/* An application card: a Fest that does not exist yet, however far the
+   application has got (the API sets applicationStatus on those cards
+   only, and null on every event card, an approved application's public
+   event included). */
+export const isApplication = (fest) =>
+  Boolean(fest) &&
+  typeof fest === 'object' &&
+  typeof fest.applicationStatus === 'string';
+
+/* The attending hub's calendar: every Fest that exists as an event, in
+   date order, whatever the participant's role in it: registered, checked
+   in, or hosting. Applications are the hosting hub's business
+   (organizingFests below) and never a thing to attend. */
+export const calendarFests = (fests) =>
+  sortFestsByDate(fests).filter((fest) => !isApplication(fest));
+
 /* A host is someone with a real organized Fest — hosting or hosted. An
    application still in progress (draft, submitted, or sent back for
    revisions) is not hosting yet: the Fest doesn't exist until MLH

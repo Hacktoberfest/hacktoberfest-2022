@@ -1,6 +1,11 @@
 import { my } from 'data/content.mjs';
 import { FIND_A_FEST_URL } from 'data/links';
-import { festDidNotAttend, festIsPast, sortFestsByDate } from 'lib/fests.mjs';
+import {
+  calendarFests,
+  festDidNotAttend,
+  festIsPast,
+  isOrganizing,
+} from 'lib/fests.mjs';
 
 import FestCard from './FestCard';
 import styles from './FestsBand.module.css';
@@ -10,8 +15,10 @@ import styles from './FestsBand.module.css';
    One flat grid in plain date order — no role grouping and no group
    headings: every card's own badge (FestCard's badgeFor) already says
    "Registered" / "Checked in" / "Hosting", so the list reads as a
-   chronology. `past` exists only to past-tense the organizing badge;
-   participation badges come from status alone.
+   chronology. Events only (lib/fests.mjs calendarFests): a hosted Fest
+   sits beside the ones to attend, but an application is not a Fest yet
+   and lives on the hosting hub. `past` exists only to past-tense the
+   organizing badge; participation badges come from status alone.
 
    "today" is computed here, at the presentation edge, and handed to the
    pure date check — new Date() appears nowhere in lib/. */
@@ -19,16 +26,17 @@ const FestsBand = ({ experience }) => {
   const now = new Date();
   const todayIso = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-  const fests = sortFestsByDate(experience.fests).map((fest) => ({
+  const fests = calendarFests(experience.fests).map((fest) => ({
     fest,
     past: festIsPast(fest, todayIso),
     didNotAttend: festDidNotAttend(fest, now.getTime()),
   }));
   const hasFests = fests.length > 0;
-  /* An organizer needs no host pitch at all, so the ghost card goes away;
-     anyone else with a Fest on their list found one, so it drops its "No
-     Fest near you" opener. */
-  const organizing = fests.some(({ fest }) => fest.role === 'organizing');
+  /* An organizer needs no host pitch at all, so the ghost card goes away,
+     an application in flight included, which is why this reads the full
+     list and not the calendar; anyone else with a Fest on their list
+     found one, so it drops its "No Fest near you" opener. */
+  const organizing = isOrganizing(experience.fests);
   const hostGhostBody = hasFests
     ? my.fests.hostGhost.bodyRegistered
     : my.fests.hostGhost.body;
