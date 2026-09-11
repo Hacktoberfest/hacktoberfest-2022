@@ -35,7 +35,7 @@ export const SCENARIOS = Object.freeze({
       },
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
-    thresholds: { stickers: 1, complete: 3 },
+    thresholds: { stickers: 1, complete: 8 },
     activities: [
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-12' },
     ],
@@ -83,7 +83,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 3 },
+    thresholds: { stickers: 1, complete: 8 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
       {
@@ -124,11 +124,11 @@ export const SCENARIOS = Object.freeze({
       },
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
-    thresholds: { stickers: 1, complete: 3 },
+    thresholds: { stickers: 1, complete: 8 },
     activities: [{ id: 'livestreams-1', completed: false }],
     fests: [],
   },
-  /* Milestone 2 (Hacktoberfest complete): three activities done, same
+  /* Milestone 2 (Hacktoberfest complete): eight activities done, same
      address gate as every other eligible scenario. Exists so that state has
      a shareable review link too, matching every other scenario here. */
   complete: {
@@ -148,11 +148,16 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 3 },
+    thresholds: { stickers: 1, complete: 8 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
+      { id: 'livestreams-3', completed: true, completedAt: '2026-10-12' },
+      { id: 'livestream-launch', completed: true, completedAt: '2026-10-01' },
       { id: 'dev-relay', completed: true, completedAt: '2026-10-02' },
+      { id: 'dev-connect', completed: true, completedAt: '2026-10-02' },
+      { id: 'discord', completed: true, completedAt: '2026-10-03' },
+      { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
     ],
     fests: [
       {
@@ -198,7 +203,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 3 },
+    thresholds: { stickers: 1, complete: 8 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
       /* Co-branded, the way MLH actually names a partnered Fest: the

@@ -1009,7 +1009,7 @@ export const host = {
 export const online = {
   title: 'Attend Online | Hacktoberfest 2026',
   description:
-    'Hacktoberfest is back and has changed: build with open source AI from anywhere, earn the 2026 sticker pack online, and complete Hacktoberfest with three activities. No pull requests required.',
+    'Hacktoberfest is back and has changed: build with open source AI from anywhere, earn the 2026 sticker pack online, and complete Hacktoberfest with eight activities. No pull requests required.',
   eyebrow: 'Attend online · October 2026',
   heading: { lead: 'Hacktoberfest is back.', accent: 'And it has grown up.' },
   /* Written for someone who has never heard of Hacktoberfest: what it
@@ -1222,7 +1222,7 @@ export const online = {
       milestone2: {
         tag: 'Milestone 2',
         title: 'Complete Hacktoberfest',
-        badge: '1 of 3 activities',
+        badge: '1 of 8 activities',
         stickers: [
           { type: 'online', art: 'play', earned: true },
           { type: 'online', art: 'bolt' },
@@ -1447,7 +1447,7 @@ export const inPerson = {
       milestone2: {
         tag: 'Milestone 2',
         title: 'Complete Hacktoberfest',
-        badge: '1 of 3 activities',
+        badge: '1 of 8 activities',
         stickers: [
           { type: 'inperson', art: 'pin', earned: true },
           { type: 'online', art: 'play' },
