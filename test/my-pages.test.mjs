@@ -595,12 +595,12 @@ const WIRING = [
   },
   {
     file: 'src/pages/my.js',
-    token: '<RewardsBand experience={experience} />',
+    token: '<RewardsBand experience={experience} justEarned={justEarned} />',
     why: '"Your rewards." is the first band of the attending hub.',
   },
   {
     file: 'src/pages/my.js',
-    token: '<Album experience={experience} />',
+    token: '<Album experience={experience} justEarned={justEarned} />',
     why: '"Your sticker book." is the attending hub\'s second band.',
   },
   {

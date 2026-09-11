@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import DevLogo from 'components/icons/DevLogo';
 import { activitiesPage, my } from 'data/content.mjs';
@@ -7,9 +7,9 @@ import {
   bookCounts,
   bookStickers,
   bookTabs,
-  defaultTab,
   filterBook,
   milestoneState,
+  openingTab,
 } from 'lib/stickerBook.mjs';
 
 import styles from './Album.module.css';
@@ -75,10 +75,21 @@ const PageTitle = ({ type }) => {
   return text;
 };
 
-const Album = ({ experience }) => {
+const Album = ({ experience, justEarned }) => {
   const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
   const tabs = bookTabs(stickers);
-  const [tab, setTab] = useState(() => defaultTab(stickers));
+  const [tab, setTab] = useState(() => openingTab(stickers, justEarned));
+  /* A sticker earned just now (lib/justEarned.mjs) turns the book to its
+     page, once, so its moment is seen; `justEarned` arrives after mount,
+     from the effect that reads the record, so the seed above only covers
+     a set already known. The reader's own turns win from then on. */
+  const [turnedFor, setTurnedFor] = useState(null);
+  useEffect(() => {
+    if (!justEarned || justEarned.size === 0 || turnedFor === justEarned)
+      return;
+    setTurnedFor(justEarned);
+    setTab(openingTab(stickers, justEarned));
+  }, [justEarned]);
   /* A tab that no longer exists (a type the catalogue dropped) falls back
      to the first page rather than an empty one. */
   const current = tabs.some((entry) => entry.key === tab) ? tab : tabs[0].key;
@@ -166,7 +177,13 @@ const Album = ({ experience }) => {
               </div>
               <ul className={styles.cells}>
                 {filterBook(stickers, entry.key).map((sticker) => (
-                  <StickerCell key={sticker.id} sticker={sticker} />
+                  <StickerCell
+                    key={sticker.id}
+                    sticker={sticker}
+                    justEarned={Boolean(
+                      justEarned && justEarned.has(sticker.id),
+                    )}
+                  />
                 ))}
               </ul>
             </div>

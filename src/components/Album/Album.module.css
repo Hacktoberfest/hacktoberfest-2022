@@ -397,19 +397,86 @@
    shadow does the lifting. Hover keeps the lean. */
 .cell[data-earned='true'] .sticker,
 .cell[data-earned='true']:hover .sticker {
-  transform: rotate(-9deg);
+  --lean: -9deg;
+  transform: rotate(var(--lean));
   box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
 }
 
 .cell[data-earned='true']:nth-child(3n + 2) .sticker,
 .cell[data-earned='true']:nth-child(3n + 2):hover .sticker {
-  transform: rotate(6deg);
+  --lean: 6deg;
   box-shadow: 3px 6px 0 rgba(16, 32, 29, 0.35);
 }
 
 .cell[data-earned='true']:nth-child(3n) .sticker,
 .cell[data-earned='true']:nth-child(3n):hover .sticker {
-  transform: rotate(-4deg);
+  --lean: -4deg;
+}
+
+/* Earned just now (lib/justEarned.mjs, data-just-earned): the sticker
+   slaps on. It arrives large and loose above the slot, lands with a
+   small overshoot into its lean, a ring bursts off the slot as it
+   settles, and the tick pops onto the corner last. The lean is the
+   custom property the rules above set, so the landing is exactly the
+   resting pose for whichever column the cell is in. Runs once per
+   mount; the record in localStorage keeps it from running on a reload. */
+.cell[data-just-earned='true'] .sticker {
+  animation: slapOn 0.85s cubic-bezier(0.22, 1.2, 0.36, 1) 0.15s both;
+}
+
+.cell[data-just-earned='true'] .slot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  border-radius: 50%;
+  /* colors.ink */
+  border: 3px solid #10201d;
+  opacity: 0;
+  pointer-events: none;
+  animation: burst 0.7s ease-out 0.6s both;
+}
+
+.cell[data-just-earned='true'] .tick {
+  animation: pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) 0.75s both;
+}
+
+@keyframes slapOn {
+  from {
+    transform: rotate(calc(var(--lean) - 22deg)) scale(1.9);
+    opacity: 0;
+  }
+  55% {
+    transform: rotate(var(--lean)) scale(0.92);
+    opacity: 1;
+  }
+  75% {
+    transform: rotate(var(--lean)) scale(1.06);
+  }
+  to {
+    transform: rotate(var(--lean)) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burst {
+  from {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 /* The tick on an earned sticker's corner: forest on white, the rewards
@@ -547,6 +614,13 @@
 @media (prefers-reduced-motion: reduce) {
   .sticker {
     transition: none;
+  }
+
+  /* No slap, no burst, no pop: the sticker is simply there, earned. */
+  .cell[data-just-earned='true'] .sticker,
+  .cell[data-just-earned='true'] .slot::after,
+  .cell[data-just-earned='true'] .tick {
+    animation: none;
   }
 }
 

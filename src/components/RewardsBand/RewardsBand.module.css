@@ -156,18 +156,101 @@
    on the sticker's corner. Not yet: a grey silhouette, as the book's
    stickers are. colors.paperDeep / rule / forest / white / ink */
 .card[data-earned='true'] .sticker {
-  transform: rotate(-9deg);
+  --lean: -9deg;
+  transform: rotate(var(--lean));
   box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
 }
 
 .card:nth-child(2)[data-earned='true'] .sticker {
-  transform: rotate(6deg);
+  --lean: 6deg;
   box-shadow: 3px 6px 0 rgba(16, 32, 29, 0.35);
 }
 
 .card:nth-child(3)[data-earned='true'] .sticker {
-  transform: rotate(-5deg);
+  --lean: -5deg;
   box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
+/* A milestone reached just now (lib/justEarned.mjs, data-just-earned):
+   the reward sticker slaps on the way the book's do, and the stamp comes
+   down on the badge after it. Same keyframes as Album.module.css,
+   restated here because a CSS Module cannot import another. */
+.card[data-just-earned='true'] .sticker {
+  animation: slapOn 0.85s cubic-bezier(0.22, 1.2, 0.36, 1) 0.15s both;
+}
+
+.card[data-just-earned='true'] .slot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  border-radius: 50%;
+  /* colors.ink */
+  border: 3px solid #10201d;
+  opacity: 0;
+  pointer-events: none;
+  animation: burst 0.7s ease-out 0.6s both;
+}
+
+.card[data-just-earned='true'] .tick {
+  animation: pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) 0.75s both;
+}
+
+.card[data-just-earned='true'] .badgeEarned {
+  animation: stamp 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.9s both;
+}
+
+@keyframes slapOn {
+  from {
+    transform: rotate(calc(var(--lean) - 22deg)) scale(1.9);
+    opacity: 0;
+  }
+  55% {
+    transform: rotate(var(--lean)) scale(0.92);
+    opacity: 1;
+  }
+  75% {
+    transform: rotate(var(--lean)) scale(1.06);
+  }
+  to {
+    transform: rotate(var(--lean)) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burst {
+  from {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes stamp {
+  from {
+    transform: rotate(-2deg) scale(2.2);
+    opacity: 0;
+  }
+  70% {
+    transform: rotate(-2deg) scale(0.94);
+    opacity: 1;
+  }
+  to {
+    transform: rotate(-2deg) scale(1);
+    opacity: 1;
+  }
 }
 
 .card:not([data-earned='true']) .sticker {
@@ -375,5 +458,12 @@
 @media (prefers-reduced-motion: reduce) {
   .sticker {
     transition: none;
+  }
+
+  .card[data-just-earned='true'] .sticker,
+  .card[data-just-earned='true'] .slot::after,
+  .card[data-just-earned='true'] .tick,
+  .card[data-just-earned='true'] .badgeEarned {
+    animation: none;
   }
 }

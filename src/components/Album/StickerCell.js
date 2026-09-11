@@ -18,7 +18,7 @@ import styles from './Album.module.css';
    deliberately: the page is the type, so no type chip; the detail and
    the source live on /activities/, a link away. The sticker is the point
    here. */
-const StickerCell = ({ sticker }) => {
+const StickerCell = ({ sticker, justEarned = false }) => {
   const earned = Boolean(sticker.completed);
   const external = /^https?:\/\//.test(sticker.href || '');
   const date = sticker.completedAt
@@ -30,7 +30,11 @@ const StickerCell = ({ sticker }) => {
   const ground = styles[`ground_${sticker.type}`] || '';
 
   return (
-    <li className={styles.cell} data-earned={earned ? 'true' : undefined}>
+    <li
+      className={styles.cell}
+      data-earned={earned ? 'true' : undefined}
+      data-just-earned={earned && justEarned ? 'true' : undefined}
+    >
       {sticker.type === 'required' && (
         <span className={styles.cellTag}>{my.album.cell.required}</span>
       )}

@@ -122,6 +122,18 @@ export const defaultTab = (stickers) => {
   return next ? next.type : REQUIRED_TAB;
 };
 
+/* Where the book opens: on the page of a sticker earned just now
+   (lib/justEarned.mjs), so its moment is seen, and otherwise on the
+   default page. The first such sticker in book order decides. */
+export const openingTab = (stickers, justEarned) => {
+  const fresh =
+    justEarned instanceof Set ? justEarned : new Set(justEarned || []);
+  const hit = (Array.isArray(stickers) ? stickers : []).find(
+    (sticker) => sticker && fresh.has(sticker.id),
+  );
+  return hit ? hit.type : defaultTab(stickers);
+};
+
 /* The milestone numbers, with no JSX: the level (0 nothing, 1 pack earned,
    2 complete, 3 Completionist), the activity count that counts toward it
    (zero without an address, the same gate progressLevel applies), the

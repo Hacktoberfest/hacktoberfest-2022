@@ -1,6 +1,7 @@
 import { ART } from 'components/ActivityCard/stickerArt';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
+import { MILESTONE_IDS } from 'lib/justEarned.mjs';
 import { bookStickers, rewardsState } from 'lib/stickerBook.mjs';
 
 import styles from './RewardsBand.module.css';
@@ -83,9 +84,13 @@ const Need = ({ label, sticker }) => (
   </li>
 );
 
-const RewardsBand = ({ experience }) => {
+const RewardsBand = ({ experience, justEarned }) => {
   const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
   const rewards = rewardsState(experience, stickers);
+  /* A milestone reached since the participant last looked
+     (lib/justEarned.mjs) gets its moment: the card is marked and the
+     stylesheet does the rest. */
+  const fresh = (id) => (justEarned && justEarned.has(id) ? 'true' : undefined);
   const { pack, complete, completionist } = my.rewards;
   const intro = [
     my.rewards.intro.pending(rewards.complete),
@@ -114,6 +119,7 @@ const RewardsBand = ({ experience }) => {
         <li
           className={styles.card}
           data-earned={rewards.pack.earned ? 'true' : undefined}
+          data-just-earned={fresh(MILESTONE_IDS.pack)}
         >
           <div className={styles.slot}>
             <div className={`${styles.sticker} ${styles.groundPack}`}>
@@ -171,6 +177,7 @@ const RewardsBand = ({ experience }) => {
         <li
           className={styles.card}
           data-earned={rewards.completion.earned ? 'true' : undefined}
+          data-just-earned={fresh(MILESTONE_IDS.complete)}
         >
           <div className={styles.slot}>
             <div className={`${styles.sticker} ${styles.groundComplete}`}>
@@ -222,6 +229,7 @@ const RewardsBand = ({ experience }) => {
           <li
             className={`${styles.card} ${styles.cardWide}`}
             data-earned={rewards.completionist.earned ? 'true' : undefined}
+            data-just-earned={fresh(MILESTONE_IDS.completionist)}
           >
             <div className={styles.slot}>
               <div
