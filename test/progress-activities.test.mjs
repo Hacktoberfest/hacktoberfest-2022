@@ -11,7 +11,7 @@ test('the catalogue is the season’s seventeen activities, by slug', () => {
   assert.deepEqual(
     ACTIVITIES.map((activity) => activity.id),
     [
-      'livestreams',
+      'livestreams-1',
       'livestreams-3',
       'livestreams-5',
       'livestream-launch',

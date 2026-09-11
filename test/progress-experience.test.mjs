@@ -74,7 +74,7 @@ const routeFetch = ({
               source: 'api',
             },
             {
-              id: 'livestreams',
+              id: 'livestreams-1',
               completed: true,
               completedAt: '2026-10-05T19:12:00.000Z',
               source: 'event_checkins',
@@ -117,9 +117,9 @@ test('getExperience fetches all three split endpoints and merges the real user o
   // the live progress fetch were ignored entirely.
   assert.deepEqual(result.thresholds, { stickers: 1, complete: 4 });
   const byId = Object.fromEntries(result.activities.map((a) => [a.id, a]));
-  assert.equal(byId.livestreams.completed, true);
-  assert.equal(byId.livestreams.completedAt, '2026-10-05T19:12:00.000Z');
-  assert.equal(byId.livestreams.source, 'event_checkins');
+  assert.equal(byId['livestreams-1'].completed, true);
+  assert.equal(byId['livestreams-1'].completedAt, '2026-10-05T19:12:00.000Z');
+  assert.equal(byId['livestreams-1'].source, 'event_checkins');
   assert.equal(byId.ghw.completed, false);
   assert.equal(byId.fest.completed, false);
   assert.equal(byId['dev-relay'].completed, false);

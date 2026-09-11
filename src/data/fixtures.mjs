@@ -37,7 +37,7 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 3 },
     activities: [
-      { id: 'livestreams', completed: true, completedAt: '2026-10-12' },
+      { id: 'livestreams-1', completed: true, completedAt: '2026-10-12' },
     ],
     fests: [
       {
@@ -125,7 +125,7 @@ export const SCENARIOS = Object.freeze({
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
     thresholds: { stickers: 1, complete: 3 },
-    activities: [{ id: 'livestreams', completed: false }],
+    activities: [{ id: 'livestreams-1', completed: false }],
     fests: [],
   },
   /* Milestone 2 (Hacktoberfest complete): three activities done, same
@@ -151,7 +151,7 @@ export const SCENARIOS = Object.freeze({
     thresholds: { stickers: 1, complete: 3 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
-      { id: 'livestreams', completed: true, completedAt: '2026-10-05' },
+      { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
       { id: 'dev-relay', completed: true, completedAt: '2026-10-02' },
     ],
     fests: [

@@ -1,10 +1,11 @@
 /* The season's activities: what a participant completes to earn a sticker
    pack, and enough of to complete Hacktoberfest. Seventeen this season,
-   from the 2026-09-10 list; the ids other than livestreams, fest,
-   dev-relay and ghw are this site's guesses until FestNet confirms its
-   slugs (an id the API sends that is not here is
-   dropped, an id here the API does not send reads as not done, so a
-   mismatch shows as "not done", never as a crash).
+   from the 2026-09-10 list. The ids are the slugs of the challenges in
+   FestNet, confirmed against production on 2026-09-11 (an id the API sends
+   that is not here is dropped, an id here the API does not send reads as
+   not done, so a mismatch shows as "not done", never as a crash).
+   `livestreams-1` rather than `livestreams` because that is the row's slug
+   in FestNet, and slugs cannot be renamed once created.
 
    The API supplies ids and completion only, as `challenges` on
    GET /api/me/progress — the backend's word; lib/progress.mjs translates
@@ -25,7 +26,7 @@
    themselves. Presentation only — eligibility math never reads it. */
 export const ACTIVITIES = Object.freeze([
   Object.freeze({
-    id: 'livestreams',
+    id: 'livestreams-1',
     label: 'Check into a livestream',
     detail:
       'Turn up to any October session and check in with the code on screen.',

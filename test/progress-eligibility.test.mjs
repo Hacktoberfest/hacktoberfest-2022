@@ -31,12 +31,12 @@ test('an activity the API omits is treated as not completed', () => {
 test('an activity id the page has never heard of is ignored', () => {
   const merged = mergeActivities([
     { id: 'a-fifth-thing', completed: true },
-    { id: 'livestreams', completed: true, completedAt: '2026-10-04' },
+    { id: 'livestreams-1', completed: true, completedAt: '2026-10-04' },
   ]);
 
   assert.equal(merged.length, ACTIVITIES.length);
   assert.equal(
-    merged.find((a) => a.id === 'livestreams').completedAt,
+    merged.find((a) => a.id === 'livestreams-1').completedAt,
     '2026-10-04',
   );
 });

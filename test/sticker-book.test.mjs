@@ -92,7 +92,7 @@ test('tabs: Required first, then one per type present, in the fixed order, with 
   const book = bookStickers(
     experience({
       addressValidated: true,
-      activities: [{ id: 'livestreams', completed: true }],
+      activities: [{ id: 'livestreams-1', completed: true }],
     }),
   );
   const tabs = bookTabs(book);

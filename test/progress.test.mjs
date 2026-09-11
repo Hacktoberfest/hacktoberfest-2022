@@ -13,7 +13,7 @@ const payload = (over = {}) => ({
   completedCount: 1,
   challenges: [
     {
-      id: 'livestreams',
+      id: 'livestreams-1',
       name: 'Attend two livestreams',
       description: null,
       completed: true,
@@ -39,9 +39,9 @@ test('challenges become activities in catalogue order, merged by slug', () => {
     ACTIVITIES.map((a) => a.id),
   );
   const byId = Object.fromEntries(activities.map((a) => [a.id, a]));
-  assert.equal(byId.livestreams.completed, true);
-  assert.equal(byId.livestreams.completedAt, '2026-10-05T19:12:00.000Z');
-  assert.equal(byId.livestreams.source, 'event_checkins');
+  assert.equal(byId['livestreams-1'].completed, true);
+  assert.equal(byId['livestreams-1'].completedAt, '2026-10-05T19:12:00.000Z');
+  assert.equal(byId['livestreams-1'].source, 'event_checkins');
   assert.equal(byId.fest.completed, false);
   assert.equal(byId.fest.source, null);
 });
@@ -58,7 +58,7 @@ test('is idempotent over its own output, source included', () => {
   });
   assert.deepEqual(second.activities, first.activities);
   const byId = Object.fromEntries(second.activities.map((a) => [a.id, a]));
-  assert.equal(byId.livestreams.source, 'event_checkins');
+  assert.equal(byId['livestreams-1'].source, 'event_checkins');
 });
 
 test('the catalogue’s copy wins over the API’s name', () => {
@@ -147,7 +147,7 @@ test('required entries come out beside the activities, not inside them', () => {
           source: null,
         },
         {
-          id: 'livestreams',
+          id: 'livestreams-1',
           name: 'Attend two livestreams',
           description: null,
           required: false,
