@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import Album from 'components/Album';
 import FestsBand from 'components/FestsBand';
@@ -19,24 +19,18 @@ const redirectFor = (experience) =>
   hubToOpen({ fests: experience.fests, lastHub: readLastHub() });
 
 const My = () => {
-  /* One sentence on the way back from a connect flow, read off the
-     address bar once and then taken out of it, so a reload or a share of
-     the URL does not say it again. This is the one effect the page keeps
-     for itself: the API's DigitalOcean flow lands on /my/ alone, so the
-     shell has no business knowing about it. */
-  const [notice, setNotice] = useState(null);
-
+  /* The API's DigitalOcean flow lands back here with ?connected= on the
+     address bar. The book itself says how it went (the sticker is earned
+     or it is not), so nothing is announced; the query is only taken off
+     the URL, so a reload or a share does not carry it. This is the one
+     effect the page keeps for itself, and it runs after MyHub's own (a
+     child's effects run before its parent's), so the ?scenario= a mocked
+     build was opened with, and the query a hub redirect carries along,
+     are read before this strips them. */
   useEffect(() => {
-    /* location.search, not the router's query, for the reason MyHub gives.
-       This runs after MyHub's own effect (a child's effects run before its
-       parent's), so the ?scenario= a mocked build was opened with, and the
-       query a hub redirect carries along, are read before this strips
-       them. */
-    const outcome = connectOutcome(globalThis.location.search);
-    if (!outcome) return;
-    setNotice(my.connect.digitalocean[outcome]);
-    /* history, not the router: the query is consumed, and a router
-       navigation here would re-enter MyHub's effect for no reason. */
+    if (!connectOutcome(globalThis.location.search)) return;
+    /* history, not the router: a router navigation here would re-enter
+       MyHub's effect for no reason. */
     globalThis.history.replaceState(null, '', '/my/');
   }, []);
 
@@ -46,7 +40,6 @@ const My = () => {
       accent={my.welcome.accent}
       hub="attending"
       redirectFor={redirectFor}
-      notice={notice}
     >
       {(experience) => (
         <>

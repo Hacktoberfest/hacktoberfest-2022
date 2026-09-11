@@ -43,13 +43,19 @@ export const isEligible = (eligibility) => {
 /* The two milestone counts, as the API serves them on GET /api/me/progress.
    A signed-out visitor cannot read the endpoint, so these defaults mirror
    the API's own; the numbers only matter once someone signs in. */
-export const DEFAULT_THRESHOLDS = Object.freeze({ stickers: 1, complete: 3 });
+export const DEFAULT_THRESHOLDS = Object.freeze({
+  stickers: 1,
+  complete: 8,
+  completionist: 15,
+});
 
 const positiveInt = (value) => Number.isInteger(value) && value >= 1;
 
 /* The experience's thresholds when it carries a usable pair, else the
-   defaults. One reader, so the milestone math and the milestone card can
-   never disagree about where the second milestone sits. */
+   defaults. One reader, so the milestone math and the milestone cards can
+   never disagree about where a milestone sits. The third number,
+   completionist, is newer than the first two: a payload that carries the
+   pair but not it reads the default for it alone. */
 export const thresholdsOf = (eligibility) => {
   const candidate = eligibility && eligibility.thresholds;
   if (
@@ -57,21 +63,29 @@ export const thresholdsOf = (eligibility) => {
     positiveInt(candidate.stickers) &&
     positiveInt(candidate.complete)
   ) {
-    return { stickers: candidate.stickers, complete: candidate.complete };
+    return {
+      stickers: candidate.stickers,
+      complete: candidate.complete,
+      completionist: positiveInt(candidate.completionist)
+        ? candidate.completionist
+        : DEFAULT_THRESHOLDS.completionist,
+    };
   }
   return DEFAULT_THRESHOLDS;
 };
 
 /* 0 = not eligible, 1 = stickers earned (isEligible), 2 = Hacktoberfest
-   complete. Milestone 2 is a purely additional display tier — it never
-   changes what triggers a sticker mailing, only what a "Your progress."
-   section shows past that point. Same address gate as isEligible, so
-   `progressLevel(x) >= 1` can never disagree with `isEligible(x)`. */
+   complete, 3 = Completionist. Milestones 2 and 3 are purely additional
+   display tiers — they never change what triggers a sticker mailing, only
+   what the rewards band shows past that point. Same address gate as
+   isEligible, so `progressLevel(x) >= 1` can never disagree with
+   `isEligible(x)`. */
 export const progressLevel = (eligibility) => {
   if (!eligibility) return 0;
   if (!eligibility.addressValidated) return 0;
   const done = completedCount(mergeActivities(eligibility.activities));
-  const { stickers, complete } = thresholdsOf(eligibility);
+  const { stickers, complete, completionist } = thresholdsOf(eligibility);
+  if (done >= completionist) return 3;
   if (done >= complete) return 2;
   if (done >= stickers) return 1;
   return 0;

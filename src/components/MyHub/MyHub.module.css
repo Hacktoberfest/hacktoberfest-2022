@@ -11,14 +11,3 @@
   /* colors.paperDeep */
   background: #e4e5da;
 }
-
-/* The one-line notice on the way back from a connect flow (my.connect).
-   Sits between the welcome band and the bands, in the hub's measure. */
-.notice {
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  border-left: 4px solid currentColor;
-  font-size: 1rem;
-  line-height: 1.5;
-}

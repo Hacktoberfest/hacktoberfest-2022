@@ -165,6 +165,7 @@ test('milestoneState: the level, the gated count, the threshold', () => {
     level: 0,
     done: 0,
     complete: 3,
+    completionist: 15,
     addressValidated: false,
   });
   /* No address: activities do not count, the same gate progressLevel has. */
@@ -227,6 +228,29 @@ test('rewardsState: the pack as three needs, completion as a meter of five', () 
   assert.equal(complete.completion.pips.length, 5);
   assert.equal(complete.completion.remaining, 0);
   assert.equal(complete.earnedRewards, 2);
+  /* The third card shows once the first two are earned, and not before. */
+  assert.equal(fresh.completionist.shown, false);
+  assert.equal(complete.completionist.shown, true);
+  assert.equal(complete.completionist.earned, false);
+  assert.equal(complete.completionist.target, 15 + 2);
+  assert.equal(complete.completionist.remaining, 15 - 3);
+  assert.equal(complete.completionist.pips.length, 5);
+});
+
+test('rewardsState: fifteen activity stickers make a Completionist', () => {
+  const all = experience({
+    addressValidated: true,
+    activities: ACTIVITIES.slice(0, 15).map((a) => ({
+      id: a.id,
+      completed: true,
+    })),
+  });
+  const state = rewardsState(all, bookStickers(all));
+  assert.equal(state.level, 3);
+  assert.equal(state.completionist.earned, true);
+  assert.equal(state.completionist.remaining, 0);
+  assert.equal(state.completionist.pips.length, 17);
+  assert.equal(state.earnedRewards, 3);
 });
 
 test('counts are the whole book, required stickers included', () => {

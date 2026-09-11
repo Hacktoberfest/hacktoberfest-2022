@@ -5,8 +5,9 @@ import { bookStickers, rewardsState } from 'lib/stickerBook.mjs';
 
 import styles from './RewardsBand.module.css';
 
-/* The rewards band, above the sticker book: the two milestones as two
-   more stickers, earned by earning stickers, each a card. The pack card
+/* The rewards band, above the sticker book: the milestones as more
+   stickers, earned by earning stickers, each a card; the third card,
+   Completionist, only once the first two are earned. The pack card
    lists its three requirements as pips, each filled with the sticker that
    met it, with the address button while the address is missing; the
    completion card is a meter of pips, one per sticker toward the target,
@@ -35,6 +36,33 @@ const completeWhy = (rewards) => {
   return why.remaining(rewards.completion.remaining);
 };
 
+const completionistWhy = (rewards) => {
+  const { why } = my.rewards.completionist;
+  if (rewards.completionist.earned) return why.earned;
+  return why.remaining(rewards.completionist.remaining);
+};
+
+/* A meter of pips: the earned stickers in book order in their own
+   grounds, then dashed empty slots up to the target. Decorative; the
+   label under it says the count. */
+const Meter = ({ pips, target }) => (
+  <div className={styles.meter} aria-hidden="true">
+    {Array.from({ length: target }, (_, index) => pips[index] || null).map(
+      (sticker, index) =>
+        sticker ? (
+          <span
+            key={sticker.id}
+            className={`${styles.pip} ${styles.pipOn} ${styles[`ground_${sticker.type}`] || ''}`}
+          >
+            {ART[sticker.art] || null}
+          </span>
+        ) : (
+          <span key={`empty-${index}`} className={styles.pip} />
+        ),
+    )}
+  </div>
+);
+
 /* One requirement of the pack, as a pip: the sticker that meets it, in
    its own ground, once it is in the book, and a dashed empty slot until
    then, so the row reads as the holographic card's meter does. The label
@@ -58,11 +86,12 @@ const Need = ({ label, sticker }) => (
 const RewardsBand = ({ experience }) => {
   const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
   const rewards = rewardsState(experience, stickers);
-  const { pack, complete } = my.rewards;
+  const { pack, complete, completionist } = my.rewards;
   const intro = [
     my.rewards.intro.pending(rewards.complete),
     my.rewards.intro.stickersEarned(rewards.complete),
     my.rewards.intro.complete,
+    my.rewards.intro.completionist,
   ][rewards.level];
   /* The pack's pips: the two required stickers by id, and the first
      activity sticker in the book, whichever it was. rewardsState says
@@ -74,10 +103,6 @@ const RewardsBand = ({ experience }) => {
     stickers.find(
       (sticker) => sticker.type !== 'required' && sticker.completed,
     ) || null;
-  const pips = Array.from(
-    { length: rewards.completion.target },
-    (_, index) => rewards.completion.pips[index] || null,
-  );
 
   return (
     <section className={styles.band} aria-labelledby="rewards-heading">
@@ -177,21 +202,10 @@ const RewardsBand = ({ experience }) => {
             </div>
             <h3 className={styles.title}>{complete.title}</h3>
             <p className={styles.why}>{completeWhy(rewards)}</p>
-            {/* The pips are decorative: the label under them says the count. */}
-            <div className={styles.meter} aria-hidden="true">
-              {pips.map((sticker, index) =>
-                sticker ? (
-                  <span
-                    key={sticker.id}
-                    className={`${styles.pip} ${styles.pipOn} ${styles[`ground_${sticker.type}`] || ''}`}
-                  >
-                    {ART[sticker.art] || null}
-                  </span>
-                ) : (
-                  <span key={`empty-${index}`} className={styles.pip} />
-                ),
-              )}
-            </div>
+            <Meter
+              pips={rewards.completion.pips}
+              target={rewards.completion.target}
+            />
             <p className={styles.meterLabel}>
               {complete.meterLabel(
                 rewards.completion.pips.length,
@@ -200,6 +214,60 @@ const RewardsBand = ({ experience }) => {
             </p>
           </div>
         </li>
+        {/* Milestone 3, for people already complete: the card only exists
+           once the first two are earned (rewardsState.completionist.shown),
+           and takes the whole row under them, since its meter is the
+           longest in the band. */}
+        {rewards.completionist.shown && (
+          <li
+            className={`${styles.card} ${styles.cardWide}`}
+            data-earned={rewards.completionist.earned ? 'true' : undefined}
+          >
+            <div className={styles.slot}>
+              <div
+                className={`${styles.sticker} ${styles.groundCompletionist}`}
+              >
+                {ART.trophy}
+              </div>
+              {rewards.completionist.earned && (
+                <span
+                  className={styles.tick}
+                  role="img"
+                  aria-label={my.album.cell.earned}
+                >
+                  ✓
+                </span>
+              )}
+            </div>
+            <div className={styles.body}>
+              <div className={styles.top}>
+                <span className={styles.tag}>{completionist.tag}</span>
+                <span
+                  className={`${styles.badge} ${rewards.completionist.earned ? styles.badgeEarned : ''}`}
+                >
+                  {rewards.completionist.earned
+                    ? completionist.reachedBadge
+                    : completionist.pendingBadge(
+                        rewards.completionist.pips.length,
+                        rewards.completionist.target,
+                      )}
+                </span>
+              </div>
+              <h3 className={styles.title}>{completionist.title}</h3>
+              <p className={styles.why}>{completionistWhy(rewards)}</p>
+              <Meter
+                pips={rewards.completionist.pips}
+                target={rewards.completionist.target}
+              />
+              <p className={styles.meterLabel}>
+                {completionist.meterLabel(
+                  rewards.completionist.pips.length,
+                  rewards.completionist.target,
+                )}
+              </p>
+            </div>
+          </li>
+        )}
       </ul>
     </section>
   );

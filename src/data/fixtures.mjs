@@ -35,7 +35,7 @@ export const SCENARIOS = Object.freeze({
       },
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
-    thresholds: { stickers: 1, complete: 8 },
+    thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-12' },
     ],
@@ -83,7 +83,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8 },
+    thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
       {
@@ -124,7 +124,7 @@ export const SCENARIOS = Object.freeze({
       },
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
-    thresholds: { stickers: 1, complete: 8 },
+    thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'livestreams-1', completed: false }],
     fests: [],
   },
@@ -148,7 +148,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8 },
+    thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
@@ -158,6 +158,71 @@ export const SCENARIOS = Object.freeze({
       { id: 'dev-connect', completed: true, completedAt: '2026-10-02' },
       { id: 'discord', completed: true, completedAt: '2026-10-03' },
       { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
+    ],
+    fests: [
+      {
+        id: 'fest-london',
+        name: 'Hacktober Fest London',
+        city: 'London',
+        country: 'United Kingdom',
+        date: '2026-08-01',
+        startTime: '9:30 AM',
+        endTime: '5:00 PM',
+        endsAt: '2026-08-01T16:00:00.000Z',
+        timeZone: 'Europe/London',
+        status: 'checked_in',
+        role: 'attending',
+        registrationUrl: null,
+        websiteUrl: null,
+        applicationStatus: null,
+        manageUrl: null,
+        mlhPublished: null,
+        hacktoberfestPublished: null,
+        acknowledgedAt: null,
+        latitude: null,
+        longitude: null,
+        venueAddress: null,
+        publicationChecks: null,
+      },
+    ],
+  },
+  /* Milestone 3 (Completionist): fifteen activities done, so the third
+     card shows earned. A review link for the fullest book the season can
+     hold short of every sticker. */
+  completionist: {
+    user: { ...USER, devLinked: true },
+    addressValidated: true,
+    required: [
+      {
+        id: 'signin',
+        completed: true,
+        completedAt: '2026-09-20T09:00:00.000Z',
+        source: 'api',
+      },
+      {
+        id: 'address',
+        completed: true,
+        completedAt: '2026-09-21T09:00:00.000Z',
+        source: 'api',
+      },
+    ],
+    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    activities: [
+      { id: 'fest', completed: true, completedAt: '2026-08-01' },
+      { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
+      { id: 'livestreams-3', completed: true, completedAt: '2026-10-12' },
+      { id: 'livestream-launch', completed: true, completedAt: '2026-10-01' },
+      { id: 'dev-relay', completed: true, completedAt: '2026-10-02' },
+      { id: 'dev-connect', completed: true, completedAt: '2026-10-02' },
+      { id: 'discord', completed: true, completedAt: '2026-10-03' },
+      { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
+      { id: 'livestreams-5', completed: true, completedAt: '2026-10-19' },
+      { id: 'host-fest', completed: true, completedAt: '2026-10-10' },
+      { id: 'dev-building', completed: true, completedAt: '2026-10-22' },
+      { id: 'ghw', completed: true, completedAt: '2026-10-13' },
+      { id: 'ghw-livestream', completed: true, completedAt: '2026-10-14' },
+      { id: 'ghw-points-5', completed: true, completedAt: '2026-10-15' },
+      { id: 'ghw-points-10', completed: true, completedAt: '2026-10-16' },
     ],
     fests: [
       {
@@ -203,7 +268,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8 },
+    thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     fests: [
       /* Co-branded, the way MLH actually names a partnered Fest: the

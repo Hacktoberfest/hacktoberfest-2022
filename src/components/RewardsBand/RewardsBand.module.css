@@ -165,6 +165,11 @@
   box-shadow: 3px 6px 0 rgba(16, 32, 29, 0.35);
 }
 
+.card:nth-child(3)[data-earned='true'] .sticker {
+  transform: rotate(-5deg);
+  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+}
+
 .card:not([data-earned='true']) .sticker {
   background: #e4e5da;
   color: #8ca59e;
@@ -211,6 +216,7 @@
 
 .meter {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -249,6 +255,12 @@
 }
 .groundComplete {
   background: conic-gradient(from 210deg, #f5b726, #e97b77, #8bb2de, #f5b726);
+}
+/* Completionist: the trophy on ink, the one ground the book does not use
+   for a type, since it is a status and not a sticker to peel. */
+.groundCompletionist {
+  background: #10201d;
+  color: #f7f7f2;
 }
 .ground_required {
   background: #3d5f58;
@@ -341,6 +353,11 @@
 
   .card {
     grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  /* The Completionist card takes the row under the first two. */
+  .cardWide {
+    grid-column: 1 / -1;
   }
 
   .slot {

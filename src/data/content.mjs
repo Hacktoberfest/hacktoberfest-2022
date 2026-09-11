@@ -2196,21 +2196,6 @@ export const my = {
      components/ActivityCard, whose words live under activitiesPage.list so
      /my and /activities/ say the same things about the same activities;
      the tab labels are activitiesPage.list.types for the same reason. */
-  /* What /my says on the way back from a connect flow, keyed by the
-     outcome the API sent (lib/digitalocean.mjs connectOutcome). One
-     sentence, shown once, above the rewards. */
-  connect: {
-    digitalocean: {
-      connected: 'DigitalOcean connected. The sticker is in your book.',
-      denied:
-        'DigitalOcean was not connected: the request was cancelled there. Try again from the sticker whenever you like.',
-      expired: 'That connect link had expired. Start again from the sticker.',
-      'already-linked':
-        'That DigitalOcean account is already connected to another MyMLH account, so it cannot earn the sticker twice.',
-      unavailable:
-        'DigitalOcean could not be reached just now. Try again from the sticker in a minute.',
-    },
-  },
   album: {
     heading: { lead: 'Your', accent: 'sticker book.' },
     /* One line, whatever the state: what the book is. The state lives on
@@ -2267,6 +2252,8 @@ export const my = {
         `Your sticker pack is on its way. Earn ${n} activity stickers in total to unlock the bonus holographic sticker and complete Hacktoberfest.`,
       complete:
         'You’ve completed Hacktoberfest 2026. The bonus holographic sticker is unlocked, and your sticker pack is in the mail.',
+      completionist:
+        'You’re a Hacktoberfest 2026 Completionist. Fifteen activity stickers in the book, the holographic sticker unlocked, and your pack in the mail.',
     },
     pack: {
       tag: 'Milestone 1',
@@ -2302,6 +2289,23 @@ export const my = {
       },
       meterLabel: (filled, target) =>
         `${filled} of ${target} stickers toward the holographic sticker`,
+    },
+    /* Milestone 3, shown only once the first two are earned. A status and
+       nothing more: nothing ships, nothing unlocks, so the copy promises
+       nothing but the word. */
+    completionist: {
+      tag: 'Milestone 3',
+      title: 'Completionist',
+      reachedBadge: 'Earned',
+      pendingBadge: (done, total) => `${done} of ${total}`,
+      why: {
+        earned:
+          'Fifteen activity stickers in the book. You’re a Hacktoberfest 2026 Completionist.',
+        remaining: (left) =>
+          `${left} more activity sticker${left === 1 ? '' : 's'} makes you a Completionist. A title, and bragging rights.`,
+      },
+      meterLabel: (filled, target) =>
+        `${filled} of ${target} stickers toward Completionist`,
     },
   },
   fests: {

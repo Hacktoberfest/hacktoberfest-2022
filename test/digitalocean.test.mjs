@@ -5,10 +5,9 @@ import test from 'node:test';
    before the dynamic import, as the other progress tests do. */
 process.env.NEXT_PUBLIC_API_BASE_URL = 'mocked';
 
-const { connectOutcome, startDigitalOceanConnect, OUTCOMES } = await import(
+const { connectOutcome, startDigitalOceanConnect } = await import(
   '../src/lib/digitalocean.mjs'
 );
-const { my } = await import('../src/data/content.mjs');
 
 test('the return query names the outcome, or nothing when this is not a return', () => {
   assert.equal(connectOutcome('?connected=digitalocean'), 'connected');
@@ -28,15 +27,6 @@ test('the return query names the outcome, or nothing when this is not a return',
   assert.equal(connectOutcome('?connected=github'), null);
   assert.equal(connectOutcome(''), null);
   assert.equal(connectOutcome(undefined), null);
-});
-
-test('every outcome has a sentence on /my', () => {
-  OUTCOMES.forEach((outcome) => {
-    const line = my.connect.digitalocean[outcome];
-    assert.equal(typeof line, 'string', outcome);
-    assert.ok(line.length > 10, outcome);
-    assert.doesNotMatch(line, /—/);
-  });
 });
 
 test('the mocked build comes straight back as connected', async () => {

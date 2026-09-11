@@ -30,8 +30,7 @@ import styles from './MyHub.module.css';
    signed-in check, the cached paint, the split fetch, the error mapping,
    sign-out, the bfcache guard — and takes from each page only what
    differs: the title, the hero accent, the hub name, what to stash before
-   /login/, an optional redirect decision, an optional one-line notice
-   to say above the bands, and the bands.
+   /login/, an optional redirect decision, and the bands.
 
    The static export has no server, so the signed-in check has to run in the
    browser: the page always renders the loading state first, then either
@@ -42,15 +41,7 @@ import styles from './MyHub.module.css';
    any state is set, and otherwise on the fetch result in place of setting
    `ready`: whichever hub a page decides is not this one never paints. It
    is in the effect's dependency list, so pages define it at module level. */
-const MyHub = ({
-  title,
-  accent,
-  hub,
-  returnTo,
-  redirectFor,
-  notice,
-  children,
-}) => {
+const MyHub = ({ title, accent, hub, returnTo, redirectFor, children }) => {
   /* Destructured deliberately: depending on the whole `router` object
      re-runs this effect on every route change, which with a redirect inside
      it is a loop waiting to happen. `replace` is stable. */
@@ -314,14 +305,6 @@ const MyHub = ({
         {/* The bands are the page's: it decides what a ready hub holds,
            and gets the acknowledgement write-through for the applications
            band to use. */}
-        {/* The notice sits with the bands, not above the loading or error
-           surfaces: it is about something that happened to this hub, and
-           reads as such only once the hub is on screen. */}
-        {state === 'ready' && experience && notice && (
-          <p role="status" className={styles.notice}>
-            {notice}
-          </p>
-        )}
         {state === 'ready' &&
           experience &&
           children(experience, { onFestAcknowledged })}

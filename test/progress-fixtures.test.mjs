@@ -32,6 +32,7 @@ test('selectScenario passes through every known name', () => {
     'nothing-done',
     'organizer',
     'complete',
+    'completionist',
     'error',
     'mlh-down',
   ].forEach((name) => assert.equal(selectScenario(name), name));
@@ -50,6 +51,10 @@ test('the fixtures actually represent the states they claim', () => {
 
 test('the complete scenario reaches milestone 2', () => {
   assert.equal(progressLevel(SCENARIOS.complete), 2);
+});
+
+test('the completionist scenario reaches milestone 3', () => {
+  assert.equal(progressLevel(SCENARIOS.completionist), 3);
 });
 
 test('every fixture carries a user', () => {

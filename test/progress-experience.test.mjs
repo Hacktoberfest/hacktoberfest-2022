@@ -115,7 +115,11 @@ test('getExperience fetches all three split endpoints and merges the real user o
   // through getExperience untouched — asserting against the fixture's own
   // { stickers: 1, complete: 3 } and empty activities would pass even if
   // the live progress fetch were ignored entirely.
-  assert.deepEqual(result.thresholds, { stickers: 1, complete: 4 });
+  assert.deepEqual(result.thresholds, {
+    stickers: 1,
+    complete: 4,
+    completionist: 15,
+  });
   const byId = Object.fromEntries(result.activities.map((a) => [a.id, a]));
   assert.equal(byId['livestreams-1'].completed, true);
   assert.equal(byId['livestreams-1'].completedAt, '2026-10-05T19:12:00.000Z');

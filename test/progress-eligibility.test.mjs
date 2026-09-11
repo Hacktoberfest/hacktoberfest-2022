@@ -128,8 +128,18 @@ test('progressLevel is 2 once DEFAULT_THRESHOLDS.complete are done', () => {
     2,
   );
   assert.equal(
-    progressLevel({ addressValidated: true, activities: activitiesDone(5) }),
+    progressLevel({
+      addressValidated: true,
+      activities: activitiesDone(DEFAULT_THRESHOLDS.complete + 1),
+    }),
     2,
+  );
+  assert.equal(
+    progressLevel({
+      addressValidated: true,
+      activities: activitiesDone(DEFAULT_THRESHOLDS.completionist),
+    }),
+    3,
   );
 });
 
@@ -164,6 +174,7 @@ test('thresholdsOf reads the experience and falls back to the defaults', () => {
   assert.deepEqual(thresholdsOf({ thresholds: { stickers: 1, complete: 4 } }), {
     stickers: 1,
     complete: 4,
+    completionist: DEFAULT_THRESHOLDS.completionist,
   });
   // Anything that is not a positive integer pair is not a threshold.
   assert.deepEqual(
@@ -173,6 +184,43 @@ test('thresholdsOf reads the experience and falls back to the defaults', () => {
   assert.deepEqual(
     thresholdsOf({ thresholds: { stickers: '1', complete: 3 } }),
     DEFAULT_THRESHOLDS,
+  );
+});
+
+test('thresholdsOf reads completionist, and defaults it alone when a payload predates it', () => {
+  assert.deepEqual(
+    thresholdsOf({
+      thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    }),
+    { stickers: 1, complete: 8, completionist: 15 },
+  );
+  assert.deepEqual(thresholdsOf({ thresholds: { stickers: 1, complete: 8 } }), {
+    stickers: 1,
+    complete: 8,
+    completionist: DEFAULT_THRESHOLDS.completionist,
+  });
+  assert.equal(
+    thresholdsOf({ thresholds: { stickers: 1, complete: 8, completionist: 0 } })
+      .completionist,
+    DEFAULT_THRESHOLDS.completionist,
+  );
+});
+
+test('progressLevel reaches 3 at the completionist threshold', () => {
+  const done = (n) =>
+    ACTIVITIES.slice(0, n).map((a) => ({ id: a.id, completed: true }));
+  const thresholds = { stickers: 1, complete: 2, completionist: 4 };
+  assert.equal(
+    progressLevel({ addressValidated: true, activities: done(4), thresholds }),
+    3,
+  );
+  assert.equal(
+    progressLevel({ addressValidated: true, activities: done(3), thresholds }),
+    2,
+  );
+  assert.equal(
+    progressLevel({ addressValidated: false, activities: done(4), thresholds }),
+    0,
   );
 });
 

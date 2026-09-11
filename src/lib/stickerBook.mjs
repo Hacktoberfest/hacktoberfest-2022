@@ -123,37 +123,43 @@ export const defaultTab = (stickers) => {
 };
 
 /* The milestone numbers, with no JSX: the level (0 nothing, 1 pack earned,
-   2 complete), the activity count that counts toward it (zero without an
-   address, the same gate progressLevel applies), the API's completion
-   threshold, and the address flag. */
+   2 complete, 3 Completionist), the activity count that counts toward it
+   (zero without an address, the same gate progressLevel applies), the
+   API's completion and Completionist thresholds, and the address flag. */
 export const milestoneState = (experience) => {
   const level = progressLevel(experience);
   const addressValidated = Boolean(experience && experience.addressValidated);
   const done = addressValidated
     ? completedCount(mergeActivities(experience.activities))
     : 0;
-  const { complete } = thresholdsOf(experience);
-  return { level, done, complete, addressValidated };
+  const { complete, completionist } = thresholdsOf(experience);
+  return { level, done, complete, completionist, addressValidated };
 };
 
 /* The rewards band's numbers (components/RewardsBand). `pack` is Milestone 1 as three requirements;
    `completion` is Milestone 2 as a meter of `target` pips, the completion
    threshold plus the two required stickers, filled with the earned
-   stickers in book order. `activityStickers` is the activity count with no
-   address gate, so the page can say "an activity sticker is in the book,
-   add an address" rather than pretend nothing was earned. */
+   stickers in book order; `completionist` is Milestone 3 the same way,
+   with the Completionist threshold, and `shown` only once the first two
+   are earned, since the card is for people already complete.
+   `activityStickers` is the activity count with no address gate, so the
+   page can say "an activity sticker is in the book, add an address"
+   rather than pretend nothing was earned. */
 export const rewardsState = (experience, stickers) => {
-  const { level, done, complete, addressValidated } =
+  const { level, done, complete, completionist, addressValidated } =
     milestoneState(experience);
   const all = Array.isArray(stickers) ? stickers : [];
   const activityStickers = all.filter(
     (sticker) => sticker.type !== REQUIRED_TAB && sticker.completed,
   ).length;
+  const earned = all.filter((sticker) => sticker.completed);
   const target = complete + REQUIRED_STICKERS.length;
-  const pips = all.filter((sticker) => sticker.completed).slice(0, target);
+  const pips = earned.slice(0, target);
+  const completionistTarget = completionist + REQUIRED_STICKERS.length;
   return {
     level,
     complete,
+    completionist,
     addressValidated,
     activityStickers,
     pack: {
@@ -172,7 +178,15 @@ export const rewardsState = (experience, stickers) => {
       target,
       remaining: Math.max(0, complete - done),
     },
-    earnedRewards: (level >= 1 ? 1 : 0) + (level >= 2 ? 1 : 0),
+    completionist: {
+      shown: level >= 2,
+      earned: level >= 3,
+      pips: earned.slice(0, completionistTarget),
+      target: completionistTarget,
+      remaining: Math.max(0, completionist - done),
+    },
+    earnedRewards:
+      (level >= 1 ? 1 : 0) + (level >= 2 ? 1 : 0) + (level >= 3 ? 1 : 0),
   };
 };
 

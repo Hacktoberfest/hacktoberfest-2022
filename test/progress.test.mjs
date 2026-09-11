@@ -104,7 +104,11 @@ test('thresholds pass through, and fall back when unusable', () => {
   assert.deepEqual(
     progressFromPayload(payload({ thresholds: { stickers: 2, complete: 5 } }))
       .thresholds,
-    { stickers: 2, complete: 5 },
+    {
+      stickers: 2,
+      complete: 5,
+      completionist: DEFAULT_THRESHOLDS.completionist,
+    },
   );
   assert.deepEqual(
     progressFromPayload(payload({ thresholds: null })).thresholds,
