@@ -30,9 +30,10 @@ test('sources are named in words a participant would use', () => {
     'import',
     'manual',
     'mlh',
+    'webhook',
   ]);
   for (const value of Object.values(activitiesPage.list.source)) {
-    assert.doesNotMatch(value, /sweep|import|api|manual/i);
+    assert.doesNotMatch(value, /sweep|import|api|manual|webhook/i);
   }
 });
 

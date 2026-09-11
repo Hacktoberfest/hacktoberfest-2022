@@ -2561,6 +2561,9 @@ export const activitiesPage = {
       import: 'from the Global Hack Week roster',
       api: 'from DevRelay',
       manual: 'confirmed by the Hacktoberfest team',
+      /* FestNet's completion webhook: a fact a service (Customer.io, for
+         Global Hack Week) sent about the participant. */
+      webhook: 'from MLH’s records',
       /* The two required stickers in the book on /my. */
       mlh: 'from your MyMLH account',
     },
