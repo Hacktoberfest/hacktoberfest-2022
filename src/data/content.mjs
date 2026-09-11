@@ -2291,7 +2291,7 @@ export const my = {
     complete: {
       tag: 'Milestone 2',
       title: 'The bonus holographic sticker',
-      reachedBadge: 'Unlocked',
+      reachedBadge: 'Earned',
       pendingBadge: (done, total) => `${done} of ${total}`,
       why: {
         earned: 'Unlocked, and Hacktoberfest 2026 is complete.',

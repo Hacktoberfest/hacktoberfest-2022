@@ -7,10 +7,11 @@ import styles from './RewardsBand.module.css';
 
 /* The rewards band, above the sticker book: the two milestones as two
    more stickers, earned by earning stickers, each a card. The pack card
-   lists its three requirements as ticks, with the address button while
-   the address is missing; the completion card is a meter of pips, one per
-   sticker toward the target, filled with the stickers already earned in
-   book order, so the meter reads as the book filling up. An earned reward
+   lists its three requirements as pips, each filled with the sticker that
+   met it, with the address button while the address is missing; the
+   completion card is a meter of pips, one per sticker toward the target,
+   filled with the stickers already earned in book order, so both rows
+   read as the book filling up. An earned reward
    peels with a tick on its corner; one not yet earned is a grey
    silhouette in its slot, as the book's stickers are.
 
@@ -34,13 +35,21 @@ const completeWhy = (rewards) => {
   return why.remaining(rewards.completion.remaining);
 };
 
-const Need = ({ label, done }) => (
+/* One requirement of the pack, as a pip: the sticker that meets it, in
+   its own ground, once it is in the book, and a dashed empty slot until
+   then, so the row reads as the holographic card's meter does. The label
+   says the requirement; the pip is decorative. */
+const Need = ({ label, sticker }) => (
   <li className={styles.need}>
     <span
-      className={`${styles.tick} ${done ? styles.tickOn : ''}`}
+      className={
+        sticker
+          ? `${styles.pip} ${styles.pipOn} ${styles[`ground_${sticker.type}`] || ''}`
+          : styles.pip
+      }
       aria-hidden="true"
     >
-      {done ? '✓' : ''}
+      {sticker ? ART[sticker.art] || null : null}
     </span>
     {label}
   </li>
@@ -55,6 +64,16 @@ const RewardsBand = ({ experience }) => {
     my.rewards.intro.stickersEarned(rewards.complete),
     my.rewards.intro.complete,
   ][rewards.level];
+  /* The pack's pips: the two required stickers by id, and the first
+     activity sticker in the book, whichever it was. rewardsState says
+     whether each requirement is met; these say which sticker to draw. */
+  const bySlug = Object.fromEntries(
+    stickers.map((sticker) => [sticker.id, sticker]),
+  );
+  const firstActivity =
+    stickers.find(
+      (sticker) => sticker.type !== 'required' && sticker.completed,
+    ) || null;
   const pips = Array.from(
     { length: rewards.completion.target },
     (_, index) => rewards.completion.pips[index] || null,
@@ -89,7 +108,7 @@ const RewardsBand = ({ experience }) => {
             <div className={styles.top}>
               <span className={styles.tag}>{pack.tag}</span>
               <span
-                className={`${styles.badge} ${rewards.pack.earned ? styles.badgeOchre : ''}`}
+                className={`${styles.badge} ${rewards.pack.earned ? styles.badgeEarned : ''}`}
               >
                 {rewards.pack.earned
                   ? pack.reachedBadge
@@ -101,15 +120,15 @@ const RewardsBand = ({ experience }) => {
             <ul className={styles.needs}>
               <Need
                 label={pack.needs.signedIn}
-                done={rewards.pack.needs.signedIn}
+                sticker={rewards.pack.needs.signedIn ? bySlug.signin : null}
               />
               <Need
                 label={pack.needs.address}
-                done={rewards.pack.needs.address}
+                sticker={rewards.pack.needs.address ? bySlug.address : null}
               />
               <Need
                 label={pack.needs.activity}
-                done={rewards.pack.needs.activity}
+                sticker={rewards.pack.needs.activity ? firstActivity : null}
               />
             </ul>
             {!rewards.addressValidated && (
@@ -146,7 +165,7 @@ const RewardsBand = ({ experience }) => {
             <div className={styles.top}>
               <span className={styles.tag}>{complete.tag}</span>
               <span
-                className={`${styles.badge} ${rewards.completion.earned ? styles.badgeDeep : ''}`}
+                className={`${styles.badge} ${rewards.completion.earned ? styles.badgeEarned : ''}`}
               >
                 {rewards.completion.earned
                   ? complete.reachedBadge

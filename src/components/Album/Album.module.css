@@ -551,12 +551,17 @@
 }
 
 /* The cell's link, as a button: same words, same place, no form chrome.
-   Only the DigitalOcean sticker uses it, to start the connect flow. */
+   Only the DigitalOcean sticker uses it, to start the connect flow. The
+   face comes from .cellLink above; nothing here may reset the font, since
+   this rule is declared later and would win (font: inherit did exactly
+   that, and the button rendered in the body face). A button has no
+   underline of its own, so the link's is drawn here. */
 .cellButton {
   appearance: none;
   background: none;
   border: 0;
   padding: 0;
-  font: inherit;
+  line-height: inherit;
+  text-decoration: underline;
   cursor: pointer;
 }

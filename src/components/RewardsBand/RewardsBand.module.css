@@ -52,11 +52,15 @@
   list-style: none;
 }
 
+/* The body sits at the top of the card, not centred: the two cards share
+   a row and differ in height (the holographic card carries a meter label
+   the pack card does not), and centring put their tags on different
+   lines. The sticker alone stays centred beside the body. */
 .card {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
   gap: 18px;
-  align-items: center;
+  align-items: start;
   padding: 18px 20px;
   /* colors.ink */
   border: 2px solid #10201d;
@@ -69,11 +73,14 @@
 .body {
   display: grid;
   gap: 6px;
-  align-content: center;
+  align-content: start;
 }
 
+/* Wraps: on a narrow card the tag and the badge do not both fit on one
+   line, and the badge would otherwise run out past the card's edge. */
 .top {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
@@ -110,6 +117,7 @@
   width: 72px;
   height: 72px;
   flex: 0 0 auto;
+  align-self: center;
 }
 
 .slot::before {
@@ -182,38 +190,6 @@
   font-weight: 800;
 }
 
-/* The rewards' grounds: the pack on ochre; the holographic sticker as a
-   sweep of the brand colours, the placeholder for a holo finish until the
-   real sticker is drawn. The pips take the book's grounds, one per page,
-   so the meter reads as the book filling up. colors.ochre / sky / pink /
-   ochre / forest / ink / orange / rule / white */
-.groundPack {
-  background: #f5b726;
-}
-.groundComplete {
-  background: conic-gradient(from 210deg, #f5b726, #e97b77, #8bb2de, #f5b726);
-}
-.ground_required {
-  background: #3d5f58;
-  color: #f7f7f2;
-}
-.ground_dev {
-  background: #10201d;
-  color: #f7f7f2;
-}
-.ground_livestreams {
-  background: #8bb2de;
-}
-.ground_ghw {
-  background: #e53927;
-}
-.ground_tools {
-  background: #8ca59e;
-}
-.ground_inperson {
-  background: #e97b77;
-}
-
 .needs {
   display: flex;
   flex-wrap: wrap;
@@ -223,32 +199,14 @@
   list-style: none;
 }
 
+/* Each requirement is a pip (the rules below, shared with the meter) and
+   its label. */
 .need {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 0.8rem;
   font-weight: 600;
-}
-
-.tick {
-  display: inline-grid;
-  width: 18px;
-  height: 18px;
-  place-items: center;
-  border-radius: 50%;
-  /* colors.rule */
-  border: 2px dashed #8ca59e;
-  /* colors.white */
-  color: #f7f7f2;
-  font-size: 0.62rem;
-  font-weight: 700;
-}
-
-.tickOn {
-  border: 0;
-  /* colors.forest */
-  background: #3d5f58;
 }
 
 .meter {
@@ -279,6 +237,40 @@
   outline: 1.5px solid #10201d;
 }
 
+/* The rewards' grounds: the pack on ochre; the holographic sticker as a
+   sweep of the brand colours, the placeholder for a holo finish until the
+   real sticker is drawn. The pips take the book's grounds, one per page,
+   so the meter reads as the book filling up. Declared after .pip and
+   .sticker, so a ground's own ink (white on forest, white on ink) wins
+   over theirs. colors.ochre / sky / pink / ochre / forest / ink / orange /
+   rule / white */
+.groundPack {
+  background: #f5b726;
+}
+.groundComplete {
+  background: conic-gradient(from 210deg, #f5b726, #e97b77, #8bb2de, #f5b726);
+}
+.ground_required {
+  background: #3d5f58;
+  color: #f7f7f2;
+}
+.ground_dev {
+  background: #10201d;
+  color: #f7f7f2;
+}
+.ground_livestreams {
+  background: #8bb2de;
+}
+.ground_ghw {
+  background: #e53927;
+}
+.ground_tools {
+  background: #8ca59e;
+}
+.ground_inperson {
+  background: #e97b77;
+}
+
 .meterLabel {
   margin: 0;
   /* colors.muted */
@@ -287,8 +279,10 @@
 }
 
 /* The milestone tag and badge, as the sticker book and the fest cards
-   draw them: mono, rounded tag on ink; dashed badge while pending, ochre
-   for the pack, ochre-deep for completion. */
+   draw them: mono, rounded tag on ink; the badge in the same mono
+   grammar, dashed and quiet while pending, and one stamp once reached,
+   the same ochre and the same word on every card, on an ink border with
+   the hard shadow the cards themselves wear. */
 .tag {
   padding: 5px 10px;
   border-radius: 6px;
@@ -309,30 +303,30 @@
 
 .badge {
   padding: 4px 10px;
+  border-radius: 6px;
   /* colors.rule */
-  border: 1px dashed #8ca59e;
+  border: 1.5px dashed #8ca59e;
   /* colors.muted */
   color: #52635f;
-  font-size: 0.76rem;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.badgeOchre {
+.badgeEarned {
   /* colors.ink */
-  border: 1px solid #10201d;
-  /* colors.ochre */
+  border: 1.5px solid #10201d;
+  box-shadow: 2px 2px 0 #10201d;
+  transform: rotate(-2deg);
+  /* colors.ochre / ink */
   background: #f5b726;
   color: #10201d;
-}
-
-.badgeDeep {
-  /* colors.ink */
-  border: 1px solid #10201d;
-  /* colors.ochreDeep */
-  background: #8a5d13;
-  /* colors.white */
-  color: #f7f7f2;
 }
 
 /* breakpoints.tablet */
