@@ -33,9 +33,10 @@ const readLinkedCss = async (html, label) => {
   return sheets.join('\n');
 };
 
-test('both signed-in pages are exported and marked noindex', async () => {
+test('the signed-in pages are exported and marked noindex', async () => {
   const pages = await Promise.all([
     readOutput('my/index.html'),
+    readOutput('my/hosting/index.html'),
     readOutput('login/index.html'),
   ]);
 
@@ -137,6 +138,36 @@ test('the exported /my page is the whole-page loading surface', async () => {
     html,
     /Hi there,/,
     'the welcome band should not render in the loading state',
+  );
+});
+
+/* The hosting hub exports the same way: a static host serves this file to
+   anyone who asks, so the loader is all it may hold. The band copy proves
+   the hub itself is absent; the attending link proves the cross-link band
+   is absent too (it renders only once the fests half has answered). */
+test('the exported /my/hosting page is the whole-page loading surface', async () => {
+  const html = await readOutput('my/hosting/index.html');
+
+  assert.match(html, new RegExp(my.loading.replace('…', '')));
+  assert.ok(html.includes(my.hosting.title), 'the hosting title is missing');
+  assert.doesNotMatch(
+    html,
+    /Hi there,/,
+    'the welcome band should not render in the loading state',
+  );
+  ['Ada Lovelace', 'ada@example.invalid'].forEach((value) =>
+    assert.ok(
+      !html.includes(value),
+      `the exported HTML should not contain fixture data (${value})`,
+    ),
+  );
+  assert.ok(
+    !html.includes(my.hostResources.heading.accent),
+    'the exported HTML should not contain the host resources band',
+  );
+  assert.ok(
+    !html.includes(my.hubLink.attending.cta),
+    'the exported HTML should not contain the cross-link band',
   );
 });
 
@@ -269,6 +300,8 @@ test('the /my feature contains no styled-components', async () => {
     'ActivitiesPage',
     'FestsBand',
     'MyStatus',
+    'MyHub',
+    'HubLinkBand',
   ];
   const offenders = [];
 
@@ -378,15 +411,16 @@ test('the MLH outage surface ships with its styles', async () => {
    styled-components version of it would ship with no styles at all. The
    digit rule is the one to pin — it is what makes the band the big, bold
    thing it is for. Proves the styles ship, not that the band renders; the
-   render gate is source-guarded in WIRING below. */
+   render gate is source-guarded in WIRING below. These bands render on the
+   hosting hub, so its stylesheet is the one read here. */
 test('the Preptember countdown ships with its styles', async () => {
-  const html = await readOutput('my/index.html');
-  const css = await readLinkedCss(html, '/my');
+  const html = await readOutput('my/hosting/index.html');
+  const css = await readLinkedCss(html, '/my/hosting');
 
   assert.match(
     css,
     /\.CountdownBand_value__[A-Za-z0-9_]+\{[^}]*font-size:clamp\(/,
-    "the countdown's display-size digit rule is missing from the CSS /my links",
+    "the countdown's display-size digit rule is missing from the CSS /my/hosting links",
   );
 });
 
@@ -395,18 +429,18 @@ test('the Preptember countdown ships with its styles', async () => {
    going missing from the emitted CSS. The card and ghost rules are the
    two the band cannot read without. */
 test('the applications band ships with its styles', async () => {
-  const html = await readOutput('my/index.html');
-  const css = await readLinkedCss(html, '/my');
+  const html = await readOutput('my/hosting/index.html');
+  const css = await readLinkedCss(html, '/my/hosting');
 
   assert.match(
     css,
     /\.ApplicationsBand_card__[A-Za-z0-9_]+\{[^}]*#671912/,
-    "the application card's maroon shadow rule is missing from the CSS /my links",
+    "the application card's maroon shadow rule is missing from the CSS /my/hosting links",
   );
   assert.match(
     css,
     /\.ApplicationsBand_ghostCard__[A-Za-z0-9_]+\{[^}]*dashed/,
-    "the applications ghost card's dashed rule is missing from the CSS /my links",
+    "the applications ghost card's dashed rule is missing from the CSS /my/hosting links",
   );
 
   /* The locked-resource badge: without its dashed treatment a gated row
@@ -414,7 +448,7 @@ test('the applications band ships with its styles', async () => {
   assert.match(
     css,
     /\.HostResourcesBand_lockedBadge__[A-Za-z0-9_]+\{[^}]*dashed/,
-    "the host resources locked badge's dashed rule is missing from the CSS /my links",
+    "the host resources locked badge's dashed rule is missing from the CSS /my/hosting links",
   );
 
   /* The why-host callout's two load-bearing rules: the full-bleed sky
@@ -423,12 +457,12 @@ test('the applications band ships with its styles', async () => {
   assert.match(
     css,
     /\.WhyHostBand_root__[A-Za-z0-9_]+\{[^}]*#8bb2de/,
-    "the why-host band's sky ground rule is missing from the CSS /my links",
+    "the why-host band's sky ground rule is missing from the CSS /my/hosting links",
   );
   assert.match(
     css,
     /\.WhyHostBand_box__[A-Za-z0-9_]+\{[^}]*#1f4e6b/,
-    "the why-host box's skyDeep shadow rule is missing from the CSS /my links",
+    "the why-host box's skyDeep shadow rule is missing from the CSS /my/hosting links",
   );
 });
 
@@ -439,23 +473,23 @@ test('the applications band ships with its styles', async () => {
    with the card), and the negative pull that breaks the band's top
    edge are the rules the band cannot read without. */
 test('the thank-you postcard band ships with its styles', async () => {
-  const html = await readOutput('my/index.html');
-  const css = await readLinkedCss(html, '/my');
+  const html = await readOutput('my/hosting/index.html');
+  const css = await readLinkedCss(html, '/my/hosting');
 
   assert.match(
     css,
     /\.ThankYouBand_root__[A-Za-z0-9_]+\{[^}]*#8bb2de/,
-    "the thank-you band's sky ground rule is missing from the CSS /my links",
+    "the thank-you band's sky ground rule is missing from the CSS /my/hosting links",
   );
   assert.match(
     css,
     /\.ThankYouBand_face__[A-Za-z0-9_]+\{[^}]*#1f4e6b/,
-    "the postcard face's skyDeep shadow rule is missing from the CSS /my links",
+    "the postcard face's skyDeep shadow rule is missing from the CSS /my/hosting links",
   );
   assert.match(
     css,
     /\.ThankYouBand_card__[A-Za-z0-9_]+\{[^}]*margin-top:calc\(/,
-    "the postcard's top-edge overlap pull is missing from the CSS /my links",
+    "the postcard's top-edge overlap pull is missing from the CSS /my/hosting links",
   );
 });
 
@@ -486,116 +520,156 @@ test('the thank-you postcard band ships with its styles', async () => {
    `isMissingEmailOnly` did — `callbackStateForSession` is the wiring that
    stands in its place). */
 const WIRING = [
+  /* The shell both hubs render through. Every effect on /my lives here
+     now, so every guard that used to point at src/pages/my.js points here. */
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: 'pageStateForError(error)',
     why: '/my must ask lib/pageState.mjs which state a failure lands on; without it the 401 sign-out and the 502 outage branches are unreachable from the page.',
   },
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: 'setState(next)',
     why: "the page must set the state the decision returned. Hardcoding one (setState('error')) silently discards mlhDown, and the outage surface never renders.",
   },
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: "state === 'mlhDown'",
     why: 'the early return is the whole point of the outage state: without it the hub renders around the warning, half-populated, which reads as "my data is wrong" rather than "MLH is down".',
   },
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: '<MyMlhDown />',
     why: 'the outage surface itself. Its CSS ships either way (Next emits every rule in an imported CSS Module), so no style guard can notice this going missing.',
   },
-  /* The Preptember tokens are one feature: the flag swaps the whole
-     October hub (progress, activities, fests) for the September one
-     (countdown, applications). Each gate is guarded separately because
-     each can break separately — dropping one brings an October band back
-     mid-Preptember, dropping a September band leaves the flag only
-     removing content. */
   {
-    file: 'src/pages/my.js',
-    token: '{PREPTEMBER && <CountdownBand />}',
-    why: 'the countdown is what Preptember mode shows in place of the hidden bands; without it the flag only removes content.',
-  },
-  /* Two entries rather than one: the whole call is not a stable token
-     (the band took a second prop and this test started failing on a
-     formatting change alone), so the mount and its flag are pinned
-     separately. */
-  {
-    file: 'src/pages/my.js',
-    token: '<ApplicationsBand',
-    why: "Preptember's second band: the user's own applications, and — via its ghost — the page's one apply CTA. Without it September's hub is a countdown over nothing.",
+    file: 'src/components/MyHub/index.js',
+    token: 'redirectFor(cached)',
+    why: 'the redirect decision must run on the cached experience before it is set: otherwise a host arriving at /my/ paints the attending bands for a frame, then leaves. Deciding only on the fetch result reintroduces the flash for everyone with a warm cache.',
   },
   {
-    file: 'src/pages/my.js',
-    token: '{PREPTEMBER && (',
-    why: 'the applications band is gated on the flag like every other September band; ungated it would render into the October hub too.',
+    file: 'src/components/MyHub/index.js',
+    token: 'redirectFor(result)',
+    why: 'the redirect decision must also run on the fetch result, in place of setting ready. Without it every arrival with no warm cache (first visits, anything past the cache age, every mocked build) paints the attending hub for hosts and never leaves.',
   },
   {
-    file: 'src/pages/my.js',
-    token: '<HostResourcesBand approved={isHost(experience.fests)}',
-    count: 2,
-    why: 'the resources band and its approval gate, in both modes (always during Preptember, organizers-only in October). `approved` must come from isHost at both sites — passing isOrganizing (or true) unlocks funding and swag for draft applications, promising what MLH has not granted.',
+    file: 'src/components/MyHub/index.js',
+    token: 'if (returnTo) stashReturnTo(returnTo);',
+    why: 'the hosting hub is not the default /login/ falls back to, so it must stash itself before the bounce or a signed-out host who asked for /my/hosting/ lands on /my/ instead.',
   },
   {
-    file: 'src/pages/my.js',
-    token: '<HostResourcesBand approved={isHost(experience.fests)} closing />',
-    why: "October's site must pass `closing`: below Your Fests the band swaps its top padding for the page-closing gutter. Without it the page ends with the card nearly touching the footer, under a double gap above.",
+    file: 'src/components/MyHub/index.js',
+    token: 'writeLastHub(hub)',
+    why: 'the memory /my/ reads. Without it every visit to /my/ by a host redirects to hosting, and the attending link on the hosting hub loops.',
   },
   {
-    file: 'src/pages/my.js',
-    token: '{!PREPTEMBER && isOrganizing(experience.fests) && (',
-    why: "October's gate on the resources band: outside Preptember it shows only to hosts and in-flight applicants — isOrganizing, not isHost, because someone mid-application needs the handbook most. Ungated, every participant gets a hosting toolkit they never asked for.",
-  },
-  {
-    file: 'src/pages/my.js',
-    token: 'hasApplied(experience.fests) ?',
-    why: "Preptember's closing band forks on the application gate: the why-host pitch (WhyHostBand) for people who haven't applied, the thank-you postcard (ThankYouBand) once an application is actually sent. Hardcoding either side pitches hosts on what they already did — or thanks people who never applied.",
-  },
-  {
-    file: 'src/pages/my.js',
-    token: '<ThankYouBand user={experience.user} />',
-    why: 'the thank-you side of the fork. The gate token above cannot see which branch each band sits on (prettier wraps the ternary across lines), so this pins the postcard\'s presence — deleting it, or swapping the branches and "simplifying" one away, has to come through here. `user` because the card\'s back greets the host by name.',
-  },
-  {
-    file: 'src/pages/my.js',
-    token: '{!PREPTEMBER && <RewardsBand experience={experience} />}',
-    why: 'Preptember mode must hide "Your rewards." — an ungated RewardsBand renders milestones for a campaign that has not started.',
-  },
-  {
-    file: 'src/pages/my.js',
-    token: '{!PREPTEMBER && <Album experience={experience} />}',
-    why: 'Preptember mode must hide "Your sticker book." — an ungated Album offers stickers that cannot be earned yet.',
-  },
-  {
-    file: 'src/pages/my.js',
-    token: '{!PREPTEMBER && <FestsBand experience={experience} />}',
-    why: 'Preptember mode must hide "Your Fests." — the organizing entries it would show are exactly what the applications band lists, and two copies of the same cards argue with each other.',
-  },
-  {
-    file: 'src/components/WelcomeBand/index.js',
-    token: 'accent={my.welcome.accent}',
-    why: 'the hero greets "your Hacktoberfest" on both sides of the Preptember flag — the month-naming preptemberAccent swap retired 2026-08-18, and its return would rename the hub for one side of the flag.',
-  },
-  {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: 'endSession()',
     why: 'the sign-out control must revoke the refresh token server-side, not just clear localStorage. Reverting to clearSession() leaves a thirty-day credential live after someone signs out on a shared machine, and nothing on screen differs.',
   },
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: 'signOutDestination()',
     why: "sign-out must land on /signed-out/, the page that explains the MyMLH half and offers its escape hatch. Reverting to /login/ restarts OAuth on mount, MLH's cookie completes it silently, and the participant lands back on /my still signed in — the button visibly does nothing.",
   },
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: 'event.persisted',
     why: "the bfcache guard from FIX 2. Without it, Back from /signed-out/ repaints the previous participant's name, email and applications from restored React state on a shared machine.",
   },
   {
-    file: 'src/pages/my.js',
+    file: 'src/components/MyHub/index.js',
     token: 'globalThis.location.replace(signOutDestination())',
     why: "the bfcache guard must land back on /signed-out/, not reload. A reload re-runs the session check, which sends the revoked session to /login/, where OAuth restarts on mount and MLH's surviving cookie signs the participant straight back in — Back would silently undo their sign-out.",
+  },
+  /* The attending hub: /my/. */
+  {
+    file: 'src/pages/my.js',
+    token: 'redirectFor={redirectFor}',
+    why: 'hosts must be sent on to /my/hosting/ from here. Without it the header link lands every host on the attending hub, and the hosting hub is only reachable by typing its address.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'lastHub: readLastHub()',
+    why: 'the redirect must consult the memory, or a host who chose attending is bounced back to hosting on every visit and can never stay.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '<RewardsBand experience={experience} />',
+    why: '"Your rewards." is the first band of the attending hub.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '<Album experience={experience} />',
+    why: '"Your sticker book." is the attending hub\'s second band.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: '<FestsBand experience={experience} />',
+    why: '"Your Fests." closes the attending hub, hosting cards included: it is the participant\'s calendar.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'isOrganizing(experience.fests) && (',
+    why: 'the link to the hosting hub is for people who have one. Ungated, every attendee is told about a hosting hub with nothing on it.',
+  },
+  /* The hosting hub: /my/hosting/. Its bands are origin/main's host mode,
+     each guarded because each can break separately. */
+  {
+    file: 'src/pages/my/hosting.js',
+    token: 'returnTo="/my/hosting/"',
+    why: 'signed-out hosts who asked for the hosting hub must come back to it after /login/, not to /my/.',
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: 'hub="hosting"',
+    why: 'the shell writes this name to the memory /my/ reads; the wrong name here sends hosts to the attending hub forever.',
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: '{PREPTEMBER && <CountdownBand />}',
+    why: 'the countdown is what Preptember shows above the applications; ungated it counts down to a date already past.',
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: '<ApplicationsBand',
+    why: "the hosting hub's first real band: the user's own applications, and — via its ghost — the page's one apply CTA. Without it the hub is a resources card over nothing.",
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: 'onFestAcknowledged={onFestAcknowledged}',
+    why: 'the acknowledgement write-through the shell hands down. Without it a confirmed acknowledgement does not flip the card until a refetch.',
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: '<HostResourcesBand approved={isHost(experience.fests)} />',
+    why: 'the resources band and its approval gate. `approved` must come from isHost — passing isOrganizing (or true) unlocks funding and swag for draft applications, promising what MLH has not granted.',
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: 'hasApplied(experience.fests) ?',
+    why: "the closing band forks on the application gate: the why-host pitch (WhyHostBand) for people who haven't applied, the thank-you postcard (ThankYouBand) once an application is actually sent. Hardcoding either side pitches hosts on what they already did — or thanks people who never applied.",
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: '<ThankYouBand user={experience.user} />',
+    why: "the thank-you side of the fork. The gate token above cannot see which branch each band sits on (prettier wraps the ternary across lines), so this pins the postcard's presence. `user` because the card's back greets the host by name.",
+  },
+  {
+    file: 'src/pages/my/hosting.js',
+    token: 'isOrganizing(experience.fests) && <HubLinkBand to="attending" />',
+    why: 'the way back to stickers and rewards, for people who have two hubs. Ungated, every attendee looking at hosting is offered an attending hub link the header already provides; without the band, a host who landed here by default has no idea the attending hub exists.',
+  },
+  /* The band that carries the link between the hubs. */
+  {
+    file: 'src/components/HubLinkBand/index.js',
+    token: 'onClick={() => writeLastHub(to)}',
+    why: 'the click is the moment of choosing: a host following the attending link would otherwise arrive at /my/ with "hosting" still remembered and be bounced straight back.',
+  },
+  {
+    file: 'src/components/WelcomeBand/index.js',
+    token: 'accent = my.welcome.accent',
+    why: 'the hero greets "your Hacktoberfest" by default — the month-naming preptemberAccent swap retired 2026-08-18, and its return would rename the hub for one side of the flag. The hosting hub passes its own accent explicitly.',
   },
   {
     file: 'src/pages/signed-out.js',

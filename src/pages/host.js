@@ -42,7 +42,7 @@ const Host = () => (
         eyebrow={host.eyebrow}
         lead={host.heading.lead}
         accent={host.heading.accent}
-        actions={<Button href="/my/">{host.apply.cta}</Button>}
+        actions={<Button href="/my/hosting/">{host.apply.cta}</Button>}
       >
         <p>{host.intro}</p>
       </PageHero>

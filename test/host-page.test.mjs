@@ -107,12 +107,14 @@ test('/host links the hosting guide and the apply CTA', async () => {
     html,
     new RegExp(`<a[^>]*href="${escapeRegExp(HOST_HANDBOOK_URL)}"[^>]*>`),
   );
-  /* The apply CTA is an internal link to the signed-in hub now, not an
-     outbound link to the MLH application: applying starts from /my, so
-     /host hands off rather than jumping straight out. */
+  /* The apply CTA is an internal link to the hosting hub, not an outbound
+     link to the MLH application: applying starts from "Start your first
+     application" on /my/hosting/, so /host hands off rather than jumping
+     straight out. /my/ would work too, but only after a redirect for
+     hosts and not at all for a first-time applicant, who is not sent on. */
   const applyLinks = html.match(
     new RegExp(
-      `<a[^>]*href="/my/"[^>]*>${escapeRegExp(host.apply.cta)}</a>`,
+      `<a[^>]*href="/my/hosting/"[^>]*>${escapeRegExp(host.apply.cta)}</a>`,
       'g',
     ),
   );

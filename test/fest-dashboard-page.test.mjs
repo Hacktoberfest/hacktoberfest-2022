@@ -56,4 +56,11 @@ test('the refusal surfaces ship with the page', async () => {
     source.includes(my.dashboard.notFound.body),
     'the not-found surface is missing from the page bundle',
   );
+  /* Both refusals offer a way back. It goes to the hosting hub: anyone
+     who reached a Fest dashboard was hosting, and /my/ would only send
+     them on again. */
+  assert.ok(
+    source.includes('/my/hosting/'),
+    'the refusal surfaces should link back to the hosting hub',
+  );
 });

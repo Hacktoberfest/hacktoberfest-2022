@@ -42,7 +42,9 @@ const StarIcon = () => (
    still-in-progress application. Derived in the page from the same fests
    the band below renders, so the chip and the Hosting cards can't
    disagree. */
-const WelcomeBand = ({ user, host, onSignOut }) => {
+/* `accent`: the hero's second line. The attending hub keeps "welcome to
+   your Hacktoberfest." as the default; the hosting hub names itself. */
+const WelcomeBand = ({ user, host, onSignOut, accent = my.welcome.accent }) => {
   const [avatarFailed, setAvatarFailed] = useState(false);
 
   const name = (user && user.name) || '';
@@ -55,14 +57,11 @@ const WelcomeBand = ({ user, host, onSignOut }) => {
 
   return (
     <div>
-      {/* One greeting on both sides of the Preptember flag: the hub is
-         "your Hacktoberfest" whichever month it's living in. A
-         month-naming Preptember accent used to swap in here; it retired
-         2026-08-18. */}
-      <PageHero
-        lead={my.welcome.greeting(greetingName)}
-        accent={my.welcome.accent}
-      />
+      {/* One greeting on both hubs: "Hi <name>," whichever month it's
+         living in. Only the accent under it differs, and it defaults to
+         "your Hacktoberfest". A month-naming Preptember accent used to
+         swap in here; it retired 2026-08-18. */}
+      <PageHero lead={my.welcome.greeting(greetingName)} accent={accent} />
       <div className={styles.band}>
         {user ? (
           <div className={styles.accountStrip}>

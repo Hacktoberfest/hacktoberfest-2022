@@ -1,0 +1,93 @@
+/* Shell width rules, restated (CSS Modules cannot import Shell), the same
+   as every band on /my so the strip's left edge lines up with the account
+   strip above it. Top padding only: the band below carries its own. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-top: 24px;
+}
+
+/* Dashed and shadowless, the pending-tick grammar the account strip uses
+   for a not-yet-done action: this is a pointer, not a card. */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 10px 14px;
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* The same mono chip as the account strip's Host badge and the fests
+   band's role badges. */
+.badge {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.badgeHosting {
+  /* colors.orange, the Host badge's colour */
+  background: #e53927;
+}
+
+.badgeAttending {
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+.body {
+  flex: 1 1 24ch;
+  min-width: 0;
+}
+
+.cta {
+  flex-shrink: 0;
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  /* colors.orange */
+  color: #e53927;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .cta {
+    margin-left: auto;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

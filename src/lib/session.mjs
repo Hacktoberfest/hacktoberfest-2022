@@ -16,6 +16,10 @@ export const RETURN_TO_STORAGE_KEY = 'hacktoberfest.returnTo';
    here rather than there so clearSession below can clear it without
    importing that module — which imports this one. */
 export const EXPERIENCE_CACHE_KEY = 'hacktoberfest.experience';
+/* Which of the two /my hubs was visited last (lib/myView.mjs). Owned here
+   for the same reason as the cache key: clearSession clears it, and
+   myView.mjs imports this module. */
+export const LAST_HUB_STORAGE_KEY = 'hacktoberfest.lastHub';
 
 const DEFAULT_RETURN_TO = '/my/';
 
@@ -219,6 +223,15 @@ export const clearSession = () => {
     store.removeItem(SESSION_STORAGE_KEY);
   } catch (_) {
     // Nothing to do: a storage we cannot write is already "signed out".
+  }
+
+  /* The last-visited hub is a preference, not personal data, but it is
+     the previous person's preference: the next sign-in on a shared machine
+     should land where their own Fests say, not where someone else went. */
+  try {
+    store.removeItem(LAST_HUB_STORAGE_KEY);
+  } catch (_) {
+    // Same stance as above.
   }
 };
 

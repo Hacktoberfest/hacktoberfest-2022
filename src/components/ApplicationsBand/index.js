@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from 'react';
 
 import AcknowledgementsModal from 'components/AcknowledgementsModal';
+import PublicationChecksModal from 'components/PublicationChecksModal';
 import { my } from 'data/content.mjs';
 import { MY_HOST_APPLY_URL } from 'data/links';
 import {
@@ -89,6 +90,15 @@ const badgeFor = (fest) => {
       icon: <AlertIcon className={styles.badgeIcon} />,
     };
   }
+  /* Orange, and an alert rather than an hourglass: a failing check is the
+     host's to fix, and the badge that used to sit here told them to wait. */
+  if (state === 'checks-failed') {
+    return {
+      label: my.fests.eventBadges.checksFailed,
+      className: `${styles.badge} ${styles.badgeHostsMove}`,
+      icon: <AlertIcon className={styles.badgeIcon} />,
+    };
+  }
   if (state === 'checks-underway') {
     return {
       label: my.fests.eventBadges.checksUnderway,
@@ -127,7 +137,22 @@ const actionFor = (fest) => {
   }
   const state = eventCardState(fest);
   if (state === 'needs-acknowledgements') {
-    return { kind: 'button', label: my.acknowledgements.cta };
+    return {
+      kind: 'button',
+      modal: 'acknowledgements',
+      label: my.acknowledgements.cta,
+    };
+  }
+  /* The failing rung takes the footer for the same reason the
+     acknowledgements rung does: the Fest is off the website, which is the
+     most time-critical thing on this card and does not get buried a click
+     deeper. The dashboard keeps its quieter spot in the body. */
+  if (state === 'checks-failed') {
+    return {
+      kind: 'button',
+      modal: 'checks',
+      label: my.fests.checksFailed.cta,
+    };
   }
   if (state === 'approved-private' && fest.manageUrl) {
     return {
@@ -168,11 +193,14 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
   const date = formatFestDate(fest.date);
   const time = festTimeRange(fest);
   const flagCode = countryCodeFor(fest.country);
-  const [ackOpen, setAckOpen] = useState(false);
-  const ackButtonRef = useRef(null);
-  const closeAck = useCallback(() => {
-    setAckOpen(false);
-    ackButtonRef.current?.focus();
+  /* Which modal the footer button opens, or null when it is closed. Both
+     funnel their close through here so focus returns to the button that
+     opened them. */
+  const [openModal, setOpenModal] = useState(null);
+  const actionButtonRef = useRef(null);
+  const closeModal = useCallback(() => {
+    setOpenModal(null);
+    actionButtonRef.current?.focus();
   }, []);
 
   return (
@@ -229,20 +257,23 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
       {action && action.kind === 'button' && (
         <button
           type="button"
-          ref={ackButtonRef}
+          ref={actionButtonRef}
           className={`${styles.cardAction} ${styles.cardActionButton}`}
-          onClick={() => setAckOpen(true)}
+          onClick={() => setOpenModal(action.modal)}
         >
           {action.label}
           <span aria-hidden="true">→</span>
         </button>
       )}
-      {ackOpen && (
+      {openModal === 'acknowledgements' && (
         <AcknowledgementsModal
           fest={fest}
-          onClose={closeAck}
+          onClose={closeModal}
           onAcknowledged={onFestAcknowledged}
         />
+      )}
+      {openModal === 'checks' && (
+        <PublicationChecksModal fest={fest} onClose={closeModal} />
       )}
     </article>
   );

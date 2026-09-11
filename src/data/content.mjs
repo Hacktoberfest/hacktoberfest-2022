@@ -2337,6 +2337,26 @@ export const my = {
     eventBadges: {
       needsAcknowledgements: 'One step left',
       checksUnderway: 'Final checks underway',
+      /* The rung for a Fest whose checks are failing. Deliberately not a
+         wait: nothing is running, and the move is the host's. */
+      checksFailed: 'Action needed',
+    },
+    /* The rung a host lands on when FestNet's checks fail after they have
+       acknowledged: the Fest is off the website and nothing is running.
+       The badge says a move is needed, and this names which one.
+
+       Every sentence about a specific check is reused from the
+       acknowledgements pane rather than written again, so the two surfaces
+       cannot describe the same failure differently. */
+    checksFailed: {
+      cta: 'See what needs fixing',
+      title: 'Your Fest is not listed yet',
+      /* Said before the list, and true whichever check failed: hosts told
+         only "action needed" have no way to know the Fest came off the
+         site, or that it goes back up by itself once the check passes. */
+      intro:
+        'Your Fest is not on the Hacktoberfest website at the moment. We check these details every few minutes, so it will be listed again as soon as this is put right.',
+      listLead: 'What needs fixing',
     },
     applicationCtas: {
       draft: 'Finish your application',
@@ -2376,6 +2396,37 @@ export const my = {
         'Want to lead one yourself? Anyone can host a Hack Day or a Meetup.',
       cta: 'Host a Fest',
     },
+  },
+  /* The band under the account strip that points hosts at the other hub.
+     /my/ is the attending hub and /my/hosting/ the hosting hub; only
+     people with a hosting entry see either link, because only they have
+     two hubs. `body` takes the count of organizing entries; the attending
+     side ignores it, but keeps the shape so the band has one call. */
+  hubLink: {
+    // Names the band's <nav> landmark for assistive tech.
+    label: 'Your other hub',
+    hosting: {
+      badge: 'Hosting',
+      body: (count) =>
+        count === 1
+          ? 'You’re hosting a Fest this October. Its application, its dashboard and your host resources are on your hosting hub.'
+          : `You’re hosting ${count} Fests this October. Applications, dashboards and host resources are on your hosting hub.`,
+      cta: 'Go to your hosting hub',
+      href: '/my/hosting/',
+    },
+    attending: {
+      badge: 'Attending',
+      body: () =>
+        'Your stickers, rewards and the Fests you’re going to are on your attending hub.',
+      cta: 'Go to your attending hub',
+      href: '/my/',
+    },
+  },
+  /* The hosting hub's own title and hero line. The greeting stays "Hi
+     <name>," on both hubs; only the accent under it says which one. */
+  hosting: {
+    title: 'Hosting | Hacktoberfest 2026',
+    welcomeAccent: 'here’s your hosting hub.',
   },
   error: {
     title: 'We couldn’t load your Hacktoberfest',

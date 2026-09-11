@@ -193,7 +193,7 @@ const HostSection = () => (
             </StepItem>
           ))}
         </StepsList>
-        <ApplyButton href="/my/">{host.apply.cta}</ApplyButton>
+        <ApplyButton href="/my/hosting/">{host.apply.cta}</ApplyButton>
       </ApplySplit>
     </ApplyRoot>
   </>

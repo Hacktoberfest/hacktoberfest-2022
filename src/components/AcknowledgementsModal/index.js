@@ -10,7 +10,11 @@ import {
 import { my } from 'data/content.mjs';
 import { acknowledgeFest } from 'lib/acknowledgements.mjs';
 import { festFormatFromName } from 'lib/festFormat.mjs';
-import { festEditUrl } from 'lib/fests.mjs';
+import {
+  ADVISORY_CHECKS,
+  SELF_FIXABLE_CHECKS,
+  festEditUrl,
+} from 'lib/fests.mjs';
 
 import styles from './AcknowledgementsModal.module.css';
 
@@ -26,14 +30,6 @@ const VenueMap = dynamic(() => import('./VenueMap'), {
    out of the way. Coordinates is not one of them - a venue MLH has not
    placed on the map is ours to sort, not theirs - and neither is any
    check id we do not recognise, so both keep the email. */
-const SELF_FIXABLE_CHECKS = new Set(['name', 'duration']);
-
-/* Checks that nudge rather than block. A missing description costs a Fest
-   its own voice on the directory, not its listing - the site falls back to
-   standard per-format copy, and Fests were approved before MLH stored
-   descriptions at all. So its miss pauses the pane on a Continue button
-   instead of stopping the flow. */
-const ADVISORY_CHECKS = new Set(['description']);
 
 /* Which slide speaks about spending and reimbursement eligibility - for
    a Meetup it carries the bold reminder that only Hack Days have any. */
