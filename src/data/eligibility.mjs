@@ -202,10 +202,14 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'digitalocean',
     label: 'Connect your DigitalOcean account',
-    detail: 'Link your DigitalOcean account to MyMLH and it counts.',
-    // The connect flow is not live yet.
+    detail: 'Connect your DigitalOcean account from here and it counts.',
+    /* Not a link: the button starts the API's connect flow
+       (lib/digitalocean.mjs), which is why `action` names it and `href`
+       stays null. The renderers show a button for an action and a link for
+       an href; a sticker has one or the other. */
     href: null,
-    ctaLabel: 'Connect',
+    action: 'digitalocean',
+    ctaLabel: 'Connect DigitalOcean',
     surface: 'card',
     type: 'tools',
     art: 'droplet',

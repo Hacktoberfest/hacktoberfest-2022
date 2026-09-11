@@ -1,5 +1,6 @@
 import { ART } from 'components/ActivityCard/stickerArt';
 import { activitiesPage, my } from 'data/content.mjs';
+import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
 
 import styles from './Album.module.css';
@@ -52,6 +53,14 @@ const StickerCell = ({ sticker }) => {
         <p className={styles.cellDone}>
           {date || (how ? how.charAt(0).toUpperCase() + how.slice(1) : '')}
         </p>
+      ) : sticker.action === 'digitalocean' ? (
+        <button
+          type="button"
+          className={`${styles.cellLink} ${styles.cellButton}`}
+          onClick={() => startDigitalOceanConnect()}
+        >
+          {sticker.ctaLabel}
+        </button>
       ) : sticker.href ? (
         <a
           className={styles.cellLink}

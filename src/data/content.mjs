@@ -2196,6 +2196,21 @@ export const my = {
      components/ActivityCard, whose words live under activitiesPage.list so
      /my and /activities/ say the same things about the same activities;
      the tab labels are activitiesPage.list.types for the same reason. */
+  /* What /my says on the way back from a connect flow, keyed by the
+     outcome the API sent (lib/digitalocean.mjs connectOutcome). One
+     sentence, shown once, above the rewards. */
+  connect: {
+    digitalocean: {
+      connected: 'DigitalOcean connected. The sticker is in your book.',
+      denied:
+        'DigitalOcean was not connected: the request was cancelled there. Try again from the sticker whenever you like.',
+      expired: 'That connect link had expired. Start again from the sticker.',
+      'already-linked':
+        'That DigitalOcean account is already connected to another MyMLH account, so it cannot earn the sticker twice.',
+      unavailable:
+        'DigitalOcean could not be reached just now. Try again from the sticker in a minute.',
+    },
+  },
   album: {
     heading: { lead: 'Your', accent: 'sticker book.' },
     /* One line, whatever the state: what the book is. The state lives on

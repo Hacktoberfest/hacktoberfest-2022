@@ -1,4 +1,5 @@
 import { activitiesPage } from 'data/content.mjs';
+import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
 
 import styles from './ActivityCard.module.css';
@@ -62,6 +63,27 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
             {how ? `, ${how}` : ''}
           </p>
         )}
+        {/* An action rather than a destination: the button starts the
+            API's connect flow. Signed out, the same words lead to /my,
+            where signing in comes first. Earned, no button: nothing to do. */}
+        {activity.action === 'digitalocean' &&
+          !earned &&
+          (signedIn ? (
+            <button
+              type="button"
+              className={`hf-button hf-button--small ${styles.cardCta}`}
+              onClick={() => startDigitalOceanConnect()}
+            >
+              {activity.ctaLabel}
+            </button>
+          ) : (
+            <a
+              className={`hf-button hf-button--small ${styles.cardCta}`}
+              href="/my/"
+            >
+              {activity.ctaLabel}
+            </a>
+          ))}
         {/* No destination yet: skip the CTA rather than ship a dead link.
             The site's button at its card size (src/styles/buttons.css). */}
         {activity.href && (
