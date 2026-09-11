@@ -41,11 +41,11 @@ const ACCENTS = {
   inperson: 'accent_inperson',
 };
 
-/* Global Hack Week's lockup, the one the schedule draws (data/
-   scheduleFixtures.mjs ships it for the mocked build). It sets the
-   event's name, so it stands where the label would and carries the label
-   as its alt. */
-const GHW_LOCKUP = '/schedule/global-hack-week.png';
+/* Global Hack Week's lockup, drawn for a light ground: the wordmark in
+   ink, beside the one the schedule draws on its type's colour
+   (/schedule/global-hack-week.png, white). It sets the event's name, so
+   it stands where the label would and carries the label as its alt. */
+const GHW_LOCKUP = '/schedule/global-hack-week-ink.svg';
 
 const label = (key) => activitiesPage.list.types[key] || key;
 
@@ -57,7 +57,11 @@ const label = (key) => activitiesPage.list.types[key] || key;
 const PageTitle = ({ type }) => {
   const text = label(type);
   if (type === 'ghw') {
-    return <img className={styles.lockup} src={GHW_LOCKUP} alt={text} />;
+    return (
+      <span className={styles.lockupLine}>
+        <img className={styles.lockup} src={GHW_LOCKUP} alt={text} />
+      </span>
+    );
   }
   if (type === 'dev') {
     return (

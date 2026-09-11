@@ -123,9 +123,9 @@
 /* The two marks a page can wear in place of its name at its head
    (PageTitle in index.js), sized by the type they replace. DEV's logo is
    a square set to the line's height, the word after it in the title's own
-   type. Global Hack Week's lockup is a wide strip (about 12:1) with the
-   event's name set into it, so it takes the title's width and its height
-   follows. */
+   type. Global Hack Week's lockup is a wide strip (about 10:1) with the
+   event's name set into it, so it is set by height, in the title's em, and
+   its width follows. */
 .mark {
   display: block;
   width: auto;
@@ -133,11 +133,29 @@
   flex: 0 0 auto;
 }
 
+/* The lockup stands in for the title's type, so its letters match the
+   other titles' capitals: the display font's cap height is 0.7em, and the
+   SVG's letters fill 61% of its box (the top 11% and the bottom 28% are
+   the bolt's glow), so the box is set to 1.15em.
+
+   The note beside it sits on the wordmark's baseline, not the image's
+   bottom edge: the baseline is at 72% of the box's height, and an inline
+   image's baseline is its bottom margin edge, so the negative margin pulls
+   that up by the remaining 28%, in the same em. The span is the title's
+   one flex item and takes its baseline from the image, which the head's
+   baseline alignment then reads. */
+.lockupLine {
+  min-width: 0;
+}
+
 .lockup {
-  display: block;
-  width: 100%;
-  max-width: 320px;
-  height: auto;
+  display: inline-block;
+  vertical-align: baseline;
+  width: auto;
+  max-width: 100%;
+  height: 1.15em;
+  margin-bottom: -0.32em;
+  object-fit: contain;
 }
 
 /* Words for assistive tech only: the name a mark stands for. */
