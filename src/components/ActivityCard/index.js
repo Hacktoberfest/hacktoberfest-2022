@@ -1,9 +1,9 @@
 import { activitiesPage } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
+import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './ActivityCard.module.css';
-import { ART } from './stickerArt';
 
 /* One activity as a card, the same card wherever an activity is shown:
    the catalogue on /activities/ and the "Pick an activity" band on /my.
@@ -40,8 +40,13 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
       data-earned={earned ? 'true' : undefined}
     >
       <div className={styles.slot}>
-        <div className={`${styles.sticker} ${typeClass}`}>
-          {ART[activity.art] || null}
+        <div className={styles.sticker}>
+          <img
+            className={styles.stickerImage}
+            src={stickerImageSrc(activity.id)}
+            alt=""
+            draggable="false"
+          />
         </div>
         {earned && (
           <span className={styles.earnedTab}>{activitiesPage.list.earned}</span>

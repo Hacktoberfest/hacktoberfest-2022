@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import DevLogo from 'components/icons/DevLogo';
+import ShareModal from 'components/ShareModal';
 import { activitiesPage, my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import {
@@ -84,6 +85,11 @@ const Album = ({ experience, justEarned }) => {
      from the effect that reads the record, so the seed above only covers
      a set already known. The reader's own turns win from then on. */
   const [turnedFor, setTurnedFor] = useState(null);
+  /* What is being shared, or null: {kind: 'sticker', sticker} from a cell,
+     {kind: 'book'} from the spine. One piece of state for both ways in, so
+     only one modal can ever be open, and a new one mounts per share rather
+     than a held modal changing its subject under the reader. */
+  const [share, setShare] = useState(null);
   useEffect(() => {
     if (!justEarned || justEarned.size === 0 || turnedFor === justEarned)
       return;
@@ -183,6 +189,9 @@ const Album = ({ experience, justEarned }) => {
                     justEarned={Boolean(
                       justEarned && justEarned.has(sticker.id),
                     )}
+                    onShare={(shared) =>
+                      setShare({ kind: 'sticker', sticker: shared })
+                    }
                   />
                 ))}
               </ul>
@@ -193,11 +202,30 @@ const Album = ({ experience, justEarned }) => {
           <span className={styles.spineCount}>
             {my.album.spine.count(earned, total)}
           </span>
+          {/* The whole book as one picture, offered only once there is
+              something in it to show. */}
+          {earned > 0 && (
+            <button
+              type="button"
+              className={styles.spineShare}
+              onClick={() => setShare({ kind: 'book' })}
+            >
+              {my.share.bookCta}
+            </button>
+          )}
           <a className={styles.spineLink} href="/activities/">
             {my.album.spine.detailCta}
           </a>
         </div>
       </div>
+      {/* Mounted for the whole life of the book and opened by its
+          `share` prop, the way the Fest modal is: that is what lets its
+          exit animation play. */}
+      <ShareModal
+        share={share}
+        experience={experience}
+        onClose={() => setShare(null)}
+      />
     </section>
   );
 };

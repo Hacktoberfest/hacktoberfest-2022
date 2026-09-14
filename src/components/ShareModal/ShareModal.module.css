@@ -1,0 +1,416 @@
+/* The share modal's dress: the Fest detail modal's (components/
+   FestsDirectory/FestsDirectory.module.css, .modal), to the value, so the
+   two are one modal in the reader's eye. Its accent is maroon, the hard
+   shadow the cards on /my already wear.
+
+   Enter and exit are entirely in CSS (@starting-style and allow-discrete),
+   so nothing in the component waits on them. The closed state is also
+   what the exit animates TO: pressed flat into the page and offset
+   down-right into the space its shadow occupies when raised. Opening
+   reverses it: the modal lifts up-left out of the page and then throws
+   the shadow beneath it, the site's button idiom run backwards. Opacity
+   is on the exit only; the entry starts fully drawn and merely pressed
+   in, so the lift is the whole entrance. */
+.modal {
+  --share-accent: #671912;
+  opacity: 0;
+  translate: 8px 8px;
+  box-shadow: 0 0 0 var(--share-accent);
+  /* The EXIT transition: a property's transition is read from the state
+     being moved TO, so these run on close and the ones on [open] on
+     open. Leaving is no place for a flourish: the shadow collapses first
+     and quickly, so the modal is already flat by the time it has faded. */
+  transition:
+    opacity 140ms ease,
+    translate 160ms ease,
+    box-shadow 100ms ease,
+    display 160ms allow-discrete,
+    overlay 160ms allow-discrete;
+  width: min(520px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 28px;
+  overflow-y: auto;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* The page's own paper with its dot grain, rather than white: the card
+     reads as set down on the desk, not framed. colors.paper / ink */
+  background-color: #eeeee6;
+  background-image: radial-gradient(
+    rgba(16, 32, 29, 0.12) 1px,
+    transparent 1px
+  );
+  background-size: 8px 8px;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.modal[open] {
+  opacity: 1;
+  translate: 0 0;
+  box-shadow: 8px 8px 0 var(--share-accent);
+  /* The ENTRY transition. Opacity is deliberately absent: unlisted means
+     it jumps to 1 on the first frame, so the lift is the entrance. The
+     shadow trails the movement rather than growing with it, which is
+     what makes it a pop rather than a slide: 140ms starts it just before
+     the lift finishes, so the shadow snaps out as the modal settles. */
+  transition:
+    translate 180ms cubic-bezier(0.2, 0.9, 0.3, 1.2),
+    box-shadow 240ms cubic-bezier(0.34, 1.56, 0.64, 1) 140ms,
+    display 380ms allow-discrete,
+    overlay 380ms allow-discrete;
+}
+
+/* What the entry animates FROM: flat on the page and slightly low. */
+@starting-style {
+  .modal[open] {
+    translate: 8px 8px;
+    box-shadow: 0 0 0 var(--share-accent);
+  }
+}
+
+.modal::backdrop {
+  /* colors.ink, deep enough that the page behind reads as switched off
+     rather than dimmed. */
+  background: rgb(16 32 29 / 72%);
+  opacity: 0;
+  /* The EXIT: 160ms matches the dialog's own display/overlay transition,
+     since the backdrop leaves the top layer with the dialog and a longer
+     fade would be cut off partway. */
+  transition:
+    opacity 160ms ease,
+    display 160ms allow-discrete,
+    overlay 160ms allow-discrete;
+}
+
+.modal[open]::backdrop {
+  opacity: 1;
+  /* The ENTRY, matched to the modal's lift: the scrim and the panel
+     arrive together, and the shadow pops afterwards on its own. */
+  transition:
+    opacity 180ms ease,
+    display 180ms allow-discrete,
+    overlay 180ms allow-discrete;
+}
+
+@starting-style {
+  .modal[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Top right, in the padding, clear of the heading. */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  appearance: none;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  font-size: 1.15rem;
+  line-height: 1;
+  transition: background 150ms ease;
+}
+
+.close:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+.close:focus-visible {
+  /* colors.ink */
+  box-shadow: 0 0 0 4px #10201d;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* The picture, centred and held to well under the viewport's height, so
+   the posting block under it is on screen without a scroll: the picture
+   is the proof, the buttons are the point. The slot keeps a floor while
+   the card is built, so the modal does not jump as the preview lands. */
+.preview {
+  display: flex;
+  justify-content: center;
+  min-height: 180px;
+  padding: 10px 0 14px;
+}
+
+/* Set down at a lean, the way an earned sticker sits in the book, with
+   the hard maroon shadow of a thing lifted off the page. */
+.previewImage {
+  display: block;
+  width: auto;
+  max-width: 88%;
+  max-height: min(40vh, 340px);
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+  transform: rotate(-2.5deg);
+  /* The card fades in once the modal has landed rather than appearing
+     the instant it is drawn, which was mid-lift: 380ms is the modal's
+     entry, lift and shadow pop together, so the picture is the last
+     thing to arrive and arrives quietly. Runs on insertion, so a card
+     drawn late fades in on its own the same way. */
+  animation: preview-fade 260ms ease 380ms both;
+}
+
+@keyframes preview-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* In place of the preview when the picture could not be drawn: the same
+   slot, the words centred on the paper. colors.muted */
+.previewError {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 180px;
+  margin: 0;
+  padding: 24px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.paper */
+  background: #eeeee6;
+  color: #52635f;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Posting, the block the modal is for: the sheet button where there is
+   one, the composers as a two-by-two of the site's own pink buttons, and
+   the status line under them. */
+.post {
+  margin-top: 18px;
+}
+
+.sheet {
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.postOn {
+  margin: 0 0 8px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.networks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+/* A tile per composer: the mark, the name large in the display face, and
+   the action under it, on the site's hard ink shadow. Pressing sinks it
+   into the shadow the way every button here does. */
+.tile {
+  appearance: none;
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  padding: 11px 10px 9px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  color: #10201d;
+  box-shadow: 4px 4px 0 #10201d;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
+}
+
+.tile:hover,
+.tile:focus-visible {
+  /* colors.pink */
+  background: #e97b77;
+}
+
+.tile:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #10201d;
+}
+
+.tile:focus-visible {
+  outline: 2px solid #10201d;
+  outline-offset: 3px;
+}
+
+.tile:disabled {
+  cursor: default;
+  opacity: 0.5;
+  box-shadow: 4px 4px 0 #10201d;
+  transform: none;
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+.tileMark {
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin-bottom: 4px;
+}
+
+.tileMark svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tileName {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.tileAction {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.54rem;
+  white-space: nowrap;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* breakpoints.tablet: four across once the modal has its full width. */
+@media (min-width: 560px) {
+  .networks {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Always in the tree, empty until there is something to say, so a screen
+   reader announces the hint rather than the arrival of a new element. */
+.hint {
+  margin: 10px 0 0;
+  min-height: 1.3em;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* The quieter way, one line under a rule: the picture on its own, as
+   two mono links in the cell link's face. */
+.keep {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 16px;
+  margin-top: 16px;
+  padding-top: 14px;
+  /* colors.ink, softened: a divider, not a border */
+  border-top: 1px solid rgba(16, 32, 29, 0.25);
+}
+
+.keepLabel {
+  font-size: 0.82rem;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.keepAction {
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.keepAction:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.keepAction:focus-visible {
+  /* colors.ink */
+  outline: 2px solid #10201d;
+  outline-offset: 3px;
+}
+
+/* The lift is the part that reads as motion. Reduced motion drops the
+   movement, keeps the shadow present from the first frame, and shortens
+   the whole thing to near-instant, as the Fest modal does. */
+@media (prefers-reduced-motion: reduce) {
+  .modal,
+  .modal[open] {
+    translate: none;
+    box-shadow: 8px 8px 0 var(--share-accent);
+    transition-duration: 1ms;
+    transition-delay: 0ms;
+  }
+
+  .modal::backdrop,
+  .modal[open]::backdrop {
+    transition-duration: 1ms;
+  }
+
+  .close {
+    transition: none;
+  }
+
+  .previewImage {
+    animation: none;
+  }
+
+  .tile {
+    transition: none;
+  }
+}

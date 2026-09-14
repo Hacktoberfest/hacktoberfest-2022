@@ -1,7 +1,7 @@
-import { ART } from 'components/ActivityCard/stickerArt';
 import { activitiesPage, my } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
+import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './Album.module.css';
 
@@ -18,7 +18,7 @@ import styles from './Album.module.css';
    deliberately: the page is the type, so no type chip; the detail and
    the source live on /activities/, a link away. The sticker is the point
    here. */
-const StickerCell = ({ sticker, justEarned = false }) => {
+const StickerCell = ({ sticker, justEarned = false, onShare }) => {
   const earned = Boolean(sticker.completed);
   const external = /^https?:\/\//.test(sticker.href || '');
   const date = sticker.completedAt
@@ -27,7 +27,6 @@ const StickerCell = ({ sticker, justEarned = false }) => {
   const how = sticker.source
     ? activitiesPage.list.source[sticker.source]
     : null;
-  const ground = styles[`ground_${sticker.type}`] || '';
 
   return (
     <li
@@ -39,8 +38,13 @@ const StickerCell = ({ sticker, justEarned = false }) => {
         <span className={styles.cellTag}>{my.album.cell.required}</span>
       )}
       <div className={styles.slot}>
-        <div className={`${styles.sticker} ${ground}`}>
-          {ART[sticker.art] || null}
+        <div className={styles.sticker}>
+          <img
+            className={styles.stickerImage}
+            src={stickerImageSrc(sticker.id)}
+            alt=""
+            draggable="false"
+          />
         </div>
         {earned && (
           <span
@@ -54,9 +58,24 @@ const StickerCell = ({ sticker, justEarned = false }) => {
       </div>
       <h4 className={styles.cellTitle}>{sticker.label}</h4>
       {earned ? (
-        <p className={styles.cellDone}>
-          {date || (how ? how.charAt(0).toUpperCase() + how.slice(1) : '')}
-        </p>
+        <>
+          <p className={styles.cellDone}>
+            {date || (how ? how.charAt(0).toUpperCase() + how.slice(1) : '')}
+          </p>
+          {/* The share opens the modal on the sticker itself
+              (components/ShareModal); the book's own share is in the
+              spine. A cell only offers it once the sticker is earned,
+              since there is nothing to show otherwise. */}
+          {onShare && (
+            <button
+              type="button"
+              className={`${styles.cellLink} ${styles.cellButton}`}
+              onClick={() => onShare(sticker)}
+            >
+              {my.share.stickerCta}
+            </button>
+          )}
+        </>
       ) : sticker.action === 'digitalocean' ? (
         <button
           type="button"

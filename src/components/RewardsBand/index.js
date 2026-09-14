@@ -1,8 +1,8 @@
-import { ART } from 'components/ActivityCard/stickerArt';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { MILESTONE_IDS } from 'lib/justEarned.mjs';
 import { bookStickers, rewardsState } from 'lib/stickerBook.mjs';
+import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './RewardsBand.module.css';
 
@@ -43,19 +43,16 @@ const completionistWhy = (rewards) => {
   return why.remaining(rewards.completionist.remaining);
 };
 
-/* A meter of pips: the earned stickers in book order in their own
-   grounds, then dashed empty slots up to the target. Decorative; the
+/* A meter of pips: the earned stickers in book order, each its own
+   picture, then dashed empty slots up to the target. Decorative; the
    label under it says the count. */
 const Meter = ({ pips, target }) => (
   <div className={styles.meter} aria-hidden="true">
     {Array.from({ length: target }, (_, index) => pips[index] || null).map(
       (sticker, index) =>
         sticker ? (
-          <span
-            key={sticker.id}
-            className={`${styles.pip} ${styles.pipOn} ${styles[`ground_${sticker.type}`] || ''}`}
-          >
-            {ART[sticker.art] || null}
+          <span key={sticker.id} className={`${styles.pip} ${styles.pipOn}`}>
+            <img src={stickerImageSrc(sticker.id)} alt="" draggable="false" />
           </span>
         ) : (
           <span key={`empty-${index}`} className={styles.pip} />
@@ -64,21 +61,19 @@ const Meter = ({ pips, target }) => (
   </div>
 );
 
-/* One requirement of the pack, as a pip: the sticker that meets it, in
-   its own ground, once it is in the book, and a dashed empty slot until
-   then, so the row reads as the holographic card's meter does. The label
-   says the requirement; the pip is decorative. */
+/* One requirement of the pack, as a pip: the sticker that meets it once
+   it is in the book, and a dashed empty slot until then, so the row reads
+   as the holographic card's meter does. The label says the requirement;
+   the pip is decorative. */
 const Need = ({ label, sticker }) => (
   <li className={styles.need}>
     <span
-      className={
-        sticker
-          ? `${styles.pip} ${styles.pipOn} ${styles[`ground_${sticker.type}`] || ''}`
-          : styles.pip
-      }
+      className={sticker ? `${styles.pip} ${styles.pipOn}` : styles.pip}
       aria-hidden="true"
     >
-      {sticker ? ART[sticker.art] || null : null}
+      {sticker ? (
+        <img src={stickerImageSrc(sticker.id)} alt="" draggable="false" />
+      ) : null}
     </span>
     {label}
   </li>
@@ -127,8 +122,13 @@ const RewardsBand = ({ experience, justEarned }) => {
           data-just-earned={fresh(MILESTONE_IDS.pack)}
         >
           <div className={styles.slot}>
-            <div className={`${styles.sticker} ${styles.groundPack}`}>
-              {ART.parcel}
+            <div className={styles.sticker}>
+              <img
+                className={styles.stickerImage}
+                src={stickerImageSrc('milestone-pack')}
+                alt=""
+                draggable="false"
+              />
             </div>
             {rewards.pack.earned && (
               <span
@@ -187,8 +187,13 @@ const RewardsBand = ({ experience, justEarned }) => {
           data-just-earned={fresh(MILESTONE_IDS.complete)}
         >
           <div className={styles.slot}>
-            <div className={`${styles.sticker} ${styles.groundComplete}`}>
-              {ART.star}
+            <div className={styles.sticker}>
+              <img
+                className={styles.stickerImage}
+                src={stickerImageSrc('milestone-complete')}
+                alt=""
+                draggable="false"
+              />
             </div>
             {rewards.completion.earned && (
               <span
@@ -243,10 +248,13 @@ const RewardsBand = ({ experience, justEarned }) => {
             data-just-earned={fresh(MILESTONE_IDS.completionist)}
           >
             <div className={styles.slot}>
-              <div
-                className={`${styles.sticker} ${styles.groundCompletionist}`}
-              >
-                {ART.trophy}
+              <div className={styles.sticker}>
+                <img
+                  className={styles.stickerImage}
+                  src={stickerImageSrc('milestone-completionist')}
+                  alt=""
+                  draggable="false"
+                />
               </div>
               {rewards.completionist.earned && (
                 <span

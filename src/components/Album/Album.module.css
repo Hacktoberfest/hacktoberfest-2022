@@ -363,16 +363,21 @@
   border: 3px solid #f7f7f2;
   /* colors.ink */
   outline: 2px solid #10201d;
-  color: #10201d;
   box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease;
 }
 
-.sticker svg {
-  width: 58%;
-  height: 58%;
+/* The sticker's picture, the whole sticker: public/stickers/<slug>.svg
+   carries the ground and the glyph, so it fills the slot edge to edge and
+   the element behind it only draws the border, the outline and the
+   shadow. */
+.stickerImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .cell:hover .sticker {
@@ -380,14 +385,17 @@
 }
 
 /* Not yet earned: a grey silhouette in the slot, the way a stamp book
-   shows the ones still to collect. The page's colour arrives with the
-   sticker. Wins over the grounds below by specificity. colors.paperDeep /
-   rule */
+   shows the ones still to collect. The slot goes pale and quiet, and the
+   picture drains to a faint grey ghost of itself, so the page's colour
+   only arrives with the sticker. colors.paperDeep / rule */
 .cell:not([data-earned='true']) .sticker {
   background: #e4e5da;
-  color: #8ca59e;
   outline-color: #8ca59e;
   box-shadow: none;
+}
+
+.cell:not([data-earned='true']) .stickerImage {
+  filter: grayscale(1) opacity(0.45);
 }
 
 /* Earned: lifted off the slot, with the heavier shadow of a thing that
@@ -499,30 +507,6 @@
   font-weight: 800;
 }
 
-/* The grounds, each its page's colour (the accents above, and the same
-   values on ActivityCard for /activities/): the dark ones carry a white
-   glyph. colors.forest / ink / sky / orange / rule / pink / white */
-.ground_required {
-  background: #3d5f58;
-  color: #f7f7f2;
-}
-.ground_dev {
-  background: #10201d;
-  color: #f7f7f2;
-}
-.ground_livestreams {
-  background: #8bb2de;
-}
-.ground_ghw {
-  background: #e53927;
-}
-.ground_tools {
-  background: #8ca59e;
-}
-.ground_inperson {
-  background: #e97b77;
-}
-
 /* The spine along the bottom: the book's count and the way to the public
    catalogue. */
 .spine {
@@ -548,7 +532,8 @@
   line-height: 1;
 }
 
-.spineLink {
+.spineLink,
+.spineShare {
   /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
@@ -558,6 +543,20 @@
   /* colors.ink */
   color: #10201d;
   text-underline-offset: 3px;
+}
+
+/* The book's share, beside the link to the catalogue: the spine link's
+   face on a button, as .cellButton does it for the cell. Nothing here may
+   reset the font, since this rule comes after the face above and would
+   win; a button has no underline of its own, so the link's is drawn. */
+.spineShare {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  line-height: inherit;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* breakpoints.tablet */

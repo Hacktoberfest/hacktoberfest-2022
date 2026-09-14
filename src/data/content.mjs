@@ -2238,6 +2238,55 @@ export const my = {
       detailCta: 'See every activity',
     },
   },
+  /* The share modal (components/ShareModal): one system for a sticker,
+     the whole book, and later certificates. Post text carries the site
+     address at the end so a network that takes text shows it. */
+  share: {
+    title: { sticker: 'Share this sticker', book: 'Share your sticker book' },
+    lede: 'Post it, and the picture goes with you.',
+    /* The primary block: on a phone the system sheet, which uploads the
+       picture itself; everywhere the four composers. A composer opens
+       with the words filled in, and the picture is copied on the same
+       click, so the post is one paste away. */
+    postOn: 'Post it on',
+    sheetThen: 'or post it on',
+    /* Under each network's name on its tile: what the press does. */
+    networkAction: 'copies + opens',
+    keep: 'Or keep the picture:',
+    preparing: 'Getting the picture ready.',
+    buttons: {
+      share: 'Share the picture',
+      copy: 'Copy image',
+      copied: 'Copied',
+      download: 'Download image',
+      close: 'Close',
+    },
+    stickerCta: 'Share',
+    bookCta: 'Share your book',
+    networks: {
+      x: 'X',
+      linkedin: 'LinkedIn',
+      bluesky: 'Bluesky',
+      threads: 'Threads',
+    },
+    pasteHint: 'The picture is copied. Paste it into your post.',
+    pasteHintNoText:
+      'The picture is copied. Paste it into your post, and say a few words.',
+    error:
+      'The picture could not be drawn just now. Check your connection and try again.',
+    text: {
+      sticker: (label) =>
+        `I earned the “${label}” sticker at Hacktoberfest 2026. #Hacktoberfest https://hacktoberfest.com`,
+      book: (earned, total) =>
+        `${earned} of ${total} stickers earned at Hacktoberfest 2026. #Hacktoberfest https://hacktoberfest.com`,
+    },
+    card: {
+      wordmark: 'Hacktoberfest 2026',
+      earnedBy: (name) => `Earned by ${name}`,
+      count: (earned, total) => `${earned} of ${total} stickers`,
+      site: 'hacktoberfest.com',
+    },
+  },
   /* The rewards band (components/RewardsBand), above the book: the two
      milestones as two more stickers, earned by earning stickers, each a
      card with its badge, a line saying what happens next in its state,
