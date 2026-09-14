@@ -1,9 +1,9 @@
-/* Shared band geometry — identical width rules to WelcomeBand. This is the
-   last band, so it owns the page's bottom gutter. */
+/* Shared band geometry — identical width rules to WelcomeBand. The
+   inventory follows this band now and owns the page's bottom gutter. */
 .band {
   width: min(calc(100% - 30px), 1280px);
   margin-inline: auto;
-  padding-block: 40px clamp(48px, 7vw, 90px);
+  padding-block: 40px 8px;
 }
 
 .heading {

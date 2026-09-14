@@ -2364,6 +2364,61 @@ export const my = {
         `${filled} of ${target} stickers toward Completionist`,
     },
   },
+  /* The inventory band (components/Inventory), the last on /my: what
+     the stickers earned, as a locker of slots with a
+     drawer for the one picked. States are lib/inventory.mjs's words for
+     where a thing is; every line here is keyed by them. */
+  /* The inventory band (components/Inventory), the last on /my: what the
+     stickers earned, as a locker of cells with a page beside it for the
+     one picked. The things themselves come from the API (GET
+     /api/me/items): their names, their two facts, their call to action.
+     Only the words around them live here. */
+  inventory: {
+    heading: { lead: 'Your', accent: 'inventory.' },
+    intro: {
+      empty:
+        'Nothing in it yet. Your first activity sticker, with the two required ones, earns the pack.',
+      some: 'What the stickers have earned you: the physical things, and the digital ones. Pick one for the story.',
+      full: 'Everything the stickers could earn you, physical and digital. All of it.',
+    },
+    listLabel: 'Your rewards',
+    /* The two pages of the locker, each with a head and a note, the way
+       the sticker book heads its pages. */
+    pages: {
+      have: {
+        title: 'What you have',
+        note: 'One cell per thing, physical or digital.',
+      },
+      picked: {
+        title: 'About this one',
+        note: 'The thing you picked, and what to do about it.',
+      },
+    },
+    /* No number of slots is ever said: the locker holds whatever October
+       put in it, and the empties are room, not a count. */
+    count: (things) => `${things} ${things === 1 ? 'thing' : 'things'}`,
+    room: 'Room for more. The next activity sticker adds to it.',
+    full: 'Full. There is nothing left to earn this year.',
+    /* A catalogue with nothing in it at all: the API has no items yet. */
+    nothing: 'Nothing to earn yet. Check back once October is under way.',
+    kinds: { physical: 'Physical', digital: 'Digital' },
+    /* The line under a thing not yet earned. */
+    notYet: 'Not yet',
+    /* A thing that lives on a DEV profile, earned with no DEV account
+       linked to MyMLH: the line under it, and the page's word. The button
+       is the welcome band's (my.identity.devConnectCta, devConnectHref). */
+    devUnlinked: 'Connect DEV to see it',
+    devUnlinkedNote:
+      'This lives on a DEV profile, and yours is not linked to MyMLH yet. Connect your DEV account and DEV adds it there.',
+    /* The right page: the kind and the date on one line, then the two
+       facts every thing has. */
+    drawer: {
+      earned: (date) => `Earned ${date}`,
+      earnedBy: 'Earned by',
+      how: 'Gets to you',
+      newFlag: 'New',
+    },
+  },
   fests: {
     heading: { lead: 'Your', accent: 'Fests.' },
     lede: 'A Fest is a one-day, in-person event in your city, either a Hack Day or a Meet Up.',

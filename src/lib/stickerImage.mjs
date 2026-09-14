@@ -13,6 +13,29 @@ export const REWARD_STICKERS = Object.freeze([
     art: 'trophy',
     ground: 'completionist',
   }),
+  /* The inventory's things (lib/inventory.mjs): drawn as themselves, not
+     as stickers, so not circles. `shape` picks the ground the script
+     draws (scripts/stickers/render.mjs). One file per item slug the
+     frontend knows, plus a generic per kind for a slug it does not. Same
+     files, same script, same seam for a designer's export. */
+  Object.freeze({
+    id: 'reward-pack',
+    art: 'parcel',
+    ground: 'pack',
+    shape: 'pack',
+  }),
+  Object.freeze({
+    id: 'reward-physical',
+    art: 'gift',
+    ground: 'tee',
+    shape: 'tile',
+  }),
+  Object.freeze({
+    id: 'reward-digital',
+    art: 'medal',
+    ground: 'certificate',
+    shape: 'card',
+  }),
 ]);
 
 export const STICKER_IMAGE_SLUGS = Object.freeze([

@@ -9,7 +9,21 @@ import {
   stickerImageSrc,
 } from '../src/lib/stickerImage.mjs';
 
-test('the slug list is the catalogue, the required pair, and the three rewards', () => {
+test('the reward list carries the milestones and the things that are not stickers', () => {
+  assert.deepEqual(
+    REWARD_STICKERS.map((r) => r.id),
+    [
+      'milestone-pack',
+      'milestone-complete',
+      'milestone-completionist',
+      'reward-pack',
+      'reward-physical',
+      'reward-digital',
+    ],
+  );
+});
+
+test('the slug list is the catalogue, the required pair, and the rewards', () => {
   assert.deepEqual(STICKER_IMAGE_SLUGS, [
     ...ACTIVITIES.map((a) => a.id),
     ...REQUIRED_STICKERS.map((s) => s.id),
@@ -17,6 +31,22 @@ test('the slug list is the catalogue, the required pair, and the three rewards',
   ]);
   assert.equal(stickerImageSrc('fest'), '/stickers/fest.svg');
   assert.throws(() => stickerImageSrc(null));
+});
+
+/* Circles are for stickers. The inventory's other things wear shapes of
+   their own, so their files must not be the sticker's full circle. */
+test('only the stickers are drawn as circles', async () => {
+  const read = (slug) =>
+    readFile(
+      new URL(`../public/stickers/${slug}.svg`, import.meta.url),
+      'utf8',
+    );
+  const circle = /<circle cx="100" cy="100" r="100"/;
+  assert.match(await read('milestone-complete'), circle);
+  assert.match(await read('fest'), circle);
+  for (const slug of ['reward-pack', 'reward-physical', 'reward-digital']) {
+    assert.doesNotMatch(await read(slug), circle, `${slug} is a circle`);
+  }
 });
 
 test('every slug has a committed SVG file that is a standalone sticker', async () => {

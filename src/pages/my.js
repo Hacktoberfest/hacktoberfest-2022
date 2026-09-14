@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import Album from 'components/Album';
 import FestsBand from 'components/FestsBand';
 import HubLinkBand from 'components/HubLinkBand';
+import Inventory from 'components/Inventory';
 import MyHub from 'components/MyHub';
 import RewardsBand from 'components/RewardsBand';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { connectOutcome } from 'lib/digitalocean.mjs';
 import { isOrganizing, organizingFests } from 'lib/fests.mjs';
+import { inventoryItems, itemIds } from 'lib/inventory.mjs';
 import { earnedIds, milestoneIds, noteEarned } from 'lib/justEarned.mjs';
 import { hubToOpen, readLastHub } from 'lib/myView.mjs';
 import { getSession } from 'lib/session.mjs';
@@ -23,8 +25,8 @@ const redirectFor = (experience) =>
   hubToOpen({ fests: experience.fests, lastHub: readLastHub() });
 
 /* The attending hub's bands, with the one piece of state they share:
-   which stickers and milestones were earned since this participant last
-   looked (lib/justEarned.mjs). Read against the record every time the
+   which stickers, milestones and things in the inventory were earned
+   since this participant last looked (lib/justEarned.mjs). Read against the record every time the
    experience changes, so the sticker DigitalOcean just granted is new on
    the way back, and a check-in scanned while this page is open is new
    when the next fetch lands. Once new, always new for this mount: the
@@ -38,6 +40,7 @@ const Bands = ({ experience }) => {
     const fresh = noteEarned(getSession(), [
       ...earnedIds(stickers),
       ...milestoneIds(rewardsState(experience, stickers)),
+      ...itemIds(inventoryItems(experience)),
     ]);
     if (fresh.length === 0) return;
     setJustEarned((current) => new Set([...current, ...fresh]));
@@ -53,15 +56,18 @@ const Bands = ({ experience }) => {
           festCount={organizingFests(experience.fests).length}
         />
       )}
-      {/* The hub's progress, as two bands: the two rewards the stickers
-         add up to, then the sticker book, every sticker there is to
-         earn on a page per type. */}
+      {/* The hub's progress: the two rewards the stickers add up to, then
+         the Fests, then the sticker book, every sticker there is to earn
+         on a page per type. */}
       <RewardsBand experience={experience} justEarned={justEarned} />
-      <Album experience={experience} justEarned={justEarned} />
       {/* The participant's calendar, hosting cards included, but not
          applications: those live on the hosting hub, the richer view
          of the same Fests. The host resources band lives there now. */}
       <FestsBand experience={experience} />
+      <Album experience={experience} justEarned={justEarned} />
+      {/* Last, the inventory: what the stickers earned, as a locker, the
+         API's items (lib/inventory.mjs). */}
+      <Inventory experience={experience} justEarned={justEarned} />
     </>
   );
 };

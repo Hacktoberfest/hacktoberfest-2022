@@ -95,11 +95,12 @@ export const getExperience = async (session, options) => {
      ?scenario=mlh-down fire in a live build — see the note on mockFailure. */
   const mocked = fixtureFor(scenario);
 
-  /* Three endpoints, deliberately: the profile and the progress payload
-     are milliseconds DB reads and the fests half is MLH round trips.
+  /* Four endpoints, deliberately: the profile, the progress payload and
+     the items are milliseconds DB reads and the fests half is MLH round
+     trips.
      Fetched in parallel, and the profile also surfaces early through
      onProfile so /my can put the participant's name on screen while the
-     slow half is still in flight. Ship the API half first (all three
+     slow half is still in flight. Ship the API half first (all four
      endpoints), as with every seam in this file. */
   const profilePromise = apiFetch('/api/me/profile');
   if (onProfile) {
@@ -111,10 +112,11 @@ export const getExperience = async (session, options) => {
       .catch(() => {});
   }
 
-  const [profile, festsBody, progress] = await Promise.all([
+  const [profile, festsBody, progress, itemsBody] = await Promise.all([
     profilePromise,
     apiFetch('/api/me/fests'),
     progressForExperience(),
+    apiFetch('/api/me/items'),
   ]);
 
   return {
@@ -145,6 +147,12 @@ export const getExperience = async (session, options) => {
        completedAt and source. An API answering without them gives an empty
        list, and the book falls back to the live facts above. */
     required: Array.isArray(progress.required) ? progress.required : [],
+    /* Live: the catalogue of things the stickers earn, with this
+       participant's earned-ness, as the API serves it (lib/inventory.mjs
+       draws it). The fixture's items are only ever used by the mocked
+       build; an API answering without the field gives an empty locker
+       rather than the fixture's pack passed off as the user's. */
+    items: Array.isArray(itemsBody && itemsBody.items) ? itemsBody.items : [],
     user: userFromProfile(mocked.user, profile),
   };
 };

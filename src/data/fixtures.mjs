@@ -39,6 +39,24 @@ export const SCENARIOS = Object.freeze({
     activities: [
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-12' },
     ],
+    /* The catalogue as GET /api/me/items serves it: one real item. */
+    items: [
+      {
+        id: 'sticker-pack-2026',
+        name: 'The 2026 sticker pack',
+        kind: 'physical',
+        earnedBy: 'Completing Milestone 1',
+        getsToYou:
+          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+    ],
     fests: [
       {
         id: 'fest-brooklyn',
@@ -85,6 +103,24 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
+    /* The catalogue as GET /api/me/items serves it: one real item. */
+    items: [
+      {
+        id: 'sticker-pack-2026',
+        name: 'The 2026 sticker pack',
+        kind: 'physical',
+        earnedBy: 'Completing Milestone 1',
+        getsToYou:
+          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: true,
+        earnedAt: '2026-10-01T09:00:00.000Z',
+      },
+    ],
     fests: [
       {
         id: 'fest-london',
@@ -126,6 +162,24 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'livestreams-1', completed: false }],
+    /* The catalogue as GET /api/me/items serves it: one real item. */
+    items: [
+      {
+        id: 'sticker-pack-2026',
+        name: 'The 2026 sticker pack',
+        kind: 'physical',
+        earnedBy: 'Completing Milestone 1',
+        getsToYou:
+          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+    ],
     fests: [],
   },
   /* Milestone 2 (Hacktoberfest complete): eight activities done, same
@@ -158,6 +212,24 @@ export const SCENARIOS = Object.freeze({
       { id: 'dev-connect', completed: true, completedAt: '2026-10-02' },
       { id: 'discord', completed: true, completedAt: '2026-10-03' },
       { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
+    ],
+    /* The catalogue as GET /api/me/items serves it: one real item. */
+    items: [
+      {
+        id: 'sticker-pack-2026',
+        name: 'The 2026 sticker pack',
+        kind: 'physical',
+        earnedBy: 'Completing Milestone 1',
+        getsToYou:
+          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: true,
+        earnedAt: '2026-10-01T09:00:00.000Z',
+      },
     ],
     fests: [
       {
@@ -224,6 +296,24 @@ export const SCENARIOS = Object.freeze({
       { id: 'ghw-points-5', completed: true, completedAt: '2026-10-15' },
       { id: 'ghw-points-10', completed: true, completedAt: '2026-10-16' },
     ],
+    /* The catalogue as GET /api/me/items serves it: one real item. */
+    items: [
+      {
+        id: 'sticker-pack-2026',
+        name: 'The 2026 sticker pack',
+        kind: 'physical',
+        earnedBy: 'Completing Milestone 1',
+        getsToYou:
+          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: true,
+        earnedAt: '2026-10-01T09:00:00.000Z',
+      },
+    ],
     fests: [
       {
         id: 'fest-london',
@@ -270,6 +360,24 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
+    /* The catalogue as GET /api/me/items serves it: one real item. */
+    items: [
+      {
+        id: 'sticker-pack-2026',
+        name: 'The 2026 sticker pack',
+        kind: 'physical',
+        earnedBy: 'Completing Milestone 1',
+        getsToYou:
+          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+    ],
     fests: [
       /* Co-branded, the way MLH actually names a partnered Fest: the
          partner arrives welded to the event name after an "x". Here so the

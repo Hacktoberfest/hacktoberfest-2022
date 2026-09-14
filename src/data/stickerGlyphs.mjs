@@ -100,6 +100,20 @@ export const GLYPHS = Object.freeze({
   /* The two rewards on the sticker book's Rewards page (components/Album):
      the pack as a parcel, completion as a star. Drawn in currentColor
      rather than ink, since the completion sticker sits on forest. */
+  /* The inventory's rewards (lib/stickerImage.mjs REWARD_STICKERS): the
+     Fest T-shirt, and a certificate with its seal. */
+  tee: {
+    inner:
+      '<path d="M8 3.5l4 2 4-2 5.5 3-2.2 4.3-2.3-1.1V21H7V9.7l-2.3 1.1L2.5 6.5z" />',
+    stroke: true,
+    round: true,
+  },
+  certificate: {
+    inner:
+      '<rect x="3" y="5" width="18" height="14" /><path d="M7 10h10M7 14h5" /><circle cx="16.5" cy="15" r="2" fill="currentColor" stroke="none" />',
+    stroke: true,
+    round: true,
+  },
   parcel: {
     inner:
       '<path d="M3 8l9-4 9 4v9l-9 4-9-4z" /><path d="M3 8l9 4 9-4M12 12v9" />',

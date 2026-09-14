@@ -104,6 +104,9 @@ test('the /my stylesheet is emitted and linked from the page', async () => {
   assert.match(css, /#f5b726/, 'ochre sticker ground missing');
   assert.match(css, /#8ca59e/, 'rule sticker ground missing');
   assert.match(css, /#3d5f58/, 'forest completion ground missing');
+  // The inventory locker (Inventory.module.css) is a CSS Module too, and
+  // renders after the same fetch: its slot rule has to be in the sheet.
+  assert.match(css, /Inventory_slot__/, 'inventory slot rule missing');
 });
 
 /* The export renders /my in its loading state, which makes the loading
