@@ -2272,6 +2272,13 @@ export const my = {
     pasteHint: 'The picture is copied. Paste it into your post.',
     pasteHintNoText:
       'The picture is copied. Paste it into your post, and say a few words.',
+    /* The browser offered its share sheet and then refused to open it
+       (Chrome on macOS does). The picture went to the clipboard, or to
+       a download where the clipboard would not take it. */
+    sheetRefused:
+      'Your browser would not open its share sheet, so the picture is copied. Paste it into a post, or post it from a network above.',
+    sheetRefusedSaved:
+      'Your browser would not open its share sheet, so the picture is downloaded. Attach it to a post, or post it from a network above.',
     error:
       'The picture could not be drawn just now. Check your connection and try again.',
     text: {

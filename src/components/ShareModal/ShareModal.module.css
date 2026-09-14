@@ -32,14 +32,9 @@
   overflow-y: auto;
   /* colors.ink */
   border: 2px solid #10201d;
-  /* The page's own paper with its dot grain, rather than white: the card
-     reads as set down on the desk, not framed. colors.paper / ink */
-  background-color: #eeeee6;
-  background-image: radial-gradient(
-    rgba(16, 32, 29, 0.12) 1px,
-    transparent 1px
-  );
-  background-size: 8px 8px;
+  /* Plain white, as the fests modals are: the dialog is a frame for the
+     card, not a stretch of the page's textured paper. colors.white */
+  background: #f7f7f2;
   /* colors.ink */
   color: #10201d;
 }
@@ -132,16 +127,24 @@
   box-shadow: 0 0 0 4px #10201d;
 }
 
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+/* The acknowledgements modal's heading, held clear of the close button. */
+.heading {
+  margin: 0 40px 8px 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.lede {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  /* colors.inkSoft */
+  color: #284b44;
 }
 
 /* The picture, centred and held to well under the viewport's height, so
@@ -155,8 +158,8 @@
   padding: 10px 0 14px;
 }
 
-/* Set down at a lean, the way an earned sticker sits in the book, with
-   the hard maroon shadow of a thing lifted off the page. */
+/* Square to the frame, so the picture people post is the picture they
+   see, on the hard maroon shadow of a thing lifted off the page. */
 .previewImage {
   display: block;
   width: auto;
@@ -166,7 +169,6 @@
   border: 2px solid #10201d;
   /* colors.maroon */
   box-shadow: 7px 7px 0 #671912;
-  transform: rotate(-2.5deg);
   /* The card fades in once the modal has landed rather than appearing
      the instant it is drawn, which was mid-lift: 380ms is the modal's
      entry, lift and shadow pop together, so the picture is the last

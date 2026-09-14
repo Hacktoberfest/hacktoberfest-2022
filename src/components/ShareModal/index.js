@@ -8,6 +8,7 @@ import {
   canShareFiles,
   copyPng,
   downloadBlob,
+  isSheetDevice,
   fetchStickerSvg,
   startClipboardCopy,
   svgToPngBlob,
@@ -90,6 +91,11 @@ const ShareModal = ({ share, experience, onClose }) => {
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
   const [hint, setHint] = useState(null);
+  /* A sheet this browser offered and then refused. Chrome on macOS says
+     yes to navigator.share and to canShare with the file, and rejects
+     the call itself with NotAllowedError; once it has, the button is a
+     dead one, so it goes and the composers stand first. */
+  const [sheetRefused, setSheetRefused] = useState(false);
 
   useEffect(() => {
     if (share) lastShare.current = share;
@@ -208,11 +214,13 @@ const ShareModal = ({ share, experience, onClose }) => {
     };
   }, [share, experience]);
 
-  /* The file the sheet takes, and whether this browser will take it. Asked
-     of the real file rather than of navigator.share alone: a desktop
-     Chrome says yes to the one and no to the other, and a sheet that
-     cannot carry the picture is worse than no sheet. Memoised on the
-     picture, so the two-second Copied state does not ask again. */
+  /* The file the sheet takes, and whether this browser will take it. A
+     phone or tablet thing (isSheetDevice): on a desktop the composers are
+     the way in. Asked of the real file rather than of navigator.share
+     alone: a desktop Chrome says yes to the one and no to the other, and
+     a sheet that cannot carry the picture is worse than no sheet.
+     Memoised on the picture, so the two-second Copied state does not ask
+     again. */
   const file = useMemo(
     () =>
       png && typeof File !== 'undefined'
@@ -220,14 +228,35 @@ const ShareModal = ({ share, experience, onClose }) => {
         : null,
     [png, filename],
   );
-  const sheet = useMemo(() => (file ? canShareFiles([file]) : false), [file]);
+  const sheet = useMemo(
+    () =>
+      file && !sheetRefused && isSheetDevice() ? canShareFiles([file]) : false,
+    [file, sheetRefused],
+  );
   const ready = Boolean(png);
 
   const onSheet = async () => {
     try {
       await navigator.share({ files: [file], text });
-    } catch (_) {
-      /* Cancelled, or the sheet changed its mind: not an error to report. */
+    } catch (error) {
+      /* Cancelled is the person's own doing and not an error to report.
+         Anything else is a sheet that will not open (Chrome on macOS
+         refuses every call with NotAllowedError, after saying it could),
+         and a button that did nothing is the one outcome not allowed:
+         the picture goes onto the clipboard instead, or downloads where
+         the clipboard will not take it, and the line under says so. */
+      if (error && error.name === 'AbortError') return;
+      setSheetRefused(true);
+      /* The line goes up on the refusal itself, and the copy is started
+         and not awaited, as a composer's is: a clipboard write can sit
+         unresolved, and the words should not wait on it. Where the
+         clipboard says no, the picture downloads and the line changes. */
+      setHint('sheetRefused');
+      startClipboardCopy(png, text).then((done) => {
+        if (done) return;
+        downloadBlob(png, filename);
+        setHint('sheetRefusedSaved');
+      });
     }
   };
 
@@ -283,7 +312,11 @@ const ShareModal = ({ share, experience, onClose }) => {
         ? my.share.pasteHint
         : hint === 'pasteWords'
           ? my.share.pasteHintNoText
-          : '';
+          : hint === 'sheetRefused'
+            ? my.share.sheetRefused
+            : hint === 'sheetRefusedSaved'
+              ? my.share.sheetRefusedSaved
+              : '';
 
   return (
     <dialog
@@ -325,12 +358,12 @@ const ShareModal = ({ share, experience, onClose }) => {
             <span aria-hidden="true">×</span>
           </button>
 
-          {/* The card names itself, so the heading is for assistive tech
-              only: the modal opens on the picture, set down on the page's
-              own paper, with nothing above it. */}
-          <h3 id="share-modal-title" className={styles.srOnly}>
+          {/* The heading the acknowledgements modal wears, and a line
+              under it saying what the buttons do. */}
+          <h3 id="share-modal-title" className={styles.heading}>
             {kind === 'book' ? my.share.title.book : my.share.title.sticker}
           </h3>
+          <p className={styles.lede}>{my.share.lede}</p>
 
           {/* The card says what this modal already says, in the same
               words, so it is decorative here: an alt would read the

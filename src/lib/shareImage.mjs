@@ -65,6 +65,20 @@ export const svgToPngBlob = (svg, size) =>
     image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   });
 
+/* Whether this is a device where the system share sheet is the way a
+   picture goes to a post: a touch screen with no hover, which is a phone
+   or a tablet. On a desktop the sheet is a poorer way in than the
+   composers (and Chrome on macOS offers one it then refuses to open), so
+   the button is a phone thing. False where there is no window to ask. */
+export const isSheetDevice = () => {
+  if (typeof window === 'undefined' || !window.matchMedia) return false;
+  try {
+    return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  } catch (_) {
+    return false;
+  }
+};
+
 /* Whether this browser will take a file through the share sheet. Asked
    with the real file: a desktop Chrome answers yes to navigator.share and
    no to this, and offering a sheet that cannot take the picture is worse
