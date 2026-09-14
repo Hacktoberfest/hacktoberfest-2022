@@ -5,7 +5,9 @@
 
    The API owns the catalogue and the copy: a thing's name, how it is
    earned, how it gets to you, its one call to action, and whether this
-   participant has earned it. This file adds what only the frontend knows:
+   participant has earned it; a thing earned more than once (a certificate
+   per Fest) comes once per grant, with a key and a variant. This file adds
+   what only the frontend knows:
    the art by slug, the id the just-earned record keeps, the DEV exception,
    the grid, and which slot the locker opens on. Nothing is derived from
    the stickers here.
@@ -34,9 +36,14 @@ const GENERIC_ART = Object.freeze({
   digital: { art: 'reward-digital', sticker: false },
 });
 
-/* The id the just-earned record keeps for an item (lib/justEarned.mjs),
+/* A thing's slot: its slug, or for a thing earned more than once (a
+   certificate per Fest) its slug and the grant's key, so every cell has an
+   id of its own. */
+export const slotId = (id, key) => (key ? `${id}:${key}` : id);
+
+/* The id the just-earned record keeps for a slot (lib/justEarned.mjs),
    prefixed so a sticker slug can never collide with one. */
-export const itemNewId = (id) => `item:${id}`;
+export const itemNewId = (slot) => `item:${slot}`;
 
 export const inventoryItems = (experience) => {
   const rows = Array.isArray(experience && experience.items)
@@ -51,8 +58,22 @@ export const inventoryItems = (experience) => {
       const kind = row.kind === 'digital' ? 'digital' : 'physical';
       const look = ITEM_ART[row.id] || GENERIC_ART[kind];
       const earned = row.earned === true;
+      const key = typeof row.key === 'string' ? row.key : '';
+      const slot = slotId(row.id, key);
+      const variant =
+        row.variant && typeof row.variant === 'object'
+          ? {
+              title:
+                typeof row.variant.title === 'string' ? row.variant.title : '',
+              date:
+                typeof row.variant.date === 'string' ? row.variant.date : null,
+            }
+          : null;
       return {
         id: row.id,
+        key,
+        slot,
+        variant,
         kind,
         art: look.art,
         sticker: look.sticker,
@@ -72,7 +93,7 @@ export const inventoryItems = (experience) => {
            linked to MyMLH: the locker asks for the connection. No user at
            all reads as unlinked, as the welcome band reads it. */
         needsDev: row.requiresDevLink === true && !devLinked,
-        newId: itemNewId(row.id),
+        newId: itemNewId(slot),
       };
     });
 };
@@ -84,31 +105,34 @@ export const itemIds = (items) =>
     .map((item) => item.newId);
 
 /* The grid: five across, six past WIDE_AFTER things. The empties finish
-   the row, so the page never ends ragged; while there is more to earn
-   there is always at least one, so a full row opens a fresh one. They
-   are room, not a count: no number of slots is ever promised. */
-export const inventoryLayout = (count, { earnable = true } = {}) => {
+   the row, so the page never ends ragged, and the grid is never shorter
+   than MIN_ROWS rows, so an empty or nearly empty locker still reads as a
+   locker. They are room, not a count: no number of slots is ever
+   promised. */
+export const MIN_ROWS = 2;
+
+export const inventoryLayout = (count) => {
   const n = Math.max(0, Number(count) || 0);
   const columns = n > WIDE_AFTER ? 6 : 5;
-  const toRow = (columns - (n % columns)) % columns;
-  return { columns, empties: earnable && toRow === 0 ? columns : toRow };
+  const rows = Math.max(MIN_ROWS, Math.ceil(n / columns));
+  return { columns, empties: rows * columns - n };
 };
 
 /* Which slot the locker opens on: the first thing earned since the
    participant last looked (lib/justEarned.mjs), else the newest earned
-   thing by date, else the first thing there is to earn. Null for an empty
-   catalogue. */
+   thing by date, else any earned thing. Null when nothing is earned: an
+   unearned thing is not shown, so it cannot open. */
 export const openingSlot = (items, justEarned) => {
-  const all = Array.isArray(items) ? items : [];
+  const all = (Array.isArray(items) ? items : []).filter(
+    (item) => item && item.earned,
+  );
   const fresh =
     justEarned instanceof Set ? justEarned : new Set(justEarned || []);
   const isNew = all.find((item) => item.newId && fresh.has(item.newId));
-  if (isNew) return isNew.id;
+  if (isNew) return isNew.slot;
   const dated = all
-    .filter((item) => item.earned && item.earnedAt)
+    .filter((item) => item.earnedAt)
     .sort((a, b) => (a.earnedAt < b.earnedAt ? 1 : -1));
-  if (dated.length > 0) return dated[0].id;
-  const earned = all.find((item) => item.earned);
-  if (earned) return earned.id;
-  return all.length > 0 ? all[0].id : null;
+  if (dated.length > 0) return dated[0].slot;
+  return all.length > 0 ? all[0].slot : null;
 };

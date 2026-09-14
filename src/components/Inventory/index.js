@@ -13,11 +13,11 @@ import Slot from './Slot';
 
 /* The inventory, the last band on /my: what the stickers earned, as a
    locker drawn as an open book. The left page is the cells, one per
-   thing, physical or digital; the right page is the one picked, set the
-   way the sticker book sets a page, with a head and a note; the spine
-   runs under both. Empty cells say there is room for more; no number of
-   slots is ever promised. Nothing here tracks a parcel: a thing is in
-   the locker or it is not.
+   earned thing, physical or digital, and blank cells for room; the right
+   page is the one picked, set the way the sticker book sets a page, with
+   a head and a note; the spine runs under both. Unearned things are not
+   shown, and no number of slots is ever promised. Nothing here tracks a
+   parcel: a thing is in the locker or it is not.
 
    The things are the API's (GET /api/me/items, experience.items): their
    names, their two facts, their call to action. The pure half is
@@ -30,12 +30,12 @@ import Slot from './Slot';
    (lib/justEarned.mjs) wears a NEW flag until it is opened, and the
    locker opens on it. */
 const Inventory = ({ experience, justEarned }) => {
-  const items = inventoryItems(experience);
-  /* More to earn while the catalogue holds anything unearned. The count
-     is the earned things; the unearned ones sit in the grid as room with
-     a name. */
-  const earnable = items.some((item) => !item.earned);
-  const { columns, empties } = inventoryLayout(items.length, { earnable });
+  const catalogue = inventoryItems(experience);
+  /* Only what is earned is shown; the unearned things in the catalogue
+     only say whether there is more to earn. */
+  const items = catalogue.filter((item) => item.earned);
+  const earnable = catalogue.some((item) => !item.earned);
+  const { columns, empties } = inventoryLayout(items.length);
 
   const [selected, setSelected] = useState(() =>
     openingSlot(items, justEarned),
@@ -53,21 +53,21 @@ const Inventory = ({ experience, justEarned }) => {
 
   /* A selection that no longer exists (a revalidation took the thing
      away) falls back to what the locker would open on. */
-  const current = items.some((item) => item.id === selected)
+  const current = items.some((item) => item.slot === selected)
     ? selected
     : openingSlot(items, justEarned);
-  const currentItem = items.find((item) => item.id === current) || null;
+  const currentItem = items.find((item) => item.slot === current) || null;
 
-  const pick = (id) => {
-    setSelected(id);
-    setOpened((known) => (known.has(id) ? known : new Set([...known, id])));
+  const pick = (slot) => {
+    setSelected(slot);
+    setOpened((known) => (known.has(slot) ? known : new Set([...known, slot])));
   };
 
   const onKeyDown = (event) => {
     if (items.length === 0) return;
     const index = Math.max(
       0,
-      items.findIndex((item) => item.id === current),
+      items.findIndex((item) => item.slot === current),
     );
     const step = {
       ArrowRight: 1,
@@ -80,14 +80,14 @@ const Inventory = ({ experience, justEarned }) => {
     if (step === undefined) return;
     event.preventDefault();
     const next = items[Math.min(items.length - 1, Math.max(0, index + step))];
-    pick(next.id);
+    pick(next.slot);
     const button = event.currentTarget.querySelector(
-      `[data-slot="${next.id}"]`,
+      `[data-slot="${next.slot}"]`,
     );
     if (button) button.focus();
   };
 
-  const earnedCount = items.filter((item) => item.earned).length;
+  const earnedCount = items.length;
   const intro =
     earnedCount === 0
       ? my.inventory.intro.empty
@@ -100,7 +100,7 @@ const Inventory = ({ experience, justEarned }) => {
       justEarned &&
         item.newId &&
         justEarned.has(item.newId) &&
-        !opened.has(item.id),
+        !opened.has(item.slot),
     );
 
   return (
@@ -127,24 +127,22 @@ const Inventory = ({ experience, justEarned }) => {
           >
             {items.map((item) => (
               <Slot
-                key={item.id}
+                key={item.slot}
                 item={item}
-                selected={item.id === current}
+                selected={item.slot === current}
                 isNew={isNew(item)}
-                onPick={() => pick(item.id)}
+                onPick={() => pick(item.slot)}
               />
             ))}
-            {/* Room: an empty die-cut slot per cell while there is more to
-                earn, and nothing said; a full locker finishes its row with
-                blank cells. */}
+            {/* Room: blank cells that finish the row and keep the locker
+                at least two rows tall. Nothing drawn in them and nothing
+                said: they are room, not a count. */}
             {Array.from({ length: empties }, (_, index) => (
               <div
                 key={`empty-${index}`}
                 className={`${styles.cell} ${styles.cellEmpty}`}
                 aria-hidden="true"
-              >
-                {earnable && <span className={styles.slot} />}
-              </div>
+              />
             ))}
           </div>
         </div>

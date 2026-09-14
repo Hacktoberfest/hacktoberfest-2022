@@ -6,18 +6,15 @@ import styles from './Inventory.module.css';
 /* The line under a thing's name: its kind, physical or digital; Not yet
    while it is not earned; or the ask for the DEV connection. */
 export const statusLabel = (item) =>
-  !item.earned
-    ? my.inventory.notYet
-    : item.needsDev
-      ? my.inventory.devUnlinked
-      : my.inventory.kinds[item.kind];
+  item.needsDev ? my.inventory.devUnlinked : my.inventory.kinds[item.kind];
 
 /* One cell of the locker, drawn as the sticker book draws its cells
    (components/Album/StickerCell): the thing in its slot, peeled up and
    leaning its own way once earned, with a tick on its corner; its name
-   under it, the API's; and one line saying which kind of thing it is. Not
-   yet earned, it is a grey silhouette and the line says so; a thing on
-   DEV with no DEV account linked asks for the connection. A sticker sits
+   under it, the API's, with the variant's title for a thing earned more
+   than once (a certificate per Fest); and one line saying which kind of
+   thing it is. A thing on DEV with no DEV account linked asks for the
+   connection. Only earned things are drawn. A sticker sits
    in the book's die-cut circle; anything else is drawn as itself, since
    circles are for stickers. NEW on the corner while the thing is new and
    unopened. A button in a listbox; the name carries the line too, so a
@@ -29,8 +26,9 @@ const Slot = ({ item, selected, isNew, onPick }) => {
       type="button"
       role="option"
       aria-selected={selected}
-      aria-label={`${item.name}, ${status}`}
-      data-slot={item.id}
+      aria-label={`${item.variant ? `${item.name}, ${item.variant.title}` : item.name}, ${status}`}
+      data-slot={item.slot}
+      data-item={item.id}
       data-kind={item.kind}
       data-shape={item.sticker ? 'sticker' : 'thing'}
       data-earned={item.earned ? 'true' : undefined}
@@ -57,6 +55,9 @@ const Slot = ({ item, selected, isNew, onPick }) => {
         )}
       </span>
       <span className={styles.cellTitle}>{item.name}</span>
+      {item.variant && (
+        <span className={styles.cellVariant}>{item.variant.title}</span>
+      )}
       <span className={styles.cellStatus}>{status}</span>
       {isNew && (
         <span className={styles.newFlag} aria-hidden="true">

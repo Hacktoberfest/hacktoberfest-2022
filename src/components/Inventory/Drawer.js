@@ -6,12 +6,23 @@ import styles from './Inventory.module.css';
 
 /* The right page of the locker: the thing picked, set the way the
    sticker book sets a page. A head and a note, then the thing as one
-   entry, its picture beside the kind, the date and the name, then the two
-   facts every thing has (earned by, gets to you), its one call to action,
-   all as the API serves them. A thing on DEV with no DEV account linked
+   entry, its picture beside the kind, the date and the name, the variant
+   under it for a thing earned more than once (the Fest a certificate is
+   for, and its day), then the two facts every thing has (earned by, gets
+   to you), its one call to action, all as the API serves them. A thing on DEV with no DEV account linked
    carries the welcome band's Connect DEV account button instead of its
    own. With nothing in the catalogue at all, the page says so. */
 const external = (url) => /^https?:\/\//.test(url);
+
+const formatFestDate = (value) => {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+};
 
 const PageHead = () => (
   <div className={styles.pageHead}>
@@ -29,9 +40,14 @@ const Drawer = ({ item }) => {
       </div>
     );
   }
-
-  const kind = item.earned ? item.kind : 'locked';
   const date = item.earnedAt ? formatEarnedDate(item.earnedAt) : null;
+  /* The Fest's own day, not floored to October 1 as an earned date is: a
+     certificate for a September Fest says September. */
+  const variantDate =
+    item.variant && item.variant.date
+      ? formatFestDate(item.variant.date)
+      : null;
+
   const action = item.needsDev
     ? { label: my.identity.devConnectCta, url: my.identity.devConnectHref }
     : item.cta;
@@ -41,7 +57,7 @@ const Drawer = ({ item }) => {
       <PageHead />
       <div className={styles.entry}>
         <span
-          className={`${styles.slot} ${styles.entrySlot} ${item.earned ? '' : styles.ghost}`}
+          className={`${styles.slot} ${styles.entrySlot}`}
           data-shape={item.sticker ? 'sticker' : 'thing'}
         >
           <span className={styles.sticker}>
@@ -52,25 +68,26 @@ const Drawer = ({ item }) => {
               draggable="false"
             />
           </span>
-          {item.earned && (
-            <span className={styles.tick} aria-hidden="true">
-              ✓
-            </span>
-          )}
+          <span className={styles.tick} aria-hidden="true">
+            ✓
+          </span>
         </span>
         <div className={styles.entryBody}>
           <div className={styles.entryTop}>
-            <span className={styles.tag} data-kind={kind}>
+            <span className={styles.tag} data-kind={item.kind}>
               {my.inventory.kinds[item.kind]}
             </span>
-            <span
-              className={styles.stamp}
-              data-earned={date ? 'true' : undefined}
-            >
-              {date ? my.inventory.drawer.earned(date) : my.inventory.notYet}
+            <span className={styles.stamp} data-earned="true">
+              {date ? my.inventory.drawer.earned(date) : ''}
             </span>
           </div>
           <h4 className={styles.entryTitle}>{item.name}</h4>
+          {item.variant && (
+            <p className={styles.entryVariant}>
+              {item.variant.title}
+              {variantDate ? ` · ${variantDate}` : ''}
+            </p>
+          )}
           {item.needsDev && (
             <p className={styles.notice}>{my.inventory.devUnlinkedNote}</p>
           )}

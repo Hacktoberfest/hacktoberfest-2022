@@ -16,11 +16,11 @@ const strings = (value) =>
         ? Object.values(value).flatMap(strings)
         : [];
 
-test('the two kinds are named, and an unearned thing says so', () => {
-  const { kinds, notYet } = my.inventory;
+test('the two kinds are named, and unearned things have no words: they are not shown', () => {
+  const { kinds } = my.inventory;
   assert.equal(typeof kinds.physical, 'string');
   assert.equal(typeof kinds.digital, 'string');
-  assert.equal(typeof notYet, 'string');
+  assert.equal(my.inventory.notYet, undefined);
   assert.equal(typeof my.inventory.devUnlinked, 'string');
   assert.equal(typeof my.inventory.devUnlinkedNote, 'string');
 });

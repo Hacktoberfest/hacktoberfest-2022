@@ -2399,11 +2399,10 @@ export const my = {
     count: (things) => `${things} ${things === 1 ? 'thing' : 'things'}`,
     room: 'Room for more. The next activity sticker adds to it.',
     full: 'Full. There is nothing left to earn this year.',
-    /* A catalogue with nothing in it at all: the API has no items yet. */
-    nothing: 'Nothing to earn yet. Check back once October is under way.',
+    /* The right page with nothing picked: nothing is earned yet. */
+    nothing:
+      'Nothing in it yet. Your first activity sticker, with the two required ones, earns the pack.',
     kinds: { physical: 'Physical', digital: 'Digital' },
-    /* The line under a thing not yet earned. */
-    notYet: 'Not yet',
     /* A thing that lives on a DEV profile, earned with no DEV account
        linked to MyMLH: the line under it, and the page's word. The button
        is the welcome band's (my.identity.devConnectCta, devConnectHref). */

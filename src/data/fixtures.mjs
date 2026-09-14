@@ -313,6 +313,20 @@ export const SCENARIOS = Object.freeze({
         earned: true,
         earnedAt: '2026-10-01T09:00:00.000Z',
       },
+      {
+        id: 'fest-certificate-2026',
+        name: 'Fest attendance certificate',
+        kind: 'digital',
+        earnedBy: 'Checking in at an in-person Fest',
+        getsToYou:
+          'A certificate with your name, the Fest and the date, one for every Fest you attend.',
+        cta: null,
+        requiresDevLink: false,
+        key: 'fest-london',
+        variant: { title: 'Hacktober Fest London', date: '2026-08-01' },
+        earned: true,
+        earnedAt: '2026-08-01T10:00:00.000Z',
+      },
     ],
     fests: [
       {
