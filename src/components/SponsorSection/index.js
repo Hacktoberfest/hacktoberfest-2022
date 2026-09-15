@@ -114,11 +114,7 @@ const SponsorSection = () => (
         {sponsors.map((entry) => (
           <WallItem key={entry.slug}>
             <WallLink href={entry.url} aria-label={`Visit ${entry.name}`}>
-              <WallLogo
-                src={entry.logo}
-                alt=""
-                $wide={entry.slug === 'backboard'}
-              />
+              <WallLogo src={entry.logo} alt="" $wide={entry.wide} />
             </WallLink>
           </WallItem>
         ))}

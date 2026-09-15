@@ -100,9 +100,9 @@ export const WallHeading = styled.h2`
 `;
 
 /* A fixed grid rather than auto-fit: the top row is the three partner
-   seats (DigitalOcean double-width), the next two rows the seven
-   sponsors plus the empty seat, so the wall always resolves into full
-   rows instead of a ragged tail. */
+   seats (DigitalOcean double-width), then the sponsors four to a row
+   with the empty seat last. Every sponsor seat is the same size; a short
+   last row stays short rather than stretching anyone to fill it. */
 export const WallGrid = styled(Shell)`
   display: grid;
   grid-template-columns: 1fr;

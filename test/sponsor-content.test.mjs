@@ -22,6 +22,11 @@ test('every wall sponsor entry is complete and tagged', () => {
       'GitHub',
       'Sentry',
       'Backboard.io',
+      'IBM',
+      'ElevenLabs',
+      'Paper Compute',
+      'Entire',
+      'Prior Labs',
     ],
     'the curated wall matches the confirmed sponsor roster and order',
   );
@@ -57,7 +62,17 @@ test('every referenced logo ships in public/', async () => {
 });
 
 test('brand-color logo assets retain their approved treatments', async () => {
-  const [mongodb, snowflake, render, sentry] = await Promise.all([
+  const [
+    mongodb,
+    snowflake,
+    render,
+    sentry,
+    ibm,
+    elevenlabs,
+    paperCompute,
+    entire,
+    priorLabs,
+  ] = await Promise.all([
     readFile(
       new URL('../public/sponsors/mongodb.svg', import.meta.url),
       'utf8',
@@ -68,11 +83,39 @@ test('brand-color logo assets retain their approved treatments', async () => {
     ),
     readFile(new URL('../public/sponsors/render.svg', import.meta.url), 'utf8'),
     readFile(new URL('../public/sponsors/sentry.svg', import.meta.url), 'utf8'),
+    readFile(new URL('../public/sponsors/ibm.svg', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../public/sponsors/elevenlabs.svg', import.meta.url),
+      'utf8',
+    ),
+    readFile(
+      new URL('../public/sponsors/paper-compute.svg', import.meta.url),
+      'utf8',
+    ),
+    readFile(new URL('../public/sponsors/entire.svg', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../public/sponsors/prior-labs.svg', import.meta.url),
+      'utf8',
+    ),
   ]);
   assert.ok(mongodb.includes('#00684A'), 'MongoDB must use its green mark');
   assert.ok(snowflake.includes('#29B5E8'), 'Snowflake must use its blue mark');
   assert.ok(render.includes('#000000'), 'Render must use its black mark');
   assert.ok(sentry.includes('#181225'), 'Sentry must use its purple mark');
+  assert.ok(ibm.includes('#0F62FE'), 'IBM must use its Blue 60 eight-bar mark');
+  assert.ok(
+    elevenlabs.includes('#000000'),
+    'ElevenLabs must use its black wordmark',
+  );
+  assert.ok(
+    paperCompute.includes('#EA4335'),
+    'Paper Compute must keep its red mark',
+  );
+  assert.ok(entire.includes('#000000'), 'Entire must use its black lockup');
+  assert.ok(
+    priorLabs.includes('#101075'),
+    'Prior Labs must use its navy wordmark',
+  );
 });
 
 test('the sponsor page copy is complete', () => {
