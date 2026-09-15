@@ -340,17 +340,18 @@
 }
 
 /* A thing that is not a sticker (the pack, the T-shirt, a badge, a
-   certificate) is drawn as itself: its file carries its own shape and ink
-   edge, so the circle's ring, border, outline and mask all go, and only
-   the lean and a lifted shadow stay. A locked one drains the same way.
-   Circles are for stickers. */
+   certificate) is drawn as itself: its file carries its own shape, ink
+   edge and its own cast shadow, so the circle's ring, border, outline,
+   mask and lifted shadow all go, and only the lean stays. A hard shadow
+   under an irregular shape read as a grey copy of it. A locked one
+   drains the same way. Circles are for stickers. */
 [data-shape='thing'] .sticker {
   border: 0;
   outline: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-  filter: drop-shadow(-3px 5px 0 rgba(16, 32, 29, 0.35));
+  filter: none;
 }
 
 [data-shape='thing'] .slot::before,
