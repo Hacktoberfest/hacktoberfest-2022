@@ -26,12 +26,15 @@ import styles from './FestsDirectory.module.css';
    DOM. What clustering buys: nearby Fests merge into one counted blob,
    and clicking it zooms to where they come apart.
 
-   Red for a Hack Day and blue for a Meet Up, so the map says which kind
-   of Fest a pin is before it is clicked. The bright pair rather than the
-   cards' maroon and skyDeep: those are shadow colours chosen to sit
-   under a white card, and at 18px on a tinted basemap both read as
-   black. A Fest whose name claims neither format keeps ink; past Fests
-   recede to rule grey, and past outranks format here as everywhere.
+   Red for a Hack Day and blue for a Meet Up, so the map says which kind of
+   Fest a pin is before it is clicked. The bright pair rather than the
+   cards' maroon and skyDeep: those are shadow colours chosen to sit under
+   a white card, and at 18px on a tinted basemap both read as black. A Fest
+   whose name claims neither format keeps ink; past Fests recede to rule
+   grey, and past outranks format here as everywhere. Ochre is the third
+   square, for an MLH Member Event, the hero's own motif; the reader's own
+   position is also ochre but round (ORIGIN_ICON below), which is the one
+   overlap the palette has, and a circle among squares has held up so far.
 
    The -sel variants are the raised state, press baked into the artwork —
    see lib/mapMarker.mjs. Shadows use the format's dark accent, the same
@@ -39,6 +42,7 @@ import styles from './FestsDirectory.module.css';
 const ICONS = {
   'pin-hackday': squareMarker(colors.orange, colors.ink),
   'pin-meetup': squareMarker(colors.sky, colors.ink),
+  'pin-member': squareMarker(colors.ochre, colors.ink),
   'pin-none': squareMarker(colors.ink, colors.white),
   'pin-past': squareMarker(colors.rule, colors.muted),
   'pin-hackday-sel': raisedSquareMarker(
@@ -47,6 +51,11 @@ const ICONS = {
     colors.maroon,
   ),
   'pin-meetup-sel': raisedSquareMarker(colors.sky, colors.ink, colors.skyDeep),
+  'pin-member-sel': raisedSquareMarker(
+    colors.ochre,
+    colors.ink,
+    colors.ochreDeep,
+  ),
   'pin-none-sel': raisedSquareMarker(colors.ink, colors.white, colors.ink),
   'pin-past-sel': raisedSquareMarker(colors.rule, colors.muted, colors.muted),
   'fest-cluster': clusterMarker(colors.ink, colors.white),
@@ -56,14 +65,15 @@ const iconNameFor = (fest, isPast) => {
   if (isPast) return 'pin-past';
   if (fest.format === 'hackDay') return 'pin-hackday';
   if (fest.format === 'meetUp') return 'pin-meetup';
+  if (fest.format === 'mlhMemberEvent') return 'pin-member';
   return 'pin-none';
 };
 
 /* Round, so the reader's own position cannot be mistaken for a Fest at a
-   glance — and ochre, which is off the format palette entirely. It is
-   the one marker that is not a Fest, so it takes the one accent no Fest
-   can. Still a DOM marker: there is only ever one of it and it never
-   clusters, so it has no reason to live in the source. */
+   glance. It shares ochre with the Member Event pins on purpose — a fourth
+   colour for one marker was not worth it — and the circle, not the colour,
+   is what tells the two apart. Still a DOM marker: there is only ever one
+   of it and it never clusters, so it has no reason to live in the source. */
 const ORIGIN_ICON = circleMarker(colors.ochre, colors.ink);
 
 const SOURCE = 'fests';
@@ -142,7 +152,7 @@ const popupContent = (fest, isPast, onOpen) => {
   const label = isPast
     ? festsContent.pastBadge
     : festsContent.formatBadges[fest.format];
-  const parts = festDateParts(fest.date);
+  const parts = festDateParts(fest.date, fest.endDate);
 
   const segments = [];
   if (label) {

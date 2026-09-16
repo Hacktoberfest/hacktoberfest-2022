@@ -46,9 +46,19 @@ export const sortByDateAsc = (fests) =>
    over. Holding a fest as upcoming for its whole calendar day errs toward
    showing something that has finished, which costs a wasted click.
    Erring the other way greys out a Fest while people are still walking
-   into it. */
+   into it.
+
+   A multi-day event is past only after its LAST day, not its first — an
+   MLH Member Event spans a weekend and stays upcoming on day two. */
+const lastDay = (fest) =>
+  typeof fest.endDate === 'string' &&
+  ISO_DATE.test(fest.endDate) &&
+  fest.endDate > fest.date
+    ? fest.endDate
+    : fest.date;
+
 export const festIsPast = (fest, today) =>
-  hasValidDate(fest) && fest.date < today;
+  hasValidDate(fest) && lastDay(fest) < today;
 
 /* Today where the viewer is, in the same YYYY-MM-DD shape the fest dates
    use. en-CA is the locale whose format is exactly that, the same trick
@@ -85,56 +95,111 @@ const DAYS = [
   'Saturday',
 ];
 
-/* '2026-10-10' → 'Saturday'.
+const WEEKEND = 'Weekend';
 
-   Built from Date.UTC and read back with getUTCDay, never from parsing the
-   string. `new Date('2026-10-10')` is midnight UTC, so getDay() anywhere
-   west of Greenwich reports the day before — a Fest on a Saturday would
-   read Friday for every reader in the Americas, and be right for everyone
-   else. Date.UTC takes integers and getUTCDay reads them back in the same
-   frame, so no time zone gets a vote.
-
-   The round-trip check is the validation: ISO_DATE only proves the shape,
-   and Date.UTC silently rolls 2026-02-30 into March and month 13 into the
-   next year. If what comes back out is not what went in, the date was
-   never real. */
-export const festWeekday = (isoDate) => {
+/* Milliseconds since the epoch for a valid ISO date at UTC midnight, or
+   null. The shape-only check (ISO_DATE) is not enough: Date.UTC silently
+   rolls 2026-02-30 into March and month 13 into the next year. The
+   round-trip check is the real validation — Date.UTC takes integers and
+   read back with getUTCFullYear/Month/Date in the same frame, so no time
+   zone gets a vote. If what comes back out is not what went in, the date
+   was never real. */
+const utcMidnight = (isoDate) => {
   if (typeof isoDate !== 'string' || !ISO_DATE.test(isoDate)) return null;
-
   const year = Number(isoDate.slice(0, 4));
   const month = Number(isoDate.slice(5, 7));
   const day = Number(isoDate.slice(8, 10));
-
-  const utc = new Date(Date.UTC(year, month - 1, day));
+  const ms = Date.UTC(year, month - 1, day);
+  const back = new Date(ms);
   if (
-    utc.getUTCFullYear() !== year ||
-    utc.getUTCMonth() !== month - 1 ||
-    utc.getUTCDate() !== day
+    back.getUTCFullYear() !== year ||
+    back.getUTCMonth() !== month - 1 ||
+    back.getUTCDate() !== day
   ) {
     return null;
   }
+  return ms;
+};
 
-  return DAYS[utc.getUTCDay()];
+const MS_PER_DAY = 86_400_000;
+
+/* Inclusive: a Friday-to-Sunday hackathon is three days. Null unless both
+   dates are real and the end is after the start — a one-day event has no
+   count to show, and a malformed pair must not invent one. */
+export const festDayCount = (isoDate, endIsoDate) => {
+  const start = utcMidnight(isoDate);
+  const end = utcMidnight(endIsoDate);
+  if (start === null || end === null || end <= start) return null;
+  return Math.round((end - start) / MS_PER_DAY) + 1;
+};
+
+/* '2026-10-10' → 'Saturday'. */
+export const festWeekday = (isoDate) => {
+  const ms = utcMidnight(isoDate);
+  if (ms === null) return null;
+  return DAYS[new Date(ms).getUTCDay()];
+};
+
+/* True when a real range (end after start, per festDayCount) runs from a
+   Friday or Saturday through the following Saturday or Sunday — Fri–Sat,
+   Fri–Sun and Sat–Sun all count, but Thu–Sat and Fri–Mon do not. A one-day
+   "range" or a malformed pair is never a weekend, same as festDayCount. */
+export const spansWeekend = (isoDate, endIsoDate) => {
+  if (festDayCount(isoDate, endIsoDate) === null) return false;
+  const startDay = new Date(utcMidnight(isoDate)).getUTCDay();
+  const endDay = new Date(utcMidnight(endIsoDate)).getUTCDay();
+  const startsWeekend = startDay === 5 || startDay === 6; // Fri or Sat
+  const endsWeekend = endDay === 6 || endDay === 0; // Sat or Sun
+  return startsWeekend && endsWeekend;
 };
 
 /* The card's date tile: three pieces, stacked, rather than a sentence.
    Abbreviated from the same tables the long forms use, so a month can
    never be spelled one way in the tile and another in the modal.
 
+   A multi-day event — every MLH Member Event, and nothing else in the
+   directory today — shows its first and last day as a range, "2–4", and
+   when the two straddle a month, the months as a range too. The weekday
+   line reads "Weekend" for a Fri/Sat–Sat/Sun span, or "Thu–Sat" for any
+   other range — never just the first day's, which read as if the whole
+   span were one day. An end that is missing, malformed, or not after the
+   start reads as a one-day event, so a Fest with no endDate renders
+   exactly as before.
+
    Returns null rather than partial pieces — a tile with a day and no month
    is worse than no tile, and the card collapses it entirely. */
-export const festDateParts = (isoDate) => {
+export const festDateParts = (isoDate, endIsoDate = null) => {
   const weekday = festWeekday(isoDate);
   if (!weekday) return null;
 
   const month = MONTHS[Number(isoDate.slice(5, 7)) - 1];
   if (!month) return null;
 
-  return {
+  const startDay = String(Number(isoDate.slice(8, 10)));
+  const parts = {
     weekday: weekday.slice(0, 3),
-    day: String(Number(isoDate.slice(8, 10))),
+    day: startDay,
     month: month.slice(0, 3),
   };
+
+  if (festDayCount(isoDate, endIsoDate) === null) return parts;
+
+  const endDay = String(Number(endIsoDate.slice(8, 10)));
+  const endMonth = MONTHS[Number(endIsoDate.slice(5, 7)) - 1];
+
+  parts.day = `${startDay}–${endDay}`;
+  if (endMonth !== month) {
+    parts.month = `${parts.month}–${endMonth.slice(0, 3)}`;
+  }
+
+  /* The weekday line answered "when does it start" for a range too, which
+     read as if the whole span were one day. A weekend names itself instead
+     of its two edges; any other range gets both, "Thu–Sat". */
+  parts.weekday = spansWeekend(isoDate, endIsoDate)
+    ? WEEKEND
+    : `${parts.weekday}–${festWeekday(endIsoDate).slice(0, 3)}`;
+
+  return parts;
 };
 
 export const formatFestDate = (isoDate) => {

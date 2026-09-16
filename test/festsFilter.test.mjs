@@ -13,6 +13,8 @@ const FESTS = [
   { id: 'c', format: 'hackDay' },
   /* The off-convention Fest, whose name claims neither format. */
   { id: 'd', format: null },
+  /* An MLH Member Event: not a Fest, but in the directory. */
+  { id: 'e', format: 'mlhMemberEvent' },
 ];
 
 test('all passes everything through, off-convention included', () => {
@@ -28,6 +30,10 @@ test('a named filter is exact', () => {
     filterByFormat(FESTS, 'meetUp').map((f) => f.id),
     ['b'],
   );
+  assert.deepEqual(
+    filterByFormat(FESTS, 'mlhMemberEvent').map((f) => f.id),
+    ['e'],
+  );
 });
 
 /* This parses a URL parameter. A mistyped link lands on the whole
@@ -35,6 +41,7 @@ test('a named filter is exact', () => {
 test('unrecognised filters normalise to all', () => {
   assert.equal(normalizeFormatFilter('hackDay'), 'hackDay');
   assert.equal(normalizeFormatFilter('meetUp'), 'meetUp');
+  assert.equal(normalizeFormatFilter('mlhMemberEvent'), 'mlhMemberEvent');
   assert.equal(normalizeFormatFilter('hackathon'), 'all');
   assert.equal(normalizeFormatFilter(''), 'all');
   assert.equal(normalizeFormatFilter(null), 'all');
@@ -44,6 +51,16 @@ test('unrecognised filters normalise to all', () => {
 /* The named counts need not sum to all: the off-convention Fest belongs
    to the whole and to neither kind. */
 test('counts describe the set, and all can exceed the sum', () => {
-  assert.deepEqual(formatCounts(FESTS), { all: 4, hackDay: 2, meetUp: 1 });
-  assert.deepEqual(formatCounts([]), { all: 0, hackDay: 0, meetUp: 0 });
+  assert.deepEqual(formatCounts(FESTS), {
+    all: 5,
+    hackDay: 2,
+    meetUp: 1,
+    mlhMemberEvent: 1,
+  });
+  assert.deepEqual(formatCounts([]), {
+    all: 0,
+    hackDay: 0,
+    meetUp: 0,
+    mlhMemberEvent: 0,
+  });
 });

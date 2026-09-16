@@ -85,6 +85,7 @@ test('normalizes API events into the card shape', async (t) => {
       lng: -73.9442,
       description: null,
       date: '2026-10-03',
+      endDate: null,
       /* 14:00–22:00 UTC is 10 AM – 6 PM in New York (EDT). */
       time: '10:00 AM – 6:00 PM',
       registrationUrl: 'https://example.invalid/register/brooklyn',
@@ -125,6 +126,7 @@ test('drops non-object entries and tolerates a missing address', async (t) => {
       lng: null,
       description: null,
       date: '2026-10-03',
+      endDate: null,
       time: '10:00 AM – 6:00 PM',
       registrationUrl: null,
       websiteUrl: null,
@@ -416,4 +418,64 @@ test('spells out abbreviated states, and leaves the rest alone', async (t) => {
     (await getFestsDirectory()).map((fest) => fest.state),
     ['Ontario', 'Ontario', 'Karnataka'],
   );
+});
+
+/* An MLH Member Event, as /api/events returns one: kind on the wire, an
+   off-convention name, a weekend of dates, no time zone. */
+const MEMBER_EVENT = {
+  ...EVENT,
+  id: 'evt-member',
+  kind: 'mlh_member_event',
+  name: 'Case Closed - TechBiz x GDG Case Study',
+  slug: 'case-closed',
+  startsAt: '2026-10-02T21:30:00.000Z',
+  endsAt: '2026-10-04T18:00:00.000Z',
+  timeZone: null,
+  websiteUrl: 'https://www.bigredhacks.com/',
+  address: {
+    line1: '245 Feeney Wy',
+    line2: null,
+    line3: null,
+    city: 'Ithaca',
+    state: 'New York',
+    postalCode: '14853',
+    country: 'US',
+    latitude: null,
+    longitude: null,
+  },
+};
+
+test('a Member Event keeps its whole name, has no host, and is its own format', () => {
+  const fest = festFromEvent(MEMBER_EVENT);
+
+  assert.equal(fest.format, 'mlhMemberEvent');
+  /* Never split on " x ": that separator is MLH's Fest convention, and a
+     hackathon called "TechBiz x GDG" is one name. */
+  assert.equal(fest.name, 'Case Closed - TechBiz x GDG Case Study');
+  assert.equal(fest.hostedBy, null);
+  assert.equal(fest.date, '2026-10-02');
+  assert.equal(fest.endDate, '2026-10-04');
+  assert.equal(fest.websiteUrl, 'https://www.bigredhacks.com/');
+  assert.equal(fest.country, 'United States');
+});
+
+test('a Fest never gets an endDate; a Member Event does when it ends on a later day', () => {
+  /* A Fest is one day by definition — a later endsAt is not a range to
+     show, even though the arithmetic would otherwise produce one. */
+  assert.equal(
+    festFromEvent({ ...EVENT, endsAt: '2026-10-04T22:00:00.000Z' }).endDate,
+    null,
+  );
+  assert.equal(festFromEvent(MEMBER_EVENT).endDate, '2026-10-04');
+  assert.equal(festFromEvent({ ...MEMBER_EVENT, endsAt: null }).endDate, null);
+});
+
+test('a Fest is a Fest whether the API says kind: fest or nothing at all', () => {
+  assert.equal(festFromEvent({ ...EVENT, kind: 'fest' }).format, null);
+  assert.equal(
+    festFromEvent({ ...EVENT, kind: 'fest', name: 'Hacktoberfest Hack Day X' })
+      .format,
+    'hackDay',
+  );
+  assert.equal(festFromEvent({ ...EVENT, kind: undefined }).format, null);
 });

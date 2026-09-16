@@ -191,6 +191,10 @@
   /* colors.sky */
   background: #8bb2de;
 }
+.filterChip[data-filter='mlhMemberEvent'] .filterSwatch {
+  /* colors.ochre */
+  background: #f5b726;
+}
 .filterChipActive .filterSwatch {
   border-color: #f7f7f2;
 }
@@ -199,6 +203,68 @@
   /* colors.muted */
   color: #52635f;
 }
+
+/* The notice under the chips while the Member Events chip is selected.
+   The card idiom — ink border, the type's own shadow — so it reads as one
+   of the objects on this page rather than as an alert. */
+.typeNotice {
+  display: block;
+  margin: 0 0 24px;
+  padding: 18px 22px 18px 24px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ochreDeep */
+  box-shadow: 6px 6px 0 #8a5d13;
+}
+.typeNoticeTitle {
+  margin: 0 0 6px;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.1;
+  /* colors.ink */
+  color: #10201d;
+}
+.typeNoticeBody {
+  margin: 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.typeNoticeList {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.typeNoticeList li + li {
+  margin-top: 2px;
+}
+.typeNoticeLink {
+  margin: 10px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+}
+.typeNoticeLink a {
+  /* colors.ink */
+  color: #10201d;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.typeNoticeList strong {
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 600;
+}
+
 .filterChipActive .filterCount {
   /* colors.rule */
   color: #8ca59e;
@@ -468,6 +534,10 @@
 .card[data-format='meetUp'] {
   --fest-accent: #1f4e6b;
 }
+.card[data-format='mlhMemberEvent'] {
+  /* colors.ochreDeep — the third square of the hero's red, ochre, blue */
+  --fest-accent: #8a5d13;
+}
 .card[data-past='true'] {
   /* colors.rule */
   --fest-accent: #8ca59e;
@@ -524,16 +594,12 @@
    wrapping so a long place name pushes the tag under itself instead of
    squeezing it. */
 .cardHeadingRow {
-  display: flex;
-  flex-wrap: wrap;
-  /* Centred, not baseline-aligned. Baseline lines the tag's own text up
-     with the heading's, but the tag is a padded pill around much smaller
-     type — so matching the text left the box itself sitting high. What
-     wants centring is the pill against the word, not one row of letters
-     against another. */
-  align-items: center;
-  gap: 4px 8px;
-  /* Clear of the flag square in the corner, as the title used to be. */
+  /* Inline flow, not a flex row. As a flex row the heading and the badge
+     were two items: a name long enough to wrap took the whole row and the
+     badge dropped to a line of its own. Inline, the badge follows the last
+     word of the name wherever that word lands. A one-line city reads the
+     same either way. */
+  display: block;
   padding-right: 36px;
 }
 
@@ -595,6 +661,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
+  /* Inline beside the name now that the heading row is inline flow. */
+  vertical-align: middle;
 }
 .cardFormatBadge[data-format='hackDay'] {
   /* colors.orangeLight — the warm end, same family as the maroon shadow */
@@ -603,6 +671,10 @@
 .cardFormatBadge[data-format='meetUp'] {
   /* colors.skyLight — the cool end, same family as the skyDeep shadow */
   background: #d7e5f4;
+}
+.cardFormatBadge[data-format='mlhMemberEvent'] {
+  /* colors.ochreLight — same family as the ochreDeep shadow */
+  background: #fbe4a6;
 }
 /* A past card's ground is already paperDeep, so a pale tint would vanish
    into it. Rule grey holds its edge there and still carries ink text. */
@@ -689,7 +761,10 @@
 }
 
 .cardTitle {
-  margin: 0;
+  /* Inline, so the badge beside it flows on after the name's last word;
+     see .cardHeadingRow. */
+  display: inline;
+  margin: 0 8px 0 0;
   /* The flag clearance moved to .cardHeadingRow, which now wraps this and
      the format tag — keeping it here too would indent the tag as well. */
   /* fonts.display */
@@ -761,6 +836,26 @@
   line-height: 1;
   /* colors.ink */
   color: #10201d;
+}
+/* A range, "2–4", is two figures and a dash where one figure sat — and
+   "23–25" is two two-digit days and a dash in a box sized for one
+   two-digit day. Smaller, tighter and non-wrapping keeps the widest case
+   on one line inside the fixed tile; the en dash tightens the pair. */
+.cardTileDay[data-range='true'] {
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+/* "Weekend" and a weekday range are seven characters where three sat;
+   the tracking comes in so they clear the tile's 48px of content. */
+.cardTileWeekday[data-range='true'],
+.cardTileMonth[data-range='true'] {
+  /* At 0.6rem "Weekend" measures the full 48px of content: it fits, but
+     flush against the padding on both sides. One step down breathes, and
+     nowrap keeps the one cross-month range, "Oct–Nov", on its line. */
+  font-size: 0.55rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 .card[data-past='true'] .cardTileDay,
 .card[data-past='true'] .cardTileMonth {
@@ -944,6 +1039,10 @@
   /* colors.skyDeep */
   --fest-accent: #1f4e6b;
 }
+.modal[data-format='mlhMemberEvent'] {
+  /* colors.ochreDeep */
+  --fest-accent: #8a5d13;
+}
 /* A past Fest's modal keeps its colour. The card in the grid greys out to
    sink in a list of upcoming ones, but an opened modal has already been
    chosen — reading it through a grey wash helped nobody. Only the accent
@@ -1110,6 +1209,19 @@
   color: #284b44;
   font-size: 1rem;
   font-weight: 700;
+}
+/* A Member Event's line under its name: the badge the card wears, then
+   where it is. Takes the host line's place and its spacing. */
+.modalSubline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 /* The header's left slot, which the logo used to hold. It is as tall as
    the name and the host line together, so the three read as one block
@@ -1360,6 +1472,10 @@
 .modal[data-format='meetUp'] .modalMapSkeleton {
   background: #91a7b5;
 }
+.modal[data-format='mlhMemberEvent'] .modalMapSkeleton {
+  /* tintHex(#a3a3a3, ochreDeep) */
+  background: #bba98a;
+}
 .modal[data-past='true'] .modalMapSkeleton {
   background: #a3a3a3;
 }
@@ -1395,6 +1511,9 @@
 }
 .modal[data-format='meetUp'] .modalMapVeil {
   background: #91a7b5;
+}
+.modal[data-format='mlhMemberEvent'] .modalMapVeil {
+  background: #bba98a;
 }
 .modal[data-past='true'] .modalMapVeil {
   background: #a3a3a3;
@@ -1437,6 +1556,42 @@
 }
 .modalBlurbList li + li {
   margin-top: 4px;
+}
+/* The admission block in a Member Event's modal: the one thing a visitor
+   must not miss, so it is the one paragraph set on a tinted ground with
+   its own label. The badge's ochreLight, so it reads as the same object
+   as the card's colour rather than as a warning. */
+.modalAdmission {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  /* colors.ochreLight */
+  background: #fbe4a6;
+  /* colors.ink */
+  border: 2px solid #10201d;
+}
+.modalAdmission p {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.modalAdmissionLabel {
+  padding-top: 3px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* colors.ink */
+  color: #10201d;
 }
 .modalBlurb a,
 .modalBlurbList a {
@@ -1596,6 +1751,10 @@
   /* colors.skyDeep */
   --tag-accent: #1f4e6b;
 }
+.mapTag[data-format='mlhMemberEvent'] {
+  /* colors.ochreDeep */
+  --tag-accent: #8a5d13;
+}
 
 .mapTagBar {
   width: 10px;
@@ -1610,6 +1769,10 @@
 .mapTag[data-format='meetUp'] .mapTagBar {
   /* colors.sky */
   background: #8bb2de;
+}
+.mapTag[data-format='mlhMemberEvent'] .mapTagBar {
+  /* colors.ochre */
+  background: #f5b726;
 }
 
 .mapTagBody {

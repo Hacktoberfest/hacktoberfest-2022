@@ -111,16 +111,42 @@ const venueTime = (startsAt, endsAt, timeZone) => {
     : startTime;
 };
 
+/* The last day, for an event that runs more than one: every Member Event,
+   and no Fest today. A Fest is one day by definition — venueDate falls
+   back to UTC for a null time zone, so an evening Fest's endsAt can land
+   on the next UTC date, and giving that a spurious endDate would be
+   inventing a range the venue never had. Null when it ends the day it
+   starts too, so the card's tile and the modal's date line change
+   nothing for a one-day Member Event either. */
+const festEndDate = (isMemberEvent, date, endsAt, timeZone) => {
+  if (!isMemberEvent) return null;
+  const end = venueDate(endsAt, timeZone);
+  return date && end && end > date ? end : null;
+};
+
 /* One API event -> one Fest card. Every field degrades to null rather
    than throwing — FestCard, filterFests, both sorts and FestsMap already
    treat null fields as "absent". The slug fallback keeps a usable React
    key if MLH ever omits an id. */
 export const festFromEvent = (event) => {
   const address = event.address || {};
+  /* The API's kind. A Member Event is one of MLH's 2027-season October
+     hackathons, mirrored beside the Fests: its name is its own (no
+     "Hacktoberfest" prefix to strip, and " x " inside it is not a partner
+     separator), nobody "hosts" it in the Fest sense, and its format is
+     stated rather than read out of the name. Anything else — "fest", or
+     an older API that sends no kind at all — is a Fest. */
+  const isMemberEvent = event.kind === 'mlh_member_event';
   /* MLH welds the hosting partner onto the event name — "Hacktoberfest
      Meet Up Toronto x Hack the 6ix" — so the two come apart here rather
      than in the card. See lib/festName.mjs. */
-  const { title, hostedBy } = splitFestName(event.name);
+  const { title, hostedBy } = isMemberEvent
+    ? {
+        title: typeof event.name === 'string' ? event.name.trim() : null,
+        hostedBy: null,
+      }
+    : splitFestName(event.name);
+  const date = venueDate(event.startsAt, event.timeZone);
 
   return {
     id: event.id || event.slug || null,
@@ -129,8 +155,9 @@ export const festFromEvent = (event) => {
     /* Derived from the name, not read from event.format — see
        lib/festFormat.mjs for why that field cannot answer this. Read from
        the title rather than the whole name, so a partner called "Hack Day
-       something" cannot claim a format that is not the Fest's. */
-    format: festFormatFromName(title),
+       something" cannot claim a format that is not the Fest's. A Member
+       Event's format is the one thing the API does state. */
+    format: isMemberEvent ? 'mlhMemberEvent' : festFormatFromName(title),
     city: address.city || null,
     /* Spelled out. MLH sends "ON" for one Toronto Fest and "Ontario" for
        another, so without this the same province reads two ways in one
@@ -161,7 +188,8 @@ export const festFromEvent = (event) => {
       typeof event.description === 'string' && event.description.trim()
         ? event.description.trim()
         : null,
-    date: venueDate(event.startsAt, event.timeZone),
+    date,
+    endDate: festEndDate(isMemberEvent, date, event.endsAt, event.timeZone),
     time: venueTime(event.startsAt, event.endsAt, event.timeZone),
     registrationUrl: event.registrationUrl || null,
     /* The Fest's own page, distinct from its registration form. A Fest

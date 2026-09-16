@@ -17,6 +17,9 @@ export const colors = {
   skyLight: '#d7e5f4',
   skyDeep: '#1f4e6b',
   ochre: '#f5b726',
+  /* The badge tint for an MLH Member Event, the way orangeLight and
+     skyLight are for the two Fest formats. */
+  ochreLight: '#fbe4a6',
   ochreDeep: '#8a5d13',
   maroon: '#671912',
 };

@@ -222,6 +222,9 @@ test('every mock fest has an id, a name, and plausible coordinates', () => {
    all, and would look perfectly plausible in the file. */
 test('no fixture name still carries an unsplit partner', () => {
   FESTS_FIXTURES.forEach((fest) => {
+    /* A Member Event's format is stated by the API, not read from its
+       name — the one fixture kind the derivation cannot vouch for. */
+    if (fest.format === 'mlhMemberEvent') return;
     assert.deepEqual(
       splitFestName(fest.name),
       { title: fest.name, hostedBy: null },
@@ -246,6 +249,9 @@ test('at least one fixture has no coordinates', () => {
    the first time a fixture is renamed. This is the guard against that. */
 test("every fixture's format agrees with its own name", () => {
   FESTS_FIXTURES.forEach((fest) => {
+    /* A Member Event's format is stated by the API, not read from its
+       name — the one fixture kind the derivation cannot vouch for. */
+    if (fest.format === 'mlhMemberEvent') return;
     assert.equal(
       fest.format,
       festFormatFromName(fest.name),
@@ -266,4 +272,6 @@ test('the fixtures cover the gaps the live payload actually has', () => {
   assert.ok(FESTS_FIXTURES.some((fest) => fest.format === null));
   assert.ok(FESTS_FIXTURES.some((fest) => fest.format === 'hackDay'));
   assert.ok(FESTS_FIXTURES.some((fest) => fest.format === 'meetUp'));
+  assert.ok(FESTS_FIXTURES.some((fest) => fest.format === 'mlhMemberEvent'));
+  assert.ok(FESTS_FIXTURES.some((fest) => fest.endDate));
 });

@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { fests as festsContent } from 'data/content.mjs';
+import { MLH_SEASON_URL } from 'data/links.js';
 import { partitionPast, sortByDateAsc, todayIso } from 'lib/festDate.mjs';
 import { getFestsDirectory } from 'lib/festsDirectory.mjs';
 import { basemapIsAvailable } from 'lib/basemapSource.mjs';
@@ -9,6 +10,7 @@ import { distanceKm, sortByDistance } from 'lib/geo.mjs';
 import { filterFests } from 'lib/festsSearch.mjs';
 import {
   filterByFormat,
+  FORMAT_FILTERS,
   formatCounts,
   normalizeFormatFilter,
 } from 'lib/festsFilter.mjs';
@@ -451,7 +453,18 @@ const FestsDirectory = () => {
           role="group"
           aria-label={festsContent.formatFilter.label}
         >
-          {['all', 'hackDay', 'meetUp'].map((filter) => (
+          {/* The Member Events chip is dropped when there is nothing behind
+              it, unless it is itself the active filter: the site can
+              deploy before the API sends any Member Events, and a chip
+              that matches nothing would read as a bug rather than an
+              empty week. A link straight to ?format=mlhMemberEvent still
+              works — it lands on the empty state, not a missing chip. */}
+          {FORMAT_FILTERS.filter(
+            (filter) =>
+              filter !== 'mlhMemberEvent' ||
+              counts.mlhMemberEvent > 0 ||
+              formatFilter === 'mlhMemberEvent',
+          ).map((filter) => (
             <button
               key={filter}
               type="button"
@@ -510,6 +523,41 @@ const FestsDirectory = () => {
           </div>
         )}
       </div>
+
+      {/* Only while the Member Events chip is selected. Someone who tapped
+          it is the one person who needs to hear that these are not Fests;
+          the All view stays as it is. role="note": supplementary, and not
+          a live region — it appears on a click, not on a keystroke. */}
+      {formatFilter === 'mlhMemberEvent' && (
+        <aside className={styles.typeNotice} role="note">
+          <div>
+            <h2 className={styles.typeNoticeTitle}>
+              {festsContent.memberEventNotice.title}
+            </h2>
+            <p className={styles.typeNoticeBody}>
+              {festsContent.memberEventNotice.body}
+            </p>
+            <ul className={styles.typeNoticeList}>
+              {festsContent.memberEventNotice.points.map((point) => (
+                <li key={point.lead}>
+                  <strong>{point.lead}</strong> {point.rest}
+                </li>
+              ))}
+            </ul>
+            <p className={styles.typeNoticeLink}>
+              {festsContent.memberEventNotice.link.lead}{' '}
+              <a
+                href={MLH_SEASON_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {festsContent.memberEventNotice.link.label}
+              </a>
+              .
+            </p>
+          </div>
+        </aside>
+      )}
 
       {count === 0 ? (
         /* No role="status" here deliberately: the count above already

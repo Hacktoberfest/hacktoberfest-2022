@@ -34,6 +34,7 @@ const PAST_FEST_ICON = squareMarker(colors.muted, colors.white);
 const ACCENTS = {
   hackDay: colors.maroon,
   meetUp: colors.skyDeep,
+  mlhMemberEvent: colors.ochreDeep,
 };
 
 const markerElement = (isPast) => {

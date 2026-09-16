@@ -3,11 +3,13 @@ import test from 'node:test';
 
 import {
   festDateParts,
+  festDayCount,
   festIsPast,
   festWeekday,
   formatFestDate,
   partitionPast,
   sortByDateAsc,
+  spansWeekend,
   todayIso,
 } from '../src/lib/festDate.mjs';
 
@@ -69,6 +71,23 @@ test('festIsPast is false when the date is missing or malformed', () => {
   assert.equal(festIsPast({ date: '2026-13-01' }, '2026-10-03'), false);
 });
 
+/* A multi-day event — an MLH Member Event's weekend — is past only after
+   its LAST day, not its first. */
+test('festIsPast honours endDate for a multi-day event', () => {
+  const weekend = { date: '2026-10-02', endDate: '2026-10-04' };
+  assert.equal(festIsPast(weekend, '2026-10-03'), false);
+  assert.equal(festIsPast(weekend, '2026-10-04'), false);
+  assert.equal(festIsPast(weekend, '2026-10-05'), true);
+});
+
+/* A Fest has no endDate, so it behaves exactly as before. */
+test('festIsPast behaves as before for a Fest with no endDate', () => {
+  const fest = { date: '2026-10-03', endDate: null };
+  assert.equal(festIsPast(fest, '2026-10-02'), false);
+  assert.equal(festIsPast(fest, '2026-10-03'), false);
+  assert.equal(festIsPast(fest, '2026-10-04'), true);
+});
+
 test('todayIso renders the given moment as YYYY-MM-DD', () => {
   assert.match(todayIso(), /^\d{4}-\d{2}-\d{2}$/);
   assert.equal(todayIso(new Date('2026-10-03T12:00:00Z')).length, 10);
@@ -83,13 +102,16 @@ test('partitionPast splits the list without reordering either half', () => {
     { id: 'c', date: '2026-10-03' },
     { id: 'd', date: '2026-08-15' },
     { id: 'e' },
+    /* A Member Event weekend that started yesterday and runs through
+       tomorrow: an in-progress multi-day event stays upcoming. */
+    { id: 'f', date: '2026-10-02', endDate: '2026-10-04' },
   ];
 
   const { upcoming, past } = partitionPast(fests, '2026-10-03');
 
   assert.deepEqual(
     upcoming.map((f) => f.id),
-    ['a', 'c', 'e'],
+    ['a', 'c', 'e', 'f'],
   );
   assert.deepEqual(
     past.map((f) => f.id),
@@ -165,4 +187,62 @@ test('festDateParts returns null for junk and impossible dates', () => {
   assert.equal(festDateParts(null), null);
   assert.equal(festDateParts('2026-13-01'), null);
   assert.equal(festDateParts('2026-02-30'), null);
+});
+
+test('festDateParts shows "Weekend" for a Fri–Sun weekend, in the same month', () => {
+  assert.deepEqual(festDateParts('2026-10-02', '2026-10-04'), {
+    weekday: 'Weekend',
+    day: '2–4',
+    month: 'Oct',
+  });
+});
+
+test('festDateParts ranges the month too when the end is in the next one', () => {
+  /* 2026-10-31 is a Saturday, 2026-11-01 a Sunday: a weekend. */
+  assert.deepEqual(festDateParts('2026-10-31', '2026-11-01'), {
+    weekday: 'Weekend',
+    day: '31–1',
+    month: 'Oct–Nov',
+  });
+});
+
+test('festDateParts names both ends of a range that is not a weekend', () => {
+  assert.deepEqual(festDateParts('2026-10-01', '2026-10-03'), {
+    weekday: 'Thu–Sat',
+    day: '1–3',
+    month: 'Oct',
+  });
+});
+
+test('festDateParts ignores an end that is missing, malformed, or not later', () => {
+  const single = { weekday: 'Fri', day: '2', month: 'Oct' };
+  assert.deepEqual(festDateParts('2026-10-02'), single);
+  assert.deepEqual(festDateParts('2026-10-02', null), single);
+  assert.deepEqual(festDateParts('2026-10-02', 'nope'), single);
+  assert.deepEqual(festDateParts('2026-10-02', '2026-10-02'), single);
+  assert.deepEqual(festDateParts('2026-10-02', '2026-10-01'), single);
+});
+
+test('festDayCount is inclusive, and null without a real range', () => {
+  assert.equal(festDayCount('2026-10-02', '2026-10-04'), 3);
+  assert.equal(festDayCount('2026-10-31', '2026-11-01'), 2);
+  assert.equal(festDayCount('2026-10-02', '2026-10-02'), null);
+  assert.equal(festDayCount('2026-10-02', null), null);
+  assert.equal(festDayCount('nope', '2026-10-04'), null);
+});
+
+/* Fri–Sun, Sat–Sun and Fri–Sat all count as a weekend; a range that starts
+   or ends a day off either edge does not, even though it is otherwise the
+   same length. */
+test('spansWeekend is true for a range from Fri/Sat through Sat/Sun', () => {
+  assert.equal(spansWeekend('2026-10-02', '2026-10-04'), true); // Fri–Sun
+  assert.equal(spansWeekend('2026-10-03', '2026-10-04'), true); // Sat–Sun
+  assert.equal(spansWeekend('2026-10-09', '2026-10-10'), true); // Fri–Sat
+});
+
+test('spansWeekend is false for a range that is not a weekend, or not a range', () => {
+  assert.equal(spansWeekend('2026-10-01', '2026-10-03'), false); // Thu–Sat
+  assert.equal(spansWeekend('2026-10-02', '2026-10-05'), false); // Fri–Mon
+  assert.equal(spansWeekend('2026-10-02', '2026-10-02'), false); // same day
+  assert.equal(spansWeekend('2026-10-02', null), false); // no end
 });

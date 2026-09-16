@@ -5,8 +5,14 @@ import Close from 'components/icons/Close';
 import { fests } from 'data/content.mjs';
 import { basemapIsAvailable } from 'lib/basemapSource.mjs';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
-import { festIsPast, festWeekday, formatFestDate } from 'lib/festDate.mjs';
+import {
+  festDayCount,
+  festIsPast,
+  festWeekday,
+  formatFestDate,
+} from 'lib/festDate.mjs';
 import { parseFestDescription } from 'lib/festDescription.mjs';
+import { websiteHost } from 'lib/festWebsite.mjs';
 
 import styles from './FestsDirectory.module.css';
 
@@ -242,6 +248,35 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
      that day — and a weekday answers that faster than a date does. */
   const date = displayed ? formatFestDate(displayed.date) : null;
   const weekday = displayed ? festWeekday(displayed.date) : null;
+  const isMemberEvent = Boolean(
+    displayed && displayed.format === 'mlhMemberEvent',
+  );
+  /* A Member Event runs a weekend: "Friday, October 2 – Sunday, October 4
+     · 3 days", and no times — MLH sends no time zone for these, so a clock
+     time would be UTC's, which is nobody's. A Fest keeps its single date
+     and its times. */
+  const endDate =
+    displayed && displayed.endDate ? formatFestDate(displayed.endDate) : null;
+  const endWeekday =
+    displayed && displayed.endDate ? festWeekday(displayed.endDate) : null;
+  const dayCount = displayed
+    ? festDayCount(displayed.date, displayed.endDate)
+    : null;
+  const dateLine =
+    weekday && date
+      ? endDate && endWeekday
+        ? `${weekday}, ${date} – ${endWeekday}, ${endDate}`
+        : `${weekday}, ${date}`
+      : date;
+  const showTime = Boolean(displayed && displayed.time && !isMemberEvent);
+  /* The location line under a Member Event's name, where a Fest shows its
+     host: city, region, country, whichever it has. */
+  const placeLine = displayed
+    ? [displayed.city, displayed.state, displayed.country]
+        .filter(Boolean)
+        .join(', ')
+    : '';
+  const primaryHost = displayed ? websiteHost(displayed.websiteUrl) : null;
   const flagCode = displayed ? countryCodeFor(displayed.country) : null;
   const formatBlurb =
     displayed && displayed.format ? fests.formatBlurbs[displayed.format] : null;
@@ -267,6 +302,13 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
     ? displayed.websiteUrl || displayed.registrationUrl
     : null;
   const canRegister = Boolean(registerHref && !festIsPast(displayed, today));
+  /* A Member Event's button opens its website and says so: admission is
+     the hackathon's, so "Register" would promise a form we do not have. */
+  const primaryLabel = isMemberEvent
+    ? primaryHost
+      ? `${fests.visitCta} ${primaryHost}`
+      : fests.visitCta
+    : fests.registerCta;
   /* Coordinates AND a key to draw them with. Gating on the key here rather
      than inside the map is deliberate: hasCoords also decides whether the
      modal splits into two columns, so a build without a key would otherwise
@@ -370,11 +412,10 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                 />
               )}
               <div className={styles.modalHeaderText}>
-                {/* No badges here at all. The format is already spelled out
-                    in the full name this modal shows, and "Past" is
-                    carried by the whole modal greying out and by a date
-                    that has been and gone. A screen reader gets neither of
-                    those, so the word survives for it alone. */}
+                {/* No badges for a Fest: the format is already spelled out
+                    in the full name this modal shows. A Member Event's
+                    name says nothing about what it is, so it is the one
+                    modal that wears its badge. */}
                 {isPast && (
                   <span className={styles.visuallyHidden}>
                     {fests.pastBadge}
@@ -386,6 +427,20 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                 {displayed.hostedBy && (
                   <p className={styles.modalHost}>
                     {fests.hostedBy} {displayed.hostedBy}
+                  </p>
+                )}
+                {/* A Member Event has no host line; its name says nothing
+                    about what it is, so the badge the card wears comes
+                    along, with the place beside it. */}
+                {isMemberEvent && (
+                  <p className={styles.modalSubline}>
+                    <span
+                      className={styles.cardFormatBadge}
+                      data-format="mlhMemberEvent"
+                    >
+                      {fests.formatBadges.mlhMemberEvent}
+                    </span>
+                    {placeLine && <span>{placeLine}</span>}
                   </p>
                 )}
               </div>
@@ -422,24 +477,48 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
               onScroll={measureDetails}
               data-more={descriptionMore ? 'true' : undefined}
             >
-              {(date || displayed.time) && (
+              {(dateLine || showTime) && (
                 <p className={styles.modalDate}>
-                  {weekday && date ? `${weekday}, ${date}` : date}
-                  {displayed.time && (
+                  {dateLine}
+                  {showTime && (
                     <span>
                       {date && ' \u00b7 '}
                       {displayed.time}
                     </span>
                   )}
+                  {dayCount && isMemberEvent && (
+                    <span>
+                      {' \u00b7 '}
+                      {fests.dayCount(dayCount)}
+                    </span>
+                  )}
                 </p>
               )}
 
-              {/* What this Fest is, for someone deciding whether to go.
-                  The host's own description when they have written one in
-                  Organizer HQ; otherwise the standard blurb for its format,
-                  and absent when the name claims neither format — better
-                  nothing than a description of the wrong thing. */}
-              {descriptionBlocks.length > 0 ? (
+              {/* What this is, for someone deciding whether to go. A Fest:
+                  the host's own description when they have written one,
+                  otherwise the standard blurb for its format, and absent
+                  when the name claims neither. A Member Event: the fixed
+                  blurb first, since MLH sends no description for these and
+                  the blurb is what says "not a Fest", then the admission
+                  block, then the hackathon's own words if MLH ever has
+                  any. */}
+              {isMemberEvent ? (
+                <>
+                  {formatBlurb && (
+                    <p className={styles.modalBlurb}>{formatBlurb}</p>
+                  )}
+                  <div className={styles.modalAdmission}>
+                    <span className={styles.modalAdmissionLabel}>
+                      {fests.memberEventAdmission.label}
+                    </span>
+                    <p>{fests.memberEventAdmission.body}</p>
+                  </div>
+                  {descriptionBlocks.length > 0 && (
+                    <DescriptionBlocks blocks={descriptionBlocks} />
+                  )}
+                </>
+              ) : descriptionBlocks.length > 0 ? (
                 <DescriptionBlocks blocks={descriptionBlocks} />
               ) : (
                 formatBlurb && (
@@ -508,7 +587,7 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {fests.registerCta}
+                  {primaryLabel}
                   <span aria-hidden="true">→</span>
                 </a>
               </div>

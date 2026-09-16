@@ -12,6 +12,8 @@
    mean something different for whoever opened it. Granting location is a
    thing you do on the page, not a thing the page remembers for you. */
 
+import { FORMAT_FILTERS } from './festsFilter.mjs';
+
 export const QUERY_PARAM = 'q';
 export const VIEW_PARAM = 'view';
 export const FEST_PARAM = 'fest';
@@ -41,8 +43,9 @@ export const festsDirectoryUrl = ({
   else params.delete(VIEW_PARAM);
 
   /* The format filter. 'all' is the default and drops out, same rule as
-     the rest: absence spells the default. */
-  if (format === 'hackDay' || format === 'meetUp')
+     the rest: absence spells the default. The named values are the
+     filter's own list, so a fourth format cannot be forgotten here. */
+  if (format && format !== 'all' && FORMAT_FILTERS.includes(format))
     params.set(FORMAT_PARAM, format);
   else params.delete(FORMAT_PARAM);
 

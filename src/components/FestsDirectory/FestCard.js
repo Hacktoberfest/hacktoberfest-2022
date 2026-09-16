@@ -25,13 +25,16 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
   const formatLabel = fest.format ? fests.formatBadges[fest.format] : null;
   /* Three pieces for the tile, or nothing. A tile with a day and no month
      is worse than no tile at all, so an unusable date collapses it. */
-  const dateParts = festDateParts(fest.date);
+  const dateParts = festDateParts(fest.date, fest.endDate);
   /* The API's online event has no address at all, so the location line
      can vanish entirely — same as /my's card. State is absent for most
      non-US/CA venues and simply drops out of the join. */
   /* The heading, shortened — see lib/festName.mjs. The modal keeps the
-     full name. */
-  const title = shortFestName(fest.name);
+     full name. A Member Event's name is its own and is never shortened:
+     there is no "Hacktoberfest Hack Day" to strip, and a hackathon that
+     happens to open with "Hack Day" would lose its first two words. */
+  const isMemberEvent = fest.format === 'mlhMemberEvent';
+  const title = isMemberEvent ? fest.name : shortFestName(fest.name);
 
   /* The city drops out of this line when the heading is already saying it,
      which is the usual case ("Brooklyn" over "Brooklyn, New York"). Only
@@ -138,15 +141,31 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
       {dateParts && (
         <p
           className={styles.cardDateTile}
-          aria-label={`${dateParts.weekday} ${dateParts.day} ${dateParts.month}`}
+          /* dateParts.day is "2–4" for a range, and dateParts.weekday can be
+             "Thu–Sat" for one too — the en dash a screen reader has no
+             reliable reading for. Spoken as "to" instead, which is how the
+             range reads out loud in both places. */
+          aria-label={`${dateParts.weekday.replace('–', ' to ')} ${dateParts.day.replace('–', ' to ')} ${dateParts.month.replace('–', ' to ')}`}
         >
-          <span className={styles.cardTileWeekday} aria-hidden="true">
+          <span
+            className={styles.cardTileWeekday}
+            aria-hidden="true"
+            data-range={dateParts.day.includes('–') ? 'true' : undefined}
+          >
             {dateParts.weekday}
           </span>
-          <span className={styles.cardTileDay} aria-hidden="true">
+          <span
+            className={styles.cardTileDay}
+            aria-hidden="true"
+            data-range={dateParts.day.includes('–') ? 'true' : undefined}
+          >
             {dateParts.day}
           </span>
-          <span className={styles.cardTileMonth} aria-hidden="true">
+          <span
+            className={styles.cardTileMonth}
+            data-range={dateParts.month.includes('–') ? 'true' : undefined}
+            aria-hidden="true"
+          >
             {dateParts.month}
           </span>
         </p>

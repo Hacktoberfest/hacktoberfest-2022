@@ -15,6 +15,10 @@ export const tagged = (base, { content, ...extra }) => {
 };
 
 export const MLH_URL = tagged('https://mlh.com', { content: 'partner-mlh' });
+/* The season page every MLH Member Event on /fests comes from. */
+export const MLH_SEASON_URL = tagged('https://mlh.com/seasons/2027/events', {
+  content: 'mlh-member-events',
+});
 
 export const MLH_ACCOUNT_URL = tagged('https://www.mlh.com/account/profile', {
   content: 'my-manage-account',

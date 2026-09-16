@@ -654,8 +654,9 @@ export const fests = {
   /* The two Fest formats, badged on the card and in the modal. Read out of
      the Fest's name rather than the API's own format field, which says
      "hackathon" for every Hacktoberfest event there is — see
-     lib/festFormat.mjs. A name that follows neither convention gets no
-     badge, which is why there is no third entry here. */
+     lib/festFormat.mjs. A Fest name that follows neither convention gets no
+     badge. The third entry is not read from a name at all: the API says which
+     events are MLH Member Events. */
   /* The partner a Fest is run with, split out of the event name (MLH welds
      the two together). A label rather than a sentence: the host's own name
      follows it, and "Hosted by Hack the 6ix" should read as one line on the
@@ -664,6 +665,7 @@ export const fests = {
   formatBadges: {
     hackDay: 'Hack Day',
     meetUp: 'Meetup',
+    mlhMemberEvent: 'MLH Member Event',
   },
   /* What each format actually is, in the modal, for someone deciding
      whether to go. Deliberately the same facts /host gives would-be hosts
@@ -681,6 +683,50 @@ export const fests = {
       'A mini-hackathon. Hands on keyboard for the day, building and shipping with open source AI, with prizes for the best projects.',
     meetUp:
       'A community gathering. Less structure, same spirit: there may be speakers, or it may simply be a chance to meet the open source people near you.',
+    mlhMemberEvent:
+      'Each year, Major League Hacking partners with hundreds of student hackathons around the world. This year, for the first time, we’re bringing Hacktoberfest swag and stickers to every one of them taking place in October, while supplies last. There are no Hacktoberfest prize categories at these hackathons, but we still encourage you to build with open-source and open-weight models.',
+  },
+  /* A Member Event's button. It opens the hackathon's own website, which
+     is where its admission happens, so the verb is visit and the label
+     carries the host — "Visit bigredhacks.com" — because that is the one
+     fact about a website people repeat. */
+  visitCta: 'Visit',
+  /* "3 days", after the date range in a Member Event's modal. */
+  dayCount: (n) => `${n} day${n === 1 ? '' : 's'}`,
+  /* Shown between the chips and the results while the MLH Member Events
+     chip is selected, and nowhere else: someone who tapped that chip is
+     the one person who needs to know these are not Fests. Facts only —
+     admission, swag, prizes — nothing a hackathon has not signed up to. */
+  memberEventNotice: {
+    title:
+      'Hacktoberfest swag and stickers are available at MLH Member Events this October.',
+    body: 'Each year, Major League Hacking partners with hundreds of student hackathons around the world. This year, for the first time, we’re bringing Hacktoberfest swag to every one of them taking place in October. A few things to know before you go:',
+    points: [
+      {
+        lead: 'Admission requirements are set by each event.',
+        rest: 'Many require an application or approval before you can attend, so check the event’s website before you make plans.',
+      },
+      {
+        lead: 'Swag and stickers',
+        rest: 'are available at every event while supplies last.',
+      },
+      {
+        lead: 'There are no Hacktoberfest prize categories at these hackathons,',
+        rest: 'but we still encourage you to build with open-source and open-weight models.',
+      },
+    ],
+    /* One outbound link, to MLH's season page. The URL is wiring and lives
+       in data/links.js. */
+    link: {
+      lead: 'Learn more about the 2027 Hackathon Season at',
+      label: 'mlh.com',
+    },
+  },
+  /* The tinted block in a Member Event's modal. The one thing a visitor
+     must not miss, so it is set apart from the blurb above it. */
+  memberEventAdmission: {
+    label: 'Admission',
+    body: 'Admission requirements are set by each event. Many require an application or approval before you can attend, so check the event’s website before you make plans.',
   },
   /* The detail modal a card opens. It exists to hold what a card cannot:
      which building, and the Fest's own page. Everything else in here is
@@ -705,6 +751,7 @@ export const fests = {
     all: 'All',
     hackDay: 'Hack Days',
     meetUp: 'Meetups',
+    mlhMemberEvent: 'MLH Member Events',
   },
   viewToggle: {
     label: 'Choose how Fests are shown',

@@ -29,8 +29,24 @@ test('fests page copy has every required field, non-empty', () => {
   assert.ok(fests.hostedBy.length > 0);
   assert.ok(fests.formatBadges.hackDay.length > 0);
   assert.ok(fests.formatBadges.meetUp.length > 0);
+  assert.ok(fests.formatBadges.mlhMemberEvent.length > 0);
   assert.ok(fests.formatBlurbs.hackDay.length > 0);
   assert.ok(fests.formatBlurbs.meetUp.length > 0);
+  assert.ok(fests.formatBlurbs.mlhMemberEvent.length > 0);
+  assert.ok(fests.formatFilter.mlhMemberEvent.length > 0);
+  assert.ok(fests.memberEventNotice.title.length > 0);
+  assert.ok(fests.memberEventNotice.body.length > 0);
+  assert.equal(fests.memberEventNotice.points.length, 3);
+  fests.memberEventNotice.points.forEach((point) => {
+    assert.ok(point.lead.length > 0);
+    assert.ok(point.rest.length > 0);
+  });
+  assert.ok(fests.memberEventNotice.link.lead.length > 0);
+  assert.ok(fests.memberEventNotice.link.label.length > 0);
+  assert.ok(fests.memberEventAdmission.label.length > 0);
+  assert.ok(fests.memberEventAdmission.body.length > 0);
+  assert.ok(fests.visitCta.length > 0);
+  assert.equal(fests.dayCount(3), '3 days');
   assert.ok(fests.modal.close.length > 0);
   assert.ok(fests.modal.detailsCta.length > 0);
   assert.ok(fests.distanceUnit.length > 0);
@@ -51,4 +67,20 @@ test('fests page copy has every required field, non-empty', () => {
 test('only the Hack Day blurb mentions prizes, as on /host', () => {
   assert.match(fests.formatBlurbs.hackDay, /prize/i);
   assert.doesNotMatch(fests.formatBlurbs.meetUp, /prize/i);
+});
+
+/* The one promise the notice and the blurb must keep straight: no
+   Hacktoberfest prizes at a Member Event, and the intro no longer claims
+   every listing is a one-day Fest. */
+test('Member Event copy leads with the swag and keeps the prize fact', () => {
+  assert.match(fests.memberEventNotice.title, /swag/i);
+  assert.match(
+    fests.memberEventNotice.points.map((p) => `${p.lead} ${p.rest}`).join(' '),
+    /application or approval/i,
+  );
+  assert.match(fests.formatBlurbs.mlhMemberEvent, /no Hacktoberfest prize/i);
+  assert.match(
+    fests.memberEventNotice.points.map((p) => `${p.lead} ${p.rest}`).join(' '),
+    /prize/i,
+  );
 });
