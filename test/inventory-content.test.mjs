@@ -22,6 +22,9 @@ test('the two kinds are named, and unearned things have no words: they are not s
   assert.equal(typeof kinds.digital, 'string');
   assert.equal(my.inventory.notYet, undefined);
   assert.equal(typeof my.inventory.devUnlinked, 'string');
+  assert.equal(typeof my.inventory.downloads.pdf, 'string');
+  assert.equal(typeof my.inventory.downloads.png, 'string');
+  assert.equal(typeof my.inventory.downloads.failed, 'string');
   assert.equal(typeof my.inventory.devUnlinkedNote, 'string');
 });
 

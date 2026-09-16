@@ -3,7 +3,9 @@ import test from 'node:test';
 
 import { SCENARIOS } from '../src/data/fixtures.mjs';
 import {
+  CERTIFICATE_SLUGS,
   WIDE_AFTER,
+  certificatePath,
   inventoryItems,
   inventoryLayout,
   itemIds,
@@ -211,4 +213,25 @@ test('the fixtures carry the real catalogue only: the pack, and the Fest certifi
   assert.equal(SCENARIOS['nothing-done'].items[0].earned, false);
   assert.equal(SCENARIOS.eligible.items[0].earned, true);
   assert.equal(SCENARIOS.completionist.items[0].earned, true);
+});
+
+test('a certificate is known by slug and downloads from the API by its key', () => {
+  assert.ok(CERTIFICATE_SLUGS.has('fest-certificate-2026'));
+  const [cert, pack] = inventoryItems(
+    experience([
+      {
+        ...PACK,
+        id: 'fest-certificate-2026',
+        key: 'evt 1/2',
+        variant: { title: 'T' },
+      },
+      PACK,
+    ]),
+  );
+  assert.equal(cert.certificate, true);
+  assert.equal(pack.certificate, false);
+  assert.equal(
+    certificatePath(cert, 'pdf'),
+    '/api/me/items/fest-certificate-2026/evt%201%2F2/certificate.pdf',
+  );
 });

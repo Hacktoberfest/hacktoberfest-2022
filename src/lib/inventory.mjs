@@ -31,6 +31,17 @@ const ITEM_ART = Object.freeze({
   'sticker-pack-2026': { art: 'reward-pack', sticker: false },
 });
 
+/* The things the API renders as a certificate on request (GET
+   /api/me/items/:slug/:key/certificate.pdf and .png): a download pair on
+   the thing's page instead of a call to action. By slug, since the shape
+   of a thing is the frontend's to know. */
+export const CERTIFICATE_SLUGS = Object.freeze(
+  new Set(['fest-certificate-2026']),
+);
+
+export const certificatePath = (item, format) =>
+  `/api/me/items/${encodeURIComponent(item.id)}/${encodeURIComponent(item.key)}/certificate.${format}`;
+
 const GENERIC_ART = Object.freeze({
   physical: { art: 'reward-physical', sticker: false },
   digital: { art: 'reward-digital', sticker: false },
@@ -93,6 +104,7 @@ export const inventoryItems = (experience) => {
            linked to MyMLH: the locker asks for the connection. No user at
            all reads as unlinked, as the welcome band reads it. */
         needsDev: row.requiresDevLink === true && !devLinked,
+        certificate: CERTIFICATE_SLUGS.has(row.id),
         newId: itemNewId(slot),
       };
     });

@@ -2409,6 +2409,15 @@ export const my = {
     devUnlinked: 'Connect DEV to see it',
     devUnlinkedNote:
       'This lives on a DEV profile, and yours is not linked to MyMLH yet. Connect your DEV account and DEV adds it there.',
+    /* A certificate's two files, rendered by the API on the click and never
+       stored: the buttons, and the line when the render did not come. */
+    downloads: {
+      pdf: 'Download PDF',
+      png: 'Download PNG',
+      working: 'Making it',
+      failed:
+        'The certificate could not be made just now. Try again in a moment.',
+    },
     /* The right page: the kind and the date on one line, then the two
        facts every thing has. */
     drawer: {
