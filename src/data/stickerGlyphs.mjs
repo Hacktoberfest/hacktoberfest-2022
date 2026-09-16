@@ -61,13 +61,31 @@ export const GLYPHS = Object.freeze({
     inner: '<path d="M5 3v18h2v-7h11l-3-4 3-4H7V3z" fill="currentColor" />',
     stroke: false,
   },
-  blocks: {
+  /* The DEV challenge stickers: a calendar page per week, a star for the
+     launch weekend. Placeholders, as the rest are. */
+  weekend: {
     inner:
-      '<rect x="4" y="13" width="7" height="7" /><rect x="13" y="13" width="7" height="7" /><rect x="8.5" y="4" width="7" height="7" />',
+      '<rect x="3" y="5" width="18" height="16" rx="1.5" /><path d="M3 9h18M8 3v4M16 3v4" /><path d="M12 11l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z" fill="currentColor" stroke="none" />',
     stroke: true,
   },
-  pen: {
-    inner: '<path d="M4 20l4-1 11-11-3-3L5 16z" /><path d="M13 8l3 3" />',
+  weekone: {
+    inner:
+      '<rect x="3" y="5" width="18" height="16" rx="1.5" /><path d="M3 9h18M8 3v4M16 3v4" /><text x="12" y="19" text-anchor="middle" font-size="9" font-weight="800" font-family="Barlow Semi Condensed, Helvetica, Arial, sans-serif" fill="currentColor" stroke="none">1</text>',
+    stroke: true,
+  },
+  weektwo: {
+    inner:
+      '<rect x="3" y="5" width="18" height="16" rx="1.5" /><path d="M3 9h18M8 3v4M16 3v4" /><text x="12" y="19" text-anchor="middle" font-size="9" font-weight="800" font-family="Barlow Semi Condensed, Helvetica, Arial, sans-serif" fill="currentColor" stroke="none">2</text>',
+    stroke: true,
+  },
+  weekthree: {
+    inner:
+      '<rect x="3" y="5" width="18" height="16" rx="1.5" /><path d="M3 9h18M8 3v4M16 3v4" /><text x="12" y="19" text-anchor="middle" font-size="9" font-weight="800" font-family="Barlow Semi Condensed, Helvetica, Arial, sans-serif" fill="currentColor" stroke="none">3</text>',
+    stroke: true,
+  },
+  weekfour: {
+    inner:
+      '<rect x="3" y="5" width="18" height="16" rx="1.5" /><path d="M3 9h18M8 3v4M16 3v4" /><text x="12" y="19" text-anchor="middle" font-size="9" font-weight="800" font-family="Barlow Semi Condensed, Helvetica, Arial, sans-serif" fill="currentColor" stroke="none">4</text>',
     stroke: true,
   },
   gift: {

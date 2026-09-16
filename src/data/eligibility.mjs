@@ -1,5 +1,5 @@
 /* The season's activities: what a participant completes to earn a sticker
-   pack, and enough of to complete Hacktoberfest. Seventeen this season,
+   pack, and enough of to complete Hacktoberfest. Twenty this season,
    from the 2026-09-10 list. The ids are the slugs of the challenges in
    FestNet, confirmed against production on 2026-09-11 (an id the API sends
    that is not here is dropped, an id here the API does not send reads as
@@ -102,7 +102,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'dev-connect',
     label: 'Connect your DEV account',
-    detail: 'Link your DEV account to MyMLH. The two challenges below need it.',
+    detail:
+      'Link your DEV account to MyMLH. The five challenges below need it.',
     /* DEV's own account settings page, the same link the account strip
        offers (my.identity.devConnectHref): a real destination, off-site. */
     href: 'https://dev.to/settings/account',
@@ -111,27 +112,69 @@ export const ACTIVITIES = Object.freeze([
     type: 'dev',
     art: 'link',
   }),
+  /* The five DEV challenge stickers: one per DEV Hacktoberfest challenge,
+     each earned once by publishing on DEV with the challenge tag inside
+     that challenge's window, by the DEV account linked on MyMLH. The
+     windows and the tag live on the API's challenge rows; these are the
+     words and the links. */
   Object.freeze({
-    id: 'dev-building',
-    label: 'Submit to a DEV building challenge',
-    detail: 'Build something for the October challenge on DEV and submit it.',
-    // The challenge page is not announced yet.
-    href: null,
+    id: 'dev-launch-weekend',
+    label: 'Submit to the Hacktoberfest Launch Weekend DEV Challenge',
+    detail:
+      'Publish your entry on DEV with the challenge tag over launch weekend, October 2 to 4.',
+    href: 'https://dev.to/challenges/hacktoberfest-weekend-2026-10-01',
     ctaLabel: 'See the challenge',
     surface: 'card',
     type: 'dev',
-    art: 'blocks',
+    art: 'weekend',
     requiresDevLink: true,
   }),
   Object.freeze({
-    id: 'dev-writing',
-    label: 'Submit to a DEV writing challenge',
-    detail: 'Write for the October challenge on DEV and submit it.',
-    href: null,
+    id: 'dev-week-1',
+    label: 'Submit to the Hacktoberfest Week 1 DEV Challenge',
+    detail:
+      'Publish your entry on DEV with the challenge tag during week one, October 5 to 11.',
+    href: 'https://dev.to/challenges/hacktoberfest-week1-2026-10-05',
     ctaLabel: 'See the challenge',
     surface: 'card',
     type: 'dev',
-    art: 'pen',
+    art: 'weekone',
+    requiresDevLink: true,
+  }),
+  Object.freeze({
+    id: 'dev-week-2',
+    label: 'Submit to the Hacktoberfest Week 2 DEV Challenge',
+    detail:
+      'Publish your entry on DEV with the challenge tag during week two, October 12 to 18.',
+    href: 'https://dev.to/challenges/hacktoberfest-week2-2026-10-12',
+    ctaLabel: 'See the challenge',
+    surface: 'card',
+    type: 'dev',
+    art: 'weektwo',
+    requiresDevLink: true,
+  }),
+  Object.freeze({
+    id: 'dev-week-3',
+    label: 'Submit to the Hacktoberfest Week 3 DEV Challenge',
+    detail:
+      'Publish your entry on DEV with the challenge tag during week three, October 19 to 25.',
+    href: 'https://dev.to/challenges/hacktoberfest-week3-2026-10-19',
+    ctaLabel: 'See the challenge',
+    surface: 'card',
+    type: 'dev',
+    art: 'weekthree',
+    requiresDevLink: true,
+  }),
+  Object.freeze({
+    id: 'dev-week-4',
+    label: 'Submit to the Hacktoberfest Week 4 DEV Challenge',
+    detail:
+      'Publish your entry on DEV with the challenge tag during week four, October 26 to 31.',
+    href: 'https://dev.to/challenges/hacktoberfest-week4-2026-10-26',
+    ctaLabel: 'See the challenge',
+    surface: 'card',
+    type: 'dev',
+    art: 'weekfour',
     requiresDevLink: true,
   }),
   Object.freeze({

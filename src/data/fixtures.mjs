@@ -290,7 +290,7 @@ export const SCENARIOS = Object.freeze({
       { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
       { id: 'livestreams-5', completed: true, completedAt: '2026-10-19' },
       { id: 'host-fest', completed: true, completedAt: '2026-10-10' },
-      { id: 'dev-building', completed: true, completedAt: '2026-10-22' },
+      { id: 'dev-week-3', completed: true, completedAt: '2026-10-22' },
       { id: 'ghw', completed: true, completedAt: '2026-10-13' },
       { id: 'ghw-livestream', completed: true, completedAt: '2026-10-14' },
       { id: 'ghw-points-5', completed: true, completedAt: '2026-10-15' },

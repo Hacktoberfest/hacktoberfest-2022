@@ -7,7 +7,7 @@ import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 /* livestreams, fest, dev-relay and ghw are ids FestNet already uses; the
    rest are this site's guesses until FestNet confirms its slugs (see the
    note on ACTIVITIES). */
-test('the catalogue is the season’s seventeen activities, by slug', () => {
+test('the catalogue is the season’s twenty activities, by slug', () => {
   assert.deepEqual(
     ACTIVITIES.map((activity) => activity.id),
     [
@@ -19,8 +19,11 @@ test('the catalogue is the season’s seventeen activities, by slug', () => {
       'host-fest',
       'dev-relay',
       'dev-connect',
-      'dev-building',
-      'dev-writing',
+      'dev-launch-weekend',
+      'dev-week-1',
+      'dev-week-2',
+      'dev-week-3',
+      'dev-week-4',
       'ghw',
       'ghw-livestream',
       'ghw-points-5',
