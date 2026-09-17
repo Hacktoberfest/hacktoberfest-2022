@@ -35,6 +35,8 @@ import styles from './FestsDirectory.module.css';
    square, for an MLH Member Event, the hero's own motif; the reader's own
    position is also ochre but round (ORIGIN_ICON below), which is the one
    overlap the palette has, and a circle among squares has held up so far.
+   Forest is the fourth, for a Pop-Up: the one brand colour the directory
+   had not used, and dark enough to want a white glyph.
 
    The -sel variants are the raised state, press baked into the artwork —
    see lib/mapMarker.mjs. Shadows use the format's dark accent, the same
@@ -45,6 +47,7 @@ const ICONS = {
   'pin-member': squareMarker(colors.ochre, colors.ink),
   'pin-none': squareMarker(colors.ink, colors.white),
   'pin-past': squareMarker(colors.rule, colors.muted),
+  'pin-popup': squareMarker(colors.forest, colors.white),
   'pin-hackday-sel': raisedSquareMarker(
     colors.orange,
     colors.ink,
@@ -58,6 +61,11 @@ const ICONS = {
   ),
   'pin-none-sel': raisedSquareMarker(colors.ink, colors.white, colors.ink),
   'pin-past-sel': raisedSquareMarker(colors.rule, colors.muted, colors.muted),
+  'pin-popup-sel': raisedSquareMarker(
+    colors.forest,
+    colors.white,
+    colors.forestDeep,
+  ),
   'fest-cluster': clusterMarker(colors.ink, colors.white),
 };
 
@@ -66,14 +74,16 @@ const iconNameFor = (fest, isPast) => {
   if (fest.format === 'hackDay') return 'pin-hackday';
   if (fest.format === 'meetUp') return 'pin-meetup';
   if (fest.format === 'mlhMemberEvent') return 'pin-member';
+  if (fest.format === 'popup') return 'pin-popup';
   return 'pin-none';
 };
 
 /* Round, so the reader's own position cannot be mistaken for a Fest at a
-   glance. It shares ochre with the Member Event pins on purpose — a fourth
-   colour for one marker was not worth it — and the circle, not the colour,
-   is what tells the two apart. Still a DOM marker: there is only ever one
-   of it and it never clusters, so it has no reason to live in the source. */
+   glance. It shares ochre with the Member Event pins on purpose — a colour
+   of its own for one marker was not worth it — and the circle, not the
+   colour, is what tells the two apart. Still a DOM marker: there is only
+   ever one of it and it never clusters, so it has no reason to live in
+   the source. */
 const ORIGIN_ICON = circleMarker(colors.ochre, colors.ink);
 
 const SOURCE = 'fests';

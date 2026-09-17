@@ -35,6 +35,7 @@ const ACCENTS = {
   hackDay: colors.maroon,
   meetUp: colors.skyDeep,
   mlhMemberEvent: colors.ochreDeep,
+  popup: colors.forestDeep,
 };
 
 const markerElement = (isPast) => {

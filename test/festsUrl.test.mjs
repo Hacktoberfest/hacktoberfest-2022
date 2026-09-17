@@ -80,6 +80,10 @@ test('a named format filter is in the URL and all is spelled by absence', () => 
     }),
     '/fests/?format=mlhMemberEvent',
   );
+  assert.equal(
+    festsDirectoryUrl({ pathname: '/fests/', search: '', format: 'popup' }),
+    '/fests/?format=popup',
+  );
   /* Junk never survives into a pasteable link. */
   assert.equal(
     festsDirectoryUrl({

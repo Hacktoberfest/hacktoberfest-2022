@@ -1,17 +1,23 @@
-/* The format filter for /fests: All, Hack Days, Meetups, or MLH Member
-   Events. Pure, so the behaviours worth pinning — what "all" includes, and
-   where a Fest with no format lands — live in tests rather than in the
+/* The format filter for /fests: All, Hack Days, Meetups, MLH Member Events
+   or Pop-Ups. Pure, so the behaviours worth pinning — what "all" includes,
+   and where a Fest with no format lands — live in tests rather than in the
    component.
 
    Applied AFTER search and BEFORE the past partition: the chips' counts
    describe the searched set, so they answer "of what my search found, how
    many are each kind" rather than quietly disagreeing with the list. */
 
-export const FORMAT_FILTERS = ['all', 'hackDay', 'meetUp', 'mlhMemberEvent'];
+export const FORMAT_FILTERS = [
+  'all',
+  'hackDay',
+  'meetUp',
+  'mlhMemberEvent',
+  'popup',
+];
 
-/* The three named formats. One list, so the functions below cannot drift
+/* The four named formats. One list, so the functions below cannot drift
    on which values are real. */
-const NAMED = new Set(['hackDay', 'meetUp', 'mlhMemberEvent']);
+const NAMED = new Set(['hackDay', 'meetUp', 'mlhMemberEvent', 'popup']);
 
 /* Anything unrecognised is 'all' — this parses a URL parameter, and a
    mistyped link should land on the whole directory, not an empty one. */

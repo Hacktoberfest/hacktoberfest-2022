@@ -45,6 +45,16 @@ test('fests page copy has every required field, non-empty', () => {
   assert.ok(fests.memberEventNotice.link.label.length > 0);
   assert.ok(fests.memberEventAdmission.label.length > 0);
   assert.ok(fests.memberEventAdmission.body.length > 0);
+  assert.ok(fests.formatBadges.popup.length > 0);
+  assert.ok(fests.formatBlurbs.popup.length > 0);
+  assert.ok(fests.formatFilter.popup.length > 0);
+  assert.ok(fests.popupNotice.title.length > 0);
+  assert.ok(fests.popupNotice.body.length > 0);
+  assert.equal(fests.popupNotice.points.length, 2);
+  fests.popupNotice.points.forEach((point) => {
+    assert.ok(point.lead.length > 0);
+    assert.ok(point.rest.length > 0);
+  });
   assert.ok(fests.visitCta.length > 0);
   assert.equal(fests.dayCount(3), '3 days');
   assert.ok(fests.modal.close.length > 0);
@@ -83,4 +93,17 @@ test('Member Event copy leads with the swag and keeps the prize fact', () => {
     fests.memberEventNotice.points.map((p) => `${p.lead} ${p.rest}`).join(' '),
     /prize/i,
   );
+});
+
+/* A Pop-Up is somebody else's event. The copy must say tickets are theirs
+   and that there are no Hacktoberfest prizes, and must never say Register. */
+test('Pop-Up copy sends people to the event for tickets and keeps the prize fact', () => {
+  const points = fests.popupNotice.points
+    .map((p) => `${p.lead} ${p.rest}`)
+    .join(' ');
+  assert.match(points, /ticket|pass|register/i);
+  assert.match(fests.popupNotice.body, /not Hacktoberfest Fests/);
+  assert.match(fests.formatBlurbs.popup, /no Hacktoberfest prize/i);
+  assert.equal(fests.formatBadges.popup, 'Pop-Up');
+  assert.equal(fests.formatFilter.popup, 'Pop-Ups');
 });

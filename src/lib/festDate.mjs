@@ -157,14 +157,13 @@ export const spansWeekend = (isoDate, endIsoDate) => {
    Abbreviated from the same tables the long forms use, so a month can
    never be spelled one way in the tile and another in the modal.
 
-   A multi-day event — every MLH Member Event, and nothing else in the
-   directory today — shows its first and last day as a range, "2–4", and
-   when the two straddle a month, the months as a range too. The weekday
-   line reads "Weekend" for a Fri/Sat–Sat/Sun span, or "Thu–Sat" for any
-   other range — never just the first day's, which read as if the whole
-   span were one day. An end that is missing, malformed, or not after the
-   start reads as a one-day event, so a Fest with no endDate renders
-   exactly as before.
+   A multi-day event — a Member Event or a Pop-Up, never a Fest — shows
+   its first and last day as a range, "2–4", and when the two straddle a
+   month, the months as a range too. The weekday line reads "Weekend" for
+   a Fri/Sat–Sat/Sun span, or "Thu–Sat" for any other range — never just
+   the first day's, which read as if the whole span were one day. An end
+   that is missing, malformed, or not after the start reads as a one-day
+   event, so a Fest with no endDate renders exactly as before.
 
    Returns null rather than partial pieces — a tile with a day and no month
    is worse than no tile, and the card collapses it entirely. */

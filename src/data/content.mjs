@@ -655,8 +655,8 @@ export const fests = {
      the Fest's name rather than the API's own format field, which says
      "hackathon" for every Hacktoberfest event there is — see
      lib/festFormat.mjs. A Fest name that follows neither convention gets no
-     badge. The third entry is not read from a name at all: the API says which
-     events are MLH Member Events. */
+     badge. The third and fourth entries are not read from a name at all:
+     the API says which events are MLH Member Events and which are Pop-Ups. */
   /* The partner a Fest is run with, split out of the event name (MLH welds
      the two together). A label rather than a sentence: the host's own name
      follows it, and "Hosted by Hack the 6ix" should read as one line on the
@@ -666,6 +666,7 @@ export const fests = {
     hackDay: 'Hack Day',
     meetUp: 'Meetup',
     mlhMemberEvent: 'MLH Member Event',
+    popup: 'Pop-Up',
   },
   /* What each format actually is, in the modal, for someone deciding
      whether to go. Deliberately the same facts /host gives would-be hosts
@@ -685,6 +686,8 @@ export const fests = {
       'A community gathering. Less structure, same spirit: there may be speakers, or it may simply be a chance to meet the open source people near you.',
     mlhMemberEvent:
       'Each year, Major League Hacking partners with hundreds of student hackathons around the world. This year, for the first time, we’re bringing Hacktoberfest swag and stickers to every one of them taking place in October, while supplies last. There are no Hacktoberfest prize categories at these hackathons, but we still encourage you to build with open-source and open-weight models.',
+    popup:
+      'A conference or community event where Hacktoberfest is showing up: stickers, swag, and people to talk to. It isn’t a Hacktoberfest Fest — there’s no Hack Day or Meetup programme and no Hacktoberfest prize categories — and tickets are the event’s own.',
   },
   /* A Member Event's button. It opens the hackathon's own website, which
      is where its admission happens, so the verb is visit and the label
@@ -728,6 +731,23 @@ export const fests = {
     label: 'Admission',
     body: 'Admission requirements are set by each event. Many require an application or approval before you can attend, so check the event’s website before you make plans.',
   },
+  /* Shown between the chips and the results while the Pop-Ups chip is
+     selected, and nowhere else. No link: a Pop-Up's own website is on its
+     card's modal, and there is no season page to point at. */
+  popupNotice: {
+    title: 'Pop-Ups are where Hacktoberfest shows up at someone else’s event.',
+    body: 'Conferences and community gatherings we’ll be at in October, with stickers, swag, and people to talk to. They’re not Hacktoberfest Fests: there’s no Hack Day or Meetup programme, no Hacktoberfest prize categories, and admission is the event’s own.',
+    points: [
+      {
+        lead: 'Tickets are through the event itself.',
+        rest: 'Follow the link to register or buy a pass.',
+      },
+      {
+        lead: 'Come find us.',
+        rest: 'Each listing says where to look.',
+      },
+    ],
+  },
   /* The detail modal a card opens. It exists to hold what a card cannot:
      which building, and the Fest's own page. Everything else in here is
      the card's copy reused, so there is no second wording of the same
@@ -752,6 +772,7 @@ export const fests = {
     hackDay: 'Hack Days',
     meetUp: 'Meetups',
     mlhMemberEvent: 'MLH Member Events',
+    popup: 'Pop-Ups',
   },
   viewToggle: {
     label: 'Choose how Fests are shown',

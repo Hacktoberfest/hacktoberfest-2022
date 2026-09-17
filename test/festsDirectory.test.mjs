@@ -479,3 +479,60 @@ test('a Fest is a Fest whether the API says kind: fest or nothing at all', () =>
   );
   assert.equal(festFromEvent({ ...EVENT, kind: undefined }).format, null);
 });
+
+/* A Pop-Up is entered by hand in FestNet with an id FestNet minted, no
+   time zone, and midnight-UTC dates. Its name is its own, like a Member
+   Event's, and it runs the days the admin typed. */
+test('a Pop-Up keeps its name whole, has no host, and carries its last day', async (t) => {
+  withFetch(t, () =>
+    jsonResponse({
+      events: [
+        {
+          ...EVENT,
+          id: 'popup-1',
+          kind: 'popup',
+          name: 'All Things Open 2026 x Hacktoberfest',
+          format: null,
+          startsAt: '2026-10-18T00:00:00.000Z',
+          endsAt: '2026-10-20T00:00:00.000Z',
+          timeZone: null,
+          websiteUrl: 'https://2026.allthingsopen.org/',
+          registrationUrl: null,
+          description: 'Find us at the DigitalOcean booth.',
+          address: {
+            line1: '500 S Salisbury St',
+            city: 'Raleigh',
+            state: 'North Carolina',
+            postalCode: '27601',
+            country: 'US',
+            latitude: null,
+            longitude: null,
+          },
+        },
+      ],
+      count: 1,
+    }),
+  );
+
+  const [fest] = await getFestsDirectory();
+
+  assert.equal(fest.format, 'popup');
+  assert.equal(fest.name, 'All Things Open 2026 x Hacktoberfest');
+  assert.equal(fest.hostedBy, null);
+  assert.equal(fest.date, '2026-10-18');
+  assert.equal(fest.endDate, '2026-10-20');
+  assert.equal(fest.description, 'Find us at the DigitalOcean booth.');
+  assert.equal(fest.websiteUrl, 'https://2026.allthingsopen.org/');
+});
+
+test('a one-day Pop-Up has no endDate', () => {
+  const fest = festFromEvent({
+    ...EVENT,
+    kind: 'popup',
+    startsAt: '2026-10-18T00:00:00.000Z',
+    endsAt: '2026-10-18T00:00:00.000Z',
+    timeZone: null,
+  });
+  assert.equal(fest.format, 'popup');
+  assert.equal(fest.endDate, null);
+});

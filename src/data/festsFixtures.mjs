@@ -255,4 +255,33 @@ export const FESTS_FIXTURES = [
     websiteUrl: 'https://hack.sbcs.io/',
     logoUrl: null,
   },
+  {
+    /* A Pop-Up: a conference where Hacktoberfest has a presence, entered
+       by hand in FestNet. Its own name, no host, three days and no time,
+       a description saying where to find us, its website as the only
+       link. Geocoded, so the mocked build shows the two-column modal with
+       a forest-tinted map. */
+    id: 'popup-all-things-open',
+    name: 'All Things Open 2026',
+    hostedBy: null,
+    format: 'popup',
+    city: 'Raleigh',
+    state: 'North Carolina',
+    country: 'United States',
+    venue: 'Raleigh Convention Center',
+    addressLine1: 'Raleigh Convention Center',
+    addressLine2: '500 S Salisbury St',
+    addressLine3: null,
+    postalCode: '27601',
+    lat: 35.7721,
+    lng: -78.6403,
+    date: '2026-10-18',
+    endDate: '2026-10-20',
+    time: null,
+    registrationUrl: null,
+    websiteUrl: 'https://2026.allthingsopen.org/',
+    logoUrl: null,
+    description:
+      'Find us at the DigitalOcean booth in the expo hall for stickers and swag, all three days.',
+  },
 ];

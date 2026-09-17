@@ -195,6 +195,10 @@
   /* colors.ochre */
   background: #f5b726;
 }
+.filterChip[data-filter='popup'] .filterSwatch {
+  /* colors.forest */
+  background: #3d5f58;
+}
 .filterChipActive .filterSwatch {
   border-color: #f7f7f2;
 }
@@ -217,6 +221,11 @@
   background: #f7f7f2;
   /* colors.ochreDeep */
   box-shadow: 6px 6px 0 #8a5d13;
+}
+/* The Pop-Ups notice wears its own shadow, the way its cards do. */
+.typeNotice[data-format='popup'] {
+  /* colors.forestDeep */
+  box-shadow: 6px 6px 0 #2e4742;
 }
 .typeNoticeTitle {
   margin: 0 0 6px;
@@ -538,6 +547,10 @@
   /* colors.ochreDeep — the third square of the hero's red, ochre, blue */
   --fest-accent: #8a5d13;
 }
+.card[data-format='popup'] {
+  /* colors.forestDeep — the one brand colour the directory had not used */
+  --fest-accent: #2e4742;
+}
 .card[data-past='true'] {
   /* colors.rule */
   --fest-accent: #8ca59e;
@@ -675,6 +688,10 @@
 .cardFormatBadge[data-format='mlhMemberEvent'] {
   /* colors.ochreLight — same family as the ochreDeep shadow */
   background: #fbe4a6;
+}
+.cardFormatBadge[data-format='popup'] {
+  /* colors.forestLight — same family as the forestDeep shadow */
+  background: #cfe0db;
 }
 /* A past card's ground is already paperDeep, so a pale tint would vanish
    into it. Rule grey holds its edge there and still carries ink text. */
@@ -1042,6 +1059,10 @@
 .modal[data-format='mlhMemberEvent'] {
   /* colors.ochreDeep */
   --fest-accent: #8a5d13;
+}
+.modal[data-format='popup'] {
+  /* colors.forestDeep */
+  --fest-accent: #2e4742;
 }
 /* A past Fest's modal keeps its colour. The card in the grid greys out to
    sink in a list of upcoming ones, but an opened modal has already been
@@ -1476,6 +1497,10 @@
   /* tintHex(#a3a3a3, ochreDeep) */
   background: #bba98a;
 }
+.modal[data-format='popup'] .modalMapSkeleton {
+  /* tintHex(#a3a3a3, forestDeep) */
+  background: #9caaa7;
+}
 .modal[data-past='true'] .modalMapSkeleton {
   background: #a3a3a3;
 }
@@ -1514,6 +1539,9 @@
 }
 .modal[data-format='mlhMemberEvent'] .modalMapVeil {
   background: #bba98a;
+}
+.modal[data-format='popup'] .modalMapVeil {
+  background: #9caaa7;
 }
 .modal[data-past='true'] .modalMapVeil {
   background: #a3a3a3;
@@ -1755,6 +1783,10 @@
   /* colors.ochreDeep */
   --tag-accent: #8a5d13;
 }
+.mapTag[data-format='popup'] {
+  /* colors.forestDeep */
+  --tag-accent: #2e4742;
+}
 
 .mapTagBar {
   width: 10px;
@@ -1773,6 +1805,10 @@
 .mapTag[data-format='mlhMemberEvent'] .mapTagBar {
   /* colors.ochre */
   background: #f5b726;
+}
+.mapTag[data-format='popup'] .mapTagBar {
+  /* colors.forest — the pin's own colour, restated */
+  background: #3d5f58;
 }
 
 .mapTagBody {

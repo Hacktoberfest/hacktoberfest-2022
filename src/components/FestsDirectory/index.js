@@ -40,6 +40,13 @@ const FestsMap = dynamic(() => import('./FestsMap'), {
 const viewFromParams = (params) =>
   params.get(VIEW_PARAM) === 'map' && basemapIsAvailable() ? 'map' : 'list';
 
+/* Formats whose chip is dropped while nothing is behind it, unless it is
+   itself the active filter. The site deploys before the API sends any of
+   these, and a chip that matches nothing would read as a bug rather than
+   an empty week. A link straight to ?format=<one of these> still works —
+   it lands on the empty state, not a missing chip. */
+const HIDDEN_WHEN_EMPTY = new Set(['mlhMemberEvent', 'popup']);
+
 /* How long typing has to stop before the next keystroke earns its own
    history entry. Long enough that a word typed at speed is one entry
    rather than six, short enough that the pause between two searches is a
@@ -391,6 +398,17 @@ const FestsDirectory = () => {
     ? fests.find((fest) => fest.id === openFestId) || null
     : null;
 
+  /* The notice under the chips: one per format that is not a Fest, shown
+     only while that chip is selected. Someone who tapped it is the one
+     person who needs to hear that these are not Fests; the All view stays
+     as it is. */
+  const typeNotice =
+    formatFilter === 'mlhMemberEvent'
+      ? festsContent.memberEventNotice
+      : formatFilter === 'popup'
+        ? festsContent.popupNotice
+        : null;
+
   return (
     <div className={styles.page}>
       <div className={styles.toolbar}>
@@ -453,17 +471,11 @@ const FestsDirectory = () => {
           role="group"
           aria-label={festsContent.formatFilter.label}
         >
-          {/* The Member Events chip is dropped when there is nothing behind
-              it, unless it is itself the active filter: the site can
-              deploy before the API sends any Member Events, and a chip
-              that matches nothing would read as a bug rather than an
-              empty week. A link straight to ?format=mlhMemberEvent still
-              works — it lands on the empty state, not a missing chip. */}
           {FORMAT_FILTERS.filter(
             (filter) =>
-              filter !== 'mlhMemberEvent' ||
-              counts.mlhMemberEvent > 0 ||
-              formatFilter === 'mlhMemberEvent',
+              !HIDDEN_WHEN_EMPTY.has(filter) ||
+              counts[filter] > 0 ||
+              formatFilter === filter,
           ).map((filter) => (
             <button
               key={filter}
@@ -524,37 +536,41 @@ const FestsDirectory = () => {
         )}
       </div>
 
-      {/* Only while the Member Events chip is selected. Someone who tapped
-          it is the one person who needs to hear that these are not Fests;
-          the All view stays as it is. role="note": supplementary, and not
-          a live region — it appears on a click, not on a keystroke. */}
-      {formatFilter === 'mlhMemberEvent' && (
-        <aside className={styles.typeNotice} role="note">
+      {/* role="note": supplementary, and not a live region — it appears on
+          a click, not on a keystroke. */}
+      {typeNotice && (
+        <aside
+          className={styles.typeNotice}
+          role="note"
+          data-format={formatFilter}
+        >
           <div>
-            <h2 className={styles.typeNoticeTitle}>
-              {festsContent.memberEventNotice.title}
-            </h2>
-            <p className={styles.typeNoticeBody}>
-              {festsContent.memberEventNotice.body}
-            </p>
+            <h2 className={styles.typeNoticeTitle}>{typeNotice.title}</h2>
+            <p className={styles.typeNoticeBody}>{typeNotice.body}</p>
             <ul className={styles.typeNoticeList}>
-              {festsContent.memberEventNotice.points.map((point) => (
+              {typeNotice.points.map((point) => (
                 <li key={point.lead}>
                   <strong>{point.lead}</strong> {point.rest}
                 </li>
               ))}
             </ul>
-            <p className={styles.typeNoticeLink}>
-              {festsContent.memberEventNotice.link.lead}{' '}
-              <a
-                href={MLH_SEASON_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {festsContent.memberEventNotice.link.label}
-              </a>
-              .
-            </p>
+            {typeNotice.link && (
+              <p className={styles.typeNoticeLink}>
+                {typeNotice.link.lead}{' '}
+                {/* This href is the MLH season page, and belongs to the
+                    Member Events notice — the only notice with a link
+                    today. A second notice with a link would need its own
+                    href on the object. */}
+                <a
+                  href={MLH_SEASON_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {typeNotice.link.label}
+                </a>
+                .
+              </p>
+            )}
           </div>
         </aside>
       )}

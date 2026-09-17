@@ -251,10 +251,14 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
   const isMemberEvent = Boolean(
     displayed && displayed.format === 'mlhMemberEvent',
   );
-  /* A Member Event runs a weekend: "Friday, October 2 – Sunday, October 4
-     · 3 days", and no times — MLH sends no time zone for these, so a clock
-     time would be UTC's, which is nobody's. A Fest keeps its single date
-     and its times. */
+  const isPopup = Boolean(displayed && displayed.format === 'popup');
+  /* The two kinds whose name says nothing about what they are, run on
+     days rather than at times, and send people to their own website. */
+  const isOwnEvent = isMemberEvent || isPopup;
+  /* A Member Event or a Pop-Up runs a weekend: "Friday, October 2 –
+     Sunday, October 4 · 3 days", and no times — MLH sends no time zone for
+     these, so a clock time would be UTC's, which is nobody's. A Fest keeps
+     its single date and its times. */
   const endDate =
     displayed && displayed.endDate ? formatFestDate(displayed.endDate) : null;
   const endWeekday =
@@ -268,7 +272,7 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
         ? `${weekday}, ${date} – ${endWeekday}, ${endDate}`
         : `${weekday}, ${date}`
       : date;
-  const showTime = Boolean(displayed && displayed.time && !isMemberEvent);
+  const showTime = Boolean(displayed && displayed.time && !isOwnEvent);
   /* The location line under a Member Event's name, where a Fest shows its
      host: city, region, country, whichever it has. */
   const placeLine = displayed
@@ -302,9 +306,10 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
     ? displayed.websiteUrl || displayed.registrationUrl
     : null;
   const canRegister = Boolean(registerHref && !festIsPast(displayed, today));
-  /* A Member Event's button opens its website and says so: admission is
-     the hackathon's, so "Register" would promise a form we do not have. */
-  const primaryLabel = isMemberEvent
+  /* A Member Event's or a Pop-Up's button opens its website and says so:
+     admission is the event's, so "Register" would promise a form we do not
+     have. */
+  const primaryLabel = isOwnEvent
     ? primaryHost
       ? `${fests.visitCta} ${primaryHost}`
       : fests.visitCta
@@ -429,16 +434,16 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                     {fests.hostedBy} {displayed.hostedBy}
                   </p>
                 )}
-                {/* A Member Event has no host line; its name says nothing
-                    about what it is, so the badge the card wears comes
-                    along, with the place beside it. */}
-                {isMemberEvent && (
+                {/* A Member Event or a Pop-Up has no host line; its name
+                    says nothing about what it is, so the badge the card
+                    wears comes along, with the place beside it. */}
+                {isOwnEvent && (
                   <p className={styles.modalSubline}>
                     <span
                       className={styles.cardFormatBadge}
-                      data-format="mlhMemberEvent"
+                      data-format={displayed.format}
                     >
-                      {fests.formatBadges.mlhMemberEvent}
+                      {fests.formatBadges[displayed.format]}
                     </span>
                     {placeLine && <span>{placeLine}</span>}
                   </p>
@@ -486,7 +491,7 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                       {displayed.time}
                     </span>
                   )}
-                  {dayCount && isMemberEvent && (
+                  {dayCount && isOwnEvent && (
                     <span>
                       {' \u00b7 '}
                       {fests.dayCount(dayCount)}
@@ -514,6 +519,18 @@ const FestModal = ({ fest, distanceKm, today, onClose }) => {
                     </span>
                     <p>{fests.memberEventAdmission.body}</p>
                   </div>
+                  {descriptionBlocks.length > 0 && (
+                    <DescriptionBlocks blocks={descriptionBlocks} />
+                  )}
+                </>
+              ) : isPopup ? (
+                /* A Pop-Up: the fixed blurb says what it is, then the
+                   admin's own words say where to find us. No admission
+                   block: tickets are the event's, and the blurb says so. */
+                <>
+                  {formatBlurb && (
+                    <p className={styles.modalBlurb}>{formatBlurb}</p>
+                  )}
                   {descriptionBlocks.length > 0 && (
                     <DescriptionBlocks blocks={descriptionBlocks} />
                   )}

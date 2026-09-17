@@ -30,11 +30,12 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
      can vanish entirely — same as /my's card. State is absent for most
      non-US/CA venues and simply drops out of the join. */
   /* The heading, shortened — see lib/festName.mjs. The modal keeps the
-     full name. A Member Event's name is its own and is never shortened:
-     there is no "Hacktoberfest Hack Day" to strip, and a hackathon that
-     happens to open with "Hack Day" would lose its first two words. */
-  const isMemberEvent = fest.format === 'mlhMemberEvent';
-  const title = isMemberEvent ? fest.name : shortFestName(fest.name);
+     full name. A Member Event's or a Pop-Up's name is its own and is never
+     shortened: there is no "Hacktoberfest Hack Day" to strip, and a
+     conference that happens to open with "Hack Day" would lose its first
+     two words. */
+  const nameIsOwn = fest.format === 'mlhMemberEvent' || fest.format === 'popup';
+  const title = nameIsOwn ? fest.name : shortFestName(fest.name);
 
   /* The city drops out of this line when the heading is already saying it,
      which is the usual case ("Brooklyn" over "Brooklyn, New York"). Only

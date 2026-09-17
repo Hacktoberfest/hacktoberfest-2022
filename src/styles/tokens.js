@@ -8,6 +8,7 @@ export const colors = {
   rule: '#8ca59e',
   forest: '#3d5f58',
   forestDeep: '#2e4742',
+  forestLight: '#cfe0db',
   orange: '#e53927',
   orangeDeep: '#b8301f',
   orangeLight: '#f9c9c2',
