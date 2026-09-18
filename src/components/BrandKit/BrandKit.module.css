@@ -1,0 +1,548 @@
+/* The /brand page body under PageHero: four sections on the paper ground,
+   each a heading and one grid. Colour values are the site tokens restated
+   (CSS Modules cannot import styles/tokens.js), named in comments. */
+
+.root {
+  padding-block: clamp(48px, 7vw, 90px);
+}
+
+/* Shell's width rules, repeated rather than imported, same as
+   FaqDirectory. */
+.section {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+}
+
+.section + .section {
+  margin-top: clamp(56px, 8vw, 110px);
+  padding-top: clamp(40px, 5vw, 64px);
+  /* colors.rule */
+  border-top: 2px solid #8ca59e;
+}
+
+.sectionHead {
+  max-width: 62ch;
+  margin-bottom: clamp(24px, 3vw, 40px);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  /* colors.forest */
+  color: #3d5f58;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.heading em {
+  /* colors.forest */
+  color: #3d5f58;
+  font-style: normal;
+}
+
+.intro {
+  margin: 16px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.05rem;
+}
+
+.hint {
+  margin: 0 0 16px;
+  /* colors.muted */
+  color: #52635f;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+/* ---- Colors ------------------------------------------------------- */
+
+/* Nine swatches in three rows of three, not an auto-fill that leaves one
+   or two orphaned on the last line; one column on a phone. */
+.swatches {
+  display: grid;
+  gap: 18px 22px;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* The tile is the colour itself, edged in ink like every block on the
+   site, a short bar with the name and hex at either end in whichever of
+   ink or white reads on that colour (data-dark). A bar rather than a
+   square: nine squares ran the palette a screen and a half tall. */
+.swatchButton {
+  appearance: none;
+  display: flex;
+  width: 100%;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  /* colors.ink */
+  color: #10201d;
+  border: 2px solid #10201d;
+  background: var(--swatch);
+  /* Ink, not the maroon the rest of the site shadows with: maroon is one
+     of the swatches, and a maroon shadow under every colour reads as a
+     ninth. */
+  box-shadow: 5px 5px 0 #10201d;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.swatchButton[data-dark='true'] {
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.swatchButton:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #10201d;
+}
+
+.swatchButton:focus-visible {
+  box-shadow: 0 0 0 5px #10201d;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swatchButton {
+    transition: none;
+  }
+}
+
+.swatchName {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.swatchHex {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.swatchRole {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+/* ---- Fonts -------------------------------------------------------- */
+
+.families {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.family {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  /* colors.ink on colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 5px 5px 0 #671912;
+}
+
+.familyRole {
+  margin: 0;
+  /* colors.forest */
+  color: #3d5f58;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Each specimen is set in its own family at the size and weight the site
+   uses it, so the card shows the font doing its job rather than an
+   alphabet. */
+.specimen {
+  min-height: 3.2em;
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.specimen[data-family='display'] {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+}
+
+.specimen[data-family='body'] {
+  /* fonts.sans */
+  font-family:
+    'Inter',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.specimen[data-family='mono'] {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
+}
+
+.familyName {
+  margin: 6px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.familyUse {
+  margin: 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.92rem;
+}
+
+.familyWeights {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+.link {
+  margin-top: auto;
+  padding-top: 8px;
+  /* colors.forest */
+  color: #3d5f58;
+  font-weight: 700;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.embed {
+  margin-top: 22px;
+}
+
+.embedLabel {
+  margin: 0 0 8px;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.embedCode {
+  display: block;
+  overflow-x: auto;
+  padding: 12px 14px;
+  /* colors.ink on colors.paperDeep */
+  color: #10201d;
+  border: 2px solid #10201d;
+  background: #e4e5da;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* ---- Logos -------------------------------------------------------- */
+
+.mark + .mark {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.markHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 18px;
+  margin-bottom: 14px;
+}
+
+.markName {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.markUse {
+  max-width: 62ch;
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.92rem;
+}
+
+.tiles {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each tile is drawn on the ground its colorway is for: paper for ink
+   and green, forest for white. The art box keeps the file's aspect ratio
+   so the row does not jump as the SVGs arrive. */
+.tile {
+  display: flex;
+  flex-direction: column;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  box-shadow: 5px 5px 0 #671912;
+}
+
+.tile[data-ground='paper'] {
+  /* colors.white */
+  color: #10201d;
+  background: #f7f7f2;
+}
+
+.tile[data-ground='forest'] {
+  /* colors.white on colors.forest */
+  color: #f7f7f2;
+  background: #3d5f58;
+}
+
+.tileArt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  padding: 22px;
+}
+
+.tileArt img {
+  display: block;
+  width: 100%;
+  max-width: calc(106px * var(--ratio));
+  max-height: 100%;
+  height: auto;
+}
+
+.tileFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 12px 16px;
+  border-top: 2px solid #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+}
+
+.tile[data-ground='forest'] .tileFoot {
+  border-top-color: rgba(247, 247, 242, 0.5);
+}
+
+.tileName {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-weight: 650;
+}
+
+.badge {
+  padding: 3px 7px;
+  /* colors.ink on colors.ochre */
+  color: #10201d;
+  background: #f5b726;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.download {
+  color: inherit;
+  font-weight: 650;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+/* ---- Partners ----------------------------------------------------- */
+
+/* Four MLH variants on one row at desktop; the auto-fit minimum would
+   wrap them 3 + 1 at shell width. DEV's two stay on the auto-fit grid
+   and take a tile's natural width each rather than half the shell. */
+@media (min-width: 1024px) {
+  .tiles[data-columns='4'] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .tiles[data-columns='2'] {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---- Rules -------------------------------------------------------- */
+
+.rulesColumns {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+}
+
+/* Do and Don't as two cards, edged and shadowed like the type cards,
+   each titled in its own accent: forest for do, orange for don't. */
+.rulesColumn {
+  padding: 22px;
+  /* colors.ink on colors.white */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 5px 5px 0 #10201d;
+}
+
+.rulesTitle {
+  margin: 0 0 12px;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.rulesColumn[data-kind='do'] .rulesTitle {
+  /* colors.forest */
+  color: #3d5f58;
+}
+
+.rulesColumn[data-kind='dont'] .rulesTitle {
+  /* colors.orangeDeep */
+  color: #b8301f;
+}
+
+.rules {
+  margin: 0;
+  padding-left: 1.2em;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.98rem;
+}
+
+.rules li + li {
+  margin-top: 10px;
+}
+
+.rules li::marker {
+  /* colors.forest */
+  color: #3d5f58;
+}
+
+.rulesColumn[data-kind='dont'] .rules li::marker {
+  /* colors.orangeDeep */
+  color: #b8301f;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .section {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .tileArt {
+    height: 170px;
+  }
+
+  .swatches {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rulesColumns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1700px) {
+  .section {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

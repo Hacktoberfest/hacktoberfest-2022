@@ -1090,6 +1090,296 @@ export const sponsor = {
   },
 };
 
+/* Copy for /brand, the short brand kit.
+
+   Three things and no more: the palette, the type system, and the logos in
+   the three colorways they ship in. Hosts making a poster, sponsors making
+   a slide, and anyone writing about the event get what they need without
+   opening a PDF. The full kit (guidelines, templates, print files) is
+   handed out separately; this page is the part of it people actually come
+   back for.
+
+   Palette hexes are the kit's, which are the site's tokens under their own
+   names (styles/tokens.js) with one exception: Ink here is the logo ink
+   #231F20, the colour every ink logo file is drawn in, rather than the
+   site's slightly greener text ink. A designer sampling a logo and a
+   designer reading this page should get the same number. */
+export const brand = {
+  title: 'Brand Kit | Hacktoberfest 2026',
+  description:
+    'The Hacktoberfest 2026 colors, fonts, and logos, ready to download. Ink, white, and forest green versions of every mark, as SVG.',
+  eyebrow: 'Brand kit',
+  heading: { lead: 'Make it look like', accent: 'Hacktoberfest.' },
+  intro:
+    'The colors, type, and logos for anything you make for Hacktoberfest 2026, whether that is a poster for your Fest or a slide for your sponsors. Everything here is free to use for Hacktoberfest events and coverage.',
+  colors: {
+    eyebrow: 'Colors',
+    heading: { lead: 'Forest first,', accent: 'then the accents.' },
+    intro:
+      'Forest green is the ground everything sits on, with deep forest beneath it. Ink is for text and paper is the light background. The four accents are for emphasis, a little at a time; the hero squares on this site use all four at once, and that is about the limit.',
+    copyHint: 'Click a swatch to copy its hex.',
+    copied: 'Copied',
+    swatches: [
+      {
+        id: 'forest',
+        name: 'Forest',
+        hex: '#3D5F58',
+        role: 'The primary. Backgrounds, the green logo, anything that has to say Hacktoberfest at a glance.',
+        dark: true,
+      },
+      {
+        id: 'forestDeep',
+        name: 'Deep forest',
+        hex: '#2E4742',
+        role: 'The darker green under forest. Page edges, shadows on green, and depth without reaching for ink.',
+        dark: true,
+      },
+      {
+        id: 'ink',
+        name: 'Ink',
+        hex: '#231F20',
+        role: 'Text on light grounds, and the black logo files.',
+        dark: true,
+      },
+      {
+        id: 'paper',
+        name: 'Paper',
+        hex: '#F2F2EB',
+        role: 'The light ground. Warmer than white, so pure white still reads as a highlight on it.',
+        dark: false,
+      },
+      {
+        id: 'sky',
+        name: 'Sky',
+        hex: '#8BB2DE',
+        role: 'The accent that goes on forest: this site’s headings use it for the highlighted half.',
+        dark: false,
+      },
+      {
+        id: 'ochre',
+        name: 'Ochre',
+        hex: '#F5B726',
+        role: 'Warm accent. Labels, badges, small blocks of colour.',
+        dark: false,
+      },
+      {
+        id: 'pink',
+        name: 'Pink',
+        hex: '#E97B77',
+        role: 'The button colour, and the one to reach for when something needs a nudge.',
+        dark: false,
+      },
+      {
+        id: 'orange',
+        name: 'Orange',
+        hex: '#E53927',
+        role: 'The loud one. Use it sparingly and never for body text.',
+        dark: true,
+      },
+      {
+        id: 'maroon',
+        name: 'Maroon',
+        hex: '#671912',
+        role: 'The shadow under the buttons, and a colour for outlines. Too dark to fill an area with.',
+        dark: true,
+      },
+    ],
+  },
+  type: {
+    eyebrow: 'Fonts',
+    heading: { lead: 'Three families,', accent: 'all free.' },
+    intro:
+      'Every typeface is a Google Font under the Open Font License, so it can be installed, embedded, and used commercially with no paperwork. Load them from Google Fonts or download the files from the family page.',
+    families: [
+      {
+        id: 'display',
+        name: 'Barlow Semi Condensed',
+        role: 'Display',
+        use: 'Headlines and anything big. Bold and ExtraBold, tight letter spacing, a little below 1.0 line height.',
+        weights: 'Bold 700, ExtraBold 800',
+        specimen: 'Build in the open.',
+        url: 'https://fonts.google.com/specimen/Barlow+Semi+Condensed',
+      },
+      {
+        id: 'body',
+        name: 'Inter',
+        role: 'Body',
+        use: 'Paragraphs and interface copy, anything that has to be read for more than a line. Regular for text, Bold and ExtraBold for emphasis.',
+        weights: 'Regular 400, Bold 700, ExtraBold 800',
+        specimen:
+          'Hacktoberfest is a month of building with open source AI, at 300+ Fests around the world and one global online event.',
+        url: 'https://fonts.google.com/specimen/Inter',
+      },
+      {
+        id: 'mono',
+        name: 'Martian Mono',
+        role: 'Labels',
+        use: 'Eyebrows, buttons, dates, numbers, and small uppercase labels with a little letter spacing. The whole variable range, 400 to 800.',
+        weights: 'Variable, 400 to 800',
+        specimen: 'OCT 1 – OCT 31 · 300+ FESTS',
+        url: 'https://fonts.google.com/specimen/Martian+Mono',
+      },
+    ],
+    embed: {
+      label: 'One stylesheet loads all three:',
+      href: 'https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@700;800&family=Inter:wght@400;700;800&family=Martian+Mono:wght@400..800&display=swap',
+    },
+  },
+  logos: {
+    eyebrow: 'Logos',
+    heading: { lead: 'Three marks,', accent: 'three colorways.' },
+    intro:
+      'Every logo comes in ink, white, and forest green. Green is the one to reach for; ink is for print and light grounds, white for photos and dark grounds. All files are SVG, so they scale to any size without losing quality.',
+    recommended: 'Recommended',
+    download: 'Download SVG',
+    /* Each mark's `file` is the stem under /brand/logos/; the colorway
+       slug joins it with a hyphen (`hf-mark-forest.svg`). `ratio` is the
+       SVG's viewBox aspect, so the tiles can reserve the right height
+       before the file arrives. */
+    marks: [
+      {
+        id: 'horizontal',
+        name: 'Hacktoberfest 2026',
+        file: 'hacktoberfest-2026-horizontal',
+        use: 'The main logo. Use it wherever there is width for it: banners, slides, headers, the top of a poster.',
+        ratio: 2243 / 215,
+      },
+      {
+        id: 'lockup',
+        name: 'HF26 lockup',
+        file: 'hf26-lockup',
+        use: 'The short form. For square-ish spaces, stickers, and anywhere the full name is already nearby.',
+        ratio: 552 / 214,
+      },
+      {
+        id: 'mark',
+        name: 'HF mark',
+        file: 'hf-mark',
+        use: 'The icon. Avatars, favicons, app tiles, and anything under about 40 pixels wide.',
+        ratio: 229 / 208,
+      },
+    ],
+    colorways: [
+      { id: 'forest', name: 'Forest green', hex: '#3D5F58', ground: 'paper' },
+      { id: 'ink', name: 'Ink', hex: '#231F20', ground: 'paper' },
+      { id: 'white', name: 'White', hex: '#FFFFFF', ground: 'forest' },
+    ],
+  },
+  /* The partners' own marks, served from this site so the download links
+     work, but byte-for-byte the files each partner publishes (MLH at
+     static.mlh.io/brand-assets/logo/official/, DEV at the links on
+     dev.to/brand) and never recoloured: someone else's logo is theirs to
+     define. Each guidelines link is the authority for anything this page
+     does not say. */
+  partners: {
+    eyebrow: 'Partners',
+    heading: { lead: 'Powered by', accent: 'MLH and DEV.' },
+    intro:
+      'Hacktoberfest 2026 is run by MLH with DEV. When their logos sit next to the Hacktoberfest one, on a Fest poster or a sponsor slide, use the official files below exactly as they are and follow each brand\u2019s own guidelines for clear space and placement.',
+    /* Per format, because one DEV file is a PNG (see its note). */
+    download: { svg: 'Download SVG', png: 'Download PNG' },
+    list: [
+      {
+        id: 'mlh',
+        name: 'MLH logo',
+        note: 'Color where you can, black or white where you cannot, grayscale for print in one ink.',
+        guidelines: {
+          label: 'MLH brand guidelines',
+          href: 'https://www.mlh.com/brand-guidelines',
+        },
+        path: '/brand/logos/partners',
+        ratio: 343 / 145,
+        variants: [
+          {
+            id: 'color',
+            name: 'Color',
+            file: 'mlh-logo-color',
+            ground: 'paper',
+          },
+          {
+            id: 'black',
+            name: 'Black',
+            file: 'mlh-logo-black',
+            ground: 'paper',
+          },
+          {
+            id: 'grayscale',
+            name: 'Grayscale',
+            file: 'mlh-logo-grayscale',
+            ground: 'paper',
+          },
+          {
+            id: 'white',
+            name: 'White',
+            file: 'mlh-logo-white',
+            ground: 'forest',
+          },
+        ],
+      },
+      {
+        id: 'dev',
+        name: 'DEV logo',
+        note: 'Write it DEV or dev.to, never DEV.to or Dev.to. The badge is the square; the rectangular version is only for when space is tight.',
+        guidelines: {
+          label: 'DEV brand guidelines',
+          href: 'https://dev.to/brand',
+        },
+        path: '/brand/logos/partners',
+        ratio: 1,
+        variants: [
+          {
+            id: 'black',
+            name: 'Black',
+            file: 'dev-logo-black',
+            ground: 'paper',
+          },
+          /* PNG, not SVG: DEV's rainbow SVG is drawn with square corners,
+             and the PNG is the one with the badge's rounded ones. */
+          {
+            id: 'rainbow',
+            name: 'Rainbow',
+            file: 'dev-logo-rainbow',
+            ext: 'png',
+            ground: 'paper',
+          },
+        ],
+      },
+    ],
+  },
+  /* The brand guidelines' Limitations pages, in the site's voice and
+     for 2026: what the graphics are for, what they are not, and the do
+     and don't lists as the deck lays them out. */
+  rules: {
+    eyebrow: 'Using them',
+    heading: { lead: 'What the brand', accent: 'is for.' },
+    intro:
+      'The Hacktoberfest graphics are for promoting Fests, projects, and posts that are part of Hacktoberfest. They may not go on merchandise or anything for sale, and they do not signal endorsement. Use of the brand is at the Hacktoberfest team\u2019s discretion: if a use is not in the spirit of the event, we may ask you to stop.',
+    dos: {
+      title: 'Do',
+      items: [
+        'Use the logos and colours in any digital promotional graphic for your Fest, project, or post.',
+        'Use the brand assets as provided here, in the three colorways they come in.',
+        'Give a logo clear space on every side of at least the height of the H.',
+        'Write the name as Hacktoberfest, one word, capital H. The year is 2026.',
+        'Credit the partners where you can: powered by MLH and DEV, presented by DigitalOcean. Tag them when you post.',
+        'Open source your designs so others can build on them.',
+      ],
+    },
+    donts: {
+      title: 'Don\u2019t',
+      items: [
+        'Make physical merchandise, such as t-shirts, with the Hacktoberfest design.',
+        'Sell anything that carries the Hacktoberfest graphics.',
+        'Modify the logos: no stretching, rotating, outlining, recolouring outside the three colorways, or adding effects.',
+        'Use the brand to promote events unrelated to Hacktoberfest.',
+        'Change the name itself: not Hacktober, not Hacktober Fest.',
+        'Use the logo to suggest official endorsement, such as on certificates.',
+        'Recolour a partner or sponsor logo to match this palette. Their marks keep their own colours.',
+      ],
+    },
+  },
+};
+
 /* Copy for /schedule, October's online programme as a calendar.
 
    Only the online events: Global Hack Week, workshops, streams, ceremonies,

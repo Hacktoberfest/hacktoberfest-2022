@@ -5,6 +5,7 @@ import {
   aiContext,
   answerLinks,
   answerText,
+  brand,
   faq,
   fests,
   getInvolved,
@@ -61,6 +62,10 @@ const START_HERE = [
   {
     route: '/questions/',
     text: '[FAQs](./questions/): The full set of questions on the mission change, Preptember, Fest formats, hosting, swag, and sponsorship.',
+  },
+  {
+    route: '/brand/',
+    text: '[Brand kit](./brand/): The colors, fonts, and logos, with every logo downloadable in ink, white, and forest green.',
   },
   {
     route: null,
@@ -190,6 +195,33 @@ const llmsFull = () =>
           schedule.intro,
           `${schedule.monthLabel}. ${schedule.festsCallout.title} ${schedule.festsCallout.body} (CTA: ${schedule.festsCallout.cta} — ./fests/)`,
         ]),
+    '## Brand kit',
+    `${brand.eyebrow}. ${headingText(brand.heading)}`,
+    brand.intro,
+    `${brand.colors.eyebrow}: ${brand.colors.swatches
+      .map((swatch) => `${swatch.name} ${swatch.hex}`)
+      .join(', ')}.`,
+    brand.colors.intro,
+    `${brand.type.eyebrow}: ${brand.type.families
+      .map((family) => `${family.name} (${family.role.toLowerCase()})`)
+      .join(', ')}. ${brand.type.intro}`,
+    `${brand.logos.eyebrow}: ${brand.logos.marks
+      .map((mark) => `${mark.name} — ${mark.use}`)
+      .join(
+        ' ',
+      )} ${brand.logos.intro} Files are at ./brand/logos/<mark>-<colorway>.svg, for example ./brand/logos/hf-mark-forest.svg.`,
+    `${brand.partners.eyebrow}: ${headingText(brand.partners.heading)} ${brand.partners.intro}`,
+    brand.partners.list.map(
+      (partner) =>
+        `${partner.name}: ${partner.note} Files at ${partner.path}/${partner.variants
+          .map((variant) => `${variant.file}.${variant.ext || 'svg'}`)
+          .join(
+            ', ',
+          )}, unchanged from the partner's own; guidelines at ${partner.guidelines.href}.`,
+    ),
+    `${brand.rules.eyebrow}: ${headingText(brand.rules.heading)} ${brand.rules.intro}`,
+    `${brand.rules.dos.title}: ${brand.rules.dos.items.join(' ')}`,
+    `${brand.rules.donts.title}: ${brand.rules.donts.items.join(' ')}`,
   );
 
 const write = (name, body) =>

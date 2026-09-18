@@ -23,6 +23,7 @@ export const SITE_PAGES = [
   '/sponsor/',
   '/schedule/',
   '/questions/',
+  '/brand/',
 ];
 
 const sitemap = async () => {
