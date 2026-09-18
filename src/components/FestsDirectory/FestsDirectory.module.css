@@ -1914,7 +1914,8 @@
    run (see FestsMap), because MapLibre removes it instantly otherwise.
    Equal specificity with the format and past rules above, so it must
    stay after them in source order to win while exiting. */
-.mapTag[data-exiting='true'] {
+.mapTag[data-exiting='true'],
+.mapStack[data-exiting='true'] .mapTag {
   translate: 3px 3px;
   box-shadow: 0 0 0 var(--tag-accent);
   transition:
@@ -1926,7 +1927,8 @@
   /* No motion means no motion: the strip appears and disappears in place.
      There is no opacity fallback because the strip never fades anyway. */
   .mapTag,
-  .mapTag[data-exiting='true'] {
+  .mapTag[data-exiting='true'],
+  .mapStack[data-exiting='true'] .mapTag {
     transition: none;
   }
   @starting-style {
@@ -1935,6 +1937,22 @@
       box-shadow: 4px 4px 0 var(--tag-accent);
     }
   }
+}
+
+/* Several strips for several Fests on one spot, opened from a cluster
+   that zooming would not break apart (see FestsMap and lib/festCluster).
+   Stretched to one width so the arrow chips line up down the right edge
+   and the stack reads as one list rather than a pile of tags; the gap
+   leaves each strip's 4px shadow its own room. The exit mark lands on
+   this wrapper, so the exit rules above match its strips through it. */
+.mapStack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.mapStack .mapTagBody {
+  flex: 1;
 }
 
 /* The Fest pins are canvas images now (see FestsMap: they cluster, and

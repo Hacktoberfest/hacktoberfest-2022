@@ -3,8 +3,10 @@ import { useEffect, useRef } from 'react';
 
 import { fests as festsContent } from 'data/content.mjs';
 import { basemapSource } from 'lib/basemapSource.mjs';
+import { clusterAction, festsInCluster } from 'lib/festCluster.mjs';
 import { festDateParts, festIsPast } from 'lib/festDate.mjs';
 import {
+  CLUSTER_SIZE,
   MARKER_SIZE,
   RAISED_ANCHOR_SHIFT,
   circleMarker,
@@ -95,6 +97,14 @@ const SELECTED = 'fest-pin-selected';
    this page. Named rather than inlined so the order is stated once. */
 const WORLD_CENTER = [0, 20];
 const WORLD_ZOOM = 2;
+
+/* How far in the map goes: building level, where a Fest's venue is a shape
+   on the ground. The source keeps clustering to this same zoom (see
+   setUpFests), so two Fests on one spot — two hackathons at one campus
+   building, say — stay a counted blob however far a reader zooms, and
+   the blob opens as a list; they never end up drawn one on top of the
+   other with only the top one clickable. */
+const MAX_ZOOM = 18;
 
 /* Hacktoberfest green. The modal's map takes the colour of the one Fest
    it shows; this map holds every format at once, so it takes the site's
@@ -188,6 +198,18 @@ const popupContent = (fest, isPast, onOpen) => {
   return root;
 };
 
+/* Several Fests on one spot, stacked: one strip each, the same strip a
+   lone pin opens. Opened from a cluster that zooming would not break
+   apart (see lib/festCluster.mjs). */
+const stackContent = (fests, today, onOpen) => {
+  const root = document.createElement('div');
+  root.className = styles.mapStack;
+  fests.forEach((fest) => {
+    root.append(popupContent(fest, festIsPast(fest, today), onOpen));
+  });
+  return root;
+};
+
 /* The exit animation, which MapLibre gives no room for: remove() takes
    the popup out of the DOM in the same tick, so the strip would vanish
    before a frame of its press-in could run. Every close path funnels
@@ -195,9 +217,9 @@ const popupContent = (fest, isPast, onOpen) => {
    the DOM open 130ms for the 110ms press-in, then really remove. A close
    that lands mid-exit is a no-op — the timer already running finishes
    the removal. Entry needs no JS: @starting-style runs on insertion. */
-const animatedPopup = (content) => {
+const animatedPopup = (content, offset = MARKER_SIZE) => {
   const popup = new maplibregl.Popup({
-    offset: MARKER_SIZE,
+    offset,
     closeButton: false,
     maxWidth: 'none',
   }).setDOMContent(content);
@@ -244,6 +266,7 @@ const FestsMap = ({ fests, origin, today, onOpen }) => {
       style,
       center: WORLD_CENTER,
       zoom: WORLD_ZOOM,
+      maxZoom: MAX_ZOOM,
       /* As in the modal: a plain scroll belongs to the page, and this map
          is tall enough that a reader will cross it on the way past. */
       cooperativeGestures: true,
@@ -292,6 +315,22 @@ const FestsMap = ({ fests, origin, today, onOpen }) => {
       setSelected(fest.id);
     };
 
+    /* The list a cluster opens when zooming would not come apart. Nothing
+       is raised: the cluster has no pressed artwork and no one Fest is
+       the chosen one. */
+    const openStack = (fests, coordinates) => {
+      closeStrip();
+      const popup = animatedPopup(
+        stackContent(fests, todayRef.current, (f) => open.current(f)),
+        CLUSTER_SIZE,
+      );
+      popup.setLngLat(coordinates).addTo(m);
+      popup.on('close', () => {
+        if (openPopup.current === popup) openPopup.current = null;
+      });
+      openPopup.current = popup;
+    };
+
     const setUpFests = async () => {
       /* The squares enter the style as images, awaited before the layers
          that name them exist — an <img> decode of our own data URIs, so
@@ -320,6 +359,13 @@ const FestsMap = ({ fests, origin, today, onOpen }) => {
            own pins rather than one continent-sized count. The old 40 was
            swallowing whole regions before the first zoom. */
         clusterRadius: 16,
+        /* Clustered all the way to the map's own limit, rather than the
+           default of stopping one zoom short of the source's: past that
+           point coincident Fests would unmerge into pins drawn on the
+           same pixel. The source's maxzoom has to sit one above, which
+           the map never asks for. */
+        clusterMaxZoom: MAX_ZOOM,
+        maxzoom: MAX_ZOOM + 1,
       });
 
       m.addLayer({
@@ -376,13 +422,24 @@ const FestsMap = ({ fests, origin, today, onOpen }) => {
 
       m.on('click', CLUSTERS, async (event) => {
         const feature = event.features[0];
+        const source = m.getSource(SOURCE);
+        const { cluster_id: clusterId, point_count: count } =
+          feature.properties;
         /* Zoom to just past where this cluster breaks apart, centred on
            it — the standard gesture, and the whole reason a blob with a
-           number on it is not a dead end. */
-        const zoom = await m
-          .getSource(SOURCE)
-          .getClusterExpansionZoom(feature.properties.cluster_id);
-        m.easeTo({ center: feature.geometry.coordinates, zoom });
+           number on it is not a dead end. Unless it would be one: a
+           cluster that only comes apart past street level opens as a
+           list of its Fests instead. */
+        const zoom = await source.getClusterExpansionZoom(clusterId);
+        if (clusterAction(zoom) === 'zoom') {
+          m.easeTo({ center: feature.geometry.coordinates, zoom });
+          return;
+        }
+        const leaves = await source.getClusterLeaves(clusterId, count, 0);
+        openStack(
+          festsInCluster(leaves, festsRef.current),
+          feature.geometry.coordinates,
+        );
       });
 
       m.on('click', PINS, (event) => {
