@@ -687,7 +687,7 @@ export const fests = {
     mlhMemberEvent:
       'Each year, Major League Hacking partners with hundreds of student hackathons around the world. This year, for the first time, we’re bringing Hacktoberfest swag and stickers to every one of them taking place in October, while supplies last. There are no Hacktoberfest prize categories at these hackathons, but we still encourage you to build with open-source and open-weight models.',
     popup:
-      'A conference or community event where Hacktoberfest is showing up: stickers, swag, and people to talk to. It isn’t a Hacktoberfest Fest — there’s no Hack Day or Meetup programme and no Hacktoberfest prize categories — and tickets are the event’s own.',
+      'A conference or community event Hacktoberfest has partnered with: stickers, swag, and people to talk to. The event runs its own format and sets its own registration, and Hacktoberfest prize categories aren’t guaranteed.',
   },
   /* A Member Event's button. It opens the hackathon's own website, which
      is where its admission happens, so the verb is visit and the label
@@ -735,16 +735,20 @@ export const fests = {
      selected, and nowhere else. No link: a Pop-Up's own website is on its
      card's modal, and there is no season page to point at. */
   popupNotice: {
-    title: 'Pop-Ups are where Hacktoberfest shows up at someone else’s event.',
-    body: 'Conferences and community gatherings we’ll be at in October, with stickers, swag, and people to talk to. They’re not Hacktoberfest Fests: there’s no Hack Day or Meetup programme, no Hacktoberfest prize categories, and admission is the event’s own.',
+    title: 'Hacktoberfest is popping up at partner events this October.',
+    body: 'These are conferences and community gatherings we’ve partnered with. Look for the Hacktoberfest table for stickers, swag, and people to talk to. A few things to know before you go:',
     points: [
       {
-        lead: 'Tickets are through the event itself.',
-        rest: 'Follow the link to register or buy a pass.',
+        lead: 'Registration is set by each event.',
+        rest: 'Some are free, some sell tickets, and some need an application. Follow the link and register the way the event asks.',
       },
       {
-        lead: 'Come find us.',
-        rest: 'Each listing says where to look.',
+        lead: 'Swag and stickers',
+        rest: 'are available while supplies last.',
+      },
+      {
+        lead: 'Every Pop-Up runs its own way.',
+        rest: 'The schedule is the event’s own, so what’s happening on the day, and whether Hacktoberfest prize categories are part of it, is down to the host. Check the listing before you go.',
       },
     ],
   },
