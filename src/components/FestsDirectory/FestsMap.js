@@ -313,10 +313,13 @@ const FestsMap = ({ fests, origin, today, onOpen }) => {
         type: 'geojson',
         data: festsAsGeojson(festsRef.current, todayRef.current),
         cluster: true,
-        /* Pixels within which pins merge. 40 comfortably catches a city's
-           worth of Fests at street zooms and lets continents separate by
-           the first zoom or two. */
-        clusterRadius: 40,
+        /* Pixels within which pins merge. Just under a pin's own width,
+           so two Fests only become a blob once their squares would
+           actually sit on top of each other: a city's worth still merge
+           at world zoom, but neighbouring cities and countries stay their
+           own pins rather than one continent-sized count. The old 40 was
+           swallowing whole regions before the first zoom. */
+        clusterRadius: 16,
       });
 
       m.addLayer({
