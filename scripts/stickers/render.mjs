@@ -1,25 +1,28 @@
 #!/usr/bin/env node
 /* Draws public/stickers/<slug>.svg for every sticker from the placeholder
    glyphs (src/data/stickerGlyphs.mjs): a 200-unit square, the type's
-   ground as a full circle for a sticker or a shape of its own for a
+   ground as a full hexagon for a sticker or a shape of its own for a
    reward that is not one, the glyph in the ground's ink. Run with
-   `npm run stickers:render`. A designer's illustrated file replaces one
-   of these and the script leaves it alone unless run with --force. */
+   `npm run stickers:render`. A designed file (scripts/stickers/design,
+   written by `npm run stickers:figma -- --site`) replaces one of these
+   and the script never touches it, --force or not; an undesigned slug's
+   placeholder is kept unless run with --force. */
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 import { ACTIVITIES, REQUIRED_STICKERS } from '../../src/data/eligibility.mjs';
 import { GLYPHS } from '../../src/data/stickerGlyphs.mjs';
 import { REWARD_STICKERS } from '../../src/lib/stickerImage.mjs';
+import { CATALOGUE } from './design/catalogue.mjs';
 
 /* Grounds by type, the values Album.module.css draws with. colors.forest /
    ink / sky / orange / rule / pink / ochre / white */
 const GROUNDS = {
   required: { fill: '#3d5f58', ink: '#f7f7f2' },
-  dev: { fill: '#10201d', ink: '#f7f7f2' },
+  dev: { fill: '#f5b726', ink: '#10201d' },
   livestreams: { fill: '#8bb2de', ink: '#10201d' },
   ghw: { fill: '#e53927', ink: '#10201d' },
-  tools: { fill: '#8ca59e', ink: '#10201d' },
+  tools: { fill: '#671912', ink: '#f7f7f2' },
   inperson: { fill: '#e97b77', ink: '#10201d' },
   pack: { fill: '#f5b726', ink: '#10201d' },
   complete: { fill: 'url(#holo)', ink: '#10201d' },
@@ -33,17 +36,24 @@ const HOLO = `<defs><linearGradient id="holo" x1="0" y1="0" x2="1" y2="1"><stop 
 const STROKE = 'fill="none" stroke="currentColor" stroke-width="2"';
 const ROUND = 'stroke-linejoin="round"';
 
-/* The grounds. A sticker is the full circle. The inventory's other things
-   are not stickers, so not circles: a pack (a square envelope with a
-   flap), a tile (a rounded square), a badge (a hexagon), a card (a
-   landscape rectangle with a seal). Each draws its own ink edge, since
-   the album's circular border and outline are for stickers only, and
-   says where the glyph sits. colors.ink / white / ochre */
+/* The grounds. A sticker is the full hexagon, pointy end up, the square's
+   whole height and cos 30° of its width: its six corners at (100, 0),
+   (186.6, 50), (186.6, 150), (100, 200), (13.4, 150), (13.4, 50), the
+   same six the CSS modules on /my clip the slot to (Album.module.css and
+   the modules that restate it), so the file's edge and the page's edge
+   are one hexagon. The inventory's other things are not stickers, so not
+   hexagons of that kind: a pack (a square envelope with a flap), a tile
+   (a rounded square), a badge (a smaller hexagon with an ink edge), a
+   card (a landscape rectangle with a seal). Each draws its own ink edge,
+   since the album's border and outline are for stickers only, and says
+   where the glyph sits. colors.ink / white / ochre */
 const INK = '#10201d';
 const EDGE = `stroke="${INK}" stroke-width="4" stroke-linejoin="round"`;
+export const HEXAGON =
+  'M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z';
 const SHAPES = {
-  circle: {
-    ground: (fill) => `<circle cx="100" cy="100" r="100" fill="${fill}"/>`,
+  hexagon: {
+    ground: (fill) => `<path d="${HEXAGON}" fill="${fill}"/>`,
     glyph: { x: 42, y: 42, size: 116 },
   },
   pack: {
@@ -70,7 +80,7 @@ const SHAPES = {
   },
 };
 
-export const stickerSvg = ({ art, ground, shape = 'circle' }) => {
+export const stickerSvg = ({ art, ground, shape = 'hexagon' }) => {
   const glyph = GLYPHS[art];
   const colours = GROUNDS[ground];
   const form = SHAPES[shape];
@@ -82,7 +92,9 @@ export const stickerSvg = ({ art, ground, shape = 'circle' }) => {
     .filter(Boolean)
     .join(' ');
   const { x, y, size } = form.glyph;
-  // A sticker's glyph sits at 58% of the circle (116 of 200), centred.
+  // A sticker's glyph sits at 58% of the hexagon (116 of 200), centred:
+  // its box's corners are 82 from the middle, inside the 86.6 the
+  // hexagon's flat sides come to.
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">`,
     ground === 'complete' ? HOLO : '',
@@ -108,8 +120,10 @@ const main = async () => {
     ...ACTIVITIES.map((a) => ({ id: a.id, art: a.art, ground: a.type })),
     ...REWARD_STICKERS,
   ];
+  const designed = new Set(CATALOGUE.map((entry) => entry.slug));
   let written = 0;
   for (const sticker of all) {
+    if (designed.has(sticker.id)) continue;
     const file = new URL(`${sticker.id}.svg`, dir);
     if (!force) {
       try {
@@ -122,7 +136,9 @@ const main = async () => {
     await writeFile(file, stickerSvg(sticker));
     written += 1;
   }
-  console.log(`stickers: ${written} drawn, ${all.length - written} kept`);
+  console.log(
+    `stickers: ${written} drawn, ${all.length - designed.size - written} kept, ${designed.size} designed`,
+  );
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) main();

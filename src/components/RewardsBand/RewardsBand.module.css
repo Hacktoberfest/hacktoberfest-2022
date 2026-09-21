@@ -158,8 +158,13 @@
   margin-top: 8px;
 }
 
-/* The die-cut slot and the sticker in it, as the sticker book draws them. */
+/* The die-cut slot and the sticker in it, as the sticker book draws them
+   (Album.module.css, where the hexagon's geometry is explained): the
+   dashed ring as an image, the ink outline and the white border as two
+   clipped layers under the picture, the cast shadow as a drop-shadow on
+   the unclipped box. */
 .slot {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
   position: relative;
   width: 72px;
   height: 72px;
@@ -167,13 +172,13 @@
   align-self: center;
 }
 
+/* colors.rule, in the image */
 .slot::before {
   content: '';
   position: absolute;
   inset: 3px;
-  border-radius: 50%;
-  /* colors.rule */
-  border: 1.5px dashed #8ca59e;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%238ca59e' stroke-width='4.5' stroke-dasharray='10 7'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
 }
 
 .sticker {
@@ -181,26 +186,40 @@
   inset: 0;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  /* colors.white */
-  border: 3px solid #f7f7f2;
-  /* colors.ink */
-  outline: 2px solid #10201d;
-  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
+  isolation: isolate;
+  padding: 5.8px;
+  filter: drop-shadow(0 2px 0 rgba(16, 32, 29, 0.25));
   transition:
     transform 0.18s ease,
-    box-shadow 0.18s ease;
+    filter 0.18s ease;
+}
+
+/* The ink outline, the whole slot clipped, and the white border 2.3px
+   in, the picture 3.5px inside that. colors.ink / white */
+.sticker::before,
+.sticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.sticker::after {
+  inset: 2.3px;
+  background: #f7f7f2;
 }
 
 /* The reward's picture, the whole sticker: public/stickers/<slug>.svg
-   carries the ground and the glyph, so it fills the slot edge to edge and
-   the element behind it only draws the border, the outline and the
-   shadow. */
+   carries the ground and the glyph, a hexagon on a clear square, so it
+   fills the sticker's content box edge to edge over the two rings, and
+   the element behind it only draws the rings and the shadow. */
 .stickerImage {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
 }
 
 /* Earned: peeled off the slot, at an angle, with the heavier shadow of a
@@ -210,17 +229,17 @@
 .card[data-earned='true'] .sticker {
   --lean: -9deg;
   transform: rotate(var(--lean));
-  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
 }
 
 .card:nth-child(2)[data-earned='true'] .sticker {
   --lean: 6deg;
-  box-shadow: 3px 6px 0 rgba(16, 32, 29, 0.35);
+  filter: drop-shadow(3px 6px 0 rgba(16, 32, 29, 0.35));
 }
 
 .card:nth-child(3)[data-earned='true'] .sticker {
   --lean: -5deg;
-  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
 }
 
 /* A milestone reached just now (lib/justEarned.mjs, data-just-earned):
@@ -236,9 +255,9 @@
   position: absolute;
   inset: -2px;
   z-index: 0;
-  border-radius: 50%;
-  /* colors.ink */
-  border: 3px solid #10201d;
+  /* colors.ink, in the image: the slot's hexagon as a 3px ring */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%2310201d' stroke-width='8'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
   opacity: 0;
   pointer-events: none;
   animation: burst 0.7s ease-out 0.6s both;
@@ -307,11 +326,17 @@
 
 /* Not yet earned: the slot goes pale and quiet and the picture drains to
    a faint grey ghost of itself, as the book's unearned stickers do
-   (Album.module.css). colors.paperDeep / rule */
+   (Album.module.css). colors.rule / paperDeep */
 .card:not([data-earned='true']) .sticker {
+  filter: none;
+}
+
+.card:not([data-earned='true']) .sticker::before {
+  background: #8ca59e;
+}
+
+.card:not([data-earned='true']) .sticker::after {
   background: #e4e5da;
-  outline-color: #8ca59e;
-  box-shadow: none;
 }
 
 .card:not([data-earned='true']) .stickerImage {
@@ -361,29 +386,49 @@
   gap: 6px;
 }
 
+/* A pip is the slot at pip size: the same hexagon, dashed while empty,
+   the ring drawn as an image (colors.rule, 2px of a 26px pip). */
 .pip {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
   display: grid;
   width: 26px;
   height: 26px;
   place-items: center;
-  border-radius: 50%;
-  /* colors.rule */
-  border: 2px dashed #8ca59e;
+  isolation: isolate;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 9 L178.8 54.5 L178.8 145.5 L100 191 L21.2 145.5 L21.2 54.5 Z' fill='none' stroke='%238ca59e' stroke-width='15' stroke-dasharray='22 16'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
 }
 
-/* A filled pip is the sticker's own picture at pip size, ground and all;
+/* A filled pip is the sticker's own picture at pip size, ground and all,
+   over the sticker's two rings scaled down (1.5px of ink, 2px of white);
    an empty one keeps the dashed ring and nothing in it. */
 .pip img {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
 }
 
 .pipOn {
-  /* colors.white / ink */
-  border: 2px solid #f7f7f2;
-  outline: 1.5px solid #10201d;
+  padding: 4px;
+  background: none;
+}
+
+/* colors.ink / white */
+.pipOn::before,
+.pipOn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.pipOn::after {
+  inset: 1.7px;
+  background: #f7f7f2;
 }
 
 .meterLabel {

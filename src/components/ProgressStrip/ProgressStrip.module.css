@@ -42,8 +42,8 @@
   box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
 }
 
-/* colors.sky / orange / pink / ink / rule, the sticker grounds on
-   ActivityCard */
+/* colors.sky / orange / pink / ochre / maroon, the sticker grounds the
+   book draws with */
 .type_livestreams {
   --slot-fill: #8bb2de;
 }
@@ -54,10 +54,10 @@
   --slot-fill: #e97b77;
 }
 .type_dev {
-  --slot-fill: #10201d;
+  --slot-fill: #f5b726;
 }
 .type_tools {
-  --slot-fill: #8ca59e;
+  --slot-fill: #671912;
 }
 
 .count {

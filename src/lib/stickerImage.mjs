@@ -14,7 +14,7 @@ export const REWARD_STICKERS = Object.freeze([
     ground: 'completionist',
   }),
   /* The inventory's things (lib/inventory.mjs): drawn as themselves, not
-     as stickers, so not circles. `shape` picks the ground the script
+     as stickers, so not hexagons. `shape` picks the ground the script
      draws (scripts/stickers/render.mjs). One file per item slug the
      frontend knows, plus a generic per kind for a slug it does not. Same
      files, same script, same seam for a designer's export. */

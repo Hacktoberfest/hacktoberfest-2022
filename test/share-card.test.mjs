@@ -66,8 +66,8 @@ test('inlineSticker drops the outer tags and keeps everything inside', () => {
   );
   assert.ok(inlined.endsWith('</svg>'));
   assert.ok(inlined.includes('<defs>'));
-  assert.ok(inlined.includes('id="holo"'));
-  assert.ok(inlined.includes('<circle cx="100" cy="100" r="100"'));
+  assert.ok(inlined.includes('id="ground-milestone-complete"'));
+  assert.ok(inlined.includes('<path d="M100 0 L186.6 50 L186.6 150'));
   assert.ok(!inlined.includes('xmlns='));
   assert.equal(count(inlined, '</svg>'), count(HOLO, '</svg>'));
 });

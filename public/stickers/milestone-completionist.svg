@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-<circle cx="100" cy="100" r="100" fill="#10201d"/>
-<svg x="42" y="42" width="116" height="116" viewBox="0 0 24 24" color="#f7f7f2" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 4h10v5a5 5 0 0 1-10 0z" /><path d="M7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3M12 14v4M8 21h8M9 18h6" /></svg>
+<defs><linearGradient id="ground-milestone-completionist" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#8bb2de"/><stop offset="0.50" stop-color="#3d5f58"/><stop offset="1.00" stop-color="#10201d"/></linearGradient></defs>
+<path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="url(#ground-milestone-completionist)"/>
+<g transform="translate(46.00 46.00) scale(4.50)" fill="none" stroke="#10201d" stroke-width="2.40" stroke-linejoin="round"><path d="M19 19h-14c-.5 0 -.9 -.3 -1 -.8l-2 -10c0 -.4 .1 -.8 .5 -1.1c.4 -.2 .8 -.2 1.1 0l4.1 3.3l3.4 -5.1c.4 -.6 1.3 -.6 1.7 0l3.4 5.1l4.1 -3.3c.3 -.3 .8 -.3 1.1 0c.4 .2 .5 .6 .5 1.1l-2 10c0 .5 -.5 .8 -1 .8z"/></g>
+<g transform="translate(46.00 46.00) scale(4.50)" fill="#f7f7f2"><path d="M19 19h-14c-.5 0 -.9 -.3 -1 -.8l-2 -10c0 -.4 .1 -.8 .5 -1.1c.4 -.2 .8 -.2 1.1 0l4.1 3.3l3.4 -5.1c.4 -.6 1.3 -.6 1.7 0l3.4 5.1l4.1 -3.3c.3 -.3 .8 -.3 1.1 0c.4 .2 .5 .6 .5 1.1l-2 10c0 .5 -.5 .8 -1 .8z"/></g>
 </svg>

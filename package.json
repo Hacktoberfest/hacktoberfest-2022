@@ -18,7 +18,8 @@
     "test:integration": "npm run build && node --test test/typeform-pages.test.mjs test/llms-content.test.mjs test/fests-page.test.mjs test/host-page.test.mjs test/questions-page.test.mjs test/my-pages.test.mjs test/fest-dashboard-page.test.mjs test/sponsor-page.test.mjs test/banner-pages.test.mjs test/schedule-page.test.mjs test/header-pages.test.mjs test/activities-page.test.mjs",
     "prepare": "node .husky/install.mjs",
     "prestart": "node scripts/check-build-mode.mjs",
-    "stickers:render": "node scripts/stickers/render.mjs"
+    "stickers:render": "node scripts/stickers/render.mjs",
+    "stickers:figma": "node scripts/stickers/design/build.mjs"
   },
   "repository": {
     "type": "git",

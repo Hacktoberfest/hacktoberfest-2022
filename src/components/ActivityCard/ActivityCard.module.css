@@ -24,20 +24,25 @@
 }
 
 /* The die-cut slot the sticker sits in. When the sticker peels the dashed
-   ring is what shows behind it. */
+   ring is what shows behind it. The sticker is a hexagon, drawn the way
+   the sticker book draws it (Album.module.css, where the geometry is
+   explained): the dashed ring as an image, the ink outline and the white
+   border as two clipped layers under the picture, the cast shadow as a
+   drop-shadow on the unclipped box. */
 .slot {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
   position: relative;
   width: 72px;
   height: 72px;
 }
 
+/* colors.rule, in the image */
 .slot::before {
   content: '';
   position: absolute;
   inset: 3px;
-  border-radius: 50%;
-  /* colors.rule */
-  border: 1.5px dashed #8ca59e;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%238ca59e' stroke-width='4.5' stroke-dasharray='10 7'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
 }
 
 .sticker {
@@ -45,26 +50,40 @@
   inset: 0;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  /* colors.white */
-  border: 3px solid #f7f7f2;
-  /* colors.ink */
-  outline: 2px solid #10201d;
-  box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
+  isolation: isolate;
+  padding: 5.8px;
+  filter: drop-shadow(0 2px 0 rgba(16, 32, 29, 0.25));
   transition:
     transform 0.18s ease,
-    box-shadow 0.18s ease;
+    filter 0.18s ease;
+}
+
+/* The ink outline, the whole slot clipped, and the white border 2.3px
+   in, the picture 3.5px inside that. colors.ink / white */
+.sticker::before,
+.sticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.sticker::after {
+  inset: 2.3px;
+  background: #f7f7f2;
 }
 
 /* The sticker's picture, the whole sticker: public/stickers/<slug>.svg
-   carries the ground and the glyph, so it fills the slot edge to edge and
-   the element behind it only draws the border, the outline and the
-   shadow. */
+   carries the ground and the glyph, a hexagon on a clear square, so it
+   fills the sticker's content box edge to edge over the two rings, and
+   the element behind it only draws the rings and the shadow. */
 .stickerImage {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
 }
 
 .card:hover .sticker {
@@ -76,7 +95,7 @@
 .card[data-earned='true'] .sticker,
 .card[data-earned='true']:hover .sticker {
   transform: rotate(-9deg) translate(6px, -6px);
-  box-shadow: -3px 6px 0 rgba(16, 32, 29, 0.35);
+  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
 }
 
 .earnedTab {
@@ -152,14 +171,15 @@
   background: #f6c4c1;
   color: #b8301f;
 }
-/* DEV Challenges: ink, DEV's own black and the colour its tab in the
-   sticker book wears. colors.ink / white */
+/* DEV Challenges: ochre, the colour its tab in the sticker book wears
+   (the stickers keep the black-and-white DEV mark, so their ground is
+   not DEV's black). colors.ochreDeep / ochre tint */
 .card.type_dev {
-  --card-accent: #10201d;
+  --card-accent: #8a5d13;
 }
 .type.type_dev {
-  background: #10201d;
-  color: #f7f7f2;
+  background: #fbe7bb;
+  color: #8a5d13;
 }
 /* The two required stickers in the sticker book on /my: the ink tag the
    milestone tag wears. colors.ink / white */
@@ -167,13 +187,14 @@
   background: #10201d;
   color: #f7f7f2;
 }
-/* colors.rule / paperDeep / forestDeep / inkSoft */
+/* Tools: maroon, the colour its tab in the sticker book wears.
+   colors.maroon / white */
 .card.type_tools {
-  --card-accent: #2e4742;
+  --card-accent: #671912;
 }
 .type.type_tools {
-  background: #e4e5da;
-  color: #284b44;
+  background: #671912;
+  color: #f7f7f2;
 }
 
 .cardTitle {

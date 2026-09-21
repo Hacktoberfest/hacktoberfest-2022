@@ -15,8 +15,8 @@ export const statusLabel = (item) =>
    than once (a certificate per Fest); and one line saying which kind of
    thing it is. A thing on DEV with no DEV account linked asks for the
    connection. Only earned things are drawn. A sticker sits
-   in the book's die-cut circle; anything else is drawn as itself, since
-   circles are for stickers. NEW on the corner while the thing is new and
+   in the book's die-cut hexagon; anything else is drawn as itself, since
+   hexagons are for stickers. NEW on the corner while the thing is new and
    unopened. A button in a listbox; the name carries the line too, so a
    screen reader hears it. */
 const Slot = ({ item, selected, isNew, onPick }) => {

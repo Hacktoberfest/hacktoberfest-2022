@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-<circle cx="100" cy="100" r="100" fill="#8bb2de"/>
-<svg x="42" y="42" width="116" height="116" viewBox="0 0 24 24" color="#10201d" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="1" /><path d="M8 20h8M12 16v4" /></svg>
+<path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="#8bb2de"/>
+<path d="M13.4 148 L186.6 148 L186.6 150 L100 200 L13.4 150 Z" fill="#10201d"/>
+<g transform="translate(46.00 34.00) scale(4.50)" fill="none" stroke="#10201d" stroke-width="2.40" stroke-linejoin="round"><path d="M8.707 2.293l3.293 3.292l3.293 -3.292a1 1 0 0 1 1.32 -.083l.094 .083a1 1 0 0 1 0 1.414l-2.293 2.293h4.586a3 3 0 0 1 3 3v9a3 3 0 0 1 -3 3h-14a3 3 0 0 1 -3 -3v-9a3 3 0 0 1 3 -3h4.585l-2.292 -2.293a1 1 0 0 1 1.414 -1.414"/></g>
+<g transform="translate(46.00 34.00) scale(4.50)" fill="#f7f7f2"><path d="M8.707 2.293l3.293 3.292l3.293 -3.292a1 1 0 0 1 1.32 -.083l.094 .083a1 1 0 0 1 0 1.414l-2.293 2.293h4.586a3 3 0 0 1 3 3v9a3 3 0 0 1 -3 3h-14a3 3 0 0 1 -3 -3v-9a3 3 0 0 1 3 -3h4.585l-2.292 -2.293a1 1 0 0 1 1.414 -1.414"/></g>
+<path d="M87.18 158.50 L90.35 164.00 L87.18 169.50 L80.82 169.50 L77.65 164.00 L80.82 158.50 Z" fill="#f7f7f2"/><path d="M103.18 158.50 L106.35 164.00 L103.18 169.50 L96.82 169.50 L93.65 164.00 L96.82 158.50 Z" fill="#f7f7f2"/><path d="M119.18 158.50 L122.35 164.00 L119.18 169.50 L112.82 169.50 L109.65 164.00 L112.82 158.50 Z" fill="#f7f7f2"/>
 </svg>

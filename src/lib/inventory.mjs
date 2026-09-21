@@ -14,7 +14,7 @@
 
    A thing is one of two kinds, physical (a sticker, the pack, a T-shirt)
    or digital (a badge, a certificate), and it is earned or it is not.
-   `sticker` says whether it is drawn as one: circles are for stickers.
+   `sticker` says whether it is drawn as one: hexagons are for stickers.
 
    Relative imports, matching the rest of lib/: Node resolves this file
    directly and never sees jsconfig's baseUrl alias. */

@@ -1,0 +1,9 @@
+<!--
+Tabler's outline rocket (https://tabler.io/icons/icon/rocket, MIT), drawn
+filled by hand since Tabler ships no filled rocket: the body closed and
+filled with the window cut out (even-odd), the flame closed and filled.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" fill-rule="evenodd">
+  <path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3z M14 9a1 1 0 1 0 2 0a1 1 0 1 0 -2 0z" />
+  <path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3z" />
+</svg>

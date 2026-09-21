@@ -33,18 +33,29 @@ test('the slug list is the catalogue, the required pair, and the rewards', () =>
   assert.throws(() => stickerImageSrc(null));
 });
 
-/* Circles are for stickers. The inventory's other things wear shapes of
-   their own, so their files must not be the sticker's full circle. */
-test('only the stickers are drawn as circles', async () => {
+/* Hexagons are for stickers: the full pointy-top hexagon the render
+   script draws, the shape the CSS modules on /my clip to. The inventory's
+   other things wear shapes of their own, so their files must not be it,
+   and no file may still be the circle the stickers used to be. */
+test('only the stickers are drawn as hexagons', async () => {
   const read = (slug) =>
     readFile(
       new URL(`../public/stickers/${slug}.svg`, import.meta.url),
       'utf8',
     );
+  const hexagon =
+    /<path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z"/;
   const circle = /<circle cx="100" cy="100" r="100"/;
-  assert.match(await read('milestone-complete'), circle);
-  assert.match(await read('fest'), circle);
+  assert.match(await read('milestone-complete'), hexagon);
+  assert.match(await read('fest'), hexagon);
   for (const slug of ['reward-pack', 'reward-physical', 'reward-digital']) {
+    assert.doesNotMatch(
+      await read(slug),
+      hexagon,
+      `${slug} is a sticker's hexagon`,
+    );
+  }
+  for (const slug of STICKER_IMAGE_SLUGS) {
     assert.doesNotMatch(await read(slug), circle, `${slug} is a circle`);
   }
 });
