@@ -36,6 +36,15 @@
   line-height: 1.55;
 }
 
+/* The line under the book, small and quiet, clear of the book's shadow.
+   colors.muted */
+.disclaimer {
+  margin: 18px 0 0;
+  color: #52635f;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
 /* The book: one card in the homepage grammar (ink border, white paper,
    maroon hard shadow). Tabs, the open page, and the spine are its three
    regions. The right margin gives the shadow room, as the strip and the

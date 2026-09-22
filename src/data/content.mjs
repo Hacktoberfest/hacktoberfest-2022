@@ -2226,6 +2226,10 @@ export const my = {
        the spine's; the state is the hero's. */
     intro:
       'This Hacktoberfest, you earn a virtual sticker for every challenge you complete, from open source to open-weight AI. Collect enough and you unlock rewards.',
+    /* Under the book: the lag between doing a thing and seeing its
+       sticker, said once so nobody refreshes for an hour. */
+    disclaimer:
+      'Stickers may take up to 12 hours to be marked as earned after completing an activity.',
     tabsLabel: 'Sticker book pages',
     tabCount: (earned, total) => `${earned} of ${total}`,
     /* Two pages wear a mark instead of their name at their head

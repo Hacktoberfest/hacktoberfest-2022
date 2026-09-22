@@ -11,7 +11,9 @@
 .band {
   width: min(calc(100% - 30px), 1280px);
   margin-inline: auto;
-  padding-block: 72px 8px;
+  /* The same top room as the other bands: this one used to open the
+     page under the hero, and now sits between the book and the locker. */
+  padding-block: 40px 8px;
 }
 
 .heading {

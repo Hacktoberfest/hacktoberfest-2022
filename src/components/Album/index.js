@@ -216,6 +216,7 @@ const Album = ({ experience, justEarned }) => {
           </a>
         </div>
       </div>
+      <p className={styles.disclaimer}>{my.album.disclaimer}</p>
       {/* Mounted for the whole life of the book and opened by its
           `share` prop, the way the Fest modal is: that is what lets its
           exit animation play. */}
