@@ -2234,7 +2234,7 @@ export const my = {
     /* The spine along the bottom: the book's count and the way to the
        public catalogue. */
     spine: {
-      count: (earned, total) => `${earned} of ${total} in the book`,
+      count: (earned, total) => `${earned} of ${total} stickers earned`,
       detailCta: 'See every activity',
     },
   },
@@ -2300,7 +2300,7 @@ export const my = {
      and what it needs. The intro changes with the level. `n` is the
      activity count Milestone 2 asks for (thresholds.complete). */
   rewards: {
-    heading: { lead: 'Your', accent: 'rewards.' },
+    heading: { lead: 'Your', accent: 'progress.' },
     intro: {
       pending: (n) =>
         `Two stickers you earn by earning stickers. Any one activity sticker puts the pack in the mail; ${n} activity stickers unlocks the bonus holographic sticker, and that is Hacktoberfest complete.`,
@@ -2374,7 +2374,7 @@ export const my = {
      /api/me/items): their names, their two facts, their call to action.
      Only the words around them live here. */
   inventory: {
-    heading: { lead: 'Your', accent: 'inventory.' },
+    heading: { lead: 'Your', accent: 'rewards.' },
     intro: {
       empty:
         'Nothing in it yet. Your first activity sticker, with the two required ones, earns the pack.',
@@ -2394,11 +2394,11 @@ export const my = {
         note: 'The thing you picked, and what to do about it.',
       },
     },
-    /* No number of slots is ever said: the locker holds whatever October
-       put in it, and the empties are room, not a count. */
-    count: (things) => `${things} ${things === 1 ? 'thing' : 'things'}`,
-    room: 'Room for more. The next activity sticker adds to it.',
-    full: 'Full. There is nothing left to earn this year.',
+    /* The spine's one line. No number of slots is ever said: the locker
+       holds whatever October put in it, and the empties are room, not a
+       count. */
+    count: (things) =>
+      `${things} ${things === 1 ? 'reward' : 'rewards'} earned`,
     /* The right page with nothing picked: nothing is earned yet. */
     nothing:
       'Nothing in it yet. Your first activity sticker, with the two required ones, earns the pack.',

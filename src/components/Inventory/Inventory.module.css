@@ -106,7 +106,6 @@
 }
 
 /* The mono label the site uses for its small words. */
-.count,
 .tag,
 .stamp,
 .facts dt {
@@ -117,13 +116,6 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.count {
-  font-size: 0.62rem;
-  /* colors.muted */
-  color: #52635f;
-  font-variant-numeric: tabular-nums;
 }
 
 /* The cells: the book's perforated grid, five across (six once the

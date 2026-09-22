@@ -151,9 +151,6 @@ const Inventory = ({ experience, justEarned }) => {
           <span className={styles.spineCount}>
             {my.inventory.count(earnedCount)}
           </span>
-          <span className={styles.count}>
-            {earnable ? my.inventory.room : my.inventory.full}
-          </span>
         </div>
       </div>
     </section>

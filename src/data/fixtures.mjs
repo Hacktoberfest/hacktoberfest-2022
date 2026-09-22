@@ -391,6 +391,22 @@ export const SCENARIOS = Object.freeze({
         earned: false,
         earnedAt: null,
       },
+      /* The host's certificate of appreciation, one per Fest hosted, as
+         the API keys it: by the event, with the Fest as the variant. */
+      {
+        id: 'fest-host-certificate-2026',
+        name: 'Fest host certificate',
+        kind: 'digital',
+        earnedBy: 'Hosting an in-person Fest',
+        getsToYou:
+          'A certificate of appreciation with your name, the Fest and the date, one for every Fest you host.',
+        cta: null,
+        requiresDevLink: false,
+        key: 'fest-london',
+        variant: { title: 'Hacktober Fest London', date: '2026-08-01' },
+        earned: true,
+        earnedAt: '2026-08-01T09:00:00.000Z',
+      },
     ],
     fests: [
       /* Co-branded, the way MLH actually names a partnered Fest: the

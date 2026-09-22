@@ -196,8 +196,12 @@ test('the locker opens on what is new, else the newest earned thing, else nothin
   assert.equal(openingSlot([], new Set()), null);
 });
 
-test('the fixtures carry the real catalogue only: the pack, and the Fest certificate where a Fest was attended', () => {
-  const real = new Set(['sticker-pack-2026', 'fest-certificate-2026']);
+test('the fixtures carry the real catalogue only: the pack, and the Fest certificates where a Fest was attended or hosted', () => {
+  const real = new Set([
+    'sticker-pack-2026',
+    'fest-certificate-2026',
+    'fest-host-certificate-2026',
+  ]);
   for (const [name, scenario] of Object.entries(SCENARIOS)) {
     if (!Array.isArray(scenario.items)) continue;
     assert.ok(
@@ -210,6 +214,11 @@ test('the fixtures carry the real catalogue only: the pack, and the Fest certifi
   );
   assert.equal(cert.key, 'fest-london');
   assert.equal(cert.variant.title, 'Hacktober Fest London');
+  const hosted = SCENARIOS.organizer.items.find(
+    (item) => item.id === 'fest-host-certificate-2026',
+  );
+  assert.equal(hosted.earned, true);
+  assert.equal(hosted.key, 'fest-london');
   assert.equal(SCENARIOS['nothing-done'].items[0].earned, false);
   assert.equal(SCENARIOS.eligible.items[0].earned, true);
   assert.equal(SCENARIOS.completionist.items[0].earned, true);
@@ -233,5 +242,14 @@ test('a certificate is known by slug and downloads from the API by its key', () 
   assert.equal(
     certificatePath(cert, 'pdf'),
     '/api/me/items/fest-certificate-2026/evt%201%2F2/certificate.pdf',
+  );
+});
+
+test('both Fest certificates are certificates, with a download path per grant', () => {
+  assert.ok(CERTIFICATE_SLUGS.has('fest-certificate-2026'));
+  assert.ok(CERTIFICATE_SLUGS.has('fest-host-certificate-2026'));
+  assert.equal(
+    certificatePath({ id: 'fest-host-certificate-2026', key: 'evt 1' }, 'pdf'),
+    '/api/me/items/fest-host-certificate-2026/evt%201/certificate.pdf',
   );
 });

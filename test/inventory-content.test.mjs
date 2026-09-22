@@ -35,15 +35,20 @@ test('no item copy lives here', () => {
   assert.equal(typeof my.inventory.nothing, 'string');
 });
 
-test('the locker never claims a number of slots', () => {
+test('the spine counts rewards earned, and never claims a number of slots', () => {
   const { count, room, full } = my.inventory;
-  assert.equal(count(0), '0 things');
-  assert.equal(count(1), '1 thing');
-  assert.equal(count(7), '7 things');
-  [room, full].forEach((line) => {
-    assert.doesNotMatch(line, /\d/, `a number in "${line}"`);
-    assert.doesNotMatch(line, /slots/, `slots counted in "${line}"`);
-  });
+  assert.equal(count(0), '0 rewards earned');
+  assert.equal(count(1), '1 reward earned');
+  assert.equal(count(7), '7 rewards earned');
+  // Nothing else sits on the spine: no room left, no full.
+  assert.equal(room, undefined);
+  assert.equal(full, undefined);
+});
+
+test('the bands are named progress, sticker book, rewards', () => {
+  assert.equal(my.rewards.heading.accent, 'progress.');
+  assert.equal(my.inventory.heading.accent, 'rewards.');
+  assert.equal(my.album.spine.count(4, 19), '4 of 19 stickers earned');
 });
 
 test('the copy says hosts, never organizers, and carries no em dashes', () => {

@@ -36,7 +36,7 @@ const ITEM_ART = Object.freeze({
    the thing's page instead of a call to action. By slug, since the shape
    of a thing is the frontend's to know. */
 export const CERTIFICATE_SLUGS = Object.freeze(
-  new Set(['fest-certificate-2026']),
+  new Set(['fest-certificate-2026', 'fest-host-certificate-2026']),
 );
 
 export const certificatePath = (item, format) =>
