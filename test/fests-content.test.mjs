@@ -108,6 +108,14 @@ test('Pop-Up copy says partner, sends people to the event to register, and leave
   assert.match(fests.formatBlurbs.popup, /partnered/);
   assert.match(fests.formatBlurbs.popup, /prize categories aren’t guaranteed/);
   assert.doesNotMatch(fests.formatBlurbs.popup, /no Hacktoberfest prize/i);
+  /* Swag is the one thing every Pop-Up has. A Hacktoberfest table, and
+     Hacktoberfest people standing behind it, are not: some events hand the
+     swag out themselves. Neither the blurb nor the notice may tell someone
+     to go and look for a table that may not exist. */
+  assert.match(fests.formatBlurbs.popup, /swag/i);
+  assert.match(fests.popupNotice.body, /swag/i);
+  assert.doesNotMatch(fests.formatBlurbs.popup, /table/i);
+  assert.doesNotMatch(fests.popupNotice.body, /table/i);
   assert.equal(fests.formatBadges.popup, 'Pop-Up');
   assert.equal(fests.formatFilter.popup, 'Pop-Ups');
 });

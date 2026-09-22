@@ -687,7 +687,7 @@ export const fests = {
     mlhMemberEvent:
       'Each year, Major League Hacking partners with hundreds of student hackathons around the world. This year, for the first time, we’re bringing Hacktoberfest swag and stickers to every one of them taking place in October, while supplies last. There are no Hacktoberfest prize categories at these hackathons, but we still encourage you to build with open-source and open-weight models.',
     popup:
-      'A conference or community event Hacktoberfest has partnered with: stickers, swag, and people to talk to. The event runs its own format and sets its own registration, and Hacktoberfest prize categories aren’t guaranteed.',
+      'A conference or community event Hacktoberfest has partnered with, where there is Hacktoberfest swag and stickers to pick up while supplies last. The event runs its own format and sets its own registration, and Hacktoberfest prize categories aren’t guaranteed.',
   },
   /* A Member Event's button. It opens the hackathon's own website, which
      is where its admission happens, so the verb is visit and the label
@@ -736,7 +736,7 @@ export const fests = {
      card's modal, and there is no season page to point at. */
   popupNotice: {
     title: 'Hacktoberfest is popping up at partner events this October.',
-    body: 'These are conferences and community gatherings we’ve partnered with. Look for the Hacktoberfest table for stickers, swag, and people to talk to. A few things to know before you go:',
+    body: 'These are conferences and community gatherings we’ve partnered with, and each one has Hacktoberfest swag and stickers to pick up. A few things to know before you go:',
     points: [
       {
         lead: 'Registration is set by each event.',
@@ -744,7 +744,7 @@ export const fests = {
       },
       {
         lead: 'Swag and stickers',
-        rest: 'are available while supplies last.',
+        rest: 'are available while supplies last. How they reach you is the event’s own arrangement: there may be a Hacktoberfest table, or the hosts may be handing them out themselves, so ask at registration if you cannot see them.',
       },
       {
         lead: 'Every Pop-Up runs its own way.',
