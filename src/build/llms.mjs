@@ -14,6 +14,7 @@ import {
   host,
   inPerson,
   mission,
+  my,
   online,
   siteMeta,
   sponsor,
@@ -21,6 +22,7 @@ import {
   subscribed,
   timeline,
 } from '../data/content.mjs';
+import { ACTIVITIES, REQUIRED_STICKERS } from '../data/eligibility.mjs';
 import { sponsors } from '../data/sponsors.mjs';
 import { LIVE_EVENTS_URL } from '../lib/apiBase.mjs';
 
@@ -111,6 +113,13 @@ const llmsIndex = () =>
     bullets(aiContext.facts),
   );
 
+/* The stickers on one page of the book, the way components/WorldLanding
+   lists them. */
+const pageStickers = (type) =>
+  type === 'required'
+    ? REQUIRED_STICKERS
+    : ACTIVITIES.filter((activity) => activity.type === type);
+
 /* One world landing page as prose (components/WorldLanding renders the
    same object), or nothing while its route is closed. */
 const worldSection = (route, title, world) =>
@@ -140,27 +149,82 @@ const worldSection = (route, title, world) =>
               ),
             ]
           : [],
-        `${world.thenNow.eyebrow}. ${headingText(world.thenNow.heading)}`,
-        world.thenNow.intro,
-        world.thenNow.cards.map(
-          (card) => `${card.tag} — ${card.title} ${card.points.join(' ')}`,
-        ),
-        `${world.thenNow.quote.lead} ${world.thenNow.quote.accent}`,
-        `${world.rewards.eyebrow}. ${headingText(world.rewards.heading)}`,
-        world.rewards.intro,
-        world.rewards.items.map(
-          (item) => `${item.title} (${item.where}) — ${item.copy}`,
-        ),
-        world.rewards.ghost
-          ? `${world.rewards.ghost.title} (${world.rewards.ghost.where}) — ${world.rewards.ghost.copy} (CTA: ${world.rewards.ghost.cta} — ${world.rewards.ghost.href})`
+        world.thenNow
+          ? [
+              `${world.thenNow.eyebrow}. ${headingText(world.thenNow.heading)}`,
+              world.thenNow.intro,
+              world.thenNow.cards.map(
+                (card) =>
+                  `${card.tag} — ${card.title} ${card.points.join(' ')}`,
+              ),
+              `${world.thenNow.quote.lead} ${world.thenNow.quote.accent}`,
+            ]
           : [],
-        `${world.earn.eyebrow}. ${headingText(world.earn.heading)}`,
-        world.earn.intro,
-        world.earn.steps.map(
-          (step, index) => `Step ${index + 1} — ${step.title}: ${step.copy}`,
-        ),
-        world.complete.body,
-        `${world.faq.eyebrow}. ${headingText(world.faq.heading)} ${world.faq.intro} (The answers are under Common questions above.)`,
+        world.rewards
+          ? [
+              `${world.rewards.eyebrow}. ${headingText(world.rewards.heading)}`,
+              world.rewards.intro,
+              world.rewards.items.map(
+                (item) => `${item.title} (${item.where}) — ${item.copy}`,
+              ),
+              world.rewards.ghost
+                ? `${world.rewards.ghost.title} (${world.rewards.ghost.where}) — ${world.rewards.ghost.copy} (CTA: ${world.rewards.ghost.cta} — ${world.rewards.ghost.href})`
+                : [],
+            ]
+          : [],
+        world.earn
+          ? [
+              `${world.earn.eyebrow}. ${headingText(world.earn.heading)}`,
+              world.earn.intro || [],
+              world.earn.steps.map(
+                (step, index) =>
+                  `Step ${index + 1}${step.phase ? ` (${step.phase})` : ''} — ${step.title}: ${step.copy}`,
+              ),
+            ]
+          : [],
+        world.complete ? world.complete.body : [],
+        world.onTheDay
+          ? [
+              `${world.onTheDay.eyebrow}. ${headingText(world.onTheDay.heading)}`,
+              world.onTheDay.intro,
+              world.onTheDay.cards.map(
+                (card) => `${card.title} (${card.at}) — ${card.copy}`,
+              ),
+              world.onTheDay.disclaimer,
+            ]
+          : [],
+        /* The online page's milestones and the book, page by page: the
+           names and lines the album uses, and every sticker's name. */
+        world.milestones
+          ? [
+              `${world.milestones.eyebrow}. ${headingText(world.milestones.heading)}`,
+              world.milestones.intro,
+              world.milestones.cards.map(
+                (card) => `${card.title} (${card.at}) — ${card.copy}`,
+              ),
+              world.milestones.disclaimer,
+            ]
+          : [],
+        world.collection
+          ? [
+              `${world.collection.eyebrow}. ${headingText(world.collection.heading)}`,
+              world.collection.intro,
+              world.collection.pages.map(
+                (type) =>
+                  `${activitiesPage.list.types[type]} — ${my.album.pages[type]} Stickers: ${pageStickers(
+                    type,
+                  )
+                    .map((sticker) => sticker.label)
+                    .join(', ')}.`,
+              ),
+              `${world.collection.inPerson.title} — ${world.collection.inPerson.copy} Stickers: ${pageStickers(
+                'inperson',
+              )
+                .map((sticker) => sticker.label)
+                .join(', ')}.`,
+            ]
+          : [],
+        `${world.faq.eyebrow}. ${headingText(world.faq.heading)}${world.faq.intro ? ` ${world.faq.intro}` : ''} (The answers are under Common questions above.)`,
         world.closing
           ? /* No sign-in path here: the llms files carry no /login or /my,
                which test/my-pages.test.mjs holds them to. */
@@ -272,8 +336,10 @@ const llmsFull = () =>
           '## Activities',
           `${activitiesPage.eyebrow}. ${headingText(activitiesPage.heading)}`,
           activitiesPage.intro,
-          activitiesPage.how.steps(3).join(' '),
-          activitiesPage.get.body,
+          `${activitiesPage.how.eyebrow}. ${headingText(activitiesPage.how.heading)}`,
+          activitiesPage.how.steps.map(
+            (step) => `${step.tag} — ${step.title}: ${step.copy}`,
+          ),
         ]),
   );
 

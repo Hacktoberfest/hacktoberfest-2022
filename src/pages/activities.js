@@ -2,13 +2,12 @@ import Head from 'next/head';
 import { useCallback, useEffect, useState } from 'react';
 
 import ActivitiesPage from 'components/ActivitiesPage';
+import BookCallout from 'components/BookCallout';
 import Header from 'components/Header';
 import PageHero from 'components/PageHero';
-import ProgressStrip from 'components/ProgressStrip';
 import { activitiesPage } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
 import { progressSlot, publicActivities } from 'lib/activitiesPageState.mjs';
-import { DEFAULT_THRESHOLDS } from 'lib/eligibility.mjs';
 import { getExperience } from 'lib/experience.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
 import { getProgress, progressFromPayload } from 'lib/progress.mjs';
@@ -23,7 +22,7 @@ const ACTIVITIES_URL = absoluteUrl('/activities/');
    One data path per state, not two: signed out, `getProgress(null, ...)`
    needs no network at all — src/lib/progress.mjs already special-cases a
    null session — and is the whole answer. Signed in, `getExperience` alone
-   carries everything the page needs (activities and thresholds), so the
+   carries everything the page needs (the activities), so the
    two seams are never both in flight for the same visitor; this used to
    fetch /api/me/progress twice, once here and once inside getExperience.
 
@@ -31,20 +30,18 @@ const ACTIVITIES_URL = absoluteUrl('/activities/');
    result, so `progressSlot` (lib/activitiesPageState.mjs) never shows the
    sign-in link to someone who is signed in but whose data has not arrived
    yet. The cards are public content and render from
-   `publicActivities()`/`DEFAULT_THRESHOLDS` for as long as there is
+   `publicActivities()` for as long as there is
    nothing more specific to show — while the signed-in fetch is in flight,
    and if it fails with anything other than a dead session — so a
    transient failure never collapses the whole page to the signed-out
    shape. A 401 clears the session and re-enters the signed-out state; any
    other error stays signed in, with a retry in the progress slot. The
-   milestone card itself is /my's now; here the progress strip
-   (components/ProgressStrip, shared with /my) is the only progress this
-   page shows. */
+   milestone card and the progress strip are both /my's now; here the
+   signed-in state only marks the cards earned and offers Still to do. */
 const Activities = () => {
   const [hasSession, setHasSession] = useState(false);
   const [status, setStatus] = useState('idle');
   const [activities, setActivities] = useState(publicActivities);
-  const [thresholds, setThresholds] = useState(DEFAULT_THRESHOLDS);
   const [attempt, setAttempt] = useState(0);
 
   const retry = useCallback(() => setAttempt((value) => value + 1), []);
@@ -65,7 +62,6 @@ const Activities = () => {
         if (cancelled) return;
         setHasSession(false);
         setActivities(result.activities);
-        setThresholds(result.thresholds);
         setStatus('ready');
       });
 
@@ -80,7 +76,6 @@ const Activities = () => {
 
     setHasSession(true);
     setActivities(publicActivities());
-    setThresholds(DEFAULT_THRESHOLDS);
     setStatus('loading');
 
     getExperience(session, { scenario })
@@ -99,7 +94,6 @@ const Activities = () => {
             challenges: result.activities,
           }).activities,
         );
-        setThresholds(result.thresholds);
         setStatus('ready');
       })
       .catch((error) => {
@@ -155,24 +149,20 @@ const Activities = () => {
         >
           <p>{activitiesPage.intro}</p>
         </PageHero>
-        {slot === 'strip' && (
-          <ProgressStrip
-            activities={activities}
-            cta={{ href: '/my/', label: activitiesPage.strip.hubCta }}
-          />
-        )}
         {/* Rendered only once the seam answers, so the export carries the
             hero and nothing personal; the cards arrive with the first paint
             after hydration in every build. */}
         {status !== 'idle' && (
           <ActivitiesPage
             activities={activities}
-            thresholds={thresholds}
             signedIn={hasSession}
             slot={slot}
             onRetry={retry}
           />
         )}
+        {/* Static, outside the gate: the way to the book is in the export
+            whatever the seam says. */}
+        <BookCallout copy={activitiesPage.bookCallout} />
       </main>
     </>
   );

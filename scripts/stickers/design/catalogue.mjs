@@ -82,9 +82,29 @@ export const THINGS = Object.freeze([
 export const CATALOGUE = Object.freeze([
   { slug: 'signin', icon: 'key', ground: 'required' },
   { slug: 'address', icon: 'home', ground: 'required' },
-  { slug: 'livestreams-1', icon: 'device-tv', ground: 'livestreams', tier: 1 },
-  { slug: 'livestreams-3', icon: 'device-tv', ground: 'livestreams', tier: 2 },
-  { slug: 'livestreams-5', icon: 'device-tv', ground: 'livestreams', tier: 3 },
+  /* The TV with a play button on its screen, the way GHW's livestream
+     carries the bolt (Jacklyn, 2026-09-22). */
+  {
+    slug: 'livestreams-1',
+    icon: 'device-tv',
+    ground: 'livestreams',
+    tier: 1,
+    inset: { icon: 'player-play', at: [12.4, 13.6], size: 8 },
+  },
+  {
+    slug: 'livestreams-3',
+    icon: 'device-tv',
+    ground: 'livestreams',
+    tier: 2,
+    inset: { icon: 'player-play', at: [12.4, 13.6], size: 8 },
+  },
+  {
+    slug: 'livestreams-5',
+    icon: 'device-tv',
+    ground: 'livestreams',
+    tier: 3,
+    inset: { icon: 'player-play', at: [12.4, 13.6], size: 8 },
+  },
   { slug: 'ghw-points-5', icon: 'bolt', ground: 'ghw', tier: 1 },
   { slug: 'ghw-points-10', icon: 'bolt', ground: 'ghw', tier: 2 },
   { slug: 'ghw-points-20', icon: 'bolt', ground: 'ghw', tier: 3 },

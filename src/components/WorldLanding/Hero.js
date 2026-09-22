@@ -5,7 +5,7 @@ import MlhLogo from 'components/icons/MlhLogo';
 import { hero } from 'data/content.mjs';
 import { DEV_URL, DIGITALOCEAN_URL, MLH_URL } from 'data/links';
 
-import PackObject from './PackObject';
+import StickerPile from './StickerPile';
 import {
   HeroActions,
   HeroButton,
@@ -33,7 +33,7 @@ import {
 /* A world landing page's hero: PageHero's grammar (forest, the squares,
    the eyebrow, the two-line heading, the corner geometry) split into two
    columns from desktop up, with the thing the page is selling on the
-   right. The online page's object is the sticker pack; the in-person
+   right. The online page's object is a pile of stickers; the in-person
    page's is a pair of prints from past Fests. `world.hero.object` picks.
    The partner lockups sit under the actions the way they do on the
    homepage, so both pages carry the trust marks the front door does.
@@ -124,7 +124,7 @@ const Hero = ({ world }) => (
       {world.hero.object === 'prints' ? (
         <PrintsObject photos={world.hero.photos} />
       ) : (
-        <PackObject />
+        <StickerPile />
       )}
     </HeroInner>
   </HeroRoot>

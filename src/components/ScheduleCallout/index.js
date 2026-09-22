@@ -92,20 +92,13 @@ const Photo = styled.img`
   }
 `;
 
-/* `to` is where the button lands: the directory from /schedule, whose
-   reader already knows what a Fest is, and the in-person landing page
-   from /online, whose reader does not. */
-const ScheduleCallout = ({ to = 'fests' }) => (
+const ScheduleCallout = () => (
   <CalloutRoot aria-labelledby="schedule-fests-callout">
     <CalloutBox>
       <div>
         <Title id="schedule-fests-callout">{schedule.festsCallout.title}</Title>
         <Body>{schedule.festsCallout.body}</Body>
-        {to === 'in-person' ? (
-          <Cta href="/in-person/">{schedule.festsCallout.inPersonCta}</Cta>
-        ) : (
-          <Cta href="/fests/">{schedule.festsCallout.cta}</Cta>
-        )}
+        <Cta href="/fests/">{schedule.festsCallout.cta}</Cta>
       </div>
       <Photo
         src={schedule.festsCallout.photo}

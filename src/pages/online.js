@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 import Header from 'components/Header';
-import ScheduleCallout from 'components/ScheduleCallout';
+import BookCallout from 'components/BookCallout';
 import WorldLanding from 'components/WorldLanding';
 import Hero from 'components/WorldLanding/Hero';
 import { online } from 'data/content.mjs';
@@ -46,7 +46,7 @@ const Online = () => (
     <main id="main">
       <Hero world={online} />
       <WorldLanding world={online} />
-      <ScheduleCallout to="in-person" />
+      <BookCallout />
     </main>
   </>
 );

@@ -4,12 +4,13 @@ import test from 'node:test';
 import { answerLinks, answerText, faq } from '../src/data/content.mjs';
 
 test('every FAQ item has a stable id, a question and a non-empty answer', () => {
-  // 29 items across 6 sections, up from the homepage's original 5 — see
+  // 30 items across 6 sections, up from the homepage's original 5 — see
   // the /questions page design doc for the full set; need-a-fest, the
   // three newcomer questions (is-it-free, need-to-be-a-developer,
   // what-is-mymlh) and the three before-you-go questions (what-to-bring,
-  // come-alone, more-than-one-fest) arrived with the world landing pages.
-  assert.equal(faq.items.length, 29);
+  // come-alone, more-than-one-fest) arrived with the world landing pages,
+  // and what-is-a-virtual-sticker with the sticker book.
+  assert.equal(faq.items.length, 30);
 
   const ids = faq.items.map((item) => item.id);
   assert.equal(new Set(ids).size, ids.length, 'ids must be unique');

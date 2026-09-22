@@ -204,8 +204,8 @@ test('the legend names every row treatment and the rail has a word for a window'
   assert.ok(schedule.legendLabel.length > 0);
   /* The line that says what a check-in counts for, and where the rest is. */
   assert.match(schedule.countsNote.text, /check-in/);
-  assert.match(schedule.countsNote.text, /activity/);
-  assert.doesNotMatch(schedule.countsNote.text, /sticker/);
+  assert.match(schedule.countsNote.text, /its own sticker/);
+  assert.doesNotMatch(schedule.countsNote.text, /activit/i);
   assert.ok(schedule.countsNote.cta);
 });
 

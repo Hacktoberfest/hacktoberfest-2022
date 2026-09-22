@@ -90,36 +90,34 @@
   transform: rotate(-4deg) translateY(-2px);
 }
 
-/* Earned: peeled off the slot, at an angle, with the heavier shadow of a
-   thing that has been lifted, and a tab hung under the slot. */
+/* Earned: the way the album on /my marks one (Album.module.css). The
+   sticker sits square on its slot, at rest or under the pointer, with
+   the heavier shadow of a thing that has been peeled, and the tick on
+   its corner. */
 .card[data-earned='true'] .sticker,
 .card[data-earned='true']:hover .sticker {
-  transform: rotate(-9deg) translate(6px, -6px);
+  transform: none;
   filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
-.earnedTab {
+/* The tick on an earned sticker's corner: forest on white, the same
+   circle the album draws. colors.forest / white / ink */
+.tick {
   position: absolute;
-  bottom: -8px;
-  left: 50%;
+  right: -2px;
+  bottom: 2px;
   z-index: 1;
-  transform: translateX(-50%) rotate(-6deg);
-  padding: 2px 6px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.orange */
-  background: #e53927;
-  /* colors.white */
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
   color: #f7f7f2;
-  /* fonts.mono */
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
-    'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
+  font-size: 0.7rem;
+  font-weight: 800;
 }
 
 .body {

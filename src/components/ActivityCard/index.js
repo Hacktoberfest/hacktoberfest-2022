@@ -9,7 +9,8 @@ import styles from './ActivityCard.module.css';
    the catalogue on /activities/ and the "Pick an activity" band on /my.
    The sticker sits in a die-cut slot at the left, centred on the card's
    height, and the words at the right. Signed in and earned, the sticker
-   peels off the slot and a done line says when and how; the CTA stays,
+   sits square on its slot with the book's tick on its corner, the way
+   the album on /my marks one, and a done line says when and how; the CTA stays,
    because a done Fest still has a next Fest to find. Unearned cards are
    untouched: nothing is dimmed for not being done yet.
 
@@ -49,7 +50,13 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
           />
         </div>
         {earned && (
-          <span className={styles.earnedTab}>{activitiesPage.list.earned}</span>
+          <span
+            className={styles.tick}
+            role="img"
+            aria-label={activitiesPage.list.earned}
+          >
+            ✓
+          </span>
         )}
       </div>
       <div className={styles.body}>
@@ -63,7 +70,6 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
         )}
         {earned && (
           <p className={styles.cardDone}>
-            <span aria-hidden="true">✓ </span>
             {date ? activitiesPage.list.doneOn(date) : activitiesPage.list.done}
             {how ? `, ${how}` : ''}
           </p>

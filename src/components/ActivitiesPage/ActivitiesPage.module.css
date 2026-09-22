@@ -76,10 +76,12 @@
   list-style: none;
 }
 
+/* A step is a sticker and its words, side by side. */
 .step {
   display: grid;
-  gap: 12px;
-  align-content: start;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
   padding: 22px 24px;
   /* colors.ink */
   border: 2px solid #10201d;
@@ -92,23 +94,106 @@
   line-height: 1.5;
 }
 
-.stepNumber {
-  display: inline-grid;
-  width: 34px;
-  height: 34px;
+/* The sticker in the book's frame, the way ActivityCard draws one: the
+   ink outline clipped to the hexagon, the white ring 2.3px in, and the
+   picture inside that. */
+.stepSticker {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  display: grid;
   place-items: center;
+  width: 72px;
+  height: 72px;
+  padding: 5.8px;
+  isolation: isolate;
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+.stepSticker::before,
+.stepSticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
   /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.ochre */
-  background: #f5b726;
-  /* colors.ink */
-  color: #10201d;
+  background: #10201d;
+}
+
+.stepSticker::after {
+  inset: 2.3px;
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+.stepStickerImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* The third slot: no sticker yet, so a frame in the rule colour on the
+   page's paper, with the words for what goes there. */
+.stepAny {
+  filter: none;
+}
+
+.stepAny::before {
+  /* colors.rule */
+  background: #8ca59e;
+}
+
+.stepAny::after {
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+.stepAny span {
+  position: relative;
+  z-index: 1;
+  /* colors.muted */
+  color: #52635f;
   /* fonts.mono */
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
     'Roboto Mono', Menlo, Consolas, monospace;
-  font-size: 0.75rem;
+  font-size: 0.62rem;
   font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.stepTag {
+  margin: 0 0 6px;
+  /* colors.forest */
+  color: #3d5f58;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.stepTitle {
+  margin: 0 0 4px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+.stepCopy {
+  margin: 0;
+  font-size: 0.95rem;
 }
 
 /* The way onward from What you get: the two worlds as outline buttons,

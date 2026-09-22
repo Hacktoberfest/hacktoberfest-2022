@@ -7,9 +7,9 @@
   padding-block: clamp(64px, 7vw, 96px);
   /* colors.ink */
   border-bottom: 2px solid #10201d;
-  /* colors.paperDeep, so the white cards read as raised, the way the
-     directory sits its cards on paper. */
-  background: #e4e5da;
+  /* colors.paper: the milestones band before it is paperDeep, so this
+     one steps back to paper and the two read as two. */
+  background: #f2f2eb;
 }
 
 .shell {

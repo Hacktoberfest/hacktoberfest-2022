@@ -21,6 +21,20 @@ test('/activities builds, indexed, with its hero', async () => {
   assert.ok(html.includes(activitiesPage.intro));
 });
 
+test('/activities ends with the book callout, pointing at /my', async () => {
+  const html = await readOutput('activities/index.html');
+  const { bookCallout } = activitiesPage;
+  assert.ok(html.includes(bookCallout.title));
+  assert.ok(html.includes(bookCallout.body));
+  assert.match(
+    html,
+    new RegExp(`<a[^>]*href="/my/"[^>]*>${escapeRegExp(bookCallout.cta)}</a>`),
+  );
+  bookCallout.stickers.forEach((slug) =>
+    assert.ok(html.includes(`/stickers/${slug}.svg`), slug),
+  );
+});
+
 test('the export carries no progress: the rows render after the seam answers', async () => {
   const html = await readOutput('activities/index.html');
   for (const activity of ACTIVITIES) {
@@ -47,8 +61,8 @@ test('the export carries no progress: the rows render after the seam answers', a
     'the empty-filter note is in the static export',
   );
   assert.ok(
-    !html.includes(activitiesPage.strip.hubCta),
-    'the progress strip link is in the static export',
+    !html.includes('stickers earned'),
+    'the progress strip is on the page',
   );
   assert.ok(
     !html.includes(

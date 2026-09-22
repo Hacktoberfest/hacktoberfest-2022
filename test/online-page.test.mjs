@@ -2,7 +2,14 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { faq, online, schedule } from '../src/data/content.mjs';
+import {
+  activitiesPage,
+  faq,
+  my,
+  online,
+  schedule,
+} from '../src/data/content.mjs';
+import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -13,7 +20,7 @@ const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const decode = (html) =>
   html.replace(/&#x27;|&#39;|&apos;/g, '’').replace(/&amp;/g, '&');
 
-test('/online builds, indexed, with its hero and both CTAs', async () => {
+test('/online builds, indexed, with its hero, both CTAs and the pile', async () => {
   const html = decode(await readOutput('online/index.html'));
   assert.match(
     html,
@@ -25,80 +32,71 @@ test('/online builds, indexed, with its hero and both CTAs', async () => {
   assert.ok(html.includes(online.intro));
   assert.match(
     html,
-    new RegExp(`<a[^>]*href="/schedule/"[^>]*>${escapeRegExp(online.cta)}</a>`),
+    new RegExp(`<a[^>]*href="/login/"[^>]*>${escapeRegExp(online.cta)}</a>`),
   );
   assert.match(
     html,
     new RegExp(
-      `<a[^>]*href="#how-it-works"[^>]*>${escapeRegExp(online.secondaryCta)}</a>`,
+      `<a[^>]*href="/activities/"[^>]*>${escapeRegExp(online.secondaryCta)}</a>`,
     ),
   );
-  online.facts.forEach((fact) => assert.ok(html.includes(fact), fact));
-  /* The sign-in: in How it works (which the hero's anchor lands on),
-     never in the hero. */
-  assert.match(html, /id="how-it-works"/);
-  const signIns = html.match(
-    new RegExp(
-      `<a[^>]*href="/login/"[^>]*>${escapeRegExp(online.earn.signIn.cta)}</a>`,
-      'g',
-    ),
+  /* The pile: every sticker on it, by file. */
+  online.pile.forEach((id) =>
+    assert.ok(html.includes(`/stickers/${id}.svg`), id),
   );
+  /* The sign-in: once, in the hero. No steps band follows it. */
+  const signIns = html.match(/<a[^>]*href="\/login\/"[^>]*>/g);
   assert.equal(signIns && signIns.length, 1);
+  assert.ok(!html.includes('id="how-it-works"'), 'no steps band');
 });
 
-test('/online shows what happens online, then and now after completion', async () => {
+test('/online tells the milestones, then the collection', async () => {
   const html = decode(await readOutput('online/index.html'));
-  online.happens.items.forEach((item) => {
-    assert.ok(html.includes(item.title), item.id);
-    assert.ok(html.includes(item.time), `${item.id} time`);
-    assert.ok(html.includes(item.earns), `${item.id} earns`);
+  assert.ok(html.includes(online.milestones.eyebrow));
+  online.milestones.cards.forEach((card) => {
+    assert.ok(html.includes(card.title), `missing milestone: ${card.id}`);
+    assert.ok(html.includes(card.at), `missing count: ${card.id}`);
+    assert.ok(html.includes(card.copy), `missing copy: ${card.id}`);
+    assert.ok(
+      html.includes(`/stickers/${card.art}.svg`),
+      `missing art: ${card.id}`,
+    );
   });
-  assert.ok(html.includes(online.happens.more.title), 'the fourth card');
-  assert.ok(!html.includes('What you will learn'), 'no learn band');
-  /* Then and now comes after completion now. */
+  assert.ok(html.includes(online.milestones.disclaimer), 'the disclaimer');
   assert.ok(
-    html.indexOf(online.complete.body) <
-      html.indexOf(online.thenNow.cards[1].title),
-    'then and now should follow completion',
+    html.indexOf(online.heading.accent) <
+      html.indexOf(online.milestones.cards[0].title) &&
+      html.indexOf(online.milestones.cards[0].title) <
+        html.indexOf(online.collection.heading.accent),
+    'the hero, then the milestones, then the collection',
   );
-});
-
-test('the rewards band names every reward, with its where chip', async () => {
-  const html = decode(await readOutput('online/index.html'));
-  online.rewards.items.forEach((item) => {
-    assert.ok(html.includes(item.title), `missing reward: ${item.id}`);
-    assert.ok(html.includes(item.where), `missing where: ${item.id}`);
+  /* Every sticker a page holds is on the page, by file and by name. */
+  online.collection.pages.forEach((type) => {
+    assert.ok(html.includes(activitiesPage.list.types[type]), type);
+    assert.ok(html.includes(my.album.pages[type]), `${type} line`);
+    const stickers =
+      type === 'required'
+        ? REQUIRED_STICKERS
+        : ACTIVITIES.filter((activity) => activity.type === type);
+    stickers.forEach((sticker) => {
+      assert.ok(html.includes(`/stickers/${sticker.id}.svg`), sticker.id);
+      assert.ok(html.includes(`alt="${sticker.label}"`), sticker.label);
+    });
   });
-  /* The ghost box: the T-shirt, and the way to the in-person page. */
-  assert.ok(html.includes(online.rewards.ghost.title));
-  assert.match(
-    html,
-    new RegExp(
-      `<a[^>]*href="/in-person/"[^>]*>${escapeRegExp(online.rewards.ghost.cta)}</a>`,
-    ),
+  /* The last row: the in-person page's two stickers, no button. Every
+     sticker on the band carries its name for the pointer. */
+  assert.ok(html.includes(online.collection.inPerson.copy));
+  ACTIVITIES.filter((activity) => activity.type === 'inperson').forEach(
+    (sticker) => {
+      assert.ok(html.includes(`/stickers/${sticker.id}.svg`), sticker.id);
+      assert.ok(html.includes(`data-label="${sticker.label}"`), sticker.id);
+    },
   );
-});
-
-test('/online tells the then-and-now story and the three steps', async () => {
-  const html = decode(await readOutput('online/index.html'));
-  online.thenNow.cards.forEach((card) => {
-    assert.ok(html.includes(card.tag), `missing card tag: ${card.id}`);
-    assert.ok(html.includes(card.title), `missing card title: ${card.id}`);
-    card.points.forEach((point) => assert.ok(html.includes(point), point));
-  });
-  assert.ok(html.includes(online.thenNow.quote.accent));
-  online.earn.steps.forEach((step) => {
-    assert.ok(html.includes(step.title), step.title);
-    assert.ok(html.includes(step.copy), step.copy);
-  });
-  assert.match(
-    html,
-    new RegExp(
-      `<a[^>]*href="/activities/"[^>]*>${escapeRegExp(online.earn.cta)}</a>`,
-    ),
-  );
-  /* The pace line sits under the steps now; the band has no /my button. */
-  assert.ok(html.includes(online.complete.body));
+  /* Nothing from the old story survives on the page. */
+  assert.ok(!html.includes('What happens online'), 'no what-happens band');
+  assert.ok(!html.includes('DEV badges'), 'no DEV badges reward');
+  assert.ok(!html.includes('Done this before?'), 'no then-and-now band');
+  assert.ok(!html.includes('1 of 8 activities'), 'no old milestone card');
 });
 
 test('/online carries its FAQ slice and the way to the rest', async () => {
@@ -113,15 +111,21 @@ test('/online carries its FAQ slice and the way to the rest', async () => {
       `<a[^>]*href="${escapeRegExp(online.faq.cta.href)}"[^>]*>${escapeRegExp(online.faq.cta.label)}</a>`,
     ),
   );
-  /* It ends the way /schedule does, with the room callout, but the button
-     lands on the in-person landing page rather than the directory. */
-  assert.ok(html.includes(schedule.festsCallout.title));
+  /* It ends with the book callout: the way to /my for someone already
+     collecting, with a fan of framed stickers, and not the room callout
+     /schedule closes with. */
+  assert.ok(html.includes(online.bookCallout.title));
+  assert.ok(html.includes(online.bookCallout.body));
   assert.match(
     html,
     new RegExp(
-      `<a[^>]*href="/in-person/"[^>]*>${escapeRegExp(schedule.festsCallout.inPersonCta)}</a>`,
+      `<a[^>]*href="/my/"[^>]*>${escapeRegExp(online.bookCallout.cta)}</a>`,
     ),
   );
+  online.bookCallout.stickers.forEach((slug) =>
+    assert.ok(html.includes(`/stickers/${slug}.svg`), slug),
+  );
+  assert.ok(!html.includes(schedule.festsCallout.title));
 });
 
 test('the nav, the sitemap and the llms files all know the page', async () => {

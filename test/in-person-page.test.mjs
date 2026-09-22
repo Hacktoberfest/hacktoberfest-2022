@@ -40,28 +40,51 @@ test('/in-person builds, indexed, with its hero, its one CTA and both prints', a
   }
 });
 
-test('the rewards band names every reward, with its where chip', async () => {
+test('/in-person tells what you get on the day, then the steps in two phases', async () => {
   const html = decode(await readOutput('in-person/index.html'));
-  inPerson.rewards.items.forEach((item) => {
-    assert.ok(html.includes(item.title), `missing reward: ${item.id}`);
-    assert.ok(html.includes(item.where), `missing where: ${item.id}`);
+  /* On the day: four cards, each with its picture, and the disclaimer. */
+  inPerson.onTheDay.cards.forEach((card) => {
+    assert.ok(html.includes(card.title), `missing card: ${card.id}`);
+    assert.ok(html.includes(card.at), `missing tag: ${card.id}`);
+    assert.ok(html.includes(card.copy), `missing copy: ${card.id}`);
+    assert.ok(
+      !html.includes(`/stickers/fest-${card.id}`),
+      `${card.id} is not a sticker`,
+    );
   });
-});
-
-test('/in-person tells its own then-and-now, the steps, and completion', async () => {
-  const html = decode(await readOutput('in-person/index.html'));
-  inPerson.thenNow.cards.forEach((card) => {
-    assert.ok(html.includes(card.title), `missing card title: ${card.id}`);
-    card.points.forEach((point) => assert.ok(html.includes(point), point));
-  });
+  assert.ok(html.includes(inPerson.onTheDay.disclaimer));
+  const virtual = inPerson.onTheDay.cards.find((card) => card.link);
+  assert.match(
+    html,
+    new RegExp(
+      `<a[^>]*href="${escapeRegExp(virtual.link.href)}"[^>]*>${escapeRegExp(virtual.link.label)}</a>`,
+    ),
+  );
   inPerson.earn.steps.forEach((step) => {
     assert.ok(html.includes(step.title), step.title);
+    assert.ok(html.includes(step.copy), step.copy);
   });
-  assert.ok(html.includes(inPerson.complete.body));
+  /* The two phase labels, and nothing under the steps. */
+  assert.ok(html.includes('Before the day'));
+  assert.ok(html.includes('On the day'));
+  assert.ok(!html.includes('/stickers/fest.svg'), 'no strip sticker');
+  assert.ok(!html.includes('Also counts online'), 'no strip');
+  assert.ok(!html.includes('is on the Fests page'), 'no hint line');
+  assert.ok(!html.includes('the whole thing'), 'no intro line');
+  assert.ok(!html.includes('the door does the rest'), 'no doors');
+  /* On the day before the steps, the steps before the nearby band. */
   assert.ok(
-    html.includes(inPerson.complete.card.milestone1.rows[2].title),
-    'the checked-in row',
+    html.indexOf(inPerson.onTheDay.cards[0].title) <
+      html.indexOf(inPerson.earn.steps[0].title) &&
+      html.indexOf(inPerson.earn.steps[0].title) <
+        html.indexOf(inPerson.nearby.heading.accent),
+    'on the day, then steps, then nearby',
   );
+  /* Nothing from the old story survives on the page. */
+  assert.ok(!html.includes('1 of 8 activities'), 'no old milestone card');
+  assert.ok(!html.includes('DEV badges'), 'no DEV badges reward');
+  assert.ok(!html.includes('Less alone,'), 'no then-and-now band');
+  assert.ok(!html.includes('Earn 10 stickers'), 'no milestone cards');
 });
 
 test('/in-person describes the day and carries the nearby band', async () => {
@@ -81,11 +104,12 @@ test('/in-person describes the day and carries the nearby band', async () => {
      client-side fetch, so no Fest name is. */
   assert.ok(html.includes(inPerson.nearby.heading.accent));
   assert.ok(!html.includes('Hacktober Fest Brooklyn'));
-  /* Then and now follows completion now. */
+  /* The formats come before on the day, which comes before the steps. */
   assert.ok(
-    html.indexOf(inPerson.complete.body) <
-      html.indexOf(inPerson.thenNow.cards[1].title),
+    html.indexOf(inPerson.formats.cards[0].title) <
+      html.indexOf(inPerson.onTheDay.cards[0].title),
   );
+  assert.ok(html.includes(inPerson.nearby.intro));
 });
 
 test('/in-person carries its FAQ slice and ends pointing online', async () => {
@@ -99,6 +123,7 @@ test('/in-person carries its FAQ slice and ends pointing online', async () => {
     assert.ok(html.includes(item.question), `missing question: ${id}`);
   });
   assert.ok(html.includes(inPerson.onlineCallout.title));
+  assert.ok(html.includes(inPerson.onlineCallout.body));
   assert.match(
     html,
     new RegExp(

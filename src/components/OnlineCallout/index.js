@@ -5,14 +5,14 @@ import Shell from 'components/Shell';
 import { inPerson } from 'data/content.mjs';
 import { breakpoints, colors, fonts } from 'styles/tokens';
 
-import PackObject from 'components/WorldLanding/PackObject';
+import StickerPile from 'components/WorldLanding/StickerPile';
 
 /* The band that closes /in-person: the fork for the reader with no Fest
    nearby, attend online or host one. The mirror image of ScheduleCallout,
    which closes /schedule and /online by pointing at the Fests: the same
    sky band and the same white card on it, so the two worlds end by
    pointing at each other. Where that one carries a photo of a room, this
-   one carries the pack, which is the online offer. */
+   one carries the pile of stickers, which is the online offer. */
 const CalloutRoot = styled.section`
   padding-block: clamp(48px, 6vw, 90px);
   border-block: 2px solid ${colors.ink};
@@ -56,7 +56,7 @@ const Actions = styled.div`
   margin-top: 22px;
 `;
 
-/* The pack at two thirds, and first on phones, the way the callout's
+/* The pile at two thirds, and first on phones, the way the callout's
    photo is on /online. */
 const Object = styled.div`
   order: -1;
@@ -87,7 +87,7 @@ const OnlineCallout = () => (
         </Actions>
       </div>
       <Object aria-hidden="true">
-        <PackObject />
+        <StickerPile />
       </Object>
     </CalloutBox>
   </CalloutRoot>

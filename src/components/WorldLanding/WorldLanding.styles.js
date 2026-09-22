@@ -600,6 +600,69 @@ export const StepCopy = styled.p`
   line-height: 1.55;
 `;
 
+/* Three steps across from tablet up, for the band with no card beside
+   them: the same numbered items, side by side. */
+export const StepGrid = styled(Shell)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+`;
+
+/* The steps grouped by when they happen: the things to do before the
+   day on the left, the day itself on the right, each under a small
+   label with a rule. The day's column is the wider of the two, and its
+   label is ochre, the numbers' colour, so it reads as the point. */
+export const PhaseGrid = styled(Shell)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: 2fr 1.15fr;
+    gap: 40px;
+  }
+`;
+
+export const Phase = styled.div`
+  display: grid;
+  gap: 18px;
+  align-content: start;
+`;
+
+export const PhaseLabel = styled.p`
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(247, 247, 242, 0.25);
+  color: ${(props) => (props.$day ? colors.ochre : colors.sky)};
+  font-family: ${fonts.mono};
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+`;
+
+export const PhaseSteps = styled.ol`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: repeat(${(props) => props.$count}, minmax(0, 1fr));
+    gap: 32px;
+  }
+`;
+
 /* The sign-in, the supporting link and the aside under the steps. */
 export const StepsActions = styled.div`
   display: flex;
@@ -1137,66 +1200,30 @@ export const HeroPartnerTimes = styled.span`
   font-weight: 700;
 `;
 
-/* The pack: a paper card put down at a slight angle, the four stickers
-   stuck on it at the scale they are printed, overlapping the way a sheet
-   of stickers does. Fixed geometry (a 420px stage) that shrinks as a whole
-   below desktop, so the composition never reflows. */
-export const PackStage = styled.div`
+/* The pile: a heap of stickers put down on the forest, each one framed
+   the way the album frames an earned sticker (Hex below), at the sizes
+   they are printed, overlapping the way a handful of stickers does. Fixed
+   geometry (a 560px stage) that shrinks as a whole below desktop, so the
+   composition never reflows. */
+export const PileStage = styled.div`
   position: relative;
-  width: 420px;
+  width: 560px;
   max-width: 100%;
-  height: 360px;
+  height: 440px;
   margin: 0 auto;
-  overflow: visible;
 
-  /* Under 480px the stage shrinks as a whole, composition intact. zoom
-     rather than a transform because it shrinks the layout box too, so the
-     stage never overhangs the phone's gutter. */
-  @media (max-width: 479px) {
+  @media (max-width: 1023px) {
     zoom: 0.8;
   }
-`;
 
-export const PackCard = styled.div`
-  position: absolute;
-  inset: 24px 16px 0;
-  border: 2px solid ${colors.ink};
-  background: ${colors.white};
-  box-shadow: 8px 8px 0 ${colors.ink};
-  transform: rotate(-2deg);
-`;
-
-/* Along the card's bottom edge, where the stickers leave it clear. */
-export const PackLabel = styled.span`
-  position: absolute;
-  bottom: 14px;
-  left: 22px;
-  color: ${colors.muted};
-  font-family: ${fonts.mono};
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-`;
-
-export const Pack = styled.div`
-  position: absolute;
-  inset: 0;
-`;
-
-export const PackSticker = styled.span`
-  position: absolute;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  border: 5px solid ${colors.white};
-  outline: 3px solid ${colors.ink};
-  background: ${(props) => STICKER_GROUND[props.$ground] || colors.pink};
-  box-shadow: -4px 8px 0 rgba(16, 32, 29, 0.35);
-
-  svg {
-    width: 58%;
-    height: 58%;
+  @media (max-width: 479px) {
+    zoom: 0.6;
   }
+`;
+
+export const PileSticker = styled.span`
+  position: absolute;
+  display: block;
 `;
 
 /* The in-person hero's object: two prints from past Fests laid on the
@@ -1248,4 +1275,289 @@ export const Print = styled.img`
           box-shadow: 8px 8px 0 ${colors.forestDeep};
           transform: rotate(4deg);
         `}
+`;
+
+/* --- Milestones --------------------------------------------------------- */
+
+/* The three milestones on paperDeep, a step darker than the steps'
+   forest neighbour is light: the band with the cards that matter most. */
+export const MilestonesRoot = styled.section`
+  ${sectionRoot}
+  background: ${colors.paperDeep};
+`;
+
+/* Three across from tablet up; a world with a fourth card gets two by
+   two on a tablet and four across on a desktop. */
+export const MilestonesGrid = styled(Shell)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: repeat(
+      ${(props) => (props.$count > 3 ? 2 : props.$count || 3)},
+      minmax(0, 1fr)
+    );
+    gap: 24px;
+  }
+
+  @media (min-width: ${breakpoints.desktop}) {
+    grid-template-columns: repeat(
+      ${(props) => props.$count || 3},
+      minmax(0, 1fr)
+    );
+  }
+`;
+
+/* One milestone: the sticker, the count it takes, the name and what it
+   gets you. The card /my's rewards band draws, without the meter, since
+   nothing here is anyone's yet. */
+export const MilestoneCard = styled.div`
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  justify-items: start;
+  padding: 24px;
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  box-shadow: 7px 7px 0 ${colors.maroon};
+`;
+
+/* A hexagon sticker as the album draws an earned one (Album.module.css
+   .sticker): the ink outline is the whole box clipped to the hexagon, the
+   white ring sits 2.3px in at 72px, and the picture (the file carries
+   the ground and the glyph on a clear square) fills the box 5.8px in, so
+   it lies over the two rings. Both insets scale with the size. The cast
+   shadow is a drop-shadow on the unclipped box, the earned one, since
+   nothing on a landing page is anyone's yet and the pictures are shown
+   as they will look once they are. */
+const HEX =
+  'polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%)';
+
+export const Hex = styled.span`
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: ${(props) => props.$size || 96}px;
+  height: ${(props) => props.$size || 96}px;
+  padding: ${(props) => ((props.$size || 96) * 5.8) / 72}px;
+  isolation: isolate;
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: ${HEX};
+    background: ${colors.ink};
+  }
+
+  &::after {
+    inset: ${(props) => ((props.$size || 96) * 2.3) / 72}px;
+    background: ${colors.white};
+  }
+
+  img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+/* The sticker at the left, the count it takes at the top right. */
+export const MilestoneHead = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+`;
+
+export const MilestoneAt = styled.span`
+  flex: none;
+  padding: 3px 7px;
+  border: 2px solid ${colors.forest};
+  white-space: nowrap;
+  color: ${colors.forest};
+  font-family: ${fonts.mono};
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  /* The in-person page's on-the-day card wears the room's colour. */
+  ${(props) =>
+    props.$tone === 'pink' &&
+    css`
+      border-color: ${colors.pink};
+      background: ${colors.pinkLight};
+      color: ${colors.maroon};
+    `}
+`;
+
+export const MilestoneTitle = styled.h3`
+  margin: 0;
+  font-family: ${fonts.display};
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+`;
+
+export const MilestoneCopy = styled.p`
+  margin: 0;
+  color: ${colors.inkSoft};
+  font-size: 0.95rem;
+  line-height: 1.5;
+`;
+
+/* The on-the-day card's picture: the Tabler icon itself, in the room's
+   pink with a thin ink edge and a hard maroon copy offset behind it, the
+   shadow the card it sits on casts, so the two share one light. Not a
+   sticker, so no hexagon and no frame (Jacklyn's picks, 2026-09-22).
+   overflow visible, so the edge and the offset are not clipped by the
+   viewBox. */
+export const DayIcon = styled.svg`
+  display: block;
+  width: 56px;
+  height: 56px;
+  flex: none;
+  overflow: visible;
+  fill: ${colors.pink};
+  stroke: ${colors.ink};
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  filter: drop-shadow(4px 4px 0 ${colors.maroon});
+`;
+
+/* The one way onward a card can carry: a text link, the mono underline
+   the site uses for a small link. */
+export const MilestoneLink = styled.a`
+  margin-top: 2px;
+  color: ${colors.forest};
+  font-family: ${fonts.mono};
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+`;
+
+/* The line under the cards: small and quiet, the album's disclaimer at
+   this band's width. */
+export const MilestoneNote = styled(Shell).attrs({ as: 'p' })`
+  margin-top: 20px;
+  color: ${colors.muted};
+  font-size: 0.85rem;
+  line-height: 1.5;
+`;
+
+/* --- The collection ------------------------------------------------------ */
+
+export const CollectionRoot = styled.section`
+  ${sectionRoot}
+  background: ${colors.paper};
+`;
+
+/* One row per page of the book: the page's name and line at the left,
+   its stickers along the right, a rule between rows. */
+export const CollectionPages = styled(Shell)`
+  display: grid;
+`;
+
+export const CollectionRow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  padding: 18px 0;
+  border-top: 2px solid ${colors.paperDeep};
+
+  &:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 28px;
+    align-items: center;
+  }
+`;
+
+export const CollectionTitle = styled.h3`
+  margin: 0;
+  font-family: ${fonts.display};
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+
+  small {
+    display: block;
+    margin-top: 4px;
+    color: ${colors.muted};
+    font-family: ${fonts.sans};
+    font-size: 0.86rem;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+`;
+
+/* The stickers along a row. Under the pointer a sticker says its name
+   (data-label on the item), in the mono tag the site labels things with,
+   held above the sticker; the name is also the picture's alt, so nothing
+   here is hover-only for a reader. */
+export const CollectionStickers = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+  }
+
+  li[data-label]::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    z-index: 2;
+    max-width: 22ch;
+    padding: 4px 8px;
+    border: 2px solid ${colors.ink};
+    background: ${colors.ink};
+    color: ${colors.white};
+    font-family: ${fonts.mono};
+    font-size: 0.62rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-align: center;
+    white-space: normal;
+    width: max-content;
+    transform: translateX(-50%) translateY(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.12s ease,
+      transform 0.12s ease;
+  }
+
+  li[data-label]:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    li[data-label]::after {
+      transition: none;
+    }
+  }
 `;

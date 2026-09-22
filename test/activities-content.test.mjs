@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { activitiesPage } from '../src/data/content.mjs';
+import { REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 
 /* Copy shape, and the voice rules every band follows. */
@@ -10,17 +11,33 @@ test('the page has its meta and hero', () => {
   assert.match(activitiesPage.title, /Hacktoberfest 2026/);
   assert.ok(activitiesPage.description.length > 40);
   assert.match(activitiesPage.eyebrow, /^Attend online/);
-  assert.equal(activitiesPage.heading.lead, 'Do the activities,');
-  assert.equal(activitiesPage.heading.accent, 'earn the rewards.');
+  assert.equal(activitiesPage.heading.lead, 'Every sticker,');
+  assert.equal(activitiesPage.heading.accent, 'and how to earn it.');
+  assert.match(activitiesPage.intro, /virtual sticker/);
 });
 
-test('the how-it-works steps read the threshold rather than hardcoding it', () => {
-  const three = activitiesPage.how.steps(3);
-  const five = activitiesPage.how.steps(5);
-  assert.equal(three.length, 3);
-  assert.ok(three.join(' ').includes('3'));
-  assert.ok(five.join(' ').includes('5'));
-  assert.ok(!three.join(' ').includes('5'));
+/* How it works: the three stickers to the pack, the two required ones
+   drawn as themselves and the third slot empty; the line under them
+   reads the thresholds, in book units. */
+test('the how-it-works steps are the three stickers to the pack', () => {
+  const { steps } = activitiesPage.how;
+  assert.equal(steps.length, 3);
+  assert.deepEqual(
+    steps.map((step) => step.art),
+    [...REQUIRED_STICKERS.map((sticker) => sticker.id), null],
+  );
+  assert.deepEqual(
+    steps.map((step) => step.tag),
+    ['Sticker 1', 'Sticker 2', 'Sticker 3'],
+  );
+  assert.ok(steps[2].mark);
+  assert.match(steps[2].title, /below/);
+  assert.match(activitiesPage.how.heading.lead, /^Three stickers/);
+  assert.match(activitiesPage.how.intro, /two stickers just for signing up/);
+});
+
+test('nothing under the steps: no milestone line, no thresholds read', () => {
+  assert.equal(activitiesPage.how.then, undefined);
 });
 
 test('sources are named in words a participant would use', () => {
@@ -58,28 +75,28 @@ const collectStrings = (value, acc = []) => {
   return acc;
 };
 
-/* The vocabulary: you do activities; "sticker" only ever means the pack.
-   Every band carries an eyebrow, and What you get points at both worlds. */
-test('activities are activities, and the bands have their eyebrows', () => {
-  const strings = collectStrings(activitiesPage);
+/* The vocabulary is the site's one story: you complete challenges and
+   earn stickers, and "activity" is never said to a participant, except
+   as the page's own name (the nav's entry, so the title and the eyebrow
+   keep it). Every band carries an eyebrow, and the milestones band
+   points at both worlds. */
+test('stickers are stickers, and the bands have their eyebrows', () => {
+  const { title, eyebrow, ...copy } = activitiesPage;
+  assert.match(title, /Activities/);
+  assert.match(eyebrow, /Activities/);
+  const strings = collectStrings(copy);
   strings.push(activitiesPage.strip.count(1, 4));
   const prose = strings.join(' ');
-  assert.doesNotMatch(
-    prose,
-    /stickers? (earned|go\b)|is a sticker|Every sticker/i,
-  );
+  assert.doesNotMatch(prose, /\bactivit(y|ies)\b/i);
   assert.ok(activitiesPage.how.eyebrow);
   assert.ok(activitiesPage.list.eyebrow);
-  assert.ok(activitiesPage.get.eyebrow);
-  assert.deepEqual(
-    activitiesPage.get.worlds.map((world) => world.href),
-    ['/online/', '/in-person/'],
-  );
+  /* The milestones band came off the page: the rewards live on the two
+     landing pages, where the whole story is. */
+  assert.equal(activitiesPage.get, undefined);
 });
 
 test('the copy keeps the house voice', () => {
   const strings = collectStrings(activitiesPage);
-  strings.push(...activitiesPage.how.steps(3));
   strings.push(activitiesPage.list.doneOn('October 5'));
   strings.push(activitiesPage.list.filters.chip('Online', 2));
   strings.push(activitiesPage.strip.count(3, 4));
@@ -98,10 +115,11 @@ test('every type has a label, and the chips have their words', () => {
   assert.equal(activitiesPage.list.filters.todo, 'Still to do');
   assert.equal(activitiesPage.list.filters.chip('Online', 2), 'Online · 2');
   assert.ok(activitiesPage.list.filters.empty.length > 10);
-  assert.equal(activitiesPage.list.earned, 'Done');
+  assert.equal(activitiesPage.list.earned, 'Earned');
+  assert.equal(activitiesPage.list.doneOn('October 5'), 'Earned October 5');
 });
 
-test('the strip counts activities and points at the hub', () => {
-  assert.equal(activitiesPage.strip.count(3, 4), '3 of 4 activities done');
-  assert.match(activitiesPage.strip.hubCta, /My Hacktoberfest/);
+test('the strip line counts stickers, and the strip itself is off this page', () => {
+  assert.equal(activitiesPage.strip.count(3, 4), '3 of 4 stickers earned');
+  assert.equal(activitiesPage.strip.hubCta, undefined);
 });
