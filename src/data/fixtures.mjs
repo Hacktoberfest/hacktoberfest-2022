@@ -39,19 +39,47 @@ export const SCENARIOS = Object.freeze({
     activities: [
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-12' },
     ],
-    /* The catalogue as GET /api/me/items serves it: one real item. */
+    /* The catalogue as GET /api/me/items serves it: the pack and the
+       holographic sticker, earned by the milestones. */
     items: [
       {
         id: 'sticker-pack-2026',
         name: 'The 2026 sticker pack',
         kind: 'physical',
-        earnedBy: 'Completing Milestone 1',
+        earnedBy: 'Your first sticker',
         getsToYou:
           'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
         cta: {
           label: 'Update shipping address',
           url: 'https://www.mlh.com/account/settings#addresses',
         },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+      {
+        id: 'holographic-sticker-2026',
+        name: 'The holographic sticker',
+        kind: 'physical',
+        earnedBy: 'Ten stickers in the book',
+        getsToYou:
+          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+      {
+        id: 'completionist-certificate-2026',
+        name: 'Completionist certificate',
+        kind: 'digital',
+        earnedBy: 'Seventeen stickers in the book',
+        getsToYou:
+          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        cta: null,
         requiresDevLink: false,
         earned: false,
         earnedAt: null,
@@ -103,13 +131,14 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
-    /* The catalogue as GET /api/me/items serves it: one real item. */
+    /* The catalogue as GET /api/me/items serves it: the pack and the
+       holographic sticker, earned by the milestones. */
     items: [
       {
         id: 'sticker-pack-2026',
         name: 'The 2026 sticker pack',
         kind: 'physical',
-        earnedBy: 'Completing Milestone 1',
+        earnedBy: 'Your first sticker',
         getsToYou:
           'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
         cta: {
@@ -119,6 +148,33 @@ export const SCENARIOS = Object.freeze({
         requiresDevLink: false,
         earned: true,
         earnedAt: '2026-10-01T09:00:00.000Z',
+      },
+      {
+        id: 'holographic-sticker-2026',
+        name: 'The holographic sticker',
+        kind: 'physical',
+        earnedBy: 'Ten stickers in the book',
+        getsToYou:
+          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+      {
+        id: 'completionist-certificate-2026',
+        name: 'Completionist certificate',
+        kind: 'digital',
+        earnedBy: 'Seventeen stickers in the book',
+        getsToYou:
+          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        cta: null,
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
       },
     ],
     fests: [
@@ -162,19 +218,47 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'livestreams-1', completed: false }],
-    /* The catalogue as GET /api/me/items serves it: one real item. */
+    /* The catalogue as GET /api/me/items serves it: the pack and the
+       holographic sticker, earned by the milestones. */
     items: [
       {
         id: 'sticker-pack-2026',
         name: 'The 2026 sticker pack',
         kind: 'physical',
-        earnedBy: 'Completing Milestone 1',
+        earnedBy: 'Your first sticker',
         getsToYou:
           'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
         cta: {
           label: 'Update shipping address',
           url: 'https://www.mlh.com/account/settings#addresses',
         },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+      {
+        id: 'holographic-sticker-2026',
+        name: 'The holographic sticker',
+        kind: 'physical',
+        earnedBy: 'Ten stickers in the book',
+        getsToYou:
+          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+      {
+        id: 'completionist-certificate-2026',
+        name: 'Completionist certificate',
+        kind: 'digital',
+        earnedBy: 'Seventeen stickers in the book',
+        getsToYou:
+          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        cta: null,
         requiresDevLink: false,
         earned: false,
         earnedAt: null,
@@ -213,13 +297,14 @@ export const SCENARIOS = Object.freeze({
       { id: 'discord', completed: true, completedAt: '2026-10-03' },
       { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
     ],
-    /* The catalogue as GET /api/me/items serves it: one real item. */
+    /* The catalogue as GET /api/me/items serves it: the pack and the
+       holographic sticker, earned by the milestones. */
     items: [
       {
         id: 'sticker-pack-2026',
         name: 'The 2026 sticker pack',
         kind: 'physical',
-        earnedBy: 'Completing Milestone 1',
+        earnedBy: 'Your first sticker',
         getsToYou:
           'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
         cta: {
@@ -229,6 +314,33 @@ export const SCENARIOS = Object.freeze({
         requiresDevLink: false,
         earned: true,
         earnedAt: '2026-10-01T09:00:00.000Z',
+      },
+      {
+        id: 'holographic-sticker-2026',
+        name: 'The holographic sticker',
+        kind: 'physical',
+        earnedBy: 'Ten stickers in the book',
+        getsToYou:
+          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: true,
+        earnedAt: '2026-10-17T12:00:00.000Z',
+      },
+      {
+        id: 'completionist-certificate-2026',
+        name: 'Completionist certificate',
+        kind: 'digital',
+        earnedBy: 'Seventeen stickers in the book',
+        getsToYou:
+          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        cta: null,
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
       },
     ],
     fests: [
@@ -296,13 +408,14 @@ export const SCENARIOS = Object.freeze({
       { id: 'ghw-points-5', completed: true, completedAt: '2026-10-15' },
       { id: 'ghw-points-10', completed: true, completedAt: '2026-10-16' },
     ],
-    /* The catalogue as GET /api/me/items serves it: one real item. */
+    /* The catalogue as GET /api/me/items serves it: the pack and the
+       holographic sticker, earned by the milestones. */
     items: [
       {
         id: 'sticker-pack-2026',
         name: 'The 2026 sticker pack',
         kind: 'physical',
-        earnedBy: 'Completing Milestone 1',
+        earnedBy: 'Your first sticker',
         getsToYou:
           'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
         cta: {
@@ -314,10 +427,37 @@ export const SCENARIOS = Object.freeze({
         earnedAt: '2026-10-01T09:00:00.000Z',
       },
       {
+        id: 'holographic-sticker-2026',
+        name: 'The holographic sticker',
+        kind: 'physical',
+        earnedBy: 'Ten stickers in the book',
+        getsToYou:
+          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: true,
+        earnedAt: '2026-10-17T12:00:00.000Z',
+      },
+      {
+        id: 'completionist-certificate-2026',
+        name: 'Completionist certificate',
+        kind: 'digital',
+        earnedBy: 'Seventeen stickers in the book',
+        getsToYou:
+          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        cta: null,
+        requiresDevLink: false,
+        earned: true,
+        earnedAt: '2026-10-22T12:00:00.000Z',
+      },
+      {
         id: 'fest-certificate-2026',
         name: 'Fest attendance certificate',
         kind: 'digital',
-        earnedBy: 'Checking in at an in-person Fest',
+        earnedBy: 'Attending a Fest',
         getsToYou:
           'A certificate with your name, the Fest and the date, one for every Fest you attend.',
         cta: null,
@@ -374,13 +514,14 @@ export const SCENARIOS = Object.freeze({
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
-    /* The catalogue as GET /api/me/items serves it: one real item. */
+    /* The catalogue as GET /api/me/items serves it: the pack and the
+       holographic sticker, earned by the milestones. */
     items: [
       {
         id: 'sticker-pack-2026',
         name: 'The 2026 sticker pack',
         kind: 'physical',
-        earnedBy: 'Completing Milestone 1',
+        earnedBy: 'Your first sticker',
         getsToYou:
           'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
         cta: {
@@ -406,6 +547,33 @@ export const SCENARIOS = Object.freeze({
         variant: { title: 'Hacktober Fest London', date: '2026-08-01' },
         earned: true,
         earnedAt: '2026-08-01T09:00:00.000Z',
+      },
+      {
+        id: 'holographic-sticker-2026',
+        name: 'The holographic sticker',
+        kind: 'physical',
+        earnedBy: 'Ten stickers in the book',
+        getsToYou:
+          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+        cta: {
+          label: 'Update shipping address',
+          url: 'https://www.mlh.com/account/settings#addresses',
+        },
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
+      },
+      {
+        id: 'completionist-certificate-2026',
+        name: 'Completionist certificate',
+        kind: 'digital',
+        earnedBy: 'Seventeen stickers in the book',
+        getsToYou:
+          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        cta: null,
+        requiresDevLink: false,
+        earned: false,
+        earnedAt: null,
       },
     ],
     fests: [

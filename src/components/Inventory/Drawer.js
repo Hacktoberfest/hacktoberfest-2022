@@ -93,16 +93,52 @@ const CertificateDownloads = ({ item }) => {
 const PageHead = () => (
   <div className={styles.pageHead}>
     <h3 className={styles.pageTitle}>{my.inventory.pages.picked.title}</h3>
-    <p className={styles.pageNote}>{my.inventory.pages.picked.note}</p>
   </div>
 );
 
-const Drawer = ({ item }) => {
+/* Nothing earned: the ghost the cells show, as an entry. Its picture
+   greyed, "Up next" where the kind would be, its two facts, and no
+   button: nothing to do about it yet but earn a sticker. */
+const GhostEntry = ({ ghost }) => (
+  <div className={`${styles.page} ${styles.rightPage}`}>
+    <PageHead />
+    <div className={`${styles.entry} ${styles.ghost}`}>
+      <span
+        className={`${styles.slot} ${styles.entrySlot}`}
+        data-shape={ghost.sticker ? 'sticker' : 'thing'}
+      >
+        <span className={styles.sticker}>
+          <img
+            className={styles.stickerImage}
+            src={stickerImageSrc(ghost.art)}
+            alt=""
+            draggable="false"
+          />
+        </span>
+      </span>
+      <div className={styles.entryBody}>
+        <div className={styles.entryTop}>
+          <span className={styles.tag}>{my.inventory.upNext}</span>
+        </div>
+        <h4 className={styles.entryTitle}>{ghost.name}</h4>
+      </div>
+    </div>
+    <dl className={styles.facts}>
+      <dt>{my.inventory.drawer.earnedBy}</dt>
+      <dd>{ghost.earnedBy}</dd>
+      <dt>{my.inventory.drawer.how}</dt>
+      <dd>{ghost.getsToYou}</dd>
+    </dl>
+  </div>
+);
+
+const Drawer = ({ item, ghost }) => {
+  if (!item && ghost) return <GhostEntry ghost={ghost} />;
   if (!item) {
     return (
       <div className={`${styles.page} ${styles.rightPage}`}>
         <PageHead />
-        <p className={styles.entryLine}>{my.inventory.nothing}</p>
+        <p className={styles.entryLine}>{my.inventory.intro}</p>
       </div>
     );
   }

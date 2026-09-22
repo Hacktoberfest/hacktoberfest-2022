@@ -4,8 +4,10 @@ import { my } from 'data/content.mjs';
 import {
   inventoryItems,
   inventoryLayout,
+  nextThing,
   openingSlot,
 } from 'lib/inventory.mjs';
+import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import Drawer from './Drawer';
 import styles from './Inventory.module.css';
@@ -16,7 +18,9 @@ import Slot from './Slot';
    earned thing, physical or digital, and blank cells for room; the right
    page is the one picked, set the way the sticker book sets a page, with
    a head and a note; the spine runs under both. Unearned things are not
-   shown, and no number of slots is ever promised. Nothing here tracks a
+   shown, and no number of slots is ever promised, except that an empty
+   locker shows one ghost: the first thing to earn, greyed in the first
+   cell, so the cells say what goes in them. Nothing here tracks a
    parcel: a thing is in the locker or it is not.
 
    The things are the API's (GET /api/me/items, experience.items): their
@@ -34,8 +38,11 @@ const Inventory = ({ experience, justEarned }) => {
   /* Only what is earned is shown; the unearned things in the catalogue
      only say whether there is more to earn. */
   const items = catalogue.filter((item) => item.earned);
-  const earnable = catalogue.some((item) => !item.earned);
-  const { columns, empties } = inventoryLayout(items.length);
+  const ghost = items.length === 0 ? nextThing(catalogue) : null;
+  const { columns, empties } = inventoryLayout(
+    items.length + (ghost ? 1 : 0),
+    ghost ? 1 : undefined,
+  );
 
   const [selected, setSelected] = useState(() =>
     openingSlot(items, justEarned),
@@ -88,12 +95,6 @@ const Inventory = ({ experience, justEarned }) => {
   };
 
   const earnedCount = items.length;
-  const intro =
-    earnedCount === 0
-      ? my.inventory.intro.empty
-      : earnable
-        ? my.inventory.intro.some
-        : my.inventory.intro.full;
 
   const isNew = (item) =>
     Boolean(
@@ -108,14 +109,13 @@ const Inventory = ({ experience, justEarned }) => {
       <h2 id="inventory-heading" className={styles.heading}>
         {my.inventory.heading.lead} <em>{my.inventory.heading.accent}</em>
       </h2>
-      <p className={styles.intro}>{intro}</p>
+      <p className={styles.intro}>{my.inventory.intro}</p>
       <div className={styles.locker}>
         <div className={styles.page}>
           <div className={styles.pageHead}>
             <h3 className={styles.pageTitle}>
               {my.inventory.pages.have.title}
             </h3>
-            <p className={styles.pageNote}>{my.inventory.pages.have.note}</p>
           </div>
           <div
             className={styles.cells}
@@ -134,6 +134,29 @@ const Inventory = ({ experience, justEarned }) => {
                 onPick={() => pick(item.slot)}
               />
             ))}
+            {/* The ghost: not a thing in the locker, so not an option and
+                not read out; the intro above says what it means. */}
+            {ghost && (
+              <div
+                className={`${styles.cell} ${styles.cellEmpty} ${styles.ghost}`}
+                data-item={ghost.id}
+                data-shape={ghost.sticker ? 'sticker' : 'thing'}
+                aria-hidden="true"
+              >
+                <span className={styles.slot}>
+                  <span className={styles.sticker}>
+                    <img
+                      className={styles.stickerImage}
+                      src={stickerImageSrc(ghost.art)}
+                      alt=""
+                      draggable="false"
+                    />
+                  </span>
+                </span>
+                <span className={styles.cellTitle}>{ghost.name}</span>
+                <span className={styles.cellStatus}>{my.inventory.notYet}</span>
+              </div>
+            )}
             {/* Room: blank cells that finish the row and keep the locker
                 at least two rows tall. Nothing drawn in them and nothing
                 said: they are room, not a count. */}
@@ -146,7 +169,7 @@ const Inventory = ({ experience, justEarned }) => {
             ))}
           </div>
         </div>
-        <Drawer item={currentItem} />
+        <Drawer item={currentItem} ghost={ghost} />
         <div className={styles.spine}>
           <span className={styles.spineCount}>
             {my.inventory.count(earnedCount)}

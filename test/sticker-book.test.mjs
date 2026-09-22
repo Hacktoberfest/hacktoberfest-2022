@@ -129,7 +129,8 @@ test('a tab shows its own stickers, in book order, and never reorders', () => {
 });
 
 test('the book opens on the page holding the next sticker', () => {
-  assert.equal(defaultTab(bookStickers(experience())), 'required');
+  /* An activity page, never the Required one, while there is one to earn. */
+  assert.equal(defaultTab(bookStickers(experience())), ACTIVITIES[0].type);
   assert.equal(
     defaultTab(bookStickers(experience({ addressValidated: true }))),
     ACTIVITIES[0].type,
@@ -199,7 +200,8 @@ test('rewardsState: the pack as three needs, completion as a meter of five', () 
     fresh.completion.pips.map((s) => s.id),
     ['signin'],
   );
-  assert.equal(fresh.completion.remaining, 3);
+  /* Book units: five to reach, one (the sign-in) in. */
+  assert.equal(fresh.completion.remaining, 4);
   assert.equal(fresh.earnedRewards, 0);
 
   /* A Fest with no address: the sticker is in the book (a pip, and the
@@ -251,6 +253,50 @@ test('rewardsState: fifteen activity stickers make a Completionist', () => {
   assert.equal(state.completionist.remaining, 0);
   assert.equal(state.completionist.pips.length, 17);
   assert.equal(state.earnedRewards, 3);
+});
+
+test('rewardsState: each milestone carries the day it was reached, from the stickers’ own dates', () => {
+  const ids = ACTIVITIES.slice(0, 3).map((a) => a.id);
+  const dated = experience({
+    addressValidated: true,
+    required: [
+      { id: 'signin', completed: true, completedAt: '2026-10-01' },
+      { id: 'address', completed: true, completedAt: '2026-10-03' },
+    ],
+    activities: [
+      { id: ids[0], completed: true, completedAt: '2026-10-02' },
+      { id: ids[1], completed: true, completedAt: '2026-10-09' },
+      { id: ids[2], completed: true, completedAt: '2026-10-06' },
+    ],
+  });
+  const state = rewardsState(dated, bookStickers(dated));
+  /* The pack: the day its last requirement landed, the address here. */
+  assert.equal(state.pack.earnedAt, '2026-10-03');
+  /* The holographic sticker: the day the book reached five. */
+  assert.equal(state.completion.earnedAt, '2026-10-09');
+  assert.equal(state.completionist.earnedAt, null);
+
+  /* No dates on record: earned, but with no day to say. */
+  const undated = experience({
+    addressValidated: true,
+    activities: ids.map((id) => ({ id, completed: true })),
+  });
+  const bare = rewardsState(undated, bookStickers(undated));
+  assert.equal(bare.pack.earned, true);
+  assert.equal(bare.pack.earnedAt, null);
+  assert.equal(bare.completion.earnedAt, null);
+});
+
+test('a DEV challenge is locked until the DEV account is linked; the connect sticker never is', () => {
+  const unlinked = bookStickers(experience({ user: { devLinked: false } }));
+  const week = unlinked.find((s) => s.id === 'dev-week-1');
+  const connect = unlinked.find((s) => s.id === 'dev-connect');
+  const other = unlinked.find((s) => s.id === 'discord');
+  assert.equal(week.locked, true);
+  assert.equal(connect.locked, false);
+  assert.equal(other.locked, false);
+  const linked = bookStickers(experience({ user: { devLinked: true } }));
+  assert.equal(linked.find((s) => s.id === 'dev-week-1').locked, false);
 });
 
 test('counts are the whole book, required stickers included', () => {

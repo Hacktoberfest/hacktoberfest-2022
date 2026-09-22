@@ -119,6 +119,8 @@ export const ACTIVITIES = Object.freeze([
      words and the links. */
   Object.freeze({
     id: 'dev-launch-weekend',
+    when: 'October 2 to 4',
+    cellLabel: 'Submit to the launch weekend DEV Challenge',
     label: 'Submit to the Hacktoberfest Launch Weekend DEV Challenge',
     detail:
       'Publish your entry on DEV with the challenge tag over launch weekend, October 2 to 4.',
@@ -131,6 +133,8 @@ export const ACTIVITIES = Object.freeze([
   }),
   Object.freeze({
     id: 'dev-week-1',
+    when: 'October 5 to 11',
+    cellLabel: 'Submit to the week 1 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 1 DEV Challenge',
     detail:
       'Publish your entry on DEV with the challenge tag during week one, October 5 to 11.',
@@ -143,6 +147,8 @@ export const ACTIVITIES = Object.freeze([
   }),
   Object.freeze({
     id: 'dev-week-2',
+    when: 'October 12 to 18',
+    cellLabel: 'Submit to the week 2 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 2 DEV Challenge',
     detail:
       'Publish your entry on DEV with the challenge tag during week two, October 12 to 18.',
@@ -155,6 +161,8 @@ export const ACTIVITIES = Object.freeze([
   }),
   Object.freeze({
     id: 'dev-week-3',
+    when: 'October 19 to 25',
+    cellLabel: 'Submit to the week 3 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 3 DEV Challenge',
     detail:
       'Publish your entry on DEV with the challenge tag during week three, October 19 to 25.',
@@ -167,6 +175,8 @@ export const ACTIVITIES = Object.freeze([
   }),
   Object.freeze({
     id: 'dev-week-4',
+    when: 'October 26 to 31',
+    cellLabel: 'Submit to the week 4 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 4 DEV Challenge',
     detail:
       'Publish your entry on DEV with the challenge tag during week four, October 26 to 31.',
@@ -272,7 +282,7 @@ export const ACTIVITIES = Object.freeze([
 export const REQUIRED_STICKERS = Object.freeze([
   Object.freeze({
     id: 'signin',
-    label: 'Signed in with MyMLH',
+    label: 'Sign into Hacktoberfest.com',
     detail: 'The MyMLH account you signed in with. Earned by being here.',
     href: null,
     ctaLabel: null,
@@ -282,7 +292,7 @@ export const REQUIRED_STICKERS = Object.freeze([
   }),
   Object.freeze({
     id: 'address',
-    label: 'Address on file',
+    label: 'Add your address to your MyMLH account',
     detail:
       'Where the sticker pack goes. It lives on your MyMLH account, never here.',
     href: null,

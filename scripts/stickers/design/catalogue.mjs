@@ -35,7 +35,49 @@ export const GROUNDS = Object.freeze({
   pack: ['#f5b726', '#e53927'],
   complete: ['#f5b726', '#e97b77', '#8bb2de'],
   completionist: ['#8bb2de', '#3d5f58', '#10201d'],
+  /* The locker's things wear their kind: the pack its envelope's ochre,
+     a physical thing sky, a digital one forest. The attendee's Fest
+     certificate is paper, a certificate as it would be printed, with its
+     rules in forest; the host's is forest, the digital green, beside the
+     badge. colors.ochre / sky / forest / white */
+  parcel: '#f5b726',
+  physical: '#8bb2de',
+  digital: '#3d5f58',
+  paper: '#f7f7f2',
 });
+
+/* The locker's things: not stickers, so not hexagons. Each is its own
+   shape wearing the sticker's skin (compose.mjs, composeThing): an
+   `envelope`; a `gift` box or a `badge`, drawn from the Tabler filled
+   icon named by `icon`; or a `card` with a `seal` icon on it and its
+   ruled lines in `rules` when white would not show on its ground. The generic
+   physical thing is a gift box, not any one thing MLH sends. Slugs are the
+   art names the locker asks for (lib/inventory.mjs, lib/stickerImage.mjs):
+   one generic per kind, and a known item's own by its API slug. */
+export const THINGS = Object.freeze([
+  { slug: 'reward-pack', shape: 'envelope', ground: 'parcel' },
+  { slug: 'reward-physical', shape: 'gift', icon: 'gift', ground: 'physical' },
+  { slug: 'reward-digital', shape: 'badge', icon: 'badge', ground: 'digital' },
+  {
+    slug: 'fest-certificate-2026',
+    shape: 'card',
+    ground: 'paper',
+    rules: '#3d5f58',
+    seal: 'rosette-discount-check',
+  },
+  {
+    slug: 'fest-host-certificate-2026',
+    shape: 'card',
+    ground: 'digital',
+    seal: 'star',
+  },
+  {
+    slug: 'completionist-certificate-2026',
+    shape: 'card',
+    ground: 'digital',
+    seal: 'crown',
+  },
+]);
 
 export const CATALOGUE = Object.freeze([
   { slug: 'signin', icon: 'key', ground: 'required' },

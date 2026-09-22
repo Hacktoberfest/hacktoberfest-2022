@@ -29,6 +29,18 @@ export const WIDE_AFTER = 10;
    up drawn before its own picture exists. */
 const ITEM_ART = Object.freeze({
   'sticker-pack-2026': { art: 'reward-pack', sticker: false },
+  /* The bonus holographic sticker is a sticker, so the locker draws it as
+     one: the milestone's own art, in the die-cut hexagon. */
+  'holographic-sticker-2026': { art: 'milestone-complete', sticker: true },
+  'fest-certificate-2026': { art: 'fest-certificate-2026', sticker: false },
+  'fest-host-certificate-2026': {
+    art: 'fest-host-certificate-2026',
+    sticker: false,
+  },
+  'completionist-certificate-2026': {
+    art: 'completionist-certificate-2026',
+    sticker: false,
+  },
 });
 
 /* The things the API renders as a certificate on request (GET
@@ -36,11 +48,19 @@ const ITEM_ART = Object.freeze({
    the thing's page instead of a call to action. By slug, since the shape
    of a thing is the frontend's to know. */
 export const CERTIFICATE_SLUGS = Object.freeze(
-  new Set(['fest-certificate-2026', 'fest-host-certificate-2026']),
+  new Set([
+    'fest-certificate-2026',
+    'fest-host-certificate-2026',
+    'completionist-certificate-2026',
+  ]),
 );
 
+/* A thing earned once has the empty key, which no path segment can carry,
+   so its certificate is asked for without one. */
 export const certificatePath = (item, format) =>
-  `/api/me/items/${encodeURIComponent(item.id)}/${encodeURIComponent(item.key)}/certificate.${format}`;
+  item.key
+    ? `/api/me/items/${encodeURIComponent(item.id)}/${encodeURIComponent(item.key)}/certificate.${format}`
+    : `/api/me/items/${encodeURIComponent(item.id)}/certificate.${format}`;
 
 const GENERIC_ART = Object.freeze({
   physical: { art: 'reward-physical', sticker: false },
@@ -110,6 +130,13 @@ export const inventoryItems = (experience) => {
     });
 };
 
+/* What an empty locker shows as a ghost: the first thing not yet earned,
+   in catalogue order, so the pack when nothing is. Null when there is
+   nothing left to earn. */
+export const nextThing = (items) =>
+  (Array.isArray(items) ? items : []).find((item) => item && !item.earned) ||
+  null;
+
 /* The earned items' ids for the just-earned record. */
 export const itemIds = (items) =>
   (Array.isArray(items) ? items : [])
@@ -123,10 +150,13 @@ export const itemIds = (items) =>
    promised. */
 export const MIN_ROWS = 2;
 
-export const inventoryLayout = (count) => {
+/* `minRows` is the room kept under what is there: two rows normally, one
+   when the locker holds only its ghost, so an empty locker is not a
+   field of blank cells. */
+export const inventoryLayout = (count, minRows = MIN_ROWS) => {
   const n = Math.max(0, Number(count) || 0);
   const columns = n > WIDE_AFTER ? 6 : 5;
-  const rows = Math.max(MIN_ROWS, Math.ceil(n / columns));
+  const rows = Math.max(minRows, Math.ceil(n / columns));
   return { columns, empties: rows * columns - n };
 };
 

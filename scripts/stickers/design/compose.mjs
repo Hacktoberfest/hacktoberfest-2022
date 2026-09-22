@@ -276,3 +276,95 @@ export const composeSticker = ({
     .filter((line) => line !== '')
     .join('\n');
 };
+
+/* The locker's things (catalogue THINGS) are not stickers, so not
+   hexagons: each is its own shape wearing the sticker's skin, the ink
+   edge and white ring the site's CSS draws around a hexagon, drawn into
+   the file here since the locker draws a thing as itself (the same
+   32-and-20 strokes under the fill: 6 of ink, then 10 of white, showing
+   outside the shape). The envelope carries a small white hexagon
+   sticker, the pack's; a gift box and a badge are plain; a card carries three
+   ruled lines and an ochre seal at its lower right with the seal's icon
+   in white on it. A shape keeps 18 units from the box's sides, since the
+   ink edge reaches 16 outside it and the box is the picture's edge. */
+const OCHRE = '#f5b726';
+
+const skin = (paths, ground, { transform = '', k = 1 } = {}) => {
+  const pass = (attrs) =>
+    `<g${transform ? ` transform="${transform}"` : ''} ${attrs}>${paths.map((d) => `<path d="${d}"/>`).join('')}</g>`;
+  return [
+    pass(
+      `fill="none" stroke="${INK}" stroke-width="${f2(32 / k)}" stroke-linejoin="round"`,
+    ),
+    pass(
+      `fill="none" stroke="${WHITE}" stroke-width="${f2(20 / k)}" stroke-linejoin="round"`,
+    ),
+    pass(`fill="${ground}"`),
+  ].join('\n');
+};
+
+const roundedRect = (x, y, w, h, r) =>
+  `M${x + r} ${y} H${x + w - r} A${r} ${r} 0 0 1 ${x + w} ${y + r} V${y + h - r} A${r} ${r} 0 0 1 ${x + w - r} ${y + h} H${x + r} A${r} ${r} 0 0 1 ${x} ${y + h - r} V${y + r} A${r} ${r} 0 0 1 ${x + r} ${y} Z`;
+
+const ruled = (d, colour, width) =>
+  `<path d="${d}" fill="none" stroke="${colour}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+const smallSticker = (cx, cy, width) =>
+  `<path d="${hexagonAt(cx, cy, width)}" fill="${WHITE}" stroke="${INK}" stroke-width="5.4" stroke-linejoin="round"/>`;
+
+/* A Tabler icon as the thing's whole shape: its 24 grid scaled to `size`
+   and centred, the skin's strokes scaled down to match. */
+const shapeMark = (paths, ground, size) => {
+  const k = size / 24;
+  const transform = `translate(${f2(100 - size / 2)} ${f2(100 - size / 2)}) scale(${f2(k)})`;
+  return skin(paths, ground, { transform, k });
+};
+
+/* The seal: an ochre disc 40 wide with an ink edge, the icon 26 tall on
+   it, white with the ink outline at half the sticker's weight. */
+const seal = (paths, fillRule, cx, cy) => {
+  const scale = 26 / 24;
+  const rule = fillRule ? ` fill-rule="${fillRule}"` : '';
+  const pass = (attrs) =>
+    `<g transform="translate(${f2(cx - 12 * scale)} ${f2(cy - 12 * scale)}) scale(${f2(scale)})" ${attrs}${rule}>${paths.map((d) => `<path d="${d}"/>`).join('')}</g>`;
+  return [
+    `<circle cx="${cx}" cy="${cy}" r="20" fill="${OCHRE}" stroke="${INK}" stroke-width="5.4"/>`,
+    pass(
+      `fill="none" stroke="${INK}" stroke-width="${f2(5.4 / scale)}" stroke-linejoin="round"`,
+    ),
+    pass(`fill="${WHITE}"`),
+  ].join('\n');
+};
+
+const THING_SHAPES = {
+  envelope: ({ ground }) =>
+    [
+      skin([roundedRect(18, 40, 164, 120, 10)], ground),
+      ruled('M18 40 L100 106 L182 40', INK, 5.4),
+      smallSticker(100, 128, 30),
+    ].join('\n'),
+  gift: ({ ground, shapeIcon }) => shapeMark(shapeIcon.paths, ground, 176),
+  badge: ({ ground, shapeIcon }) => shapeMark(shapeIcon.paths, ground, 176),
+  card: ({ ground, sealIcon, rules = WHITE }) =>
+    [
+      skin([roundedRect(18, 46, 164, 108, 10)], ground),
+      ruled('M40 80 H118', rules, 6),
+      ruled('M40 100 H100', rules, 6),
+      ruled('M40 120 H84', rules, 6),
+      seal(sealIcon.paths, sealIcon.fillRule, 150, 122),
+    ].join('\n'),
+};
+
+/* `entry` is a THINGS row; `shapeIcon` and `sealIcon` the icon files
+   (paths and fill rule) its shape and seal name, when they do; `ground`
+   the colour. */
+export const composeThing = ({ entry, shapeIcon, sealIcon, ground }) => {
+  const draw = THING_SHAPES[entry.shape];
+  if (!draw) throw new Error(`no shape "${entry.shape}" for ${entry.slug}`);
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">`,
+    draw({ ground, shapeIcon, sealIcon, rules: entry.rules }),
+    `</svg>`,
+    '',
+  ].join('\n');
+};

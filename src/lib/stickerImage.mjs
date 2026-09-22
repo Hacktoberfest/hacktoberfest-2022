@@ -36,6 +36,26 @@ export const REWARD_STICKERS = Object.freeze([
     ground: 'certificate',
     shape: 'card',
   }),
+  /* The known items' own pictures, by their API slugs (lib/inventory.mjs
+     ITEM_ART): the Fest certificates, attendee's and host's. */
+  Object.freeze({
+    id: 'fest-certificate-2026',
+    art: 'medal',
+    ground: 'certificate',
+    shape: 'card',
+  }),
+  Object.freeze({
+    id: 'fest-host-certificate-2026',
+    art: 'medal',
+    ground: 'certificate',
+    shape: 'card',
+  }),
+  Object.freeze({
+    id: 'completionist-certificate-2026',
+    art: 'medal',
+    ground: 'certificate',
+    shape: 'card',
+  }),
 ]);
 
 export const STICKER_IMAGE_SLUGS = Object.freeze([

@@ -1,3 +1,14 @@
+/* The status line under the hero's heading: the thesis of the page in
+   one sentence, set at reading size on the forest. colors.white */
+.status {
+  max-width: 44ch;
+  margin: 18px auto 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #f7f7f2;
+  text-align: center;
+}
+
 /* Shell width rules, restated (CSS Modules cannot import Shell). Every band
    on /my uses these same width rules so their left edges align. */
 .band {

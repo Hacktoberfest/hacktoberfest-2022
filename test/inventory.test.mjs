@@ -9,6 +9,7 @@ import {
   inventoryItems,
   inventoryLayout,
   itemIds,
+  nextThing,
   openingSlot,
 } from '../src/lib/inventory.mjs';
 
@@ -96,7 +97,7 @@ test('a thing earned more than once is one entry per grant, keyed by its variant
     title: 'Hack Day Toronto',
     date: '2026-10-18',
   });
-  assert.equal(items[1].art, 'reward-digital');
+  assert.equal(items[1].art, 'fest-certificate-2026');
   assert.equal(items[1].newId, 'item:fest-certificate-2026:evt-1');
   assert.equal(
     openingSlot(items, new Set(['item:fest-certificate-2026:evt-2'])),
@@ -163,6 +164,9 @@ test('itemIds names the earned items for the just-earned record', () => {
 test('the grid always finishes its row and never shows fewer than two rows of cells', () => {
   assert.deepEqual(inventoryLayout(0), { columns: 5, empties: 10 });
   assert.deepEqual(inventoryLayout(1), { columns: 5, empties: 9 });
+  /* The ghost alone: one row of room, not two. */
+  assert.deepEqual(inventoryLayout(1, 1), { columns: 5, empties: 4 });
+  assert.deepEqual(inventoryLayout(6, 1), { columns: 5, empties: 4 });
   assert.deepEqual(inventoryLayout(5), { columns: 5, empties: 5 });
   assert.deepEqual(inventoryLayout(7), { columns: 5, empties: 3 });
   assert.deepEqual(inventoryLayout(10), { columns: 5, empties: 0 });
@@ -173,6 +177,22 @@ test('past ten things the grid goes six across, still finishing the row', () => 
   assert.deepEqual(inventoryLayout(11), { columns: 6, empties: 1 });
   assert.deepEqual(inventoryLayout(12), { columns: 6, empties: 0 });
   assert.deepEqual(inventoryLayout(13), { columns: 6, empties: 5 });
+});
+
+test('an empty locker ghosts the first thing to earn, in catalogue order', () => {
+  const items = inventoryItems(
+    experience([
+      { ...PACK, earned: false },
+      { ...PACK, id: 'holographic-sticker-2026', earned: false },
+    ]),
+  );
+  assert.equal(nextThing(items).id, 'sticker-pack-2026');
+  assert.equal(
+    nextThing(inventoryItems(experience([{ ...PACK, earned: true }]))),
+    null,
+  );
+  assert.equal(nextThing([]), null);
+  assert.equal(nextThing(undefined), null);
 });
 
 test('the locker opens on what is new, else the newest earned thing, else nothing', () => {
@@ -196,11 +216,13 @@ test('the locker opens on what is new, else the newest earned thing, else nothin
   assert.equal(openingSlot([], new Set()), null);
 });
 
-test('the fixtures carry the real catalogue only: the pack, and the Fest certificates where a Fest was attended or hosted', () => {
+test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended or hosted, and the Completionist certificate', () => {
   const real = new Set([
     'sticker-pack-2026',
+    'holographic-sticker-2026',
     'fest-certificate-2026',
     'fest-host-certificate-2026',
+    'completionist-certificate-2026',
   ]);
   for (const [name, scenario] of Object.entries(SCENARIOS)) {
     if (!Array.isArray(scenario.items)) continue;
@@ -226,6 +248,11 @@ test('the fixtures carry the real catalogue only: the pack, and the Fest certifi
 
 test('a certificate is known by slug and downloads from the API by its key', () => {
   assert.ok(CERTIFICATE_SLUGS.has('fest-certificate-2026'));
+  assert.ok(CERTIFICATE_SLUGS.has('completionist-certificate-2026'));
+  assert.equal(
+    certificatePath({ id: 'completionist-certificate-2026', key: '' }, 'pdf'),
+    '/api/me/items/completionist-certificate-2026/certificate.pdf',
+  );
   const [cert, pack] = inventoryItems(
     experience([
       {

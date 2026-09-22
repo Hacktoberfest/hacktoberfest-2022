@@ -9,7 +9,6 @@ import {
   bookStickers,
   bookTabs,
   filterBook,
-  milestoneState,
   openingTab,
 } from 'lib/stickerBook.mjs';
 
@@ -46,7 +45,9 @@ const ACCENTS = {
    ink, beside the one the schedule draws on its type's colour
    (/schedule/global-hack-week.png, white). It sets the event's name, so
    it stands where the label would and carries the label as its alt. */
-const GHW_LOCKUP = '/schedule/global-hack-week-ink.svg';
+/* The schedule's ink lockup with the bolt outlined in ink, for the book's
+   page head, where the bolt sits on paper beside ink letters. */
+const GHW_LOCKUP = '/my/global-hack-week-ink-outlined.svg';
 
 const label = (key) => activitiesPage.list.types[key] || key;
 
@@ -101,9 +102,6 @@ const Album = ({ experience, justEarned }) => {
   const current = tabs.some((entry) => entry.key === tab) ? tab : tabs[0].key;
   const { earned, total } = bookCounts(stickers);
 
-  const { complete } = milestoneState(experience);
-  const intro = my.album.intro(total, complete);
-
   const onKeyDown = (event) => {
     const index = tabs.findIndex((entry) => entry.key === current);
     let next = null;
@@ -130,7 +128,7 @@ const Album = ({ experience, justEarned }) => {
       <h2 id="album-heading" className={styles.heading}>
         {my.album.heading.lead} <em>{my.album.heading.accent}</em>
       </h2>
-      <p className={styles.intro}>{intro}</p>
+      <p className={styles.intro}>{my.album.intro}</p>
       <div className={styles.album}>
         <div
           className={styles.tabs}

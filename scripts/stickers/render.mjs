@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../../src/data/eligibility.mjs';
 import { GLYPHS } from '../../src/data/stickerGlyphs.mjs';
 import { REWARD_STICKERS } from '../../src/lib/stickerImage.mjs';
-import { CATALOGUE } from './design/catalogue.mjs';
+import { CATALOGUE, THINGS } from './design/catalogue.mjs';
 
 /* Grounds by type, the values Album.module.css draws with. colors.forest /
    ink / sky / orange / rule / pink / ochre / white */
@@ -120,7 +120,9 @@ const main = async () => {
     ...ACTIVITIES.map((a) => ({ id: a.id, art: a.art, ground: a.type })),
     ...REWARD_STICKERS,
   ];
-  const designed = new Set(CATALOGUE.map((entry) => entry.slug));
+  const designed = new Set(
+    [...CATALOGUE, ...THINGS].map((entry) => entry.slug),
+  );
   let written = 0;
   for (const sticker of all) {
     if (designed.has(sticker.id)) continue;

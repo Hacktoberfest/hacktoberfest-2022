@@ -2,6 +2,10 @@ import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { MILESTONE_IDS } from 'lib/justEarned.mjs';
 import { bookStickers, rewardsState } from 'lib/stickerBook.mjs';
+import { useState } from 'react';
+
+import ShareModal from 'components/ShareModal';
+import { formatEarnedDate } from 'lib/earnedDate.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './RewardsBand.module.css';
@@ -22,19 +26,12 @@ import styles from './RewardsBand.module.css';
    them. */
 const packWhy = (rewards) => {
   const { why } = my.rewards.pack;
-  if (rewards.pack.earned) return why.earned;
-  if (!rewards.addressValidated && rewards.activityStickers > 0) {
-    return why.addressAfter;
-  }
-  if (!rewards.addressValidated) return why.addressFirst;
-  return why.activity;
+  return rewards.pack.earned ? why.earned : why.pending;
 };
 
 const completeWhy = (rewards) => {
   const { why } = my.rewards.complete;
-  if (rewards.completion.earned) return why.earned;
-  if (rewards.level < 1) return why.locked(rewards.complete);
-  return why.remaining(rewards.completion.remaining);
+  return rewards.completion.earned ? why.earned : why.pending;
 };
 
 const completionistWhy = (rewards) => {
@@ -87,17 +84,38 @@ const RewardsBand = ({ experience, justEarned }) => {
      stylesheet does the rest. */
   const fresh = (id) => (justEarned && justEarned.has(id) ? 'true' : undefined);
   /* Once the Completionist card is on the page the first two are done
-     with: they fold to a line each (sticker, tag, title, stamp) and share
-     one row above it, so the card still in play has the room. */
+     with: they share one row above it and drop their requirements and
+     meter, keeping the sticker at full size and their one line, so the
+     three cards read as a set whatever their state. */
   const compact = rewards.completionist.shown;
   const cardClass = `${styles.card} ${compact ? styles.cardCompact : ''}`;
   const { pack, complete, completionist } = my.rewards;
-  const intro = [
-    my.rewards.intro.pending(rewards.complete),
-    my.rewards.intro.stickersEarned(rewards.complete),
-    my.rewards.intro.complete,
-    my.rewards.intro.completionist,
-  ][rewards.level];
+  /* The badge on an earned card: the day it was reached when the
+     stickers' dates say, else the plain word. */
+  const earnedBadge = (state, words) =>
+    state.earnedAt
+      ? my.rewards.earnedOn(formatEarnedDate(state.earnedAt))
+      : words.reachedBadge;
+  /* The line under the heading says what milestones are; the level's
+     own sentence is the hero's status line (pages/my.js heroStatus). */
+  /* A milestone shares the way a sticker does: its own picture, its
+     title as the label, through the book's modal. */
+  const [share, setShare] = useState(null);
+  const shareButton = (id, words) => (
+    <button
+      type="button"
+      className={styles.share}
+      onClick={() =>
+        setShare({
+          kind: 'sticker',
+          sticker: { id, label: words.title },
+          text: words.shareText,
+        })
+      }
+    >
+      {my.share.stickerCta}
+    </button>
+  );
   /* The pack's pips: the two required stickers by id, and the first
      activity sticker in the book, whichever it was. rewardsState says
      whether each requirement is met; these say which sticker to draw. */
@@ -114,7 +132,7 @@ const RewardsBand = ({ experience, justEarned }) => {
       <h2 id="rewards-heading" className={styles.heading}>
         {my.rewards.heading.lead} <em>{my.rewards.heading.accent}</em>
       </h2>
-      <p className={styles.intro}>{intro}</p>
+      <p className={styles.intro}>{my.rewards.lede}</p>
       <ul className={`${styles.cards} ${compact ? styles.cardsCompact : ''}`}>
         <li
           className={cardClass}
@@ -147,13 +165,14 @@ const RewardsBand = ({ experience, justEarned }) => {
                 className={`${styles.badge} ${rewards.pack.earned ? styles.badgeEarned : ''}`}
               >
                 {rewards.pack.earned
-                  ? pack.reachedBadge
+                  ? earnedBadge(rewards.pack, pack)
                   : pack.pendingBadge(rewards.pack.count, rewards.pack.total)}
               </span>
             </div>
             <h3 className={styles.title}>{pack.title}</h3>
-            {!compact && <p className={styles.why}>{packWhy(rewards)}</p>}
-            {!compact && (
+            <p className={styles.why}>{packWhy(rewards)}</p>
+            {rewards.pack.earned && shareButton('milestone-pack', pack)}
+            {!compact && !rewards.pack.earned && (
               <ul className={styles.needs}>
                 <Need
                   label={pack.needs.signedIn}
@@ -212,7 +231,7 @@ const RewardsBand = ({ experience, justEarned }) => {
                 className={`${styles.badge} ${rewards.completion.earned ? styles.badgeEarned : ''}`}
               >
                 {rewards.completion.earned
-                  ? complete.reachedBadge
+                  ? earnedBadge(rewards.completion, complete)
                   : complete.pendingBadge(
                       rewards.completion.pips.length,
                       rewards.completion.target,
@@ -220,14 +239,16 @@ const RewardsBand = ({ experience, justEarned }) => {
               </span>
             </div>
             <h3 className={styles.title}>{complete.title}</h3>
-            {!compact && <p className={styles.why}>{completeWhy(rewards)}</p>}
-            {!compact && (
+            <p className={styles.why}>{completeWhy(rewards)}</p>
+            {rewards.completion.earned &&
+              shareButton('milestone-complete', complete)}
+            {!compact && !rewards.completion.earned && (
               <Meter
                 pips={rewards.completion.pips}
                 target={rewards.completion.target}
               />
             )}
-            {!compact && (
+            {!compact && !rewards.completion.earned && (
               <p className={styles.meterLabel}>
                 {complete.meterLabel(
                   rewards.completion.pips.length,
@@ -273,7 +294,7 @@ const RewardsBand = ({ experience, justEarned }) => {
                   className={`${styles.badge} ${rewards.completionist.earned ? styles.badgeEarned : ''}`}
                 >
                   {rewards.completionist.earned
-                    ? completionist.reachedBadge
+                    ? earnedBadge(rewards.completionist, completionist)
                     : completionist.pendingBadge(
                         rewards.completionist.pips.length,
                         rewards.completionist.target,
@@ -282,20 +303,33 @@ const RewardsBand = ({ experience, justEarned }) => {
               </div>
               <h3 className={styles.title}>{completionist.title}</h3>
               <p className={styles.why}>{completionistWhy(rewards)}</p>
-              <Meter
-                pips={rewards.completionist.pips}
-                target={rewards.completionist.target}
-              />
-              <p className={styles.meterLabel}>
-                {completionist.meterLabel(
-                  rewards.completionist.pips.length,
-                  rewards.completionist.target,
-                )}
-              </p>
+              {/* The meter fills, then goes: earned, the card says the day
+                  and where the certificate is, not seventeen full pips. */}
+              {rewards.completionist.earned &&
+                shareButton('milestone-completionist', completionist)}
+              {!rewards.completionist.earned && (
+                <>
+                  <Meter
+                    pips={rewards.completionist.pips}
+                    target={rewards.completionist.target}
+                  />
+                  <p className={styles.meterLabel}>
+                    {completionist.meterLabel(
+                      rewards.completionist.pips.length,
+                      rewards.completionist.target,
+                    )}
+                  </p>
+                </>
+              )}
             </div>
           </li>
         )}
       </ul>
+      <ShareModal
+        share={share}
+        experience={experience}
+        onClose={() => setShare(null)}
+      />
     </section>
   );
 };

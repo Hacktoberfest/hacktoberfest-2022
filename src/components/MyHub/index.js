@@ -41,7 +41,17 @@ import styles from './MyHub.module.css';
    any state is set, and otherwise on the fetch result in place of setting
    `ready`: whichever hub a page decides is not this one never paints. It
    is in the effect's dependency list, so pages define it at module level. */
-const MyHub = ({ title, accent, hub, returnTo, redirectFor, children }) => {
+/* `status`: a function of the ready experience giving the hero's one-line
+   state, or nothing; the attending hub passes its milestone intro. */
+const MyHub = ({
+  title,
+  accent,
+  hub,
+  returnTo,
+  redirectFor,
+  status,
+  children,
+}) => {
   /* Destructured deliberately: depending on the whole `router` object
      re-runs this effect on every route change, which with a redirect inside
      it is a loop waiting to happen. `replace` is stable. */
@@ -285,6 +295,11 @@ const MyHub = ({ title, accent, hub, returnTo, redirectFor, children }) => {
             state === 'ready' && experience ? isHost(experience.fests) : false
           }
           accent={accent}
+          status={
+            state === 'ready' && experience && status
+              ? status(experience)
+              : null
+          }
           onSignOut={signOut}
         />
         {/* The same four-box animation the whole-page surface shows, now

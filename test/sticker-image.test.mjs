@@ -19,6 +19,9 @@ test('the reward list carries the milestones and the things that are not sticker
       'reward-pack',
       'reward-physical',
       'reward-digital',
+      'fest-certificate-2026',
+      'fest-host-certificate-2026',
+      'completionist-certificate-2026',
     ],
   );
 });
@@ -48,7 +51,7 @@ test('only the stickers are drawn as hexagons', async () => {
   const circle = /<circle cx="100" cy="100" r="100"/;
   assert.match(await read('milestone-complete'), hexagon);
   assert.match(await read('fest'), hexagon);
-  for (const slug of ['reward-pack', 'reward-physical', 'reward-digital']) {
+  for (const slug of REWARD_STICKERS.filter((r) => r.shape).map((r) => r.id)) {
     assert.doesNotMatch(
       await read(slug),
       hexagon,

@@ -9,7 +9,7 @@ import RewardsBand from 'components/RewardsBand';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { connectOutcome } from 'lib/digitalocean.mjs';
-import { isOrganizing, organizingFests } from 'lib/fests.mjs';
+import { calendarFests, isOrganizing, organizingFests } from 'lib/fests.mjs';
 import { inventoryItems, itemIds } from 'lib/inventory.mjs';
 import { earnedIds, milestoneIds, noteEarned } from 'lib/justEarned.mjs';
 import { hubToOpen, readLastHub } from 'lib/myView.mjs';
@@ -34,6 +34,7 @@ const redirectFor = (experience) =>
    revalidation does not cut a moment short. */
 const Bands = ({ experience }) => {
   const [justEarned, setJustEarned] = useState(() => new Set());
+  const hasFests = calendarFests(experience.fests).length > 0;
 
   useEffect(() => {
     const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
@@ -56,20 +57,33 @@ const Bands = ({ experience }) => {
           festCount={organizingFests(experience.fests).length}
         />
       )}
-      {/* The hub's progress: the two rewards the stickers add up to, then
-         the Fests, then the sticker book, every sticker there is to earn
-         on a page per type. */}
-      <RewardsBand experience={experience} justEarned={justEarned} />
-      {/* The participant's calendar, hosting cards included, but not
-         applications: those live on the hosting hub, the richer view
-         of the same Fests. The host resources band lives there now. */}
-      <FestsBand experience={experience} />
+      {/* The story in order: what is coming up, what you do, what it gets
+         you, what you have. The Fests band is the participant's calendar
+         (hosting cards included, applications on the hosting hub), and it
+         leads only when there is a Fest on it; with none it is two
+         invitations, and they close the page instead. */}
+      {hasFests && <FestsBand experience={experience} />}
       <Album experience={experience} justEarned={justEarned} />
-      {/* Last, the inventory: what the stickers earned, as a locker, the
-         API's items (lib/inventory.mjs). */}
+      <RewardsBand experience={experience} justEarned={justEarned} />
+      {/* The rewards: what the stickers earned, as a locker, the API's
+         items (lib/inventory.mjs). */}
       <Inventory experience={experience} justEarned={justEarned} />
+      {!hasFests && <FestsBand experience={experience} />}
     </>
   );
+};
+
+/* The hero's one line: the milestone intro for the level reached, the
+   sentence the rewards band used to open with. */
+const heroStatus = (experience) => {
+  const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
+  const rewards = rewardsState(experience, stickers);
+  return [
+    my.rewards.intro.pending(rewards.complete),
+    my.rewards.intro.stickersEarned(rewards.complete),
+    my.rewards.intro.complete,
+    my.rewards.intro.completionist,
+  ][rewards.level];
 };
 
 const My = () => {
@@ -94,6 +108,7 @@ const My = () => {
       accent={my.welcome.accent}
       hub="attending"
       redirectFor={redirectFor}
+      status={heroStatus}
     >
       {(experience) => <Bands experience={experience} />}
     </MyHub>

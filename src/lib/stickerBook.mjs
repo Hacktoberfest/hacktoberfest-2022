@@ -80,9 +80,16 @@ export const bookStickers = (experience, { addressHref = null } = {}) => {
     };
   });
 
+  /* A challenge that lives on DEV is locked until the DEV account is
+     linked (experience.user.devLinked): the cell wears a padlock and no
+     link. The connect sticker itself never asks for the link. */
+  const devLinked = Boolean(
+    experience && experience.user && experience.user.devLinked,
+  );
   const activities = mergeActivities(entries).map((activity) => ({
     ...activity,
     source: sources.get(activity.id) ?? null,
+    locked: activity.requiresDevLink === true && !devLinked,
   }));
 
   return required.concat(activities);
@@ -116,9 +123,13 @@ export const filterBook = (stickers, key) => ofType(stickers, key);
    address comes before any activity and the catalogue's own order decides
    between activities. A finished book opens on the first page. */
 export const defaultTab = (stickers) => {
-  const next = (Array.isArray(stickers) ? stickers : []).find(
-    (sticker) => !sticker.completed,
-  );
+  const all = Array.isArray(stickers) ? stickers : [];
+  /* An activity page first: the Required page is a form and a sticker
+     everyone already has, and the pack card carries the address ask. */
+  const next =
+    all.find(
+      (sticker) => !sticker.completed && sticker.type !== REQUIRED_TAB,
+    ) || all.find((sticker) => !sticker.completed);
   return next ? next.type : REQUIRED_TAB;
 };
 
@@ -168,6 +179,27 @@ export const rewardsState = (experience, stickers) => {
   const target = complete + REQUIRED_STICKERS.length;
   const pips = earned.slice(0, target);
   const completionistTarget = completionist + REQUIRED_STICKERS.length;
+  /* When each milestone was reached, from the stickers' own dates: the
+     pack on the day its last requirement landed, the others on the day
+     the book reached their count. Null where a date is missing, and the
+     card then says Earned without one. */
+  const dated = earned
+    .map((sticker) => sticker.completedAt)
+    .filter(Boolean)
+    .sort();
+  const reachedAt = (count) =>
+    count > 0 && dated.length >= count ? dated[count - 1] : null;
+  const firstActivityAt = all
+    .filter((sticker) => sticker.type !== REQUIRED_TAB && sticker.completedAt)
+    .map((sticker) => sticker.completedAt)
+    .sort()[0];
+  const packDates = [
+    ...all
+      .filter((sticker) => sticker.type === REQUIRED_TAB)
+      .map((sticker) => sticker.completedAt),
+    firstActivityAt,
+  ];
+  const packAt = packDates.every(Boolean) ? packDates.sort().at(-1) : null;
   return {
     level,
     complete,
@@ -176,26 +208,36 @@ export const rewardsState = (experience, stickers) => {
     activityStickers,
     pack: {
       earned: level >= 1,
+      earnedAt: level >= 1 ? packAt : null,
+      /* The sticker pip follows the ungated count, as the card's line
+         does: a sticker in the book is in the book, address or not. */
       needs: {
         signedIn: true,
         address: addressValidated,
-        activity: done >= 1,
+        activity: activityStickers >= 1,
       },
-      count: 1 + (addressValidated ? 1 : 0) + (done >= 1 ? 1 : 0),
+      count: 1 + (addressValidated ? 1 : 0) + (activityStickers >= 1 ? 1 : 0),
       total: 3,
     },
     completion: {
       earned: level >= 2,
+      earnedAt: level >= 2 ? reachedAt(target) : null,
       pips,
       target,
-      remaining: Math.max(0, complete - done),
+      /* In the book's units, as the meter and the copy count: stickers
+         in the book still to come, the required two included. */
+      remaining: Math.max(0, target - pips.length),
     },
     completionist: {
       shown: level >= 2,
       earned: level >= 3,
+      earnedAt: level >= 3 ? reachedAt(completionistTarget) : null,
       pips: earned.slice(0, completionistTarget),
       target: completionistTarget,
-      remaining: Math.max(0, completionist - done),
+      remaining: Math.max(
+        0,
+        completionistTarget - earned.slice(0, completionistTarget).length,
+      ),
     },
     earnedRewards:
       (level >= 1 ? 1 : 0) + (level >= 2 ? 1 : 0) + (level >= 3 ? 1 : 0),

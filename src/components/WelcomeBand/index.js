@@ -44,7 +44,16 @@ const StarIcon = () => (
    disagree. */
 /* `accent`: the hero's second line. The attending hub keeps "welcome to
    your Hacktoberfest." as the default; the hosting hub names itself. */
-const WelcomeBand = ({ user, host, onSignOut, accent = my.welcome.accent }) => {
+/* `status`: one line under the greeting, the page's state in a sentence:
+   the attending hub's milestone intro. Null on the hosting hub and while
+   the experience loads. */
+const WelcomeBand = ({
+  user,
+  host,
+  onSignOut,
+  accent = my.welcome.accent,
+  status = null,
+}) => {
   const [avatarFailed, setAvatarFailed] = useState(false);
 
   const name = (user && user.name) || '';
@@ -61,7 +70,9 @@ const WelcomeBand = ({ user, host, onSignOut, accent = my.welcome.accent }) => {
          living in. Only the accent under it differs, and it defaults to
          "your Hacktoberfest". A month-naming Preptember accent used to
          swap in here; it retired 2026-08-18. */}
-      <PageHero lead={my.welcome.greeting(greetingName)} accent={accent} />
+      <PageHero lead={my.welcome.greeting(greetingName)} accent={accent}>
+        {status && <p className={styles.status}>{status}</p>}
+      </PageHero>
       <div className={styles.band}>
         {user ? (
           <div className={styles.accountStrip}>

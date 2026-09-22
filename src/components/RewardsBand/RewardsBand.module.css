@@ -104,52 +104,44 @@
   line-height: 1.5;
 }
 
-/* The first two cards once the third is on the page: a line each, the
-   sticker smaller, no body copy, no requirements, no meter. They share a
-   row at every width, since a line needs little of it, and the
-   Completionist card takes the row under them. On a phone the pair is
-   narrow enough that the milestone tag would not fit beside the stamp,
-   so the tag goes and the title names the milestone alone; it returns
-   at tablet width below. */
+/* The first two cards once the third is on the page: no requirements,
+   no meter, the sticker at its full size with the tag, the title and its
+   one line beside it, so the three cards read as a set. They share a
+   row from tablet width and stack on a phone, as the pending pair do. */
 .cardsCompact {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 16px;
 }
 
 .cardCompact {
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: 10px;
   align-items: center;
-  padding: 12px;
-}
-
-.cardCompact .slot {
-  width: 44px;
-  height: 44px;
-}
-
-.cardCompact .body {
-  gap: 4px;
-}
-
-.cardCompact .title {
-  margin: 0;
-  font-size: 1rem;
-}
-
-.cardCompact .tag {
-  display: none;
-}
-
-.cardCompact .badge {
-  padding: 3px 7px;
-  font-size: 0.6rem;
+  padding: 16px 18px;
 }
 
 /* The Completionist card takes the row under the first two, at every
    width. */
 .cardWide {
   grid-column: 1 / -1;
+}
+
+/* The share under an earned card's line, set as the book's cell links
+   are: mono, underlined, no chrome. colors.ink / fonts.mono */
+.share {
+  appearance: none;
+  justify-self: start;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: inherit;
+  color: #10201d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
 }
 
 /* Placement only: the button is .hf-button (src/styles/buttons.css). */
@@ -170,6 +162,11 @@
   height: 72px;
   flex: 0 0 auto;
   align-self: center;
+  /* Its own stacking context, so the tick's z-index is settled here and
+     not against the page: Safari composites the filtered, rotated
+     sticker as a layer of its own and, left to the page, painted it over
+     the tick on the wide card. */
+  isolation: isolate;
 }
 
 /* colors.rule, in the image */
@@ -222,24 +219,12 @@
   height: 100%;
 }
 
-/* Earned: peeled off the slot, at an angle, with the heavier shadow of a
-   thing that has been lifted, each card leaning its own way, and a tick
-   on the sticker's corner. Not yet: a grey silhouette, as the book's
-   stickers are. colors.paperDeep / rule / forest / white / ink */
+/* Earned: peeled off the slot, square, with the heavier shadow of a
+   thing that has been lifted, and a tick on the sticker's corner. Not
+   yet: a grey silhouette, as the book's stickers are. colors.paperDeep /
+   rule / forest / white / ink */
 .card[data-earned='true'] .sticker {
-  --lean: -9deg;
-  transform: rotate(var(--lean));
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
-}
-
-.card:nth-child(2)[data-earned='true'] .sticker {
-  --lean: 6deg;
-  filter: drop-shadow(3px 6px 0 rgba(16, 32, 29, 0.35));
-}
-
-.card:nth-child(3)[data-earned='true'] .sticker {
-  --lean: -5deg;
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 /* A milestone reached just now (lib/justEarned.mjs, data-just-earned):
@@ -273,18 +258,18 @@
 
 @keyframes slapOn {
   from {
-    transform: rotate(calc(var(--lean) - 22deg)) scale(1.9);
+    transform: scale(1.9);
     opacity: 0;
   }
   55% {
-    transform: rotate(var(--lean)) scale(0.92);
+    transform: scale(0.92);
     opacity: 1;
   }
   75% {
-    transform: rotate(var(--lean)) scale(1.06);
+    transform: scale(1.06);
   }
   to {
-    transform: rotate(var(--lean)) scale(1);
+    transform: scale(1);
     opacity: 1;
   }
 }
@@ -311,15 +296,15 @@
 
 @keyframes stamp {
   from {
-    transform: rotate(-2deg) scale(2.2);
+    transform: scale(2.2);
     opacity: 0;
   }
   70% {
-    transform: rotate(-2deg) scale(0.94);
+    transform: scale(0.94);
     opacity: 1;
   }
   to {
-    transform: rotate(-2deg) scale(1);
+    transform: scale(1);
     opacity: 1;
   }
 }
@@ -343,11 +328,16 @@
   filter: grayscale(1) opacity(0.45);
 }
 
+/* On the sticker's lower-right edge: the hexagon's side runs in from
+   the slot's corner, so the tick sits in from it too, half over the ink
+   ring, as the book's does at its smaller size. */
 .tick {
   position: absolute;
-  right: -2px;
-  bottom: 2px;
-  z-index: 1;
+  right: 6px;
+  bottom: 0;
+  z-index: 2;
+  /* A layer of its own too, so it composites above the sticker's. */
+  transform: translateZ(0);
   display: grid;
   width: 22px;
   height: 22px;
@@ -483,7 +473,6 @@
   /* colors.ink */
   border: 1.5px solid #10201d;
   box-shadow: 2px 2px 0 #10201d;
-  transform: rotate(-2deg);
   /* colors.ochre / ink */
   background: #f5b726;
   color: #10201d;
@@ -503,35 +492,15 @@
     grid-template-columns: 96px minmax(0, 1fr);
   }
 
-  .cardCompact {
-    grid-template-columns: 64px minmax(0, 1fr);
-    gap: 12px;
-    padding: 12px 14px;
+  .cardsCompact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .cardCompact .tag {
-    display: inline-block;
-    padding: 3px 7px;
-    font-size: 0.6rem;
-  }
-
-  .cardCompact .title {
-    font-size: 1.1rem;
-  }
-
-  .cardCompact .slot {
-    width: 64px;
-    height: 64px;
-  }
-
+  /* The same sticker size on every card, compact or not: the three read
+     as a set. */
   .slot {
     width: 96px;
     height: 96px;
-  }
-
-  .cardCompact .slot {
-    width: 64px;
-    height: 64px;
   }
 }
 

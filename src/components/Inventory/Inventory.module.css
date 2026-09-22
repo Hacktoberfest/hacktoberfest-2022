@@ -195,19 +195,29 @@
   background: transparent;
 }
 
+/* Two lines at most, so a long name (a certificate's) does not push the
+   lines under it off the row's baseline. */
 .cellTitle {
+  display: -webkit-box;
   margin: 0;
-  font-size: 0.9rem;
+  overflow: hidden;
+  font-size: 0.84rem;
   font-weight: 700;
   line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 /* The variant under the name, for a thing earned more than once: the
-   Fest a certificate is for. colors.inkSoft */
+   Fest a certificate is for, set in the mono as the date is on the right
+   page. colors.inkSoft / fonts.mono */
 .cellVariant {
   margin: -4px 0 0;
-  font-size: 0.78rem;
-  line-height: 1.3;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  line-height: 1.35;
   color: #284b44;
 }
 
@@ -340,19 +350,19 @@
 .cell[data-earned='true']:hover .sticker {
   --lean: -9deg;
   transform: rotate(var(--lean));
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 .cell[data-earned='true']:nth-child(3n + 2) .sticker,
 .cell[data-earned='true']:nth-child(3n + 2):hover .sticker {
   --lean: 6deg;
-  filter: drop-shadow(3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 .cell[data-earned='true']:nth-child(3n) .sticker,
 .cell[data-earned='true']:nth-child(3n):hover .sticker {
   --lean: -5deg;
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 /* A thing that is not a sticker (the pack, the T-shirt, a badge, a
@@ -481,7 +491,7 @@
 .entrySlot .sticker {
   --lean: -6deg;
   transform: rotate(var(--lean));
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 .ghost .sticker {
@@ -499,6 +509,13 @@
 
 .ghost .stickerImage {
   filter: grayscale(1) opacity(0.45);
+}
+
+/* The ghost cell an empty locker shows: its words fade with its picture.
+   colors.muted */
+.ghost .cellTitle,
+.ghost .cellStatus {
+  color: #52635f;
 }
 
 .entryBody {

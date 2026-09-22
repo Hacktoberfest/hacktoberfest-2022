@@ -46,9 +46,9 @@ import styles from './ShareModal.module.css';
    backstop for a browser that closes the dialog some other way.
 
    No picture, no action: the buttons stay disabled until the PNG exists,
-   because every one of them hands over a file. The preview appears
-   earlier, the moment the SVG is built, so the modal is never an empty
-   box while the canvas works. */
+   because every one of them hands over a file. The preview shows that
+   PNG, the very file the buttons hand over; until the canvas has painted
+   it, the SVG stands in, so the modal is never an empty box. */
 
 const SITE = 'https://hacktoberfest.com';
 
@@ -88,9 +88,30 @@ const ShareModal = ({ share, experience, onClose }) => {
   const selfClosing = useRef(false);
   const [svg, setSvg] = useState(null);
   const [png, setPng] = useState(null);
+  /* The PNG as something an <img> can show: an object URL, made when the
+     blob lands and let go when it is replaced or the modal unmounts. */
+  const [pngUrl, setPngUrl] = useState(null);
+  useEffect(() => {
+    if (!png || typeof URL === 'undefined' || !URL.createObjectURL) {
+      setPngUrl(null);
+      return undefined;
+    }
+    const url = URL.createObjectURL(png);
+    setPngUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [png]);
   const [copied, setCopied] = useState(false);
   const [failed, setFailed] = useState(false);
   const [hint, setHint] = useState(null);
+  /* The tile just pressed, while its "Image copied!" beat plays. */
+  const [copiedTile, setCopiedTile] = useState(null);
+  const live = useRef(true);
+  useEffect(
+    () => () => {
+      live.current = false;
+    },
+    [],
+  );
   /* A sheet this browser offered and then refused. Chrome on macOS says
      yes to navigator.share and to canShare with the file, and rejects
      the call itself with NotAllowedError; once it has, the button is a
@@ -119,12 +140,16 @@ const ShareModal = ({ share, experience, onClose }) => {
   );
   const counts = useMemo(() => (book ? bookCounts(book) : null), [book]);
 
+  /* A share may bring its own words (a milestone does); otherwise the
+     book's or the sticker's line. */
   const text =
-    kind === 'book'
-      ? my.share.text.book(counts.earned, counts.total)
-      : sticker
-        ? my.share.text.sticker(sticker.label)
-        : '';
+    displayed && displayed.text
+      ? displayed.text
+      : kind === 'book'
+        ? my.share.text.book(counts.earned, counts.total)
+        : sticker
+          ? my.share.text.sticker(sticker.label)
+          : '';
   const filename =
     kind === 'book'
       ? 'hacktoberfest-2026-sticker-book.png'
@@ -278,14 +303,24 @@ const ShareModal = ({ share, experience, onClose }) => {
      LinkedIn takes an address and nothing else, so its hint asks for a
      few words too. Set from this network every time, so pressing another
      clears a line that no longer applies. */
+  /* The press: the picture goes onto the clipboard, the tile says so
+     for a beat long enough to be seen, and then the composer opens. The
+     beat sits inside the browser's activation window, so the open still
+     counts as the user's. */
+  const COPIED_BEAT = 900;
   const onNetwork = (network) => {
-    if (png) startClipboardCopy(png, text);
-    window.open(
-      composerUrl(network, { text, url: SITE }),
-      '_blank',
-      'noopener',
-    );
-    setHint(carriesText(network) ? 'paste' : 'pasteWords');
+    const url = composerUrl(network, { text, url: SITE });
+    setCopiedTile(network);
+    setHint(null);
+    const copy = png ? startClipboardCopy(png, text) : Promise.resolve(false);
+    const beat = new Promise((resolve) => setTimeout(resolve, COPIED_BEAT));
+    Promise.all([copy, beat]).then(() => {
+      if (!live.current) return;
+      window.open(url, '_blank', 'noopener');
+      setCopiedTile(null);
+      /* Only LinkedIn, which takes no words, gets a line after the open. */
+      setHint(carriesText(network) ? null : 'pasteWords');
+    });
   };
 
   /* Light dismiss as the Fest modal does it: a click on the dialog
@@ -308,15 +343,13 @@ const ShareModal = ({ share, experience, onClose }) => {
     ? ''
     : !ready
       ? my.share.preparing
-      : hint === 'paste'
-        ? my.share.pasteHint
-        : hint === 'pasteWords'
-          ? my.share.pasteHintNoText
-          : hint === 'sheetRefused'
-            ? my.share.sheetRefused
-            : hint === 'sheetRefusedSaved'
-              ? my.share.sheetRefusedSaved
-              : '';
+      : hint === 'pasteWords'
+        ? my.share.pasteHintNoText
+        : hint === 'sheetRefused'
+          ? my.share.sheetRefused
+          : hint === 'sheetRefusedSaved'
+            ? my.share.sheetRefusedSaved
+            : '';
 
   return (
     <dialog
@@ -349,111 +382,124 @@ const ShareModal = ({ share, experience, onClose }) => {
           open it at all. */}
       {displayed && (
         <>
-          <button
-            type="button"
-            className={styles.close}
-            onClick={onClose}
-            aria-label={my.share.buttons.close}
-          >
-            <span aria-hidden="true">×</span>
-          </button>
-
-          {/* The heading the acknowledgements modal wears, and a line
-              under it saying what the buttons do. */}
-          <h3 id="share-modal-title" className={styles.heading}>
-            {kind === 'book' ? my.share.title.book : my.share.title.sticker}
-          </h3>
-          <p className={styles.lede}>{my.share.lede}</p>
-
-          {/* The card says what this modal already says, in the same
+          {/* The head is the Fest modal's: a paper band across the top
+              with the title and its line, ruled off from the body, the
+              close at its far end. */}
+          <div className={styles.head}>
+            <div className={styles.headText}>
+              <h3 id="share-modal-title" className={styles.heading}>
+                {kind === 'book' ? my.share.title.book : my.share.title.sticker}
+              </h3>
+              <p className={styles.lede}>
+                {kind === 'book' ? my.share.lede.book : my.share.lede.sticker}
+              </p>
+            </div>
+            <button
+              type="button"
+              className={styles.close}
+              onClick={onClose}
+              aria-label={my.share.buttons.close}
+            >
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div className={styles.body}>
+            {/* The card says what this modal already says, in the same
               words, so it is decorative here: an alt would read the
               sticker's name and the reader's own name back to them twice. */}
-          <div className={styles.preview}>
-            {svg && (
-              <img
-                className={styles.previewImage}
-                src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
-                alt=""
-              />
-            )}
-            {failed && !svg && (
-              <p className={styles.previewError} role="alert">
-                {my.share.error}
-              </p>
-            )}
-          </div>
+            <div className={styles.preview}>
+              {(pngUrl || svg) && (
+                <img
+                  className={styles.previewImage}
+                  src={
+                    pngUrl ||
+                    `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+                  }
+                  alt=""
+                />
+              )}
+              {failed && !svg && (
+                <p className={styles.previewError} role="alert">
+                  {my.share.error}
+                </p>
+              )}
+            </div>
 
-          {/* Posting first. Where the browser can hand a file to the
+            {/* Posting first. Where the browser can hand a file to the
               system sheet (phones, mostly) that is the one button, since
               the network uploads the picture itself; the composers follow
               as the other way. Everywhere else the composers are the
               block. All wait on the picture, since every one of them
               takes it along. */}
-          <div className={styles.post}>
-            {sheet && (
-              <button
-                type="button"
-                className={`hf-button ${styles.sheet}`}
-                onClick={onSheet}
-                disabled={!ready}
-              >
-                {my.share.buttons.share}
-              </button>
-            )}
-            {sheet && <p className={styles.postOn}>{my.share.sheetThen}</p>}
-            {/* Four tiles, one per composer: the network's own mark, its
-                name set large, and what the press does under it, so the
-                choice is legible before anyone has to trust it. */}
-            <div className={styles.networks}>
-              {SHARE_NETWORKS.map((network) => (
+            <div className={styles.post}>
+              {sheet && (
                 <button
-                  key={network}
                   type="button"
-                  className={styles.tile}
-                  onClick={() => onNetwork(network)}
+                  className={`hf-button ${styles.sheet}`}
+                  onClick={onSheet}
                   disabled={!ready}
                 >
-                  <span className={styles.tileMark}>
-                    {NETWORK_ICONS[network]}
-                  </span>
-                  <span className={styles.tileName}>
-                    {my.share.networks[network]}
-                  </span>
-                  <span className={styles.tileAction}>
-                    {my.share.networkAction}
-                  </span>
+                  {my.share.buttons.share}
                 </button>
-              ))}
-            </div>
-            {/* Always in the tree, so a screen reader announces the
+              )}
+              {sheet && <p className={styles.postOn}>{my.share.sheetThen}</p>}
+              {/* Four tiles, one per composer: the network's own mark, its
+                name set large, and what the press does under it, so the
+                choice is legible before anyone has to trust it. */}
+              <div className={styles.networks}>
+                {SHARE_NETWORKS.map((network) => (
+                  <button
+                    key={network}
+                    type="button"
+                    className={styles.tile}
+                    data-copied={copiedTile === network ? 'true' : undefined}
+                    onClick={() => onNetwork(network)}
+                    disabled={!ready || copiedTile !== null}
+                  >
+                    <span className={styles.tileMark}>
+                      {NETWORK_ICONS[network]}
+                    </span>
+                    <span className={styles.tileName}>
+                      {my.share.networks[network]}
+                    </span>
+                    <span className={styles.tileAction}>
+                      {copiedTile === network
+                        ? my.share.tileCopied
+                        : my.share.networkAction}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              {/* Always in the tree, so a screen reader announces the
                 change rather than the arrival of a new element: the wait
                 for the picture, then the paste line once a composer has
                 opened. */}
-            <p className={styles.hint} role="status">
-              {status}
-            </p>
-          </div>
+              <p className={styles.hint} role="status">
+                {status}
+              </p>
+            </div>
 
-          {/* The quieter way: the picture on its own, for a post written
+            {/* The quieter way: the picture on its own, for a post written
               elsewhere or kept. */}
-          <div className={styles.keep}>
-            <span className={styles.keepLabel}>{my.share.keep}</span>
-            <button
-              type="button"
-              className={styles.keepAction}
-              onClick={onCopy}
-              disabled={!ready}
-            >
-              {copied ? my.share.buttons.copied : my.share.buttons.copy}
-            </button>
-            <button
-              type="button"
-              className={styles.keepAction}
-              onClick={() => downloadBlob(png, filename)}
-              disabled={!ready}
-            >
-              {my.share.buttons.download}
-            </button>
+            <div className={styles.keep}>
+              <span className={styles.keepLabel}>{my.share.keep}</span>
+              <button
+                type="button"
+                className={styles.keepAction}
+                onClick={onCopy}
+                disabled={!ready}
+              >
+                {copied ? my.share.buttons.copied : my.share.buttons.copy}
+              </button>
+              <button
+                type="button"
+                className={styles.keepAction}
+                onClick={() => downloadBlob(png, filename)}
+                disabled={!ready}
+              >
+                {my.share.buttons.download}
+              </button>
+            </div>
           </div>
         </>
       )}

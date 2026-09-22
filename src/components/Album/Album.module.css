@@ -130,6 +130,7 @@
   width: auto;
   height: 1.05em;
   flex: 0 0 auto;
+  align-self: center;
 }
 
 /* The lockup stands in for the title's type, so its letters match the
@@ -228,9 +229,13 @@
   margin-bottom: 14px;
 }
 
+/* Baseline-aligned, so the head's baseline row reads the title's words
+   and not the box of a mark in front of them: a flex container takes its
+   baseline from the items that align by baseline, and the mark opts out
+   below to sit centred on the line instead. */
 .pageTitle {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 0.35em;
   margin: 0;
   /* fonts.display */
@@ -322,6 +327,17 @@
   /* colors.muted */
   color: #52635f;
   font-size: 0.78rem;
+}
+
+/* The days a challenge runs, under an unearned cell's name. colors.muted
+   / fonts.mono */
+.cellWhen {
+  margin: -4px 0 0;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #52635f;
 }
 
 .cellLink {
@@ -444,7 +460,7 @@
 .cell[data-earned='true']:hover .sticker {
   --lean: 0deg;
   transform: none;
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 /* Earned just now (lib/justEarned.mjs, data-just-earned): the sticker
@@ -515,6 +531,38 @@
 
 /* The tick on an earned sticker's corner: forest on white, the rewards
    band's tick moved onto the sticker. colors.forest / white / ink */
+/* The padlock on a locked cell, in the tick's place and at its size, so
+   the corner means status in both states. colors.ink / white */
+.lock {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  background: #10201d;
+}
+
+.lock svg {
+  width: 12px;
+  height: 12px;
+  fill: #f7f7f2;
+}
+
+/* The line where a locked cell's link would be. colors.muted / fonts.mono */
+.cellLocked {
+  margin: 0;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #52635f;
+}
+
 .tick {
   position: absolute;
   right: -2px;

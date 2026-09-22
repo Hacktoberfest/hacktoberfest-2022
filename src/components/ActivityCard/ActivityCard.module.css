@@ -95,7 +95,7 @@
 .card[data-earned='true'] .sticker,
 .card[data-earned='true']:hover .sticker {
   transform: rotate(-9deg) translate(6px, -6px);
-  filter: drop-shadow(-3px 6px 0 rgba(16, 32, 29, 0.35));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
 }
 
 .earnedTab {

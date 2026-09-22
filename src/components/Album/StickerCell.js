@@ -55,8 +55,29 @@ const StickerCell = ({ sticker, justEarned = false, onShare }) => {
             ✓
           </span>
         )}
+        {/* Locked: a padlock where the tick will be, until the DEV
+            account is linked (lib/stickerBook.mjs `locked`). */}
+        {!earned && sticker.locked && (
+          <span
+            className={styles.lock}
+            role="img"
+            aria-label={my.album.cell.locked}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 2a5 5 0 0 1 5 5v3a3 3 0 0 1 3 3v6a3 3 0 0 1 -3 3h-10a3 3 0 0 1 -3 -3v-6a3 3 0 0 1 3 -3v-3a5 5 0 0 1 5 -5m0 12a2 2 0 0 0 -1.995 1.85l-.005 .15a2 2 0 1 0 2 -2m0 -10a3 3 0 0 0 -3 3v3h6v-3a3 3 0 0 0 -3 -3" />
+            </svg>
+          </span>
+        )}
       </div>
-      <h4 className={styles.cellTitle}>{sticker.label}</h4>
+      {/* The book's own short name where the page heading already says
+          the rest (eligibility.mjs cellLabel); the full label everywhere
+          else, so a shared sticker still says what it is. */}
+      <h4 className={styles.cellTitle}>{sticker.cellLabel || sticker.label}</h4>
+      {/* A challenge that runs for a set of days says which, until it is
+          earned (eligibility.mjs `when`): the DEV weeks. */}
+      {!earned && sticker.when && (
+        <p className={styles.cellWhen}>{sticker.when}</p>
+      )}
       {earned ? (
         <>
           <p className={styles.cellDone}>
@@ -76,6 +97,8 @@ const StickerCell = ({ sticker, justEarned = false, onShare }) => {
             </button>
           )}
         </>
+      ) : sticker.locked ? (
+        <p className={styles.cellLocked}>{my.album.cell.lockedLine}</p>
       ) : sticker.action === 'digitalocean' ? (
         <button
           type="button"

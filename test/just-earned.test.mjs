@@ -118,7 +118,8 @@ test('openingTab turns to the page of a sticker earned just now', () => {
   ];
   assert.equal(openingTab(stickers, new Set(['digitalocean'])), 'tools');
   assert.equal(openingTab(stickers, ['fest', 'digitalocean']), 'inperson');
-  /* Nothing new: the default page, the one holding the next sticker. */
+  /* Nothing new: the default page, the one holding the next sticker; with
+     every activity earned, that is the address on the Required page. */
   assert.equal(openingTab(stickers, new Set()), 'required');
   assert.equal(openingTab(stickers, null), 'required');
 });

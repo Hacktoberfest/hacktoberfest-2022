@@ -1773,6 +1773,29 @@ export const aiContext = {
    useless logged-out. The framing throughout is the sticker pack that gets
    mailed to participants; "envelope" is an internal delivery detail and
    never appears in copy. */
+/* Small counts set in words, the way the rewards copy reads them aloud:
+   "Eight stickers", not "8 stickers". Past twelve the digits stay. */
+const numberWord = (n) => {
+  const words = [
+    'Zero',
+    'One',
+    'Two',
+    'Three',
+    'Four',
+    'Five',
+    'Six',
+    'Seven',
+    'Eight',
+    'Nine',
+    'Ten',
+    'Eleven',
+    'Twelve',
+  ];
+  return Number.isInteger(n) && n >= 0 && n < words.length
+    ? words[n]
+    : String(n);
+};
+
 export const my = {
   title: 'My Hacktoberfest | Hacktoberfest 2026',
   /* The hero greeting. `greeting` takes a first name; the fallback covers
@@ -2198,11 +2221,11 @@ export const my = {
      the tab labels are activitiesPage.list.types for the same reason. */
   album: {
     heading: { lead: 'Your', accent: 'sticker book.' },
-    /* One line, whatever the state: what the book is. The state lives on
-       the rewards band above it (my.rewards.intro). `total` is the whole
-       book, `n` the activity count Milestone 2 asks for. */
-    intro: (total, n) =>
-      `${total} stickers to earn this October. Two are required, the rest are yours to choose. Any one activity sticker earns the pack in the mail, and ${n} activity stickers unlocks the bonus holographic sticker.`,
+    /* One line, whatever the state: what a sticker is and what they are
+       for, since this is the first place the page can say it. The count is
+       the spine's; the state is the hero's. */
+    intro:
+      'This Hacktoberfest, you earn a virtual sticker for every challenge you complete, from open source to open-weight AI. Collect enough and you unlock rewards.',
     tabsLabel: 'Sticker book pages',
     tabCount: (earned, total) => `${earned} of ${total}`,
     /* Two pages wear a mark instead of their name at their head
@@ -2214,13 +2237,12 @@ export const my = {
     /* One line under each page's title, keyed by tab. A type without a
        line here still renders, with no note. */
     pages: {
-      required: 'Both, before anything ships.',
-      dev: 'From your DEV account, once it is linked to MyMLH.',
-      livestreams: 'Check in with the code on screen and it counts.',
-      ghw: 'A week of challenges, five stickers to earn from it.',
-      tools:
-        'Connect an account, an editor or a server, and it counts on its own.',
-      inperson: 'Checking in at the door is what counts.',
+      required: 'You must earn these stickers to receive any rewards.',
+      dev: 'Build with open source and open-weight models, and share what you learned.',
+      livestreams: 'Attend live sessions and hone your skills.',
+      ghw: 'A week of learning and community.',
+      tools: 'Great tools help you build awesome projects.',
+      inperson: 'Meet your local community and collect swag.',
     },
     /* The cells on a page: the sticker, its name, one line of status. The
        line under an earned sticker is the date, or its source in words
@@ -2230,11 +2252,15 @@ export const my = {
       required: 'Required',
       earned: 'Earned',
       notYet: 'Not yet',
+      /* A DEV challenge with no DEV account linked: the padlock's name
+         for assistive tech, and the line where the link would be. */
+      locked: 'Locked',
+      lockedLine: 'Connect DEV to unlock',
     },
     /* The spine along the bottom: the book's count and the way to the
        public catalogue. */
     spine: {
-      count: (earned, total) => `${earned} of ${total} stickers earned`,
+      count: (earned, total) => `${earned} of ${total} stickers unlocked`,
       detailCta: 'See every activity',
     },
   },
@@ -2243,49 +2269,58 @@ export const my = {
      address at the end so a network that takes text shows it. */
   share: {
     title: { sticker: 'Share this sticker', book: 'Share your sticker book' },
-    lede: 'Post it, and the picture goes with you.',
+    /* The line under the title, by what is being shared. */
+    lede: {
+      sticker: 'You earned this sticker. Share it with the world.',
+      book: 'You earned those stickers. Share them with the world.',
+    },
     /* The primary block: on a phone the system sheet, which uploads the
        picture itself; everywhere the four composers. A composer opens
        with the words filled in, and the picture is copied on the same
        click, so the post is one paste away. */
-    postOn: 'Post it on',
-    sheetThen: 'or post it on',
+    postOn: 'Post it to',
+    sheetThen: 'or post it to',
     /* Under each network's name on its tile: what the press does. */
     networkAction: 'copies + opens',
-    keep: 'Or keep the picture:',
-    preparing: 'Getting the picture ready.',
+    /* The tile's line for the beat after a press, while the picture is
+       on the clipboard and before the composer opens. */
+    tileCopied: 'Image copied!',
+    keep: 'Or just grab the picture:',
+    preparing: 'Getting your picture ready…',
     buttons: {
       share: 'Share the picture',
-      copy: 'Copy image',
-      copied: 'Copied',
-      download: 'Download image',
+      copy: 'Copy picture',
+      copied: 'Copied!',
+      download: 'Download picture',
       close: 'Close',
     },
     stickerCta: 'Share',
-    bookCta: 'Share your book',
+    bookCta: 'Share your sticker book',
     networks: {
       x: 'X',
       linkedin: 'LinkedIn',
       bluesky: 'Bluesky',
       threads: 'Threads',
     },
-    pasteHint: 'The picture is copied. Paste it into your post.',
     pasteHintNoText:
-      'The picture is copied. Paste it into your post, and say a few words.',
+      'Picture copied. Paste it into your post and say a few words.',
     /* The browser offered its share sheet and then refused to open it
        (Chrome on macOS does). The picture went to the clipboard, or to
        a download where the clipboard would not take it. */
     sheetRefused:
-      'Your browser would not open its share sheet, so the picture is copied. Paste it into a post, or post it from a network above.',
+      'Your browser wouldn’t open its share sheet, so we copied the picture instead. Paste it into a post, or pick a network above.',
     sheetRefusedSaved:
-      'Your browser would not open its share sheet, so the picture is downloaded. Attach it to a post, or post it from a network above.',
+      'Your browser wouldn’t open its share sheet, so we downloaded the picture instead. Attach it to a post, or pick a network above.',
     error:
-      'The picture could not be drawn just now. Check your connection and try again.',
+      'We couldn’t make the picture just now. Check your connection and try again.',
+    /* The words that go with the picture. A milestone brings its own
+       (my.rewards.<milestone>.shareText), since "the Earn a sticker pack
+       sticker" is not a sentence. */
     text: {
       sticker: (label) =>
-        `I earned the “${label}” sticker at Hacktoberfest 2026. #Hacktoberfest https://hacktoberfest.com`,
+        `I just earned the “${label}” sticker at Hacktoberfest 2026! #Hacktoberfest https://hacktoberfest.com`,
       book: (earned, total) =>
-        `${earned} of ${total} stickers earned at Hacktoberfest 2026. #Hacktoberfest https://hacktoberfest.com`,
+        `${earned} of ${total} stickers in my Hacktoberfest 2026 sticker book so far! #Hacktoberfest https://hacktoberfest.com`,
     },
     card: {
       wordmark: 'Hacktoberfest 2026',
@@ -2300,48 +2335,60 @@ export const my = {
      and what it needs. The intro changes with the level. `n` is the
      activity count Milestone 2 asks for (thresholds.complete). */
   rewards: {
-    heading: { lead: 'Your', accent: 'progress.' },
+    heading: { lead: 'Your', accent: 'milestones.' },
+    /* The line under the heading, whatever the state: what a milestone
+       is and what each one gets you. The counts are the book's (eight and
+       fifteen activity stickers plus the required two); the cards' meters
+       say the same numbers from the API's thresholds. The state is the
+       hero's (intro below). */
+    lede: 'Complete each milestone to unlock rewards shipped straight to your door.',
     intro: {
       pending: (n) =>
-        `Two stickers you earn by earning stickers. Any one activity sticker puts the pack in the mail; ${n} activity stickers unlocks the bonus holographic sticker, and that is Hacktoberfest complete.`,
+        `Any sticker puts the pack in the mail. ${numberWord(n + 2)} stickers in the book unlock the holographic one, and that’s Hacktoberfest complete.`,
       stickersEarned: (n) =>
-        `Your sticker pack is on its way. Earn ${n} activity stickers in total to unlock the bonus holographic sticker and complete Hacktoberfest.`,
+        `Your pack is on its way. ${numberWord(n + 2)} stickers in the book unlock the holographic sticker and complete Hacktoberfest.`,
       complete:
-        'You’ve completed Hacktoberfest 2026. The bonus holographic sticker is unlocked, and your sticker pack is in the mail.',
+        'You’ve completed Hacktoberfest 2026. The holographic sticker is yours, and your pack is in the mail.',
       completionist:
-        'You’re a Hacktoberfest 2026 Completionist. Fifteen activity stickers in the book, the holographic sticker unlocked, and your pack in the mail.',
+        'You’re a Hacktoberfest 2026 Completionist. Seventeen stickers in the book, the holographic sticker yours, and the pack in the mail.',
     },
+    /* The badge on an earned card, when the date is known: the day the
+       milestone was reached (lib/stickerBook.mjs rewardsState.earnedAt). */
+    earnedOn: (date) => `Earned ${date}`,
     pack: {
       tag: 'Milestone 1',
-      title: 'Sticker pack in the mail',
+      title: 'Earn a sticker pack',
+      shareText:
+        'I just earned my Hacktoberfest 2026 sticker pack! #Hacktoberfest https://hacktoberfest.com',
       reachedBadge: 'Earned',
       pendingBadge: (done, total) => `${done} of ${total}`,
+      /* One line while it is pending, whatever is left to do: the pips
+         under it say which. */
       why: {
-        earned: 'Your pack ships to the address on your MyMLH account.',
-        addressFirst: 'Add your address, then earn any one activity sticker.',
-        addressAfter:
-          'An activity sticker is in the book. Add an address and the pack ships.',
-        activity: 'Earn any one activity sticker and the pack ships.',
+        earned:
+          'Your sticker pack will be shipped 8-12 weeks after Hacktoberfest concludes.',
+        pending:
+          'Sign in, add your address, and earn any other sticker to receive Hacktoberfest 2026 stickers in the mail.',
       },
       needs: {
         signedIn: 'Signed in',
         address: 'Address',
-        activity: 'Any 1 activity',
+        activity: 'Earned any sticker',
       },
       /* The CTA's destination is MLH_ADDRESS_URL in data/links.js. */
       addressCta: 'Add address',
     },
     complete: {
       tag: 'Milestone 2',
-      title: 'The bonus holographic sticker',
+      title: 'Unlock a bonus holographic sticker',
+      shareText:
+        'I just unlocked the holographic sticker at Hacktoberfest 2026! #Hacktoberfest https://hacktoberfest.com',
       reachedBadge: 'Earned',
       pendingBadge: (done, total) => `${done} of ${total}`,
       why: {
-        earned: 'Unlocked, and Hacktoberfest 2026 is complete.',
-        locked: (n) =>
-          `Opens once the pack ships. ${n} activity stickers in total, ${n + 2} in the book with the two required.`,
-        remaining: (left) =>
-          `${left} more activity sticker${left === 1 ? '' : 's'} unlocks it, and completes Hacktoberfest.`,
+        earned: 'We’ll include a holographic sticker in your sticker pack.',
+        pending:
+          'Earn any ten virtual stickers and we’ll include a bonus holographic sticker in your mailed sticker pack.',
       },
       meterLabel: (filled, target) =>
         `${filled} of ${target} stickers toward the holographic sticker`,
@@ -2351,14 +2398,16 @@ export const my = {
        nothing but the word. */
     completionist: {
       tag: 'Milestone 3',
-      title: 'Completionist',
+      title: 'Become a Completionist',
+      shareText:
+        'I’m a Hacktoberfest 2026 Completionist! Every sticker in the book. #Hacktoberfest https://hacktoberfest.com',
       reachedBadge: 'Earned',
       pendingBadge: (done, total) => `${done} of ${total}`,
       why: {
         earned:
-          'Fifteen activity stickers in the book. You’re a Hacktoberfest 2026 Completionist.',
+          'Congratulations, you’re a Hacktoberfest 2026 Completionist and are in the draw to win a Hacktoberfest t-shirt!',
         remaining: (left) =>
-          `${left} more activity sticker${left === 1 ? '' : 's'} makes you a Completionist. A title, and bragging rights.`,
+          `${left} more sticker${left === 1 ? '' : 's'} make${left === 1 ? 's' : ''} you a Completionist. A title, and a certificate to show for it.`,
       },
       meterLabel: (filled, target) =>
         `${filled} of ${target} stickers toward Completionist`,
@@ -2375,34 +2424,27 @@ export const my = {
      Only the words around them live here. */
   inventory: {
     heading: { lead: 'Your', accent: 'rewards.' },
-    intro: {
-      empty:
-        'Nothing in it yet. Your first activity sticker, with the two required ones, earns the pack.',
-      some: 'What the stickers have earned you: the physical things, and the digital ones. Pick one for the story.',
-      full: 'Everything the stickers could earn you, physical and digital. All of it.',
-    },
+    /* One line, whatever the locker holds: the ghost cell and the spine
+       say how full it is. */
+    intro:
+      'All the virtual and physical rewards you’ve earned this Hacktoberfest.',
     listLabel: 'Your rewards',
     /* The two pages of the locker, each with a head and a note, the way
        the sticker book heads its pages. */
     pages: {
-      have: {
-        title: 'What you have',
-        note: 'One cell per thing, physical or digital.',
-      },
-      picked: {
-        title: 'About this one',
-        note: 'The thing you picked, and what to do about it.',
-      },
+      have: { title: 'Everything you’ve earned' },
+      picked: { title: 'About this item' },
     },
-    /* The spine's one line. No number of slots is ever said: the locker
-       holds whatever October put in it, and the empties are room, not a
-       count. */
-    count: (things) =>
-      `${things} ${things === 1 ? 'reward' : 'rewards'} earned`,
-    /* The right page with nothing picked: nothing is earned yet. */
-    nothing:
-      'Nothing in it yet. Your first activity sticker, with the two required ones, earns the pack.',
+    /* No number of slots is ever said: the locker holds whatever October
+       put in it, and the empties are room, not a count. */
+    count: (items) => `${items} ${items === 1 ? 'item' : 'items'} unlocked`,
+    /* The right page with nothing earned: the ghost's entry, badged as
+       what is coming rather than as earned, with its facts under it. */
+    upNext: 'Up next',
     kinds: { physical: 'Physical', digital: 'Digital' },
+    /* The line under the ghost an empty locker shows: the first thing
+       to earn, greyed, so the cells say what goes in them. */
+    notYet: 'Not yet',
     /* A thing that lives on a DEV profile, earned with no DEV account
        linked to MyMLH: the line under it, and the page's word. The button
        is the welcome band's (my.identity.devConnectCta, devConnectHref). */
@@ -2429,7 +2471,9 @@ export const my = {
   },
   fests: {
     heading: { lead: 'Your', accent: 'Fests.' },
-    lede: 'A Fest is a one-day, in-person event in your city, either a Hack Day or a Meet Up.',
+    /* The line under the heading, whatever the state: what Fests are and
+       why to go. The cards under it say where this person is going. */
+    lede: '300+ in-person Fests are running around the world this Hacktoberfest. Sign up for one, learn about open source and open-weight AI, and meet your local community.',
     /* Badges come from the participation status the API sends —
        "Registered" until the organizer scans you in, "Checked in" after.
        Never derived from the calendar: a registered no-show stays
@@ -2771,7 +2815,7 @@ export const activitiesPage = {
       livestreams: 'Livestreams',
       ghw: 'Global Hack Week',
       tools: 'Tools',
-      inperson: 'In Person',
+      inperson: 'Fests',
       /* The sticker book's Required page on /my (lib/stickerBook.mjs): the
          two stickers everyone earns. Not in TYPE_ORDER, so /activities/
          never offers it as a chip. */
