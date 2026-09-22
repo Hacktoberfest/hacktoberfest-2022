@@ -1314,6 +1314,10 @@ export const MilestonesGrid = styled(Shell)`
    nothing here is anyone's yet. */
 export const MilestoneCard = styled.div`
   display: grid;
+  /* One bounded track: without it the implicit auto column grows to the
+     head's min-content (the sticker beside the no-wrap count tag) and
+     every line in the card runs past its edge on a tablet. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   align-content: start;
   justify-items: start;
@@ -1370,7 +1374,9 @@ export const Hex = styled.span`
 /* The sticker at the left, the count it takes at the top right. */
 export const MilestoneHead = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
+  min-width: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
