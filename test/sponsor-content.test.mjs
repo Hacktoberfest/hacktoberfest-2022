@@ -27,6 +27,10 @@ test('every wall sponsor entry is complete and tagged', () => {
       'Paper Compute',
       'Entire',
       'Prior Labs',
+      'Google Cloud',
+      'Gemma',
+      'Qualcomm',
+      'Arduino',
     ],
     'the curated wall matches the confirmed sponsor roster and order',
   );
@@ -42,7 +46,7 @@ test('every wall sponsor entry is complete and tagged', () => {
     );
     assert.equal(
       entry.logo,
-      `/sponsors/${entry.slug}.svg`,
+      `/sponsors/${entry.slug}.${entry.slug === 'gemma' ? 'png' : 'svg'}`,
       `${entry.name}: logo path must follow the slug`,
     );
   });

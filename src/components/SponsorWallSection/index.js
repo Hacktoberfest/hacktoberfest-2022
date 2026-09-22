@@ -65,7 +65,12 @@ const SponsorWallSection = () => (
       {sponsors.map((entry) => (
         <WallItem key={entry.slug} $span={4}>
           <WallLink href={entry.homeUrl} aria-label={`Visit ${entry.name}`}>
-            <WallLogo src={entry.logo} alt="" $wide={entry.wide} />
+            <WallLogo
+              src={entry.logo}
+              alt=""
+              $wide={entry.wide}
+              $scale={entry.scale}
+            />
           </WallLink>
         </WallItem>
       ))}

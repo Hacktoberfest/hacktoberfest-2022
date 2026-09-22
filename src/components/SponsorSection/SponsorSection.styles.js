@@ -131,6 +131,7 @@ export const WallLink = styled.a.attrs({
   justify-content: center;
   min-height: 104px;
   padding: 14px;
+  overflow: hidden;
   border: 2px solid ${colors.ink};
   background: ${colors.white};
   transition:
@@ -157,6 +158,8 @@ export const WallLogo = styled.img`
   width: min(100%, ${(props) => (props.$wide ? '200px' : '150px')});
   max-height: 52px;
   object-fit: contain;
+  pointer-events: none;
+  transform: scale(${(props) => props.$scale || 1});
 `;
 
 /* The partner marks live in the wall grid now, first three tiles: the

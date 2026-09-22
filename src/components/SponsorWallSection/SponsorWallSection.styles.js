@@ -105,6 +105,7 @@ export const WallLink = styled.a.attrs({
   justify-content: center;
   min-height: 78px;
   padding: 14px;
+  overflow: hidden;
   border: 2px solid ${colors.ink};
   background: ${colors.white};
   transition:
@@ -135,6 +136,8 @@ export const WallLogo = styled.img`
   width: min(100%, ${(props) => (props.$wide ? '200px' : '150px')});
   max-height: 40px;
   object-fit: contain;
+  pointer-events: none;
+  transform: scale(${(props) => props.$scale || 1});
 
   @media (min-width: ${breakpoints.tablet}) {
     max-height: 52px;

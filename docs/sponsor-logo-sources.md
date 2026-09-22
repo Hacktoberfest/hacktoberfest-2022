@@ -1,0 +1,10 @@
+# Sponsor logo sources
+
+The four logos added on September 21, 2026 are local preparation for the sponsor walls. Google Cloud, Gemma, and Arduino came from their brands' public sites. Qualcomm came from Wikimedia Commons, where the file page cites a Qualcomm document as its source. Replace any logo with sponsor-provided artwork if the sponsor supplies a preferred lockup. The site reads these files from `public/sponsors/`.
+
+| Sponsor      | Local file         | Source                                                                                                                                                                                                                                         |
+| ------------ | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Google Cloud | `google-cloud.svg` | [Google Cloud site header](https://www.gstatic.com/cgc/google-cloud-logo-fullcolor.svg)                                                                                                                                                        |
+| Gemma        | `gemma.png`        | [Google for Health's Gemma wordmark asset](https://www.gstatic.com/marketing-cms/assets/images/a7/ed/accfed054afab060cd7e2b952986/1-1-13.png)                                                                                                  |
+| Qualcomm     | `qualcomm.svg`     | [Wikimedia Commons: Qualcomm-Logo.svg](https://commons.wikimedia.org/wiki/File:Qualcomm-Logo.svg), which cites a [Qualcomm presentation](https://www.qualcomm.com/media/documents/files/4g-5g-summit-keynote-cristiano-amon.pdf) as its source |
+| Arduino      | `arduino.svg`      | [Arduino brand identity](https://content.arduino.cc/brand/arduino-color.svg)                                                                                                                                                                   |

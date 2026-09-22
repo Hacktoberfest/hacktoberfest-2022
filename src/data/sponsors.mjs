@@ -1,8 +1,8 @@
 import { tagged } from './links.js';
 
 /* The public sponsor wall is deliberately curated, mirroring the sponsor
-   portal's config/sponsor_wall.yml: complete logos supplied by the
-   sponsor, confirmed partners only. Ghost is confirmed there too, but its
+   portal's config/sponsor_wall.yml: complete brand logos, confirmed partners
+   only. Ghost is confirmed there too, but its
    only available asset is an og-image social card rather than a logo, so
    it stays off the wall until a real logo lands.
 
@@ -47,7 +47,19 @@ const roster = [
     site: 'https://priorlabs.ai',
     wide: true,
   },
+  {
+    name: 'Google Cloud',
+    slug: 'google-cloud',
+    site: 'https://cloud.google.com',
+    wide: true,
+  },
+  { name: 'Gemma', slug: 'gemma', site: 'https://ai.google.dev/gemma' },
+  { name: 'Qualcomm', slug: 'qualcomm', site: 'https://www.qualcomm.com' },
+  { name: 'Arduino', slug: 'arduino', site: 'https://www.arduino.cc' },
 ];
+
+const logoScales = { gemma: 2.7, arduino: 1.25 };
+const logoExtensions = { gemma: 'png' };
 
 export const sponsors = roster.map(({ name, slug, site, wide = false }) => ({
   name,
@@ -55,5 +67,6 @@ export const sponsors = roster.map(({ name, slug, site, wide = false }) => ({
   wide,
   url: tagged(site, { content: `sponsor-logo-${slug}` }),
   homeUrl: tagged(site, { content: `home-sponsor-logo-${slug}` }),
-  logo: `/sponsors/${slug}.svg`,
+  logo: `/sponsors/${slug}.${logoExtensions[slug] ?? 'svg'}`,
+  scale: logoScales[slug] ?? 1,
 }));
