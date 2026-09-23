@@ -266,6 +266,144 @@
   color: #284b44;
 }
 
+.packHint {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+/* The journey: three markers on one rail. The rail below a done step is
+   ink, otherwise rule-grey, so the ink runs exactly as far as the pack
+   has. */
+.steps {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: start;
+  padding-bottom: 14px;
+}
+
+.step:last-child {
+  padding-bottom: 0;
+}
+
+.step::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 22px;
+  bottom: -2px;
+  width: 2px;
+  /* colors.rule */
+  background: #8ca59e;
+}
+
+.step:last-child::before {
+  display: none;
+}
+
+.stepDone::before {
+  /* colors.ink */
+  background: #10201d;
+}
+
+.stepMarker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  /* colors.rule on colors.white */
+  border: 2px solid #8ca59e;
+  background: #f7f7f2;
+}
+
+.stepDone .stepMarker {
+  /* colors.ink */
+  border-color: #10201d;
+  background: #10201d;
+  /* colors.white, for the check's currentColor */
+  color: #f7f7f2;
+}
+
+.stepCheck {
+  width: 12px;
+  height: 12px;
+}
+
+.stepActive .stepMarker {
+  /* colors.orange */
+  border-color: #e53927;
+}
+
+.stepActive .stepMarker::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  /* colors.orange */
+  background: #e53927;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .stepActive .stepMarker::after {
+    animation: packPulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes packPulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.6);
+    }
+  }
+}
+
+.stepLabel {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.stepTodo .stepLabel {
+  /* colors.muted */
+  color: #52635f;
+  font-weight: 400;
+}
+
+.stepStatus {
+  display: block;
+  margin-top: 2px;
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stepActive .stepStatus {
+  /* colors.orange */
+  color: #e53927;
+}
+
 .trackingLabel {
   margin: 4px 0 0;
   /* colors.muted */
@@ -278,15 +416,107 @@
   text-transform: uppercase;
 }
 
-.trackingList {
+/* One row per package, all built the same: chip, number, actions. */
+.parcels {
   margin: 0;
   padding: 0;
   list-style: none;
+  display: grid;
+  gap: 8px;
 }
 
-.trackingNumber {
+.parcel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'carrier number'
+    'carrier actions';
+  column-gap: 14px;
+  row-gap: 6px;
+  align-items: center;
+  padding: 12px 14px;
+  /* colors.rule on colors.paper */
+  border: 1px solid #8ca59e;
+  background: #f2f2eb;
+}
+
+@media (min-width: 640px) {
+  .parcel {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: 'carrier number actions';
+  }
+}
+
+.carrier {
+  grid-area: carrier;
+  padding: 4px 8px;
+  /* colors.white on colors.ink */
+  background: #10201d;
+  color: #f7f7f2;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.carrierUnknown {
+  background: transparent;
+  /* colors.muted, colors.rule */
+  color: #52635f;
+  border: 1px dashed #8ca59e;
+}
+
+.number {
+  grid-area: number;
+  /* colors.ink */
+  color: #10201d;
   font-family:
     'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
   word-break: break-all;
+}
+
+.parcelActions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.parcelButton {
+  padding: 8px 12px;
+  /* colors.ink border, colors.white on colors.orange */
+  border: 2px solid #10201d;
+  background: #e53927;
+  color: #f7f7f2;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.parcelButton:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
+}
+
+.parcelButtonGhost {
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.parcelButtonDone {
+  /* colors.forest */
+  border-color: #3d5f58;
+  color: #3d5f58;
 }

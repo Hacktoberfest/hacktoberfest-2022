@@ -1623,16 +1623,43 @@ export const my = {
          went - and it never shows a 0, which would read as nobody came. */
       locked: 'Check-ins open on the day of your Fest.',
     },
-    /* The event pack. Nothing has shipped yet, so "not yet shipped" is the
-       state that got designed; the shipped copy below exists so that the day
-       a real tracking number lands, the card cannot go on claiming nothing
-       has shipped. It is deliberately plain and will be replaced by a proper
-       shipped state once there is real data to design against. */
+    /* The event pack, as a three-step journey. MLH writes one bare tracking
+       number per package onto the event and nothing else, so the number is
+       the only fact the card has: while there is none, the pack is at the
+       fulfillment centre being packed; once there is one, all three steps
+       are done and the number is what proves it. No delivery status is ever
+       claimed - MLH sends none, and the carrier link is where a host follows
+       the rest. */
     pack: {
       title: 'Event pack',
       notShipped: 'Your event pack has not yet shipped.',
+      notShippedHint:
+        'Your event pack’s tracking number will appear here shortly after it ships.',
       shipped: 'Your event pack is on its way.',
-      trackingLabel: 'Tracking numbers',
+      shippedMany: (count) =>
+        `Your event pack is on its way in ${count} packages.`,
+      steps: {
+        fulfillment: 'Event pack shipped to fulfillment centre',
+        packed: 'Packed event pack for delivery',
+        shipped: 'Event pack shipped to you',
+      },
+      stepStatus: {
+        done: 'Done',
+        active: 'In progress',
+        todo: 'Not yet',
+      },
+      trackingLabel: 'Tracking',
+      trackCta: (carrier) => `Track with ${carrier}`,
+      lookUpCta: 'Look up this number',
+      copyCta: 'Copy',
+      copiedCta: 'Copied',
+      /* The clipboard said no (an http origin, or a browser without the
+         API). The number is still on screen and selectable. */
+      copyFailedCta: 'Select and copy',
+      /* The hollow chip on a number whose shape we do not know. */
+      unknownCarrier: 'Carrier',
+      unknownCarrierHint:
+        'We could not tell which carrier this is. Paste the number into your carrier’s tracking page.',
     },
     forbidden: {
       eyebrow: 'Fest dashboard',

@@ -588,23 +588,29 @@ export const SCENARIOS = Object.freeze({
 
    fest-melbourne has already happened, so it is the one that demonstrates
    the check-ins card; fest-tokyo and fest-azores are both still ahead, so
-   they show registrations only. Neither has a pack in transit: nothing has
-   shipped, so "not yet shipped" is the state worth reviewing. */
+   they show registrations only.
+
+   The event pack card has one state per Fest, so every state is a review
+   link away: fest-tokyo has one FedEx number (the shape MLH writes for a
+   real shipment), fest-melbourne has two packages on two carriers,
+   fest-toronto has a number whose shape we do not recognise, and
+   fest-azores has not shipped. The numbers are real formats, not real
+   shipments. */
 export const FEST_DASHBOARDS = Object.freeze({
   'fest-tokyo': {
     registrationsCount: 48,
     checkInsCount: 31,
-    trackingNumbers: [],
+    trackingNumbers: ['877489462372'],
   },
   'fest-melbourne': {
     registrationsCount: 52,
     checkInsCount: 38,
-    trackingNumbers: [],
+    trackingNumbers: ['1ZK943J80322840185', '9434650206217265901828'],
   },
   'fest-toronto': {
     registrationsCount: 31,
     checkInsCount: 0,
-    trackingNumbers: [],
+    trackingNumbers: ['AB123456789XY'],
   },
   'fest-azores': {
     registrationsCount: 12,
