@@ -43,7 +43,6 @@ test('the export carries no progress: the rows render after the seam answers', a
       `${activity.label} is in the static export`,
     );
   }
-  assert.ok(!html.includes(activitiesPage.list.done));
   assert.ok(
     !html.includes(activitiesPage.how.signIn),
     'the sign-in slot copy is in the static export',

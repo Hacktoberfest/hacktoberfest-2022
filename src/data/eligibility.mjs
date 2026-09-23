@@ -242,7 +242,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'discord',
     label: 'Join the MLH Community Discord',
-    detail: 'Join the server with the account linked to MyMLH and it counts.',
+    detail:
+      "Join MLH's Community Discord server and link your MyMLH account to your Discord account.",
     /* The same invite HOST_DISCORD_URL in data/links.js carries, restated
        here because this file is read by Node's test runner, which cannot
        resolve links.js. */

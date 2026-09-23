@@ -1,6 +1,5 @@
 import { activitiesPage } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
-import { formatEarnedDate } from 'lib/earnedDate.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './ActivityCard.module.css';
@@ -10,8 +9,8 @@ import styles from './ActivityCard.module.css';
    The sticker sits in a die-cut slot at the left, centred on the card's
    height, and the words at the right. Signed in and earned, the sticker
    sits square on its slot with the book's tick on its corner, the way
-   the album on /my marks one, and a done line says when and how; the CTA stays,
-   because a done Fest still has a next Fest to find. Unearned cards are
+   the album on /my marks one; the CTA stays, because a done Fest still
+   has a next Fest to find. Unearned cards are
    untouched: nothing is dimmed for not being done yet.
 
    The shadow is the type's deep partner (sky for online, orange for in
@@ -25,12 +24,6 @@ import styles from './ActivityCard.module.css';
 const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
   const earned = Boolean(signedIn && activity.completed);
   const external = /^https?:\/\//.test(activity.href || '');
-  const date = activity.completedAt
-    ? formatEarnedDate(activity.completedAt)
-    : null;
-  const how = activity.source
-    ? activitiesPage.list.source[activity.source]
-    : null;
   const typeClass = styles[`type_${activity.type}`] || '';
   const showDevHint =
     Boolean(activity.requiresDevLink) && !devLinked && !activity.completed;
@@ -67,12 +60,6 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
         <p className={styles.cardDetail}>{activity.detail}</p>
         {showDevHint && (
           <p className={styles.cardHint}>{activitiesPage.list.devHint}</p>
-        )}
-        {earned && (
-          <p className={styles.cardDone}>
-            {date ? activitiesPage.list.doneOn(date) : activitiesPage.list.done}
-            {how ? `, ${how}` : ''}
-          </p>
         )}
         {/* An action rather than a destination: the button starts the
             API's connect flow. Signed out, the same words lead to /my,

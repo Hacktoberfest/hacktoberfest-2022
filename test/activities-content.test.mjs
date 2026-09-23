@@ -60,7 +60,7 @@ test('the failed-fetch notice has its retry word', () => {
 });
 
 /* JSON.stringify drops function values entirely, so it silently skips
-   how.steps and list.doneOn (and any function-valued copy added later) —
+   how.steps and list.filters.chip (and any function-valued copy added later) —
    exactly the sort of place a straight apostrophe could hide. This walks
    the object collecting every string instead, then adds the two
    functions' own output by calling them with a representative argument. */
@@ -97,7 +97,6 @@ test('stickers are stickers, and the bands have their eyebrows', () => {
 
 test('the copy keeps the house voice', () => {
   const strings = collectStrings(activitiesPage);
-  strings.push(activitiesPage.list.doneOn('October 5'));
   strings.push(activitiesPage.list.filters.chip('Online', 2));
   strings.push(activitiesPage.strip.count(3, 4));
   const prose = strings.join(' ');
@@ -116,7 +115,7 @@ test('every type has a label, and the chips have their words', () => {
   assert.equal(activitiesPage.list.filters.chip('Online', 2), 'Online · 2');
   assert.ok(activitiesPage.list.filters.empty.length > 10);
   assert.equal(activitiesPage.list.earned, 'Earned');
-  assert.equal(activitiesPage.list.doneOn('October 5'), 'Earned October 5');
+  assert.equal(activitiesPage.list.doneOn, undefined, 'the done line is gone');
 });
 
 test('the strip line counts stickers, and the strip itself is off this page', () => {

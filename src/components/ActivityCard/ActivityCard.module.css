@@ -223,13 +223,6 @@
   line-height: 1.45;
 }
 
-.cardDone {
-  margin: 2px 0 0;
-  /* colors.forest */
-  color: #3d5f58;
-  font-weight: 700;
-}
-
 /* Placement only: the button itself is .hf-button (src/styles/buttons.css). */
 .cardCta {
   justify-self: start;

@@ -2713,9 +2713,6 @@ export const activitiesPage = {
   list: {
     eyebrow: 'The stickers',
     heading: { lead: 'Every', accent: 'sticker.' },
-    /* Under an earned card: the same word and date /my's book uses. */
-    done: 'Earned',
-    doneOn: (date) => `Earned ${date}`,
     /* How a completion was earned, in words. The keys are the API's source
        vocabulary; the values never repeat it. */
     source: {
