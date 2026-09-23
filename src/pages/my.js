@@ -9,7 +9,7 @@ import RewardsBand from 'components/RewardsBand';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { connectOutcome } from 'lib/digitalocean.mjs';
-import { calendarFests, isOrganizing, organizingFests } from 'lib/fests.mjs';
+import { isOrganizing, organizingFests } from 'lib/fests.mjs';
 import { inventoryItems, itemIds } from 'lib/inventory.mjs';
 import { earnedIds, milestoneIds, noteEarned } from 'lib/justEarned.mjs';
 import { hubToOpen, readLastHub } from 'lib/myView.mjs';
@@ -34,7 +34,6 @@ const redirectFor = (experience) =>
    revalidation does not cut a moment short. */
 const Bands = ({ experience }) => {
   const [justEarned, setJustEarned] = useState(() => new Set());
-  const hasFests = calendarFests(experience.fests).length > 0;
 
   useEffect(() => {
     const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
@@ -58,17 +57,18 @@ const Bands = ({ experience }) => {
         />
       )}
       {/* The story in order: what is coming up, what you do, what it gets
-         you, what you have. The Fests band is the participant's calendar
-         (hosting cards included, applications on the hosting hub), and it
-         leads only when there is a Fest on it; with none it is two
-         invitations, and they close the page instead. */}
-      {hasFests && <FestsBand experience={experience} />}
+         you, what you have. The Fests band always leads: it is the
+         participant's calendar (hosting cards included, applications on
+         the hosting hub), and with nothing on it yet it is the two
+         invitations to find one. The inventory always closes, and it
+         alone carries the page's bottom gutter (Inventory.module.css);
+         the other bands end 8px above their neighbour. */}
+      <FestsBand experience={experience} />
       <Album experience={experience} justEarned={justEarned} />
       <RewardsBand experience={experience} justEarned={justEarned} />
       {/* The rewards: what the stickers earned, as a locker, the API's
          items (lib/inventory.mjs). */}
       <Inventory experience={experience} justEarned={justEarned} />
-      {!hasFests && <FestsBand experience={experience} />}
     </>
   );
 };

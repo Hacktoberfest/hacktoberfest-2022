@@ -599,17 +599,17 @@ const WIRING = [
   {
     file: 'src/pages/my.js',
     token: '<RewardsBand experience={experience} justEarned={justEarned} />',
-    why: '"Your rewards." is the first band of the attending hub.',
+    why: '"Your rewards." is the attending hub\'s third band, between the book and the locker.',
   },
   {
     file: 'src/pages/my.js',
     token: '<Album experience={experience} justEarned={justEarned} />',
-    why: '"Your sticker book." is the attending hub\'s second band.',
+    why: '"Your sticker book." is the attending hub\'s second band, under the Fests.',
   },
   {
     file: 'src/pages/my.js',
     token: '<FestsBand experience={experience} />',
-    why: '"Your Fests." closes the attending hub, hosting cards included: it is the participant\'s calendar.',
+    why: '"Your Fests." always leads the attending hub, hosting cards included: it is the participant\'s calendar, and with nothing on it the two invitations. It never closes the page: its band ends 8px short and the inventory owns the bottom gutter.',
   },
   {
     file: 'src/pages/my.js',
