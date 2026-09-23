@@ -1,7 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
+
 import HostResourcesBand from 'components/HostResourcesBand';
 import { MyLoading } from 'components/MyStatus';
 import PageHero from 'components/PageHero';
 import { fests, my } from 'data/content.mjs';
+import { carrierFor } from 'lib/carrier.mjs';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
 import { splitFestName } from 'lib/festName.mjs';
 import {
@@ -78,6 +81,140 @@ const LockedCard = ({ id, title, body }) => (
   </section>
 );
 
+/* The event pack's journey, in three steps on one rail. MLH writes one bare
+   tracking number per package onto the event and nothing else, so the
+   number is the only fact the card has, and the tracker has exactly two
+   states: no number, and the pack is being packed at the fulfillment
+   centre; any number, and all three steps are done. Nothing past that is
+   claimed - MLH sends no delivery status, and the carrier link is where a
+   host follows the rest. An ordered list, because the steps are a
+   sequence. */
+const CheckIcon = () => (
+  <svg
+    className={styles.stepCheck}
+    viewBox="0 0 12 12"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M2 6.5 5 9.5 10 3"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+    />
+  </svg>
+);
+
+const STEP_CLASS = {
+  done: styles.stepDone,
+  active: styles.stepActive,
+  todo: styles.stepTodo,
+};
+
+const Step = ({ label, state }) => (
+  <li className={`${styles.step} ${STEP_CLASS[state]}`}>
+    <span className={styles.stepMarker} aria-hidden="true">
+      {state === 'done' && <CheckIcon />}
+    </span>
+    <p className={styles.stepLabel}>
+      {label}
+      <span className={styles.stepStatus}>
+        {my.dashboard.pack.stepStatus[state]}
+      </span>
+    </p>
+  </li>
+);
+
+const PackSteps = ({ shipped }) => {
+  const { steps } = my.dashboard.pack;
+
+  return (
+    <ol className={styles.steps}>
+      <Step label={steps.fulfillment} state="done" />
+      <Step label={steps.packed} state={shipped ? 'done' : 'active'} />
+      <Step label={steps.shipped} state={shipped ? 'done' : 'todo'} />
+    </ol>
+  );
+};
+
+/* How long "Copied" stays up: long enough to be seen, short enough that
+   the button is ready again before anyone wonders. */
+const COPIED_FOR_MS = 1600;
+
+/* One package: the carrier read from the number's shape, the number in the
+   mono face so it can be read aloud, and two actions. The carrier's own
+   tracking page is the primary one; Copy is the quiet second, for hosts
+   who want it in the carrier's app. A shape we do not recognise keeps the
+   number and the Copy, drops to a generic look-up, and never names a
+   carrier it is guessing at. Copy state is per row, so two packages do not
+   share one "Copied". */
+const Parcel = ({ number }) => {
+  const { carrier, url } = carrierFor(number);
+  const [copyState, setCopyState] = useState('idle');
+  const revert = useRef(null);
+  const copy = my.dashboard.pack;
+
+  useEffect(() => () => clearTimeout(revert.current), []);
+
+  const onCopy = async () => {
+    try {
+      /* Throws on an http origin or a browser without the API; either way
+         the number is on screen and selectable, and the label says so. */
+      await navigator.clipboard.writeText(number);
+      setCopyState('copied');
+      clearTimeout(revert.current);
+      revert.current = setTimeout(() => setCopyState('idle'), COPIED_FOR_MS);
+    } catch {
+      setCopyState('failed');
+    }
+  };
+
+  const copyLabel =
+    copyState === 'copied'
+      ? copy.copiedCta
+      : copyState === 'failed'
+        ? copy.copyFailedCta
+        : copy.copyCta;
+
+  return (
+    <li className={styles.parcel}>
+      <span
+        className={
+          carrier
+            ? styles.carrier
+            : `${styles.carrier} ${styles.carrierUnknown}`
+        }
+      >
+        {carrier || copy.unknownCarrier}
+      </span>
+      <span className={styles.number}>{number}</span>
+      <span className={styles.parcelActions}>
+        <a
+          className={
+            carrier
+              ? styles.parcelButton
+              : `${styles.parcelButton} ${styles.parcelButtonGhost}`
+          }
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {carrier ? copy.trackCta(carrier) : copy.lookUpCta}
+        </a>
+        <button
+          type="button"
+          className={`${styles.parcelButton} ${styles.parcelButtonGhost}${
+            copyState === 'copied' ? ` ${styles.parcelButtonDone}` : ''
+          }`}
+          onClick={onCopy}
+        >
+          {copyLabel}
+        </button>
+      </span>
+    </li>
+  );
+};
+
 const FestDashboard = ({ fest, dashboard, now }) => {
   const location = [fest.city, fest.country].filter(Boolean).join(', ');
   const date = formatFestDate(fest.date);
@@ -90,6 +227,17 @@ const FestDashboard = ({ fest, dashboard, now }) => {
      card /my already had, and only the counts below wait. Every read of
      `dashboard` past this point is guarded by it. */
   const shipped = Boolean(dashboard) && dashboard.trackingNumbers.length > 0;
+  const packageCount = shipped ? dashboard.trackingNumbers.length : 0;
+  const packLine = !shipped
+    ? my.dashboard.pack.notShipped
+    : packageCount > 1
+      ? my.dashboard.pack.shippedMany(packageCount)
+      : my.dashboard.pack.shipped;
+  /* One hint under the list, however many rows could not name a carrier:
+     the rows themselves already show which. */
+  const hasUnknownCarrier =
+    shipped &&
+    dashboard.trackingNumbers.some((number) => !carrierFor(number).carrier);
   /* MLH welds the partner onto the event name - "… Toronto x SharkHacks3" -
      so the heading takes the Fest and the partner gets its own line, exactly
      as the public directory's cards and modal do. Putting the partner in the
@@ -189,29 +337,28 @@ const FestDashboard = ({ fest, dashboard, now }) => {
               {my.dashboard.pack.title}
             </h2>
             <div className={styles.packBody}>
-              {/* Nothing has shipped for any Fest yet, so the not-shipped
-                  state is the one that got designed. The shipped branch is
-                  deliberately plain: it exists so that the day MLH's field
-                  goes live and a real tracking number lands, this card cannot
-                  go on telling a host that nothing has shipped while their
-                  box is in transit. */}
-              <p className={styles.packLine}>
-                {shipped
-                  ? my.dashboard.pack.shipped
-                  : my.dashboard.pack.notShipped}
-              </p>
+              <p className={styles.packLine}>{packLine}</p>
+              <PackSteps shipped={shipped} />
+              {!shipped && (
+                <p className={styles.packHint}>
+                  {my.dashboard.pack.notShippedHint}
+                </p>
+              )}
               {shipped && (
                 <>
                   <p className={styles.trackingLabel}>
                     {my.dashboard.pack.trackingLabel}
                   </p>
-                  <ul className={styles.trackingList}>
+                  <ul className={styles.parcels}>
                     {dashboard.trackingNumbers.map((number) => (
-                      <li key={number} className={styles.trackingNumber}>
-                        {number}
-                      </li>
+                      <Parcel key={number} number={number} />
                     ))}
                   </ul>
+                  {hasUnknownCarrier && (
+                    <p className={styles.packHint}>
+                      {my.dashboard.pack.unknownCarrierHint}
+                    </p>
+                  )}
                 </>
               )}
             </div>
