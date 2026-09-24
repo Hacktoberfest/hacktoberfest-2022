@@ -58,7 +58,7 @@ const roster = [
   { name: 'Arduino', slug: 'arduino', site: 'https://www.arduino.cc' },
 ];
 
-const logoScales = { gemma: 2.7, arduino: 1.25 };
+const logoScales = { mongodb: 1.2, gemma: 2.7, qualcomm: 1.1, arduino: 1.25 };
 const logoExtensions = { gemma: 'png' };
 
 export const sponsors = roster.map(({ name, slug, site, wide = false }) => ({

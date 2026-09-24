@@ -76,6 +76,7 @@ test('brand-color logo assets retain their approved treatments', async () => {
     paperCompute,
     entire,
     priorLabs,
+    qualcomm,
   ] = await Promise.all([
     readFile(
       new URL('../public/sponsors/mongodb.svg', import.meta.url),
@@ -101,8 +102,15 @@ test('brand-color logo assets retain their approved treatments', async () => {
       new URL('../public/sponsors/prior-labs.svg', import.meta.url),
       'utf8',
     ),
+    readFile(
+      new URL('../public/sponsors/qualcomm.svg', import.meta.url),
+      'utf8',
+    ),
   ]);
-  assert.ok(mongodb.includes('#00684A'), 'MongoDB must use its green mark');
+  assert.ok(
+    mongodb.includes('#023430'),
+    'MongoDB must use its Evergreen full logo',
+  );
   assert.ok(snowflake.includes('#29B5E8'), 'Snowflake must use its blue mark');
   assert.ok(render.includes('#000000'), 'Render must use its black mark');
   assert.ok(sentry.includes('#181225'), 'Sentry must use its purple mark');
@@ -119,6 +127,10 @@ test('brand-color logo assets retain their approved treatments', async () => {
   assert.ok(
     priorLabs.includes('#101075'),
     'Prior Labs must use its navy wordmark',
+  );
+  assert.ok(
+    qualcomm.includes('#2A2AEA'),
+    'Qualcomm must use its preferred Qualcomm Blue logo',
   );
 });
 
