@@ -1106,7 +1106,7 @@ export const online = {
   pile: [
     'ghw-livestream',
     'livestreams-5',
-    'ghw-points-10',
+    'ghw-points-30',
     'dev-launch-weekend',
     'discord',
     'livestream-launch',

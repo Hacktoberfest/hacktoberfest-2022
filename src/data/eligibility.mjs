@@ -208,9 +208,9 @@ export const ACTIVITIES = Object.freeze([
     art: 'play',
   }),
   Object.freeze({
-    id: 'ghw-points-5',
-    label: 'Earn 5 points at Global Hack Week: Hacktoberfest',
-    detail: 'Five points across the week’s challenges.',
+    id: 'ghw-points-15',
+    label: 'Earn 15 points at Global Hack Week: Hacktoberfest',
+    detail: 'Fifteen points across the week’s challenges.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -218,10 +218,10 @@ export const ACTIVITIES = Object.freeze([
     art: 'target',
   }),
   Object.freeze({
-    id: 'ghw-points-10',
-    label: 'Earn 10 points at Global Hack Week: Hacktoberfest',
+    id: 'ghw-points-30',
+    label: 'Earn 30 points at Global Hack Week: Hacktoberfest',
     detail:
-      'Ten points across the week’s challenges. The five count toward it.',
+      'Thirty points across the week’s challenges. The fifteen count toward it.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -229,10 +229,10 @@ export const ACTIVITIES = Object.freeze([
     art: 'medal',
   }),
   Object.freeze({
-    id: 'ghw-points-20',
-    label: 'Earn 20 points at Global Hack Week: Hacktoberfest',
+    id: 'ghw-points-75',
+    label: 'Earn 75 points at Global Hack Week: Hacktoberfest',
     detail:
-      'Twenty points across the week’s challenges. The ten count toward it.',
+      'Seventy-five points across the week’s challenges. The thirty count toward it.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',

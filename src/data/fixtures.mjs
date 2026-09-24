@@ -405,8 +405,8 @@ export const SCENARIOS = Object.freeze({
       { id: 'dev-week-3', completed: true, completedAt: '2026-10-22' },
       { id: 'ghw', completed: true, completedAt: '2026-10-13' },
       { id: 'ghw-livestream', completed: true, completedAt: '2026-10-14' },
-      { id: 'ghw-points-5', completed: true, completedAt: '2026-10-15' },
-      { id: 'ghw-points-10', completed: true, completedAt: '2026-10-16' },
+      { id: 'ghw-points-15', completed: true, completedAt: '2026-10-15' },
+      { id: 'ghw-points-30', completed: true, completedAt: '2026-10-16' },
     ],
     /* The catalogue as GET /api/me/items serves it: the pack and the
        holographic sticker, earned by the milestones. */
