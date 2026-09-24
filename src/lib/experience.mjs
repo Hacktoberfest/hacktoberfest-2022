@@ -14,6 +14,7 @@ import {
   selectScenario,
 } from '../data/fixtures.mjs';
 import { apiFetch } from './apiClient.mjs';
+import { withoutSeasonRegistration } from './fests.mjs';
 import { progressForExperience } from './progress.mjs';
 import { API_BASE_URL, displayName } from './session.mjs';
 
@@ -125,8 +126,12 @@ export const getExperience = async (session, options) => {
        already card-shaped by the API. The Array.isArray guard is the
        deploy-order seam — an API answering without the fests field degrades
        to the empty state rather than crashing or passing fixture fests off
-       as the user's. */
-    fests: Array.isArray(festsBody.fests) ? festsBody.fests : [],
+       as the user's. The season's own event is dropped here, once, so no
+       band on /my shows the registration an automation made
+       (lib/fests.mjs withoutSeasonRegistration). */
+    fests: Array.isArray(festsBody.fests)
+      ? withoutSeasonRegistration(festsBody.fests)
+      : [],
     /* Live. The API sends only a boolean; the address itself never reaches
        this app, by design on both sides.
 

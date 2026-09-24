@@ -82,6 +82,20 @@ export const isApplication = (fest) =>
   typeof fest === 'object' &&
   typeof fest.applicationStatus === 'string';
 
+/* The season's own MLH event, "Hacktoberfest 2026" (slug
+   hacktoberfest-2026, the Evergreen format running all of October). An
+   outside automation registers everyone who signs in to hacktoberfest.com
+   for it, so it is on every participant's list and is not a Fest anyone
+   chose. Its registrations are dropped from /my; hosting it still shows,
+   since that is a real role and belongs on the hosting hub. */
+export const SEASON_EVENT_ID = '01a0ced1-50e8-1335-a5c2-33b29d7d155a';
+
+export const withoutSeasonRegistration = (fests) =>
+  fests.filter(
+    (fest) =>
+      !(fest && fest.id === SEASON_EVENT_ID && fest.role !== 'organizing'),
+  );
+
 /* The attending hub's calendar: every Fest that exists as an event, in
    date order, whatever the participant's role in it: registered, checked
    in, or hosting. Applications are the hosting hub's business

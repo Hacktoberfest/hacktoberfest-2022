@@ -14,7 +14,9 @@ import {
   formatFestDate,
   hasApplied,
   isHost,
+  SEASON_EVENT_ID,
   sortFestsByDate,
+  withoutSeasonRegistration,
 } from '../src/lib/fests.mjs';
 
 const TODAY = '2026-10-10';
@@ -563,5 +565,18 @@ test('blockingCheckFailures degrades rather than accusing', () => {
       ],
     }),
     [{ id: 'name', passed: false }],
+  );
+});
+
+test('the season event registration an automation makes is dropped, hosting it is kept', () => {
+  const season = fest({ id: SEASON_EVENT_ID, name: 'Hacktoberfest 2026' });
+  const tokyo = fest({ id: 'fest-tokyo' });
+  assert.deepEqual(withoutSeasonRegistration([season, tokyo]), [tokyo]);
+  assert.deepEqual(
+    withoutSeasonRegistration([
+      { ...season, status: 'checked_in' },
+      { ...season, role: 'organizing' },
+    ]).map((kept) => kept.role),
+    ['organizing'],
   );
 });
