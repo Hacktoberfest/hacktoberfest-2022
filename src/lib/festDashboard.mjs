@@ -33,6 +33,15 @@ const trackingNumbers = (value) =>
         .filter((entry) => entry.length > 0)
     : [];
 
+/* The Fest's self check-in code, or null when MLH has none for it. Only a
+   host ever receives one: the API builds this half of the payload after its
+   host check and answers everyone else 403. */
+const checkInCode = (value) => {
+  if (typeof value !== 'string') return null;
+  const code = value.trim();
+  return code.length > 0 ? code : null;
+};
+
 /* The deploy-order seam, in the same spirit as lib/experience.mjs: an API
    answering without the dashboard half degrades to zeros rather than
    rendering undefined. A payload with no fest is not a page at all, and the
@@ -52,6 +61,13 @@ export const normalizeDashboard = (body) => {
       registrationsCount: number(dashboard.registrationsCount),
       checkInsCount: number(dashboard.checkInsCount),
       trackingNumbers: trackingNumbers(dashboard.trackingNumbers),
+      /* Kept only when the API sent the key at all. An API from before the
+         check-in code shipped omits it, and the page then shows no code card
+         rather than telling a host their Fest has no code. null is the API
+         saying so; absence is the API not knowing to. */
+      ...('checkInCode' in dashboard
+        ? { checkInCode: checkInCode(dashboard.checkInCode) }
+        : {}),
     },
   };
 };

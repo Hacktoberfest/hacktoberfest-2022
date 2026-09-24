@@ -595,27 +595,33 @@ export const SCENARIOS = Object.freeze({
    real shipment), fest-melbourne has two packages on two carriers,
    fest-toronto has a number whose shape we do not recognise, and
    fest-azores has not shipped. The numbers are real formats, not real
-   shipments. */
+   shipments. fest-toronto also has no check-in code, for the card's
+   no-code state, and fest-melbourne's code is eight characters, the
+   longest MLH issues; the codes are made up. */
 export const FEST_DASHBOARDS = Object.freeze({
   'fest-tokyo': {
     registrationsCount: 48,
     checkInsCount: 31,
     trackingNumbers: ['877489462372'],
+    checkInCode: 'K7RQ2W',
   },
   'fest-melbourne': {
     registrationsCount: 52,
     checkInsCount: 38,
     trackingNumbers: ['1ZK943J80322840185', '9434650206217265901828'],
+    checkInCode: 'M3LB8QX2',
   },
   'fest-toronto': {
     registrationsCount: 31,
     checkInsCount: 0,
     trackingNumbers: ['AB123456789XY'],
+    checkInCode: null,
   },
   'fest-azores': {
     registrationsCount: 12,
     checkInsCount: 0,
     trackingNumbers: [],
+    checkInCode: 'AZ4R3S',
   },
 });
 
@@ -625,6 +631,7 @@ export const EMPTY_FEST_DASHBOARD = Object.freeze({
   registrationsCount: 0,
   checkInsCount: 0,
   trackingNumbers: [],
+  checkInCode: null,
 });
 
 export const DEFAULT_SCENARIO = 'no-address';

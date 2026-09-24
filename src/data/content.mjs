@@ -1623,6 +1623,36 @@ export const my = {
          went - and it never shows a 0, which would read as nobody came. */
       locked: 'Check-ins open on the day of your Fest.',
     },
+    /* The Fest's self check-in code, which only its hosts are ever sent.
+       Hidden until asked for, because hosts put this page on a projector.
+       Available before the day, unlike the count: signs and slides need it
+       early. */
+    checkInCode: {
+      title: 'Check-in code',
+      intro:
+        'Share this code with your attendees on the day. It is how they check themselves in to your Fest.',
+      showCta: 'Show code',
+      hideCta: 'Hide code',
+      copyCta: 'Copy',
+      copiedCta: 'Copied',
+      copyFailedCta: 'Select it',
+      hiddenLabel: 'Check-in code, hidden',
+      codeLabel: (code) => `Check-in code ${code.split('').join(' ')}`,
+      stepsLabel: 'How attendees check in',
+      steps: {
+        visit: 'On their phone or laptop, go to:',
+        enter: 'They enter your code',
+        done: 'They’re checked into your Fest! They’ll receive virtual stickers and a certificate on My Hacktoberfest.',
+      },
+      url: 'mlh.com/checkin',
+      href: 'https://mlh.com/checkin',
+      hint: 'Only you and your co-hosts can see this code. Share it in the room on the day. Anyone who has it can check in at mlh.com/checkin, so keep it out of social posts.',
+      /* self_check_in_mode is not code_required in MLH. */
+      none: 'Your Fest does not have a check-in code.',
+      noneHint:
+        'Self check-in is turned off for this Fest in MLH, so there is no code for attendees to enter. You can still check people in yourself from Organizer HQ.',
+      noneCta: 'Check people in on Organizer HQ',
+    },
     /* The event pack, as a three-step journey. MLH writes one bare tracking
        number per package onto the event and nothing else, so the number is
        the only fact the card has: while there is none, the pack is at the
