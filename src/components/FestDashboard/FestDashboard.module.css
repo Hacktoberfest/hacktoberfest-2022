@@ -520,3 +520,275 @@
   border-color: #3d5f58;
   color: #3d5f58;
 }
+
+/* The check-in code card. It wears the pack card's paper-and-maroon dress
+   (it is a statement a host acts on, not a count) and borrows the page's
+   own Button dress for its two actions. */
+
+/* .action is written for anchors; a <button> needs the browser's own
+   chrome and cursor put right. */
+.actionButton {
+  appearance: none;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Button's dress on a light ground: the secondary variant is built for the
+   forest band and turns invisible here, so this keeps its geometry and
+   takes a white ground with the forestDeep shadow instead. */
+.actionLight {
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.forestDeep */
+  box-shadow: 5px 5px 0 #2e4742;
+}
+
+.actionLight:hover {
+  /* colors.forestLight */
+  background: #cfe0db;
+  /* colors.forestDeep */
+  box-shadow: 3px 3px 0 #2e4742;
+}
+
+.actionDone {
+  /* colors.forestLight */
+  background: #cfe0db;
+}
+
+.buttonIcon {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.codePanel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin-top: 4px;
+  padding: 18px 14px 20px;
+  /* colors.rule on colors.paper, as a parcel row */
+  border: 1px solid #8ca59e;
+  background: #f2f2eb;
+}
+
+@media (min-width: 768px) {
+  .codePanel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 20px 20px 22px;
+  }
+}
+
+.codeCells {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin: 0;
+}
+
+/* One tile per character, hard-edged like every card on the page, so a
+   code read aloud across a room can be followed a character at a time.
+
+   On a phone the tiles share the row rather than holding a width: MLH
+   codes run to eight characters, and eight fixed tiles are wider than a
+   phone's column, which stretches every card on the page past the edge. */
+.codeCell {
+  display: grid;
+  flex: 1 1 0;
+  place-items: center;
+  min-width: 0;
+  max-width: 42px;
+  aspect-ratio: 42 / 54;
+  /* colors.ink border on colors.white, colors.skyDeep shadow */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 3px 3px 0 #1f4e6b;
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: clamp(1.05rem, 5.5vw, 1.5rem);
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .codeCells {
+    gap: 8px;
+    width: auto;
+  }
+
+  .codeCell {
+    flex: none;
+    width: 52px;
+    max-width: none;
+    height: 64px;
+    aspect-ratio: auto;
+    font-size: 1.85rem;
+  }
+}
+
+/* Side by side at equal width on a phone; beside the tiles, pushed to the
+   far edge, from tablet up. */
+.codeActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+/* Half a phone's column each, so the labels are held to one line and the
+   padding gives way first: "Show code" broken over two lines read as two
+   buttons. */
+.codeActions .action {
+  gap: 6px;
+  padding-inline: 8px;
+  white-space: nowrap;
+}
+
+/* Under 360px half a column cannot hold "Show code" and its icon on one
+   line, so the two stack, full width. */
+@media (max-width: 359px) {
+  .codeActions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 768px) {
+  .codeActions {
+    display: flex;
+    gap: 14px;
+    width: auto;
+    margin-left: auto;
+  }
+
+  .codeActions .action {
+    gap: 8px;
+    padding-inline: 22px;
+  }
+}
+
+.codeSteps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 1024px) {
+  .codeSteps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.codeStep {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.codeStepNumber {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: none;
+  /* colors.white on colors.ink */
+  background: #10201d;
+  color: #f7f7f2;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.codeStepText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding-top: 4px;
+  /* colors.ink */
+  color: #10201d;
+  line-height: 1.35;
+}
+
+/* One line on a phone: a lone "to" wrapped under it read as broken. Held
+   only from 360px, where it fits; narrower, a wrap beats a card pushed
+   off the screen. */
+@media (min-width: 360px) {
+  .codeStepLead {
+    white-space: nowrap;
+  }
+}
+
+/* The address attendees type, underlined with a rule of its own rather
+   than text-decoration, so the orange sits clear of the letters at every
+   size. */
+.codeUrl {
+  display: inline-block;
+  padding-bottom: 3px;
+  /* colors.orange */
+  border-bottom: 3px solid #e53927;
+  /* colors.ink */
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.codeUrl:hover {
+  /* colors.maroon */
+  color: #671912;
+}
+
+.codeUrl:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
+}
+
+.codeStepCode {
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+}
+
+.codeHint {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.codeHint .lockIcon {
+  margin-top: 3px;
+}
+
+.codeNoneAction {
+  margin: 8px 0 0;
+}

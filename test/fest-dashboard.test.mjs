@@ -74,3 +74,32 @@ test('a payload with no fest is not a page', () => {
   assert.equal(normalizeDashboard({ dashboard: body.dashboard }), null);
   assert.equal(normalizeDashboard(null), null);
 });
+
+/* The check-in code. The API sends it only to the Fest's hosts; this seam
+   only decides how the page reads what arrives. */
+
+test('a check-in code passes through, trimmed', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { checkInCode: ' K7RQ2W ' },
+  });
+
+  assert.equal(result.dashboard.checkInCode, 'K7RQ2W');
+});
+
+test('a code that is null, empty or not a string reads as no code', () => {
+  for (const checkInCode of [null, '', '   ', 42, {}]) {
+    const result = normalizeDashboard({
+      fest: body.fest,
+      dashboard: { checkInCode },
+    });
+
+    assert.equal(result.dashboard.checkInCode, null);
+  }
+});
+
+test('an API that sends no code key leaves the key off, so no card renders', () => {
+  const result = normalizeDashboard(body);
+
+  assert.equal('checkInCode' in result.dashboard, false);
+});

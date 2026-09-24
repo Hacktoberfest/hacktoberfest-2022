@@ -137,6 +137,48 @@ const PackSteps = ({ shipped }) => {
   );
 };
 
+/* Stroked at the weight the Button's type sits at, so the icon reads as
+   part of the label rather than a badge beside it. */
+const EyeIcon = () => (
+  <svg
+    className={styles.buttonIcon}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.25"
+    />
+    <circle
+      cx="12"
+      cy="12"
+      r="3"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.25"
+    />
+  </svg>
+);
+
+const CopyIcon = () => (
+  <svg
+    className={styles.buttonIcon}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M9 9h12v12H9zM5 15H3V3h12v2"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.25"
+    />
+  </svg>
+);
+
 /* How long "Copied" stays up: long enough to be seen, short enough that
    the button is ready again before anyone wonders. */
 const COPIED_FOR_MS = 1600;
@@ -212,6 +254,172 @@ const Parcel = ({ number }) => {
         </button>
       </span>
     </li>
+  );
+};
+
+/* The Fest's self check-in code, which the API sends only to its hosts.
+
+   Hidden until asked for: hosts put this page on a projector, and a code on
+   screen is a check-in anyone in the room can claim for a friend who is not
+   there. Copy works while it is hidden, so a host can paste it into a slide
+   without ever showing it. The code reads out character by character, since
+   attendees type it and a screen reader saying "K7RQ2W" as one word helps
+   nobody.
+
+   A Fest MLH has no code for (self check-in not code_required) keeps the
+   card, saying so and pointing at Organizer HQ, rather than dropping it: a
+   host told about codes by MLH would otherwise wonder where theirs went. */
+const MASK = '•';
+
+const CheckInCodeCard = ({ code, manageUrl }) => {
+  const copy = my.dashboard.checkInCode;
+  const [shown, setShown] = useState(false);
+  const [copyState, setCopyState] = useState('idle');
+  const revert = useRef(null);
+
+  useEffect(() => () => clearTimeout(revert.current), []);
+
+  if (code === null) {
+    return (
+      <section className={styles.pack} aria-labelledby="check-in-code-heading">
+        <h2 className={styles.packTitle} id="check-in-code-heading">
+          {copy.title}
+        </h2>
+        <div className={styles.packBody}>
+          <p className={styles.packLine}>{copy.none}</p>
+          <p className={styles.packHint}>{copy.noneHint}</p>
+          {manageUrl && (
+            <p className={styles.codeNoneAction}>
+              <a
+                className={`${styles.action} ${styles.actionLight}`}
+                href={manageUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {copy.noneCta}
+              </a>
+            </p>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopyState('copied');
+      clearTimeout(revert.current);
+      revert.current = setTimeout(() => setCopyState('idle'), COPIED_FOR_MS);
+    } catch {
+      /* No clipboard (an http origin, or a browser without the API): show
+         the code so it can be selected by hand, and say so. */
+      setShown(true);
+      setCopyState('failed');
+    }
+  };
+
+  const copyLabel =
+    copyState === 'copied'
+      ? copy.copiedCta
+      : copyState === 'failed'
+        ? copy.copyFailedCta
+        : copy.copyCta;
+  const characters = [...code];
+  const masked = MASK.repeat(characters.length);
+
+  return (
+    <section className={styles.pack} aria-labelledby="check-in-code-heading">
+      <h2 className={styles.packTitle} id="check-in-code-heading">
+        {copy.title}
+      </h2>
+      <div className={styles.packBody}>
+        <p className={styles.packLine}>{copy.intro}</p>
+
+        <div className={styles.codePanel}>
+          <p className={styles.codeCells}>
+            <span className={styles.visuallyHidden} aria-live="polite">
+              {shown ? copy.codeLabel(code) : copy.hiddenLabel}
+            </span>
+            {characters.map((character, index) => (
+              <span
+                // Position is the identity: a code can repeat a character.
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                className={styles.codeCell}
+                aria-hidden="true"
+              >
+                {shown ? character : MASK}
+              </span>
+            ))}
+          </p>
+          <div className={styles.codeActions}>
+            <button
+              type="button"
+              className={`${styles.action} ${styles.actionButton}`}
+              onClick={() => setShown((value) => !value)}
+            >
+              <EyeIcon />
+              {shown ? copy.hideCta : copy.showCta}
+            </button>
+            <button
+              type="button"
+              className={`${styles.action} ${styles.actionButton} ${
+                styles.actionLight
+              }${copyState === 'copied' ? ` ${styles.actionDone}` : ''}`}
+              onClick={onCopy}
+            >
+              <CopyIcon />
+              {copyLabel}
+            </button>
+          </div>
+        </div>
+
+        <p className={styles.trackingLabel}>{copy.stepsLabel}</p>
+        <ol className={styles.codeSteps}>
+          <li className={styles.codeStep}>
+            <span className={styles.codeStepNumber} aria-hidden="true">
+              1
+            </span>
+            <p className={styles.codeStepText}>
+              <span className={styles.codeStepLead}>{copy.steps.visit}</span>
+              <a
+                className={styles.codeUrl}
+                href={copy.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {copy.url}
+              </a>
+            </p>
+          </li>
+          <li className={styles.codeStep}>
+            <span className={styles.codeStepNumber} aria-hidden="true">
+              2
+            </span>
+            <p className={styles.codeStepText}>
+              {copy.steps.enter}
+              {/* The live region above already announces a reveal; this
+                  copy of the code is for the eye. */}
+              <span className={styles.codeStepCode} aria-hidden="true">
+                {shown ? code : masked}
+              </span>
+            </p>
+          </li>
+          <li className={styles.codeStep}>
+            <span className={styles.codeStepNumber} aria-hidden="true">
+              3
+            </span>
+            <p className={styles.codeStepText}>{copy.steps.done}</p>
+          </li>
+        </ol>
+
+        <p className={styles.codeHint}>
+          <LockIcon />
+          {copy.hint}
+        </p>
+      </div>
+    </section>
   );
 };
 
@@ -329,6 +537,13 @@ const FestDashboard = ({ fest, dashboard, now }) => {
               />
             )}
           </div>
+        )}
+
+        {/* Undefined only when the API predates the code, which sends no
+            key at all; null is a Fest with no code and still gets the
+            card. See normalizeDashboard. */}
+        {dashboard && dashboard.checkInCode !== undefined && (
+          <CheckInCodeCard code={dashboard.checkInCode} manageUrl={manageUrl} />
         )}
 
         {dashboard && (
