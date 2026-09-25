@@ -23,6 +23,7 @@ const GROUNDS = {
   livestreams: { fill: '#8bb2de', ink: '#10201d' },
   ghw: { fill: '#e53927', ink: '#10201d' },
   tools: { fill: '#671912', ink: '#f7f7f2' },
+  misc: { fill: '#1f4e6b', ink: '#f7f7f2' },
   inperson: { fill: '#e97b77', ink: '#10201d' },
   pack: { fill: '#f5b726', ink: '#10201d' },
   complete: { fill: 'url(#holo)', ink: '#10201d' },

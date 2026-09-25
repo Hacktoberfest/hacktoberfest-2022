@@ -7,14 +7,16 @@
    Relative import, matching every other file in lib/: Node resolves this
    file directly and never sees jsconfig's baseUrl alias. */
 
-/* The six categories, in the order the sticker book and /activities/ show
-   them (2026-09-10): DEV Challenges, Livestreams, Global Hack Week, Tools,
-   In Person. Required is the book's own page, not a type. */
+/* The categories, in the order the sticker book and /activities/ show
+   them (2026-09-10, Misc added 2026-09-25): DEV Challenges, Livestreams,
+   Global Hack Week, Tools, Misc, In Person. Required is
+   the book's own page, not a type. */
 export const TYPE_ORDER = Object.freeze([
   'dev',
   'livestreams',
   'ghw',
   'tools',
+  'misc',
   'inperson',
 ]);
 

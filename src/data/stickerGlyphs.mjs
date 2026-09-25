@@ -143,6 +143,13 @@ export const GLYPHS = Object.freeze({
       '<path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z" fill="currentColor" />',
     stroke: false,
   },
+  /* The surveys: a clipboard with a tick on it. */
+  clipboard: {
+    inner:
+      '<path d="M9 3h6v4H9zM7 5H5v16h14V5h-2" /><path d="M9 14l2 2 4-4" />',
+    stroke: true,
+    round: true,
+  },
 });
 
 const STROKE = 'fill="none" stroke="currentColor" stroke-width="2"';

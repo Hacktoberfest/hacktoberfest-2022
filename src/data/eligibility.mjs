@@ -1,6 +1,7 @@
 /* The season's activities: what a participant completes to earn a sticker
-   pack, and enough of to complete Hacktoberfest. Twenty this season,
-   from the 2026-09-10 list. The ids are the slugs of the challenges in
+   pack, and enough of to complete Hacktoberfest. Twenty-two this season:
+   the 2026-09-10 list and the two surveys (2026-09-25). The ids are the
+   slugs of the challenges in
    FestNet, confirmed against production on 2026-09-11 (an id the API sends
    that is not here is dropped, an id here the API does not send reads as
    not done, so a mismatch shows as "not done", never as a crash).
@@ -267,6 +268,34 @@ export const ACTIVITIES = Object.freeze([
     surface: 'card',
     type: 'tools',
     art: 'droplet',
+  }),
+  /* The two Hacktoberfest surveys, the first stickers on the Misc page
+     (type `misc`: whatever belongs to no other). Each is earned when Customer.io tells
+     FestNet the person finished it in Qualtrics (POST
+     /api/webhooks/survey). The survey link is personal and only ever
+     arrives by email, so neither has a destination here and the renderers
+     show no button; `ctaLabel` keeps the catalogue's shape. */
+  Object.freeze({
+    id: 'survey-pre',
+    label: 'Complete the Hacktoberfest 2026 pre-event survey',
+    detail:
+      'We’ll email you a short survey. Finish it and it counts on its own.',
+    href: null,
+    ctaLabel: 'Take the survey',
+    surface: 'card',
+    type: 'misc',
+    art: 'clipboard',
+  }),
+  Object.freeze({
+    id: 'survey-post',
+    label: 'Complete the Hacktoberfest 2026 post-event survey',
+    detail:
+      'We’ll email you a short survey once October wraps up. Finish it and it counts on its own.',
+    href: null,
+    ctaLabel: 'Take the survey',
+    surface: 'card',
+    type: 'misc',
+    art: 'clipboard',
   }),
 ]);
 

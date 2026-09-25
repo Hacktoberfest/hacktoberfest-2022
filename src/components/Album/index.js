@@ -31,13 +31,14 @@ import StickerCell from './StickerCell';
    mount from progress (the page holding the next sticker) and the reader
    moves it from there; a fresh fetch remounts. Arrow keys move between
    tabs, the usual tablist behaviour, so the row is one tab stop rather
-   than six. */
+   than seven. */
 const ACCENTS = {
   required: 'accent_required',
   dev: 'accent_dev',
   livestreams: 'accent_livestreams',
   ghw: 'accent_ghw',
   tools: 'accent_tools',
+  misc: 'accent_misc',
   inperson: 'accent_inperson',
 };
 
@@ -54,7 +55,7 @@ const label = (key) => activitiesPage.list.types[key] || key;
 /* A page's name at its head. Two pages wear a mark there rather than
    their name in type: DEV's logo ahead of "Challenges" (my.album.devMark),
    and Global Hack Week's lockup. The tabs down the side stay words, all
-   six alike, and the words stay in the tree here too, so the page is
+   seven alike, and the words stay in the tree here too, so the page is
    named the same for assistive tech whichever way it is drawn. */
 const PageTitle = ({ type }) => {
   const text = label(type);

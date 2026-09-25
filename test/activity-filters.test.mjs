@@ -28,6 +28,7 @@ test('the type order is fixed', () => {
     'livestreams',
     'ghw',
     'tools',
+    'misc',
     'inperson',
   ]);
 });

@@ -42,8 +42,8 @@
   box-shadow: 0 2px 0 rgba(16, 32, 29, 0.25);
 }
 
-/* colors.sky / orange / pink / ochre / maroon, the sticker grounds the
-   book draws with */
+/* colors.sky / orange / pink / ochre / maroon / skyDeep, the sticker
+   grounds the book draws with */
 .type_livestreams {
   --slot-fill: #8bb2de;
 }
@@ -58,6 +58,9 @@
 }
 .type_tools {
   --slot-fill: #671912;
+}
+.type_misc {
+  --slot-fill: #1f4e6b;
 }
 
 .count {

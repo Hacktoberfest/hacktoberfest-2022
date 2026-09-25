@@ -13,10 +13,10 @@
      sticker that has something to say there;
    - on the foot, white hexagon pips (11 wide, 5 apart, on y 164)
      counting a tier, a glyph (a Tabler icon 28 tall, centred on y 165,
-     white) standing for a week with no number, or a week label in
-     Martian Mono (a digit 19 tall on
-     y 167, a word 16.5 tall on y 160), the glyphs as outlines so the
-     file references no font.
+     white) standing for a week with no number, or a label in Martian
+     Mono (a week's digit 19 tall on y 167, a word such as a survey's PRE
+     or POST 16.5 tall on y 160), the glyphs as outlines so the file
+     references no font.
 
    The DEV mark is not a Tabler icon: a partner logo, kept black and
    white. Its square is set to 80% of the icon box with an ink square
@@ -173,13 +173,14 @@ const pips = (count) => {
   return out;
 };
 
-/* The week label in Martian Mono outlines (martian-mono-glyphs.json:
+/* The foot's label in Martian Mono outlines (martian-mono-glyphs.json:
    each glyph's path in font units, centred on its advance and on the cap
-   height's midline). A digit sets 19 units tall on y 167; a word sets
-   16.5 tall on y 160, the most that keeps LAUNCH inside the foot's
-   sloping sides. The font's default weight is 400; a stroke of 1.2
-   units in the same white takes it to the site's mono weight. */
-const weekLabel = (glyphs, label) => {
+   height's midline): a week's number, or a word. A digit sets 19 units
+   tall on y 167; a word sets 16.5 tall on y 160, the most that keeps
+   LAUNCH inside the foot's sloping sides. The font's default weight is
+   400; a stroke of 1.2 units in the same white takes it to the site's
+   mono weight. */
+const footLabel = (glyphs, label) => {
   const cap = label.length > 1 ? 16.5 : 19;
   const cy = label.length > 1 ? 160 : 167;
   const k = cap / 800;
@@ -201,7 +202,7 @@ const weekLabel = (glyphs, label) => {
    its silhouette path if it has one, `iconPaints` its paths' own fills if
    they carry any and `iconOffset` its nudge; `footIcon`, `tagIcon` and `insetIcon` the same three for
    the foot's glyph, the corner tag and the inset when the row names them; `ground` the colour; `glyphs` the Martian Mono outlines
-   (only a weekly sticker needs them). */
+   (only a sticker with a week or a label needs them). */
 /* A ground given as stops becomes a diagonal gradient; the defs go
    inside the sticker, ids namespaced by slug. */
 const gradient = (slug, stops) =>
@@ -224,7 +225,7 @@ export const composeSticker = ({
   ground,
   glyphs,
 }) => {
-  const footed = Boolean(entry.tier || entry.week || entry.foot);
+  const footed = Boolean(entry.tier || entry.week || entry.label || entry.foot);
   const cy = footed ? 88 : 100;
   const size = markSize(iconBox);
   const scale = size / Math.max(iconBox.w, iconBox.h);
@@ -259,8 +260,8 @@ export const composeSticker = ({
     ? pips(entry.tier)
     : entry.foot
       ? footGlyph(footIcon.paths, footIcon.fillRule)
-      : entry.week
-        ? weekLabel(glyphs, entry.week)
+      : entry.week || entry.label
+        ? footLabel(glyphs, entry.week || entry.label)
         : '';
   const graded = Array.isArray(ground);
   return [

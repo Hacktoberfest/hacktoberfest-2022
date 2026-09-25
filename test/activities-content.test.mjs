@@ -16,6 +16,13 @@ test('the page has its meta and hero', () => {
   assert.match(activitiesPage.intro, /virtual sticker/);
 });
 
+test('the meta description names every kind of sticker, surveys included', () => {
+  assert.match(
+    activitiesPage.description,
+    /tools to connect, surveys, and Fests in person/,
+  );
+});
+
 /* How it works: the three stickers to the pack, the two required ones
    drawn as themselves and the third slot empty; the line under them
    reads the thresholds, in book units. */

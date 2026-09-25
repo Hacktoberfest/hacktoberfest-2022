@@ -7,6 +7,9 @@
      tiers 1, 2, 3). The foot carries that many pips.
    - `week`: a weekly set (the DEV challenges). The foot carries the week's
      number in Martian Mono, 1 to 4.
+   - `label`: a word on the foot in Martian Mono, for a pair that is not a
+     run: the surveys' PRE and POST. Its letters must be in
+     martian-mono-glyphs.json.
    - `foot`: a glyph on the foot instead of a number, named like an icon:
      launch weekend's rocket.
    - `inset`: a second icon drawn in ink inside the first, centred `at` a
@@ -26,6 +29,8 @@ export const GROUNDS = Object.freeze({
   livestreams: '#8bb2de',
   ghw: '#e53927',
   tools: '#671912',
+  /* Misc wears colors.skyDeep, which no other page of the book does. */
+  misc: '#1f4e6b',
   inperson: '#e97b77',
   /* The milestones are not a page of the book; the rewards band draws
      them, and they wear gradients of palette tokens rather than a flat
@@ -135,4 +140,18 @@ export const CATALOGUE = Object.freeze([
   { slug: 'dev-week-2', icon: 'dev-badge', ground: 'dev', week: '2' },
   { slug: 'dev-week-3', icon: 'dev-badge', ground: 'dev', week: '3' },
   { slug: 'dev-week-4', icon: 'dev-badge', ground: 'dev', week: '4' },
+  /* The two surveys: a clipboard with a tick, PRE or POST on the foot
+     (Jacklyn, 2026-09-25). */
+  {
+    slug: 'survey-pre',
+    icon: 'clipboard-check',
+    ground: 'misc',
+    label: 'PRE',
+  },
+  {
+    slug: 'survey-post',
+    icon: 'clipboard-check',
+    ground: 'misc',
+    label: 'POST',
+  },
 ]);

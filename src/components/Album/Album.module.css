@@ -98,6 +98,14 @@
   border-right: 1.5px solid #8ca59e;
 }
 
+/* An odd tab count leaves the last tab alone on its row: it takes the
+   whole row, with no divider beside an empty cell. From tablet the tabs
+   are one column, where spanning it changes nothing. */
+.tab:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  border-right: 0;
+}
+
 .tab:nth-child(n + 3) {
   border-top: 1.5px solid #8ca59e;
 }
@@ -193,7 +201,7 @@
    pages share one. DEV's is ochre rather than DEV's own black: the
    stickers keep the black-and-white DEV mark and need a ground it shows
    on; tools is maroon, since the rule grey read as unearned.
-   colors.forest / ochre / sky / orange / maroon / pink */
+   colors.forest / ochre / sky / orange / maroon / skyDeep / pink */
 .accent_required {
   --tab-accent: #3d5f58;
 }
@@ -208,6 +216,9 @@
 }
 .accent_tools {
   --tab-accent: #671912;
+}
+.accent_misc {
+  --tab-accent: #1f4e6b;
 }
 .accent_inperson {
   --tab-accent: #e97b77;

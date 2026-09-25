@@ -1140,7 +1140,7 @@ export const online = {
     eyebrow: 'The sticker book',
     heading: { lead: `${BOOK_SIZE} stickers`, accent: 'to collect.' },
     intro: `There are ${BOOK_SIZE} stickers to earn this Hacktoberfest. Hover over one to see what unlocks it.`,
-    pages: ['required', 'livestreams', 'dev', 'ghw', 'tools'],
+    pages: ['required', 'livestreams', 'dev', 'ghw', 'tools', 'misc'],
     inPerson: {
       title: 'In person',
       copy: `${IN_PERSON_STICKERS} more stickers are earned in person, at events near you.`,
@@ -2170,6 +2170,7 @@ export const my = {
       livestreams: 'Attend live sessions and hone your skills.',
       ghw: 'A week of learning and community.',
       tools: 'Great tools help you build awesome projects.',
+      misc: 'Everything else worth a sticker, starting with two short surveys by email.',
       inperson: 'Meet your local community and collect swag.',
     },
     /* The cells on a page: the sticker, its name, one line of status. The
@@ -2678,7 +2679,7 @@ export const authCallback = {
    a literal three. The bands' copy arrives with the bands. */
 export const activitiesPage = {
   title: 'Activities | Hacktoberfest 2026',
-  description: `Every Hacktoberfest 2026 sticker and how to earn it: livestreams, Global Hack Week, DEV Challenges, tools to connect, and Fests in person. ${ACTIVITIES.length} challenges, a virtual sticker for each, and real ones in the mail once you have collected enough.`,
+  description: `Every Hacktoberfest 2026 sticker and how to earn it: livestreams, Global Hack Week, DEV Challenges, tools to connect, surveys, and Fests in person. ${ACTIVITIES.length} challenges, a virtual sticker for each, and real ones in the mail once you have collected enough.`,
   eyebrow: 'Attend online · Activities',
   heading: { lead: 'Every sticker,', accent: 'and how to earn it.' },
   intro:
@@ -2771,6 +2772,7 @@ export const activitiesPage = {
       livestreams: 'Livestreams',
       ghw: 'Global Hack Week',
       tools: 'Tools',
+      misc: 'Misc',
       inperson: 'Fests',
       /* The sticker book's Required page on /my (lib/stickerBook.mjs): the
          two stickers everyone earns. Not in TYPE_ORDER, so /activities/

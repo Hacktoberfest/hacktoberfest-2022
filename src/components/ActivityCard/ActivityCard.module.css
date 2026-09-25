@@ -194,6 +194,16 @@
   background: #671912;
   color: #f7f7f2;
 }
+/* Misc: skyDeep, the colour its tab in the sticker book wears, as a
+   solid tag like Tools' so it never reads as the livestreams' pale one.
+   colors.skyDeep / white */
+.card.type_misc {
+  --card-accent: #1f4e6b;
+}
+.type.type_misc {
+  background: #1f4e6b;
+  color: #f7f7f2;
+}
 
 .cardTitle {
   margin: 0;

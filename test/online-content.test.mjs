@@ -136,7 +136,14 @@ test('the three milestones, with the counts /my counts', () => {
 
 test('the collection lists every page the book has for home, and counts the rest', () => {
   const { pages, inPerson, heading, intro } = online.collection;
-  assert.deepEqual(pages, ['required', 'livestreams', 'dev', 'ghw', 'tools']);
+  assert.deepEqual(pages, [
+    'required',
+    'livestreams',
+    'dev',
+    'ghw',
+    'tools',
+    'misc',
+  ]);
   pages.forEach((type) => {
     assert.ok(activitiesPage.list.types[type], `${type} has no name`);
     assert.ok(my.album.pages[type], `${type} has no line`);
