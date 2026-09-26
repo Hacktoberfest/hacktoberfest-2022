@@ -243,14 +243,16 @@
   color: #52635f;
 }
 
-/* A DEV badge with no DEV account linked: the line asks, in the site's
-   orange. colors.orangeDeep */
+/* An Unclaimed thing (on DEV, no DEV account linked): the line says so
+   in the site's deep orange, a weight up. colors.orangeDeep */
 .cell[data-needs-dev='true'] .cellStatus {
+  font-weight: 700;
   color: #b8301f;
 }
 
-/* The drawer's word on it, boxed the way the welcome band's pending
-   action is. colors.orangeLight / ink */
+/* The right page's word on it, boxed the way the welcome band's pending
+   action is, across the page under the entry, its lead in bold.
+   colors.orangeLight / ink */
 .notice {
   margin: 0;
   padding: 10px 12px;
@@ -259,7 +261,7 @@
   border: 1.5px solid #10201d;
   font-size: 0.84rem;
   line-height: 1.45;
-  text-align: center;
+  text-align: left;
 }
 
 /* The die-cut slot and the sticker in it, as the book draws them
@@ -415,6 +417,12 @@
   font-weight: 800;
 }
 
+/* An Unclaimed thing's corner: a "!" on the deep orange where the tick
+   on forest would be. colors.orangeDeep */
+.tick[data-unclaimed='true'] {
+  background: #b8301f;
+}
+
 /* NEW on the cell's corner, for a thing earned since the participant
    last looked (lib/justEarned.mjs), until its cell is opened: the same
    orange stamp the book's just-earned moment ends on. colors.orange /
@@ -565,6 +573,13 @@
   /* colors.paperDeep / muted */
   background: #e4e5da;
   color: #52635f;
+}
+
+/* Unclaimed where the kind would be: the deep orange ground, white
+   words. colors.orangeDeep / white */
+.tag[data-kind='unclaimed'] {
+  background: #b8301f;
+  color: #f7f7f2;
 }
 
 /* The date, the rewards band's badge: dashed while nothing is earned,

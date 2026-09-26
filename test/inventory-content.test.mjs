@@ -25,7 +25,21 @@ test('the two kinds are named, and the one unearned thing with words is the ghos
   assert.equal(typeof my.inventory.downloads.pdf, 'string');
   assert.equal(typeof my.inventory.downloads.png, 'string');
   assert.equal(typeof my.inventory.downloads.failed, 'string');
-  assert.equal(typeof my.inventory.devUnlinkedNote, 'string');
+  assert.equal(typeof my.inventory.devUnlinkedNote.lead, 'string');
+  assert.equal(typeof my.inventory.devUnlinkedNote.body, 'string');
+});
+
+/* An earned thing on DEV with no DEV account linked is Unclaimed: one
+   word, under its name and on its tag where the kind would be, and a
+   note on its page with a bold lead. Said of anything on DEV, so no
+   item's copy. */
+test('Unclaimed is one word, and its note is a bold lead and a body', () => {
+  assert.equal(my.inventory.devUnlinked, 'Unclaimed');
+  assert.deepEqual(my.inventory.devUnlinkedNote, {
+    lead: 'Not on DEV yet.',
+    body: 'Your DEV account isn’t linked to MyMLH, so this badge is waiting for you. Connect DEV and it’s added to your profile.',
+  });
+  assert.equal(my.inventory.unclaimed, undefined, 'the tag says devUnlinked');
 });
 
 test('no item copy lives here', () => {

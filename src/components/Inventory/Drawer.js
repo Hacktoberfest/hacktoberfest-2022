@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import { my } from 'data/content.mjs';
 import { apiFetchBlob } from 'lib/apiClient.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
-import { certificatePath } from 'lib/inventory.mjs';
+import { certificatePath, itemAction, itemMarks } from 'lib/inventory.mjs';
 import { API_BASE_URL } from 'lib/session.mjs';
 import { downloadBlob } from 'lib/shareImage.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './Inventory.module.css';
+import { statusLabel } from './Slot';
 
 /* The right page of the locker: the thing picked, set the way the
    sticker book sets a page. A head and a note, then the thing as one
@@ -17,9 +18,11 @@ import styles from './Inventory.module.css';
    for, and its day), then the two facts every thing has (earned by, gets
    to you), its one call to action, all as the API serves them; a
    certificate offers its two downloads instead, rendered by the API on
-   the click. A thing on DEV with no DEV account linked
-   carries the welcome band's Connect DEV account button instead of its
-   own. With nothing in the catalogue at all, the page says so. */
+   the click. A thing on DEV with no DEV account linked is Unclaimed: its
+   tag says so where the kind would be, a "!" sits where the tick would,
+   a note with a bold lead runs under the entry, and the welcome band's
+   Connect DEV account button stands in for its own. With nothing in the
+   catalogue at all, the page says so. */
 const external = (url) => /^https?:\/\//.test(url);
 
 const formatFestDate = (value) => {
@@ -150,9 +153,11 @@ const Drawer = ({ item, ghost }) => {
       ? formatFestDate(item.variant.date)
       : null;
 
-  const action = item.needsDev
-    ? { label: my.identity.devConnectCta, url: my.identity.devConnectHref }
-    : item.cta;
+  const marks = itemMarks(item);
+  const action = itemAction(item, {
+    label: my.identity.devConnectCta,
+    url: my.identity.devConnectHref,
+  });
 
   return (
     <div className={`${styles.page} ${styles.rightPage}`} aria-live="polite">
@@ -170,14 +175,18 @@ const Drawer = ({ item, ghost }) => {
               draggable="false"
             />
           </span>
-          <span className={styles.tick} aria-hidden="true">
-            ✓
+          <span
+            className={styles.tick}
+            data-unclaimed={marks.unclaimed ? 'true' : undefined}
+            aria-hidden="true"
+          >
+            {marks.tick}
           </span>
         </span>
         <div className={styles.entryBody}>
           <div className={styles.entryTop}>
-            <span className={styles.tag} data-kind={item.kind}>
-              {my.inventory.kinds[item.kind]}
+            <span className={styles.tag} data-kind={marks.tag}>
+              {statusLabel(item)}
             </span>
             <span className={styles.stamp} data-earned="true">
               {date ? my.inventory.drawer.earned(date) : ''}
@@ -190,18 +199,21 @@ const Drawer = ({ item, ghost }) => {
               {variantDate ? ` · ${variantDate}` : ''}
             </p>
           )}
-          {item.needsDev && (
-            <p className={styles.notice}>{my.inventory.devUnlinkedNote}</p>
-          )}
         </div>
       </div>
+      {marks.unclaimed && (
+        <p className={styles.notice}>
+          <strong>{my.inventory.devUnlinkedNote.lead}</strong>{' '}
+          {my.inventory.devUnlinkedNote.body}
+        </p>
+      )}
       <dl className={styles.facts}>
         <dt>{my.inventory.drawer.earnedBy}</dt>
         <dd>{item.earnedBy}</dd>
         <dt>{my.inventory.drawer.how}</dt>
         <dd>{item.getsToYou}</dd>
       </dl>
-      {item.certificate && !item.needsDev && (
+      {item.certificate && !marks.unclaimed && (
         <CertificateDownloads item={item} />
       )}
       {action && (

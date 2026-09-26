@@ -1,10 +1,12 @@
 import { my } from 'data/content.mjs';
+import { itemMarks } from 'lib/inventory.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './Inventory.module.css';
 
-/* The line under a thing's name: its kind, physical or digital; Not yet
-   while it is not earned; or the ask for the DEV connection. */
+/* The line under a thing's name: its kind, physical or digital, or
+   Unclaimed for a thing on DEV with no DEV account linked. The right
+   page's tag says the same word (Drawer). */
 export const statusLabel = (item) =>
   item.needsDev ? my.inventory.devUnlinked : my.inventory.kinds[item.kind];
 
@@ -13,14 +15,16 @@ export const statusLabel = (item) =>
    leaning its own way once earned, with a tick on its corner; its name
    under it, the API's, with the variant's title for a thing earned more
    than once (a certificate per Fest); and one line saying which kind of
-   thing it is. A thing on DEV with no DEV account linked asks for the
-   connection. Only earned things are drawn. A sticker sits
+   thing it is. A thing on DEV with no DEV account linked is Unclaimed:
+   the line says so in orangeDeep, and its corner carries a "!" where the
+   tick would be. Only earned things are drawn. A sticker sits
    in the book's die-cut hexagon; anything else is drawn as itself, since
    hexagons are for stickers. NEW on the corner while the thing is new and
    unopened. A button in a listbox; the name carries the line too, so a
    screen reader hears it. */
 const Slot = ({ item, selected, isNew, onPick }) => {
   const status = statusLabel(item);
+  const marks = itemMarks(item);
   return (
     <button
       type="button"
@@ -49,8 +53,12 @@ const Slot = ({ item, selected, isNew, onPick }) => {
           />
         </span>
         {item.earned && (
-          <span className={styles.tick} aria-hidden="true">
-            ✓
+          <span
+            className={styles.tick}
+            data-unclaimed={marks.unclaimed ? 'true' : undefined}
+            aria-hidden="true"
+          >
+            {marks.tick}
           </span>
         )}
       </span>

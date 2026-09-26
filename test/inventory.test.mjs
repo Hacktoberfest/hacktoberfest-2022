@@ -1,14 +1,17 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { SCENARIOS } from '../src/data/fixtures.mjs';
+import { DEFAULT_SCENARIO, SCENARIOS } from '../src/data/fixtures.mjs';
+import { progressLevel } from '../src/lib/eligibility.mjs';
 import {
   CERTIFICATE_SLUGS,
   WIDE_AFTER,
   certificatePath,
   inventoryItems,
   inventoryLayout,
+  itemAction,
   itemIds,
+  itemMarks,
   nextThing,
   openingSlot,
 } from '../src/lib/inventory.mjs';
@@ -117,6 +120,29 @@ test('a slug the frontend has no art for gets the generic art for its kind', () 
   assert.ok(items.every((item) => item.sticker === false));
 });
 
+test('the three DEV badges wear their own art, drawn as themselves', () => {
+  const slugs = [
+    'dev-badge-fest-2026',
+    'dev-badge-host-2026',
+    'dev-badge-completionist-2026',
+  ];
+  const items = inventoryItems(
+    experience(
+      slugs.map((id) => ({
+        ...PACK,
+        id,
+        kind: 'digital',
+        cta: null,
+        requiresDevLink: true,
+      })),
+    ),
+  );
+  assert.deepEqual(
+    items.map((item) => [item.id, item.art, item.sticker, item.certificate]),
+    slugs.map((id) => [id, id, false, false]),
+  );
+});
+
 test('a thing that lives on DEV asks for the connection while no DEV account is linked', () => {
   const badge = {
     ...PACK,
@@ -131,6 +157,43 @@ test('a thing that lives on DEV asks for the connection while no DEV account is 
   );
   assert.equal(inventoryItems({ items: [badge] })[0].needsDev, true);
   assert.equal(inventoryItems(experience([PACK]))[0].needsDev, false);
+});
+
+test('an earned DEV badge with no DEV account linked is Unclaimed: its tag, its "!", and Connect DEV as its button', () => {
+  const badge = {
+    ...PACK,
+    id: 'dev-badge-fest-2026',
+    kind: 'digital',
+    cta: null,
+    requiresDevLink: true,
+  };
+  const connect = {
+    label: 'Connect DEV account',
+    url: 'https://dev.to/settings/account',
+  };
+  const [unclaimed] = inventoryItems(experience([badge]));
+  assert.deepEqual(itemMarks(unclaimed), {
+    unclaimed: true,
+    tag: 'unclaimed',
+    tick: '!',
+  });
+  assert.deepEqual(itemAction(unclaimed, connect), connect);
+
+  const [linked] = inventoryItems(experience([badge], { devLinked: true }));
+  assert.deepEqual(itemMarks(linked), {
+    unclaimed: false,
+    tag: 'digital',
+    tick: '✓',
+  });
+  assert.equal(itemAction(linked, connect), null, 'no button once linked');
+
+  const [pack] = inventoryItems(experience([PACK]));
+  assert.deepEqual(itemMarks(pack), {
+    unclaimed: false,
+    tag: 'physical',
+    tick: '✓',
+  });
+  assert.deepEqual(itemAction(pack, connect), PACK.cta);
 });
 
 test('the API order stands, and junk rows are dropped', () => {
@@ -216,13 +279,16 @@ test('the locker opens on what is new, else the newest earned thing, else nothin
   assert.equal(openingSlot([], new Set()), null);
 });
 
-test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended or hosted, and the Completionist certificate', () => {
+test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended or hosted, the Completionist certificate, and the three DEV badges', () => {
   const real = new Set([
     'sticker-pack-2026',
     'holographic-sticker-2026',
     'fest-certificate-2026',
     'fest-host-certificate-2026',
     'completionist-certificate-2026',
+    'dev-badge-fest-2026',
+    'dev-badge-host-2026',
+    'dev-badge-completionist-2026',
   ]);
   for (const [name, scenario] of Object.entries(SCENARIOS)) {
     if (!Array.isArray(scenario.items)) continue;
@@ -244,6 +310,77 @@ test('the fixtures carry the real catalogue only: the pack, the holographic stic
   assert.equal(SCENARIOS['nothing-done'].items[0].earned, false);
   assert.equal(SCENARIOS.eligible.items[0].earned, true);
   assert.equal(SCENARIOS.completionist.items[0].earned, true);
+});
+
+/* The API serves every item once, earned or not, the DEV badges last
+   (sortOrder 40, 41, 42), and a badge is earned exactly when its rule
+   is: the Attend sticker (`fest`), the Host sticker (`host-fest`),
+   milestone 3. A fixture that broke this would show a badge the book on
+   the same page disagrees with. */
+test('every scenario serves the three DEV badges last, earned exactly by their rules', () => {
+  const GETS_TO_YOU =
+    'A badge on your DEV profile, added by DEV. Not linked to MyMLH yet? It’s added the moment you connect.';
+  for (const [name, scenario] of Object.entries(SCENARIOS)) {
+    if (!Array.isArray(scenario.items)) continue;
+    const done = new Set(
+      scenario.activities.filter((a) => a.completed).map((a) => a.id),
+    );
+    const badges = scenario.items.slice(-3);
+    assert.deepEqual(
+      badges.map((item) => [item.id, item.name, item.earnedBy, item.earned]),
+      [
+        [
+          'dev-badge-fest-2026',
+          'Fest Attendee DEV badge',
+          'Attending a Fest',
+          done.has('fest'),
+        ],
+        [
+          'dev-badge-host-2026',
+          'Fest Host DEV badge',
+          'Hosting a Fest',
+          done.has('host-fest'),
+        ],
+        [
+          'dev-badge-completionist-2026',
+          'Completionist DEV badge',
+          'Seventeen stickers in the book',
+          progressLevel(scenario) === 3,
+        ],
+      ],
+      name,
+    );
+    badges.forEach((item) => {
+      assert.equal(item.kind, 'digital', name);
+      assert.equal(item.requiresDevLink, true, name);
+      assert.equal(item.cta, null, name);
+      assert.equal(item.getsToYou, GETS_TO_YOU, name);
+      assert.equal(typeof item.earnedAt === 'string', item.earned, name);
+    });
+  }
+});
+
+/* The mocked build shows both states: linked badges, ordinary digital
+   things, on completionist and organizer; an Unclaimed one on the
+   default scenario, whose DEV account is not linked. */
+test('the mocked build shows DEV badges linked and unclaimed', () => {
+  const earnedBadges = (name) =>
+    inventoryItems(SCENARIOS[name])
+      .filter((item) => item.earned && item.id.startsWith('dev-badge-'))
+      .map((item) => [item.id, item.needsDev]);
+  assert.deepEqual(earnedBadges('completionist'), [
+    ['dev-badge-fest-2026', false],
+    ['dev-badge-host-2026', false],
+    ['dev-badge-completionist-2026', false],
+  ]);
+  assert.deepEqual(earnedBadges('organizer'), [
+    ['dev-badge-fest-2026', false],
+    ['dev-badge-host-2026', false],
+  ]);
+  assert.equal(DEFAULT_SCENARIO, 'no-address');
+  assert.deepEqual(earnedBadges(DEFAULT_SCENARIO), [
+    ['dev-badge-fest-2026', true],
+  ]);
 });
 
 test('a certificate is known by slug and downloads from the API by its key', () => {

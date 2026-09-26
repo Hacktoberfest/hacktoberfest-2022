@@ -8,8 +8,9 @@
    participant has earned it; a thing earned more than once (a certificate
    per Fest) comes once per grant, with a key and a variant. This file adds
    what only the frontend knows:
-   the art by slug, the id the just-earned record keeps, the DEV exception,
-   the grid, and which slot the locker opens on. Nothing is derived from
+   the art by slug, the id the just-earned record keeps, the DEV exception
+   (Unclaimed, while no DEV account is linked), the grid, and which slot
+   the locker opens on. Nothing is derived from
    the stickers here.
 
    A thing is one of two kinds, physical (a sticker, the pack, a T-shirt)
@@ -39,6 +40,16 @@ const ITEM_ART = Object.freeze({
   },
   'completionist-certificate-2026': {
     art: 'completionist-certificate-2026',
+    sticker: false,
+  },
+  /* DEV's three badges, drawn as themselves: DEV's own art, redrawn by
+     hand into the 200 square with room around it, so a leaning badge
+     never reaches the name under its cell. No sticker script lists them
+     (test/sticker-image.test.mjs says why). */
+  'dev-badge-fest-2026': { art: 'dev-badge-fest-2026', sticker: false },
+  'dev-badge-host-2026': { art: 'dev-badge-host-2026', sticker: false },
+  'dev-badge-completionist-2026': {
+    art: 'dev-badge-completionist-2026',
     sticker: false,
   },
 });
@@ -129,6 +140,25 @@ export const inventoryItems = (experience) => {
       };
     });
 };
+
+/* How an earned thing is marked. One on DEV with no DEV account linked
+   (`needsDev`) is Unclaimed: MLH has asked DEV for it, and DEV adds it
+   once the accounts are linked. It wears `unclaimed` where its kind would
+   be (the tag's data-kind; the word, under its name and on its tag, is
+   my.inventory.devUnlinked) and a "!" on its corner where the book's tick
+   would be. Anything else wears its kind and the tick. */
+export const itemMarks = (item) => ({
+  unclaimed: item.needsDev,
+  tag: item.needsDev ? 'unclaimed' : item.kind,
+  tick: item.needsDev ? '!' : '✓',
+});
+
+/* A thing's one call to action on its page: while it is Unclaimed, the
+   welcome band's Connect DEV account (`devConnect`, in the caller's
+   words); otherwise the API's, or none. A linked DEV badge has none: the
+   frontend does not know the participant's DEV username. */
+export const itemAction = (item, devConnect) =>
+  item.needsDev ? devConnect : item.cta;
 
 /* What an empty locker shows as a ghost: the first thing not yet earned,
    in catalogue order, so the pack when nothing is. Null when there is

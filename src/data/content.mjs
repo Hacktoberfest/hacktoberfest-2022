@@ -2375,11 +2375,16 @@ export const my = {
        to earn, greyed, so the cells say what goes in them. */
     notYet: 'Not yet',
     /* A thing that lives on a DEV profile, earned with no DEV account
-       linked to MyMLH: the line under it, and the page's word. The button
-       is the welcome band's (my.identity.devConnectCta, devConnectHref). */
-    devUnlinked: 'Connect DEV to see it',
-    devUnlinkedNote:
-      'This lives on a DEV profile, and yours is not linked to MyMLH yet. Connect your DEV account and DEV adds it there.',
+       linked to MyMLH, is Unclaimed: MLH has asked DEV for it, and DEV
+       adds it the moment the accounts are linked. One word, the line under
+       its name and its tag where the kind would be; the page's note, its
+       lead set in bold. The button is the welcome band's
+       (my.identity.devConnectCta, devConnectHref). */
+    devUnlinked: 'Unclaimed',
+    devUnlinkedNote: {
+      lead: 'Not on DEV yet.',
+      body: 'Your DEV account isn’t linked to MyMLH, so this badge is waiting for you. Connect DEV and it’s added to your profile.',
+    },
     /* A certificate's two files, rendered by the API on the click and never
        stored: the buttons, and the line when the render did not come. */
     downloads: {

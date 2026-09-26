@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { CATALOGUE, THINGS } from '../scripts/stickers/design/catalogue.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import {
   REWARD_STICKERS,
@@ -87,6 +88,58 @@ test('every slug has a committed SVG file that is a standalone sticker', async (
       svg,
       /href=/,
       `${slug} must not reference anything outside itself`,
+    );
+  }
+});
+
+/* DEV's three badges (lib/inventory.mjs ITEM_ART) are DEV's own art,
+   redrawn by hand into the site's square: the 173.2 by 200 badge at 0.8,
+   138.56 by 160, centred, so it keeps 20 units clear above and below and
+   never reaches the name under its cell even while it leans. No sticker
+   script lists them, so none can draw over them: scripts/stickers/render.mjs
+   draws only STICKER_IMAGE_SLUGS (with --force, every one of those with no
+   design), scripts/stickers/design/build.mjs --site writes only CATALOGUE
+   and THINGS, and neither deletes a file. They are held here to the rules
+   every listed file is held to above. */
+const DEV_BADGES = [
+  'dev-badge-fest-2026',
+  'dev-badge-host-2026',
+  'dev-badge-completionist-2026',
+];
+
+test('the DEV badges are drawn by hand, so no sticker script lists them', () => {
+  const designed = new Set(
+    [...CATALOGUE, ...THINGS].map((entry) => entry.slug),
+  );
+  for (const slug of DEV_BADGES) {
+    assert.ok(!STICKER_IMAGE_SLUGS.includes(slug), `${slug} is rendered`);
+    assert.ok(!designed.has(slug), `${slug} is designed`);
+  }
+});
+
+test('the DEV badges are standalone files in the 200 square, the badge scaled inside it', async () => {
+  for (const slug of DEV_BADGES) {
+    const svg = await readFile(
+      new URL(`../public/stickers/${slug}.svg`, import.meta.url),
+      'utf8',
+    );
+    assert.ok(
+      svg.startsWith(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">\n<g transform="translate(30.72 20) scale(0.8)">\n',
+      ),
+      `${slug} is not framed`,
+    );
+    assert.match(svg, /<\/g>\n<\/svg>\n$/, slug);
+    assert.doesNotMatch(svg, /href=/, slug);
+    assert.doesNotMatch(
+      svg,
+      /viewBox="0 0 174 200"/,
+      `${slug} kept DEV's root`,
+    );
+    assert.match(
+      svg,
+      /<path d="M86\.6 0L173\.2 50V150L86\.6 200L0 150V50L86\.6 0Z" fill="#10201D"\/>/,
+      `${slug} lost DEV's edge`,
     );
   }
 });

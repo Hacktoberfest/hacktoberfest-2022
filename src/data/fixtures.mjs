@@ -14,6 +14,36 @@ const USER = {
   avatarUrl: null,
 };
 
+/* The three DEV badges as GET /api/me/items serves them: one row each,
+   after the certificates (the API's sortOrder 40, 41, 42), earned exactly
+   when the Attend sticker (`fest`), the Host sticker (`host-fest`) or
+   milestone 3 is. `earnedAt` maps a slug to when it was earned; a slug not
+   in it is not earned yet. Every scenario's catalogue ends with all
+   three, as the API's does. */
+const DEV_BADGE_GETS_TO_YOU =
+  'A badge on your DEV profile, added by DEV. Not linked to MyMLH yet? It’s added the moment you connect.';
+
+const devBadges = (earnedAt = {}) =>
+  [
+    ['dev-badge-fest-2026', 'Fest Attendee DEV badge', 'Attending a Fest'],
+    ['dev-badge-host-2026', 'Fest Host DEV badge', 'Hosting a Fest'],
+    [
+      'dev-badge-completionist-2026',
+      'Completionist DEV badge',
+      'Seventeen stickers in the book',
+    ],
+  ].map(([id, name, earnedBy]) => ({
+    id,
+    name,
+    kind: 'digital',
+    earnedBy,
+    getsToYou: DEV_BADGE_GETS_TO_YOU,
+    cta: null,
+    requiresDevLink: true,
+    earned: Boolean(earnedAt[id]),
+    earnedAt: earnedAt[id] || null,
+  }));
+
 /* Fest dates: entries meant to read as "attended" are dated 2026-08-01 —
    before any plausible review date — so the past group is visible from a
    share link all campaign long, not only after mid-October. Upcoming
@@ -36,11 +66,16 @@ export const SCENARIOS = Object.freeze({
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    /* The Attend sticker, from a Fest in August, so the default review
+       link shows a DEV badge earned with no DEV account linked:
+       Unclaimed. */
     activities: [
+      { id: 'fest', completed: true, completedAt: '2026-08-01' },
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-12' },
     ],
     /* The catalogue as GET /api/me/items serves it: the pack and the
-       holographic sticker, earned by the milestones. */
+       holographic sticker, earned by the milestones, and the DEV badges,
+       the Attend one earned and Unclaimed. */
     items: [
       {
         id: 'sticker-pack-2026',
@@ -84,6 +119,7 @@ export const SCENARIOS = Object.freeze({
         earned: false,
         earnedAt: null,
       },
+      ...devBadges({ 'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z' }),
     ],
     fests: [
       {
@@ -176,6 +212,7 @@ export const SCENARIOS = Object.freeze({
         earned: false,
         earnedAt: null,
       },
+      ...devBadges({ 'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z' }),
     ],
     fests: [
       {
@@ -263,6 +300,7 @@ export const SCENARIOS = Object.freeze({
         earned: false,
         earnedAt: null,
       },
+      ...devBadges(),
     ],
     fests: [],
   },
@@ -342,6 +380,7 @@ export const SCENARIOS = Object.freeze({
         earned: false,
         earnedAt: null,
       },
+      ...devBadges({ 'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z' }),
     ],
     fests: [
       {
@@ -467,6 +506,11 @@ export const SCENARIOS = Object.freeze({
         earned: true,
         earnedAt: '2026-08-01T10:00:00.000Z',
       },
+      ...devBadges({
+        'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z',
+        'dev-badge-host-2026': '2026-10-10T12:00:00.000Z',
+        'dev-badge-completionist-2026': '2026-10-22T12:00:00.000Z',
+      }),
     ],
     fests: [
       {
@@ -513,7 +557,12 @@ export const SCENARIOS = Object.freeze({
       },
     ],
     thresholds: { stickers: 1, complete: 8, completionist: 15 },
-    activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
+    /* The Attend sticker, and the Host sticker for the Fest hosted in
+       Melbourne in August, so the DEV badges for both show earned. */
+    activities: [
+      { id: 'fest', completed: true, completedAt: '2026-08-01' },
+      { id: 'host-fest', completed: true, completedAt: '2026-08-01' },
+    ],
     /* The catalogue as GET /api/me/items serves it: the pack and the
        holographic sticker, earned by the milestones. */
     items: [
@@ -575,6 +624,10 @@ export const SCENARIOS = Object.freeze({
         earned: false,
         earnedAt: null,
       },
+      ...devBadges({
+        'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z',
+        'dev-badge-host-2026': '2026-08-01T09:00:00.000Z',
+      }),
     ],
     fests: [
       /* Co-branded, the way MLH actually names a partnered Fest: the
