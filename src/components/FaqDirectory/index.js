@@ -3,7 +3,7 @@ import { faq } from 'data/content.mjs';
 
 import styles from './FaqDirectory.module.css';
 
-/* The /questions page body: the six sections data/content.mjs declares, each a
+/* The /questions page body: the sections data/content.mjs declares, each a
    heading followed by a FaqList of that section's items — the same
    accordion the homepage band renders, so the two surfaces never grow two
    different ideas of what a question looks like.

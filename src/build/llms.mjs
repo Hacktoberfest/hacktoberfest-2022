@@ -37,6 +37,8 @@ const paragraphs = (...blocks) => blocks.flat().filter(Boolean).join('\n\n');
 
 const bullets = (items) => items.map((item) => `- ${item}`).join('\n');
 
+const SIGNED_IN_HREF = /^\/(?:my|login)\b/;
+
 /* The orientation file's "Start here" list, each on-site entry tagged with
    the route it points at so a closed route drops out of the list instead of
    sending an answer engine to a 404. See data/closedRoutes.mjs. `route:
@@ -77,7 +79,7 @@ const START_HERE = [
   },
   {
     route: '/questions/',
-    text: '[FAQs](./questions/): The full set of questions on the mission change, Preptember, Fest formats, hosting, swag, and sponsorship.',
+    text: '[FAQs](./questions/): The full set of questions on taking part, pull requests, Fests and Hack Days, DEV Challenges, rewards, and where to get help.',
   },
   {
     route: null,
@@ -261,9 +263,13 @@ const llmsFull = () =>
     faq.items.map((item) => {
       // Links are named in the prose but their URLs only exist in the markup,
       // so append them — a plain-text reader has no other way to follow one.
-      // The organize answer is the one that carries an href today, and its
-      // destination is site-relative, same as the links in llms.txt above.
-      const links = answerLinks(item.answer);
+      // Site-relative ones stay relative, same as the links in llms.txt
+      // above. A link into the signed-in pages is left out: the prose already
+      // names My Hacktoberfest, and the llms files carry no /my or /login,
+      // which test/my-pages.test.mjs holds them to.
+      const links = answerLinks(item.answer).filter(
+        (href) => !SIGNED_IN_HREF.test(href),
+      );
       const suffix = links.length ? ` (${links.join(' ')})` : '';
       return `${item.question} — ${answerText(item.answer)}${suffix}`;
     }),

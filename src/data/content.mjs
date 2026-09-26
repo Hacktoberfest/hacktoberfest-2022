@@ -162,142 +162,137 @@ export const getInvolved = {
 };
 
 /* Answers are arrays of segments rather than plain strings, because they can
-   carry an inline link or, once, a short ordered list. One structure then
+   carry an inline link, a list, or a second paragraph. One structure then
    renders three ways — as JSX, as plain text for the crawler files, and as
    schema text — without any consumer having to parse markup.
 
-   A segment is prose ({ text }), an outbound link ({ text, href }), a
-   Typeform popup trigger ({ text, form }), where `form` names a config the
-   component maps to a popup, or a bounded markdown subset ({ markdown }).
-   { text, href } has no current user among these 24 but stays supported for
-   copy that links out. { markdown } exists for the one answer the flat
-   segment list can't express — the Fest formats question's two-item numbered
-   list — and supports exactly three constructs: **bold**, [label](href), and
-   lines opening `1. ` / `2. ` as an ordered list. parseAnswerMarkdown below
-   turns that subset into a render-ready structure; answerText and
-   answerLinks both understand it too, so a markdown segment never has to be
-   special-cased by a consumer. Typeform is never an href: an anchor to a
-   Typeform URL fails test/typeform-pages.test.mjs.
+   A segment is prose ({ text }), a link ({ text, href }), a Typeform popup
+   trigger ({ text, form }), where `form` names a config the component maps
+   to a popup, or a bounded markdown subset ({ markdown }). An href that
+   starts with `/` stays in the tab; anything else opens a new one.
+   { markdown } exists for answers the flat segment list can't express, like
+   how-to-take-part's paragraph, two-item list, and closing line, and
+   supports exactly: **bold**, [label](href), blank lines between blocks,
+   and blocks whose every line opens `1. ` (an ordered list) or `- ` (a
+   bulleted list). parseAnswerMarkdown below turns that subset into
+   render-ready blocks; answerText and answerLinks both understand it too, so
+   a markdown segment never has to be special-cased by a consumer. Typeform
+   is never an href: an anchor to a Typeform URL fails
+   test/typeform-pages.test.mjs.
+
+   The set is the participant FAQ (2026-09-26), merged with the
+   pull-request questions the host-era FAQ carried: the PR answer itself
+   comes from the participant FAQ, and how-2026-differs and
+   get-involved-in-open-source join it in their own section.
+   sticker-pack-arrival, the shipping window, came back from the old set.
 
    `items` stays a flat array — src/build/llms.mjs reads faq.items directly,
    and grouping for the /questions page is expressed via each item's `section`
    field instead of nesting, so adding a section never means teaching the
-   crawler files or the tests a new shape. `sections` records the six source
-   headings in display order; `homepage` names the four items (chosen for
-   breadth, not for hosts, since the homepage serves first-time visitors)
-   that still appear in the homepage callout, plus the CTA to the full page.
-   `page` carries the copy the standalone /questions page's Head and PageHero need,
-   the same way host.* does for /host. */
+   crawler files or the tests a new shape. `sections` records the headings in
+   display order; `homepage` names the four items (chosen for breadth, since
+   the homepage serves first-time visitors) that still appear in the homepage
+   callout, plus the CTA to the full page. online.faq and inPerson.faq name
+   their own slices by id the same way. `page` carries the copy the
+   standalone /questions page's Head and PageHero need, the same way host.*
+   does for /host. */
+const DEV_CHALLENGES_URL = 'https://dev.to/challenges';
+
 export const faq = {
   eyebrow: 'Common questions',
   heading: { lead: 'Everything else,', accent: 'answered.' },
   // The wink under the panel; links to the machine-readable answers.
   llmsNote: 'Are you an LLM? → llms.txt',
   intro:
-    'Hacktoberfest works differently this year, and a new format always comes with questions. We have the answers: here’s what to know about hosting a Fest, taking part, and what comes next.',
+    'Hacktoberfest works differently this year, and a new format always comes with questions. We have the answers: here’s how to take part, in person or online, and what you can earn along the way.',
   sections: [
-    { id: 'general', title: 'General & Mission Overview' },
-    { id: 'preptember', title: 'Preptember (September 1-30)' },
-    { id: 'fests', title: 'In-Person Events (“Fests”) & Formats' },
-    { id: 'hosting', title: 'Fest Hosting, Applications & Logistics' },
-    { id: 'swag', title: 'Swag, Participant Envelopes & Reimbursements' },
-    { id: 'sponsorship', title: 'Sponsorship & Partner Packages' },
+    { id: 'getting-started', title: 'Getting started' },
+    { id: 'pull-requests', title: 'Pull requests and open source' },
+    { id: 'in-person', title: 'In-person events' },
+    { id: 'dev-challenges', title: 'Online DEV Challenges' },
+    { id: 'rewards-support', title: 'Rewards and support' },
   ],
   items: [
-    // -- General & Mission Overview --------------------------------------
+    // -- Getting started ---------------------------------------------------
     {
       id: 'what-is-hacktoberfest',
-      section: 'general',
-      question: 'What is Hacktoberfest?',
+      section: 'getting-started',
+      question: 'What is Hacktoberfest 2026?',
       answer: [
         {
-          text: 'Hacktoberfest is a global celebration of open source that runs throughout October. This year, Hacktoberfest is run by ',
+          text: 'Hacktoberfest is a month-long celebration of open source throughout October. In 2026, the focus is on learning and building with open-source AI and open-weight models, both through in-person and online activities. ',
         },
-        { text: 'Major League Hacking (MLH)', href: 'https://www.mlh.com/' },
+        { text: 'MLH', href: 'https://www.mlh.com/' },
         { text: ' and ' },
         { text: 'DEV', href: 'https://dev.to' },
-        { text: ' in partnership with ' },
+        {
+          text: ' are managing the event this year in partnership with our friends at ',
+        },
         { text: 'DigitalOcean', href: 'https://www.digitalocean.com/' },
         { text: '.' },
       ],
     },
-    /* The three questions a first-timer asks before any of the others,
-       written for the /online landing page and true everywhere. */
+    {
+      id: 'how-to-earn-swag',
+      section: 'getting-started',
+      question: 'How do I earn swag?',
+      answer: [
+        {
+          text: 'Fests will have T-shirts and other swag available in limited quantities. Contact your local host to learn more about what is available at their Fest and how to receive the swag. If your Fest ran out of stickers, don’t worry! We will be sending a sticker pack directly to your door as a thank you for participating.',
+        },
+      ],
+    },
+    {
+      id: 'how-to-take-part',
+      section: 'getting-started',
+      question: 'How do I take part?',
+      answer: [
+        {
+          markdown: `Sign in to [My Hacktoberfest](/my/) with your MyMLH account. The participant dashboard will open by October 1 and show the activities and requirements needed to earn your sticker pack. Connecting your DEV account is optional but recommended, since it will award you a special DEV badge and allow you to earn credit for participating in DEV Challenges.
+
+- **In person:** [Find a Fest](/fests/) and register on its event page. Each Fest has a separate registration.
+- **Online:** Join [DEV Challenges](${DEV_CHALLENGES_URL}), MLH livestreams, or Global Hack Week: Hacktoberfest to connect with our community and complete digital challenges.
+
+Anyone is welcome to participate online, in person, or both.`,
+        },
+      ],
+    },
+    {
+      id: 'who-is-eligible',
+      section: 'getting-started',
+      question: 'Who can take part?',
+      answer: [
+        {
+          text: 'Hacktoberfest welcomes participants aged 13 or older, subject to country eligibility rules. Individual Fests may have their own audience and age restrictions, so check the event page before registering. If you are under 18, ask the host about any parental permission requirements. ',
+        },
+        { text: 'DEV Challenges', href: DEV_CHALLENGES_URL },
+        { text: ' have separate contest eligibility rules.' },
+      ],
+    },
     {
       id: 'is-it-free',
-      section: 'general',
-      question: 'Is it free?',
+      section: 'getting-started',
+      question: 'Is it free to attend a Fest?',
       answer: [
         {
-          text: 'Yes. Every Fest is free to attend, and everything online is free too: the streams, the build week, the challenges, and the sticker pack we mail you. All you need is a free MyMLH account.',
+          text: 'Almost all Fests, including Hack Days and Meetups, are free to attend! Certain pop-ups take place at ticketed conferences.',
         },
       ],
     },
+    // -- Pull requests and open source ---------------------------------------
     {
-      id: 'need-to-be-a-developer',
-      section: 'general',
-      question: 'Do I need to be a developer?',
+      id: 'still-submit-pull-requests',
+      section: 'pull-requests',
+      question: 'Do I still submit pull requests to earn swag?',
       answer: [
         {
-          text: 'No. The streams and the build week are for anyone curious about open source AI, whatever you have built before. Some activities involve code, and the sessions are there to help you write it.',
-        },
-      ],
-    },
-    {
-      id: 'what-is-mymlh',
-      section: 'general',
-      question: 'What is MyMLH?',
-      answer: [
-        {
-          text: 'The free account every MLH event uses. It is how a livestream knows you were there, how a Fest checks you in, and where the address for your stickers lives. Sign in once and it works for the whole month.',
-        },
-      ],
-    },
-    {
-      id: 'what-is-a-virtual-sticker',
-      section: 'general',
-      question: 'What is a virtual sticker?',
-      answer: [
-        {
-          text: 'A sticker in your Hacktoberfest sticker book, earned by completing a challenge: checking into a livestream, submitting to a DEV Challenge, connecting a tool, and so on. It can take up to 12 hours to show up. Sign in, add your address and earn any other sticker, that’s 3, and we mail you an IRL sticker pack. 10 and a holographic sticker joins it, 17 and you’re a Completionist.',
-        },
-      ],
-    },
-    /* The practical questions before a first Fest, written for the
-       /in-person landing page and true everywhere. */
-    {
-      id: 'what-to-bring',
-      section: 'fests',
-      question: 'What should I bring to a Fest?',
-      answer: [
-        {
-          text: 'A laptop and its charger, and whatever you like to build with. The host provides the room, the wifi and the programme, and a Hack Day usually has food.',
-        },
-      ],
-    },
-    {
-      id: 'come-alone',
-      section: 'fests',
-      question: 'Can I come on my own?',
-      answer: [
-        {
-          text: 'Yes, and most people do. At a Hack Day the host will help you find a team on the day; a Meetup needs no team at all.',
-        },
-      ],
-    },
-    {
-      id: 'more-than-one-fest',
-      section: 'fests',
-      question: 'Can I go to more than one Fest?',
-      answer: [
-        {
-          text: 'Yes. Every Fest you check in at earns a certificate with your name on it, and every Hack Day is another shot at the prizes. Your online sticker book gets the Fest sticker once.',
+          text: 'Pull requests and merge requests will no longer count toward Hacktoberfest rewards. It’s easier than ever to submit low-effort spam PRs to projects, so we’re listening to maintainer feedback and no longer actively incentivizing PRs. That being said, we certainly still encourage you to work on open source and share your work with the world during Hacktoberfest. Our new format focuses on learning and building together while reducing the burden of low-effort contributions on maintainers.',
         },
       ],
     },
     {
       id: 'how-2026-differs',
-      section: 'general',
+      section: 'pull-requests',
       question: 'How is Hacktoberfest 2026 different from previous years?',
       answer: [
         {
@@ -306,20 +301,9 @@ export const faq = {
       ],
     },
     {
-      id: 'why-focus-on-open-source-ai',
-      section: 'general',
-      question: 'Why is Hacktoberfest 2026 focused on open-source AI?',
-      answer: [
-        {
-          text: 'The AI landscape is rapidly evolving. There is uncertainty around future AI access, pricing, and regulations. By prioritizing education about open-weight models and open-source AI, we help build resilience around our overall ecosystem.',
-        },
-      ],
-    },
-    {
       id: 'get-involved-in-open-source',
-      section: 'general',
-      question:
-        'I was planning on getting into open source this October, now I don’t know what to do. How can I get involved in open source?',
+      section: 'pull-requests',
+      question: 'How can I still get involved in open source?',
       answer: [
         {
           text: 'Open source runs 365 days a year, and you can get started anytime. Just because Hacktoberfest isn’t incentivizing open source contributions with swag doesn’t mean you can’t contribute any more. Check out ',
@@ -331,242 +315,292 @@ export const faq = {
         { text: ' to get started.' },
       ],
     },
-    {
-      id: 'why-moving-away-from-prs',
-      section: 'general',
-      question:
-        'Why is Hacktoberfest moving away from counting Pull Requests (PRs)?',
-      answer: [
-        {
-          text: 'With the rise of AI tools making low-effort PRs trivial to generate, open-source maintainers faced unprecedented floods of noise, spam, and burnout. In 2026, Hacktoberfest is refocusing on high-value, meaningful learning, collaborative events, and open-source AI development rather than raw PR volume.',
-        },
-      ],
-    },
-    {
-      id: 'who-is-eligible',
-      section: 'general',
-      question: 'Who is eligible to participate?',
-      answer: [
-        {
-          // Corrected per the design spec: "worldwide are welcome" read as
-          // plural agreement with "worldwide" rather than with "Anyone".
-          text: 'Anyone aged 13 and older worldwide is welcome to participate, subject to U.S. export controls and embargo restrictions.',
-        },
-      ],
-    },
-    {
-      id: 'need-a-fest',
-      section: 'general',
-      question: 'Do I need to attend a Fest to take part?',
-      answer: [
-        {
-          text: 'No. Every online challenge earns its sticker on its own, and the sticker pack is mailed anywhere in the world. A Fest is two more stickers to add if there is one near you, and the one place a T-shirt is handed out on the day.',
-        },
-      ],
-    },
-    // -- Preptember --------------------------------------------------------
-    {
-      id: 'what-is-preptember',
-      section: 'preptember',
-      question: 'What is Preptember?',
-      answer: [
-        {
-          text: 'Preptember is the month-long preparation period throughout September where organizers plan their Fests before hacking begins in October. More details are coming soon!',
-        },
-      ],
-    },
-    // -- In-Person Events (“Fests”) & Formats ------------------------------
+    // -- In-person events ----------------------------------------------------
     {
       id: 'what-is-a-fest',
-      section: 'fests',
-      question: 'What is a “Fest”?',
+      section: 'in-person',
+      question: 'What happens at a Fest?',
       answer: [
         {
-          text: 'A Fest is an official, in-person Hacktoberfest event lasting up to 12 hours, designed to bring local developer communities together to learn and build with open-source AI.',
+          text: 'A Fest is a locally organized, one-day, in-person event. Hack Days are mini-hackathons where you build and demo a project, while Meetups will vary in their format and could feature talks, workshops, discussions, or other social activities.',
         },
       ],
     },
     {
-      id: 'fest-formats',
-      section: 'fests',
-      question: 'What are the two official Fest formats?',
-      // The one answer the flat { text }/{ href } segment shape can't
-      // express: a numbered list with bold lead-ins. See parseAnswerMarkdown
-      // below for how this renders, and answerText/answerLinks for how it
-      // still yields plain prose and link URLs everywhere else.
+      id: 'beginners-welcome',
+      section: 'in-person',
+      question: 'Are beginners welcome?',
       answer: [
         {
-          markdown:
-            '1. **Hack Day:** A mini hackathon. Build with open source AI through the day and demo at the end, with prizes for the best projects.\n2. **Meetup:** A community gathering. Talks, workshops or a panel, and no project to ship.\n\nEither way, Hacktoberfest swag and stickers are available while supplies last.',
+          text: 'Beginners are welcome to learn, and you don’t need to build an AI project to attend a Meetup or watch a livestream.',
         },
       ],
     },
     {
-      id: 'will-everyone-get-a-tshirt',
-      section: 'fests',
-      question: 'Will everyone get a T-Shirt?',
+      id: 'what-to-bring',
+      section: 'in-person',
+      question: 'What should I bring to a Fest?',
       answer: [
         {
-          text: 'We send thousands of T-shirts to Fests, but we can’t guarantee one to every participant. They’re available on the day while supplies last, and we can’t mail one to anyone who missed out. Online, the only T-shirts are the ones in the Completionist raffle.',
+          text: 'If you are building, bring a laptop and charger. If not, just bring yourself!',
         },
       ],
     },
     {
-      id: 'required-software-platforms',
-      section: 'fests',
-      question: 'What software platforms are required to run a Fest?',
+      id: 'event-details',
+      section: 'in-person',
+      question: 'Where can I find event details or ask about accommodations?',
       answer: [
-        // OrganizerHQ (and OHQ) is the product name, not the "organizers ->
-        // hosts" house-term swap, so it stays as supplied.
         {
-          text: 'All Fests must use Major League Hacking’s OrganizerHQ (OHQ) for attendee registration and day-of check-in. In addition, Hack Days must use OrganizerHQ Challenges for project submissions and judging.',
+          text: 'Check your Fest’s page for the schedule, venue, food, accessibility, check-in instructions, and anything to install or bring. Contact the host about equipment, accommodations, late arrival, or registration changes.',
         },
       ],
     },
     {
-      id: 'post-event-deliverables',
-      section: 'fests',
-      question: 'What post-event deliverables are required from organizers?',
+      id: 'hack-day-teams',
+      section: 'in-person',
+      question: 'Can I enter a Hack Day alone or with a team?',
       answer: [
         {
-          text: 'Organizers must submit high-resolution event photos, verified check-in data via OrganizerHQ, winner records, and itemized food/beverage expense receipts (for Hack Days reimbursements).',
-        },
-      ],
-    },
-    // -- Fest Hosting, Applications & Logistics ----------------------------
-    {
-      id: 'how-to-apply-to-host',
-      section: 'hosting',
-      question: 'How do community members apply to host a Fest?',
-      answer: [
-        { text: 'Hosts apply via the ' },
-        {
-          // Source gave this as http://; the site never links out over
-          // plain http, so the scheme is corrected to https.
-          text: 'host portal',
-          href: 'https://organize.mlh.com/host/hacktoberfest-2026',
-        },
-        { text: '. Visit our ' },
-        {
-          text: 'host guide',
-          href: 'https://mlh.gitbook.io/mlh-hacktoberfest-organizer-guide',
-        },
-        { text: ' to learn more about the Fest hosting process.' },
-      ],
-    },
-    {
-      id: 'application-approval-time',
-      section: 'hosting',
-      question: 'How long does application approval take?',
-      answer: [
-        {
-          text: 'Applications are reviewed on a rolling basis, with confirmation typically provided within less than one week.',
+          text: 'You can enter alone or in a team of any size. Events have enough prizes for up to four team members, so larger teams must share their prizes.',
         },
       ],
     },
     {
-      id: 'venue-requirements',
-      section: 'hosting',
-      question: 'What venue requirements must a host secure?',
+      id: 'hack-day-project-rules',
+      section: 'in-person',
+      question: 'What are the Hack Day project rules?',
       answer: [
         {
-          text: 'Hosts must secure a safe, accessible in-person venue for 3 to 12 hours equipped with reliable Wi-Fi, power outlets, seating, and necessary AV equipment.',
+          text: 'Project details are largely up to the Fest host. Check the event’s requirements before you build, since prize categories may have additional rules or requirements.',
         },
       ],
     },
     {
-      id: 'geographic-sanctions-restrictions',
-      section: 'hosting',
+      id: 'team-registration',
+      section: 'in-person',
+      question: 'Does every member of my team have to register and check in?',
+      answer: [{ text: 'Yes. All team members must register and check in.' }],
+    },
+    {
+      id: 'submit-hack-day-project',
+      section: 'in-person',
+      question: 'How do I submit a Hack Day project?',
+      answer: [
+        {
+          text: 'One teammate opens Challenges on the Fest’s event page, selects Add Submission, enters the project details, selects the challenges being entered, and submits before the host’s deadline.',
+        },
+      ],
+    },
+    {
+      id: 'project-deadline',
+      section: 'in-person',
+      question: 'When do I need to complete and submit my project?',
+      answer: [
+        {
+          text: 'Projects must be completed and submitted on the day of the Hack Day, before the deadline provided by the host.',
+        },
+      ],
+    },
+    {
+      id: 'hack-day-judging',
+      section: 'in-person',
+      question: 'How are Hack Day winners chosen?',
+      answer: [
+        {
+          text: 'The host chooses winners based on the event’s challenge rules and project demos. Ask your local host about judging criteria.',
+        },
+      ],
+    },
+    // -- Online DEV Challenges -----------------------------------------------
+    {
+      id: 'how-dev-challenges-work',
+      section: 'dev-challenges',
+      question: 'How do DEV Challenges work?',
+      answer: [
+        {
+          text: 'There is a Weekend Challenge and four weekly open-source AI rounds, with cash prizes. You need a DEV account to enter. You can sign up for the ',
+        },
+        { text: 'Hacktoberfest DEV Challenges', href: DEV_CHALLENGES_URL },
+        { text: ' today.' },
+      ],
+    },
+    {
+      id: 'dev-challenge-rules',
+      section: 'dev-challenges',
+      question: 'Where can I find DEV Challenge rules and deadlines?',
+      answer: [
+        { text: 'Hacktoberfest’s ' },
+        { text: 'DEV Challenges', href: DEV_CHALLENGES_URL },
+        { text: ' follow DEV’s standard ' },
+        {
+          text: 'Official Challenges and Hackathon Rules',
+          href: 'https://dev.to/page/official-hackathon-rules',
+        },
+        {
+          text: ', plus the instructions on each challenge page. Check those pages for age and country eligibility, entry requirements, deadlines, teams, judging, and prizes.',
+        },
+      ],
+    },
+    // -- Rewards and support -------------------------------------------------
+    {
+      id: 'certificate',
+      section: 'rewards-support',
+      question: 'Will I receive a participation certificate?',
+      answer: [
+        {
+          text: 'All in-person participants receive an official participation certificate. Hosts may also issue their own. Access them in ',
+        },
+        { text: 'My Hacktoberfest', href: '/my/' },
+        { text: '.' },
+      ],
+    },
+    {
+      id: 'dev-badge',
+      section: 'rewards-support',
+      question: 'Can I earn a DEV badge?',
+      answer: [
+        {
+          text: 'There are many ways to receive a DEV badge, including hosting a Fest, attending a Fest, becoming a Hacktoberfest Completionist, and completing or winning a Hacktoberfest DEV Challenge. You’ll need to connect your DEV account to your ',
+        },
+        { text: 'My Hacktoberfest', href: '/my/' },
+        { text: ' profile to receive the badges.' },
+      ],
+    },
+    {
+      id: 'hack-day-prizes',
+      section: 'rewards-support',
+      question: 'What prizes can I win at a Hack Day?',
+      answer: [
+        {
+          text: 'The most common prize for a Hack Day will be a special swag bag filled with MLH+DEV merch that is awarded on site at your Fest to the winning team(s). In the event that your Fest is missing a prize due to shipping delays, we will send a prize of equivalent or greater value directly to you within 60 days of your Fest ending.',
+        },
+      ],
+    },
+    {
+      id: 'tshirts-and-swag',
+      section: 'rewards-support',
+      question: 'Can I get a T-shirt or event swag?',
+      answer: [
+        {
+          text: 'T-shirts and event swag are available in person while supplies last. They are not guaranteed, and the host of your local Fest will decide how to distribute them. T-shirts are not promised to online participants.',
+        },
+      ],
+    },
+    {
+      id: 'who-can-earn-sticker-pack',
+      section: 'rewards-support',
+      question: 'Who can earn a sticker pack?',
+      answer: [
+        {
+          text: 'All participants can earn a sticker pack, whether participating online or in person, through the activities on their participant page.',
+        },
+      ],
+    },
+    {
+      id: 'how-to-earn-sticker-pack',
+      section: 'rewards-support',
+      question: 'How do I earn a sticker pack?',
+      answer: [
+        { text: 'Sign in to ' },
+        { text: 'My Hacktoberfest', href: '/my/' },
+        {
+          text: ' and complete the activities required on your participant page. We will release the full list there, and the portal will tell you what you need to do. There is no fixed cap on sticker packs, but signing in alone does not qualify you.',
+        },
+      ],
+    },
+    {
+      id: 'sticker-pack-activities',
+      section: 'rewards-support',
+      question: 'Which activities count toward a sticker pack?',
+      answer: [
+        { text: 'Every activity that counts is on the ' },
+        { text: 'Activities page', href: '/activities/' },
+        { text: ', with the sticker each one earns.' },
+      ],
+    },
+    {
+      id: 'sticker-pack-arrival',
+      section: 'rewards-support',
+      question: 'When will my sticker pack arrive?',
+      answer: [
+        {
+          text: 'Sticker packs will begin shipping after Hacktoberfest concludes and should arrive at most destinations within 30 to 60 days.',
+        },
+      ],
+    },
+    {
+      id: 'activity-before-milestones',
+      section: 'rewards-support',
       question:
-        'Are there geographic or sanctions restrictions for hosting or participating in Fests?',
+        'Does activity completed before the milestones are announced count?',
       answer: [
         {
-          text: 'Fests and swag shipments are available worldwide, excluding locations embargoed and sanctioned by the U.S.',
-        },
-      ],
-    },
-    // -- Swag, Participant Envelopes & Reimbursements ----------------------
-    {
-      id: 'event-pack-swag',
-      section: 'swag',
-      question: 'What swag is included in the in-person Fest Event Packs?',
-      answer: [
-        {
-          text: 'All in-person Fests will get a shipment of MLH stickers, DigitalOcean stickers, and T-shirts, which organizers will distribute at their discretion in accordance with MLH policies.',
+          text: 'Yes. Eligible Hacktoberfest activity completed before the milestones are announced also counts.',
         },
       ],
     },
     {
-      id: 'swag-envelope-program',
-      section: 'swag',
-      question: 'How does the individual Swag Envelope program work?',
+      id: 'fest-help',
+      section: 'rewards-support',
+      question: 'Who can help with questions about my Fest?',
       answer: [
         {
-          text: 'Participants who cannot attend an in-person Fest can earn an official Hacktoberfest Swag Envelope by completing participation milestones online (more details soon on these milestones).',
+          text: 'Use Contact Host on the Fest’s event page for questions about logistics, project rules, accessibility, or registration.',
         },
       ],
     },
     {
-      id: 'swag-envelope-contents',
-      section: 'swag',
-      question: 'What items are included inside the Swag Envelope?',
+      id: 'dev-challenge-help',
+      section: 'rewards-support',
+      question: 'Where can I get help with a DEV Challenge?',
       answer: [
-        {
-          text: 'Custom Hacktoberfest stickers and other envelope-friendly items.',
-        },
+        { text: 'For ' },
+        { text: 'DEV Challenges', href: DEV_CHALLENGES_URL },
+        { text: ', use the relevant challenge page for rules and questions.' },
       ],
     },
     {
-      id: 'envelope-shipping-timeline',
-      section: 'swag',
-      question: 'What is the envelope fulfillment and shipping timeline?',
+      id: 'general-help',
+      section: 'rewards-support',
+      question:
+        'Who can help with swag, prizes, or general Hacktoberfest questions?',
       answer: [
-        {
-          text: 'Envelope shipments will begin dispatching after Hacktoberfest concludes and should arrive at most destinations within 30-60 days.',
-        },
-      ],
-    },
-    {
-      id: 'host-expense-reimbursement',
-      section: 'swag',
-      question: 'What are the expense reimbursement rules for Fest organizers?',
-      answer: [
-        {
-          text: 'Reimbursements apply strictly to Hacktoberfest Hack Day events for approved in-policy food and beverage expenses up to a designated cap. Meet Ups and corporate partner hosts are not eligible for reimbursement.',
-        },
-      ],
-    },
-    // -- Sponsorship & Partner Packages -------------------------------------
-    {
-      id: 'how-to-sponsor',
-      section: 'sponsorship',
-      question: 'How can companies sponsor Hacktoberfest 2026?',
-      answer: [
-        {
-          text: 'Companies can reach out to discuss sponsorship opportunities with our team at ',
-        },
+        { text: 'Email ' },
         { text: 'hacktoberfest@mlh.io', href: 'mailto:hacktoberfest@mlh.io' },
         { text: '.' },
+      ],
+    },
+    {
+      id: 'report-a-concern',
+      section: 'rewards-support',
+      question: 'How do I report harassment or a safety concern?',
+      answer: [
+        { text: 'Contact ' },
+        { text: 'incidents@mlh.io', href: 'mailto:incidents@mlh.io' },
+        {
+          text: '. You can contact MLH directly if the concern involves a host. In an emergency, contact local emergency services.',
+        },
       ],
     },
   ],
   homepage: {
     ids: [
       'what-is-hacktoberfest',
-      'how-2026-differs',
-      'what-is-a-fest',
-      'how-to-apply-to-host',
+      'still-submit-pull-requests',
+      'how-to-take-part',
+      'how-to-earn-swag',
     ],
     cta: { label: 'See all FAQs', href: '/questions/' },
   },
   page: {
     title: 'FAQ | Hacktoberfest 2026',
     description:
-      'Answers to the most common Hacktoberfest 2026 questions: the mission change, Preptember, Fest formats, hosting logistics, swag, and sponsorship.',
+      'Answers to the most common Hacktoberfest 2026 questions: taking part, pull requests, Fests and Hack Days, DEV Challenges, rewards, and where to get help.',
     eyebrow: 'Common questions',
     heading: { lead: 'Everything you need', accent: 'to know.' },
     intro:
-      'Hacktoberfest works differently this year, and a new format always comes with questions. Here is what to know about hosting a Fest, taking part, and what comes next.',
+      'Hacktoberfest works differently this year, and a new format always comes with questions. Here is how to take part, in person or online, what changed about pull requests, and what you can earn along the way.',
   },
 };
 
@@ -578,14 +612,20 @@ export const faq = {
    `**`/`[]()` markup are stripped so the crawler files and the content tests
    never see anything a `{ text }` segment couldn't also have produced. */
 const ORDERED_LIST_MARKER = /^\d+\.\s+/;
+const BULLET_LIST_MARKER = /^-\s+/;
+const LIST_MARKER = /^(?:\d+\.|-)\s+/;
 const MARKDOWN_LINK = /\[([^\]]+)\]\(([^)]+)\)/g;
 
 const markdownToPlainText = (markdown) =>
   markdown
     .split('\n')
-    // Each numbered line was one list item; joined with spaces they read as
-    // one paragraph, the same way a reader would say the list aloud.
-    .map((line) => line.replace(ORDERED_LIST_MARKER, ''))
+    .map((line) => line.trim())
+    // Blank lines only separate blocks, so they drop out rather than leave
+    // a double space behind.
+    .filter(Boolean)
+    // Each list line was one item; joined with spaces they read as one
+    // paragraph, the same way a reader would say the list aloud.
+    .map((line) => line.replace(LIST_MARKER, ''))
     .join(' ')
     .replace(/\*\*(.+?)\*\*/g, '$1')
     .replace(MARKDOWN_LINK, '$1');
@@ -612,14 +652,17 @@ export const answerLinks = (answer) =>
   });
 
 /* Turns one `{ markdown }` segment's text into a structure a React component
-   can render without a markdown library — FaqList (a later task) walks this
-   rather than the raw string. Handles exactly the subset described above and
-   nothing more; anything outside it is passed through as literal text.
+   can render without a markdown library — FaqList walks this rather than the
+   raw string. Handles exactly the subset described above and nothing more;
+   anything outside it is passed through as literal text.
 
-   Returns:
-     { type: 'orderedList', items: [{ parts }, ...] }  — when every non-blank
-       line opens with a `1. ` / `2. ` marker
-     { type: 'paragraph', parts }                       — otherwise
+   Returns an array of blocks, one per run of lines between blank lines:
+     { type: 'orderedList', items: [{ parts }, ...] }  — when every line in
+       the block opens with a `1. ` / `2. ` marker
+     { type: 'bulletList', items: [{ parts }, ...] }   — when every line
+       opens with `- `
+     { type: 'paragraph', parts }                       — otherwise, its
+       lines joined with a space
 
    `parts` is an array of:
      { text }               — plain prose
@@ -654,22 +697,34 @@ const parseInline = (str) => {
   return parts;
 };
 
-export const parseAnswerMarkdown = (markdown) => {
-  const lines = markdown.split('\n').filter((line) => line.trim().length);
-  const isOrderedList =
-    lines.length > 0 && lines.every((line) => ORDERED_LIST_MARKER.test(line));
+const listItems = (lines, marker) =>
+  lines.map((line) => ({ parts: parseInline(line.replace(marker, '')) }));
 
-  if (isOrderedList) {
-    return {
-      type: 'orderedList',
-      items: lines.map((line) => ({
-        parts: parseInline(line.replace(ORDERED_LIST_MARKER, '')),
-      })),
-    };
-  }
-
-  return { type: 'paragraph', parts: parseInline(markdown) };
-};
+export const parseAnswerMarkdown = (markdown) =>
+  markdown
+    .split(/\n\s*\n/)
+    .map((block) =>
+      block
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean),
+    )
+    .filter((lines) => lines.length > 0)
+    .map((lines) => {
+      if (lines.every((line) => ORDERED_LIST_MARKER.test(line))) {
+        return {
+          type: 'orderedList',
+          items: listItems(lines, ORDERED_LIST_MARKER),
+        };
+      }
+      if (lines.every((line) => BULLET_LIST_MARKER.test(line))) {
+        return {
+          type: 'bulletList',
+          items: listItems(lines, BULLET_LIST_MARKER),
+        };
+      }
+      return { type: 'paragraph', parts: parseInline(lines.join(' ')) };
+    });
 
 export const subscribed = {
   title: 'Thanks for signing up | Hacktoberfest 2026',
@@ -1161,14 +1216,15 @@ export const online = {
   faq: {
     eyebrow: 'Common questions',
     heading: { lead: 'New here?', accent: 'Start with these.' },
+    /* Five at most, and only what the page above doesn't already say:
+       the milestones band covers how the pack is earned, the sticker
+       book band links to /activities. */
     ids: [
       'what-is-hacktoberfest',
-      'what-is-a-virtual-sticker',
-      'is-it-free',
-      'need-to-be-a-developer',
-      'what-is-mymlh',
-      'why-moving-away-from-prs',
+      'still-submit-pull-requests',
       'who-is-eligible',
+      'how-dev-challenges-work',
+      'sticker-pack-arrival',
     ],
     cta: { label: 'See all FAQs', href: '/questions/' },
   },
@@ -1343,17 +1399,14 @@ export const inPerson = {
     eyebrow: 'Before you go',
     heading: { lead: 'Questions', accent: 'before you go.' },
     intro: 'The practical ones first. The full list is on the FAQ page.',
+    /* Five at most, and only what the page above doesn't already say:
+       the formats band covers what a Fest is, the laptop and the team. */
     ids: [
       'is-it-free',
-      'what-to-bring',
-      'come-alone',
-      'more-than-one-fest',
-      'what-is-a-fest',
-      'fest-formats',
-      'what-is-a-virtual-sticker',
-      'will-everyone-get-a-tshirt',
-      'why-moving-away-from-prs',
-      'how-to-apply-to-host',
+      'event-details',
+      'tshirts-and-swag',
+      'certificate',
+      'fest-help',
     ],
     cta: { label: 'See all FAQs', href: '/questions/' },
   },

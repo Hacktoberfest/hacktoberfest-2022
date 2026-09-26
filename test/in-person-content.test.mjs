@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { faq, inPerson, schedule } from '../src/data/content.mjs';
+import { answerText, faq, inPerson, schedule } from '../src/data/content.mjs';
 import { DAY_ICONS } from '../src/components/WorldLanding/dayIcons.js';
 
 /* The in-person landing page's copy: the same voice checks the online
@@ -59,11 +59,11 @@ test('every FAQ id on the page resolves to a real item, the practical ones first
       `${id} is not in faq.items`,
     );
   });
+  assert.ok(inPerson.faq.ids.length <= 5, 'the page shows five at most');
   assert.equal(inPerson.faq.ids[0], 'is-it-free');
-  assert.ok(inPerson.faq.ids.includes('what-is-a-fest'));
-  assert.ok(inPerson.faq.ids.includes('fest-formats'));
-  assert.ok(inPerson.faq.ids.includes('why-moving-away-from-prs'));
-  assert.ok(inPerson.faq.ids.includes('what-is-a-virtual-sticker'));
+  assert.ok(inPerson.faq.ids.includes('event-details'));
+  assert.ok(inPerson.faq.ids.includes('tshirts-and-swag'));
+  assert.ok(inPerson.faq.ids.includes('fest-help'));
 });
 
 /* The room first: the hero sells the people and the swag, and the
@@ -167,33 +167,22 @@ test('the nearby band says how many, and the close is a fork', () => {
   assert.equal(inPerson.onlineCallout.secondaryCta, 'Host a Fest');
 });
 
-/* The FAQ answers this page borrows, read against how the stickers
-   work: a second Fest earns a certificate, not a sticker; T-shirts are
-   while supplies last, and online the raffle is the only way; the pack
-   takes 3; the formats answer is for attendees; no "organizers". */
+/* The FAQ answers this page borrows, read against how Fests work: a
+   Fest check-in earns a certificate; T-shirts are while supplies last and
+   not promised online; details and questions go to the Fest's page and
+   its host; no "organizers". */
 test('the borrowed FAQ answers tell the same story', () => {
   const answer = (id) =>
-    faq.items
-      .find((item) => item.id === id)
-      .answer.map((segment) => segment.text ?? segment.markdown)
-      .join('');
-  assert.match(answer('more-than-one-fest'), /certificate/);
-  assert.match(answer('more-than-one-fest'), /Fest sticker once/);
-  assert.match(answer('will-everyone-get-a-tshirt'), /while supplies last/);
-  assert.match(answer('will-everyone-get-a-tshirt'), /Completionist raffle/);
-  assert.doesNotMatch(answer('will-everyone-get-a-tshirt'), /not be eligible/);
-  assert.match(answer('what-is-a-virtual-sticker'), /that’s 3/);
-  assert.match(answer('fest-formats'), /\*\*Meetup:\*\*/);
-  assert.match(answer('fest-formats'), /while supplies last/);
-  assert.doesNotMatch(answer('fest-formats'), /DEV Badges|reimbursement/);
+    answerText(faq.items.find((item) => item.id === id).answer);
+  assert.match(answer('certificate'), /in-person participants/);
+  assert.match(answer('tshirts-and-swag'), /while supplies last/);
+  assert.match(answer('tshirts-and-swag'), /not promised to online/);
+  assert.match(answer('event-details'), /accommodations/);
+  assert.match(answer('fest-help'), /Contact Host/);
   assert.doesNotMatch(answer('is-it-free'), /activit/i);
-  assert.match(answer('how-to-apply-to-host'), /^Hosts apply/);
-  [
-    'is-it-free',
-    'fest-formats',
-    'how-to-apply-to-host',
-    'will-everyone-get-a-tshirt',
-  ].forEach((id) => assert.doesNotMatch(answer(id), /organi[sz]er/i, id));
+  inPerson.faq.ids.forEach((id) =>
+    assert.doesNotMatch(answer(id), /organi[sz]er/i, id),
+  );
   /* And the schedule page's line, found on the way. */
   assert.doesNotMatch(schedule.countsNote.text, /activit/i);
   assert.match(schedule.countsNote.text, /its own sticker/);

@@ -1,16 +1,19 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { answerLinks, answerText, faq } from '../src/data/content.mjs';
+import {
+  answerLinks,
+  answerText,
+  faq,
+  parseAnswerMarkdown,
+} from '../src/data/content.mjs';
 
 test('every FAQ item has a stable id, a question and a non-empty answer', () => {
-  // 30 items across 6 sections, up from the homepage's original 5 — see
-  // the /questions page design doc for the full set; need-a-fest, the
-  // three newcomer questions (is-it-free, need-to-be-a-developer,
-  // what-is-mymlh) and the three before-you-go questions (what-to-bring,
-  // come-alone, more-than-one-fest) arrived with the world landing pages,
-  // and what-is-a-virtual-sticker with the sticker book.
-  assert.equal(faq.items.length, 30);
+  // 33 items across 5 sections: the participant FAQ's 30 (2026-09-26), plus
+  // how-2026-differs and get-involved-in-open-source, the two pull-request
+  // questions carried over from the host-era FAQ, and sticker-pack-arrival,
+  // restored from it on request.
+  assert.equal(faq.items.length, 33);
 
   const ids = faq.items.map((item) => item.id);
   assert.equal(new Set(ids).size, ids.length, 'ids must be unique');
@@ -57,17 +60,55 @@ test('answerText joins the prose without leaking URLs into it', () => {
 });
 
 test('answerText on a markdown segment leaks no markup', () => {
-  // fest-formats is the one answer that uses the markdown segment kind —
-  // a numbered list with bold lead-ins — so it's the real-content case
-  // that has to come out as plain prose for llms-full.txt and the content
-  // tests to compare against the rendered page.
-  const item = faq.items.find((entry) => entry.id === 'fest-formats');
-  assert.ok(item, 'fest-formats should still exist');
+  // how-to-take-part is the answer that uses the markdown segment kind — a
+  // paragraph, a bulleted list with bold lead-ins, and a closing line — so
+  // it's the real-content case that has to come out as plain prose for
+  // llms-full.txt and the content tests to compare against the rendered
+  // page.
+  const item = faq.items.find((entry) => entry.id === 'how-to-take-part');
+  assert.ok(item, 'how-to-take-part should still exist');
 
   const text = answerText(item.answer);
   assert.doesNotMatch(text, /\*\*/);
   assert.doesNotMatch(text, /\]\(/);
   assert.doesNotMatch(text, /http/);
+  assert.doesNotMatch(text, /(^|\s)- /, 'no bullet markers');
+  assert.doesNotMatch(text, / {2}/, 'blank lines leave no double spaces');
+  assert.match(text, /DEV Challenges\. In person: Find a Fest/);
+});
+
+test('parseAnswerMarkdown splits blocks on blank lines', () => {
+  const blocks = parseAnswerMarkdown(
+    'Intro with [a link](/my/).\n\n- **One:** first\n- Two\n\n1. Uno\n2. Dos\n\nOutro',
+  );
+
+  assert.deepEqual(
+    blocks.map((block) => block.type),
+    ['paragraph', 'bulletList', 'orderedList', 'paragraph'],
+  );
+  assert.deepEqual(blocks[0].parts, [
+    { text: 'Intro with ' },
+    { text: 'a link', href: '/my/' },
+    { text: '.' },
+  ]);
+  assert.deepEqual(blocks[1].items[0].parts, [
+    { text: 'One:', bold: true },
+    { text: ' first' },
+  ]);
+  assert.equal(blocks[2].items.length, 2);
+});
+
+test('parseAnswerMarkdown keeps a single line as one paragraph', () => {
+  assert.deepEqual(parseAnswerMarkdown('Just **one** line.'), [
+    {
+      type: 'paragraph',
+      parts: [
+        { text: 'Just ' },
+        { text: 'one', bold: true },
+        { text: ' line.' },
+      ],
+    },
+  ]);
 });
 
 test('answerLinks collects link destinations in order', () => {
@@ -107,18 +148,36 @@ test('no answer reaches a Typeform through an href', () => {
     );
 });
 
-test('the hosting-application answer sends the reader to the MLH host portal', () => {
-  // organize was retired in the FAQ restructure; how-to-apply-to-host is
-  // its successor, and it links straight out to the host portal rather
-  // than to /host/.
-  const item = faq.items.find((entry) => entry.id === 'how-to-apply-to-host');
+/* The FAQ is for participants now. The host-era questions (applying,
+   venues, reimbursement, OrganizerHQ, deliverables, sponsorship) left with
+   the 2026-09-26 rewrite, and the house term for the people running a Fest
+   stays "host" throughout. */
+test('the FAQ speaks to participants, and calls Fest runners hosts', () => {
+  faq.items.forEach((item) => {
+    const text = `${item.question} ${answerText(item.answer)}`;
+    assert.doesNotMatch(text, /organi[sz]er/i, item.id);
+    assert.doesNotMatch(text, /reimburse|OrganizerHQ|sponsor/i, item.id);
+  });
+});
 
-  assert.ok(item, 'the how-to-apply-to-host question should still exist');
-  assert.match(answerText(item.answer), /host portal/i);
-  assert.ok(
-    answerLinks(item.answer).some((href) =>
-      href.startsWith('https://organize.mlh.com/host/'),
-    ),
-    'the answer should link to the MLH host portal',
+test('the pull request answer says PRs no longer count, up front', () => {
+  const item = faq.items.find(
+    (entry) => entry.id === 'still-submit-pull-requests',
   );
+
+  assert.ok(item);
+  assert.equal(item.section, 'pull-requests');
+  assert.match(
+    answerText(item.answer),
+    /^Pull requests and merge requests will no longer count/,
+  );
+  assert.ok(faq.homepage.ids.includes('still-submit-pull-requests'));
+});
+
+test('help answers route to the right MLH inbox', () => {
+  const links = (id) =>
+    answerLinks(faq.items.find((entry) => entry.id === id).answer);
+
+  assert.deepEqual(links('general-help'), ['mailto:hacktoberfest@mlh.io']);
+  assert.deepEqual(links('report-a-concern'), ['mailto:incidents@mlh.io']);
 });

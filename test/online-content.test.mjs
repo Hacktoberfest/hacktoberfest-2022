@@ -1,7 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { activitiesPage, faq, my, online } from '../src/data/content.mjs';
+import {
+  activitiesPage,
+  answerLinks,
+  answerText,
+  faq,
+  my,
+  online,
+} from '../src/data/content.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import { REWARD_STICKERS } from '../src/lib/stickerImage.mjs';
 import { SCENARIOS } from '../src/data/fixtures.mjs';
@@ -162,25 +169,43 @@ test('every FAQ id on the page resolves to a real item', () => {
       `${id} is not in faq.items`,
     );
   });
+  assert.ok(online.faq.ids.length <= 5, 'the page shows five at most');
   assert.equal(online.faq.ids[0], 'what-is-hacktoberfest');
-  assert.ok(online.faq.ids.includes('what-is-a-virtual-sticker'));
-  assert.ok(online.faq.ids.includes('what-is-mymlh'));
-  assert.ok(online.faq.ids.includes('why-moving-away-from-prs'));
+  assert.ok(online.faq.ids.includes('still-submit-pull-requests'));
+  assert.ok(online.faq.ids.includes('how-dev-challenges-work'));
+  assert.ok(online.faq.ids.includes('sticker-pack-arrival'));
 });
 
-test('the sticker FAQ says what one is and what the counts unlock', () => {
+test('the sticker pack FAQ sends people to /my and asks for more than a sign-in', () => {
   const item = faq.items.find(
-    (entry) => entry.id === 'what-is-a-virtual-sticker',
+    (entry) => entry.id === 'how-to-earn-sticker-pack',
   );
   assert.ok(item);
-  assert.equal(item.section, 'general');
-  assert.match(item.answer[0].text, /12 hours/);
-  assert.match(item.answer[0].text, /Completionist/);
+  assert.ok(answerLinks(item.answer).includes('/my/'));
+  assert.match(answerText(item.answer), /signing in alone does not qualify/);
 });
 
-test('the Fest FAQ answers without promising a T-shirt online', () => {
-  const item = faq.items.find((entry) => entry.id === 'need-a-fest');
+test('the arrival FAQ gives the shipping window', () => {
+  const item = faq.items.find((entry) => entry.id === 'sticker-pack-arrival');
   assert.ok(item);
-  assert.equal(item.section, 'general');
-  assert.match(item.answer[0].text, /^No\./);
+  assert.match(answerText(item.answer), /after Hacktoberfest concludes/);
+  assert.match(answerText(item.answer), /30 to 60 days/);
+});
+
+/* The list of what counts lives on /activities, generated from
+   eligibility.mjs, so the FAQ points there instead of keeping a second
+   list that can drift (it once named "recordings", which earn nothing). */
+test('the activities FAQ points to /activities rather than listing them', () => {
+  const item = faq.items.find(
+    (entry) => entry.id === 'sticker-pack-activities',
+  );
+  assert.ok(item);
+  assert.deepEqual(answerLinks(item.answer), ['/activities/']);
+  assert.doesNotMatch(answerText(item.answer), /recording/i);
+});
+
+test('the swag FAQ answers without promising a T-shirt online', () => {
+  const item = faq.items.find((entry) => entry.id === 'tshirts-and-swag');
+  assert.ok(item);
+  assert.match(answerText(item.answer), /not promised to online participants/);
 });
