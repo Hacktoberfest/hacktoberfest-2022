@@ -103,3 +103,66 @@ test('an API that sends no code key leaves the key off, so no card renders', () 
 
   assert.equal('checkInCode' in result.dashboard, false);
 });
+
+/* The Photo gallery. The API sends `photos` only to the Fest's hosts, and
+   only once it knows about photos at all. */
+
+const gallery =
+  'https://majorleaguehacking.smugmug.com/Event-Photos/Hacktoberfest-2026/Tokyo/n-AbC123';
+const upload = 'https://majorleaguehacking.smugmug.com/upload/AbC123/upload';
+
+test('the SmugMug links pass through, trimmed', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { photos: { galleryUrl: ` ${gallery} `, uploadUrl: upload } },
+  });
+
+  assert.deepEqual(result.dashboard.photos, {
+    galleryUrl: gallery,
+    uploadUrl: upload,
+  });
+});
+
+test('links MLH has not sent yet read as null, so the card says they are coming', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { photos: { galleryUrl: null, uploadUrl: null } },
+  });
+
+  assert.deepEqual(result.dashboard.photos, {
+    galleryUrl: null,
+    uploadUrl: null,
+  });
+});
+
+test('a link that is not https never reaches an href', () => {
+  for (const value of ['http://example.com', 'javascript:alert(1)', '', 42]) {
+    const result = normalizeDashboard({
+      fest: body.fest,
+      dashboard: { photos: { galleryUrl: value, uploadUrl: value } },
+    });
+
+    assert.deepEqual(result.dashboard.photos, {
+      galleryUrl: null,
+      uploadUrl: null,
+    });
+  }
+});
+
+test('an unreadable photos value reads as no links yet', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { photos: null },
+  });
+
+  assert.deepEqual(result.dashboard.photos, {
+    galleryUrl: null,
+    uploadUrl: null,
+  });
+});
+
+test('an API that sends no photos key leaves the key off, so no card renders', () => {
+  const result = normalizeDashboard(body);
+
+  assert.equal('photos' in result.dashboard, false);
+});

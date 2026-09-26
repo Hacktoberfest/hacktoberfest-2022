@@ -6,6 +6,7 @@ import PageHero from 'components/PageHero';
 import { fests, my } from 'data/content.mjs';
 import { carrierFor } from 'lib/carrier.mjs';
 import { countryCodeFor } from 'lib/countryFlag.mjs';
+import { festFormatFromName } from 'lib/festFormat.mjs';
 import { splitFestName } from 'lib/festName.mjs';
 import {
   checkInsVisible,
@@ -183,6 +184,40 @@ const CopyIcon = () => (
    the button is ready again before anyone wonders. */
 const COPIED_FOR_MS = 1600;
 
+/* The dashboard's one clipboard state machine: idle, then "copied" for
+   COPIED_FOR_MS, or "failed" when the browser refuses (an http origin, or
+   no clipboard API). Resolves true on success so a caller can do more on
+   failure, as the check-in code card does by revealing its code. Per
+   instance, so two rows never share one "Copied". */
+const useCopy = (text) => {
+  const [state, setState] = useState('idle');
+  const revert = useRef(null);
+
+  useEffect(() => () => clearTimeout(revert.current), []);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setState('copied');
+      clearTimeout(revert.current);
+      revert.current = setTimeout(() => setState('idle'), COPIED_FOR_MS);
+      return true;
+    } catch {
+      setState('failed');
+      return false;
+    }
+  };
+
+  return [state, copy];
+};
+
+const copyLabelFor = (state, strings) =>
+  state === 'copied'
+    ? strings.copiedCta
+    : state === 'failed'
+      ? strings.copyFailedCta
+      : strings.copyCta;
+
 /* One package: the carrier read from the number's shape, the number in the
    mono face so it can be read aloud, and two actions. The carrier's own
    tracking page is the primary one; Copy is the quiet second, for hosts
@@ -192,31 +227,9 @@ const COPIED_FOR_MS = 1600;
    share one "Copied". */
 const Parcel = ({ number }) => {
   const { carrier, url } = carrierFor(number);
-  const [copyState, setCopyState] = useState('idle');
-  const revert = useRef(null);
   const copy = my.dashboard.pack;
-
-  useEffect(() => () => clearTimeout(revert.current), []);
-
-  const onCopy = async () => {
-    try {
-      /* Throws on an http origin or a browser without the API; either way
-         the number is on screen and selectable, and the label says so. */
-      await navigator.clipboard.writeText(number);
-      setCopyState('copied');
-      clearTimeout(revert.current);
-      revert.current = setTimeout(() => setCopyState('idle'), COPIED_FOR_MS);
-    } catch {
-      setCopyState('failed');
-    }
-  };
-
-  const copyLabel =
-    copyState === 'copied'
-      ? copy.copiedCta
-      : copyState === 'failed'
-        ? copy.copyFailedCta
-        : copy.copyCta;
+  const [copyState, onCopy] = useCopy(number);
+  const copyLabel = copyLabelFor(copyState, copy);
 
   return (
     <li className={styles.parcel}>
@@ -274,10 +287,7 @@ const MASK = '•';
 const CheckInCodeCard = ({ code, manageUrl }) => {
   const copy = my.dashboard.checkInCode;
   const [shown, setShown] = useState(false);
-  const [copyState, setCopyState] = useState('idle');
-  const revert = useRef(null);
-
-  useEffect(() => () => clearTimeout(revert.current), []);
+  const [copyState, copyCode] = useCopy(code);
 
   if (code === null) {
     return (
@@ -306,25 +316,12 @@ const CheckInCodeCard = ({ code, manageUrl }) => {
   }
 
   const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopyState('copied');
-      clearTimeout(revert.current);
-      revert.current = setTimeout(() => setCopyState('idle'), COPIED_FOR_MS);
-    } catch {
-      /* No clipboard (an http origin, or a browser without the API): show
-         the code so it can be selected by hand, and say so. */
-      setShown(true);
-      setCopyState('failed');
-    }
+    /* No clipboard: show the code so it can be selected by hand. The
+       button already says so. */
+    if (!(await copyCode())) setShown(true);
   };
 
-  const copyLabel =
-    copyState === 'copied'
-      ? copy.copiedCta
-      : copyState === 'failed'
-        ? copy.copyFailedCta
-        : copy.copyCta;
+  const copyLabel = copyLabelFor(copyState, copy);
   const characters = [...code];
   const masked = MASK.repeat(characters.length);
 
@@ -418,6 +415,82 @@ const CheckInCodeCard = ({ code, manageUrl }) => {
           <LockIcon />
           {copy.hint}
         </p>
+      </div>
+    </section>
+  );
+};
+
+/* One of the Fest's two SmugMug links, as a pack-style row. The link is a
+   button and never printed: hosts put this page on a projector, and the
+   upload link lets anyone add photos to MLH's album. */
+const PhotoLink = ({ label, hint, href, cta, primary }) => (
+  <li className={styles.parcel}>
+    <span className={styles.carrier}>{label}</span>
+    <span className={styles.photoHint}>{hint}</span>
+    <span className={styles.parcelActions}>
+      <a
+        className={
+          primary
+            ? styles.parcelButton
+            : `${styles.parcelButton} ${styles.parcelButtonGhost}`
+        }
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {cta}
+      </a>
+    </span>
+  </li>
+);
+
+/* The Fest's SmugMug album, which MLH makes for every Fest some time after
+   it is approved. Framed around sharing: the gallery is for the host's
+   community, the upload link for whoever takes the photos. A Hack Day is
+   told the photos count toward its reimbursement; a Meet Up, or a name
+   festFormatFromName cannot place, is not, since a wrong claim about money
+   costs a host more than a missing one. Upload is the host's task, so it
+   alone gets the orange button. */
+const PhotoGalleryCard = ({ fest, photos }) => {
+  const copy = my.dashboard.photos;
+  const hackDay = festFormatFromName(fest.name) === 'hackDay';
+  const { galleryUrl, uploadUrl } = photos;
+
+  return (
+    <section className={styles.pack} aria-labelledby="photos-heading">
+      <h2 className={styles.packTitle} id="photos-heading">
+        {copy.title}
+      </h2>
+      <div className={styles.packBody}>
+        <p className={styles.packLine}>{copy.intro}</p>
+        {hackDay && (
+          <p className={`${styles.packLine} ${styles.photoRequired}`}>
+            {copy.hackDayRequired}
+          </p>
+        )}
+        {galleryUrl || uploadUrl ? (
+          <ul className={styles.parcels}>
+            {uploadUrl && (
+              <PhotoLink
+                label={copy.upload.label}
+                hint={copy.upload.hint}
+                href={uploadUrl}
+                cta={copy.upload.cta}
+                primary
+              />
+            )}
+            {galleryUrl && (
+              <PhotoLink
+                label={copy.gallery.label}
+                hint={copy.gallery.hint}
+                href={galleryUrl}
+                cta={copy.gallery.cta}
+              />
+            )}
+          </ul>
+        ) : (
+          <p className={styles.packHint}>{copy.pending}</p>
+        )}
       </div>
     </section>
   );
@@ -578,6 +651,13 @@ const FestDashboard = ({ fest, dashboard, now }) => {
               )}
             </div>
           </section>
+        )}
+
+        {/* Undefined only when the API predates the Photo gallery, which
+            sends no key at all; links still to come are nulls and still get
+            the card. See normalizeDashboard. */}
+        {dashboard && dashboard.photos && (
+          <PhotoGalleryCard fest={fest} photos={dashboard.photos} />
         )}
       </div>
 

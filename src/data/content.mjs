@@ -1888,6 +1888,28 @@ export const my = {
       heading: { lead: 'This Fest', accent: 'is not yours.' },
       body: 'You are not listed as a host of this Fest. If you think you should be, ask the host who applied to add you in Organizer HQ.',
     },
+    /* The Fest's SmugMug album. MLH makes one per Fest and gives its hosts
+       two links: the gallery, to share, and a private upload link. For a
+       Hack Day the photos are part of what reimbursement asks for, which is
+       the only format told so. The links are buttons, never printed: hosts
+       project this page. */
+    photos: {
+      title: 'Photo gallery',
+      intro: 'Share photos from your Fest with your community and with MLH.',
+      hackDayRequired:
+        'Uploading photos is required for your Hack Day reimbursement.',
+      pending: 'Your photo gallery links will appear here soon.',
+      upload: {
+        label: 'Upload',
+        cta: 'Upload photos',
+        hint: 'Only share this link with people taking photos at your Fest.',
+      },
+      gallery: {
+        label: 'Gallery',
+        cta: 'View gallery',
+        hint: 'Share this with your community once photos are up.',
+      },
+    },
     notFound: {
       eyebrow: 'Fest dashboard',
       heading: { lead: 'We could not', accent: 'find that Fest.' },

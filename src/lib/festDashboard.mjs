@@ -42,6 +42,23 @@ const checkInCode = (value) => {
   return code.length > 0 ? code : null;
 };
 
+/* One of the Fest's SmugMug links, or null. The API already refuses
+   anything that is not an https SmugMug link; this only makes sure nothing
+   but an https URL can ever land in an href. */
+const httpsUrl = (value) => {
+  if (typeof value !== 'string') return null;
+  const url = value.trim();
+  return /^https:\/\//i.test(url) ? url : null;
+};
+
+const photos = (value) => {
+  const links = value && typeof value === 'object' ? value : {};
+  return {
+    galleryUrl: httpsUrl(links.galleryUrl),
+    uploadUrl: httpsUrl(links.uploadUrl),
+  };
+};
+
 /* The deploy-order seam, in the same spirit as lib/experience.mjs: an API
    answering without the dashboard half degrades to zeros rather than
    rendering undefined. A payload with no fest is not a page at all, and the
@@ -68,6 +85,11 @@ export const normalizeDashboard = (body) => {
       ...('checkInCode' in dashboard
         ? { checkInCode: checkInCode(dashboard.checkInCode) }
         : {}),
+      /* Same seam as the check-in code. An API from before the Photo
+         gallery omits the key, and the page shows no card rather than
+         telling a host their links are coming. Present with nulls is the
+         API saying MLH has not sent them yet. */
+      ...('photos' in dashboard ? { photos: photos(dashboard.photos) } : {}),
     },
   };
 };

@@ -33,6 +33,10 @@ test('the exported page carries no Fest data of its own', async () => {
     'the exported HTML should not contain the check-in code card',
   );
   assert.ok(
+    !html.includes(my.dashboard.photos.intro),
+    'the exported HTML should not contain the Photo gallery card',
+  );
+  assert.ok(
     html.includes(my.loading),
     'the exported HTML should be the loading surface',
   );

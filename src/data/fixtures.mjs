@@ -1102,6 +1102,11 @@ export const FEST_DASHBOARDS = Object.freeze({
     checkInsCount: 31,
     trackingNumbers: ['877489462372'],
     checkInCode: 'K7RQ2W',
+    /* "Hacktober Fest Tokyo" names no format, so no reimbursement line. */
+    photos: {
+      galleryUrl: 'https://example.invalid/smugmug/tokyo/gallery',
+      uploadUrl: 'https://example.invalid/smugmug/tokyo/upload',
+    },
   },
   'fest-melbourne': {
     registrationsCount: 52,
@@ -1114,22 +1119,35 @@ export const FEST_DASHBOARDS = Object.freeze({
     checkInsCount: 0,
     trackingNumbers: ['AB123456789XY'],
     checkInCode: null,
+    /* A Hack Day with its album: the reimbursement line and both links. */
+    photos: {
+      galleryUrl: 'https://example.invalid/smugmug/toronto/gallery',
+      uploadUrl: 'https://example.invalid/smugmug/toronto/upload',
+    },
   },
   'fest-azores': {
     registrationsCount: 12,
     checkInsCount: 0,
     trackingNumbers: [],
     checkInCode: 'AZ4R3S',
+    /* A Meet Up: both links, no reimbursement line. */
+    photos: {
+      galleryUrl: 'https://example.invalid/smugmug/azores/gallery',
+      uploadUrl: 'https://example.invalid/smugmug/azores/upload',
+    },
   },
 });
 
 /* What an event with no dashboard row of its own shows: a Fest nobody has
-   registered for yet, which is the truthful September answer. */
+   registered for yet, and whose album MLH has not made yet, which is the
+   truthful September answer. fest-guimaraes, a Hack Day, lands here: the
+   "coming soon" state with its reimbursement line. */
 export const EMPTY_FEST_DASHBOARD = Object.freeze({
   registrationsCount: 0,
   checkInsCount: 0,
   trackingNumbers: [],
   checkInCode: null,
+  photos: { galleryUrl: null, uploadUrl: null },
 });
 
 export const DEFAULT_SCENARIO = 'no-address';

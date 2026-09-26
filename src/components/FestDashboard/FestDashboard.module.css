@@ -792,3 +792,18 @@
 .codeNoneAction {
   margin: 8px 0 0;
 }
+
+/* The Photo gallery card wears the pack's rows: a chip naming the link, a
+   line saying who it is for where the tracking number would be (in the body
+   face, not the mono one), and the actions. */
+.photoHint {
+  grid-area: number;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.9rem;
+}
+
+/* The Hack Day reimbursement line: a requirement, not a suggestion. */
+.photoRequired {
+  font-weight: 700;
+}
