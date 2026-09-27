@@ -63,8 +63,8 @@
   line-height: 1.55;
 }
 
-/* Three across from desktop; the directory's own grid rule handles the
-   rest of the widths. */
+/* Three across from desktop, two rows of them; the directory's own grid
+   rule handles the rest of the widths. */
 .list {
   margin-bottom: 32px;
 }

@@ -11,16 +11,18 @@ import styles from './NearbyFests.module.css';
 
 /* The in-person landing page's proof: the soonest Fests, read from the
    same endpoint and rendered with the same card as the directory, so the
-   two never disagree about a Fest. Three, sorted by date; the directory
-   handles search, the map and "nearest to me", and the button leads
-   there.
+   two never disagree about a Fest. Six, sorted by date, two rows of
+   three on desktop; the directory handles search, the map and "nearest
+   to me", and the button leads there, counting what it will find: every
+   Fest the directory lists, past ones included, the number its own
+   results line shows before a search.
 
    Client-rendered after a fetch, so CSS Modules throughout (the rule
    FestsDirectory follows). The band's frame, heading and intro are static
    and in the export; the cards arrive with the first paint after
    hydration. A card opens the Fest in the directory's modal, by the same
    URL the directory itself writes for a deep link. */
-const COUNT = 3;
+const COUNT = 6;
 
 const NearbyFests = () => {
   const [state, setState] = useState({ status: 'loading', fests: [] });
@@ -97,7 +99,7 @@ const NearbyFests = () => {
 
         <div className={styles.actions}>
           <a className="hf-button" href="/fests/">
-            {inPerson.nearby.cta}
+            {inPerson.nearby.cta(state.fests.length)}
           </a>
         </div>
       </div>

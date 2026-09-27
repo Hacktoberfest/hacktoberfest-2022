@@ -42,7 +42,7 @@ test('/in-person builds, indexed, with its hero, its one CTA and both prints', a
 
 test('/in-person tells what you get on the day, then the steps in two phases', async () => {
   const html = decode(await readOutput('in-person/index.html'));
-  /* On the day: four cards, each with its picture, and the disclaimer. */
+  /* On the day: four cards, each with its picture, and no disclaimer. */
   inPerson.onTheDay.cards.forEach((card) => {
     assert.ok(html.includes(card.title), `missing card: ${card.id}`);
     assert.ok(html.includes(card.at), `missing tag: ${card.id}`);
@@ -52,7 +52,6 @@ test('/in-person tells what you get on the day, then the steps in two phases', a
       `${card.id} is not a sticker`,
     );
   });
-  assert.ok(html.includes(inPerson.onTheDay.disclaimer));
   const virtual = inPerson.onTheDay.cards.find((card) => card.link);
   assert.match(
     html,
@@ -72,12 +71,15 @@ test('/in-person tells what you get on the day, then the steps in two phases', a
   assert.ok(!html.includes('is on the Fests page'), 'no hint line');
   assert.ok(!html.includes('the whole thing'), 'no intro line');
   assert.ok(!html.includes('the door does the rest'), 'no doors');
-  /* On the day before the steps, the steps before the nearby band. */
+  /* On the day before the steps, the steps before the nearby band.
+     Read from the body: the meta description says "Find a Fest near
+     you" too. */
+  const body = html.slice(html.indexOf('<body'));
   assert.ok(
-    html.indexOf(inPerson.onTheDay.cards[0].title) <
-      html.indexOf(inPerson.earn.steps[0].title) &&
-      html.indexOf(inPerson.earn.steps[0].title) <
-        html.indexOf(inPerson.nearby.heading.accent),
+    body.indexOf(inPerson.onTheDay.cards[0].title) <
+      body.indexOf(inPerson.earn.steps[0].title) &&
+      body.indexOf(inPerson.earn.steps[0].title) <
+        body.indexOf(inPerson.nearby.heading.accent),
     'on the day, then steps, then nearby',
   );
   /* Nothing from the old story survives on the page. */

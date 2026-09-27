@@ -36,17 +36,17 @@ test('the page names no session, date or specific Fest', () => {
   assert.doesNotMatch(prose, /Brooklyn|London|Nairobi/);
 });
 
-/* Swag, stickers and T-shirts are available at Fests while supplies
-   last. Nothing on the page promises one to anyone. */
+/* Swag, stickers, T-shirts and Arduinos are available at Fests while
+   supplies last. Nothing on the page promises one to anyone. */
 test('swag is available while supplies last, never promised', () => {
   const prose = collectStrings(inPerson).join(' ');
-  const mentions = prose.match(/T.shirts?/g) || [];
+  const mentions = prose.match(/T.shirts?/gi) || [];
   assert.ok(mentions.length >= 2, 'the T-shirt is mentioned');
   assert.doesNotMatch(
     prose,
     /hands? out|eligible for a T.shirt|makes you eligible/i,
   );
-  assert.match(inPerson.intro, /swag and stickers while supplies last/);
+  assert.match(inPerson.intro, /take home swag while supplies last/);
   inPerson.onTheDay.cards
     .filter((card) => card.id !== 'prizes' && card.id !== 'virtual')
     .forEach((card) => assert.match(card.copy, /while supplies last/, card.id));
@@ -76,7 +76,7 @@ test('the hero carries two prints, sells the room, and has no facts strip', () =
     assert.ok(photo.alt.length > 10);
   });
   assert.match(inPerson.intro, /^A Fest is a free, one-day, in-person/);
-  assert.match(inPerson.intro, /meet the people who build near you/);
+  assert.match(inPerson.intro, /meet your community/);
   assert.doesNotMatch(inPerson.intro, /sticker book|virtual/);
   assert.equal(inPerson.facts, null);
   assert.match(inPerson.eyebrow, /· Free$/);
@@ -91,35 +91,37 @@ test('what a Fest is like: the two formats, and nothing under them', () => {
   inPerson.formats.cards.forEach((card) =>
     assert.ok(card.lines.length >= 2, card.id),
   );
-  assert.match(inPerson.formats.intro, /up to 12 hours/);
+  assert.match(inPerson.formats.intro, /Fest format/);
   assert.equal(inPerson.formats.bring, undefined);
   assert.equal(inPerson.formats.who, undefined);
 });
 
 /* On the day: the room's own rewards, four cards, none of them a
-   sticker: each carries a plain icon (components/WorldLanding/dayIcons). */
-test('on the day: swag, T-shirts, prizes at a Hack Day, the virtual rewards', () => {
+   sticker: each carries a plain icon (components/WorldLanding/dayIcons).
+   Every card that can says "while supplies last", so no disclaimer. */
+test('on the day: T-shirts and swag, Arduinos and prizes at a Hack Day, the virtual rewards', () => {
   const { cards, disclaimer } = inPerson.onTheDay;
   assert.deepEqual(
     cards.map((card) => card.id),
-    ['swag', 'tshirts', 'prizes', 'virtual'],
+    ['swag', 'arduinos', 'prizes', 'virtual'],
   );
   assert.deepEqual(
     cards.map((card) => card.icon),
-    ['hexagon', 'shirt', 'gift', 'rosette-discount-check'],
+    ['hexagon', 'bolt', 'gift', 'rosette-discount-check'],
   );
   cards.forEach((card) => {
     assert.ok(DAY_ICONS[card.icon], `${card.icon} has no icon`);
     assert.equal(card.art, undefined, `${card.id} is not a sticker`);
     assert.ok(card.at && card.title && card.copy, card.id);
   });
+  assert.equal(cards[1].at, 'Hack Days');
+  assert.match(cards[1].copy, /select Hack Days/);
   assert.equal(cards[2].at, 'Hack Days');
   const virtual = cards[3];
-  assert.match(virtual.copy, /online sticker book/);
+  assert.match(virtual.copy, /sticker book/);
   assert.match(virtual.copy, /certificate/);
-  assert.equal(virtual.link.href, '/online/');
-  assert.match(disclaimer, /while supplies last/);
-  assert.doesNotMatch(disclaimer, /mailed/);
+  assert.equal(virtual.link.href, '/my/');
+  assert.equal(disclaimer, undefined);
 });
 
 /* How it works: three plain steps in two groups, the register step
@@ -139,9 +141,8 @@ test('three steps in two phases, nothing under them', () => {
     ['Before the day', 'Before the day', 'On the day'],
   );
   const day = inPerson.earn.steps[2];
-  assert.match(day.title, /^Learn, build, and meet/);
-  assert.match(day.copy, /^Check in with the host/);
-  assert.match(day.copy, /people who build near you/);
+  assert.match(day.title, /^Learn, build, and connect/);
+  assert.match(day.copy, /^Check in with your host/);
   const prose = collectStrings(inPerson.earn).join(' ');
   assert.doesNotMatch(prose, /\bdoor\b/i);
   assert.doesNotMatch(prose, /whole thing|is on the Fests page/);
@@ -160,9 +161,12 @@ test('the nearby band says how many, and the close is a fork', () => {
   assert.equal(inPerson.nearby.eyebrow, 'Where to go');
   assert.equal(inPerson.nearby.heading.accent, 'Fests.');
   assert.match(inPerson.nearby.intro, /300\+ Fests/);
-  assert.ok(inPerson.nearby.cta);
+  /* The button counts every Fest once they load, and says no number
+     before then. */
+  assert.equal(inPerson.nearby.cta(0), 'See every Fest');
+  assert.equal(inPerson.nearby.cta(312), 'See every Fest (312)');
   assert.match(inPerson.onlineCallout.title, /No Fest near you/);
-  assert.match(inPerson.onlineCallout.body, /earns stickers/);
+  assert.match(inPerson.onlineCallout.body, /earn stickers/);
   assert.match(inPerson.onlineCallout.cta, /online/i);
   assert.equal(inPerson.onlineCallout.secondaryCta, 'Host a Fest');
 });

@@ -119,11 +119,14 @@ test('the three milestones, with the counts /my counts', () => {
     ['milestone-pack', 'milestone-complete', 'milestone-completionist'],
   );
   const [pack, complete, completionist] = online.milestones.cards;
-  assert.equal(pack.at, `Earn ${required + 1} stickers`);
-  assert.equal(complete.at, `Earn ${thresholds.complete + required} stickers`);
+  assert.equal(pack.at, `${required + 1} virtual stickers`);
+  assert.equal(
+    complete.at,
+    `${thresholds.complete + required} virtual stickers`,
+  );
   assert.equal(
     completionist.at,
-    `Earn ${thresholds.completionist + required} stickers`,
+    `${thresholds.completionist + required} virtual stickers`,
   );
   assert.match(online.milestones.intro, /rather than opening pull requests/);
   assert.deepEqual(
@@ -138,7 +141,7 @@ test('the three milestones, with the counts /my counts', () => {
     assert.equal(card.when, undefined, `${card.id} has no line under the rule`);
   });
   assert.match(online.milestones.disclaimer, /8-12 weeks/);
-  assert.equal(online.milestones.cards[0].title, 'Earn an IRL sticker pack');
+  assert.equal(online.milestones.cards[0].title, 'Receive an IRL sticker pack');
 });
 
 test('the collection lists every page the book has for home, and counts the rest', () => {

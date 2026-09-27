@@ -269,7 +269,7 @@ export const ACTIVITIES = Object.freeze([
     type: 'tools',
     art: 'droplet',
   }),
-  /* The two Hacktoberfest surveys, the first stickers on the Misc page
+  /* The two Hacktoberfest surveys, the stickers on the Surveys page
      (type `misc`: whatever belongs to no other). Each is earned when Customer.io tells
      FestNet the person finished it in Qualtrics (POST
      /api/webhooks/survey). The survey link is personal and only ever

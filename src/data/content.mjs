@@ -1100,23 +1100,23 @@ const MILESTONE_CARDS = [
   {
     id: 'pack',
     art: 'milestone-pack',
-    at: `Earn ${MILESTONE_STICKERS.pack} stickers`,
-    title: 'Earn an IRL sticker pack',
-    copy: 'Sign in, add your address, and earn any other virtual sticker to receive Hacktoberfest 2026 stickers in the mail.',
+    at: `${MILESTONE_STICKERS.pack} virtual stickers`,
+    title: 'Receive an IRL sticker pack',
+    copy: 'Sign in, add your address, and collect any other virtual sticker to receive Hacktoberfest 2026 stickers in the mail.',
   },
   {
     id: 'complete',
     art: 'milestone-complete',
-    at: `Earn ${MILESTONE_STICKERS.complete} stickers`,
+    at: `${MILESTONE_STICKERS.complete} virtual stickers`,
     title: 'Unlock a bonus holographic sticker',
     copy: `Earn any ${MILESTONE_STICKERS.complete} virtual stickers and we’ll include a bonus holographic sticker in your mailed sticker pack.`,
   },
   {
     id: 'completionist',
     art: 'milestone-completionist',
-    at: `Earn ${MILESTONE_STICKERS.completionist} stickers`,
+    at: `${MILESTONE_STICKERS.completionist} virtual stickers`,
     title: 'Become a Completionist',
-    copy: `Earn ${MILESTONE_STICKERS.completionist} stickers and you’re a Completionist, and entered in a raffle to win a Hacktoberfest 2026 t-shirt or an Arduino Uno Q board.`,
+    copy: `Collect ${MILESTONE_STICKERS.completionist} stickers and get automatically entered in a raffle to win a Hacktoberfest 2026 t-shirt or an Arduino Uno Q board. Congrats on being a Hacktoberfest Completionist!`,
   },
 ];
 
@@ -1130,16 +1130,16 @@ export const online = {
   eyebrow: 'Attend online · October 2026 · Free',
   heading: {
     lead: 'Hacktoberfest is back.',
-    accent: 'Earn stickers, get stickers.',
+    accent: 'Earn stickers, and get stickers shipped to your door.',
   },
   /* Written for someone who has never heard of Hacktoberfest: what it
      is, when, and that it is free, then the deal in two sentences.
      `introShort` is the phone's version, so the first screen there still
      reaches the buttons. */
   intro:
-    'Hacktoberfest is a free, month-long celebration of open source, every October. This year it’s about building with open source AI, and you can do all of it from wherever you are. Every challenge you complete earns a virtual sticker for your book. Earn enough and we’ll mail you real ones.',
+    'Hacktoberfest is a free, month-long celebration of open source throughout October. This year, it’s all about building with open-weight models and open-source AI. Join from anywhere in the world, collect virtual stickers by completing challenges, and we’ll mail you a sticker pack.',
   introShort:
-    'A free, month-long celebration of open source, every October. Complete challenges from wherever you are, earn a virtual sticker for each one, and we’ll mail you real ones.',
+    'A free, month-long celebration of open source throughout October. Join from anywhere in the world, collect virtual stickers by completing challenges, and we’ll mail you a sticker pack.',
   /* No facts strip: the eyebrow carries the one fact that matters
      (free), and the intro says the rest. */
   facts: null,
@@ -1180,7 +1180,7 @@ export const online = {
     /* The page's own line, not /my's: this is the first thing a stranger
        reads after the hero, so it says what October is. */
     intro:
-      'This Hacktoberfest, rather than opening pull requests, you’ll be learning about open-source and open-weight AI models. Complete challenges to unlock virtual stickers and earn real rewards.',
+      'This Hacktoberfest, rather than opening pull requests, you’ll be learning about open-source and open-weight AI models. Complete challenges to collect virtual stickers and receive real rewards.',
     cards: MILESTONE_CARDS,
     disclaimer: MILESTONES_DISCLAIMER,
   },
@@ -1194,7 +1194,7 @@ export const online = {
   collection: {
     eyebrow: 'The sticker book',
     heading: { lead: `${BOOK_SIZE} stickers`, accent: 'to collect.' },
-    intro: `There are ${BOOK_SIZE} stickers to earn this Hacktoberfest. Hover over one to see what unlocks it.`,
+    intro: `There are ${BOOK_SIZE} stickers to collect for this Hacktoberfest. Hover over one to see what unlocks it.`,
     pages: ['required', 'livestreams', 'dev', 'ghw', 'tools', 'misc'],
     inPerson: {
       title: 'In person',
@@ -1208,7 +1208,7 @@ export const online = {
      on the box, the middle one in front. */
   bookCallout: {
     title: 'Already collecting?',
-    body: 'Your sticker book has every sticker you’ve earned, the ones still to do, and what’s on its way in the mail. Sign in to see it.',
+    body: 'Your sticker book has every sticker you’ve collected. Sign in to see it.',
     cta: 'See your sticker book',
     href: '/my/',
     stickers: ['livestreams-1', 'milestone-pack', 'ghw'],
@@ -1233,7 +1233,7 @@ export const online = {
 export const inPerson = {
   title: 'Attend In Person | Hacktoberfest 2026',
   description:
-    'Hacktoberfest is back and it is coming to your city: hundreds of one-day Fests about open source AI, hosted by local communities. Find one near you, meet the people who build there, and take home Hacktoberfest swag and stickers while supplies last.',
+    'Hacktoberfest is back with 300+ in-person and online events all about open-source AI. Find a Fest near you, connect with your community, and take home swag while supplies last.',
   eyebrow: 'Attend in-person · October 2026 · Free',
   heading: {
     lead: 'Hacktoberfest is back.',
@@ -1241,14 +1241,15 @@ export const inPerson = {
   },
   /* Written for someone who has never heard of a Fest: what it is, that
      it is free, then the two things a room gives: the people, and the
-     swag. Nothing here promises a specific item; swag, stickers and
-     T-shirts are available while supplies last, every time the page says
-     so. The online sticker book is a bonus, introduced once beside the
-     steps (earn.online), never the headline. */
+     swag. Nothing here promises a specific item; swag, stickers,
+     T-shirts and Arduinos are available while supplies last, every time
+     the page says so. The online sticker book is a bonus, introduced once
+     on the Virtual rewards card, never the headline. The phone gets the
+     same line. */
   intro:
-    'A Fest is a free, one-day, in-person Hacktoberfest event hosted by a local community, all about building with open source AI. Come meet the people who build near you, and take home Hacktoberfest swag and stickers while supplies last.',
+    'A Fest is a free, one-day, in-person Hacktoberfest event all about open-source AI. Come meet your community, learn and explore, and take home swag while supplies last.',
   introShort:
-    'A Fest is a free, one-day, in-person event about building with open source AI, hosted by a local community. Meet the people who build near you, and take home swag while supplies last.',
+    'A Fest is a free, one-day, in-person Hacktoberfest event all about open-source AI. Come meet your community, learn and explore, and take home swag while supplies last.',
   /* No facts strip: the eyebrow carries the one fact that matters. */
   facts: null,
   /* One ask in the hero: find a Fest. Hosting has its own page, reached
@@ -1280,17 +1281,16 @@ export const inPerson = {
   formats: {
     eyebrow: 'What a Fest is like',
     heading: { lead: 'One day,', accent: 'two ways to spend it.' },
-    intro:
-      'Every Fest is one day, up to 12 hours, in a room with your local community. Which kind of day depends on the host.',
+    intro: 'Pick the Fest format that suits you best.',
     cards: [
       {
         id: 'hack-day',
         tag: 'Hack Day',
         title: 'A mini hackathon.',
         lines: [
-          'Kick off in the morning, build with open source AI through the day, demo at the end.',
+          'Build with open-weight models and/or open-source AI tools and demo at the end.',
           'Prizes for the best projects, and usually food.',
-          'Bring a laptop and, if you like, a team. The host will help you find one.',
+          'Bring a laptop and, if you’d like, a team.',
         ],
       },
       {
@@ -1300,18 +1300,19 @@ export const inPerson = {
         lines: [
           'Talks, workshops or a panel, and time to meet the people who came.',
           'No project to ship and no team to find.',
-          'Bring curiosity. A laptop helps for the workshops.',
+          'Bring curiosity, and a laptop if recommended by your host.',
         ],
       },
     ],
   },
   /* What you get on the day, the room's own rewards, before the steps:
-     swag and stickers, T-shirts, prizes at a Hack Day, and the virtual
-     rewards (the Fest sticker in the online book, and a certificate).
-     These are not stickers, so each card carries a plain icon, `icon`
-     naming one of the Tabler icons in components/WorldLanding/dayIcons.
-     Every card that can says "while supplies last", and nothing names a
-     specific item. `link` is the one card with a way onward. */
+     T-shirts, stickers and swag, Arduinos at select Hack Days, prizes at
+     a Hack Day, and the virtual rewards (stickers for the online book,
+     and a certificate). These are not stickers, so each card carries a
+     plain icon, `icon` naming one of the Tabler icons in
+     components/WorldLanding/dayIcons. Every card that can says "while
+     supplies last", so there is no disclaimer under them. `link` is the
+     one card with a way onward. */
   onTheDay: {
     eyebrow: 'On the day',
     heading: { lead: 'What you', accent: 'get.' },
@@ -1322,15 +1323,15 @@ export const inPerson = {
         id: 'swag',
         icon: 'hexagon',
         at: 'Every Fest',
-        title: 'Swag and stickers',
-        copy: 'Hacktoberfest 2026 stickers and swag, while supplies last.',
+        title: 'T-shirts, Stickers, and Swag',
+        copy: 'Hacktoberfest 2026 t-shirts, stickers, and swag, while supplies last.',
       },
       {
-        id: 'tshirts',
-        icon: 'shirt',
-        at: 'Every Fest',
-        title: 'T-shirts',
-        copy: 'Hacktoberfest 2026 T-shirts are available at Fests while supplies last.',
+        id: 'arduinos',
+        icon: 'bolt',
+        at: 'Hack Days',
+        title: 'Arduinos',
+        copy: 'Arduinos are available for attendees at select Hack Days and while supplies last.',
       },
       {
         id: 'prizes',
@@ -1344,12 +1345,10 @@ export const inPerson = {
         icon: 'rosette-discount-check',
         at: 'Every Fest',
         title: 'Virtual rewards',
-        copy: 'The Fest sticker in your online sticker book, and a certificate with your name, the Fest and the date.',
-        link: { label: 'See the online event', href: '/online/' },
+        copy: 'Collect stickers towards your Hacktoberfest sticker book and an official participation certificate with your name, the Fest, and date.',
+        link: { label: 'Go to My Hacktoberfest', href: '/my/' },
       },
     ],
-    disclaimer:
-      'Swag, stickers and T-shirts are handed out at the Fest while supplies last.',
   },
   /* How it works: the three steps across the band, in plain words: pick
      a Fest, register, show up. Nothing here about the online sticker
@@ -1371,26 +1370,29 @@ export const inPerson = {
         art: 'ticket',
         phase: 'Before the day',
         title: 'Register on the Fest’s page',
-        copy: 'Every Fest has its own page with the date, the venue and a register button. You’ll need a free MyMLH account.',
+        copy: 'Every Fest has its own page with the date, the venue and a register button. Register with a free MyMLH account.',
       },
       {
         art: 'checkin',
         phase: 'On the day',
-        title: 'Learn, build, and meet the people near you',
-        copy: 'Check in with the host, then it’s talks, hacking on something with open source AI, and getting to know the people who build near you.',
+        title: 'Learn, build, and connect with your community',
+        copy: 'Check in with your host, say hello to a stranger, and let the Fest begin!',
       },
     ],
     cta: 'Find a Fest',
     ctaHref: '/fests/',
   },
   /* The page's proof: the soonest Fests, read live from the directory's
-     endpoint (components/NearbyFests). */
+     endpoint (components/NearbyFests). The button counts every Fest the
+     directory lists once they have loaded, and goes without a number
+     until then. */
   nearby: {
     eyebrow: 'Where to go',
     heading: { lead: 'Upcoming', accent: 'Fests.' },
     intro:
-      'This Hacktoberfest, 300+ Fests are taking place across the world. Here are three of the next ones happening.',
-    cta: 'See every Fest',
+      'This Hacktoberfest, 300+ Fests are taking place across the world. Here are a few happening soon.',
+    cta: (count) =>
+      count > 0 ? `See every Fest (${count})` : 'See every Fest',
     loading: 'Loading the next Fests…',
     empty:
       'The first Fests go on the calendar soon. The directory is where they will appear.',
@@ -1414,7 +1416,7 @@ export const inPerson = {
      the one place this page points at the other world. */
   onlineCallout: {
     title: 'No Fest near you?',
-    body: 'Everything online earns stickers just the same, from wherever you are, and the sticker pack ships worldwide. Or bring a Fest to your city: anyone can host one.',
+    body: 'Join our online events and earn stickers from wherever you are. Our sticker pack ships worldwide. Or, bring a Fest to your city: anyone can host one.',
     cta: 'Attend online',
     secondaryCta: 'Host a Fest',
   },
@@ -2240,12 +2242,12 @@ export const my = {
     /* One line under each page's title, keyed by tab. A type without a
        line here still renders, with no note. */
     pages: {
-      required: 'You must earn these stickers to receive any rewards.',
-      dev: 'Build with open source and open-weight models, and share what you learned.',
+      required: 'You must collect these stickers to receive any rewards.',
+      dev: 'Build with open-weight models and open-source AI, and share what you learned.',
       livestreams: 'Attend live sessions and hone your skills.',
-      ghw: 'A week of learning and community.',
-      tools: 'Great tools help you build awesome projects.',
-      misc: 'Everything else worth a sticker, starting with two short surveys by email.',
+      ghw: 'A week of virtual learning and community events.',
+      tools: 'Utilize great tools to help you build awesome projects.',
+      misc: 'Complete our pre- and post-event surveys.',
       inperson: 'Meet your local community and collect swag.',
     },
     /* The cells on a page: the sticker, its name, one line of status. The
@@ -2361,7 +2363,7 @@ export const my = {
     earnedOn: (date) => `Earned ${date}`,
     pack: {
       tag: 'Milestone 1',
-      title: 'Earn an IRL sticker pack',
+      title: 'Receive an IRL sticker pack',
       shareText:
         'I just earned my Hacktoberfest 2026 sticker pack! #Hacktoberfest https://hacktoberfest.com',
       reachedBadge: 'Earned',
@@ -2852,7 +2854,9 @@ export const activitiesPage = {
       livestreams: 'Livestreams',
       ghw: 'Global Hack Week',
       tools: 'Tools',
-      misc: 'Misc',
+      /* The misc type holds only the two surveys today, so it is named
+         for them. A non-survey sticker of this type needs a new name. */
+      misc: 'Surveys',
       inperson: 'Fests',
       /* The sticker book's Required page on /my (lib/stickerBook.mjs): the
          two stickers everyone earns. Not in TYPE_ORDER, so /activities/

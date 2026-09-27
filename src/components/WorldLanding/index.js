@@ -441,7 +441,9 @@ const WorldLanding = ({ world, afterOpening = null, afterEarn = null }) => {
               </MilestoneCard>
             ))}
           </MilestonesGrid>
-          <MilestoneNote>{world.onTheDay.disclaimer}</MilestoneNote>
+          {world.onTheDay.disclaimer && (
+            <MilestoneNote>{world.onTheDay.disclaimer}</MilestoneNote>
+          )}
         </MilestonesRoot>
       )}
 
