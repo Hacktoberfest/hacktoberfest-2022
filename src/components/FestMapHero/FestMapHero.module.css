@@ -157,16 +157,16 @@
   }
 }
 
-/* The online way in, as the search's alternative: the search's width,
-   a thin rule either side running to its edges, the words between. The
-   words take two lines at the search's width, balanced so neither is a
-   stub; the fold budget under .map counts both. */
+/* The online way in, as the search's alternative, on two lines at the
+   search's width: the question between thin rules running to its edges,
+   then the link under it. The fold budget under .map counts both. */
 .online {
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 560px;
   align-items: center;
-  gap: 16px;
+  gap: 4px;
   margin: 20px 0 0;
   /* colors.white, softened */
   color: rgba(247, 247, 242, 0.86);
@@ -180,6 +180,14 @@
   }
 }
 
+.onlineAsk {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 16px;
+  margin: 0;
+}
+
 .onlineRule {
   flex: 1 1 0;
   min-width: 16px;
@@ -187,25 +195,23 @@
   background: rgba(247, 247, 242, 0.22);
 }
 
-/* Long enough to read as a rule, not a dash, beside the wrapped words,
-   where there is room: a phone keeps the words to two lines instead. */
-@media (min-width: 600px) {
-  .onlineRule {
-    min-width: 32px;
+/* On a phone the link alone takes two lines, so the question goes and
+   the link, which says it on its own, stands alone, balanced. Wider,
+   the link keeps to its one line under the question. */
+@media (max-width: 599px) {
+  .onlineAsk {
+    display: none;
+  }
+
+  .online a {
+    text-align: center;
+    text-wrap: balance;
   }
 }
 
-.onlineText {
-  flex: 0 1 auto;
-  text-wrap: balance;
-}
-
-/* On a phone the question would wrap the line in two and squeeze the
-   rules to stubs, so the link, which says it on its own, stands alone
-   between them. */
-@media (max-width: 599px) {
-  .onlinePrompt {
-    display: none;
+@media (min-width: 600px) {
+  .online a {
+    white-space: nowrap;
   }
 }
 
@@ -250,7 +256,7 @@
    It is 2.98 times as wide as it is tall, so its width is the height
    left for it times 2.98: the screen, less where the hero starts
    (--hero-offset, above), less everything in the hero but the map, which
-   is 398px, or 444px below 1100px where the rail takes two lines, and
+   is 400px, or 444px below 1100px where the rail takes two lines, and
    more on the big-screen steps at the end of this file, each measured. */
 .map {
   width: min(calc(100% - 30px), 1280px);
@@ -272,7 +278,7 @@
   .map {
     width: min(
       calc(100% - 40px),
-      max(560px, calc((100svh - var(--hero-offset) - 398px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 400px) * 2.98))
     );
   }
 }
@@ -466,7 +472,7 @@
     width: min(
       calc(100% - 80px),
       2400px,
-      max(560px, calc((100svh - var(--hero-offset) - 465px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 467px) * 2.98))
     );
     padding-block: 32px 24px;
   }

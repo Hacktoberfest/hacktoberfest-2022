@@ -98,19 +98,18 @@ const FestMapHero = () => {
           <div className={styles.search}>
             <FestSearch fests={state.fests} onHighlight={setHighlight} />
           </div>
-          {/* The other way in, set as the search's alternative: rules out to
-            the search's own edges on either side, so it belongs to the
-            field above rather than floating under it. */}
-          <p className={styles.online}>
-            <span className={styles.onlineRule} aria-hidden="true" />
-            <span className={styles.onlineText}>
-              <span className={styles.onlinePrompt}>
-                {mapHero.online.prompt}{' '}
-              </span>
-              <a href={mapHero.online.href}>{mapHero.online.cta}</a>
-            </span>
-            <span className={styles.onlineRule} aria-hidden="true" />
-          </p>
+          {/* The other way in, set as the search's alternative: the question
+            between rules out to the search's own edges, so it belongs to
+            the field above rather than floating under it, and the link on
+            its own line under the question. */}
+          <div className={styles.online}>
+            <p className={styles.onlineAsk}>
+              <span className={styles.onlineRule} aria-hidden="true" />
+              <span>{mapHero.online.prompt}</span>
+              <span className={styles.onlineRule} aria-hidden="true" />
+            </p>
+            <a href={mapHero.online.href}>{mapHero.online.cta}</a>
+          </div>
         </div>
 
         <div className={styles.map}>
