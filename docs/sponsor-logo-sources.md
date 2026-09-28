@@ -14,3 +14,16 @@ Two logos were replaced on September 24, 2026 with partner-provided files from t
 | -------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | MongoDB  | `mongodb.svg`  | `Evergreen - MongoDB - Full Logo.svg`, uploaded by MongoDB on September 24, 2026 (brand refresh; Evergreen `#023430`)                                     |
 | Qualcomm | `qualcomm.svg` | `Vector/qualcomm logo rgb blue.ai` from `English_Qualcomm_Logo_and_Guidelines_Package_26962_8.zip`, converted to SVG; Qualcomm Blue `#2A2AEA` (preferred) |
+
+The two logos added on September 23, 2026 are sponsor-provided or official brand assets. Each SVG's viewBox was cropped to the artwork so the logo fills its tile.
+
+| Sponsor  | Local file     | Source                                                                                                                  |
+| -------- | -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Mastra   | `mastra.svg`   | Black wordmark (`mastra-logo-black.svg`) sent by Mastra's partnerships team on September 17, 2026                       |
+| Temporal | `temporal.svg` | [Temporal brand page](https://temporal.io/brand), horizontal lockup, dark (`Temporal_LogoLockup_Horizontal_dark_1.svg`) |
+
+The TLDR logo was added on September 25, 2026 from the partner-provided file in TLDR's Drive upload folder. Its viewBox is cropped to the artwork so the logo fills its tile.
+
+| Sponsor | Local file | Source                                                                                                                         |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| TLDR    | `tldr.svg` | `tldr-logo-lockup-on-light.svg`, uploaded by TLDR on September 24, 2026 (on-light lockup; `#171717` with indigo `#6366f1` bar) |

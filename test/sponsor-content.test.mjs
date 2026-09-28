@@ -31,6 +31,9 @@ test('every wall sponsor entry is complete and tagged', () => {
       'Gemma',
       'Qualcomm',
       'Arduino',
+      'Mastra',
+      'Temporal',
+      'TLDR',
     ],
     'the curated wall matches the confirmed sponsor roster and order',
   );
@@ -77,6 +80,9 @@ test('brand-color logo assets retain their approved treatments', async () => {
     entire,
     priorLabs,
     qualcomm,
+    mastra,
+    temporal,
+    tldr,
   ] = await Promise.all([
     readFile(
       new URL('../public/sponsors/mongodb.svg', import.meta.url),
@@ -106,6 +112,12 @@ test('brand-color logo assets retain their approved treatments', async () => {
       new URL('../public/sponsors/qualcomm.svg', import.meta.url),
       'utf8',
     ),
+    readFile(new URL('../public/sponsors/mastra.svg', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../public/sponsors/temporal.svg', import.meta.url),
+      'utf8',
+    ),
+    readFile(new URL('../public/sponsors/tldr.svg', import.meta.url), 'utf8'),
   ]);
   assert.ok(
     mongodb.includes('#023430'),
@@ -131,6 +143,15 @@ test('brand-color logo assets retain their approved treatments', async () => {
   assert.ok(
     qualcomm.includes('#2A2AEA'),
     'Qualcomm must use its preferred Qualcomm Blue logo',
+  );
+  assert.ok(mastra.includes('#000000'), 'Mastra must use its black wordmark');
+  assert.ok(
+    temporal.includes('#141414'),
+    'Temporal must use its dark horizontal lockup',
+  );
+  assert.ok(
+    tldr.includes('#171717') && tldr.includes('#6366f1'),
+    'TLDR must use its on-light lockup with the indigo bar',
   );
 });
 
