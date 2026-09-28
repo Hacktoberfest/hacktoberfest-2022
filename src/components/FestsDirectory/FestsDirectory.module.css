@@ -251,6 +251,70 @@
   gap: 18px;
 }
 
+/* The Featured group and the rest, when an admin has pinned any Fests:
+   the same grid twice, each under a ruled mono label in the tags' voice,
+   the second far enough down that the pinned group reads as its own. */
+.group + .group {
+  margin-top: 26px;
+}
+
+.groupLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+/* The rule runs out to the grid's right edge. colors.rule */
+.groupLabel::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: #8ca59e;
+  opacity: 0.6;
+}
+
+/* The rest are the list as it always was; their label only marks where
+   the pinned ones end, so it steps back. colors.muted */
+.groupLabelQuiet {
+  color: #52635f;
+}
+
+/* The star in an ochre square, the site's tile grammar at label size.
+   colors.ink / ochre */
+.groupStar {
+  display: inline-grid;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  box-sizing: border-box;
+  place-items: center;
+  border: 2px solid #10201d;
+  background: #f5b726;
+}
+
+.groupStar svg {
+  width: 13px;
+  height: 13px;
+}
+
+@media (min-width: 768px) {
+  .group + .group {
+    margin-top: 34px;
+  }
+}
+
 .mapWrapper {
   overflow: hidden;
   height: clamp(360px, 65vh, 640px);
@@ -612,6 +676,36 @@
 .card[data-past='true'] .cardFormatBadge {
   /* colors.rule */
   background: #8ca59e;
+}
+
+/* A pinned Fest's badge, beside the format's and cut to the same pill:
+   the same box metrics, face and case (see .cardFormatBadge for why the
+   padding is top-heavy), in the ochre the Featured label's star sits on.
+   colors.ochre / ink */
+.cardFeaturedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1;
+  padding: 7.5px 9px 6.5px;
+  border-radius: 6px;
+  background: #f5b726;
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cardFeaturedStar {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
 }
 
 /* The card's click target. A bare button reset so the Fest name keeps the

@@ -7,6 +7,7 @@ import { getFestsDirectory } from 'lib/festsDirectory.mjs';
 import { basemapIsAvailable } from 'lib/basemapSource.mjs';
 import { distanceKm, sortByDistance } from 'lib/geo.mjs';
 import { filterFests } from 'lib/festsSearch.mjs';
+import { splitFeatured } from 'lib/festsFeatured.mjs';
 import {
   filterByFormat,
   formatCounts,
@@ -22,6 +23,7 @@ import {
 
 import FestCard from './FestCard';
 import FestModal from './FestModal';
+import StarIcon from './StarIcon';
 import styles from './FestsDirectory.module.css';
 
 const FestsMap = dynamic(() => import('./FestsMap'), {
@@ -363,6 +365,12 @@ const FestsDirectory = () => {
   const arrange = (list) =>
     origin ? sortByDistance(list, origin) : sortByDateAsc(list);
 
+  /* The upcoming Fests an admin has pinned in FestNet lead, in the same
+     order as everything else, under their own label (see the list below).
+     Only upcoming ones: a pinned Fest that has run sinks with the past. */
+  const { featured, rest } = splitFeatured(upcoming);
+  const leading = arrange(featured);
+
   /* Upcoming in the active order, then everything that has already
      happened. Under the date sort the past half runs backwards, so both
      halves lead with whatever is nearest to now — the Fest that ran last
@@ -374,10 +382,11 @@ const FestsDirectory = () => {
      Dateless Fests are not past (see festDate.mjs) so they ride along at
      the tail of the upcoming half, which is where sortByDateAsc already
      put them. */
-  const sorted = [
-    ...arrange(upcoming),
+  const others = [
+    ...arrange(rest),
     ...(origin ? arrange(past) : sortByDateAsc(past).reverse()),
   ];
+  const sorted = [...leading, ...others];
   const count = sorted.length;
   const locating = geoStatus === 'pending';
 
@@ -392,6 +401,16 @@ const FestsDirectory = () => {
   const festInModal = openFestId
     ? fests.find((fest) => fest.id === openFestId) || null
     : null;
+
+  const card = (fest) => (
+    <FestCard
+      key={fest.id}
+      fest={fest}
+      distanceKm={origin ? distanceKm(origin, fest) : null}
+      today={today}
+      onOpen={openFest}
+    />
+  );
 
   return (
     <div className={styles.page}>
@@ -523,18 +542,42 @@ const FestsDirectory = () => {
           <h2 className={styles.emptyTitle}>{festsContent.emptyTitle}</h2>
           <p className={styles.emptyBody}>{festsContent.emptyBody}</p>
         </div>
+      ) : view === 'list' && leading.length > 0 ? (
+        /* Pinned Fests first, under a label of their own, then the rest
+           under theirs. Two labelled groups rather than one list with the
+           pins floated up, so the order below the pins still reads as the
+           order the sort promises. The second group drops out when the
+           search leaves only pinned Fests. */
+        <>
+          <section
+            className={styles.group}
+            aria-labelledby="fests-featured-heading"
+          >
+            <h2 id="fests-featured-heading" className={styles.groupLabel}>
+              <span className={styles.groupStar}>
+                <StarIcon />
+              </span>
+              {festsContent.featured.heading}
+            </h2>
+            <div className={styles.list}>{leading.map(card)}</div>
+          </section>
+          {others.length > 0 && (
+            <section
+              className={styles.group}
+              aria-labelledby="fests-rest-heading"
+            >
+              <h2
+                id="fests-rest-heading"
+                className={`${styles.groupLabel} ${styles.groupLabelQuiet}`}
+              >
+                {festsContent.featured.rest}
+              </h2>
+              <div className={styles.list}>{others.map(card)}</div>
+            </section>
+          )}
+        </>
       ) : view === 'list' ? (
-        <div className={styles.list}>
-          {sorted.map((fest) => (
-            <FestCard
-              key={fest.id}
-              fest={fest}
-              distanceKm={origin ? distanceKm(origin, fest) : null}
-              today={today}
-              onOpen={openFest}
-            />
-          ))}
-        </div>
+        <div className={styles.list}>{sorted.map(card)}</div>
       ) : (
         <div className={styles.mapWrapper}>
           <FestsMap

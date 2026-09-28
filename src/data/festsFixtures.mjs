@@ -9,7 +9,12 @@
    over, that state is unreachable in the mocked build until October has
    actually started — which is the opposite of when someone working on it
    needs to see it. It carries a registration link too, so the mocked build
-   also shows that a past card drops its Register bar. */
+   also shows that a past card drops its Register bar.
+
+   Two are pinned (`featured`, an admin's choice in FestNet), São Paulo and
+   Sydney, neither the soonest, so the mocked build shows the Featured
+   group leading the list out of date order. The rest carry no key at all,
+   which reads as not featured, the same as an API from before the field. */
 export const FESTS_FIXTURES = [
   {
     id: 'fest-berlin',
@@ -154,6 +159,7 @@ export const FESTS_FIXTURES = [
     registrationUrl: null,
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/sao-paulo',
     logoUrl: 'https://example.invalid/hacktoberfest/logos/sao-paulo.png',
+    featured: true,
   },
   {
     id: 'fest-manila',
@@ -196,5 +202,6 @@ export const FESTS_FIXTURES = [
     registrationUrl: 'https://example.invalid/hacktoberfest/fests/sydney',
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/sydney',
     logoUrl: 'https://example.invalid/hacktoberfest/logos/sydney.png',
+    featured: true,
   },
 ];

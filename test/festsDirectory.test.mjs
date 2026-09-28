@@ -89,6 +89,7 @@ test('normalizes API events into the card shape', async (t) => {
       registrationUrl: 'https://example.invalid/register/brooklyn',
       websiteUrl: null,
       logoUrl: null,
+      featured: false,
     },
   ]);
 });
@@ -128,6 +129,7 @@ test('drops non-object entries and tolerates a missing address', async (t) => {
       registrationUrl: null,
       websiteUrl: null,
       logoUrl: null,
+      featured: false,
     },
   ]);
 });
@@ -191,6 +193,15 @@ test('festFromEvent carries a host description and nulls everything else', () =>
     null,
   );
   assert.equal(festFromEvent({ ...EVENT, description: 42 }).description, null);
+});
+
+/* An admin's pin from FestNet. The API says only whether; an API from
+   before the field sends nothing, and that is not a pin. */
+test('festFromEvent carries whether an admin featured the Fest', () => {
+  assert.equal(festFromEvent({ ...EVENT, featured: true }).featured, true);
+  assert.equal(festFromEvent({ ...EVENT, featured: false }).featured, false);
+  assert.equal(festFromEvent(EVENT).featured, false);
+  assert.equal(festFromEvent({ ...EVENT, featured: 'true' }).featured, false);
 });
 
 test('festFromEvent falls back to the slug when the id is null', () => {

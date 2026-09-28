@@ -3,6 +3,7 @@ import { countryCodeFor } from 'lib/countryFlag.mjs';
 import { festDateParts, festIsPast } from 'lib/festDate.mjs';
 import { shortFestName } from 'lib/festName.mjs';
 
+import StarIcon from './StarIcon';
 import styles from './FestsDirectory.module.css';
 
 /* One Fest, as a card in the directory grid.
@@ -93,6 +94,16 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
           {formatLabel && (
             <span className={styles.cardFormatBadge} data-format={fest.format}>
               {formatLabel}
+            </span>
+          )}
+          {/* A Fest an admin has pinned in FestNet, beside its format for
+              the same reason the format sits beside the name. Upcoming
+              only: a pinned Fest that has run sinks with the past ones
+              and says nothing it no longer is. */}
+          {fest.featured === true && !isPast && (
+            <span className={styles.cardFeaturedBadge}>
+              <StarIcon className={styles.cardFeaturedStar} />
+              {fests.featured.badge}
             </span>
           )}
         </div>

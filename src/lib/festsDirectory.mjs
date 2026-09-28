@@ -168,6 +168,11 @@ export const festFromEvent = (event) => {
        with no registration link still has somewhere to send people. */
     websiteUrl: event.websiteUrl || null,
     logoUrl: event.logoUrl || null,
+    /* An admin's pin from FestNet: the directory leads with these under
+       Featured (lib/festsFeatured.mjs). The API says only whether, never
+       who. Only `true` counts, so an API from before the field, or junk,
+       reads as not featured. */
+    featured: event.featured === true,
   };
 };
 

@@ -275,4 +275,8 @@ test('the fixtures cover the gaps the live payload actually has', () => {
   assert.ok(FESTS_FIXTURES.some((fest) => fest.format === null));
   assert.ok(FESTS_FIXTURES.some((fest) => fest.format === 'hackDay'));
   assert.ok(FESTS_FIXTURES.some((fest) => fest.format === 'meetUp'));
+  // The Featured group and the list under it both need members, or the
+  // mocked build shows only one of the two states.
+  assert.ok(FESTS_FIXTURES.some((fest) => fest.featured === true));
+  assert.ok(FESTS_FIXTURES.some((fest) => fest.featured !== true));
 });
