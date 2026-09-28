@@ -2,8 +2,11 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { todayStrip } from '../src/data/content.mjs';
 import { NAV, navGroups } from '../src/data/nav.mjs';
+import { TODAY_STRIP } from '../src/data/todayStrip.mjs';
 import { SITE_PAGES } from '../src/build/sitemap.mjs';
+import { TODAY_STRIP_OFF_ATTRIBUTE } from '../src/lib/todayStrip.mjs';
 
 const readOutput = (route) =>
   readFile(new URL(`../out${route}index.html`, import.meta.url), 'utf8');
@@ -14,7 +17,7 @@ const readOutput = (route) =>
    attribute, never conditionally rendered — because this site ships no
    styled-components CSS for client-only content. */
 for (const route of SITE_PAGES) {
-  test(`${route} renders both dropdown buttons, closed, with their panels`, async () => {
+  test(`${route} renders every dropdown button, closed, with its panel`, async () => {
     const html = await readOutput(route);
     const nav = html.match(
       /<nav[^>]*aria-label="Main navigation"[\s\S]*?<\/nav>/,
@@ -36,6 +39,56 @@ for (const route of SITE_PAGES) {
         );
       }
     }
+  });
+}
+
+/* The Today strip rides in on the header, so it is on every page the header
+   is. It has to be in the exported HTML, not added after load: its CSS is a
+   module's, which ships only for what the server rendered, and a band that
+   arrived a frame late would push the page down. Server-rendered, it holds
+   the sticker book, the one item that needs no data, and no date, which is
+   the reader's to fill in. */
+for (const route of SITE_PAGES) {
+  test(`${route} renders the Today strip under the main navigation`, async (t) => {
+    if (!TODAY_STRIP) {
+      t.skip('TODAY_STRIP is off, so no page carries the strip');
+      return;
+    }
+
+    const html = await readOutput(route);
+    const nav = html.match(
+      /<nav[^>]*aria-label="Main navigation"[\s\S]*?<\/nav>/,
+    );
+    assert.ok(nav, `${route}: the main navigation is missing`);
+
+    /* The element, not the string: the pre-paint script in the head
+       names data-today-strip-off, which a bare search would find first. */
+    const strip = html.match(
+      /<section[^>]*data-today-strip=""[^>]*>[\s\S]*?<\/section>/,
+    );
+    assert.ok(strip, `${route}: the Today strip is missing`);
+    assert.ok(
+      strip.index > nav.index + nav[0].length,
+      `${route}: the Today strip should come after the main navigation`,
+    );
+    assert.match(
+      strip[0],
+      new RegExp(`^<section[^>]*aria-label="${todayStrip.label}"`),
+      `${route}: the strip is not labelled as a region`,
+    );
+    assert.match(
+      strip[0],
+      /href="\/my\/"/,
+      `${route}: the strip should server-render the sticker book`,
+    );
+    assert.ok(
+      strip[0].includes(todayStrip.stickerBook.cta),
+      `${route}: the strip should server-render the sticker book`,
+    );
+    assert.ok(
+      html.includes(TODAY_STRIP_OFF_ATTRIBUTE),
+      `${route}: no pre-paint script to hide the strip outside October`,
+    );
   });
 }
 

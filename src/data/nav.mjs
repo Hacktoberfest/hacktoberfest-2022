@@ -2,8 +2,9 @@
 
    Hacktoberfest is two things, an online month and an in-person season,
    and the nav says so in the visitor's own words: a verb per world, with
-   the two destinations each world has. Home stays spelled out because on
-   the landing page the wordmark scrolls to the top rather than navigating.
+   the destinations each world has. About holds what is true of both, the
+   mission and the FAQs. Home stays spelled out because on the landing
+   page the wordmark scrolls to the top rather than navigating.
 
    Rendered by components/Header. test/nav.test.mjs asserts every href is
    an exported, open route, which is what makes "we forgot to open
@@ -60,7 +61,22 @@ export const NAV = Object.freeze([
       }),
     ]),
   }),
-  Object.freeze({ label: 'FAQs', href: '/questions/' }),
+  Object.freeze({
+    label: 'About',
+    accent: 'ochre',
+    items: Object.freeze([
+      Object.freeze({
+        label: 'Mission',
+        href: '/mission/',
+        description: 'How Hacktoberfest grew, and why we’re doing this.',
+      }),
+      Object.freeze({
+        label: 'FAQs',
+        href: '/questions/',
+        description: 'Answers to the most common questions.',
+      }),
+    ]),
+  }),
 ]);
 
 export const navGroups = (nav) =>

@@ -60,7 +60,15 @@ export const GROUNDS = Object.freeze({
    art names the locker asks for (lib/inventory.mjs, lib/stickerImage.mjs):
    one generic per kind, and a known item's own by its API slug. */
 export const THINGS = Object.freeze([
-  { slug: 'reward-pack', shape: 'envelope', ground: 'parcel' },
+  /* The pack is the pack sticker's own envelope (icons/mail-opened.svg),
+     sharp, with its creases in ink, so the thing in the locker and the
+     milestone that earns it are one drawing (Jacklyn, 2026-09-28). */
+  {
+    slug: 'reward-pack',
+    shape: 'envelope',
+    icon: 'mail-opened',
+    ground: 'parcel',
+  },
   { slug: 'reward-physical', shape: 'gift', icon: 'gift', ground: 'physical' },
   { slug: 'reward-digital', shape: 'badge', icon: 'badge', ground: 'digital' },
   {
@@ -82,6 +90,19 @@ export const THINGS = Object.freeze([
     ground: 'digital',
     seal: 'crown',
   },
+]);
+
+/* Art in the stickers' own style that is not a sticker anyone earns: the
+   homepage's online band (HomeBands, content homeOnline) draws each of
+   its three activities as a plain single of its page of the book, the
+   same ground, the icon alone, no tier, week or inset, since the band
+   speaks of the activity rather than any one sticker in it (Jacklyn,
+   2026-09-28). Drawn by the same compose as the catalogue, written with
+   --site, and kept out of the Figma sticker grid, which is stickers only. */
+export const ILLUSTRATIONS = Object.freeze([
+  { slug: 'home-livestreams', icon: 'device-tv', ground: 'livestreams' },
+  { slug: 'home-dev', icon: 'dev-badge', ground: 'dev' },
+  { slug: 'home-ghw', icon: 'bolt', ground: 'ghw' },
 ]);
 
 export const CATALOGUE = Object.freeze([

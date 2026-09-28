@@ -25,7 +25,7 @@ import {
 
 /* The homepage wall: the /sponsor roster as pure credit. No ghost seat
    and no "take your place" band here; the recruitment ask stays on
-   /sponsor, which the Get involved card below already points at. */
+   /sponsor. */
 const SponsorWallSection = () => (
   <WallRoot id="sponsors" aria-labelledby="home-wall-title">
     <WallIntro>
@@ -63,16 +63,13 @@ const SponsorWallSection = () => (
         </PresenterTileLink>
       </WallItem>
       {sponsors.map((entry) => (
-        <WallItem
-          key={entry.slug}
-          $span={4}
-          $spanMobile={entry.slug === 'backboard' ? 2 : 1}
-        >
+        <WallItem key={entry.slug} $span={4}>
           <WallLink href={entry.homeUrl} aria-label={`Visit ${entry.name}`}>
             <WallLogo
               src={entry.logo}
               alt=""
-              $wide={entry.slug === 'backboard'}
+              $wide={entry.wide}
+              $scale={entry.scale}
             />
           </WallLink>
         </WallItem>

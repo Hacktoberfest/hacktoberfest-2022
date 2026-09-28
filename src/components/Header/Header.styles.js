@@ -161,13 +161,19 @@ export const NavLinks = styled.div`
     flex-direction: row;
     flex-shrink: 0;
     align-items: center;
-    gap: 27px;
+    /* Tighter until desktop: the wordmark takes the squeeze in this band,
+       and About's chevron made the row 25px wider than FAQs alone was. */
+    gap: 20px;
     padding: 0;
     border-bottom: none;
     opacity: 1;
     visibility: visible;
     transform: none;
     transition: none;
+  }
+
+  @media (min-width: ${breakpoints.desktop}) {
+    gap: 27px;
   }
 `;
 
@@ -273,6 +279,10 @@ export const NavGroupRoot = styled.div`
 
   &[data-accent='pink'] {
     --group-accent: ${colors.pink};
+  }
+
+  &[data-accent='ochre'] {
+    --group-accent: ${colors.ochre};
   }
 
   @media (min-width: ${breakpoints.tablet}) {

@@ -64,12 +64,13 @@ export const WallIntroCopy = styled.p`
   color: #34433f;
 `;
 
-/* A 12-column grid so every row resolves full: the partner row seats
-   3 + 3 + 6 (DigitalOcean double-width), the nine sponsors 4 each,
-   three to a row. Below tablet the grid halves to two seats a row
-   instead of stacking one logo per line, which would run the section
-   sixteen rows tall; the double-width seats (DigitalOcean, and
-   Backboard closing the last row) span both columns. */
+/* A 12-column grid: the partner row seats 6 + 6, the sponsors 4 each,
+   three to a row. Every sponsor seat is the same size, so a short last
+   row stays short rather than stretching a tile to fill it, which would
+   read as one sponsor mattering more than the rest. Below tablet the
+   grid halves to two seats a row instead of stacking one logo per
+   line, which would run the section sixteen rows tall; only the
+   partner seats span both columns. */
 export const WallGrid = styled(Shell)`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -104,6 +105,7 @@ export const WallLink = styled.a.attrs({
   justify-content: center;
   min-height: 78px;
   padding: 14px;
+  overflow: hidden;
   border: 2px solid ${colors.ink};
   background: ${colors.white};
   transition:
@@ -134,6 +136,8 @@ export const WallLogo = styled.img`
   width: min(100%, ${(props) => (props.$wide ? '200px' : '150px')});
   max-height: 40px;
   object-fit: contain;
+  pointer-events: none;
+  transform: scale(${(props) => props.$scale || 1});
 
   @media (min-width: ${breakpoints.tablet}) {
     max-height: 52px;

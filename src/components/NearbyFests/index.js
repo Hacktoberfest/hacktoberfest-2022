@@ -4,7 +4,7 @@ import FestCard from 'components/FestsDirectory/FestCard';
 import directoryStyles from 'components/FestsDirectory/FestsDirectory.module.css';
 import { inPerson } from 'data/content.mjs';
 import { partitionPast, sortByDateAsc, todayIso } from 'lib/festDate.mjs';
-import { getFestsDirectory } from 'lib/festsDirectory.mjs';
+import { getFestsDirectoryOnce } from 'lib/festsDirectory.mjs';
 import { festsDirectoryUrl } from 'lib/festsUrl.mjs';
 
 import styles from './NearbyFests.module.css';
@@ -29,7 +29,7 @@ const NearbyFests = () => {
 
   useEffect(() => {
     let cancelled = false;
-    getFestsDirectory().then(
+    getFestsDirectoryOnce().then(
       (fests) => {
         if (!cancelled) setState({ status: 'ready', fests });
       },

@@ -5,14 +5,14 @@ import { routeIsClosed } from '../src/data/closedRoutes.mjs';
 import { NAV, navGroups, navRoutes } from '../src/data/nav.mjs';
 import { SITE_PAGES } from '../src/build/sitemap.mjs';
 
-test('the nav is Home, two verbs, and FAQs, in that order', () => {
+test('the nav is Home, two verbs, and About, in that order', () => {
   assert.deepEqual(
     NAV.map((entry) => entry.label),
-    ['Home', 'Attend online', 'Attend in-person', 'FAQs'],
+    ['Home', 'Attend online', 'Attend in-person', 'About'],
   );
 });
 
-test('each verb holds exactly the agreed destinations', () => {
+test('each group holds exactly the agreed destinations', () => {
   const groups = Object.fromEntries(
     navGroups(NAV).map((group) => [
       group.label,
@@ -22,6 +22,7 @@ test('each verb holds exactly the agreed destinations', () => {
   assert.deepEqual(groups, {
     'Attend online': ['Overview', 'Schedule', 'Activities'],
     'Attend in-person': ['Overview', 'Find a Fest', 'Host a Fest'],
+    About: ['Mission', 'FAQs'],
   });
 });
 

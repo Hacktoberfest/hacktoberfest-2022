@@ -5,8 +5,10 @@ import Banner from 'components/Banner';
 import Close from 'components/icons/Close';
 import HacktoberfestLogo from 'components/icons/HacktoberfestLogo';
 import Hamburger from 'components/icons/Hamburger';
+import TodayStrip from 'components/TodayStrip';
 import { NAV } from 'data/nav.mjs';
 import { PREPTEMBER } from 'data/preptember.mjs';
+import { TODAY_STRIP } from 'data/todayStrip.mjs';
 
 import {
   HeaderRoot,
@@ -21,9 +23,10 @@ import {
 } from './Header.styles';
 import NavGroup from './NavGroup';
 
-/* The nav is data/nav.mjs: Home, a verb per world with its two
-   destinations, FAQs. Header owns only the chip, whose label follows the
-   Preptember flag, and the open/closed state of the two dropdowns.
+/* The nav is data/nav.mjs: Home, a verb per world with its
+   destinations, and About (the mission and the FAQs). Header owns only
+   the chip, whose label follows the Preptember flag, and the open/closed
+   state of the dropdowns.
 
    `standalone` only decides where the wordmark goes: home from other
    pages, back to the top on the landing page itself.
@@ -187,6 +190,11 @@ const Header = ({ standalone = false }) => {
           </NavLinks>
         </Nav>
       </HeaderRoot>
+      {/* Below the nav rather than above it, where the Preptember banner
+          sat: it is today's news, read after the way around the site, and
+          outside HeaderRoot so the sticky nav does not carry it down the
+          page. It scrolls away with everything else. */}
+      {TODAY_STRIP && <TodayStrip />}
     </>
   );
 };

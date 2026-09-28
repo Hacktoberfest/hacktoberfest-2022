@@ -19,7 +19,7 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { CATALOGUE, GROUNDS, THINGS } from './catalogue.mjs';
+import { CATALOGUE, GROUNDS, ILLUSTRATIONS, THINGS } from './catalogue.mjs';
 import { composeSticker, composeThing } from './compose.mjs';
 
 const here = fileURLToPath(new URL('.', import.meta.url));
@@ -65,12 +65,12 @@ const readIcon = async (name) => {
   };
 };
 
-export const buildStickers = async () => {
+export const buildStickers = async (entries = CATALOGUE) => {
   const glyphs = JSON.parse(
     await readFile(join(here, 'martian-mono-glyphs.json'), 'utf8'),
   );
   const out = {};
-  for (const entry of CATALOGUE) {
+  for (const entry of entries) {
     const icon = await readIcon(entry.icon);
     out[entry.slug] = composeSticker({
       entry,
@@ -239,7 +239,8 @@ const main = async () => {
 
   if (args.includes('--site')) {
     const dir = new URL('../../../public/stickers/', import.meta.url);
-    const all = { ...stickers, ...things };
+    const illustrations = await buildStickers(ILLUSTRATIONS);
+    const all = { ...stickers, ...things, ...illustrations };
     for (const [slug, svg] of Object.entries(all))
       await writeFile(new URL(`${slug}.svg`, dir), svg);
     console.log(`site: ${Object.keys(all).length} files -> public/stickers`);

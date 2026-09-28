@@ -35,6 +35,97 @@ export const banner = {
   close: 'Close banner',
 };
 
+/* "Plymouth, Leeds and York", or "Plymouth, Leeds, York and more" when
+   there are places the list leaves out. Only ever given the handful of
+   cities lib/todayStrip.mjs keeps per day. */
+const placeList = (cities, more) => {
+  const names = Array.isArray(cities) ? cities.filter(Boolean) : [];
+  if (names.length === 0) return '';
+  if (more) return `${names.join(', ')} and more`;
+  if (names.length === 1) return names[0];
+  return `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+};
+
+const festCount = (count) => `${count} ${count === 1 ? 'Fest' : 'Fests'}`;
+
+const inPlaces = (cities, more) => {
+  const places = placeList(cities, more);
+  return places ? `, in ${places}` : '';
+};
+
+/* The Today strip under the nav, on every page in October
+   (components/TodayStrip). One line of what is happening today, rotating:
+   a livestream, the DEV Challenge round, Global Hack Week, the day's
+   Fests, and the sticker book, which is always there to fall back on.
+
+   Which item appears, and with which of these lines, is decided by
+   lib/todayStrip.mjs; this is only the words. Anything with a count, a
+   name or a date in it is a function, the way activitiesPage.strip.count
+   is. */
+export const todayStrip = {
+  /* The region's name, for the screen reader's landmark list. */
+  label: 'Today at Hacktoberfest',
+  /* The fixed left end, "Today · Tue 6 Oct". "Today" alone is what the
+     server renders: the date is the reader's own, and only the browser
+     knows it. The separator is its own string so the narrowest phones
+     can drop "Today · " and keep the date, which is the part that
+     changes. */
+  today: 'Today',
+  dateSeparator: ' · ',
+  dayOf: (day, total) => `Day ${day} of ${total}`,
+  pause: 'Pause updates',
+  resume: 'Resume updates',
+  next: 'Next update',
+  livestream: {
+    onAir: 'On air now',
+    laterToday: 'Livestream today',
+    upcoming: 'Next livestream',
+    /* Later today carries the zone because it is a time to show up at;
+       "5:00 PM" alone is nobody's time in particular. */
+    today: (clock, zone, name) =>
+      `${zone ? `${clock} ${zone}` : clock} · ${name}`,
+    next: (day, clock, name) => `${day}, ${clock} · ${name}`,
+    watch: 'Watch now',
+    schedule: 'See the schedule',
+  },
+  challenge: {
+    kicker: 'DEV Challenge',
+    /* `when` is one of the phrases below: an hour count in the last
+       day of a timed round, then today, tomorrow, a weekday within the
+       week, or a date. */
+    closes: (name, when) => `${name}: submissions close ${when}`,
+    opens: (name, day) => `${name}: opens ${day}`,
+    withinHour: 'within the hour',
+    inHours: (hours) => `in ${hours} ${hours === 1 ? 'hour' : 'hours'}`,
+    today: 'today',
+    tomorrow: 'tomorrow',
+    enter: 'Enter on DEV',
+    activities: 'See the activities',
+  },
+  feature: {
+    current: 'On now',
+    upcoming: 'Coming up',
+    until: (name, day) => `${name}, until ${day}`,
+    starts: (name, day) => `${name} starts ${day}`,
+    cta: 'See sessions',
+  },
+  fests: {
+    kicker: 'In person',
+    today: (count, cities, more) =>
+      `${festCount(count)} today${inPlaces(cities, more)}`,
+    on: (count, day, cities, more) =>
+      `${festCount(count)} on ${day}${inPlaces(cities, more)}`,
+    cta: 'Find a Fest',
+  },
+  /* The evergreen item, and the one the server renders: true on every
+     day of the month, and the reason the rest of the strip matters. */
+  stickerBook: {
+    kicker: 'Sticker book',
+    text: 'Collect three stickers and we’ll mail you a real sticker pack.',
+    cta: 'Open your sticker book',
+  },
+};
+
 export const hero = {
   /* Two lines so phones can break between the clauses rather than mid-phrase;
      they share one line, separator restored, from tablet up. */
@@ -45,6 +136,20 @@ export const hero = {
   secondaryCta: 'Find a Fest',
   poweredByLabel: 'Powered by',
   presentingLabel: 'Presenting partner',
+};
+
+/* The /mission/ page: the story so far and the mission, which used to
+   sit on the homepage between the hero and the sponsor wall. The nav
+   reaches it under About, beside the FAQs. The page renders `timeline`
+   and `mission` below as they are; this is only its hero and metadata. */
+export const missionPage = {
+  title: 'Mission | Hacktoberfest 2026',
+  description:
+    'How Hacktoberfest grew from four pull requests to 300+ events, and why Hacktoberfest 2026 is about building with open source AI.',
+  eyebrow: 'About Hacktoberfest',
+  heading: { lead: 'Hacktoberfest’s', accent: 'mission.' },
+  intro:
+    'Hacktoberfest has run every October since 2014. Here is how it grew, and why this year is about building with open source AI.',
 };
 
 export const timeline = {
@@ -726,6 +831,203 @@ export const parseAnswerMarkdown = (markdown) =>
       return { type: 'paragraph', parts: parseInline(lines.join(' ')) };
     });
 
+/* The October homepage's hero (components/FestMapHero): the Fest map,
+   and a search that answers as you type. One centred axis: the eyebrow,
+   the headline, the search and the way online on top, the map under
+   them, and a sign-off rail carrying the campaign line and the partners
+   (the research round of 2026-09-28: everything on one axis, the task in
+   one group and the identity in another, nothing in the corners). `hero`
+   above is the Preptember-era hero this replaces, kept for
+   components/Hero while that stays in the tree; the partner labels are
+   still read from it, so the two can never name the partners
+   differently. The map carries no visible legend; its description for
+   screen readers is a function of the counts it plots, which come from
+   the Fest directory at runtime. */
+export const mapHero = {
+  eyebrow: ['October 2026', 'In person and online · Free'],
+  heading: { lead: '300+ Fests.', accent: 'One is near you.' },
+  tagline: { lead: 'Hacktoberfest 2026:', accent: 'AI belongs to everyone.' },
+  online: {
+    prompt: 'Can’t make it in person?',
+    cta: 'Join online from anywhere',
+    href: '/online/',
+  },
+  map: {
+    label: (fests, countries) =>
+      `A map of the world with a square for every place a Fest is happening: ${fests} Fests in ${countries} countries.`,
+    loadingLabel: 'A map of the world, with the Fests still loading onto it.',
+    /* Beside a hovered square's city: the square's other Fests. */
+    nearby: (n) => `+${n} nearby`,
+  },
+  /* The search (components/FestSearch): a combobox whose list answers as
+     you type (lib/festSearch), in a GET form to /fests/ so Enter works
+     before any JavaScript does. Every row the list can show is here. */
+  search: {
+    label: 'Find a Fest by city, country or name',
+    placeholder: 'City, country or Fest name',
+    placeholderShort: 'City or country',
+    submit: 'Find a Fest',
+    submitShort: 'Find',
+    close: 'Close search',
+    clear: 'Clear search',
+    locate: {
+      title: 'Use my location',
+      hint: 'Find the Fests nearest you',
+      finding: 'Finding your location…',
+      denied: 'Location is off. Type a city instead.',
+    },
+    groups: {
+      countries: 'Most Fests',
+      nearest: 'Nearest to you',
+    },
+    count: (n) => `${n} ${n === 1 ? 'Fest' : 'Fests'}`,
+    distance: (km) => (km < 1 ? 'Under 1 km' : `${Math.round(km)} km`),
+    browseAll: (n) => (n ? `Browse all ${n} Fests` : 'Browse all Fests'),
+    seeAll: (n, query) => `See all ${n} results for “${query}”`,
+    noMatch: (query) => `No Fests match “${query}” yet.`,
+    online: {
+      title: 'Hacktoberfest is online too',
+      hint: 'Join from anywhere, all month',
+    },
+    host: {
+      title: 'Host a Fest in your city',
+      hint: 'Bring Hacktoberfest to your community',
+    },
+    /* Announced politely, a beat after typing stops. */
+    status: {
+      suggestions: (n) => `${n} suggestions. Use up and down arrows to review.`,
+      results: (n) =>
+        `${n} ${n === 1 ? 'result' : 'results'}. Use up and down arrows to review.`,
+      none: 'No Fests match. Other options are listed.',
+    },
+  },
+};
+
+/* Straight under the map hero, for the visitor who arrived not knowing
+   what any of this is, set as the mission page's band (MissionSection):
+   three paragraphs, each with its key line in bold, drawn from the FAQ's
+   and the mission's own wording, the third for anyone who took part in
+   the pull-request years. The story and the reasons live on /mission/.
+   Paragraphs are segment arrays like `mission`'s, so the emphasis
+   survives into the llms files as plain text (answerText). */
+export const homeAbout = {
+  eyebrow: 'New here?',
+  heading: { lead: 'What is', accent: 'Hacktoberfest?' },
+  paragraphs: [
+    [
+      {
+        text: 'Hacktoberfest is a month-long celebration of open source, every October since 2014.',
+        bold: true,
+      },
+      {
+        text: ' This year it’s about learning and building with open source AI: open-weight models, open source agents, and the tools around them.',
+      },
+    ],
+    [
+      {
+        text: 'It’s free, and it’s for everyone, wherever you are in your open source AI journey. ',
+      },
+      {
+        text: 'Join one of 300+ Fests in cities around the world, take part online all month, or both.',
+        bold: true,
+      },
+    ],
+    [
+      {
+        text: 'Taken part before? Pull requests no longer count toward rewards. ',
+      },
+      {
+        text: 'Instead of counting PRs, you’ll learn and build.',
+        bold: true,
+      },
+    ],
+  ],
+  actions: [
+    { label: 'Read our mission', href: '/mission/' },
+    {
+      label: 'How this year is different',
+      href: '/questions/#faq-pull-requests-title',
+    },
+  ],
+};
+
+/* Under the upcoming Fests: the three things anyone can do online, each
+   drawn with the sticker it earns, for the reader with no Fest nearby.
+   The links follow the activities' own (data/eligibility.mjs): the
+   schedule for livestreams and Global Hack Week, DEV for the challenges. */
+export const homeOnline = {
+  eyebrow: 'Attend online',
+  heading: { lead: 'Can’t get to a Fest?', accent: 'Join from anywhere.' },
+  intro:
+    'Hacktoberfest is online all October too. Every livestream and challenge earns stickers for the same book as a Fest.',
+  cards: [
+    {
+      id: 'livestreams',
+      sticker: 'home-livestreams',
+      title: 'Livestreams',
+      copy: 'Sessions on open-weight models, agents and tools. Check in with the code on screen to earn a sticker.',
+      cta: 'See the schedule',
+      href: '/schedule/',
+    },
+    {
+      id: 'dev',
+      sticker: 'home-dev',
+      title: 'DEV Challenges',
+      copy: 'A new build prompt every week of October. Write up what you made on DEV.',
+      cta: 'See the challenges',
+      href: DEV_CHALLENGES_URL,
+    },
+    {
+      id: 'ghw',
+      sticker: 'home-ghw',
+      title: 'Global Hack Week',
+      copy: 'Global Hack Week: Hacktoberfest, with sessions, challenges and points from MLH.',
+      cta: 'See the sessions',
+      href: '/schedule/',
+    },
+  ],
+  cta: { label: 'Attend online', href: '/online/' },
+};
+
+/* How it works, for both worlds at once: the sticker book is the one
+   thing a Fest and a livestream have in common. */
+/* How it works. Each step names the stickers drawn above it, by slug
+   (public/stickers): the two required ones; a Fest and the three online
+   activities as the homepage badges; the first two milestones, the pack
+   and the holographic sticker. */
+export const homeSteps = {
+  eyebrow: 'How it works',
+  heading: { lead: 'Sign in, show up,', accent: 'collect stickers.' },
+  phases: [
+    {
+      label: 'Before',
+      steps: [
+        {
+          title: 'Sign in with MyMLH',
+          copy: 'Free, and it takes a minute. Sign in and add your address for your first two stickers.',
+          stickers: ['signin', 'address'],
+        },
+      ],
+    },
+    {
+      label: 'In October',
+      steps: [
+        {
+          title: 'Go to a Fest, or join online',
+          copy: 'Register on a Fest’s page, or check the schedule for livestreams and challenges.',
+          stickers: ['fest', 'home-livestreams', 'home-dev', 'home-ghw'],
+        },
+        {
+          title: 'Get a sticker pack in the mail',
+          copy: 'Three stickers and we mail you a real sticker pack. Keep going for more.',
+          stickers: ['milestone-pack', 'milestone-complete'],
+        },
+      ],
+    },
+  ],
+  cta: { label: 'Start your sticker book', href: '/login/' },
+};
+
 export const subscribed = {
   title: 'Thanks for signing up | Hacktoberfest 2026',
   eyebrow: 'You’re on the list',
@@ -1309,7 +1611,7 @@ export const inPerson = {
      T-shirts, stickers and swag, Arduinos at select Hack Days, prizes at
      a Hack Day, and the virtual rewards (stickers for the online book,
      and a certificate). These are not stickers, so each card carries a
-     plain icon, `icon` naming one of the Tabler icons in
+     plain icon, `icon` naming one of the icons in
      components/WorldLanding/dayIcons. Every card that can says "while
      supplies last", so there is no disclaimer under them. `link` is the
      one card with a way onward. */
@@ -1328,7 +1630,7 @@ export const inPerson = {
       },
       {
         id: 'arduinos',
-        icon: 'bolt',
+        icon: 'infinity',
         at: 'Hack Days',
         title: 'Arduinos',
         copy: 'Arduinos are available for attendees at select Hack Days and while supplies last.',

@@ -2,13 +2,19 @@
    hexagon and no frame: the Tabler filled icon itself, in ink, from the
    same vendored files the sticker pipeline draws from
    (scripts/stickers/design/icons). Keyed by the icon's Tabler name, which
-   is what content.mjs inPerson.onTheDay names on each card. */
+   is what content.mjs inPerson.onTheDay names on each card. The one
+   exception is infinity, drawn here: Tabler has only an outline one. */
 export const DAY_ICONS = Object.freeze({
   hexagon: [
     'M10.425 1.414l-6.775 3.996a3.21 3.21 0 0 0 -1.65 2.807v7.285a3.226 3.226 0 0 0 1.678 2.826l6.695 4.237c1.034 .57 2.22 .57 3.2 .032l6.804 -4.302c.98 -.537 1.623 -1.618 1.623 -2.793v-7.284l-.005 -.204a3.223 3.223 0 0 0 -1.284 -2.39l-.107 -.075l-.007 -.007a1.074 1.074 0 0 0 -.181 -.133l-6.776 -3.995a3.33 3.33 0 0 0 -3.216 0z',
   ],
-  bolt: [
-    'M13 2l.018 .001l.016 .001l.083 .005l.011 .002h.011l.038 .009l.052 .008l.016 .006l.011 .001l.029 .011l.052 .014l.019 .009l.015 .004l.028 .014l.04 .017l.021 .012l.022 .01l.023 .015l.031 .017l.034 .024l.018 .011l.013 .012l.024 .017l.038 .034l.022 .017l.008 .01l.014 .012l.036 .041l.026 .027l.006 .009c.12 .147 .196 .322 .218 .513l.001 .012l.002 .041l.004 .064v6h5a1 1 0 0 1 .868 1.497l-.06 .091l-8 11c-.568 .783 -1.808 .38 -1.808 -.588v-6h-5a1 1 0 0 1 -.868 -1.497l.06 -.091l8 -11l.01 -.013l.018 -.024l.033 -.038l.018 -.022l.009 -.008l.013 -.014l.04 -.036l.028 -.026l.008 -.006a1 1 0 0 1 .402 -.199l.011 -.001l.027 -.005l.074 -.013l.011 -.001l.041 -.002z',
+  /* The Arduinos card's infinity, in the filled icons' weight: two rings
+     (centres 5.6 either side of the middle, radius 4.2) joined by two
+     bands crossing at the middle, each band's centreline tangent to both
+     rings, the band 2.4 wide. So every edge is a ring's arc (5.4 out, 3
+     in) or a line tangent to one, and the holes are teardrops. */
+  infinity: [
+    'M12 10.186L13.55 8.428A5.4 5.4 0 1 1 13.55 15.572L12 13.814L10.45 15.572A5.4 5.4 0 1 1 10.45 8.428zM13.6 12L15.35 13.984A3 3 0 1 0 15.35 10.016zM10.4 12L8.65 10.016A3 3 0 1 0 8.65 13.984z',
   ],
   gift: [
     'M11 14v8h-4a3 3 0 0 1 -3 -3v-4a1 1 0 0 1 1 -1h6zm8 0a1 1 0 0 1 1 1v4a3 3 0 0 1 -3 3h-4v-8h6zm-2.5 -12a3.5 3.5 0 0 1 3.163 5h.337a2 2 0 0 1 2 2v1a2 2 0 0 1 -2 2h-7v-5h-2v5h-7a2 2 0 0 1 -2 -2v-1a2 2 0 0 1 2 -2h.337a3.486 3.486 0 0 1 -.337 -1.5c0 -1.933 1.567 -3.5 3.483 -3.5c1.755 -.03 3.312 1.092 4.381 2.934l.136 .243c1.033 -1.914 2.56 -3.114 4.291 -3.175l.209 -.002zm-9 2a1.5 1.5 0 0 0 0 3h3.143c-.741 -1.905 -1.949 -3.02 -3.143 -3zm8.983 0c-1.18 -.02 -2.385 1.096 -3.126 3h3.143a1.5 1.5 0 1 0 -.017 -3z',

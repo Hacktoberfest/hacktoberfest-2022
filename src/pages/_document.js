@@ -1,7 +1,13 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
+import { TODAY_STRIP } from '../data/todayStrip.mjs';
 import { bannerPrePaintScript } from '../lib/banner.mjs';
+import { API_BASE_URL } from '../lib/session.mjs';
+import {
+  TODAY_STRIP_OFF_ATTRIBUTE,
+  todayStripPrePaintScript,
+} from '../lib/todayStrip.mjs';
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -31,7 +37,14 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="en">
+      /* With the strip switched off, <html> says so from the start, the way
+         the pre-paint script says it on a day outside October, so what
+         measures the page's top before paint (the homepage hero's
+         --hero-guess) counts no strip. */
+      <Html
+        lang="en"
+        {...(TODAY_STRIP ? {} : { [TODAY_STRIP_OFF_ATTRIBUTE]: 'true' })}
+      >
         <Head>
           {/* Retries any /_next/ asset the origin refuses to serve.
 
@@ -104,6 +117,19 @@ class MyDocument extends Document {
               that reason; components/Banner then unmounts the strip
               outright once React is running. */}
           <script dangerouslySetInnerHTML={{ __html: bannerPrePaintScript }} />
+          {/* The same move for the Today strip, which every page's HTML
+              carries but only October shows: on any other day this marks
+              <html> and the strip's stylesheet hides it before first
+              paint, where waiting for React would flash a band and then
+              pull the page up 52px. The mocked build honours ?now= here
+              too, so a preview is judged by the day it is previewing. */}
+          {TODAY_STRIP && (
+            <script
+              dangerouslySetInnerHTML={{
+                __html: todayStripPrePaintScript(!API_BASE_URL),
+              }}
+            />
+          )}
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link
             rel="icon"

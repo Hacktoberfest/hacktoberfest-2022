@@ -283,8 +283,9 @@ export const composeSticker = ({
    edge and white ring the site's CSS draws around a hexagon, drawn into
    the file here since the locker draws a thing as itself (the same
    32-and-20 strokes under the fill: 6 of ink, then 10 of white, showing
-   outside the shape). The envelope carries a small white hexagon
-   sticker, the pack's; a gift box and a badge are plain; a card carries three
+   outside the shape). The envelope is the pack sticker's own envelope
+   (icons/mail-opened.svg), its creases in ink at the edge's weight; a
+   gift box and a badge are plain; a card carries three
    ruled lines and an ochre seal at its lower right with the seal's icon
    in white on it. A shape keeps 18 units from the box's sides, since the
    ink edge reaches 16 outside it and the box is the picture's edge. */
@@ -310,15 +311,20 @@ const roundedRect = (x, y, w, h, r) =>
 const ruled = (d, colour, width) =>
   `<path d="${d}" fill="none" stroke="${colour}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
 
-const smallSticker = (cx, cy, width) =>
-  `<path d="${hexagonAt(cx, cy, width)}" fill="${WHITE}" stroke="${INK}" stroke-width="5.4" stroke-linejoin="round"/>`;
-
 /* A Tabler icon as the thing's whole shape: its 24 grid scaled to `size`
-   and centred, the skin's strokes scaled down to match. */
-const shapeMark = (paths, ground, size) => {
+   and centred, the skin's strokes scaled down to match. An icon's
+   data-role="line" paths are its creases, drawn over the ground in ink
+   6 units wide, the width of the ink edge that shows outside the white,
+   so a crease weighs the same as the edge, as on the stickers. */
+const shapeMark = (paths, ground, size, lines = []) => {
   const k = size / 24;
   const transform = `translate(${f2(100 - size / 2)} ${f2(100 - size / 2)}) scale(${f2(k)})`;
-  return skin(paths, ground, { transform, k });
+  const creases = lines.length
+    ? `<g transform="${transform}" fill="none" stroke="${INK}" stroke-width="${f2(6 / k)}" stroke-linecap="round" stroke-linejoin="round">${lines.map((d) => `<path d="${d}"/>`).join('')}</g>`
+    : '';
+  return [skin(paths, ground, { transform, k }), creases]
+    .filter(Boolean)
+    .join('\n');
 };
 
 /* The seal: an ochre disc 40 wide with an ink edge, the icon 26 tall on
@@ -338,12 +344,8 @@ const seal = (paths, fillRule, cx, cy) => {
 };
 
 const THING_SHAPES = {
-  envelope: ({ ground }) =>
-    [
-      skin([roundedRect(18, 40, 164, 120, 10)], ground),
-      ruled('M18 40 L100 106 L182 40', INK, 5.4),
-      smallSticker(100, 128, 30),
-    ].join('\n'),
+  envelope: ({ ground, shapeIcon }) =>
+    shapeMark(shapeIcon.paths, ground, 176, shapeIcon.lines),
   gift: ({ ground, shapeIcon }) => shapeMark(shapeIcon.paths, ground, 176),
   badge: ({ ground, shapeIcon }) => shapeMark(shapeIcon.paths, ground, 176),
   card: ({ ground, sealIcon, rules = WHITE }) =>

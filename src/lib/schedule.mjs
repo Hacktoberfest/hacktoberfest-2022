@@ -173,8 +173,10 @@ const shortDate = (date, timeZone) =>
 
 /* The zone's own short name ("BST", "EDT", "GMT+5:30"), pulled out of a
    formatted string rather than assumed, so it is right wherever the reader is
-   and right on both sides of a daylight-saving change. */
-const zoneLabel = (date, timeZone) => {
+   and right on both sides of a daylight-saving change. Exported for the
+   Today strip (lib/todayStrip.mjs), whose "later today" line names the
+   zone on its own, with no toolbar above it to do that. */
+export const zoneLabel = (date, timeZone) => {
   const part = new Intl.DateTimeFormat('en-US', {
     timeZone,
     timeZoneName: 'short',

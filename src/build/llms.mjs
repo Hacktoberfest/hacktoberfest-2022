@@ -8,12 +8,16 @@ import {
   answerText,
   faq,
   fests,
-  getInvolved,
   headingText,
   hero,
+  homeAbout,
+  homeOnline,
+  homeSteps,
   host,
   inPerson,
+  mapHero,
   mission,
+  missionPage,
   my,
   online,
   siteMeta,
@@ -47,7 +51,11 @@ const SIGNED_IN_HREF = /^\/(?:my|login)\b/;
 const START_HERE = [
   {
     route: '/',
-    text: '[Hacktoberfest 2026](./): The event overview, the mission, and how to get involved.',
+    text: '[Hacktoberfest 2026](./): What Hacktoberfest is, every Fest on a map with a search for the nearest, the ways to join online, and how the sticker book works.',
+  },
+  {
+    route: '/mission/',
+    text: '[Mission](./mission/): How Hacktoberfest grew from four pull requests to 300+ events, and why this year is about building with open source AI.',
   },
   {
     route: '/online/',
@@ -102,7 +110,7 @@ const llmsIndex = () =>
     `## ${timeline.eyebrow}`,
     bullets(
       timeline.eras.map(
-        (era) => `[${era.year}](./#history): ${era.title} ${era.copy}`,
+        (era) => `[${era.year}](./mission/#history): ${era.title} ${era.copy}`,
       ),
     ),
     `## ${mission.eyebrow}`,
@@ -237,26 +245,40 @@ const worldSection = (route, title, world) =>
 const llmsFull = () =>
   paragraphs(
     '# Hacktoberfest 2026 — Complete site copy',
+    /* The October homepage: the Fest map hero, the soonest Fests, the
+       online band and the steps. The map and the Fests themselves come
+       from the events endpoint, so the prose names what the page does
+       with them rather than listing them. */
     '## Hero',
-    hero.eyebrow.join(' · '),
-    headingText(hero.heading),
-    hero.deck,
-    `CTAs: ${hero.cta} (/schedule/) · ${hero.secondaryCta} (/fests/)`,
+    mapHero.eyebrow.join(' · '),
+    headingText(mapHero.heading),
+    `A map of the world with a square for every place a Fest is happening, and a search box (${mapHero.search.label}) that lists matching cities, countries and Fests as you type and submits to the Fests directory (/fests/?q=).`,
+    `${mapHero.online.prompt} ${mapHero.online.cta} (${mapHero.online.href})`,
+    headingText(mapHero.tagline),
     `${hero.poweredByLabel} MLH x DEV. ${hero.presentingLabel}: DigitalOcean.`,
-    `## ${timeline.eyebrow}`,
-    headingText(timeline.heading),
-    timeline.intro,
-    timeline.eras.map((era) => `${era.year} — ${era.title} ${era.copy}`),
-    `## ${mission.eyebrow}`,
-    headingText(mission.heading),
-    mission.paragraphs.map(answerText),
-    `## ${getInvolved.eyebrow}`,
-    headingText(getInvolved.heading),
-    getInvolved.intro,
-    getInvolved.cards.map(
-      (card) =>
-        `${card.tag} — ${card.title} ${card.copy.join(' ')} (CTA: ${card.cta})`,
+    `## ${headingText(homeAbout.heading)}`,
+    homeAbout.paragraphs.map(answerText),
+    `## ${inPerson.nearby.eyebrow}`,
+    headingText(inPerson.nearby.heading),
+    inPerson.nearby.intro,
+    `## ${homeOnline.eyebrow}`,
+    headingText(homeOnline.heading),
+    homeOnline.intro,
+    homeOnline.cards.map(
+      (card) => `${card.title}: ${card.copy} (CTA: ${card.cta})`,
     ),
+    `CTA: ${homeOnline.cta.label} (${homeOnline.cta.href})`,
+    `## ${homeSteps.eyebrow}`,
+    headingText(homeSteps.heading),
+    homeSteps.phases.map(
+      (phase) =>
+        `${phase.label}: ${phase.steps
+          .map((step) => `${step.title}. ${step.copy}`)
+          .join(' ')}`,
+    ),
+    /* No sign-in path here: the llms files carry no /login or /my,
+       which test/my-pages.test.mjs holds them to. */
+    `CTA: ${homeSteps.cta.label} (signs in with MyMLH)`,
     `## ${faq.eyebrow}`,
     headingText(faq.heading),
     faq.intro,
@@ -273,6 +295,15 @@ const llmsFull = () =>
       const suffix = links.length ? ` (${links.join(' ')})` : '';
       return `${item.question} — ${answerText(item.answer)}${suffix}`;
     }),
+    /* The /mission/ page: the story so far, then the mission. */
+    '## Mission',
+    `${missionPage.eyebrow}. ${headingText(missionPage.heading)}`,
+    missionPage.intro,
+    `${timeline.eyebrow}. ${headingText(timeline.heading)}`,
+    timeline.intro,
+    timeline.eras.map((era) => `${era.year} — ${era.title} ${era.copy}`),
+    `${mission.eyebrow}. ${headingText(mission.heading)}`,
+    mission.paragraphs.map(answerText),
     '## After signing up',
     `${subscribed.eyebrow}. ${headingText(subscribed.heading)}`,
     subscribed.body,

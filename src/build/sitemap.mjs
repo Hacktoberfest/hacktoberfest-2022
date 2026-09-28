@@ -26,6 +26,7 @@ export const SITE_PAGES = [
   '/schedule/',
   '/activities/',
   '/questions/',
+  '/mission/',
 ];
 
 const sitemap = async () => {

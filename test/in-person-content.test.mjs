@@ -107,7 +107,7 @@ test('on the day: T-shirts and swag, Arduinos and prizes at a Hack Day, the virt
   );
   assert.deepEqual(
     cards.map((card) => card.icon),
-    ['hexagon', 'bolt', 'gift', 'rosette-discount-check'],
+    ['hexagon', 'infinity', 'gift', 'rosette-discount-check'],
   );
   cards.forEach((card) => {
     assert.ok(DAY_ICONS[card.icon], `${card.icon} has no icon`);

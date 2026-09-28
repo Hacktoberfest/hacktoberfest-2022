@@ -1,0 +1,344 @@
+/* The Today strip: a thin ink band under the sticky nav. It sits after
+   HeaderRoot rather than inside it, so it scrolls away with the page
+   instead of permanently taking 52px off every screen, and it needs no
+   z-index of its own: the header's stacking context (z-index 10) keeps
+   the nav's dropdowns and the phone menu painting over it.
+
+   Ink rather than the nav's forest: a different kind of thing from the
+   bar above it, and the ground the one orange dot on the page needs to
+   read as live. Tokens are restated from styles/tokens.js, which a CSS
+   Module cannot import. */
+.root {
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+/* Set on <html> before first paint by the inline script in _document, on
+   any day outside October 2026 (lib/todayStrip.mjs). The component
+   removes the strip from the document once React runs; this only has to
+   hold for the moments before that, so the band never flashes past on
+   its way out. */
+:global(html[data-today-strip-off='true']) .root {
+  display: none;
+}
+
+/* Shell's width rules, restated (CSS Modules cannot import Shell), the
+   way PageHero restates them.
+
+   Three widths, set by what fits rather than by device:
+
+     phones   two lines: the date and the controls, then the item under
+              them with the full width to itself.
+     tablet   one 52px row. The date, the day and the controls are fixed
+              widths, so the item takes what they leave, which is not
+              much: the progress bar and the CTA wait for desktop, since
+              with them the item had no room left for its own words.
+     desktop  the whole row, bar and CTA included. */
+.inner {
+  display: grid;
+  width: min(calc(100% - 30px), 1280px);
+  align-items: center;
+  margin-inline: auto;
+  padding-bottom: 10px;
+  column-gap: 12px;
+  grid-template-areas:
+    'today status'
+    'item item';
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.today {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  margin: 0;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  gap: 12px;
+  grid-area: today;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* The live dot. The ring breathes rather than blinks: it is saying the
+   month is on, not that anything is urgent. */
+.dot {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  animation: ring 2.4s ease-in-out infinite;
+  /* colors.orange */
+  background: #e53927;
+  box-shadow: 0 0 0 4px rgba(229, 57, 39, 0.3);
+}
+
+@keyframes ring {
+  50% {
+    box-shadow: 0 0 0 7px rgba(229, 57, 39, 0.12);
+  }
+}
+
+.date {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item {
+  min-width: 0;
+  grid-area: item;
+}
+
+/* One link for the whole item, at every width: one tab stop, and on a
+   phone the whole line is the thing to tap. The CTA is the part dressed
+   as a link, on the widths with room for it.
+
+   Clipped as a last resort, so that if the kicker and the CTA are ever
+   wider than the room (larger text settings, say) they are cut off
+   rather than painted across the day count. The padding, cancelled by
+   the margin, lets the CTA's underline sit inside the clip. The link's
+   own focus ring is outside its box, which the clip never touches. */
+.link {
+  display: flex;
+  overflow: hidden;
+  min-width: 0;
+  align-items: baseline;
+  padding-block: 4px;
+  margin-block: -4px;
+  color: inherit;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.entering {
+  animation: itemIn 180ms ease-out;
+}
+
+@keyframes itemIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.kicker {
+  flex: none;
+  /* colors.ochre */
+  color: #f5b726;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* One line, always, cut with an ellipsis rather than wrapped: items come
+   and go every six seconds, and a band whose height followed its text
+   would shove the page up and down with them. */
+.text {
+  overflow: hidden;
+  min-width: 0;
+  /* fonts.sans */
+  font-family:
+    'Inter',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cta {
+  display: none;
+  flex: none;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  white-space: nowrap;
+}
+
+.link:hover .cta {
+  text-decoration-thickness: 2px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  grid-area: status;
+  justify-self: end;
+}
+
+.day {
+  margin-right: 4px;
+  /* colors.ochre */
+  color: #f5b726;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* The month so far, drawn. Desktop only: below it the words carry it,
+   and the row has no room to spare. */
+.progress {
+  display: none;
+  width: 140px;
+  height: 10px;
+  flex: none;
+  /* colors.white */
+  border: 2px solid #f7f7f2;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  /* colors.ochre */
+  background: #f5b726;
+}
+
+/* 44px wherever a finger is likely, the size the nav's own toggle is
+   held to; smaller only on desktop, where the row is a pointer's. */
+.control {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.control svg {
+  width: 18px;
+  height: 18px;
+}
+
+.control:hover:not(:disabled) {
+  background: rgba(247, 247, 242, 0.14);
+}
+
+.control:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+/* No focus styles of their own: the global ring (_app's :focus-visible)
+   is a white outline, which is exactly what shows on an ink ground. Its
+   ink halo vanishes here, and nothing is lost by that. */
+
+/* Most phones: "Today · Wed 14 Oct" beside the day count and two 44px
+   buttons needs a little over 400px, so under 420 the words "Today · "
+   go and the date stays. Still read out: the recipe is the standard
+   visually-hidden one, not display: none. */
+@media (max-width: 419.98px) {
+  .date[data-dated='true'] .lead {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .inner {
+    width: min(calc(100% - 40px), 1280px);
+    min-height: 52px;
+    padding-bottom: 0;
+    column-gap: 16px;
+    grid-template-areas: 'today item status';
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .today,
+  .day,
+  .kicker {
+    font-size: 0.75rem;
+  }
+
+  /* Room held for the longest date ("Today · Wed 14 Oct", eighteen
+     characters and their tracking) before the browser fills it in, so
+     the item beside it does not jump sideways when it arrives. A
+     monospace face makes every character one `ch`. */
+  .date {
+    min-width: calc(18ch + 0.72em);
+  }
+
+  /* The same for "Day 14 of 31". */
+  .day {
+    min-width: calc(12ch + 0.48em);
+    margin-right: 8px;
+    text-align: right;
+  }
+
+  .text {
+    font-size: 0.9375rem;
+  }
+}
+
+/* breakpoints.desktop */
+@media (min-width: 1024px) {
+  .inner {
+    column-gap: 24px;
+  }
+
+  .cta {
+    display: inline;
+  }
+
+  .day {
+    margin-right: 12px;
+  }
+
+  .progress {
+    display: block;
+    margin-right: 10px;
+  }
+
+  .control {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (min-width: 1700px) {
+  .inner {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot,
+  .entering {
+    animation: none;
+  }
+}

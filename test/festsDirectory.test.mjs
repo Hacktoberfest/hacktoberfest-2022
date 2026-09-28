@@ -7,9 +7,8 @@ process.env.NEXT_PUBLIC_API_BASE_URL = 'https://api.test.invalid';
    before this file's first import — the progress-api-client.test.mjs
    pattern. Fixture mode (variable unset) lives in
    festsDirectory-mock.test.mjs, its own process under node:test. */
-const { festFromEvent, getFestsDirectory } = await import(
-  '../src/lib/festsDirectory.mjs'
-);
+const { festFromEvent, getFestsDirectory, getFestsDirectoryOnce } =
+  await import('../src/lib/festsDirectory.mjs');
 
 /* An event as /api/events actually returns one. */
 const EVENT = {
@@ -144,6 +143,30 @@ test('returns an empty list when the payload has no events array', async (t) => 
 test('throws when the API responds with a non-OK status', async (t) => {
   withFetch(t, () => ({ ok: false, status: 503 }));
   await assert.rejects(() => getFestsDirectory());
+});
+
+/* The homepage's map and upcoming Fests share one request. A failed one
+   is forgotten, so the next caller gets a fresh try. */
+test('getFestsDirectoryOnce shares one request and retries after a failure', async (t) => {
+  let attempts = 0;
+  const calls = withFetch(t, () => {
+    attempts += 1;
+    return attempts === 1
+      ? { ok: false, status: 503 }
+      : jsonResponse({ events: [EVENT], count: 1 });
+  });
+
+  await assert.rejects(() => getFestsDirectoryOnce());
+
+  const [first, second] = await Promise.all([
+    getFestsDirectoryOnce(),
+    getFestsDirectoryOnce(),
+  ]);
+  assert.equal(first, second);
+  assert.equal(first.length, 1);
+
+  await getFestsDirectoryOnce();
+  assert.equal(calls.length, 2);
 });
 
 test('festFromEvent carries a host description and nulls everything else', () => {

@@ -117,7 +117,8 @@ const SponsorSection = () => (
               <WallLogo
                 src={entry.logo}
                 alt=""
-                $wide={entry.slug === 'backboard'}
+                $wide={entry.wide}
+                $scale={entry.scale}
               />
             </WallLink>
           </WallItem>

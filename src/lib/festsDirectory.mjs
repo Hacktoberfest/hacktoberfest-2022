@@ -189,3 +189,21 @@ export const getFestsDirectory = async () => {
     .filter((event) => event !== null && typeof event === 'object')
     .map(festFromEvent);
 };
+
+/* One request per page for every surface that wants the list. The
+   homepage draws the map and the upcoming Fests from the same payload,
+   and at a few hundred kilobytes it is worth fetching once rather than
+   once per band. A failure is not remembered, so the next caller tries
+   again instead of inheriting a rejection. getFestsDirectory itself stays
+   a fresh request, which is what the directory page and the tests want. */
+let shared = null;
+
+export const getFestsDirectoryOnce = () => {
+  if (!shared) {
+    shared = getFestsDirectory().catch((error) => {
+      shared = null;
+      throw error;
+    });
+  }
+  return shared;
+};

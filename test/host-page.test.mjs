@@ -124,9 +124,11 @@ test('/host links the hosting guide and the apply CTA', async () => {
   );
 });
 
+/* The nav's entry carries its description beside the label, so the
+   label is matched anywhere inside the link. */
 test('the homepage nav links to /host/', async () => {
   const html = await readOutput('index.html');
-  assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Host a Fest<\/a>/);
+  assert.match(html, /<a[^>]*href="\/host\/"[^>]*>(?:(?!<\/a>).)*Host a Fest/);
 });
 
 /* The handbook the guide band points at is the same one /my's host
