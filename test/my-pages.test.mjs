@@ -107,6 +107,9 @@ test('the /my stylesheet is emitted and linked from the page', async () => {
   // The inventory locker (Inventory.module.css) is a CSS Module too, and
   // renders after the same fetch: its slot rule has to be in the sheet.
   assert.match(css, /Inventory_slot__/, 'inventory slot rule missing');
+  // The locked bands (LockedBand.module.css) stand in for those three
+  // until October 1st, after the same fetch: their panel rule too.
+  assert.match(css, /LockedBand_panel__/, 'locked band panel rule missing');
 });
 
 /* The export renders /my in its loading state, which makes the loading
@@ -300,6 +303,7 @@ test('the /my feature contains no styled-components', async () => {
     'ThankYouBand',
     'RewardsBand',
     'Album',
+    'LockedBand',
     'ActivitiesPage',
     'FestsBand',
     'MyStatus',
@@ -605,6 +609,29 @@ const WIRING = [
     file: 'src/pages/my.js',
     token: '<Album experience={experience} justEarned={justEarned} />',
     why: '"Your sticker book." is the attending hub\'s second band, under the Fests.',
+  },
+  /* The sticker book lock (data/stickerBookLock.mjs): one switch closes
+     the book, the milestones and the locker together, and the page around
+     them has to agree. */
+  {
+    file: 'src/pages/my.js',
+    token: 'STICKER_BOOK_LOCKED ? (',
+    why: 'the lock has to gate the three bands. Without it the switch changes nothing, and the book opens before October.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'if (STICKER_BOOK_LOCKED)\n    return rewards.addressValidated',
+    why: "the hero's line must say when the book opens while it is locked. Without it the hero speaks of milestones on a page that shows none.",
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'if (STICKER_BOOK_LOCKED) return;',
+    why: 'nothing may be noted as seen while the book is closed. Without it the first two stickers spend their just-earned moment on a page that never showed them.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'label: my.rewards.pack.addressCta,',
+    why: 'the milestones panel keeps the address button while the address is missing: locked, it is the only place on /my that asks for it, and the pack cannot ship without one.',
   },
   {
     file: 'src/pages/my.js',

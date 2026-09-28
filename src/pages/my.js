@@ -4,10 +4,12 @@ import Album from 'components/Album';
 import FestsBand from 'components/FestsBand';
 import HubLinkBand from 'components/HubLinkBand';
 import Inventory from 'components/Inventory';
+import LockedBand from 'components/LockedBand';
 import MyHub from 'components/MyHub';
 import RewardsBand from 'components/RewardsBand';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
+import { STICKER_BOOK_LOCKED } from 'data/stickerBookLock.mjs';
 import { connectOutcome } from 'lib/digitalocean.mjs';
 import { isOrganizing, organizingFests } from 'lib/fests.mjs';
 import { inventoryItems, itemIds } from 'lib/inventory.mjs';
@@ -24,6 +26,57 @@ import { bookStickers, rewardsState } from 'lib/stickerBook.mjs';
 const redirectFor = (experience) =>
   hubToOpen({ fests: experience.fests, lastHub: readLastHub() });
 
+/* The sticker book, the milestones and the rewards locker as they stand
+   until October 1st (data/stickerBookLock.mjs): each its own heading and
+   intro over a padlocked panel, in the order the open bands take. The
+   book's panel keeps the way to the catalogue, and the milestones' keeps
+   the one ask the pack card makes before October, the address, while it
+   is missing. */
+const LockedBands = ({ experience }) => {
+  const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
+  const rewards = rewardsState(experience, stickers);
+  return (
+    <>
+      <LockedBand
+        id="album-heading"
+        heading={my.album.heading}
+        intro={my.album.intro}
+        title={my.locked.album.title}
+        copy={my.locked.album.copy}
+        action={{ label: my.album.spine.detailCta, href: '/activities/' }}
+      />
+      <LockedBand
+        id="rewards-heading"
+        heading={my.rewards.heading}
+        intro={my.rewards.lede}
+        title={my.locked.rewards.title}
+        copy={my.locked.rewards.copy(
+          rewards.pack.total,
+          rewards.completion.target,
+        )}
+        action={
+          rewards.addressValidated
+            ? null
+            : {
+                label: my.rewards.pack.addressCta,
+                href: MLH_ADDRESS_URL,
+                button: true,
+                external: true,
+              }
+        }
+      />
+      <LockedBand
+        id="inventory-heading"
+        heading={my.inventory.heading}
+        intro={my.inventory.intro}
+        title={my.locked.inventory.title}
+        copy={my.locked.inventory.copy}
+        closing
+      />
+    </>
+  );
+};
+
 /* The attending hub's bands, with the one piece of state they share:
    which stickers, milestones and things in the inventory were earned
    since this participant last looked (lib/justEarned.mjs). Read against the record every time the
@@ -36,6 +89,9 @@ const Bands = ({ experience }) => {
   const [justEarned, setJustEarned] = useState(() => new Set());
 
   useEffect(() => {
+    /* Locked, nothing is on the page to have been seen: noting it now
+       would spend each sticker's moment before the book first opens. */
+    if (STICKER_BOOK_LOCKED) return;
     const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
     const fresh = noteEarned(getSession(), [
       ...earnedIds(stickers),
@@ -64,11 +120,19 @@ const Bands = ({ experience }) => {
          alone carries the page's bottom gutter (Inventory.module.css);
          the other bands end 8px above their neighbour. */}
       <FestsBand experience={experience} />
-      <Album experience={experience} justEarned={justEarned} />
-      <RewardsBand experience={experience} justEarned={justEarned} />
-      {/* The rewards: what the stickers earned, as a locker, the API's
-         items (lib/inventory.mjs). */}
-      <Inventory experience={experience} justEarned={justEarned} />
+      {/* Until October 1st the three bands stand closed, the last of them
+         carrying the page's bottom gutter as the inventory does. */}
+      {STICKER_BOOK_LOCKED ? (
+        <LockedBands experience={experience} />
+      ) : (
+        <>
+          <Album experience={experience} justEarned={justEarned} />
+          <RewardsBand experience={experience} justEarned={justEarned} />
+          {/* The rewards: what the stickers earned, as a locker, the API's
+             items (lib/inventory.mjs). */}
+          <Inventory experience={experience} justEarned={justEarned} />
+        </>
+      )}
     </>
   );
 };
@@ -78,6 +142,13 @@ const Bands = ({ experience }) => {
 const heroStatus = (experience) => {
   const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
   const rewards = rewardsState(experience, stickers);
+  /* Locked, the milestone intro speaks of a book nobody can open yet:
+     the line says when it opens instead, and asks for the address only
+     while MLH has none. */
+  if (STICKER_BOOK_LOCKED)
+    return rewards.addressValidated
+      ? my.locked.status.ready
+      : my.locked.status.noAddress;
   return [
     my.rewards.intro.pending(rewards.complete),
     my.rewards.intro.stickersEarned(rewards.complete),

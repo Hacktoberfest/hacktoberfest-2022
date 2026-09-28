@@ -2782,6 +2782,37 @@ export const my = {
       newFlag: 'New',
     },
   },
+  /* The sticker book lock (data/stickerBookLock.mjs): what /my says while
+     the book, the milestones and the rewards locker are closed. Each band
+     keeps its own heading and intro; these are the panel under it
+     (components/LockedBand) and the badge every panel wears. `status` is
+     the hero's line in place of the milestone intro: the address ask
+     until MLH has one, then only the Fest. The milestones'
+     numbers are the rewards band's own (lib/stickerBook.mjs rewardsState):
+     the stickers the pack asks for, and the book's target for the
+     holographic one. */
+  locked: {
+    status: {
+      noAddress:
+        'Your sticker book opens October 1st. Until then, add your address and find a Fest.',
+      ready:
+        'Your sticker book opens October 1st. Until then, find a Fest near you.',
+    },
+    badge: 'Unlocks October 1st',
+    album: {
+      title: 'Your sticker book opens October 1st.',
+      copy: 'Stickers to collect from Fests, livestreams, DEV challenges, Global Hack Week and more. Everything you do from October 1st lands here.',
+    },
+    rewards: {
+      title: 'Your milestones start counting October 1st.',
+      copy: (pack, holographic) =>
+        `${numberWord(pack)} stickers put a sticker pack in the mail. ${numberWord(holographic)} unlock the holographic sticker.`,
+    },
+    inventory: {
+      title: 'Your rewards appear here from October 1st.',
+      copy: 'Your sticker pack, the holographic sticker, certificates and DEV badges, as you earn them.',
+    },
+  },
   fests: {
     heading: { lead: 'Your', accent: 'Fests.' },
     /* The line under the heading, whatever the state: what Fests are and

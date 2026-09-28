@@ -1,0 +1,183 @@
+/* A /my band closed until October 1st. CSS Module because the hub renders
+   after a client-side fetch, where styled-components ship no CSS. Palette
+   values are restated as literals with the token named beside each, the
+   convention the other modules follow. The band, heading and intro are
+   the sticker book's (Album.module.css), so a locked band sits exactly
+   where the open one will. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+/* The last band on the page carries its closing room, as the rewards
+   locker does (Inventory.module.css). */
+.bandClosing {
+  padding-bottom: clamp(48px, 7vw, 90px);
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* The panel: the pending treatment the milestone badges and the host
+   resources' locked rows use (dashed rule-grey), at the size of a card,
+   with no shadow, since nothing in it can be picked up yet. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 20px;
+  /* colors.rule */
+  border: 2px dashed #8ca59e;
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+/* The sticker book's empty die-cut slot, the dashed hexagon the milestone
+   pips draw (RewardsBand.module.css), filled paper-deep, with the padlock
+   where the sticker will be. */
+.slot {
+  display: grid;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  /* colors.muted */
+  color: #52635f;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='%23e4e5da' stroke='%238ca59e' stroke-width='5' stroke-dasharray='11 8'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+.slotLock {
+  width: 34%;
+  height: 34%;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.copy {
+  margin: 0;
+  /* colors.body */
+  color: #34433f;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.action {
+  margin-top: 8px;
+}
+
+/* The way onward when it is a link: the sticker book spine's link
+   (Album.module.css .spineLink). */
+.link {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  /* colors.ink */
+  color: #10201d;
+  text-underline-offset: 3px;
+}
+
+/* The host resources band's locked badge (HostResourcesBand.module.css
+   .lockedBadge): dashed rule-grey, muted, uppercase, with the padlock. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 8px 14px;
+  /* colors.rule */
+  border: 1px dashed #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badgeLock {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+}
+
+/* breakpoints.tablet: slot, words and badge in a row, the badge up in
+   the corner. */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .panel {
+    flex-direction: row;
+    align-items: center;
+    gap: 26px;
+    padding: 28px 32px;
+  }
+
+  .slot {
+    width: 84px;
+    height: 84px;
+  }
+
+  .title {
+    font-size: 1.62rem;
+  }
+
+  .badge {
+    align-self: flex-start;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
