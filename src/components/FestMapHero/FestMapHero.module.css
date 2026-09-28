@@ -158,7 +158,9 @@
 }
 
 /* The online way in, as the search's alternative: the search's width,
-   a thin rule either side running to its edges, the words between. */
+   a thin rule either side running to its edges, the words between. The
+   words take two lines at the search's width, balanced so neither is a
+   stub; the fold budget under .map counts both. */
 .online {
   display: flex;
   width: 100%;
@@ -185,8 +187,17 @@
   background: rgba(247, 247, 242, 0.22);
 }
 
+/* Long enough to read as a rule, not a dash, beside the wrapped words,
+   where there is room: a phone keeps the words to two lines instead. */
+@media (min-width: 600px) {
+  .onlineRule {
+    min-width: 32px;
+  }
+}
+
 .onlineText {
   flex: 0 1 auto;
+  text-wrap: balance;
 }
 
 /* On a phone the question would wrap the line in two and squeeze the
@@ -207,7 +218,6 @@
   font-weight: 650;
   text-decoration: underline;
   text-underline-offset: 4px;
-  white-space: nowrap;
 }
 
 /* The arrow the /fests map strip ends on, nudged on hover. Drawn by CSS
@@ -240,7 +250,7 @@
    It is 2.98 times as wide as it is tall, so its width is the height
    left for it times 2.98: the screen, less where the hero starts
    (--hero-offset, above), less everything in the hero but the map, which
-   is 376px, or 422px below 1100px where the rail takes two lines, and
+   is 398px, or 444px below 1100px where the rail takes two lines, and
    more on the big-screen steps at the end of this file, each measured. */
 .map {
   width: min(calc(100% - 30px), 1280px);
@@ -252,7 +262,7 @@
   .map {
     width: min(
       calc(100% - 40px),
-      max(560px, calc((100svh - var(--hero-offset) - 422px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 444px) * 2.98))
     );
     padding-block: 26px 18px;
   }
@@ -262,7 +272,7 @@
   .map {
     width: min(
       calc(100% - 40px),
-      max(560px, calc((100svh - var(--hero-offset) - 376px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 398px) * 2.98))
     );
   }
 }
@@ -456,7 +466,7 @@
     width: min(
       calc(100% - 80px),
       2400px,
-      max(560px, calc((100svh - var(--hero-offset) - 442px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 465px) * 2.98))
     );
     padding-block: 32px 24px;
   }
@@ -528,7 +538,7 @@
     width: min(
       calc(100% - 96px),
       2400px,
-      max(560px, calc((100svh - var(--hero-offset) - 510px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 536px) * 2.98))
     );
     padding-block: 36px 28px;
   }

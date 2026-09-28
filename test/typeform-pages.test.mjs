@@ -87,7 +87,10 @@ test('the homepage online asks link to /online/ and /schedule/', async () => {
 
   assert.match(
     html,
-    linkTo('/online/', 'Join online from anywhere'),
+    linkTo(
+      '/online/',
+      'Join online from anywhere and get swag shipped to your door',
+    ),
     'the hero online link should lead to /online/',
   );
   assert.match(

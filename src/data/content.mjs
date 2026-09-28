@@ -309,7 +309,7 @@ export const faq = {
   // The wink under the panel; links to the machine-readable answers.
   llmsNote: 'Are you an LLM? → llms.txt',
   intro:
-    'Hacktoberfest works differently this year, and a new format always comes with questions. We have the answers: here’s how to take part, in person or online, and what you can earn along the way.',
+    'Hacktoberfest works differently this year, and a new format always comes with questions. We have the answers: here’s how to take part, in-person or online, and what you can earn along the way.',
   sections: [
     { id: 'getting-started', title: 'Getting started' },
     { id: 'pull-requests', title: 'Pull requests and open source' },
@@ -844,12 +844,13 @@ export const parseAnswerMarkdown = (markdown) =>
    screen readers is a function of the counts it plots, which come from
    the Fest directory at runtime. */
 export const mapHero = {
-  eyebrow: ['October 2026', 'In person and online · Free'],
+  eyebrow: ['October 2026', 'In-person and online · Free'],
   heading: { lead: '300+ Fests.', accent: 'One is near you.' },
   tagline: { lead: 'Hacktoberfest 2026:', accent: 'AI belongs to everyone.' },
   online: {
     prompt: 'Can’t make it in person?',
-    cta: 'Join online from anywhere',
+    /* No closing full stop: the link draws its own arrow after it. */
+    cta: 'Join online from anywhere and get swag shipped to your door',
     href: '/online/',
   },
   map: {
@@ -911,21 +912,21 @@ export const mapHero = {
    Paragraphs are segment arrays like `mission`'s, so the emphasis
    survives into the llms files as plain text (answerText). */
 export const homeAbout = {
-  eyebrow: 'New here?',
+  eyebrow: 'Introduction',
   heading: { lead: 'What is', accent: 'Hacktoberfest?' },
   paragraphs: [
     [
       {
-        text: 'Hacktoberfest is a month-long celebration of open source, every October since 2014.',
+        text: 'Hacktoberfest is a month-long celebration of open source throughout October.',
         bold: true,
       },
       {
-        text: ' This year it’s about learning and building with open source AI: open-weight models, open source agents, and the tools around them.',
+        text: ' This year, it’s all about building with open-weight models and open-source AI.',
       },
     ],
     [
       {
-        text: 'It’s free, and it’s for everyone, wherever you are in your open source AI journey. ',
+        text: 'It’s free, and it’s for everyone, wherever you are in your open-source AI or software creating journey. ',
       },
       {
         text: 'Join one of 300+ Fests in cities around the world, take part online all month, or both.',
@@ -934,21 +935,15 @@ export const homeAbout = {
     ],
     [
       {
-        text: 'Taken part before? Pull requests no longer count toward rewards. ',
+        text: 'Taken part before? Pull requests no longer count toward rewards but ',
       },
       {
-        text: 'Instead of counting PRs, you’ll learn and build.',
+        text: 'there are more ways than ever for you to earn t-shirts, stickers, and more.',
         bold: true,
       },
     ],
   ],
-  actions: [
-    { label: 'Read our mission', href: '/mission/' },
-    {
-      label: 'How this year is different',
-      href: '/questions/#faq-pull-requests-title',
-    },
-  ],
+  actions: [{ label: 'Read our mission', href: '/mission/' }],
 };
 
 /* Under the upcoming Fests: the three things anyone can do online, each
@@ -959,13 +954,13 @@ export const homeOnline = {
   eyebrow: 'Attend online',
   heading: { lead: 'Can’t get to a Fest?', accent: 'Join from anywhere.' },
   intro:
-    'Hacktoberfest is online all October too. Every livestream and challenge earns stickers for the same book as a Fest.',
+    'Hacktoberfest is online all October with livestreams and challenges. Collect virtual stickers for participating and we’ll ship you swag right to your door.',
   cards: [
     {
       id: 'livestreams',
       sticker: 'home-livestreams',
       title: 'Livestreams',
-      copy: 'Sessions on open-weight models, agents and tools. Check in with the code on screen to earn a sticker.',
+      copy: 'Sessions on open-weight models, agents and tools. Check in with the code on screen to collect a sticker.',
       cta: 'See the schedule',
       href: '/schedule/',
     },
@@ -973,7 +968,7 @@ export const homeOnline = {
       id: 'dev',
       sticker: 'home-dev',
       title: 'DEV Challenges',
-      copy: 'A new build prompt every week of October. Write up what you made on DEV.',
+      copy: 'A new mini-hackathon launches every week in October.',
       cta: 'See the challenges',
       href: DEV_CHALLENGES_URL,
     },
@@ -981,7 +976,7 @@ export const homeOnline = {
       id: 'ghw',
       sticker: 'home-ghw',
       title: 'Global Hack Week',
-      copy: 'Global Hack Week: Hacktoberfest, with sessions, challenges and points from MLH.',
+      copy: 'A one-week hacker festival filled with livestream sessions and challenges.',
       cta: 'See the sessions',
       href: '/schedule/',
     },
@@ -1018,8 +1013,8 @@ export const homeSteps = {
           stickers: ['fest', 'home-livestreams', 'home-dev', 'home-ghw'],
         },
         {
-          title: 'Get a sticker pack in the mail',
-          copy: 'Three stickers and we mail you a real sticker pack. Keep going for more.',
+          title: 'Get a swag pack in the mail',
+          copy: 'Collect three virtual stickers and we mail you a real sticker pack. Keep going for more and unlock even more swag.',
           stickers: ['milestone-pack', 'milestone-complete'],
         },
       ],
@@ -1701,7 +1696,7 @@ export const inPerson = {
     eyebrow: 'Where to go',
     heading: { lead: 'Upcoming', accent: 'Fests.' },
     intro:
-      'This Hacktoberfest, 300+ Fests are taking place across the world. Here are a few happening soon.',
+      '300+ Fests are taking place across the world. Here are a few happening soon.',
     cta: (count) =>
       count > 0 ? `See every Fest (${count})` : 'See every Fest',
     loading: 'Loading the next Fests…',
@@ -1975,7 +1970,7 @@ export const siteMeta = {
   siteName: 'Hacktoberfest',
   title: 'Hacktoberfest 2026 | AI belongs to everyone',
   description:
-    '300+ in-person Fests plus a global online event, all about building with open source AI. Join a Fest near you this October.',
+    '300+ in-person Fests plus a global online event, all about building with open-source AI. Join a Fest near you this October.',
   imageAlt: 'Hacktoberfest 2026',
 };
 

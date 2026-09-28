@@ -20,47 +20,47 @@ const external = (href) => /^https?:\/\//.test(href);
 /* What is Hacktoberfest? Under the hero, for the visitor who does not
    know yet, in the mission page's own band (MissionSection): the heading
    on the left, the answer on the right with the line that matters in
-   each paragraph in bold, then the ways on to the whole story. */
-export const HomeAboutBand = () => {
-  const [primary, secondary] = homeAbout.actions;
-  return (
-    <section className={styles.about} aria-labelledby="home-about-title">
-      <div className={`${styles.shell} ${styles.aboutInner}`}>
-        <div>
-          <p className={styles.aboutEyebrow}>{homeAbout.eyebrow}</p>
-          <h2 id="home-about-title" className={styles.aboutHeading}>
-            {homeAbout.heading.lead} <em>{homeAbout.heading.accent}</em>
-          </h2>
-        </div>
-        <div className={styles.aboutCopy}>
-          {homeAbout.paragraphs.map((paragraph) => (
-            <p key={answerText(paragraph)}>
-              {paragraph.map((segment, index) =>
-                segment.bold ? (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <strong key={index}>{segment.text}</strong>
-                ) : (
-                  segment.text
-                ),
-              )}
-            </p>
-          ))}
-          <div className={styles.aboutActions}>
-            <a className="hf-button" href={primary.href}>
-              {primary.label}
-            </a>
+   each paragraph in bold, then the ways on to the whole story: the first
+   the site's button, any after it the secondary one on the dark ground. */
+export const HomeAboutBand = () => (
+  <section className={styles.about} aria-labelledby="home-about-title">
+    <div className={`${styles.shell} ${styles.aboutInner}`}>
+      <div>
+        <p className={styles.aboutEyebrow}>{homeAbout.eyebrow}</p>
+        <h2 id="home-about-title" className={styles.aboutHeading}>
+          {homeAbout.heading.lead} <em>{homeAbout.heading.accent}</em>
+        </h2>
+      </div>
+      <div className={styles.aboutCopy}>
+        {homeAbout.paragraphs.map((paragraph) => (
+          <p key={answerText(paragraph)}>
+            {paragraph.map((segment, index) =>
+              segment.bold ? (
+                // eslint-disable-next-line react/no-array-index-key
+                <strong key={index}>{segment.text}</strong>
+              ) : (
+                segment.text
+              ),
+            )}
+          </p>
+        ))}
+        <div className={styles.aboutActions}>
+          {homeAbout.actions.map((action, index) => (
             <a
-              className={`hf-button ${styles.buttonOnDark}`}
-              href={secondary.href}
+              key={action.href}
+              className={
+                index === 0 ? 'hf-button' : `hf-button ${styles.buttonOnDark}`
+              }
+              href={action.href}
             >
-              {secondary.label}
+              {action.label}
             </a>
-          </div>
+          ))}
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 /* Can't get to a Fest? The three online activities, each drawn as a
    plain badge of its page of the book (scripts/stickers/design
