@@ -1849,6 +1849,14 @@ export const schedule = {
   intro:
     'Everything happening online this October, in your time zone or any other. Global Hack Week, workshops, streams, and the ceremonies that open and close the month.',
   monthLabel: 'October 2026',
+  /* The schedule lock (data/scheduleLock.mjs): the panel under the section
+     heading while the calendar waits. No date: the badge says soon, not
+     when, since the switch is flipped by hand. */
+  locked: {
+    title: 'The schedule is coming soon.',
+    copy: 'Every livestream, workshop and Global Hack Week session will be listed here, in your own time zone. Check back soon.',
+    badge: 'Coming soon',
+  },
   /* The stream's own heading, in the interior section grammar /activities/
      uses: the month label sits above it as the eyebrow, the accent is set
      in orange. The hero already says what the month is; this says what the

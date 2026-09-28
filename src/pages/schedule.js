@@ -4,8 +4,10 @@ import Header from 'components/Header';
 import PageHero from 'components/PageHero';
 import ScheduleCallout from 'components/ScheduleCallout';
 import ScheduleDirectory from 'components/ScheduleDirectory';
+import ScheduleComingSoon from 'components/ScheduleDirectory/ComingSoon';
 import { schedule } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
+import { SCHEDULE_LOCKED } from 'data/scheduleLock.mjs';
 
 const SCHEDULE_URL = absoluteUrl('/schedule/');
 
@@ -55,7 +57,9 @@ const Schedule = () => (
       >
         <p>{schedule.intro}</p>
       </PageHero>
-      <ScheduleDirectory />
+      {/* Until the lock is lifted (data/scheduleLock.mjs), the calendar
+          waits behind a Coming soon panel and nothing is fetched. */}
+      {SCHEDULE_LOCKED ? <ScheduleComingSoon /> : <ScheduleDirectory />}
       <ScheduleCallout />
     </main>
   </>
