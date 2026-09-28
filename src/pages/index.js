@@ -78,7 +78,9 @@ const Home = () => (
           the sticker book works. */}
       <FestMapHero />
       <HomeAboutBand />
-      <NearbyFests />
+      {/* The Fests pinned to the homepage in FestNet lead the six here,
+          unlabelled. */}
+      <NearbyFests homepagePins />
       <HomeOnlineBand />
       <HomeStepsBand />
       {/* <Rally /> */}

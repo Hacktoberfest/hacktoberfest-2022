@@ -90,6 +90,7 @@ test('normalizes API events into the card shape', async (t) => {
       websiteUrl: null,
       logoUrl: null,
       featured: false,
+      homepagePinned: false,
     },
   ]);
 });
@@ -130,6 +131,7 @@ test('drops non-object entries and tolerates a missing address', async (t) => {
       websiteUrl: null,
       logoUrl: null,
       featured: false,
+      homepagePinned: false,
     },
   ]);
 });
@@ -202,6 +204,19 @@ test('festFromEvent carries whether an admin featured the Fest', () => {
   assert.equal(festFromEvent({ ...EVENT, featured: false }).featured, false);
   assert.equal(festFromEvent(EVENT).featured, false);
   assert.equal(festFromEvent({ ...EVENT, featured: 'true' }).featured, false);
+});
+
+/* The homepage's own pin, read the same way and apart from Featured. */
+test('festFromEvent carries whether the Fest is pinned to the homepage', () => {
+  assert.equal(
+    festFromEvent({ ...EVENT, homepagePinned: true }).homepagePinned,
+    true,
+  );
+  assert.equal(
+    festFromEvent({ ...EVENT, featured: true }).homepagePinned,
+    false,
+  );
+  assert.equal(festFromEvent(EVENT).homepagePinned, false);
 });
 
 test('festFromEvent falls back to the slug when the id is null', () => {

@@ -5,6 +5,7 @@ import directoryStyles from 'components/FestsDirectory/FestsDirectory.module.css
 import { inPerson } from 'data/content.mjs';
 import { partitionPast, sortByDateAsc, todayIso } from 'lib/festDate.mjs';
 import { getFestsDirectoryOnce } from 'lib/festsDirectory.mjs';
+import { homepageFirst } from 'lib/festsFeatured.mjs';
 import { festsDirectoryUrl } from 'lib/festsUrl.mjs';
 
 import styles from './NearbyFests.module.css';
@@ -21,10 +22,17 @@ import styles from './NearbyFests.module.css';
    FestsDirectory follows). The band's frame, heading and intro are static
    and in the export; the cards arrive with the first paint after
    hydration. A card opens the Fest in the directory's modal, by the same
-   URL the directory itself writes for a deep link. */
+   URL the directory itself writes for a deep link.
+
+   `homepagePins`: lead with the Fests an admin has pinned to the
+   homepage in FestNet (its own pin, not /fests' Featured), then fill the
+   six with the soonest of the rest. The homepage asks for this; /in-person
+   keeps the plain soonest six. Either way no card here wears the Featured
+   chip: the band is a glimpse of the directory, and the directory is
+   where a pin is labelled. */
 const COUNT = 6;
 
-const NearbyFests = () => {
+const NearbyFests = ({ homepagePins = false }) => {
   const [state, setState] = useState({ status: 'loading', fests: [] });
 
   useEffect(() => {
@@ -44,7 +52,9 @@ const NearbyFests = () => {
 
   const today = todayIso();
   const { upcoming } = partitionPast(state.fests, today);
-  const soonest = sortByDateAsc(upcoming).slice(0, COUNT);
+  const soonest = homepagePins
+    ? homepageFirst(upcoming, COUNT)
+    : sortByDateAsc(upcoming).slice(0, COUNT);
 
   const open = (fest) => {
     window.location.assign(
@@ -92,6 +102,7 @@ const NearbyFests = () => {
                 distanceKm={null}
                 today={today}
                 onOpen={open}
+                featuredBadge={false}
               />
             ))}
           </div>

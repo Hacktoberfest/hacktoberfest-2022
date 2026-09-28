@@ -279,4 +279,6 @@ test('the fixtures cover the gaps the live payload actually has', () => {
   // mocked build shows only one of the two states.
   assert.ok(FESTS_FIXTURES.some((fest) => fest.featured === true));
   assert.ok(FESTS_FIXTURES.some((fest) => fest.featured !== true));
+  // Likewise the homepage's pin, for the six on the homepage.
+  assert.ok(FESTS_FIXTURES.some((fest) => fest.homepagePinned === true));
 });

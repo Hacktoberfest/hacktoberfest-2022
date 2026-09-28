@@ -173,6 +173,9 @@ export const festFromEvent = (event) => {
        who. Only `true` counts, so an API from before the field, or junk,
        reads as not featured. */
     featured: event.featured === true,
+    /* The homepage's own pin, separate from Featured: leads the six Fests
+       on the homepage (components/NearbyFests). Same reading. */
+    homepagePinned: event.homepagePinned === true,
   };
 };
 

@@ -13,8 +13,11 @@
 
    Two are pinned (`featured`, an admin's choice in FestNet), São Paulo and
    Sydney, neither the soonest, so the mocked build shows the Featured
-   group leading the list out of date order. The rest carry no key at all,
-   which reads as not featured, the same as an API from before the field. */
+   group leading the list out of date order. Two are pinned to the
+   homepage (`homepagePinned`, a separate pin), Manila and Sydney: Sydney
+   is the one upcoming Fest the soonest six would leave out, so the pin is
+   visible there. The rest carry neither key, which reads as not pinned,
+   the same as an API from before the fields. */
 export const FESTS_FIXTURES = [
   {
     id: 'fest-berlin',
@@ -181,6 +184,7 @@ export const FESTS_FIXTURES = [
     registrationUrl: null,
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/manila',
     logoUrl: null,
+    homepagePinned: true,
   },
   {
     id: 'fest-sydney',
@@ -203,5 +207,6 @@ export const FESTS_FIXTURES = [
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/sydney',
     logoUrl: 'https://example.invalid/hacktoberfest/logos/sydney.png',
     featured: true,
+    homepagePinned: true,
   },
 ];
