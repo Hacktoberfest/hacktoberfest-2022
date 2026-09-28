@@ -107,7 +107,6 @@ const ZonePicker = ({ zones, value, viewerZone, onChange }) => {
 
   return (
     <div className={styles.zonePicker} ref={rootRef}>
-      <span className={styles.zoneDot} aria-hidden="true" />
       <label className={styles.zoneLabel} htmlFor={inputId}>
         {schedule.timeZoneNote}
       </label>

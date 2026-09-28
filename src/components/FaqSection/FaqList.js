@@ -2,11 +2,13 @@ import { parseAnswerMarkdown } from 'data/content.mjs';
 
 import {
   FaqAnswer,
+  FaqBulletList,
   FaqItem,
   FaqLink,
   FaqMarker,
   FaqOrderedList,
   FaqPanel,
+  FaqParagraph,
   FaqQuestion,
   FaqQuestionText,
 } from './FaqSection.styles';
@@ -31,7 +33,7 @@ const AnswerLink = ({ href, children }) => {
 
 /* Renders one parseAnswerMarkdown `parts` array. Plain text, **bold**, and
    [label](href) all reduce to this same trio of node kinds, so both the
-   markdown paragraph case and each ordered-list item can share it. */
+   markdown paragraph case and each list item can share it. */
 const InlineParts = ({ parts }) =>
   parts.map((part, index) => {
     if (part.href) {
@@ -55,21 +57,37 @@ const AnswerSegment = ({ segment }) => {
   }
 
   if (segment.markdown) {
-    const parsed = parseAnswerMarkdown(segment.markdown);
+    const blocks = parseAnswerMarkdown(segment.markdown);
 
-    if (parsed.type === 'orderedList') {
+    /* A lone paragraph stays inline, exactly as a { text } segment would,
+       so it can sit between other segments. Anything with more than one
+       block, or a list, renders as real blocks. */
+    if (blocks.length === 1 && blocks[0].type === 'paragraph') {
+      return <InlineParts parts={blocks[0].parts} />;
+    }
+
+    return blocks.map((block, blockIndex) => {
+      if (block.type === 'paragraph') {
+        return (
+          <FaqParagraph key={blockIndex}>
+            <InlineParts parts={block.parts} />
+          </FaqParagraph>
+        );
+      }
+
+      const List =
+        block.type === 'orderedList' ? FaqOrderedList : FaqBulletList;
+
       return (
-        <FaqOrderedList>
-          {parsed.items.map((item, index) => (
+        <List key={blockIndex}>
+          {block.items.map((item, index) => (
             <li key={index}>
               <InlineParts parts={item.parts} />
             </li>
           ))}
-        </FaqOrderedList>
+        </List>
       );
-    }
-
-    return <InlineParts parts={parsed.parts} />;
+    });
   }
 
   return segment.text;

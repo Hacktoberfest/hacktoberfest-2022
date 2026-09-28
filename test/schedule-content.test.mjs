@@ -190,3 +190,33 @@ test('every event appears exactly once, plus one close stub per round', () => {
     'one stub per multi-day round, no more',
   );
 });
+
+/* The stream draws three row treatments; the legend beside the zone control
+   names them, and the challenge chip is the rail's word for a window. */
+test('the legend names every row treatment and the rail has a word for a window', async () => {
+  const { schedule } = await import('../src/data/content.mjs');
+  assert.deepEqual(Object.keys(schedule.legend), ['stream', 'round', 'close']);
+  Object.values(schedule.legend).forEach((label) => {
+    assert.match(label, /^[A-Z]/);
+    assert.doesNotMatch(label, /—/);
+  });
+  assert.equal(schedule.challengeChip, 'Challenge');
+  assert.ok(schedule.legendLabel.length > 0);
+  /* The line that says what a check-in counts for, and where the rest is. */
+  assert.match(schedule.countsNote.text, /check-in/);
+  assert.match(schedule.countsNote.text, /its own sticker/);
+  assert.doesNotMatch(schedule.countsNote.text, /activit/i);
+  assert.ok(schedule.countsNote.cta);
+});
+
+/* The stream's own heading, in the interior section grammar the activities
+   page uses: a lead, an accent set in orange, and the month as the eyebrow
+   above it. */
+test('the stream has a section heading with an accent and no em dashes', async () => {
+  const { schedule } = await import('../src/data/content.mjs');
+  assert.ok(schedule.sectionHeading.lead.length > 0);
+  assert.ok(schedule.sectionHeading.accent.length > 0);
+  assert.doesNotMatch(schedule.sectionHeading.lead, /—/);
+  assert.doesNotMatch(schedule.sectionHeading.accent, /—/);
+  assert.notEqual(schedule.sectionHeading.accent, schedule.heading.accent);
+});

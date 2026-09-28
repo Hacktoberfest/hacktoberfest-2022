@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+<defs><linearGradient id="ground-milestone-pack" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#f5b726"/><stop offset="1.00" stop-color="#e53927"/></linearGradient></defs>
+<path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="url(#ground-milestone-pack)"/>
+<g transform="translate(46.00 39.70) scale(4.50)" fill="none" stroke="#10201d" stroke-width="2.40" stroke-linejoin="round"><path d="M12 2.1 L22 9.5 V19 A3 3 0 0 1 19 22 H5 A3 3 0 0 1 2 19 V9.5 Z"/></g>
+<g transform="translate(46.00 39.70) scale(4.50)" fill="#f7f7f2"><path d="M12 2.1 L22 9.5 V19 A3 3 0 0 1 19 22 H5 A3 3 0 0 1 2 19 V9.5 Z"/></g>
+<g transform="translate(46.00 39.70) scale(4.50)" fill="none" stroke="#10201d" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5 L12 14.6 L22 9.5"/><path d="M2.6 20.9 L9.4 13.9 M21.4 20.9 L14.6 13.9"/></g>
+</svg>

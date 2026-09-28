@@ -196,10 +196,12 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
         )}
 
         {/* Absent on some events. A dead button is worse than none, so the
-            link simply does not render rather than pointing nowhere. */}
+            link simply does not render rather than pointing nowhere. The
+            button is the global one (src/styles/buttons.css); .modalCta is
+            placement only. */}
         {current.url && (
           <a
-            className={styles.modalCta}
+            className={`hf-button ${styles.modalCta}`}
             href={current.url}
             target="_blank"
             rel="noopener noreferrer"

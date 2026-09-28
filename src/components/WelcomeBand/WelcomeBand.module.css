@@ -1,3 +1,14 @@
+/* The status line under the hero's heading: the thesis of the page in
+   one sentence, set at reading size on the forest. colors.white */
+.status {
+  max-width: 44ch;
+  margin: 18px auto 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: #f7f7f2;
+  text-align: center;
+}
+
 /* Shell width rules, restated (CSS Modules cannot import Shell). Every band
    on /my uses these same width rules so their left edges align. */
 .band {
@@ -133,46 +144,31 @@
   gap: 10px;
 }
 
-/* One treatment for every action in the strip — same height, border, and
-   sentence case whether it's the DEV connect, MLH manage, or sign out. */
+/* One treatment for every action in the strip: the site's outline button
+   at its card size (src/styles/buttons.css), whether it's the DEV connect,
+   MLH manage, or sign out. The rules here only make room for the logos. */
 .actionButton {
-  display: inline-flex;
-  align-items: center;
   gap: 8px;
-  padding: 8px 14px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  background: transparent;
-  color: #10201d;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.86rem;
-  font-weight: 600;
-  text-decoration: none;
-  white-space: nowrap;
 }
 
-/* Tint, not invert: these buttons carry fixed-dark logo marks that an
-   ink-filled hover would swallow. */
-.actionButton:hover {
-  /* colors.paperDeep */
-  background: #e4e5da;
-}
-
-/* The not-yet-done variant: same size and shape, but dashed and gray —
-   the pending-tick grammar applied to a button. Only the DEV connect
-   wears it, and only while the account is unlinked. */
+/* The not-yet-done variant: same size and shape, but dashed and gray, the
+   pending-tick grammar applied to a button. Only the DEV connect wears it,
+   and only while the account is unlinked. The shadow goes with the solid
+   edge: a to-do is not yet a thing that casts one. */
 .actionPending {
   /* colors.rule */
   border-style: dashed;
   border-color: #8ca59e;
   /* colors.muted */
   color: #52635f;
+  box-shadow: none;
 }
 
 .actionPending:hover {
   /* colors.ink */
   color: #10201d;
+  box-shadow: none;
+  transform: none;
 }
 
 /* breakpoints.tablet */

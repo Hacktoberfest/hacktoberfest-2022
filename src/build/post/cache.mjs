@@ -41,13 +41,14 @@
 import { SITE_PAGES } from '../sitemap.mjs';
 
 /* The noindex pages the sitemap cannot carry but the heal must: /login/,
-   /my/, and the two OAuth callbacks are the sign-in path, whose whole
-   content is the same four-box loader — a chunk the edge has 404'd
-   leaves them on that loader forever, and the redirect that should
+   /my/, /my/hosting/, and the two OAuth callbacks are the sign-in path,
+   whose whole content is the same four-box loader — a chunk the edge has
+   404'd leaves them on that loader forever, and the redirect that should
    replace it only happens once React hydrates. */
 const AUTH_PAGES = [
   '/login/',
   '/my/',
+  '/my/hosting/',
   '/auth/callback/',
   '/oauth/mlh/callback/',
 ];

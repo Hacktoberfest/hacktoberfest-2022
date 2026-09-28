@@ -27,10 +27,11 @@ const WHITE = '#f7f7f2';
    tints to — the dark end for shadows, the light end for badges, which is how
    /fests uses maroon and orangeLight for the same Fest format.
 
-   orangeLight, skyLight and pinkLight are the site's own; the ochre and forest
-   tints are new, mixed to sit at the same lightness as those three, because
-   styles/tokens.js has no light end for either hue. They are the only two
-   colours on this page that are not already in the palette.
+   orangeLight, skyLight and pinkLight are the site's own; forest and the ink
+   tones take paperDeep, the ground the stream sits on. The ochre tint is the
+   one colour on this page not already in the palette, mixed to sit at the
+   same lightness as the three light tones, because styles/tokens.js has no
+   light end for that hue.
 
    Each surface is paired with the deep partner it casts. A shadow the same
    value as its surface does not read as depth — which is why --fest-accent on
@@ -43,12 +44,12 @@ const PALETTE = [
   { color: '#8bb2de', onColor: INK, shadow: '#1f4e6b', tint: '#d7e5f4' }, // sky
   { color: '#f5b726', onColor: INK, shadow: '#8a5d13', tint: '#fbe7bb' }, // ochre
   { color: '#e97b77', onColor: INK, shadow: '#671912', tint: '#f6c4c1' }, // pink
-  { color: '#3d5f58', onColor: WHITE, shadow: '#2e4742', tint: '#cfdad7' }, // forest
+  { color: '#3d5f58', onColor: WHITE, shadow: '#2e4742', tint: '#e4e5da' }, // forest
   { color: '#1f4e6b', onColor: WHITE, shadow: INK, tint: '#d7e5f4' }, // skyDeep
   { color: '#671912', onColor: WHITE, shadow: INK, tint: '#f9c9c2' }, // maroon
   { color: '#b8301f', onColor: WHITE, shadow: '#671912', tint: '#f6c4c1' }, // orangeDeep
   { color: '#8a5d13', onColor: WHITE, shadow: INK, tint: '#fbe7bb' }, // ochreDeep
-  { color: '#2e4742', onColor: WHITE, shadow: INK, tint: '#cfdad7' }, // forestDeep
+  { color: '#2e4742', onColor: WHITE, shadow: INK, tint: '#e4e5da' }, // forestDeep
   { color: '#284b44', onColor: WHITE, shadow: INK, tint: '#e4e5da' }, // inkSoft
 ];
 

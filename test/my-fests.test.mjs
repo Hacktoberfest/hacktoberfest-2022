@@ -5,6 +5,7 @@ import { my } from '../src/data/content.mjs';
 import {
   SELF_FIXABLE_CHECKS,
   blockingCheckFailures,
+  calendarFests,
   eventCardState,
   festDidNotAttend,
   festEditUrl,
@@ -13,7 +14,9 @@ import {
   formatFestDate,
   hasApplied,
   isHost,
+  SEASON_EVENT_ID,
   sortFestsByDate,
+  withoutSeasonRegistration,
 } from '../src/lib/fests.mjs';
 
 const TODAY = '2026-10-10';
@@ -136,6 +139,52 @@ test('formatFestDate renders a human date and rejects junk', () => {
   assert.equal(formatFestDate(''), null);
 });
 
+test('calendarFests: events of every role stay, applications of every rung go', () => {
+  const list = calendarFests([
+    fest({ id: 'a', date: '2026-10-20', status: 'registered' }),
+    fest({
+      id: 'app-draft',
+      date: '2026-10-03',
+      role: 'organizing',
+      applicationStatus: 'draft',
+    }),
+    fest({ id: 'b', date: '2026-10-05', status: 'checked_in' }),
+    fest({
+      id: 'app-submitted',
+      date: '2026-10-04',
+      role: 'organizing',
+      applicationStatus: 'submitted',
+    }),
+    fest({
+      id: 'hosting',
+      date: '2026-10-12',
+      role: 'organizing',
+      applicationStatus: null,
+    }),
+    fest({
+      id: 'app-approved',
+      date: '2026-10-06',
+      role: 'organizing',
+      applicationStatus: 'approved',
+    }),
+    fest({
+      id: 'app-rejected',
+      date: '2026-10-07',
+      role: 'organizing',
+      applicationStatus: 'rejected',
+    }),
+  ]);
+  assert.deepEqual(
+    list.map((entry) => entry.id),
+    ['b', 'hosting', 'a'],
+  );
+});
+
+test('calendarFests: junk degrades to an empty list', () => {
+  assert.deepEqual(calendarFests(null), []);
+  assert.deepEqual(calendarFests([null, 'x', 3]), []);
+});
+
 test('isHost: a real organized Fest makes a host, whatever its tense', () => {
   const organized = fest({
     role: 'organizing',
@@ -180,6 +229,19 @@ test('isHost: in-progress applications and attending alone do not', () => {
       false,
     );
   }
+});
+
+/* The find ghost always closes the fests grid, in one of two voices:
+   "find your first" for an empty list, "register for another" once any
+   Fest is on it — registered, checked in, hosting, or hosted alike.
+   Both voices need all three pieces, since either can be the grid's
+   find CTA. */
+test('the fests band carries both find-ghost voices', () => {
+  [my.fests.findGhost, my.fests.findGhostMore].forEach((ghost) => {
+    assert.ok(ghost.title);
+    assert.ok(ghost.body);
+    assert.ok(ghost.cta);
+  });
 });
 
 test('hasApplied: a sent application opens the thank-you gate', () => {
@@ -503,5 +565,18 @@ test('blockingCheckFailures degrades rather than accusing', () => {
       ],
     }),
     [{ id: 'name', passed: false }],
+  );
+});
+
+test('the season event registration an automation makes is dropped, hosting it is kept', () => {
+  const season = fest({ id: SEASON_EVENT_ID, name: 'Hacktoberfest 2026' });
+  const tokyo = fest({ id: 'fest-tokyo' });
+  assert.deepEqual(withoutSeasonRegistration([season, tokyo]), [tokyo]);
+  assert.deepEqual(
+    withoutSeasonRegistration([
+      { ...season, status: 'checked_in' },
+      { ...season, role: 'organizing' },
+    ]).map((kept) => kept.role),
+    ['organizing'],
   );
 });

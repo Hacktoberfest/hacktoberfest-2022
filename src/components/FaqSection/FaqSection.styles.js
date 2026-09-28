@@ -141,20 +141,30 @@ export const FaqMarker = styled.span`
   }
 `;
 
-/* A div, not a p: a { markdown } segment can render an <ol> (fest-formats'
-   numbered list of formats), and a block element inside a <p> gets closed
-   early by the browser's parser, silently breaking the layout. */
+/* A div, not a p: a { markdown } segment can render paragraphs and lists
+   (how-to-take-part's in-person and online bullets), and a block element
+   inside a <p> gets closed early by the browser's parser, silently breaking
+   the layout. */
 export const FaqAnswer = styled.div`
   margin: 0;
   padding: 0 24px 26px;
   color: #34433f;
   font-size: 0.95rem;
+
+  /* Only a multi-block { markdown } segment renders these as children;
+     plain segments stay inline and never pick up the gap. */
+  & > :is(p, ol, ul) + :is(p, ol, ul) {
+    margin-top: 12px;
+  }
 `;
 
-/* The one shape a { markdown } segment's ordered-list form takes — see
-   parseAnswerMarkdown in data/content.mjs. Only the fest-formats answer
-   uses this today. */
-export const FaqOrderedList = styled.ol`
+/* The blocks a { markdown } segment can render as — see parseAnswerMarkdown
+   in data/content.mjs. how-to-take-part is the answer that uses them. */
+export const FaqParagraph = styled.p`
+  margin: 0;
+`;
+
+const answerList = css`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -166,10 +176,18 @@ export const FaqOrderedList = styled.ol`
   }
 `;
 
+export const FaqOrderedList = styled.ol`
+  ${answerList}
+`;
+
+export const FaqBulletList = styled.ul`
+  ${answerList}
+`;
+
 /* Whenever an anchor and a popup trigger appear inline, they have to be
    indistinguishable: strip the button chrome and inherit the surrounding
-   text. FaqLink has no live use in the current copy — the only link segments
-   today are Typeform triggers — but stays for copy that links out. */
+   text. FaqLink carries every link in the answers today; FaqFormLink stays
+   for a Typeform trigger if one comes back. */
 const inlineLink = css`
   color: inherit;
   font: inherit;

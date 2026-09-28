@@ -1,0 +1,526 @@
+/* The rewards band on /my, above the sticker book. CSS Module because the
+   hub renders after a client-side fetch, where styled-components ship no
+   CSS. Palette values are restated as literals with the token named
+   beside each, the convention the other modules follow; the sticker,
+   slot, tag and badge rules restate the sticker book's
+   (Album.module.css), since a CSS Module cannot import another. */
+
+/* Shared band geometry, identical width rules to WelcomeBand so every
+   band's left edge aligns. Extra room above: the account strip hangs
+   half below the hero. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  /* The same top room as the other bands: this one used to open the
+     page under the hero, and now sits between the book and the locker. */
+  padding-block: 40px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* Two cards side by side from tablet width, in the homepage grammar: ink
+   border, white paper, maroon hard shadow. The right padding gives the
+   shadows room. */
+.cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  margin: 0;
+  padding: 0 8px 0 0;
+  list-style: none;
+}
+
+/* The body sits at the top of the card, not centred: the two cards share
+   a row and differ in height (the holographic card carries a meter label
+   the pack card does not), and centring put their tags on different
+   lines. The sticker alone stays centred beside the body. */
+.card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 18px 20px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+}
+
+.body {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+/* Wraps: on a narrow card the tag and the badge do not both fit on one
+   line, and the badge would otherwise run out past the card's edge. */
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.title {
+  margin: 4px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.why {
+  margin: 0 0 4px;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* The first two cards once the third is on the page: no requirements,
+   no meter, the sticker at its full size with the tag, the title and its
+   one line beside it, so the three cards read as a set. They share a
+   row from tablet width and stack on a phone, as the pending pair do. */
+.cardsCompact {
+  gap: 16px;
+}
+
+.cardCompact {
+  align-items: center;
+  padding: 16px 18px;
+}
+
+/* The Completionist card takes the row under the first two, at every
+   width. */
+.cardWide {
+  grid-column: 1 / -1;
+}
+
+/* The share under an earned card's line, set as the book's cell links
+   are: mono, underlined, no chrome. colors.ink / fonts.mono */
+.share {
+  appearance: none;
+  justify-self: start;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  line-height: inherit;
+  color: #10201d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Placement only: the button is .hf-button (src/styles/buttons.css). */
+.cta {
+  justify-self: start;
+  margin-top: 8px;
+}
+
+/* The die-cut slot and the sticker in it, as the sticker book draws them
+   (Album.module.css, where the hexagon's geometry is explained): the
+   dashed ring as an image, the ink outline and the white border as two
+   clipped layers under the picture, the cast shadow as a drop-shadow on
+   the unclipped box. */
+.slot {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+  align-self: center;
+  /* Its own stacking context, so the tick's z-index is settled here and
+     not against the page: Safari composites the filtered, rotated
+     sticker as a layer of its own and, left to the page, painted it over
+     the tick on the wide card. */
+  isolation: isolate;
+}
+
+/* colors.rule, in the image */
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%238ca59e' stroke-width='4.5' stroke-dasharray='10 7'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  padding: 5.8px;
+  filter: drop-shadow(0 2px 0 rgba(16, 32, 29, 0.25));
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+}
+
+/* The ink outline, the whole slot clipped, and the white border 2.3px
+   in, the picture 3.5px inside that. colors.ink / white */
+.sticker::before,
+.sticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.sticker::after {
+  inset: 2.3px;
+  background: #f7f7f2;
+}
+
+/* The reward's picture, the whole sticker: public/stickers/<slug>.svg
+   carries the ground and the glyph, a hexagon on a clear square, so it
+   fills the sticker's content box edge to edge over the two rings, and
+   the element behind it only draws the rings and the shadow. */
+.stickerImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Earned: peeled off the slot, square, with the heavier shadow of a
+   thing that has been lifted, and a tick on the sticker's corner. Not
+   yet: a grey silhouette, as the book's stickers are. colors.paperDeep /
+   rule / forest / white / ink */
+.card[data-earned='true'] .sticker {
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+/* A milestone reached just now (lib/justEarned.mjs, data-just-earned):
+   the reward sticker slaps on the way the book's do, and the stamp comes
+   down on the badge after it. Same keyframes as Album.module.css,
+   restated here because a CSS Module cannot import another. */
+.card[data-just-earned='true'] .sticker {
+  animation: slapOn 0.85s cubic-bezier(0.22, 1.2, 0.36, 1) 0.15s both;
+}
+
+.card[data-just-earned='true'] .slot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  /* colors.ink, in the image: the slot's hexagon as a 3px ring */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%2310201d' stroke-width='8'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  animation: burst 0.7s ease-out 0.6s both;
+}
+
+.card[data-just-earned='true'] .tick {
+  animation: pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) 0.75s both;
+}
+
+.card[data-just-earned='true'] .badgeEarned {
+  animation: stamp 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) 0.9s both;
+}
+
+@keyframes slapOn {
+  from {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+  55% {
+    transform: scale(0.92);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burst {
+  from {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes stamp {
+  from {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(0.94);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Not yet earned: the slot goes pale and quiet and the picture drains to
+   a faint grey ghost of itself, as the book's unearned stickers do
+   (Album.module.css). colors.rule / paperDeep */
+.card:not([data-earned='true']) .sticker {
+  filter: none;
+}
+
+.card:not([data-earned='true']) .sticker::before {
+  background: #8ca59e;
+}
+
+.card:not([data-earned='true']) .sticker::after {
+  background: #e4e5da;
+}
+
+.card:not([data-earned='true']) .stickerImage {
+  filter: grayscale(1) opacity(0.45);
+}
+
+/* On the sticker's lower-right edge: the hexagon's side runs in from
+   the slot's corner, so the tick sits in from it too, half over the ink
+   ring, as the book's does at its smaller size. */
+.tick {
+  position: absolute;
+  right: 6px;
+  bottom: 0;
+  z-index: 2;
+  /* A layer of its own too, so it composites above the sticker's. */
+  transform: translateZ(0);
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
+  color: #f7f7f2;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.needs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each requirement is a pip (the rules below, shared with the meter) and
+   its label. */
+.need {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.meter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* A pip is the slot at pip size: the same hexagon, dashed while empty,
+   the ring drawn as an image (colors.rule, 2px of a 26px pip). */
+.pip {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  isolation: isolate;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 9 L178.8 54.5 L178.8 145.5 L100 191 L21.2 145.5 L21.2 54.5 Z' fill='none' stroke='%238ca59e' stroke-width='15' stroke-dasharray='22 16'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+/* A filled pip is the sticker's own picture at pip size, ground and all,
+   over the sticker's two rings scaled down (1.5px of ink, 2px of white);
+   an empty one keeps the dashed ring and nothing in it. */
+.pip img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pipOn {
+  padding: 4px;
+  background: none;
+}
+
+/* colors.ink / white */
+.pipOn::before,
+.pipOn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.pipOn::after {
+  inset: 1.7px;
+  background: #f7f7f2;
+}
+
+.meterLabel {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.76rem;
+}
+
+/* The milestone tag and badge, as the sticker book and the fest cards
+   draw them: mono, rounded tag on ink; the badge in the same mono
+   grammar, dashed and quiet while pending, and one stamp once reached,
+   the same ochre and the same word on every card, on an ink border with
+   the hard shadow the cards themselves wear. */
+.tag {
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  /* colors.rule */
+  border: 1.5px dashed #8ca59e;
+  /* colors.muted */
+  color: #52635f;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badgeEarned {
+  /* colors.ink */
+  border: 1.5px solid #10201d;
+  box-shadow: 2px 2px 0 #10201d;
+  /* colors.ochre / ink */
+  background: #f5b726;
+  color: #10201d;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .card {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .cardsCompact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* The same sticker size on every card, compact or not: the three read
+     as a set. */
+  .slot {
+    width: 96px;
+    height: 96px;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+
+  .card[data-just-earned='true'] .sticker,
+  .card[data-just-earned='true'] .slot::after,
+  .card[data-just-earned='true'] .tick,
+  .card[data-just-earned='true'] .badgeEarned {
+    animation: none;
+  }
+}

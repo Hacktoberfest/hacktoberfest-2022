@@ -25,7 +25,7 @@ import {
 
 /* The homepage wall: the /sponsor roster as pure credit. No ghost seat
    and no "take your place" band here; the recruitment ask stays on
-   /sponsor, which the Get involved card below already points at. */
+   /sponsor. */
 const SponsorWallSection = () => (
   <WallRoot id="sponsors" aria-labelledby="home-wall-title">
     <WallIntro>

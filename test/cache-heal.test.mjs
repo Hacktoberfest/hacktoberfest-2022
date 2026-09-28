@@ -101,9 +101,11 @@ test('every sitemap page is verified after a deploy', () => {
       `${pagePath} is in the sitemap but not verified by the cache heal`,
     );
   });
-  ['/sponsor/', '/questions/', '/login/', '/my/'].forEach((pagePath) => {
-    assert.ok(VERIFY_PAGES.includes(pagePath), `missing ${pagePath}`);
-  });
+  ['/sponsor/', '/questions/', '/login/', '/my/', '/my/hosting/'].forEach(
+    (pagePath) => {
+      assert.ok(VERIFY_PAGES.includes(pagePath), `missing ${pagePath}`);
+    },
+  );
 });
 
 test('findBrokenAssets reports assets that 404 through the edge', async () => {

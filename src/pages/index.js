@@ -7,13 +7,18 @@ import Head from 'next/head';
 // import Rally from 'components/Rally'; // "The idea"
 // import FestsSection from 'components/FestsSection'; // "The Fests"
 // import EraSection from 'components/EraSection'; // "What changes in 2026"
+// import GetInvolvedSection from 'components/GetInvolvedSection'; // "Help make it happen"
+// import Hero from 'components/Hero'; // "AI belongs to everyone", the Preptember hero
 import FaqSection from 'components/FaqSection';
-import GetInvolvedSection from 'components/GetInvolvedSection';
+import FestMapHero from 'components/FestMapHero';
 import Header from 'components/Header';
-import Hero from 'components/Hero';
-import MissionSection from 'components/MissionSection';
+import {
+  HomeAboutBand,
+  HomeOnlineBand,
+  HomeStepsBand,
+} from 'components/HomeBands';
+import NearbyFests from 'components/NearbyFests';
 import SponsorWallSection from 'components/SponsorWallSection';
-import TimelineSection from 'components/TimelineSection';
 import { meta } from 'data/meta';
 import { homepageJsonLdScript } from 'data/structuredData';
 
@@ -68,16 +73,24 @@ const Home = () => (
     </Head>
     <Header />
     <main id="main">
-      <Hero />
+      {/* October: every Fest on the map, what Hacktoberfest is, the
+          soonest Fests, the way in for anyone with none nearby, and how
+          the sticker book works. */}
+      <FestMapHero />
+      <HomeAboutBand />
+      {/* The Fests pinned to the homepage in FestNet lead the six here,
+          unlabelled. */}
+      <NearbyFests homepagePins />
+      <HomeOnlineBand />
+      <HomeStepsBand />
       {/* <Rally /> */}
       {/* <EraSection /> */}
       {/* <FestsSection /> */}
       {/* <WaysInSection /> */}
       {/* <CurriculumSection /> */}
-      <TimelineSection />
-      <MissionSection />
+      {/* The story so far and the mission live on /mission/ now. */}
       <SponsorWallSection />
-      <GetInvolvedSection />
+      {/* <GetInvolvedSection /> */}
       <FaqSection />
     </main>
   </>

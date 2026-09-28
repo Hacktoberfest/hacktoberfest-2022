@@ -5,9 +5,12 @@ import test from 'node:test';
 import {
   answerText,
   faq,
-  getInvolved,
-  hero,
+  homeAbout,
+  homeOnline,
+  homeSteps,
+  mapHero,
   mission,
+  missionPage,
   siteMeta,
   timeline,
 } from '../src/data/content.mjs';
@@ -38,30 +41,47 @@ const normalize = (text) => decode(text).replace(/\s+/g, ' ');
 const loosen = (text) => normalize(text).replace(/[’']/g, "'");
 
 // The homepage callout only renders faq.homepage.ids now — the rest of
-// the 22 items live on /questions — so the copy checked against the rendered
+// the items live on /questions — so the copy checked against the rendered
 // homepage and the copy checked against llms-full.txt are different
 // slices of the same FAQ set. See the /questions page design doc.
 const homepageFaqItems = faq.homepage.ids.map((id) =>
   faq.items.find((item) => item.id === id),
 );
 
+/* The October homepage's own copy (the Fest map hero, What is
+   Hacktoberfest?, the online band and the steps), the lines both the page
+   and llms-full.txt carry. */
 const sharedCopy = [
-  hero.deck,
-  hero.cta,
-  hero.secondaryCta,
-  timeline.intro,
-  ...timeline.eras.flatMap((era) => [era.title, era.copy]),
-  ...mission.paragraphs.map(answerText),
-  getInvolved.intro,
-  ...getInvolved.cards.flatMap((card) => [card.title, ...card.copy, card.cta]),
+  mapHero.eyebrow[0],
+  mapHero.heading.accent,
+  mapHero.search.label,
+  mapHero.online.prompt,
+  mapHero.online.cta,
+  mapHero.tagline.accent,
+  ...homeAbout.paragraphs.map(answerText),
+  homeOnline.intro,
+  ...homeOnline.cards.flatMap((card) => [card.title, card.copy, card.cta]),
+  ...homeSteps.phases.flatMap((phase) =>
+    phase.steps.flatMap((step) => [step.title, step.copy]),
+  ),
+  homeSteps.cta.label,
   faq.intro,
 ];
 
 const faqCopy = (items) =>
   items.flatMap((item) => [item.question, answerText(item.answer)]);
 
+/* The story so far and the mission moved off the homepage to /mission/,
+   so they are checked against that page's HTML instead. */
+const missionCopy = [
+  missionPage.intro,
+  timeline.intro,
+  ...timeline.eras.flatMap((era) => [era.title, era.copy]),
+  ...mission.paragraphs.map(answerText),
+];
+
 const homepageCopy = [...sharedCopy, ...faqCopy(homepageFaqItems)];
-const fullCopy = [...sharedCopy, ...faqCopy(faq.items)];
+const fullCopy = [...sharedCopy, ...missionCopy, ...faqCopy(faq.items)];
 
 test('the rendered page carries every line of copy', async () => {
   /* Inline markup — the mission's <strong> spans, the FAQ's inline links —
@@ -78,11 +98,33 @@ test('the rendered page carries every line of copy', async () => {
   });
 });
 
+test('the mission page carries the story so far and the mission', async () => {
+  const html = loosen(
+    (await read('out/mission/index.html')).replace(/<[^>]+>/g, ' '),
+  );
+
+  missionCopy.forEach((line) => {
+    assert.ok(
+      html.includes(loosen(line)),
+      `missing from /mission/: ${line.slice(0, 60)}…`,
+    );
+  });
+});
+
+test('the homepage no longer carries them', async () => {
+  const html = loosen((await read('out/index.html')).replace(/<[^>]+>/g, ' '));
+  assert.ok(!html.includes(loosen(timeline.intro)), 'the story so far');
+  assert.ok(
+    !html.includes(loosen(answerText(mission.paragraphs[0]))),
+    'the mission',
+  );
+});
+
 test('llms-full.txt carries every line of copy the page does', async () => {
   const full = loosen(await read('public/llms-full.txt'));
 
   // llms-full.txt iterates faq.items directly (see src/build/llms.mjs), so
-  // it carries the full 22-item set even though the homepage only shows 4.
+  // it carries the full set even though the homepage only shows 4.
   fullCopy.forEach((line) => {
     assert.ok(
       full.includes(loosen(line)),
@@ -97,9 +139,12 @@ test('llms.txt orients a crawler without contradicting the page', async () => {
   // The summary line and the page's meta description are the same sentence.
   assert.ok(index.includes(loosen(siteMeta.description)));
 
-  // Every era of the timeline is accounted for.
+  // Every era of the timeline is accounted for, linked into /mission/.
   timeline.eras.forEach((era) => {
-    assert.ok(index.includes(era.year), `missing era: ${era.year}`);
+    assert.ok(
+      index.includes(`[${era.year}](./mission/#history)`),
+      `missing era: ${era.year}`,
+    );
   });
 
   /* Attendance used to be the thing this file had to be honest about: no
@@ -118,7 +163,7 @@ test('llms.txt orients a crawler without contradicting the page', async () => {
 
 /* The schema is generated from src/data/structuredData.js, which restricts
    the homepage FAQPage node to faq.homepage.ids — the same four items the
-   homepage callout renders — rather than the full 22-item set the /questions
+   homepage callout renders — rather than the full set the /questions
    page carries. These assertions hold the shape of what actually ships. */
 const shippedJsonLd = async () => {
   const html = await read('out/index.html');

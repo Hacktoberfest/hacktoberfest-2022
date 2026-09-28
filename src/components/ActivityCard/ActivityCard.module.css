@@ -1,0 +1,246 @@
+/* The activity card, shared by /activities/ and /my. CSS Module rather than
+   styled-components because both surfaces render after a client-side
+   fetch, where styled-components ships no CSS. Palette values are
+   restated as literals with the token named beside each, the convention
+   the other modules follow. */
+
+/* Sticker column at the left, centred against the whole card so a one-line
+   detail and a three-line detail put their sticker in the same place.
+   Homepage grammar otherwise: ink border, white paper, hard offset shadow,
+   which here takes the type's deep colour (set below) so a row of cards is
+   colour-coded the way the fest cards are. */
+.card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon, for a type this sheet has no colour for */
+  box-shadow: 6px 6px 0 var(--card-accent, #671912);
+}
+
+/* The die-cut slot the sticker sits in. When the sticker peels the dashed
+   ring is what shows behind it. The sticker is a hexagon, drawn the way
+   the sticker book draws it (Album.module.css, where the geometry is
+   explained): the dashed ring as an image, the ink outline and the white
+   border as two clipped layers under the picture, the cast shadow as a
+   drop-shadow on the unclipped box. */
+.slot {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+/* colors.rule, in the image */
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%238ca59e' stroke-width='4.5' stroke-dasharray='10 7'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  padding: 5.8px;
+  filter: drop-shadow(0 2px 0 rgba(16, 32, 29, 0.25));
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+}
+
+/* The ink outline, the whole slot clipped, and the white border 2.3px
+   in, the picture 3.5px inside that. colors.ink / white */
+.sticker::before,
+.sticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.sticker::after {
+  inset: 2.3px;
+  background: #f7f7f2;
+}
+
+/* The sticker's picture, the whole sticker: public/stickers/<slug>.svg
+   carries the ground and the glyph, a hexagon on a clear square, so it
+   fills the sticker's content box edge to edge over the two rings, and
+   the element behind it only draws the rings and the shadow. */
+.stickerImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.card:hover .sticker {
+  transform: rotate(-4deg) translateY(-2px);
+}
+
+/* Earned: the way the album on /my marks one (Album.module.css). The
+   sticker sits square on its slot, at rest or under the pointer, with
+   the heavier shadow of a thing that has been peeled, and the tick on
+   its corner. */
+.card[data-earned='true'] .sticker,
+.card[data-earned='true']:hover .sticker {
+  transform: none;
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+/* The tick on an earned sticker's corner: forest on white, the same
+   circle the album draws. colors.forest / white / ink */
+.tick {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
+  color: #f7f7f2;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.body {
+  display: grid;
+  gap: 4px;
+  align-content: center;
+}
+
+/* The type, as a tag on the card and the card's shadow. One class per
+   type carries both: on .card it sets the shadow's colour, on .type the
+   pale background and deep text. The sticker's ground is no longer one of
+   them: it lives in the sticker's own file. */
+.type {
+  justify-self: start;
+  margin-bottom: 2px;
+  padding: 2px 6px;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* colors.sky / skyLight / skyDeep */
+.card.type_livestreams {
+  --card-accent: #1f4e6b;
+}
+.type.type_livestreams {
+  background: #d7e5f4;
+  color: #1f4e6b;
+}
+/* Global Hack Week: orange, the colour its tab in the sticker book wears.
+   colors.orange / orangeLight / orangeDeep */
+.card.type_ghw {
+  --card-accent: #b8301f;
+}
+.type.type_ghw {
+  background: #f9c9c2;
+  color: #b8301f;
+}
+/* colors.pink / pinkLight / orangeDeep */
+.card.type_inperson {
+  --card-accent: #b8301f;
+}
+.type.type_inperson {
+  background: #f6c4c1;
+  color: #b8301f;
+}
+/* DEV Challenges: ochre, the colour its tab in the sticker book wears
+   (the stickers keep the black-and-white DEV mark, so their ground is
+   not DEV's black). colors.ochreDeep / ochre tint */
+.card.type_dev {
+  --card-accent: #8a5d13;
+}
+.type.type_dev {
+  background: #fbe7bb;
+  color: #8a5d13;
+}
+/* The two required stickers in the sticker book on /my: the ink tag the
+   milestone tag wears. colors.ink / white */
+.type.type_required {
+  background: #10201d;
+  color: #f7f7f2;
+}
+/* Tools: maroon, the colour its tab in the sticker book wears.
+   colors.maroon / white */
+.card.type_tools {
+  --card-accent: #671912;
+}
+.type.type_tools {
+  background: #671912;
+  color: #f7f7f2;
+}
+/* Misc: skyDeep, the colour its tab in the sticker book wears, as a
+   solid tag like Tools' so it never reads as the livestreams' pale one.
+   colors.skyDeep / white */
+.card.type_misc {
+  --card-accent: #1f4e6b;
+}
+.type.type_misc {
+  background: #1f4e6b;
+  color: #f7f7f2;
+}
+
+.cardTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.cardDetail {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  line-height: 1.5;
+}
+
+.cardHint {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+/* Placement only: the button itself is .hf-button (src/styles/buttons.css). */
+.cardCta {
+  justify-self: start;
+  margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+}

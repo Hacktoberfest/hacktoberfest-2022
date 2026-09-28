@@ -36,7 +36,7 @@ export const MyError = ({ onRetry }) => (
        state, this one included. */}
     <h2 className={styles.errorTitle}>{my.error.title}</h2>
     <p className={styles.errorBody}>{my.error.body}</p>
-    <button type="button" className={styles.retryButton} onClick={onRetry}>
+    <button type="button" className="hf-button" onClick={onRetry}>
       {my.error.cta}
     </button>
   </div>
@@ -69,7 +69,8 @@ export const MyMlhDown = () => (
    reason MyMlhDown is: they replace the whole page, they carry its only
    heading, and neither is worth a retry button — re-fetching cannot make a
    Fest yours, or make one exist. role="status" because they replace the
-   loader's live region; see the note above. */
+   loader's live region; see the note above. The way back is the hosting hub:
+   anyone who reached a Fest dashboard was hosting. */
 export const MyForbidden = () => (
   <MessagePage
     role="status"
@@ -77,7 +78,7 @@ export const MyForbidden = () => (
     heading={my.dashboard.forbidden.heading.lead}
     accent={my.dashboard.forbidden.heading.accent}
     cta={my.dashboard.backCta}
-    ctaHref="/my/"
+    ctaHref="/my/hosting/"
   >
     {my.dashboard.forbidden.body}
   </MessagePage>
@@ -90,7 +91,7 @@ export const MyNotFound = () => (
     heading={my.dashboard.notFound.heading.lead}
     accent={my.dashboard.notFound.heading.accent}
     cta={my.dashboard.backCta}
-    ctaHref="/my/"
+    ctaHref="/my/hosting/"
   >
     {my.dashboard.notFound.body}
   </MessagePage>

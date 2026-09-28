@@ -1,0 +1,255 @@
+/* The map sits on the hero's forest ground, so the land is the page's
+   white at low strength and the Fests are three warm tones by how many a
+   square holds, each with the ink edge every square on this site has. */
+.root {
+  margin: 0;
+}
+
+/* A size container, so the names can scale with the map (see .label). */
+.frame {
+  position: relative;
+  container-type: inline-size;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.land {
+  /* colors.white */
+  fill: #f7f7f2;
+  fill-opacity: 0.16;
+}
+
+/* The light that follows a mouse: the same land, brighter, seen through
+   a soft circle round the pointer (components/FestMap). */
+.landLit {
+  fill: #f7f7f2;
+  fill-opacity: 0.55;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.landLit[data-on='true'] {
+  opacity: 1;
+}
+
+/* A hovered Fest square is a link to its city in the directory. */
+.wide[data-hovering='true'],
+.narrow[data-hovering='true'] {
+  cursor: pointer;
+}
+
+.fest {
+  /* colors.ink */
+  stroke: #10201d;
+  stroke-width: 1.5;
+  /* Backwards only, so once in, a square's opacity is free to follow the
+     search below. */
+  animation: arrive 320ms ease backwards;
+  transition: opacity 200ms ease;
+}
+
+/* colors.pinkLight, colors.pink, colors.ochre */
+.fest[data-tone='one'] {
+  fill: #f6c4c1;
+}
+
+.fest[data-tone='few'] {
+  fill: #e97b77;
+}
+
+.fest[data-tone='many'] {
+  fill: #f5b726;
+}
+
+@keyframes arrive {
+  from {
+    opacity: 0;
+  }
+}
+
+/* While the search list is open: before anything is typed the map steps
+   back so the list has the stage; once something is, the Fests that do
+   not match fade and the ones that do keep their colour and gain a ring. */
+.frame[data-mode='muted'] .fest {
+  opacity: 0.35;
+}
+
+.fest[data-match='no'] {
+  opacity: 0.2;
+}
+
+.ring {
+  fill: none;
+  /* colors.white */
+  stroke: #f7f7f2;
+  stroke-width: 2;
+  animation: arrive 200ms ease backwards;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fest,
+  .ring,
+  .landLit {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* The fine grid from tablet up, the coarse one below it. */
+.wide {
+  position: relative;
+  display: none;
+}
+
+.narrow {
+  position: relative;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .wide {
+    display: block;
+  }
+
+  .narrow {
+    display: none;
+  }
+}
+
+/* The names on the map: the drifting ones (see useCyclingLabels), the
+   one the search has highlighted, and the one under a mouse. Placed by
+   `translate`, so the entrance and exit can animate `transform` without
+   fighting the offset that hangs a label left or right of its square.
+
+   They move the way /fests' map popup does (FestsDirectory .mapTag), the
+   site's press idiom run in reverse: a name arrives pressed flat where
+   its shadow will land and springs up-left, throwing a hard shadow, with
+   a slight overshoot for the pop; it leaves by pressing back in, shadow
+   collapsing, and is gone. Nothing fades. The shadow is the forest's own
+   deep green rather than a card's maroon, so it reads as the name's
+   shadow on the ground and the names stay ink and dark. */
+.label {
+  /* colors.forestDeep */
+  --label-shadow: #2e4742;
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  padding: 0.28em 0.66em;
+  translate: 0 -50%;
+  /* colors.ink / colors.white */
+  background: #10201d;
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  /* In step with the map: its laptop size up to a map about 1200px wide,
+     then growing with it, so a big display's big map is not labelled in
+     specks. Padding and shadow are in ems to follow. */
+  font-size: clamp(0.66rem, 0.9cqi, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0.38em 0.38em 0 var(--label-shadow);
+  animation: label-in 150ms cubic-bezier(0.3, 1.3, 0.5, 1) both;
+}
+
+.label[data-side='left'] {
+  translate: -100% -50%;
+}
+
+/* Shadow first and faster, as the popup leaves: departure is not the
+   place for a flourish. */
+.label[data-phase='out'] {
+  animation:
+    label-out 110ms ease both,
+    label-shadow-out 90ms ease both;
+}
+
+.label[data-phase='still'] {
+  animation: none;
+}
+
+.labelCount {
+  /* colors.ochre */
+  color: #f5b726;
+}
+
+/* The rest of a hovered square: quieter than the city it is named for. */
+.labelNearby {
+  color: rgba(247, 247, 242, 0.7);
+  font-weight: 400;
+}
+
+@keyframes label-in {
+  from {
+    box-shadow: 0 0 0 var(--label-shadow);
+    transform: translate(0.3em, 0.3em);
+  }
+}
+
+@keyframes label-out {
+  to {
+    transform: translate(0.3em, 0.3em);
+  }
+}
+
+@keyframes label-shadow-out {
+  to {
+    box-shadow: 0 0 0 var(--label-shadow);
+  }
+}
+
+/* The ping on the square a name points at: an ochre outline that swells
+   and fades twice as the name arrives. */
+.ping {
+  fill: none;
+  stroke: #f5b726;
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ping 1100ms ease-out 2 both;
+}
+
+.ping[data-phase='out'],
+.ping[data-phase='still'] {
+  display: none;
+}
+
+@keyframes ping {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+/* On the phone drawing the names are smaller, to suit a map drawn a
+   third as wide; the padding and shadow follow, being in ems. */
+.narrow .label {
+  font-size: 0.58rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .label,
+  .label[data-phase='out'] {
+    animation: none;
+  }
+
+  .ping {
+    display: none;
+  }
+}

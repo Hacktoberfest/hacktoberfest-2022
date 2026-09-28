@@ -1,0 +1,90 @@
+/* The site's one button, as global classes for the surfaces that render
+   after a client-side fetch and so cannot use components/Button.js: a
+   styled-component first rendered on the client ships no CSS on this
+   static export. Values restate `buttonStyles` in src/components/Button.js
+   and must move with it. Global CSS enters through _app.js, the pages
+   router's one door for it.
+
+   Three variants, one grammar: pink for the primary ask, an ink outline
+   for the quieter one on light grounds, and --small for a button that
+   sits inside a card. Every variant is mono with the hard shadow and the
+   press-into-the-shadow hover the whole site uses. Solid orange is not a
+   button colour: it belongs to badges and the on-air chip. */
+.hf-button {
+  appearance: none;
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  /* colors.ink */
+  color: #10201d;
+  border: 2px solid #10201d;
+  /* colors.pink */
+  background: #e97b77;
+  /* colors.maroon */
+  box-shadow: 5px 5px 0 #671912;
+  cursor: pointer;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.hf-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 #671912;
+}
+
+/* The global ring (src/pages/_app.js) supplies the white outline; the ink
+   halo replaces the offset shadow, as buttonStyles does. */
+.hf-button:focus-visible {
+  box-shadow: 0 0 0 5px #10201d;
+}
+
+.hf-button:disabled {
+  cursor: not-allowed;
+  /* colors.paperDeep / colors.muted */
+  background: #e4e5da;
+  color: #52635f;
+  transform: none;
+  box-shadow: 5px 5px 0 #8ca59e;
+}
+
+.hf-button--outline {
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+.hf-button--outline:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+.hf-button--small {
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: 0.78rem;
+  box-shadow: 4px 4px 0 #671912;
+}
+
+.hf-button--small:hover {
+  box-shadow: 2px 2px 0 #671912;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hf-button {
+    transition: none;
+  }
+}

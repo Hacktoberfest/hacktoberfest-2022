@@ -1,0 +1,15 @@
+<!--
+An opened envelope drawn for the sticker after Tabler's mail-opened, as
+one shape: the outer outline (apex, shoulders, rounded bottom corners)
+outlined and filled white like any icon, and the creases as ink lines
+on top (data-role="line"): the flap's lower edges meeting at the V, and
+the body's folds rising from the bottom corners to it. Tabler's filled
+icon is four separate pieces, and outlining each left seams at every
+junction that no amount of patching cleaned up. The shape's weight sits
+1.6 units below its box's centre; data-offset lifts it.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" data-offset="0 -1.4">
+  <path d="M12 2.1 L22 9.5 V19 A3 3 0 0 1 19 22 H5 A3 3 0 0 1 2 19 V9.5 Z" />
+  <path data-role="line" d="M2 9.5 L12 14.6 L22 9.5" />
+  <path data-role="line" d="M2.6 20.9 L9.4 13.9 M21.4 20.9 L14.6 13.9" />
+</svg>

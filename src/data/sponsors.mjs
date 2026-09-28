@@ -24,7 +24,7 @@ const roster = [
   {
     name: 'Backboard.io',
     slug: 'backboard',
-    site: 'https://backboard.io',
+    site: 'https://backboard.io/products/cli',
     wide: true,
   },
   { name: 'IBM', slug: 'ibm', site: 'https://www.ibm.com' },
@@ -56,6 +56,9 @@ const roster = [
   { name: 'Gemma', slug: 'gemma', site: 'https://ai.google.dev/gemma' },
   { name: 'Qualcomm', slug: 'qualcomm', site: 'https://www.qualcomm.com' },
   { name: 'Arduino', slug: 'arduino', site: 'https://www.arduino.cc' },
+  { name: 'Mastra', slug: 'mastra', site: 'https://mastra.ai', wide: true },
+  { name: 'Temporal', slug: 'temporal', site: 'https://temporal.io' },
+  { name: 'TLDR', slug: 'tldr', site: 'https://tldr.tech' },
 ];
 
 const logoScales = { mongodb: 1.2, gemma: 2.7, qualcomm: 1.1, arduino: 1.25 };

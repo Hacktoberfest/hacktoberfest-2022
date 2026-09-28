@@ -9,7 +9,15 @@
    over, that state is unreachable in the mocked build until October has
    actually started — which is the opposite of when someone working on it
    needs to see it. It carries a registration link too, so the mocked build
-   also shows that a past card drops its Register bar. */
+   also shows that a past card drops its Register bar.
+
+   Two are pinned (`featured`, an admin's choice in FestNet), São Paulo and
+   Sydney, neither the soonest, so the mocked build shows the Featured
+   group leading the list out of date order. Two are pinned to the
+   homepage (`homepagePinned`, a separate pin), Manila and Sydney: Sydney
+   is the one upcoming Fest the soonest six would leave out, so the pin is
+   visible there. The rest carry neither key, which reads as not pinned,
+   the same as an API from before the fields. */
 export const FESTS_FIXTURES = [
   {
     id: 'fest-berlin',
@@ -160,6 +168,7 @@ export const FESTS_FIXTURES = [
     registrationUrl: null,
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/sao-paulo',
     logoUrl: 'https://example.invalid/hacktoberfest/logos/sao-paulo.png',
+    featured: true,
   },
   {
     id: 'fest-manila',
@@ -182,6 +191,7 @@ export const FESTS_FIXTURES = [
     registrationUrl: null,
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/manila',
     logoUrl: null,
+    homepagePinned: true,
   },
   {
     id: 'fest-sydney',
@@ -204,6 +214,8 @@ export const FESTS_FIXTURES = [
     registrationUrl: 'https://example.invalid/hacktoberfest/fests/sydney',
     websiteUrl: 'https://example.invalid/hacktoberfest/fests/sydney',
     logoUrl: 'https://example.invalid/hacktoberfest/logos/sydney.png',
+    featured: true,
+    homepagePinned: true,
   },
   {
     /* An MLH Member Event: a 2027-season hackathon that runs in October.

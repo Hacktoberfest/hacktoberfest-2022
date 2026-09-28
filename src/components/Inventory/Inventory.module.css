@@ -1,0 +1,714 @@
+/* The inventory band, the last on /my. CSS Module because the hub
+   renders after a client-side fetch, where styled-components ship no
+   CSS. Palette values are restated as literals with the token named
+   beside each, the convention the other modules follow. The band's
+   geometry is RewardsBand's, so every band's left edge aligns; the cells
+   restate the sticker book's (Album.module.css), since a CSS Module
+   cannot import another. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  /* The last band on the page carries its closing room. */
+  padding-block: 40px clamp(48px, 7vw, 90px);
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* The locker: one case in the hub's card grammar (ink border, white
+   paper, maroon hard shadow), drawn as an open book: the left page is the
+   cells, the right page the one picked, a gutter between them and the
+   spine under both. Full width, as the Fests cards are; the shadow hangs
+   past the edge as theirs does. */
+.locker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 8px 8px 0 #671912;
+}
+
+/* A page: plain white, the book's own paper. The left one holds the
+   cells; the gutter is its right edge. Overflow hidden so the cells' outer
+   rules (see .cells) are clipped at the page's edge. */
+.page {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  overflow: hidden;
+  /* colors.ink */
+  border-right: 2px solid #10201d;
+}
+
+.rightPage {
+  grid-template-rows: auto auto auto auto auto;
+  align-content: start;
+  gap: 14px;
+  padding: 0 22px 22px;
+  border-right: 0;
+}
+
+/* The head of a page, the book's: the title in the display face, the
+   note beside it. colors.muted */
+.pageHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 16px 18px 12px;
+}
+
+.rightPage .pageHead {
+  padding-inline: 0;
+}
+
+.pageTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.pageNote {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.88rem;
+}
+
+/* The mono label the site uses for its small words. */
+.tag,
+.stamp,
+.facts dt {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* The cells: the book's perforated grid, five across (six once the
+   inventory is long; lib/inventory.mjs sets --columns). Dashed rules
+   between cells only: the top rule on the grid, under the page head, and
+   the right and bottom on each cell, with the grid pulled a rule's width
+   past the page's edge so the last column's and the last row's rules are
+   clipped away (see .page). No rule ever runs along the page's own edge.
+   colors.rule */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(var(--columns, 5), minmax(0, 1fr));
+  align-content: start;
+  margin-right: -1.5px;
+  margin-bottom: -1.5px;
+  border-top: 1.5px dashed #8ca59e;
+}
+
+.cells:focus-visible {
+  /* colors.skyDeep */
+  outline: 3px solid #1f4e6b;
+  outline-offset: -3px;
+}
+
+/* One cell, as the book draws its cells: the die-cut slot, the name, one
+   line of status. A button here, so it resets its own chrome; the face is
+   the cell's, not a button's. */
+.cell {
+  position: relative;
+  display: flex;
+  min-height: 176px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 12px 16px;
+  appearance: none;
+  border: 0;
+  /* colors.rule */
+  border-right: 1.5px dashed #8ca59e;
+  border-bottom: 1.5px dashed #8ca59e;
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cell:hover {
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+.cell:focus-visible {
+  /* colors.skyDeep */
+  outline: 3px solid #1f4e6b;
+  outline-offset: -3px;
+}
+
+/* The open cell: on white, boxed in ink, drawn inside its own edges so
+   nothing spills over the rules or the gutter. */
+.cell[data-selected='true'] {
+  z-index: 1;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.ink */
+  box-shadow: inset 0 0 0 2px #10201d;
+}
+
+/* An empty cell: nothing drawn, nothing said. Room, not a count. */
+.cellEmpty {
+  cursor: default;
+}
+
+.cellEmpty:hover {
+  background: transparent;
+}
+
+/* Two lines at most, so a long name (a certificate's) does not push the
+   lines under it off the row's baseline. */
+.cellTitle {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* The variant under the name, for a thing earned more than once: the
+   Fest a certificate is for, set in the mono as the date is on the right
+   page. colors.inkSoft / fonts.mono */
+.cellVariant {
+  margin: -4px 0 0;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  line-height: 1.35;
+  color: #284b44;
+}
+
+.entryVariant {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+/* One line under the name: the kind, in the book's earned voice; how far
+   off, in its not-yet voice. colors.forestDeep / muted */
+.cellStatus {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #2e4742;
+}
+
+.cell:not([data-earned='true']) .cellStatus {
+  font-weight: 400;
+  color: #52635f;
+}
+
+/* An Unclaimed thing (on DEV, no DEV account linked): the line says so
+   in the site's deep orange, a weight up. colors.orangeDeep */
+.cell[data-needs-dev='true'] .cellStatus {
+  font-weight: 700;
+  color: #b8301f;
+}
+
+/* The right page's word on it, boxed the way the welcome band's pending
+   action is, across the page under the entry, its lead in bold.
+   colors.orangeLight / ink */
+.notice {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #f9c9c2;
+  border: 1.5px solid #10201d;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* The die-cut slot and the sticker in it, as the book draws them
+   (Album.module.css, where the hexagon's geometry is explained): the
+   dashed ring shows behind a peeled sticker, drawn as an image; the ink
+   outline and the white border are two clipped layers under the picture;
+   the cast shadow is a drop-shadow on the unclipped box. */
+.slot {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+}
+
+/* colors.rule, in the image */
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%238ca59e' stroke-width='4.5' stroke-dasharray='10 7'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  padding: 5.8px;
+  filter: drop-shadow(0 2px 0 rgba(16, 32, 29, 0.25));
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+}
+
+/* The ink outline, the whole slot clipped, and the white border 2.3px
+   in, the picture 3.5px inside that. colors.ink / white */
+.sticker::before,
+.sticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.sticker::after {
+  inset: 2.3px;
+  background: #f7f7f2;
+}
+
+.stickerImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cell:hover .sticker {
+  transform: rotate(-4deg) translateY(-2px);
+}
+
+/* Locked: a grey silhouette in the slot, as the book's unearned stickers
+   are. colors.rule / paperDeep */
+.cell:not([data-earned='true']) .sticker {
+  filter: none;
+}
+
+.cell:not([data-earned='true']) .sticker::before {
+  background: #8ca59e;
+}
+
+.cell:not([data-earned='true']) .sticker::after {
+  background: #e4e5da;
+}
+
+.cell:not([data-earned='true']) .stickerImage {
+  filter: grayscale(1) opacity(0.45);
+}
+
+/* Earned: peeled off the slot and leaning its own way by its place in the
+   row, so a full page looks stuck down by hand. Same three leans as the
+   book. */
+.cell[data-earned='true'] .sticker,
+.cell[data-earned='true']:hover .sticker {
+  --lean: -9deg;
+  transform: rotate(var(--lean));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+.cell[data-earned='true']:nth-child(3n + 2) .sticker,
+.cell[data-earned='true']:nth-child(3n + 2):hover .sticker {
+  --lean: 6deg;
+  filter: drop-shadow(2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+.cell[data-earned='true']:nth-child(3n) .sticker,
+.cell[data-earned='true']:nth-child(3n):hover .sticker {
+  --lean: -5deg;
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+/* A thing that is not a sticker (the pack, the T-shirt, a badge, a
+   certificate) is drawn as itself: its file carries its own shape, ink
+   edge and its own cast shadow, so the hexagon's dashed ring, its two
+   clipped rings and its lifted shadow all go, and only the lean stays. A
+   hard shadow under an irregular shape read as a grey copy of it. A
+   locked one drains the same way. Hexagons are for stickers. */
+[data-shape='thing'] .sticker {
+  padding: 0;
+  background: transparent;
+  filter: none;
+}
+
+[data-shape='thing'] .sticker::before,
+[data-shape='thing'] .sticker::after,
+[data-shape='thing'] .slot::before,
+.slot[data-shape='thing']::before {
+  display: none;
+}
+
+.cell[data-shape='thing']:not([data-earned='true']) .sticker,
+.ghost[data-shape='thing'] .sticker {
+  background: transparent;
+  filter: none;
+}
+
+.cell[data-shape='thing']:not([data-earned='true']) .stickerImage,
+.ghost[data-shape='thing'] .stickerImage {
+  filter: grayscale(1) opacity(0.45);
+}
+
+/* The tick on an earned sticker's corner, the book's. colors.white / ink /
+   forest */
+.tick {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
+  color: #f7f7f2;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* An Unclaimed thing's corner: a "!" on the deep orange where the tick
+   on forest would be. colors.orangeDeep */
+.tick[data-unclaimed='true'] {
+  background: #b8301f;
+}
+
+/* NEW on the cell's corner, for a thing earned since the participant
+   last looked (lib/justEarned.mjs), until its cell is opened: the same
+   orange stamp the book's just-earned moment ends on. colors.orange /
+   white / ink */
+.newFlag {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #e53927;
+  color: #f7f7f2;
+  border: 1.5px solid #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(6deg);
+  animation: pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) 0.2s both;
+}
+
+@keyframes pop {
+  from {
+    transform: rotate(6deg) scale(0);
+  }
+
+  to {
+    transform: rotate(6deg) scale(1);
+  }
+}
+
+/* The spine along the bottom, under both pages, the book's: the count,
+   and the one line about room. colors.ink / white */
+.spine {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  border-top: 2px solid #10201d;
+  background: #f7f7f2;
+}
+
+.spineCount {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+/* The entry on the right page: the sticker beside the kind, the date
+   and the name, the way a cell reads, larger and on one line. */
+.entry {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.entrySlot {
+  width: 88px;
+  height: 88px;
+}
+
+/* The entry's sticker leans as an earned cell's does; a ghost sits flat.
+   colors.rule / paperDeep */
+.entrySlot .sticker {
+  --lean: -6deg;
+  transform: rotate(var(--lean));
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+.ghost .sticker {
+  transform: none;
+  filter: none;
+}
+
+.ghost .sticker::before {
+  background: #8ca59e;
+}
+
+.ghost .sticker::after {
+  background: #e4e5da;
+}
+
+.ghost .stickerImage {
+  filter: grayscale(1) opacity(0.45);
+}
+
+/* The ghost cell an empty locker shows: its words fade with its picture.
+   colors.muted */
+.ghost .cellTitle,
+.ghost .cellStatus {
+  color: #52635f;
+}
+
+.entryBody {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.entryTop {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.entryTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.entryLine {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+/* The kind tag, the milestone tag's treatment: ink, mono, rounded. */
+.tag {
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  font-size: 0.62rem;
+}
+
+.tag[data-kind='locked'] {
+  /* colors.paperDeep / muted */
+  background: #e4e5da;
+  color: #52635f;
+}
+
+/* Unclaimed where the kind would be: the deep orange ground, white
+   words. colors.orangeDeep / white */
+.tag[data-kind='unclaimed'] {
+  background: #b8301f;
+  color: #f7f7f2;
+}
+
+/* The date, the rewards band's badge: dashed while nothing is earned,
+   stamped ochre once it is. colors.rule / muted / ochre / ink */
+.stamp {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1.5px dashed #8ca59e;
+  color: #52635f;
+  font-size: 0.62rem;
+}
+
+.stamp[data-earned='true'] {
+  border: 1.5px solid #10201d;
+  background: #f5b726;
+  color: #10201d;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 6px 10px;
+  margin: 4px 0 0;
+  padding-top: 12px;
+  /* colors.rule */
+  border-top: 1.5px dashed #8ca59e;
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.facts dt {
+  padding-top: 3px;
+  font-size: 0.56rem;
+  /* colors.muted */
+  color: #52635f;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.action,
+.actionQuiet {
+  justify-content: center;
+  text-align: center;
+}
+
+.actionQuiet {
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+.fine {
+  margin: 0;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  /* colors.muted */
+  color: #52635f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+
+  .newFlag {
+    animation: none;
+  }
+}
+
+/* Under tablet width the drawer goes under the page, the cells three
+   across. */
+@media (max-width: 860px) {
+  .locker {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page {
+    border-right: 0;
+    /* colors.ink */
+    border-bottom: 2px solid #10201d;
+  }
+
+  .rightPage {
+    padding-inline: 14px;
+    border-bottom: 0;
+  }
+
+  .rightPage .pageHead {
+    padding-top: 12px;
+  }
+
+  .cells {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cell {
+    min-height: 150px;
+    padding: 16px 8px 12px;
+  }
+
+  .cellTitle {
+    font-size: 0.8rem;
+  }
+
+  .spine {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 10px 14px;
+  }
+}
+
+/* The band widths RewardsBand and the sticker book use, so the locker
+   lines up with them at every width. breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

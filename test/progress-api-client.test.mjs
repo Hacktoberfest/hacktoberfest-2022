@@ -3,9 +3,8 @@ import test from 'node:test';
 
 process.env.NEXT_PUBLIC_API_BASE_URL = 'https://api.test.invalid';
 
-const { apiFetch, endSession, exchangeCode, resetRefreshState } = await import(
-  '../src/lib/apiClient.mjs'
-);
+const { apiFetch, apiFetchBlob, endSession, exchangeCode, resetRefreshState } =
+  await import('../src/lib/apiClient.mjs');
 const { SESSION_STORAGE_KEY, parseSession } = await import(
   '../src/lib/session.mjs'
 );
@@ -447,4 +446,38 @@ test('tokenNeedsRefresh is false for opaque non-JWT tokens', async () => {
   assert.equal(tokenNeedsRefresh('a.b'), false);
   assert.equal(tokenNeedsRefresh(''), false);
   assert.equal(tokenNeedsRefresh(null), false);
+});
+
+/* A file rather than JSON: the certificate downloads. Same token, same
+   refresh-and-retry, the body handed back as a Blob. */
+test('apiFetchBlob attaches the token and hands back the body as a blob', async () => {
+  setup();
+  const calls = [];
+  globalThis.fetch = async (url, init) => {
+    calls.push({ url, init });
+    return {
+      ok: true,
+      status: 200,
+      blob: async () => new Blob(['%PDF-1.7'], { type: 'application/pdf' }),
+    };
+  };
+
+  const blob = await apiFetchBlob('/api/me/items/x/y/certificate.pdf');
+
+  assert.equal(blob.type, 'application/pdf');
+  assert.equal(await blob.text(), '%PDF-1.7');
+  assert.equal(calls[0].init.headers.Authorization, 'Bearer access-1');
+});
+
+test('apiFetchBlob fails like apiFetch on a bad status', async () => {
+  setup();
+  globalThis.fetch = async () => ({
+    ok: false,
+    status: 404,
+    blob: async () => new Blob(),
+  });
+  await assert.rejects(
+    () => apiFetchBlob('/api/me/items/x/y/certificate.pdf'),
+    /404/,
+  );
 });

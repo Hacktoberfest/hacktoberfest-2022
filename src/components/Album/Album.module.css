@@ -1,0 +1,734 @@
+/* The sticker book on /my. CSS Module because the hub renders after a
+   client-side fetch, where styled-components ship no CSS. Palette values
+   are restated as literals with the token named beside each, the
+   convention the other modules follow. */
+
+/* Shared band geometry, identical width rules to WelcomeBand so every
+   band's left edge aligns. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 40px 8px;
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.intro {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* The line under the book, small and quiet, clear of the book's shadow.
+   colors.muted */
+.disclaimer {
+  margin: 18px 0 0;
+  color: #52635f;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* The book: one card in the homepage grammar (ink border, white paper,
+   maroon hard shadow). Tabs, the open page, and the spine are its three
+   regions. The right margin gives the shadow room, as the strip and the
+   card grids do. */
+.album {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-right: 8px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 7px 7px 0 #671912;
+}
+
+/* The tabs: two-up across the top on a phone, wrapping rather than
+   scrolling sideways so the last tab is never hidden with nothing to say
+   so; a column down the left from tablet width. Each carries its page's
+   colour as a rule along the edge the page is on, the same colour the
+   stickers on that page wear. */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* colors.paper */
+  background: #f2f2eb;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 14px 12px;
+  border: 0;
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  /* The accent rule: along the top on a phone (the page is below), along
+     the left from tablet (the page is to the right). */
+  box-shadow: inset 0 5px 0 var(--tab-accent, #10201d);
+}
+
+/* The dividers of the two-up grid: between the columns, and above every
+   row but the first. colors.rule */
+.tab:nth-child(odd) {
+  border-right: 1.5px solid #8ca59e;
+}
+
+/* An odd tab count leaves the last tab alone on its row: it takes the
+   whole row, with no divider beside an empty cell. From tablet the tabs
+   are one column, where spanning it changes nothing. */
+.tab:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  border-right: 0;
+}
+
+.tab:nth-child(n + 3) {
+  border-top: 1.5px solid #8ca59e;
+}
+
+.tab:hover {
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+.tab[aria-selected='true'] {
+  /* colors.white, the page's paper: the open tab is part of the page. */
+  background: #f7f7f2;
+}
+
+.tab:focus-visible {
+  /* colors.orange */
+  outline: 3px solid #e53927;
+  outline-offset: -5px;
+}
+
+.tabLabel {
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+/* The two marks a page can wear in place of its name at its head
+   (PageTitle in index.js), sized by the type they replace. DEV's logo is
+   a square set to the line's height, the word after it in the title's own
+   type. Global Hack Week's lockup is a wide strip (about 10:1) with the
+   event's name set into it, so it is set by height, in the title's em, and
+   its width follows. */
+.mark {
+  display: block;
+  width: auto;
+  height: 1.05em;
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+/* The lockup stands in for the title's type, so its letters match the
+   other titles' capitals: the display font's cap height is 0.7em, and the
+   SVG's letters fill 61% of its box (the top 11% and the bottom 28% are
+   the bolt's glow), so the box is set to 1.15em.
+
+   The note beside it sits on the wordmark's baseline, not the image's
+   bottom edge: the baseline is at 72% of the box's height, and an inline
+   image's baseline is its bottom margin edge, so the negative margin pulls
+   that up by the remaining 28%, in the same em. The span is the title's
+   one flex item and takes its baseline from the image, which the head's
+   baseline alignment then reads. */
+.lockupLine {
+  min-width: 0;
+}
+
+.lockup {
+  display: inline-block;
+  vertical-align: baseline;
+  width: auto;
+  max-width: 100%;
+  height: 1.15em;
+  margin-bottom: -0.32em;
+  object-fit: contain;
+}
+
+/* Words for assistive tech only: the name a mark stands for. */
+.srOnly {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.tabCount {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* One colour per page, the same on the tab's rule and on the page's
+   stickers, so tab and sticker agree about which page is which and no two
+   pages share one. DEV's is ochre rather than DEV's own black: the
+   stickers keep the black-and-white DEV mark and need a ground it shows
+   on; tools is maroon, since the rule grey read as unearned.
+   colors.forest / ochre / sky / orange / maroon / skyDeep / pink */
+.accent_required {
+  --tab-accent: #3d5f58;
+}
+.accent_dev {
+  --tab-accent: #f5b726;
+}
+.accent_livestreams {
+  --tab-accent: #8bb2de;
+}
+.accent_ghw {
+  --tab-accent: #e53927;
+}
+.accent_tools {
+  --tab-accent: #671912;
+}
+.accent_misc {
+  --tab-accent: #1f4e6b;
+}
+.accent_inperson {
+  --tab-accent: #e97b77;
+}
+
+/* The pages, every one rendered and stacked in the same grid cell so the
+   book stands as tall as its tallest page whichever is open. Only the
+   open page is visible; the others keep their height and nothing else. */
+.pages {
+  display: grid;
+}
+
+.page {
+  grid-area: 1 / 1;
+  padding: 18px 22px 22px 16px;
+  visibility: hidden;
+}
+
+.page[data-open='true'] {
+  visibility: visible;
+}
+
+.pageHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin-bottom: 14px;
+}
+
+/* Baseline-aligned, so the head's baseline row reads the title's words
+   and not the box of a mark in front of them: a flex container takes its
+   baseline from the items that align by baseline, and the mark opts out
+   below to sit centred on the line instead. */
+.pageTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.35rem, 2vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.pageNote {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+/* The cells: a perforated sheet, dashed rules between them drawn as each
+   cell's top and left edge, with the grid pulled up and left by one rule
+   so the first row and column's rules sit on the page's own edge and are
+   never doubled. Two across on a phone, three from tablet width. */
+.cells {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* colors.rule */
+  border-top: 1.5px dashed #8ca59e;
+  border-left: 1.5px dashed #8ca59e;
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  min-height: 196px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 22px 14px 18px;
+  /* colors.rule */
+  border-right: 1.5px dashed #8ca59e;
+  border-bottom: 1.5px dashed #8ca59e;
+  text-align: center;
+}
+
+/* Matches the milestone tag's treatment: ink, mono, rounded. */
+.cellTag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  /* colors.ink */
+  background: #10201d;
+  /* colors.white */
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cellTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.cellDone {
+  margin: 0;
+  /* colors.forestDeep */
+  color: #2e4742;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.cellStatus {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.78rem;
+}
+
+/* The days a challenge runs, under an unearned cell's name. colors.muted
+   / fonts.mono */
+.cellWhen {
+  margin: -4px 0 0;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #52635f;
+}
+
+.cellLink {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  /* colors.ink */
+  color: #10201d;
+  text-underline-offset: 3px;
+}
+
+/* The die-cut slot and the sticker in it, as the activity card draws
+   them (ActivityCard.module.css): the dashed ring shows behind a peeled
+   sticker.
+
+   A sticker is a hexagon, pointy end up, the six corners its file is
+   drawn to (scripts/stickers/render.mjs), and nothing rectangular draws
+   one. The slot's dashed ring is a hexagon drawn as an image, since a
+   dash is a stroke and a clip has none. The sticker's ink outline and
+   white border are two clipped layers under the picture, each inset from
+   the last by a little more than the ring it draws: a regular hexagon
+   shrunk about its middle is the same hexagon offset inward by cos 30° of
+   the inset, so 2.3px of inset is a 2px ring and 3.5px a 3px one. The
+   cast shadow is a drop-shadow on the box outside the clip, since a
+   box-shadow is cut off by its own element's clip and a filter is applied
+   before one. --hex is the polygon, stated once and read by every layer.
+   The other modules that draw a sticker restate these rules. */
+.slot {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  width: 72px;
+  height: 72px;
+  flex: 0 0 auto;
+}
+
+/* colors.rule, in the image */
+.slot::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%238ca59e' stroke-width='4.5' stroke-dasharray='10 7'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+}
+
+.sticker {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  padding: 5.8px;
+  filter: drop-shadow(0 2px 0 rgba(16, 32, 29, 0.25));
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
+}
+
+/* The ink outline, the whole slot clipped, and the white border 2.3px
+   in, the picture 3.5px inside that. colors.ink / white */
+.sticker::before,
+.sticker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.sticker::after {
+  inset: 2.3px;
+  background: #f7f7f2;
+}
+
+/* The sticker's picture, the whole sticker: public/stickers/<slug>.svg
+   carries the ground and the glyph, a hexagon on a clear square, so it
+   fills the sticker's content box edge to edge over the two rings, and
+   the element behind it only draws the rings and the shadow. */
+.stickerImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cell:hover .sticker {
+  transform: rotate(-4deg) translateY(-2px);
+}
+
+/* Not yet earned: a grey silhouette in the slot, the way a stamp book
+   shows the ones still to collect. The slot goes pale and quiet, and the
+   picture drains to a faint grey ghost of itself, so the page's colour
+   only arrives with the sticker. colors.rule / paperDeep */
+.cell:not([data-earned='true']) .sticker {
+  filter: none;
+}
+
+.cell:not([data-earned='true']) .sticker::before {
+  background: #8ca59e;
+}
+
+.cell:not([data-earned='true']) .sticker::after {
+  background: #e4e5da;
+}
+
+.cell:not([data-earned='true']) .stickerImage {
+  filter: grayscale(1) opacity(0.45);
+}
+
+/* Earned: lifted off the slot, with the heavier shadow of a thing that
+   has been peeled, and sitting square in its slot: no lean, at rest or
+   under the pointer, since a turned hexagon reads as crooked where a
+   turned circle did not. The shadow alone does the lifting. --lean is
+   what the slap-on below lands on, so it is zero here and the sticker
+   arrives flat. */
+.cell[data-earned='true'] .sticker,
+.cell[data-earned='true']:hover .sticker {
+  --lean: 0deg;
+  transform: none;
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+/* Earned just now (lib/justEarned.mjs, data-just-earned): the sticker
+   slaps on. It arrives large and turned above the slot, lands with a
+   small overshoot, square, a ring bursts off the slot as it settles, and
+   the tick pops onto the corner last. The landing is --lean, the custom
+   property the rule above sets to zero, so the resting pose is exactly
+   the earned one. Runs once per mount; the record in localStorage keeps
+   it from running on a reload. */
+.cell[data-just-earned='true'] .sticker {
+  animation: slapOn 0.85s cubic-bezier(0.22, 1.2, 0.36, 1) 0.15s both;
+}
+
+.cell[data-just-earned='true'] .slot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: 0;
+  /* colors.ink, in the image: the slot's hexagon as a 3px ring */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cpath d='M100 4 L183.1 52 L183.1 148 L100 196 L16.9 148 L16.9 52 Z' fill='none' stroke='%2310201d' stroke-width='8'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+  animation: burst 0.7s ease-out 0.6s both;
+}
+
+.cell[data-just-earned='true'] .tick {
+  animation: pop 0.4s cubic-bezier(0.3, 1.6, 0.5, 1) 0.75s both;
+}
+
+@keyframes slapOn {
+  from {
+    transform: rotate(calc(var(--lean) - 22deg)) scale(1.9);
+    opacity: 0;
+  }
+  55% {
+    transform: rotate(var(--lean)) scale(0.92);
+    opacity: 1;
+  }
+  75% {
+    transform: rotate(var(--lean)) scale(1.06);
+  }
+  to {
+    transform: rotate(var(--lean)) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes burst {
+  from {
+    transform: scale(0.85);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* The tick on an earned sticker's corner: forest on white, the rewards
+   band's tick moved onto the sticker. colors.forest / white / ink */
+/* The padlock on a locked cell, in the tick's place and at its size, so
+   the corner means status in both states. colors.ink / white */
+.lock {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  background: #10201d;
+}
+
+.lock svg {
+  width: 12px;
+  height: 12px;
+  fill: #f7f7f2;
+}
+
+/* The line where a locked cell's link would be. colors.muted / fonts.mono */
+.cellLocked {
+  margin: 0;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.7rem;
+  color: #52635f;
+}
+
+.tick {
+  position: absolute;
+  right: -2px;
+  bottom: 2px;
+  z-index: 1;
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid #f7f7f2;
+  outline: 1.5px solid #10201d;
+  background: #3d5f58;
+  color: #f7f7f2;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+/* The spine along the bottom: the book's count and the way to the public
+   catalogue. */
+.spine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 22px;
+  padding: 10px 16px;
+  /* colors.ink */
+  border-top: 2px solid #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
+}
+
+.spineCount {
+  margin-right: auto;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.spineLink,
+.spineShare {
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  font-weight: 650;
+  /* colors.ink */
+  color: #10201d;
+  text-underline-offset: 3px;
+}
+
+/* The book's share, beside the link to the catalogue: the spine link's
+   face on a button, as .cellButton does it for the cell. Nothing here may
+   reset the font, since this rule comes after the face above and would
+   win; a button has no underline of its own, so the link's is drawn. */
+.spineShare {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  line-height: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .album {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .tabs {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    border-bottom: 0;
+    /* colors.ink */
+    border-right: 2px solid #10201d;
+  }
+
+  .tab,
+  .tab:nth-child(odd),
+  .tab:nth-child(n + 3) {
+    border-top: 0;
+    border-right: 0;
+    /* colors.rule */
+    border-bottom: 1.5px solid #8ca59e;
+    box-shadow: inset 5px 0 0 var(--tab-accent, #10201d);
+  }
+
+  /* The open tab joins the page: it covers the divider between them. The
+     last tab keeps its bottom rule, so the list ends with a line rather
+     than running out into the column's paper. */
+  .tab[aria-selected='true'] {
+    margin-right: -2px;
+    padding-right: 16px;
+  }
+
+  .cells {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .spine {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker {
+    transition: none;
+  }
+
+  /* No slap, no burst, no pop: the sticker is simply there, earned. */
+  .cell[data-just-earned='true'] .sticker,
+  .cell[data-just-earned='true'] .slot::after,
+  .cell[data-just-earned='true'] .tick {
+    animation: none;
+  }
+}
+
+/* The cell's link, as a button: same words, same place, no form chrome.
+   Only the DigitalOcean sticker uses it, to start the connect flow. The
+   face comes from .cellLink above; nothing here may reset the font, since
+   this rule is declared later and would win (font: inherit did exactly
+   that, and the button rendered in the body face). A button has no
+   underline of its own, so the link's is drawn here. */
+.cellButton {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  line-height: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}

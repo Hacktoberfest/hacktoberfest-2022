@@ -4,6 +4,7 @@ import test from 'node:test';
 
 import { routeIsClosed } from '../src/data/closedRoutes.mjs';
 import { schedule } from '../src/data/content.mjs';
+import { SCHEDULE_LOCKED } from '../src/data/scheduleLock.mjs';
 
 /* /schedule is built but closed: the API endpoint it reads does not exist yet,
    and a live page stuck on "we could not load the schedule" is worse than no
@@ -140,6 +141,39 @@ test('an open route is advertised everywhere', { skip: CLOSED }, async () => {
 
   assert.ok(sitemapXml.includes('/schedule/'), 'sitemap misses /schedule/');
   assert.ok(llmsIndex.includes('./schedule/'), 'llms.txt misses /schedule/');
+});
+
+/* The schedule lock (data/scheduleLock.mjs), which is not the closed
+   route above: the page stays open and linked, and only the calendar waits.
+   While it is on, the export carries the Coming soon panel, since nothing
+   about it waits on a fetch. */
+test(
+  'while locked, the export carries the Coming soon panel',
+  { skip: CLOSED || !SCHEDULE_LOCKED },
+  async () => {
+    const html = await readOutput('schedule/index.html');
+
+    assert.ok(
+      html.includes(schedule.locked.title),
+      'the panel title is missing',
+    );
+    assert.ok(html.includes(schedule.locked.badge), 'the badge is missing');
+    assert.ok(html.includes(schedule.sectionHeading.accent));
+  },
+);
+
+test('the page gates the calendar on the lock', async () => {
+  const source = await readFile(
+    new URL('../src/pages/schedule.js', import.meta.url),
+    'utf8',
+  );
+
+  assert.ok(
+    source.includes(
+      '{SCHEDULE_LOCKED ? <ScheduleComingSoon /> : <ScheduleDirectory />}',
+    ),
+    'the lock must gate the calendar, or flipping it changes nothing',
+  );
 });
 
 /* True whichever side of the switch we are on: the page's source always

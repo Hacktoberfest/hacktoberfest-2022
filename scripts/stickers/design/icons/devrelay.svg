@@ -1,0 +1,17 @@
+<!--
+The DevRelay mark (https://devrelay.com), the part Jacklyn asked for: the
+left segment of the "C" with the sparkle, the dot and the bar, without
+the "D". DevRelay publishes it only as a raster, so this is a vector
+reconstruction measured from their 256px icon: a circle of radius 57 cut
+at a chord, a four-point sparkle, a disc and a rounded bar, in the mark's
+own proportions. Drawn white with the ink outline like every other icon
+(Jacklyn's call: the regular colour), so no fills are set here. The bar
+and the disc outweigh the sparkle, so the mark's centroid sits 6 units
+low in its box; data-offset lifts it.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="113" height="117" viewBox="0 0 113 117" data-offset="1 -5.5">
+  <path d="M26 13.7 A57 57 0 0 0 26 110.3 Z" />
+  <path d="M59.5 0 Q59.5 24 83.5 24 Q59.5 24 59.5 48 Q59.5 24 35.5 24 Q59.5 24 59.5 0 Z" />
+  <path d="M94 40 a19.5 19.5 0 1 0 0.001 0 Z" />
+  <path d="M53 95 h39 a11 11 0 0 1 0 22 h-39 a11 11 0 0 1 0 -22 Z" />
+</svg>

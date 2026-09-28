@@ -1,0 +1,250 @@
+#!/usr/bin/env node
+/* Builds the designed stickers (catalogue.mjs + compose.mjs) and writes
+   them where they are used:
+
+   - by default, as a Figma development plugin at
+     ~/Figma/HF26 sticker import/ (or --out <dir>): manifest.json and a
+     code.js that carries every sticker and, when run in the HF26 design
+     file, fills each frame of the Sticker grid by slug. Figma keeps
+     pointing at that folder once the manifest is imported (Plugins ->
+     Development -> Import plugin from manifest), so a rerun of the plugin
+     picks up whatever was built last. `npm run stickers:figma`.
+   - with --site, also into public/stickers/<slug>.svg, the files the site
+     serves; scripts/stickers/render.mjs never overwrites them.
+
+   The icon files are vendored in ./icons: Tabler's filled set
+   (https://tabler.io/icons, MIT), plus the DEV badge. */
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+import { CATALOGUE, GROUNDS, ILLUSTRATIONS, THINGS } from './catalogue.mjs';
+import { composeSticker, composeThing } from './compose.mjs';
+
+const here = fileURLToPath(new URL('.', import.meta.url));
+
+/* An icon file's paths, its viewBox size, and its fill rule if it sets
+   one (a partner mark may cut its holes with even-odd). */
+const readIcon = async (name) => {
+  const svg = await readFile(join(here, 'icons', `${name}.svg`), 'utf8');
+  const tags = [...svg.matchAll(/<path[^>]*?\sd="([^"]+)"[^>]*>/g)];
+  const role = (m) => (m[0].match(/data-role="([^"]+)"/) || [])[1];
+  const own = tags.filter((m) => !role(m));
+  const fillers = tags.filter((m) => role(m) === 'filler').map((m) => m[1]);
+  const lines = tags.filter((m) => role(m) === 'line').map((m) => m[1]);
+  const paths = own.map((m) => m[1]);
+  /* A path's own fill, kept for a partner mark drawn in its colours.
+     Tabler's `currentColor` is not a colour: in an <img> it resolves to
+     black and would paint over the white. */
+  const paints = own.map((m) => {
+    const fill = m[0].match(/\sfill="([^"]+)"/);
+    return fill && fill[1] !== 'currentColor' ? fill[1] : undefined;
+  });
+  const silhouette = tags
+    .filter((m) => role(m) === 'silhouette')
+    .map((m) => m[1]);
+  if (!paths.length) throw new Error(`no paths in icons/${name}.svg`);
+  const viewBox = svg.match(/viewBox="([^"]+)"/);
+  const [, , w, h] = (viewBox ? viewBox[1] : '0 0 24 24')
+    .split(/\s+/)
+    .map(Number);
+  const rule = svg.match(/fill-rule="([^"]+)"/);
+  const joinStyle = svg.match(/data-join="([^"]+)"/);
+  const offset = svg.match(/data-offset="([^"]+)"/);
+  return {
+    paths,
+    box: { w, h },
+    fillRule: rule ? rule[1] : undefined,
+    join: joinStyle ? joinStyle[1] : undefined,
+    paints: paints.some(Boolean) ? paints : undefined,
+    silhouette: silhouette.length ? silhouette : undefined,
+    fillers: fillers.length ? fillers : undefined,
+    lines: lines.length ? lines : undefined,
+    offset: offset ? offset[1].split(/\s+/).map(Number) : undefined,
+  };
+};
+
+export const buildStickers = async (entries = CATALOGUE) => {
+  const glyphs = JSON.parse(
+    await readFile(join(here, 'martian-mono-glyphs.json'), 'utf8'),
+  );
+  const out = {};
+  for (const entry of entries) {
+    const icon = await readIcon(entry.icon);
+    out[entry.slug] = composeSticker({
+      entry,
+      iconPaths: icon.paths,
+      iconBox: icon.box,
+      iconFillRule: icon.fillRule,
+      iconJoin: icon.join,
+      iconPaints: icon.paints,
+      iconSilhouette: icon.silhouette,
+      iconFillers: icon.fillers,
+      iconLines: icon.lines,
+      iconOffset: icon.offset,
+      footIcon: entry.foot ? await readIcon(entry.foot) : undefined,
+      tagIcon: entry.tag ? await readIcon(entry.tag) : undefined,
+      insetIcon: entry.inset ? await readIcon(entry.inset.icon) : undefined,
+      ground: GROUNDS[entry.ground],
+      glyphs,
+    });
+  }
+  return out;
+};
+
+export const buildThings = async () => {
+  const out = {};
+  for (const entry of THINGS) {
+    out[entry.slug] = composeThing({
+      entry,
+      shapeIcon: entry.icon ? await readIcon(entry.icon) : undefined,
+      sealIcon: entry.seal ? await readIcon(entry.seal) : undefined,
+      ground: GROUNDS[entry.ground],
+    });
+  }
+  return out;
+};
+
+/* The plugin's code: plain Figma Plugin API, no build step. Two grids on
+   the Stickers page, each a section: "Sticker grid" for the stickers and
+   "Locker grid" for the things. A frame is found by name under its cell
+   (a frame named by slug inside a frame named "<slug> (cell)"); a slug
+   with no frame gets one, in a section made below everything else on the
+   page if the grid has none yet, so the first run draws the grid and
+   later runs refresh it. In a frame the guide hexagon is hidden, earlier
+   art is removed, and the art is imported at 0,0. */
+const pluginCode = (
+  grids,
+) => `// HF26 sticker import, generated by scripts/stickers/design/build.mjs. Do not edit; rebuild.
+const GRIDS = ${JSON.stringify(grids)};
+const COLUMNS = 5;
+const CELL = { w: 200, h: 236, gapX: 40, gapY: 44, padX: 40, padY: 60 };
+async function makeSection(page, name) {
+  const section = figma.createSection();
+  section.name = name;
+  let bottom = 0;
+  let left = 0;
+  for (const node of page.children) {
+    if (node === section) continue;
+    bottom = Math.max(bottom, node.y + node.height);
+    if (node.type === 'SECTION') left = node.x;
+  }
+  section.x = left;
+  section.y = bottom + 120;
+  return section;
+}
+async function makeCell(section, slug) {
+  const index = section.children.length;
+  const cell = figma.createFrame();
+  cell.name = slug + ' (cell)';
+  cell.fills = [];
+  cell.resize(CELL.w, CELL.h);
+  const frame = figma.createFrame();
+  frame.name = slug;
+  frame.fills = [];
+  frame.resize(200, 200);
+  cell.appendChild(frame);
+  frame.x = 0;
+  frame.y = 0;
+  await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
+  const label = figma.createText();
+  label.fontName = { family: 'Inter', style: 'Regular' };
+  label.characters = slug;
+  label.fontSize = 12;
+  cell.appendChild(label);
+  label.x = 0;
+  label.y = 212;
+  section.appendChild(cell);
+  cell.x = CELL.padX + (index % COLUMNS) * (CELL.w + CELL.gapX);
+  cell.y = CELL.padY + Math.floor(index / COLUMNS) * (CELL.h + CELL.gapY);
+  const rows = Math.ceil((index + 1) / COLUMNS);
+  section.resizeWithoutConstraints(
+    CELL.padX * 2 + COLUMNS * CELL.w + (COLUMNS - 1) * CELL.gapX,
+    CELL.padY + rows * (CELL.h + CELL.gapY),
+  );
+  return frame;
+}
+async function main() {
+  let page = figma.currentPage;
+  if (page.name !== 'Stickers') {
+    const stickers = figma.root.children.find((n) => n.name === 'Stickers');
+    if (stickers) { await figma.setCurrentPageAsync(stickers); page = stickers; }
+  }
+  let filled = 0;
+  let made = 0;
+  let total = 0;
+  for (const grid of GRIDS) {
+    let section = null;
+    for (const [slug, svg] of Object.entries(grid.art)) {
+      total += 1;
+      let frame = page.findOne((n) => n.type === 'FRAME' && n.name === slug && n.parent && n.parent.name === slug + ' (cell)');
+      if (!frame) {
+        if (!section) section = page.findOne((n) => n.type === 'SECTION' && n.name === grid.name) || await makeSection(page, grid.name);
+        frame = await makeCell(section, slug);
+        made += 1;
+      }
+      for (const child of [...frame.children]) {
+        if (child.name === 'hexagon') child.visible = false;
+        else if (child.name.startsWith('art')) child.remove();
+      }
+      const art = figma.createNodeFromSvg(svg);
+      art.name = 'art';
+      frame.appendChild(art);
+      art.x = 0;
+      art.y = 0;
+      filled += 1;
+    }
+  }
+  figma.closePlugin('Filled ' + filled + ' of ' + total + ' frames' + (made ? ' (' + made + ' new)' : ''));
+}
+main();
+`;
+
+const MANIFEST = {
+  name: 'HF26 sticker import',
+  id: '1758470000000000001',
+  api: '1.0.0',
+  main: 'code.js',
+  editorType: ['figma'],
+  documentAccess: 'dynamic-page',
+  networkAccess: { allowedDomains: ['none'] },
+};
+
+const main = async () => {
+  const args = process.argv.slice(2);
+  const outFlag = args.indexOf('--out');
+  const outDir =
+    outFlag >= 0
+      ? args[outFlag + 1]
+      : join(homedir(), 'Figma', 'HF26 sticker import');
+  const stickers = await buildStickers();
+  const things = await buildThings();
+
+  await mkdir(outDir, { recursive: true });
+  await writeFile(
+    join(outDir, 'manifest.json'),
+    `${JSON.stringify(MANIFEST, null, 2)}\n`,
+  );
+  await writeFile(
+    join(outDir, 'code.js'),
+    pluginCode([
+      { name: 'Sticker grid', art: stickers },
+      { name: 'Locker grid', art: things },
+    ]),
+  );
+  console.log(
+    `figma plugin: ${Object.keys(stickers).length} stickers + ${Object.keys(things).length} things -> ${outDir}`,
+  );
+
+  if (args.includes('--site')) {
+    const dir = new URL('../../../public/stickers/', import.meta.url);
+    const illustrations = await buildStickers(ILLUSTRATIONS);
+    const all = { ...stickers, ...things, ...illustrations };
+    for (const [slug, svg] of Object.entries(all))
+      await writeFile(new URL(`${slug}.svg`, dir), svg);
+    console.log(`site: ${Object.keys(all).length} files -> public/stickers`);
+  }
+};
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) main();

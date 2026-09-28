@@ -6,6 +6,7 @@ import {
   SCENARIOS,
   selectScenario,
 } from '../src/data/fixtures.mjs';
+import { isEligible, progressLevel } from '../src/lib/eligibility.mjs';
 import { festDidNotAttend } from '../src/lib/fests.mjs';
 
 /* This file evaluates experience.mjs in the mocked build. Leaving the
@@ -31,9 +32,29 @@ test('selectScenario passes through every known name', () => {
     'nothing-done',
     'organizer',
     'complete',
+    'completionist',
     'error',
     'mlh-down',
   ].forEach((name) => assert.equal(selectScenario(name), name));
+});
+
+test('the fixtures actually represent the states they claim', () => {
+  assert.equal(isEligible(SCENARIOS.eligible), true);
+  assert.equal(isEligible(SCENARIOS['no-address']), false);
+  assert.equal(SCENARIOS['no-address'].addressValidated, false);
+  assert.equal(isEligible(SCENARIOS['nothing-done']), false);
+  assert.equal(
+    SCENARIOS['nothing-done'].activities.every((a) => !a.completed),
+    true,
+  );
+});
+
+test('the complete scenario reaches milestone 2', () => {
+  assert.equal(progressLevel(SCENARIOS.complete), 2);
+});
+
+test('the completionist scenario reaches milestone 3', () => {
+  assert.equal(progressLevel(SCENARIOS.completionist), 3);
 });
 
 test('every fixture carries a user', () => {
@@ -44,7 +65,7 @@ test('every fixture carries a user', () => {
 
 test('getExperience resolves the requested fixture', async () => {
   const result = await getExperience(null, { scenario: 'eligible' });
-  assert.equal(result.addressValidated, true);
+  assert.equal(isEligible(result), true);
 });
 
 test('getExperience defaults to the no-address scenario', async () => {
@@ -269,7 +290,6 @@ test('the organizer scenario shows every badge variant', () => {
 
 test('nothing-done has zero fests, exercising the invitation state', () => {
   assert.deepEqual(SCENARIOS['nothing-done'].fests, []);
-  assert.ok(SCENARIOS['nothing-done'].activities.every((a) => !a.completed));
 });
 
 test('eligible completes the fest activity with a matching past fest', () => {
@@ -277,4 +297,22 @@ test('eligible completes the fest activity with a matching past fest', () => {
     SCENARIOS.eligible.activities.some((a) => a.id === 'fest' && a.completed),
   );
   assert.ok(SCENARIOS.eligible.fests.some((f) => f.date < '2026-09-01'));
+});
+
+test('every data fixture carries the required stickers, consistent with its address flag', () => {
+  Object.entries(SCENARIOS)
+    .filter(([, fixture]) => 'addressValidated' in fixture)
+    .forEach(([name, fixture]) => {
+      const byId = new Map(fixture.required.map((entry) => [entry.id, entry]));
+      assert.equal(byId.get('signin').completed, true, name);
+      assert.equal(
+        byId.get('address').completed,
+        fixture.addressValidated,
+        `${name}: the address sticker follows addressValidated`,
+      );
+      fixture.required.forEach((entry) => {
+        assert.equal(entry.completed, Boolean(entry.completedAt), name);
+        assert.equal(entry.completed, entry.source !== null, name);
+      });
+    });
 });

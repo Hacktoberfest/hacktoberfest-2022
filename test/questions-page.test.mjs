@@ -64,7 +64,7 @@ test('/questions groups every item under its section heading', async () => {
   });
 });
 
-test('the nav links to /questions/ as FAQs', async () => {
+test('the nav links to /questions/ as FAQs, under About', async () => {
   const html = await readOutput('index.html');
-  assert.match(html, /<a[^>]*href="\/questions\/"[^>]*>FAQs<\/a>/);
+  assert.match(html, /<a[^>]*href="\/questions\/"[^>]*>(?:<[^>]+>)*FAQs</);
 });

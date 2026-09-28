@@ -1,0 +1,505 @@
+/* The October homepage's two added bands. The section grammar restates
+   WorldLanding.styles.js (eyebrow, display heading, intro at the right)
+   with the token named beside each literal, the convention the other
+   modules follow (see NearbyFests.module.css). */
+.shell {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .shell {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+@media (min-width: 1700px) {
+  .shell {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}
+
+/* ---- What is Hacktoberfest? ------------------------------------------- */
+
+/* The mission page's band (MissionSection.styles.js), restated: forest
+   deep ground, the heading beside copy set to its reading measure. */
+.about {
+  padding-block: clamp(72px, 8vw, 112px);
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.forestDeep */
+  background: #2e4742;
+}
+
+.aboutInner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 6vw, 100px);
+}
+
+/* breakpoints.desktop */
+@media (min-width: 1024px) {
+  .aboutInner {
+    grid-template-columns: 1fr minmax(0, 62ch);
+    align-items: start;
+  }
+}
+
+.aboutEyebrow {
+  margin: 0;
+  /* colors.sky */
+  color: #8bb2de;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.aboutHeading {
+  margin: 13px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 4.8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+@media (min-width: 1024px) {
+  .aboutHeading {
+    max-width: 11ch;
+  }
+}
+
+.aboutHeading em {
+  /* colors.ochre */
+  color: #f5b726;
+  font-style: normal;
+}
+
+.aboutCopy {
+  display: grid;
+  gap: 22px;
+  max-width: 62ch;
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.aboutCopy p {
+  margin: 0;
+}
+
+.aboutActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+/* The site's secondary button on a dark ground (components/Button.js),
+   casting ink rather than its usual forest deep, which is this band's
+   own ground and would vanish. */
+.buttonOnDark {
+  color: #f7f7f2;
+  border-color: rgba(255, 255, 255, 0.72);
+  background: transparent;
+  box-shadow: 5px 5px 0 #10201d;
+}
+
+.buttonOnDark:hover {
+  color: #10201d;
+  background: #f7f7f2;
+  box-shadow: 3px 3px 0 #10201d;
+}
+
+/* ---- Attend online ----------------------------------------------------- */
+
+.online {
+  padding-block: clamp(64px, 7vw, 96px);
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.paperDeep: NearbyFests before it is paper, so this steps
+     forward and the two read as two. */
+  background: #e4e5da;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.eyebrow {
+  margin: 0;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 13px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 4.8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.heading em {
+  display: block;
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.introCopy {
+  max-width: 48ch;
+  margin: 0;
+  color: #34433f;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+@media (min-width: 768px) {
+  .intro {
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+  }
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0 0 36px;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px;
+  /* colors.ink / white / maroon */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 7px 7px 0 #671912;
+}
+
+/* The frame /my puts an earned sticker in (Album.module.css .sticker,
+   restated as the other sticker modules do): an ink hexagon, a white one
+   2.3px inside it at 72px, the picture inside that, and the lifted
+   shadow of a sticker that has been peeled. A drop-shadow on the box,
+   since a box-shadow is cut off by the clip. Sized by --size, the rings
+   and padding scaling with it from the album's 72. */
+.badge,
+.pileBadge {
+  --hex: polygon(50% 0, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+  position: relative;
+  display: grid;
+  width: var(--size);
+  height: var(--size);
+  box-sizing: border-box;
+  place-items: center;
+  padding: calc(var(--size) * 5.8 / 72);
+  isolation: isolate;
+  filter: drop-shadow(-2px 3px 0 rgba(16, 32, 29, 0.35));
+}
+
+/* The online band's badges are the album's own size; a pile's take the
+   pile's (below). */
+.badge {
+  --size: 72px;
+}
+
+/* colors.ink / white */
+.badge::before,
+.badge::after,
+.pileBadge::before,
+.pileBadge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: var(--hex);
+  background: #10201d;
+}
+
+.badge::after,
+.pileBadge::after {
+  inset: calc(var(--size) * 2.3 / 72);
+  background: #f7f7f2;
+}
+
+.badgeImage {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cardTitle {
+  margin: 4px 0 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.cardCopy {
+  margin: 0;
+  color: #34433f;
+  line-height: 1.5;
+}
+
+.cardLink {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 4px;
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.actions {
+  display: flex;
+}
+
+/* ---- How it works ------------------------------------------------------ */
+
+.steps {
+  padding-block: clamp(64px, 7vw, 96px);
+  /* colors.white on colors.forest */
+  color: #f7f7f2;
+  border-bottom: 2px solid #10201d;
+  background: #3d5f58;
+}
+
+.stepsIntro {
+  margin-bottom: 40px;
+}
+
+.stepsEyebrow {
+  margin: 0;
+  /* colors.sky */
+  color: #8bb2de;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stepsHeading {
+  margin: 13px 0 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 4.8vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.stepsHeading em {
+  /* colors.ochre */
+  color: #f5b726;
+  font-style: normal;
+}
+
+/* The phases sit side by side from tablet up, each as wide as the steps
+   it holds, the way PhaseGrid lays out /in-person's. */
+.phases {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .phases {
+    display: flex;
+    gap: 40px;
+  }
+
+  .phase {
+    flex: var(--steps) 1 0;
+  }
+}
+
+.phase {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+.phaseLabel {
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(247, 247, 242, 0.25);
+  color: #8bb2de;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.phaseLabel[data-later='true'] {
+  color: #f5b726;
+}
+
+.phaseSteps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .phaseSteps {
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+    gap: 32px;
+  }
+}
+
+/* align-content: start, since a step beside a taller one is stretched to
+   its height, and its rows would share the extra and push its number and
+   title below its neighbour's. */
+.step {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 16px;
+  align-content: start;
+  align-items: start;
+}
+
+/* A step's pile: its stickers overlapping left to right, every other one
+   dropped a little, each tipped by its --tilt. One height for every pile,
+   so the steps' numbers and titles line up across the band. */
+.pile {
+  --size: 64px;
+  position: relative;
+  height: calc(var(--size) + 14px);
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+}
+
+/* Full size once the In October phase is wide enough for four abreast;
+   below that the phone's size, so a pile never reaches the next step. */
+@media (min-width: 1100px) {
+  .pile {
+    --size: 88px;
+    margin-bottom: 8px;
+  }
+}
+
+.pileBadge {
+  position: absolute;
+  top: 0;
+  left: calc(var(--size) * 0.64 * var(--i));
+  z-index: var(--i);
+  width: var(--size);
+  height: var(--size);
+  transform: rotate(var(--tilt));
+}
+
+.pileBadge:nth-child(odd) {
+  top: 10px;
+}
+
+.stepNumber {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  place-items: center;
+  border: 2px solid #10201d;
+  background: #f5b726;
+  color: #10201d;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.stepTitle {
+  margin: 2px 0 4px;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+.stepCopy {
+  max-width: 48ch;
+  margin: 0;
+  color: rgba(247, 247, 242, 0.82);
+  line-height: 1.55;
+}
+
+.stepsActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 36px;
+}
+
+@media (min-width: 768px) {
+  .stepsActions {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+}
+
+.stepsNote {
+  margin: 0;
+  color: rgba(247, 247, 242, 0.82);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}

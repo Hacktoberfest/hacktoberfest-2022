@@ -1,0 +1,575 @@
+/* The homepage hero's band (components/Hero/Hero.styles.js), restated for
+   CSS Modules: forest ground, ink baseline, white type. Values mirror
+   src/styles/tokens.js and should move with it.
+
+   With the nav and the Today strip above it, the hero and its sign-off
+   rail fill at least the first screen, so the partners sit on the fold
+   rather than floating above whatever the next band is. `--hero-offset`
+   is how far down the page the hero starts: `--hero-top`, measured by the
+   component once it runs, and until then `--hero-guess`, the nav's own
+   height (72px or 82px and its 2px rule) and in October the strip's (75px
+   on its two phone lines, 52px from tablet up), so the first paint
+   already fits. The map sizes itself from it too. Any room left over
+   goes round the map. */
+.hero {
+  --hero-guess: 74px;
+  --hero-offset: var(--hero-top, var(--hero-guess));
+
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  min-height: calc(100vh - var(--hero-offset));
+  min-height: calc(100svh - var(--hero-offset));
+  flex-direction: column;
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.forest */
+  background: #3d5f58;
+  text-align: center;
+}
+
+:global(html:not([data-today-strip-off='true'])) .hero {
+  --hero-guess: 149px;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    --hero-guess: 84px;
+  }
+
+  :global(html:not([data-today-strip-off='true'])) .hero {
+    --hero-guess: 136px;
+  }
+}
+
+/* The task group and the map, as one block centred in the hero's height:
+   when the screen is taller than the map needs (a tall window, a portrait
+   display, a phone), the room left over is shared evenly above the
+   eyebrow and below the map, rather than opening a gap under the search.
+   The rail stays on the bottom edge. */
+.stage {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* The task group: eyebrow, headline, search, the online way in. One
+   centred column, the search its widest thing. */
+.task {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-top: clamp(24px, 3.4vw, 36px);
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .task {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  /* colors.pinkLight */
+  color: #f6c4c1;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+/* One clause per line on phones, sharing a line from tablet up, the way
+   the homepage hero's eyebrow does. */
+.eyebrowLine {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .eyebrow {
+    font-size: 0.78rem;
+  }
+
+  .eyebrowLine {
+    display: inline;
+  }
+
+  .eyebrowLine + .eyebrowLine::before {
+    content: ' · ';
+  }
+}
+
+/* One line from tablet up; the answer drops under the claim on phones. */
+.heading {
+  margin: 14px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 6.4vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.heading em {
+  display: block;
+  /* colors.pink: the in-person world's colour, since this hero is its
+     front door. */
+  color: #e97b77;
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+
+@media (min-width: 600px) {
+  .heading {
+    margin-top: 16px;
+  }
+
+  .heading em {
+    display: inline;
+  }
+}
+
+/* One rhythm down the group: 16px from the eyebrow to the headline,
+   28px to the search, 24px to the online line (a little less of each on
+   phones). */
+.search {
+  width: 100%;
+  max-width: 560px;
+  margin-top: 22px;
+}
+
+@media (min-width: 768px) {
+  .search {
+    margin-top: 28px;
+  }
+}
+
+/* The online way in, as the search's alternative: the search's width,
+   a thin rule either side running to its edges, the words between. The
+   words take two lines at the search's width, balanced so neither is a
+   stub; the fold budget under .map counts both. */
+.online {
+  display: flex;
+  width: 100%;
+  max-width: 560px;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0 0;
+  /* colors.white, softened */
+  color: rgba(247, 247, 242, 0.86);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .online {
+    margin-top: 24px;
+  }
+}
+
+.onlineRule {
+  flex: 1 1 0;
+  min-width: 16px;
+  height: 2px;
+  background: rgba(247, 247, 242, 0.22);
+}
+
+/* Long enough to read as a rule, not a dash, beside the wrapped words,
+   where there is room: a phone keeps the words to two lines instead. */
+@media (min-width: 600px) {
+  .onlineRule {
+    min-width: 32px;
+  }
+}
+
+.onlineText {
+  flex: 0 1 auto;
+  text-wrap: balance;
+}
+
+/* On a phone the question would wrap the line in two and squeeze the
+   rules to stubs, so the link, which says it on its own, stands alone
+   between them. */
+@media (max-width: 599px) {
+  .onlinePrompt {
+    display: none;
+  }
+}
+
+.online a {
+  color: #f7f7f2;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* The arrow the /fests map strip ends on, nudged on hover. Drawn by CSS
+   so the link's name stays its words; an inline-block, so the underline
+   stops before it. */
+.online a::after {
+  display: inline-block;
+  margin-left: 8px;
+  content: '→';
+  content: '→' / '';
+  transition: translate 160ms ease;
+}
+
+.online a:hover::after {
+  translate: 3px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .online a::after {
+    transition: none;
+  }
+}
+
+/* The map is as big as the screen allows: as wide as the content, and
+   no wider than keeps the sign-off rail above the fold under the header
+   and the Today strip. Sized by the screen's height rather than capped
+   at a content width, so a large display gets a large map instead of a
+   laptop-sized one in a lot of green.
+
+   It is 2.98 times as wide as it is tall, so its width is the height
+   left for it times 2.98: the screen, less where the hero starts
+   (--hero-offset, above), less everything in the hero but the map, which
+   is 398px, or 444px below 1100px where the rail takes two lines, and
+   more on the big-screen steps at the end of this file, each measured. */
+.map {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: 22px 16px;
+}
+
+@media (min-width: 768px) {
+  .map {
+    width: min(
+      calc(100% - 40px),
+      max(560px, calc((100svh - var(--hero-offset) - 444px) * 2.98))
+    );
+    padding-block: 26px 18px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .map {
+    width: min(
+      calc(100% - 40px),
+      max(560px, calc((100svh - var(--hero-offset) - 398px) * 2.98))
+    );
+  }
+}
+
+/* The sign-off: the campaign line and the partners on a light band, so
+   each mark sits in its own colours with no chip round it. Labelled and
+   equal in size, a thin rule between, on the same axis as everything
+   above. */
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 15px 20px;
+  /* colors.ink */
+  color: #10201d;
+  border-top: 2px solid #10201d;
+  background: #f7f7f2;
+}
+
+@media (min-width: 1100px) {
+  .rail {
+    flex-direction: row;
+    gap: 28px;
+    padding: 16px 40px;
+  }
+}
+
+.tagline {
+  margin: 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.625rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.tagline em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.rule {
+  display: none;
+  flex: 0 0 auto;
+  width: 2px;
+  height: 28px;
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+@media (min-width: 1100px) {
+  .rule[data-between='tagline'] {
+    display: block;
+  }
+}
+
+.lockups {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (min-width: 600px) {
+  .lockups {
+    flex-direction: row;
+    gap: 28px;
+  }
+
+  .rule[data-between='lockups'] {
+    display: block;
+  }
+}
+
+.lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lockupLabel {
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lockupMarks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lockupMarks a {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Ink focus ring on the light band, where the site's white one would
+   vanish. */
+.lockupMarks a:focus-visible,
+.online a:focus-visible {
+  outline-offset: 3px;
+}
+
+.lockupMarks a:focus-visible {
+  outline-color: #10201d;
+}
+
+.mlh,
+.dev,
+.digitalocean {
+  display: block;
+  width: auto;
+  height: 20px;
+}
+
+.digitalocean {
+  height: 16px;
+}
+
+@media (min-width: 768px) {
+  .mlh,
+  .dev {
+    height: 26px;
+  }
+
+  .digitalocean {
+    height: 22px;
+  }
+}
+
+.times {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Big screens: a 1080p monitor, a 27-inch display, a tall window. The
+   same hero, a step larger, so it fills the room it has rather than
+   sitting laptop-sized in the middle of it; each step only when the
+   screen is tall enough for it as well as wide. A laptop (1512 by 982, or
+   1440 by 900) stays on the base sizes. The map's allowance for the rest of the hero at each
+   step is measured there. */
+@media (min-width: 1280px) and (min-height: 1000px) {
+  .task {
+    padding-top: 44px;
+  }
+
+  .eyebrow {
+    font-size: 0.84rem;
+  }
+
+  .heading {
+    margin-top: 18px;
+    font-size: 5.75rem;
+  }
+
+  .search,
+  .online {
+    max-width: 640px;
+  }
+
+  .search {
+    margin-top: 32px;
+  }
+
+  .online {
+    margin-top: 26px;
+    font-size: 1rem;
+  }
+
+  .online a {
+    font-size: 0.86rem;
+  }
+
+  .map {
+    width: min(
+      calc(100% - 80px),
+      2400px,
+      max(560px, calc((100svh - var(--hero-offset) - 465px) * 2.98))
+    );
+    padding-block: 32px 24px;
+  }
+
+  .rail {
+    gap: 32px;
+    padding: 20px 40px;
+  }
+
+  .lockups {
+    gap: 32px;
+  }
+
+  .tagline {
+    font-size: 1.875rem;
+  }
+
+  .lockupLabel {
+    font-size: 0.7rem;
+  }
+
+  .rule {
+    height: 32px;
+  }
+
+  .mlh,
+  .dev {
+    height: 30px;
+  }
+
+  .digitalocean {
+    height: 25px;
+  }
+}
+
+@media (min-width: 2200px) and (min-height: 1250px) {
+  .task {
+    padding-top: 56px;
+  }
+
+  .eyebrow {
+    font-size: 0.92rem;
+  }
+
+  .heading {
+    margin-top: 20px;
+    font-size: 7rem;
+  }
+
+  .search,
+  .online {
+    max-width: 720px;
+  }
+
+  .search {
+    margin-top: 36px;
+  }
+
+  .online {
+    margin-top: 28px;
+    font-size: 1.06rem;
+  }
+
+  .online a {
+    font-size: 0.92rem;
+  }
+
+  .map {
+    width: min(
+      calc(100% - 96px),
+      2400px,
+      max(560px, calc((100svh - var(--hero-offset) - 536px) * 2.98))
+    );
+    padding-block: 36px 28px;
+  }
+
+  .rail {
+    gap: 36px;
+    padding: 24px 48px;
+  }
+
+  .lockups {
+    gap: 36px;
+  }
+
+  .tagline {
+    font-size: 2.125rem;
+  }
+
+  .lockupLabel {
+    font-size: 0.75rem;
+  }
+
+  .rule {
+    height: 36px;
+  }
+
+  .mlh,
+  .dev {
+    height: 34px;
+  }
+
+  .digitalocean {
+    height: 28px;
+  }
+}

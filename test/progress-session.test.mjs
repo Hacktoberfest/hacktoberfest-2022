@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   EXPERIENCE_CACHE_KEY,
+  LAST_HUB_STORAGE_KEY,
   RETURN_TO_STORAGE_KEY,
   SESSION_STORAGE_KEY,
   canPersistSession,
@@ -760,6 +761,31 @@ test('clearSession still clears the session when sessionStorage is hostile', () 
         assert.doesNotThrow(clearSession);
         assert.equal(
           globalThis.localStorage.getItem(SESSION_STORAGE_KEY),
+          null,
+        );
+      });
+    },
+  );
+});
+
+/* The last-visited hub is the previous person's preference; the next
+   sign-in on a shared machine must land where their own Fests say. */
+test('clearSession forgets which hub was last visited', () => {
+  withMockStorage(
+    'localStorage',
+    {
+      [SESSION_STORAGE_KEY]: JSON.stringify(VALID),
+      [LAST_HUB_STORAGE_KEY]: 'hosting',
+    },
+    () => {
+      withMockStorage('sessionStorage', {}, () => {
+        clearSession();
+        assert.equal(
+          globalThis.localStorage.getItem(SESSION_STORAGE_KEY),
+          null,
+        );
+        assert.equal(
+          globalThis.localStorage.getItem(LAST_HUB_STORAGE_KEY),
           null,
         );
       });

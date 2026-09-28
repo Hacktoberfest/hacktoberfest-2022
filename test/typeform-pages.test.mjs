@@ -43,13 +43,11 @@ test('rejects Typeform outbound URLs only when they are anchor href values', () 
 });
 
 /* The homepage carries no Typeform popup at all now. Every host ask left
-   as applications opened — the nav, the hero CTA, the FAQ's organize
-   answer and the Get Involved host card all link to /host/, asserted
-   below. The sponsor ask graduated to /sponsor/ the same way. The
+   as applications opened and links to /host/, asserted below. The
    attendee ask was the last one standing, and it graduated to /fests/
-   when the directory opened: "Notify me about local Fests" is a link to
-   the published Fests now, not a popup collecting an address against
-   Fests nobody could see. */
+   when the directory opened: "Notify me about local Fests" became the
+   published Fests, and in October the hero's search, not a popup
+   collecting an address against Fests nobody could see. */
 test('the homepage opens no Typeform popup', async () => {
   const html = await readOutput('index.html');
 
@@ -58,61 +56,83 @@ test('the homepage opens no Typeform popup', async () => {
   assertNoTypeformOutboundAnchors(html);
 });
 
-/* The homepage asks that graduated from interest popups to the hosting
-   page. Pinned as anchors so none can quietly fall back to a form.
+/* The homepage's host ask, graduated from an interest popup to the
+   hosting page. Pinned as an anchor so it cannot quietly fall back to a
+   form.
 
-   The FAQ's organize answer used to be in this list — it linked to
-   /host/ — but the FAQ restructure retired it. Its successor,
-   how-to-apply-to-host, links straight out to the MLH host portal
-   instead (see test/faq-content.test.mjs), so it no longer belongs to
-   the /host/ set this test guards. */
+   The FAQ's organize answer used to be one — it linked to /host/ — but
+   the FAQ restructure retired it. Its successor, how-to-apply-to-host,
+   links straight out to the MLH host portal instead (see
+   test/faq-content.test.mjs). The Get involved card was the other, and it
+   left the homepage with the October redesign, which leaves the
+   in-person world's own nav entry, "Host a Fest", as the homepage's host
+   ask. */
 test('every homepage host ask links to /host/', async () => {
   const html = await readOutput('index.html');
 
-  const labels = [
-    'Host a Fest in your city', // the hero CTA
-    'Host a Fest', // the Get Involved host card
-  ];
-
-  labels.forEach((label) =>
-    assert.match(
-      html,
-      linkTo('/host/', label),
-      `"${label}" should link to /host/`,
-    ),
+  assert.match(
+    html,
+    /<a[^>]*href="\/host\/"[^>]*>(?:(?!<\/a>).)*Host a Fest/,
+    '"Host a Fest" should link to /host/',
   );
   // An internal destination stays in the tab.
   assert.doesNotMatch(html, /<a[^>]*href="\/host\/"[^>]*target="_blank"/);
-
-  // The Get Involved sponsor card graduated the same way, to /sponsor/.
-  assert.match(
-    html,
-    linkTo('/sponsor/', 'Sponsor Hacktoberfest'),
-    '"Sponsor Hacktoberfest" should link to /sponsor/',
-  );
-  assert.doesNotMatch(html, /<a[^>]*href="\/sponsor\/"[^>]*target="_blank"/);
 });
 
-/* The attendee ask, the last popup on the page, now a link to the
-   directory. Pinned as an anchor for the same reason the host asks are:
-   nothing should quietly fall back to a form. */
-test('the homepage attendee ask links to /fests/', async () => {
+/* The online asks: the hero's line for anyone with no Fest nearby, and
+   the online band's button, both to the online world's overview, and the
+   band's cards to the schedule. */
+test('the homepage online asks link to /online/ and /schedule/', async () => {
   const html = await readOutput('index.html');
 
   assert.match(
     html,
-    linkTo('/fests/', 'Find a Fest near you'),
-    'the hero secondary CTA should link to /fests/',
+    linkTo(
+      '/online/',
+      'Join online from anywhere and get swag shipped to your door',
+    ),
+    'the hero online link should lead to /online/',
+  );
+  assert.match(
+    html,
+    linkTo('/online/', 'Attend online'),
+    'the online band CTA should lead to /online/',
+  );
+  assert.match(html, linkTo('/schedule/', 'See the schedule'));
+  assert.doesNotMatch(
+    html,
+    /<a[^>]*href="\/(?:online|schedule)\/"[^>]*target="_blank"/,
+  );
+});
+
+/* The attendee ask, the last popup on the page, is the hero's search in
+   October: a real GET form to the directory with the query as `q`, the
+   parameter /fests/ reads, so it works before any JavaScript does. Pinned
+   so nothing can quietly fall back to a popup, with the soonest Fests'
+   own link to the directory beside it. */
+test('the homepage attendee ask searches /fests/', async () => {
+  const html = await readOutput('index.html');
+
+  const form = html.match(/<form\b[^>]*role="search"[^>]*>/);
+  assert.ok(form, 'the hero search form is missing');
+  assert.match(form[0], /action="\/fests\/"/);
+  assert.match(form[0], /method="get"/);
+  assert.match(html, /<input\b[^>]*name="q"/);
+  assert.match(
+    html,
+    buttonFor('<span[^>]*>Find a Fest</span><span[^>]*>Find</span>'),
   );
   assert.doesNotMatch(html, /<a[^>]*href="\/fests\/"[^>]*target="_blank"/);
 });
 
 /* The header's CTA graduated twice: from a Typeform popup to a /host/
-   link, then to "Apply to Host" — during Preptember the nav's one ask
-   is the signed-in hub, and "Learn about Hosting" stands as the first
-   plain link. These pages still carry no Typeform button at all — the
-   sweep for outbound Typeform anchors is what remains. */
-test('the header carries Find a Fest, Learn about Hosting and the Apply to Host CTA', async () => {
+   link, then to "Apply to Host" during Preptember. Preptember is over on
+   this branch, so the chip reads "My Hacktoberfest" and leads to the
+   signed-in hub; "Host a Fest" (behind the Attend in-person dropdown)
+   stands as the in-person world's second destination, after Find a Fest.
+   These pages still carry no Typeform button at all — the sweep for
+   outbound Typeform anchors is what remains. */
+test('the header carries Find a Fest, Host a Fest and the My Hacktoberfest CTA', async () => {
   const pages = await Promise.all([
     readOutput('404.html'),
     readOutput('subscribed/index.html'),
@@ -120,9 +140,16 @@ test('the header carries Find a Fest, Learn about Hosting and the Apply to Host 
   ]);
 
   pages.forEach((html) => {
-    assert.match(html, /<a[^>]*href="\/fests\/"[^>]*>Find a Fest<\/a>/);
-    assert.match(html, /<a[^>]*href="\/host\/"[^>]*>Learn about Hosting<\/a>/);
-    assert.match(html, /<a[^>]*href="\/my\/"[^>]*>Apply to Host<\/a>/);
+    /* The label is the anchor's first span; the description follows it. */
+    assert.match(
+      html,
+      /<a[^>]*href="\/fests\/"[^>]*>(?:<span[^>]*>)?Find a Fest<\/span>/,
+    );
+    assert.match(
+      html,
+      /<a[^>]*href="\/host\/"[^>]*>(?:<span[^>]*>)?Host a Fest<\/span>/,
+    );
+    assert.match(html, /<a[^>]*href="\/my\/"[^>]*>\s*My Hacktoberfest\s*<\/a>/);
     assertNoTypeformOutboundAnchors(html);
   });
 });
@@ -140,5 +167,5 @@ test('the homepage nav carries no section anchor links', async () => {
   assert.ok(nav, 'the main navigation is missing from the homepage');
 
   assert.doesNotMatch(nav[0], /href="#(?!top)/);
-  assert.match(nav[0], /<a[^>]*href="\/my\/"[^>]*>Apply to Host<\/a>/);
+  assert.match(nav[0], /<a[^>]*href="\/my\/"[^>]*>\s*My Hacktoberfest\s*<\/a>/);
 });

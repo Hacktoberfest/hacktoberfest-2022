@@ -33,6 +33,10 @@ test('the exported page carries no Fest data of its own', async () => {
     'the exported HTML should not contain the check-in code card',
   );
   assert.ok(
+    !html.includes(my.dashboard.photos.intro),
+    'the exported HTML should not contain the Photo gallery card',
+  );
+  assert.ok(
     html.includes(my.loading),
     'the exported HTML should be the loading surface',
   );
@@ -59,5 +63,12 @@ test('the refusal surfaces ship with the page', async () => {
   assert.ok(
     source.includes(my.dashboard.notFound.body),
     'the not-found surface is missing from the page bundle',
+  );
+  /* Both refusals offer a way back. It goes to the hosting hub: anyone
+     who reached a Fest dashboard was hosting, and /my/ would only send
+     them on again. */
+  assert.ok(
+    source.includes('/my/hosting/'),
+    'the refusal surfaces should link back to the hosting hub',
   );
 });

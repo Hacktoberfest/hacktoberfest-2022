@@ -157,7 +157,20 @@ export const FormatCardFactRow = styled.div`
 export const PhotoStripRoot = styled.section`
   padding-block: clamp(40px, 5vw, 72px);
   border-bottom: 2px solid ${colors.ink};
-  background: ${colors.sky};
+  /* Sky on /host; pink on /in-person, that world's colour (PhotoStrip.js). */
+  background: ${(props) => (props.$tone === 'pink' ? colors.pink : colors.sky)};
+`;
+
+/* The reel's visible label, in the shell so it lines up with the bands
+   above and below; the reel itself bleeds. */
+export const PhotoStripCaption = styled(Shell)`
+  margin-bottom: 4px;
+  color: ${colors.ink};
+  font-family: ${fonts.mono};
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 `;
 
 /* The reel loop: the track holds the strip twice and slides by half of
@@ -243,7 +256,9 @@ export const PhotoStripPrint = styled.img`
   border: 2px solid ${colors.ink};
   background: ${colors.white};
   object-fit: cover;
-  box-shadow: 6px 6px 0 ${colors.skyDeep};
+  /* The deep end of whichever band the strip is on. */
+  box-shadow: 6px 6px 0
+    ${(props) => (props.$tone === 'pink' ? colors.maroon : colors.skyDeep)};
   transform: rotate(${({ $tilt }) => $tilt}deg);
 `;
 

@@ -183,6 +183,39 @@ export const apiFetch = async (path, options = {}) => {
   return response.json();
 };
 
+/* A file rather than JSON: the same token, the same refresh-and-retry,
+   the body handed back as a Blob for a download. The certificate
+   downloads are the callers. */
+export const apiFetchBlob = async (path, options = {}) => {
+  const session = getSession();
+  if (!session) throw unauthorized();
+
+  let accessToken = session.accessToken;
+  if (tokenNeedsRefresh(accessToken)) {
+    const refreshed = await refreshSession();
+    if (refreshed) accessToken = refreshed;
+  }
+
+  let response = await authorizedFetch(path, options, accessToken);
+
+  if (response.status === 401) {
+    const accessToken = await refreshSession();
+    if (!accessToken) {
+      clearSession();
+      throw unauthorized();
+    }
+    response = await authorizedFetch(path, options, accessToken);
+    if (response.status === 401) {
+      clearSession();
+      throw unauthorized();
+    }
+  }
+
+  if (!response.ok) throw failure(response.status);
+
+  return response.blob();
+};
+
 /* Signing out on purpose, as opposed to a session that died on its own.
 
    The refresh token is good for thirty days and the API honours it until it

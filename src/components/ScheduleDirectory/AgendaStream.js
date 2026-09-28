@@ -32,8 +32,13 @@ import styles from './ScheduleDirectory.module.css';
    Three renderings, matching the three kinds:
 
      feature  a bordered container, headed and footed, holding its own entries
-     round    a bold block for a submission window opening
+     round    a window row for a submission window opening
      session  an ordinary dated row
+
+   Two row treatments, not three: sessions and rounds share the hairline-
+   at-rest, shadow-on-hover physics and differ by the ink border and the
+   CHALLENGE chip a round carries; the close stub is a round drawn dashed.
+   The legend beside the zone control (index.js) names all three.
 
    A round never nests inside the feature, however its dates overlap it — the
    challenge runs alongside Hack Week, not within it. The claiming rule in
@@ -259,8 +264,12 @@ const RoundBlock = ({
         {!named && <EventLogo event={event} />}
         {/* The right rail is for WHEN on every kind. A round's WHEN is a
             window, so the rail is a two-line ledger — both ends, labels
-            aligned, times appearing once the API sends a timed round. */}
+            aligned, times appearing once the API sends a timed round — led
+            by the chip that says so, where a livestream's rail says STREAM.
+            The chip is what tells a window from a stream now that the two
+            share a border weight; the legend above the stream names it. */}
         <span className={styles.roundLedger}>
+          <span className={styles.windowChip}>{schedule.challengeChip}</span>
           <span>
             <span className={styles.ledgerLabel}>
               {schedule.roundLedger.opens}

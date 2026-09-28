@@ -14,6 +14,8 @@ import {
   selectScenario,
 } from '../data/fixtures.mjs';
 import { apiFetch } from './apiClient.mjs';
+import { withoutSeasonRegistration } from './fests.mjs';
+import { progressForExperience } from './progress.mjs';
 import { API_BASE_URL, displayName } from './session.mjs';
 
 /* The data a scenario name stands for. Never throws: an unknown name, and
@@ -94,11 +96,13 @@ export const getExperience = async (session, options) => {
      ?scenario=mlh-down fire in a live build — see the note on mockFailure. */
   const mocked = fixtureFor(scenario);
 
-  /* Two endpoints, deliberately: the profile is a milliseconds DB read and
-     the fests half is MLH round trips. Fetched in parallel, and the profile
-     also surfaces early through onProfile so /my can put the participant's
-     name on screen while the slow half is still in flight. Ship the API
-     half first (both endpoints), as with every seam in this file. */
+  /* Four endpoints, deliberately: the profile, the progress payload and
+     the items are milliseconds DB reads and the fests half is MLH round
+     trips.
+     Fetched in parallel, and the profile also surfaces early through
+     onProfile so /my can put the participant's name on screen while the
+     slow half is still in flight. Ship the API half first (all four
+     endpoints), as with every seam in this file. */
   const profilePromise = apiFetch('/api/me/profile');
   if (onProfile) {
     profilePromise
@@ -109,9 +113,11 @@ export const getExperience = async (session, options) => {
       .catch(() => {});
   }
 
-  const [profile, festsBody] = await Promise.all([
+  const [profile, festsBody, progress, itemsBody] = await Promise.all([
     profilePromise,
     apiFetch('/api/me/fests'),
+    progressForExperience(),
+    apiFetch('/api/me/items'),
   ]);
 
   return {
@@ -120,12 +126,14 @@ export const getExperience = async (session, options) => {
        already card-shaped by the API. The Array.isArray guard is the
        deploy-order seam — an API answering without the fests field degrades
        to the empty state rather than crashing or passing fixture fests off
-       as the user's. */
-    fests: Array.isArray(festsBody.fests) ? festsBody.fests : [],
-    /* Live. Activities and stickers are still mocked and become real in
-       their own phase; /my never has to know which is which. The API sends
-       only a boolean; the address itself never reaches this app, by design
-       on both sides.
+       as the user's. The season's own event is dropped here, once, so no
+       band on /my shows the registration an automation made
+       (lib/fests.mjs withoutSeasonRegistration). */
+    fests: Array.isArray(festsBody.fests)
+      ? withoutSeasonRegistration(festsBody.fests)
+      : [],
+    /* Live. The API sends only a boolean; the address itself never reaches
+       this app, by design on both sides.
 
        Deploy-order hazard, recorded rather than defended against: Boolean()
        maps an absent hasAddress to false, exactly as it maps a real false, so
@@ -135,6 +143,21 @@ export const getExperience = async (session, options) => {
        is no unknown address state, and inventing one here would be designing
        a third state in the wrong file. Ship the API half first. */
     addressValidated: Boolean(festsBody.hasAddress),
+    /* Live now: the tracker's completions, keyed by the slugs the
+       catalogue uses, and the two milestone counts the API serves. The
+       fixture's activities are only ever used by the mocked build. */
+    activities: progress.activities,
+    thresholds: progress.thresholds,
+    /* Live. The two required stickers as completions, for the book's
+       completedAt and source. An API answering without them gives an empty
+       list, and the book falls back to the live facts above. */
+    required: Array.isArray(progress.required) ? progress.required : [],
+    /* Live: the catalogue of things the stickers earn, with this
+       participant's earned-ness, as the API serves it (lib/inventory.mjs
+       draws it). The fixture's items are only ever used by the mocked
+       build; an API answering without the field gives an empty locker
+       rather than the fixture's pack passed off as the user's. */
+    items: Array.isArray(itemsBody && itemsBody.items) ? itemsBody.items : [],
     user: userFromProfile(mocked.user, profile),
   };
 };

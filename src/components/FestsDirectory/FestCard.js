@@ -3,6 +3,7 @@ import { countryCodeFor } from 'lib/countryFlag.mjs';
 import { festDateParts, festIsPast } from 'lib/festDate.mjs';
 import { shortFestName } from 'lib/festName.mjs';
 
+import StarIcon from './StarIcon';
 import styles from './FestsDirectory.module.css';
 
 /* One Fest, as a card in the directory grid.
@@ -19,8 +20,18 @@ import styles from './FestsDirectory.module.css';
 
    `today` rather than a computed `isPast` flag: the parent needs the same
    answer to group the list, and passing the date both halves reason from
-   keeps them from ever disagreeing about which side of it a Fest sits. */
-const FestCard = ({ fest, distanceKm, today, onOpen }) => {
+   keeps them from ever disagreeing about which side of it a Fest sits.
+
+   `featuredBadge`: whether a pinned Fest wears its Featured chip. The
+   directory's cards do; the homepage and /in-person band's six do not
+   (components/NearbyFests), since the pin is labelled in the directory. */
+const FestCard = ({
+  fest,
+  distanceKm,
+  today,
+  onOpen,
+  featuredBadge = true,
+}) => {
   const isPast = festIsPast(fest, today);
   const formatLabel = fest.format ? fests.formatBadges[fest.format] : null;
   /* Three pieces for the tile, or nothing. A tile with a day and no month
@@ -97,6 +108,16 @@ const FestCard = ({ fest, distanceKm, today, onOpen }) => {
           {formatLabel && (
             <span className={styles.cardFormatBadge} data-format={fest.format}>
               {formatLabel}
+            </span>
+          )}
+          {/* A Fest an admin has pinned in FestNet, beside its format for
+              the same reason the format sits beside the name. Upcoming
+              only: a pinned Fest that has run sinks with the past ones
+              and says nothing it no longer is. */}
+          {featuredBadge && fest.featured === true && !isPast && (
+            <span className={styles.cardFeaturedBadge}>
+              <StarIcon className={styles.cardFeaturedStar} />
+              {fests.featured.badge}
             </span>
           )}
         </div>

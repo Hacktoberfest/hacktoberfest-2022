@@ -28,36 +28,9 @@
   line-height: 1.55;
 }
 
-.retryButton {
-  padding: 12px 22px;
-  /* colors.ink */
-  border: 2px solid #10201d;
-  /* colors.orange */
-  background: #e53927;
-  /* colors.white */
-  color: #f7f7f2;
-  cursor: pointer;
-  font: inherit;
-  font-weight: 700;
-  /* colors.maroon */
-  box-shadow: 5px 5px 0 #671912;
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
-}
-
-/* The site's press-down hover (Button.js): slide into the shadow. */
-.retryButton:hover {
-  /* colors.maroon */
-  box-shadow: 3px 3px 0 #671912;
-  transform: translate(2px, 2px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .retryButton {
-    transition: none;
-  }
-}
+/* The retry is the site's button (src/styles/buttons.css): the same one
+   /activities/ presses beside its own failure notice, so the two "something
+   failed, try again" moments read as one pattern. */
 
 /* breakpoints.tablet */
 @media (min-width: 768px) {

@@ -206,6 +206,14 @@ export const festFromEvent = (event) => {
        with no registration link still has somewhere to send people. */
     websiteUrl: event.websiteUrl || null,
     logoUrl: event.logoUrl || null,
+    /* An admin's pin from FestNet: the directory leads with these under
+       Featured (lib/festsFeatured.mjs). The API says only whether, never
+       who. Only `true` counts, so an API from before the field, or junk,
+       reads as not featured. */
+    featured: event.featured === true,
+    /* The homepage's own pin, separate from Featured: leads the six Fests
+       on the homepage (components/NearbyFests). Same reading. */
+    homepagePinned: event.homepagePinned === true,
   };
 };
 
@@ -226,4 +234,22 @@ export const getFestsDirectory = async () => {
   return events
     .filter((event) => event !== null && typeof event === 'object')
     .map(festFromEvent);
+};
+
+/* One request per page for every surface that wants the list. The
+   homepage draws the map and the upcoming Fests from the same payload,
+   and at a few hundred kilobytes it is worth fetching once rather than
+   once per band. A failure is not remembered, so the next caller tries
+   again instead of inheriting a rejection. getFestsDirectory itself stays
+   a fresh request, which is what the directory page and the tests want. */
+let shared = null;
+
+export const getFestsDirectoryOnce = () => {
+  if (!shared) {
+    shared = getFestsDirectory().catch((error) => {
+      shared = null;
+      throw error;
+    });
+  }
+  return shared;
 };

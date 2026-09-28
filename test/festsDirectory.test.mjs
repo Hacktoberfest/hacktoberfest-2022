@@ -7,9 +7,8 @@ process.env.NEXT_PUBLIC_API_BASE_URL = 'https://api.test.invalid';
    before this file's first import — the progress-api-client.test.mjs
    pattern. Fixture mode (variable unset) lives in
    festsDirectory-mock.test.mjs, its own process under node:test. */
-const { festFromEvent, getFestsDirectory } = await import(
-  '../src/lib/festsDirectory.mjs'
-);
+const { festFromEvent, getFestsDirectory, getFestsDirectoryOnce } =
+  await import('../src/lib/festsDirectory.mjs');
 
 /* An event as /api/events actually returns one. */
 const EVENT = {
@@ -91,6 +90,8 @@ test('normalizes API events into the card shape', async (t) => {
       registrationUrl: 'https://example.invalid/register/brooklyn',
       websiteUrl: null,
       logoUrl: null,
+      featured: false,
+      homepagePinned: false,
     },
   ]);
 });
@@ -131,6 +132,8 @@ test('drops non-object entries and tolerates a missing address', async (t) => {
       registrationUrl: null,
       websiteUrl: null,
       logoUrl: null,
+      featured: false,
+      homepagePinned: false,
     },
   ]);
 });
@@ -146,6 +149,30 @@ test('returns an empty list when the payload has no events array', async (t) => 
 test('throws when the API responds with a non-OK status', async (t) => {
   withFetch(t, () => ({ ok: false, status: 503 }));
   await assert.rejects(() => getFestsDirectory());
+});
+
+/* The homepage's map and upcoming Fests share one request. A failed one
+   is forgotten, so the next caller gets a fresh try. */
+test('getFestsDirectoryOnce shares one request and retries after a failure', async (t) => {
+  let attempts = 0;
+  const calls = withFetch(t, () => {
+    attempts += 1;
+    return attempts === 1
+      ? { ok: false, status: 503 }
+      : jsonResponse({ events: [EVENT], count: 1 });
+  });
+
+  await assert.rejects(() => getFestsDirectoryOnce());
+
+  const [first, second] = await Promise.all([
+    getFestsDirectoryOnce(),
+    getFestsDirectoryOnce(),
+  ]);
+  assert.equal(first, second);
+  assert.equal(first.length, 1);
+
+  await getFestsDirectoryOnce();
+  assert.equal(calls.length, 2);
 });
 
 test('festFromEvent carries a host description and nulls everything else', () => {
@@ -170,6 +197,28 @@ test('festFromEvent carries a host description and nulls everything else', () =>
     null,
   );
   assert.equal(festFromEvent({ ...EVENT, description: 42 }).description, null);
+});
+
+/* An admin's pin from FestNet. The API says only whether; an API from
+   before the field sends nothing, and that is not a pin. */
+test('festFromEvent carries whether an admin featured the Fest', () => {
+  assert.equal(festFromEvent({ ...EVENT, featured: true }).featured, true);
+  assert.equal(festFromEvent({ ...EVENT, featured: false }).featured, false);
+  assert.equal(festFromEvent(EVENT).featured, false);
+  assert.equal(festFromEvent({ ...EVENT, featured: 'true' }).featured, false);
+});
+
+/* The homepage's own pin, read the same way and apart from Featured. */
+test('festFromEvent carries whether the Fest is pinned to the homepage', () => {
+  assert.equal(
+    festFromEvent({ ...EVENT, homepagePinned: true }).homepagePinned,
+    true,
+  );
+  assert.equal(
+    festFromEvent({ ...EVENT, featured: true }).homepagePinned,
+    false,
+  );
+  assert.equal(festFromEvent(EVENT).homepagePinned, false);
 });
 
 test('festFromEvent falls back to the slug when the id is null', () => {

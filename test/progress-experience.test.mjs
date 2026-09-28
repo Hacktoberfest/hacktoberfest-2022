@@ -39,9 +39,29 @@ const PROFILE = {
 /* Routes the two split endpoints to their own canned bodies, recording the
    URLs hit. The live path fetches /api/me/profile and /api/me/fests in
    parallel — never the combined /api/me. */
+const ITEMS = {
+  items: [
+    {
+      id: 'sticker-pack-2026',
+      name: 'The 2026 sticker pack',
+      kind: 'physical',
+      earnedBy: 'Completing Milestone 1',
+      getsToYou: 'Mailed after Hacktoberfest.',
+      cta: {
+        label: 'Update shipping address',
+        url: 'https://example.invalid/address',
+      },
+      requiresDevLink: false,
+      earned: true,
+      earnedAt: '2026-10-05T12:00:00.000Z',
+    },
+  ],
+};
+
 const routeFetch = ({
   profile = PROFILE,
   fests = { hasAddress: false, fests: [] },
+  items = ITEMS,
 } = {}) => {
   const calls = [];
   globalThis.fetch = async (url) => {
@@ -52,12 +72,46 @@ const routeFetch = ({
     if (String(url).endsWith('/api/me/fests')) {
       return { ok: true, status: 200, json: async () => fests };
     }
+    if (String(url).endsWith('/api/me/items')) {
+      return { ok: true, status: 200, json: async () => items };
+    }
+    if (String(url).endsWith('/api/me/progress')) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          // Non-default on purpose: a test that leaves these at
+          // DEFAULT_THRESHOLDS or an empty `challenges` list can't tell a
+          // live payload that actually flowed through from one silently
+          // dropped in favor of the fixture's own numbers.
+          thresholds: { stickers: 1, complete: 4 },
+          completedCount: 1,
+          challenges: [
+            {
+              id: 'signin',
+              name: 'Signed in with MyMLH',
+              description: null,
+              required: true,
+              completed: true,
+              completedAt: '2026-10-01T09:00:00.000Z',
+              source: 'api',
+            },
+            {
+              id: 'livestreams-1',
+              completed: true,
+              completedAt: '2026-10-05T19:12:00.000Z',
+              source: 'event_checkins',
+            },
+          ],
+        }),
+      };
+    }
     throw new Error(`Unexpected fetch in test: ${url}`);
   };
   return calls;
 };
 
-test('getExperience fetches both split endpoints and merges the real user over the mocked payload', async () => {
+test('getExperience fetches all four split endpoints and merges the real user over the mocked payload', async () => {
   resetRefreshState();
   installStorage();
   const calls = routeFetch();
@@ -69,16 +123,45 @@ test('getExperience fetches both split endpoints and merges the real user over t
 
   assert.deepEqual(calls.sort(), [
     'https://api.test.invalid/api/me/fests',
+    'https://api.test.invalid/api/me/items',
     'https://api.test.invalid/api/me/profile',
+    'https://api.test.invalid/api/me/progress',
   ]);
   assert.equal(result.user.name, 'Grace Hopper');
   assert.equal(result.user.email, 'real@example.invalid');
   assert.equal(result.user.avatarUrl, null);
 
-  // Activities still come from the fixtures; fests are live now, and this
-  // profile carries none, so the fallback empty list is correct here.
-  assert.ok(Array.isArray(result.activities));
+  // Fests and activities are live now; this profile carries no fests, so
+  // the fallback empty list is correct here.
   assert.deepEqual(result.fests, []);
+
+  // The live progress payload's thresholds and merged activities both flow
+  // through getExperience untouched — asserting against the fixture's own
+  // { stickers: 1, complete: 3 } and empty activities would pass even if
+  // the live progress fetch were ignored entirely.
+  assert.deepEqual(result.thresholds, {
+    stickers: 1,
+    complete: 4,
+    completionist: 15,
+  });
+  const byId = Object.fromEntries(result.activities.map((a) => [a.id, a]));
+  assert.equal(byId['livestreams-1'].completed, true);
+  assert.equal(byId['livestreams-1'].completedAt, '2026-10-05T19:12:00.000Z');
+  assert.equal(byId['livestreams-1'].source, 'event_checkins');
+  assert.equal(byId.ghw.completed, false);
+  assert.equal(byId.fest.completed, false);
+  assert.equal(byId['dev-relay'].completed, false);
+
+  // The required entries flow through beside the activities, trimmed to
+  // what the book reads.
+  assert.deepEqual(result.required, [
+    {
+      id: 'signin',
+      completed: true,
+      completedAt: '2026-10-01T09:00:00.000Z',
+      source: 'api',
+    },
+  ]);
 
   /* devLinked is live now. A profile that doesn't carry it maps to false —
      the same deploy-order stance as hasAddress: ship the API half first,
@@ -315,4 +398,21 @@ test('a profile failure rejects once and never calls onProfile', async () => {
     },
   );
   assert.equal(seen.length, 0);
+});
+
+/* The inventory's items are the API's (GET /api/me/items), never the
+   fixture's: the live merge takes the endpoint's list, and an API answering
+   without one gives an empty inventory rather than the mocked pack. */
+test('the live experience carries the items the API serves, and nothing else', async () => {
+  resetRefreshState();
+  installStorage();
+  routeFetch();
+
+  const result = await getExperience(SESSION, { scenario: 'complete' });
+  assert.deepEqual(result.items, ITEMS.items);
+
+  resetRefreshState();
+  routeFetch({ items: {} });
+  const bare = await getExperience(SESSION, { scenario: 'complete' });
+  assert.deepEqual(bare.items, []);
 });

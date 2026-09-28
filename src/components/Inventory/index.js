@@ -1,0 +1,183 @@
+import { useEffect, useState } from 'react';
+
+import { my } from 'data/content.mjs';
+import {
+  inventoryItems,
+  inventoryLayout,
+  nextThing,
+  openingSlot,
+} from 'lib/inventory.mjs';
+import { stickerImageSrc } from 'lib/stickerImage.mjs';
+
+import Drawer from './Drawer';
+import styles from './Inventory.module.css';
+import Slot from './Slot';
+
+/* The inventory, the last band on /my: what the stickers earned, as a
+   locker drawn as an open book. The left page is the cells, one per
+   earned thing, physical or digital, and blank cells for room; the right
+   page is the one picked, set the way the sticker book sets a page, with
+   a head and a note; the spine runs under both. Unearned things are not
+   shown, and no number of slots is ever promised, except that an empty
+   locker shows one ghost: the first thing to earn, greyed in the first
+   cell, so the cells say what goes in them. Nothing here tracks a
+   parcel: a thing is in the locker or it is not.
+
+   The things are the API's (GET /api/me/items, experience.items): their
+   names, their two facts, their call to action. The pure half is
+   lib/inventory.mjs: the art by slug, how the grid pads, which slot
+   opens. This file draws it.
+
+   The grid is a listbox with one tab stop: arrow keys move the selection
+   by one, or by a row, and the drawer is a live region so the change is
+   read out. A thing earned since the participant last looked
+   (lib/justEarned.mjs) wears a NEW flag until it is opened, and the
+   locker opens on it. */
+const Inventory = ({ experience, justEarned }) => {
+  const catalogue = inventoryItems(experience);
+  /* Only what is earned is shown; the unearned things in the catalogue
+     only say whether there is more to earn. */
+  const items = catalogue.filter((item) => item.earned);
+  const ghost = items.length === 0 ? nextThing(catalogue) : null;
+  const { columns, empties } = inventoryLayout(
+    items.length + (ghost ? 1 : 0),
+    ghost ? 1 : undefined,
+  );
+
+  const [selected, setSelected] = useState(() =>
+    openingSlot(items, justEarned),
+  );
+  /* Opened this mount: a NEW flag clears when its slot is picked, and
+     stays cleared for the mount even as the experience revalidates. */
+  const [opened, setOpened] = useState(() => new Set());
+  const [turnedFor, setTurnedFor] = useState(null);
+  useEffect(() => {
+    if (!justEarned || justEarned.size === 0 || turnedFor === justEarned)
+      return;
+    setTurnedFor(justEarned);
+    setSelected(openingSlot(items, justEarned));
+  }, [justEarned]);
+
+  /* A selection that no longer exists (a revalidation took the thing
+     away) falls back to what the locker would open on. */
+  const current = items.some((item) => item.slot === selected)
+    ? selected
+    : openingSlot(items, justEarned);
+  const currentItem = items.find((item) => item.slot === current) || null;
+
+  const pick = (slot) => {
+    setSelected(slot);
+    setOpened((known) => (known.has(slot) ? known : new Set([...known, slot])));
+  };
+
+  const onKeyDown = (event) => {
+    if (items.length === 0) return;
+    const index = Math.max(
+      0,
+      items.findIndex((item) => item.slot === current),
+    );
+    const step = {
+      ArrowRight: 1,
+      ArrowLeft: -1,
+      ArrowDown: columns,
+      ArrowUp: -columns,
+      Home: -index,
+      End: items.length - 1 - index,
+    }[event.key];
+    if (step === undefined) return;
+    event.preventDefault();
+    const next = items[Math.min(items.length - 1, Math.max(0, index + step))];
+    pick(next.slot);
+    const button = event.currentTarget.querySelector(
+      `[data-slot="${next.slot}"]`,
+    );
+    if (button) button.focus();
+  };
+
+  const earnedCount = items.length;
+
+  const isNew = (item) =>
+    Boolean(
+      justEarned &&
+        item.newId &&
+        justEarned.has(item.newId) &&
+        !opened.has(item.slot),
+    );
+
+  return (
+    <section className={styles.band} aria-labelledby="inventory-heading">
+      <h2 id="inventory-heading" className={styles.heading}>
+        {my.inventory.heading.lead} <em>{my.inventory.heading.accent}</em>
+      </h2>
+      <p className={styles.intro}>{my.inventory.intro}</p>
+      <div className={styles.locker}>
+        <div className={styles.page}>
+          <div className={styles.pageHead}>
+            <h3 className={styles.pageTitle}>
+              {my.inventory.pages.have.title}
+            </h3>
+          </div>
+          <div
+            className={styles.cells}
+            style={{ '--columns': columns }}
+            role="listbox"
+            aria-label={my.inventory.listLabel}
+            tabIndex={items.length > 0 ? 0 : undefined}
+            onKeyDown={onKeyDown}
+          >
+            {items.map((item) => (
+              <Slot
+                key={item.slot}
+                item={item}
+                selected={item.slot === current}
+                isNew={isNew(item)}
+                onPick={() => pick(item.slot)}
+              />
+            ))}
+            {/* The ghost: not a thing in the locker, so not an option and
+                not read out; the intro above says what it means. */}
+            {ghost && (
+              <div
+                className={`${styles.cell} ${styles.cellEmpty} ${styles.ghost}`}
+                data-item={ghost.id}
+                data-shape={ghost.sticker ? 'sticker' : 'thing'}
+                aria-hidden="true"
+              >
+                <span className={styles.slot}>
+                  <span className={styles.sticker}>
+                    <img
+                      className={styles.stickerImage}
+                      src={stickerImageSrc(ghost.art)}
+                      alt=""
+                      draggable="false"
+                    />
+                  </span>
+                </span>
+                <span className={styles.cellTitle}>{ghost.name}</span>
+                <span className={styles.cellStatus}>{my.inventory.notYet}</span>
+              </div>
+            )}
+            {/* Room: blank cells that finish the row and keep the locker
+                at least two rows tall. Nothing drawn in them and nothing
+                said: they are room, not a count. */}
+            {Array.from({ length: empties }, (_, index) => (
+              <div
+                key={`empty-${index}`}
+                className={`${styles.cell} ${styles.cellEmpty}`}
+                aria-hidden="true"
+              />
+            ))}
+          </div>
+        </div>
+        <Drawer item={currentItem} ghost={ghost} />
+        <div className={styles.spine}>
+          <span className={styles.spineCount}>
+            {my.inventory.count(earnedCount)}
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Inventory;

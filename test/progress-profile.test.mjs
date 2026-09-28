@@ -1,8 +1,22 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import { SCENARIOS } from '../src/data/fixtures.mjs';
 import { firstName, initials } from '../src/lib/profile.mjs';
+
+test('exactly the DEV-sourced activities require the DEV link', () => {
+  const flagged = ACTIVITIES.filter((a) => a.requiresDevLink).map((a) => a.id);
+  // The five DEV challenges are detected through the linked DEV account, so
+  // ActivityCard says so until the account is linked. Nothing else is.
+  assert.deepEqual(flagged, [
+    'dev-launch-weekend',
+    'dev-week-1',
+    'dev-week-2',
+    'dev-week-3',
+    'dev-week-4',
+  ]);
+});
 
 test('every fixture user carries the new profile fields', () => {
   Object.values(SCENARIOS).forEach((fixture) => {
