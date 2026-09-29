@@ -34,6 +34,7 @@ test('every wall sponsor entry is complete and tagged', () => {
       'Mastra',
       'Temporal',
       'TLDR',
+      'Thinking Machines',
     ],
     'the curated wall matches the confirmed sponsor roster and order',
   );
@@ -83,6 +84,7 @@ test('brand-color logo assets retain their approved treatments', async () => {
     mastra,
     temporal,
     tldr,
+    thinkingMachines,
   ] = await Promise.all([
     readFile(
       new URL('../public/sponsors/mongodb.svg', import.meta.url),
@@ -118,6 +120,10 @@ test('brand-color logo assets retain their approved treatments', async () => {
       'utf8',
     ),
     readFile(new URL('../public/sponsors/tldr.svg', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../public/sponsors/thinking-machines.svg', import.meta.url),
+      'utf8',
+    ),
   ]);
   assert.ok(
     mongodb.includes('#023430'),
@@ -152,6 +158,10 @@ test('brand-color logo assets retain their approved treatments', async () => {
   assert.ok(
     tldr.includes('#171717') && tldr.includes('#6366f1'),
     'TLDR must use its on-light lockup with the indigo bar',
+  );
+  assert.ok(
+    thinkingMachines.includes('#000000') && !thinkingMachines.includes('<rect'),
+    'Thinking Machines must use its black wordmark without a background',
   );
 });
 

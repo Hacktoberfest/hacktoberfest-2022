@@ -27,3 +27,9 @@ The TLDR logo was added on September 25, 2026 from the partner-provided file in 
 | Sponsor | Local file | Source                                                                                                                         |
 | ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | TLDR    | `tldr.svg` | `tldr-logo-lockup-on-light.svg`, uploaded by TLDR on September 24, 2026 (on-light lockup; `#171717` with indigo `#6366f1` bar) |
+
+The Thinking Machines logo was added on September 29, 2026 from the partner-provided file. Its white background rectangle was removed and its viewBox cropped to the artwork so the logo fills its tile.
+
+| Sponsor           | Local file              | Source                                                                                                 |
+| ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
+| Thinking Machines | `thinking-machines.svg` | Black two-line wordmark (`tml-logo-bw.svg`) sent by Jen Chan (Thinking Machines) on September 28, 2026 |

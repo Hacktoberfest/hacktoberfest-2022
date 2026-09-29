@@ -59,9 +59,20 @@ const roster = [
   { name: 'Mastra', slug: 'mastra', site: 'https://mastra.ai', wide: true },
   { name: 'Temporal', slug: 'temporal', site: 'https://temporal.io' },
   { name: 'TLDR', slug: 'tldr', site: 'https://tldr.tech' },
+  {
+    name: 'Thinking Machines',
+    slug: 'thinking-machines',
+    site: 'https://thinkingmachines.ai',
+  },
 ];
 
-const logoScales = { mongodb: 1.2, gemma: 2.7, qualcomm: 1.1, arduino: 1.25 };
+const logoScales = {
+  mongodb: 1.2,
+  gemma: 2.7,
+  qualcomm: 1.1,
+  arduino: 1.25,
+  'thinking-machines': 1.1,
+};
 const logoExtensions = { gemma: 'png' };
 
 export const sponsors = roster.map(({ name, slug, site, wide = false }) => ({
