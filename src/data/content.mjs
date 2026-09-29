@@ -2560,6 +2560,27 @@ export const my = {
       unknownCarrier: 'Carrier',
       unknownCarrierHint:
         'We could not tell which carrier this is. Paste the number into your carrier’s tracking page.',
+      /* The packing list under the journey, from MLH's shipping sheet: only
+         the items the sheet marks TRUE are listed. The note is the wording
+         of Jacklyn's doc, with "double check your box" for its "double check
+         with your box". The address ends the sentence, so the page adds the
+         full stop after the link. */
+      box: {
+        label: 'In your box',
+        items: {
+          arduino: 'Arduino',
+          tshirts: 'T-shirts',
+          beltBags: 'Belt bags',
+          infoCards: 'Information cards',
+          stickers: 'Stickers',
+        },
+        pending:
+          'Your box’s contents will appear here once we have confirmed them.',
+        estimateLead: 'This is an estimate for your planning purposes.',
+        estimateBody:
+          'Please double check your box to verify exact items and quantities before promising inventory to participants. If your box contents differ from this list, please reach out to us at',
+        email: 'hacktoberfest@mlh.io',
+      },
     },
     forbidden: {
       eyebrow: 'Fest dashboard',

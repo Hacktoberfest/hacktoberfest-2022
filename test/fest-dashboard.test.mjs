@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { normalizeDashboard } from '../src/lib/festDashboard.mjs';
+import { normalizeDashboard, PACK_ITEMS } from '../src/lib/festDashboard.mjs';
 
 const body = {
   fest: { id: 'fest-tokyo', name: 'Hacktoberfest Hack Day Tokyo' },
@@ -165,4 +165,56 @@ test('an API that sends no photos key leaves the key off, so no card renders', (
   const result = normalizeDashboard(body);
 
   assert.equal('photos' in result.dashboard, false);
+});
+
+/* The event pack's contents, from MLH's shipping sheet. The API sends them
+   only to the Fest's hosts, and only once it knows about them at all. */
+
+test('the pack items are the five the sheet has, in display order', () => {
+  assert.deepEqual(PACK_ITEMS, [
+    'arduino',
+    'tshirts',
+    'beltBags',
+    'infoCards',
+    'stickers',
+  ]);
+});
+
+test('pack items pass through in display order, once each', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { packContents: ['stickers', 'tshirts', 'stickers', 'arduino'] },
+  });
+
+  assert.deepEqual(result.dashboard.packContents, [
+    'arduino',
+    'tshirts',
+    'stickers',
+  ]);
+});
+
+test('an item this build has no label for never reaches the page', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { packContents: ['lanyards', 3, null, 'beltBags'] },
+  });
+
+  assert.deepEqual(result.dashboard.packContents, ['beltBags']);
+});
+
+test('no sheet row, or an unreadable value, reads as an empty box', () => {
+  for (const packContents of [null, [], 'stickers', { stickers: true }]) {
+    const result = normalizeDashboard({
+      fest: body.fest,
+      dashboard: { packContents },
+    });
+
+    assert.deepEqual(result.dashboard.packContents, [], String(packContents));
+  }
+});
+
+test('an API that sends no packContents key leaves the key off, so no box renders', () => {
+  const result = normalizeDashboard(body);
+
+  assert.equal('packContents' in result.dashboard, false);
 });

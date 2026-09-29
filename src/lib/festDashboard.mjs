@@ -59,6 +59,20 @@ const photos = (value) => {
   };
 };
 
+/* The event pack's items, in the order the card lists them: the same five
+   keys the API and FestNet's shipping-sheet pass use. Anything else is
+   dropped, so a key this build has no label for never renders. */
+export const PACK_ITEMS = Object.freeze([
+  'arduino',
+  'tshirts',
+  'beltBags',
+  'infoCards',
+  'stickers',
+]);
+
+const packContents = (value) =>
+  Array.isArray(value) ? PACK_ITEMS.filter((item) => value.includes(item)) : [];
+
 /* The deploy-order seam, in the same spirit as lib/experience.mjs: an API
    answering without the dashboard half degrades to zeros rather than
    rendering undefined. A payload with no fest is not a page at all, and the
@@ -90,6 +104,13 @@ export const normalizeDashboard = (body) => {
          telling a host their links are coming. Present with nulls is the
          API saying MLH has not sent them yet. */
       ...('photos' in dashboard ? { photos: photos(dashboard.photos) } : {}),
+      /* Same seam again. An API from before the packing list omits the
+         key, and the card shows no box block at all. Sent, an empty list
+         is a Fest the shipping sheet has no row for yet, and the block
+         says its contents are coming. */
+      ...('packContents' in dashboard
+        ? { packContents: packContents(dashboard.packContents) }
+        : {}),
     },
   };
 };

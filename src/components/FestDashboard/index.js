@@ -16,6 +16,7 @@ import {
 } from 'lib/fests.mjs';
 
 import styles from './FestDashboard.module.css';
+import PackBox from './PackBox';
 
 /* One host's Fest, in full.
 
@@ -648,6 +649,13 @@ const FestDashboard = ({ fest, dashboard, now }) => {
                     </p>
                   )}
                 </>
+              )}
+              {/* Undefined only when the API predates the packing list,
+                  which sends no key at all. An empty list is a Fest the
+                  shipping sheet has no row for yet, and still gets the
+                  block. See normalizeDashboard. */}
+              {dashboard.packContents && (
+                <PackBox items={dashboard.packContents} />
               )}
             </div>
           </section>

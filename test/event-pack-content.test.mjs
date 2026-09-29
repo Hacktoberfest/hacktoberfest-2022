@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
+import { PACK_ITEMS } from '../src/lib/festDashboard.mjs';
 
 const { pack } = my.dashboard;
 
@@ -52,4 +53,47 @@ test('the row actions name the carrier when there is one', () => {
     pack.unknownCarrierHint,
     'We could not tell which carrier this is. Paste the number into your carrier’s tracking page.',
   );
+});
+
+/* The packing list, from Jacklyn's "Pre-event Host Features Needed for /my"
+   doc, as approved in the preview on 2026-09-28. */
+
+test('the box is labelled and names each item', () => {
+  assert.equal(pack.box.label, 'In your box');
+  assert.deepEqual(pack.box.items, {
+    arduino: 'Arduino',
+    tshirts: 'T-shirts',
+    beltBags: 'Belt bags',
+    infoCards: 'Information cards',
+    stickers: 'Stickers',
+  });
+});
+
+test('every item the page can list has a label', () => {
+  for (const item of PACK_ITEMS) {
+    assert.equal(typeof pack.box.items[item], 'string', item);
+  }
+});
+
+test('the estimate note keeps the doc’s wording', () => {
+  assert.equal(
+    pack.box.estimateLead,
+    'This is an estimate for your planning purposes.',
+  );
+  assert.equal(
+    pack.box.estimateBody,
+    'Please double check your box to verify exact items and quantities before promising inventory to participants. If your box contents differ from this list, please reach out to us at',
+  );
+  assert.equal(pack.box.email, 'hacktoberfest@mlh.io');
+});
+
+test('a Fest the sheet has no row for is told its list is coming', () => {
+  assert.equal(
+    pack.box.pending,
+    'Your box’s contents will appear here once we have confirmed them.',
+  );
+});
+
+test('no em dashes in the box copy', () => {
+  assert.equal(JSON.stringify(pack.box).includes('—'), false);
 });

@@ -1095,12 +1095,19 @@ export const SCENARIOS = Object.freeze({
    fest-azores has not shipped. The numbers are real formats, not real
    shipments. fest-toronto also has no check-in code, for the card's
    no-code state, and fest-melbourne's code is eight characters, the
-   longest MLH issues; the codes are made up. */
+   longest MLH issues; the codes are made up.
+
+   The packing list follows the approved preview's states: fest-tokyo has
+   all five items (shipped), fest-melbourne three (no Arduino, no belt
+   bags), fest-toronto stickers only, fest-azores all five before it ships,
+   and a Fest with no row of its own (EMPTY_FEST_DASHBOARD) is not on the
+   sheet yet. */
 export const FEST_DASHBOARDS = Object.freeze({
   'fest-tokyo': {
     registrationsCount: 48,
     checkInsCount: 31,
     trackingNumbers: ['877489462372'],
+    packContents: ['arduino', 'tshirts', 'beltBags', 'infoCards', 'stickers'],
     checkInCode: 'K7RQ2W',
     /* "Hacktober Fest Tokyo" names no format, so no reimbursement line. */
     photos: {
@@ -1112,12 +1119,14 @@ export const FEST_DASHBOARDS = Object.freeze({
     registrationsCount: 52,
     checkInsCount: 38,
     trackingNumbers: ['1ZK943J80322840185', '9434650206217265901828'],
+    packContents: ['tshirts', 'infoCards', 'stickers'],
     checkInCode: 'M3LB8QX2',
   },
   'fest-toronto': {
     registrationsCount: 31,
     checkInsCount: 0,
     trackingNumbers: ['AB123456789XY'],
+    packContents: ['stickers'],
     checkInCode: null,
     /* A Hack Day with its album: the reimbursement line and both links. */
     photos: {
@@ -1129,6 +1138,7 @@ export const FEST_DASHBOARDS = Object.freeze({
     registrationsCount: 12,
     checkInsCount: 0,
     trackingNumbers: [],
+    packContents: ['arduino', 'tshirts', 'beltBags', 'infoCards', 'stickers'],
     checkInCode: 'AZ4R3S',
     /* A Meet Up: both links, no reimbursement line. */
     photos: {
@@ -1146,6 +1156,7 @@ export const EMPTY_FEST_DASHBOARD = Object.freeze({
   registrationsCount: 0,
   checkInsCount: 0,
   trackingNumbers: [],
+  packContents: [],
   checkInCode: null,
   photos: { galleryUrl: null, uploadUrl: null },
 });
