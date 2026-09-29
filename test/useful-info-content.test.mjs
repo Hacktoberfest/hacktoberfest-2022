@@ -78,12 +78,12 @@ test('the prizes are listed under their own label', () => {
   assert.equal(copy.prizesLabel, 'Prizes');
 });
 
-test('every prize line reads as the doc has it, except "(see Event pack)" and the challenge name', () => {
+test('every prize line reads as agreed: the doc\'s partner lines with "(see Event pack)", and the reworded every-Hack-Day line', () => {
   const { lines } = copy;
 
   assert.equal(
     sentence(lines.openSourceAi),
-    'You have a challenge as the Best Open-Source AI Project event. Award 4 Belt Bags to the winning team (see Event pack).',
+    'Every Hack Day runs the Best Open-Source AI Project challenge. Award 4 Belt Bags to the winning team (see Event pack).',
   );
   assert.equal(
     sentence(lines.gemma),

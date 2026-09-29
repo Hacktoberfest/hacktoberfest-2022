@@ -2622,10 +2622,12 @@ export const my = {
        A prize line is a list of pieces: a string is text, { text, href } a
        link out (new tab), and { text, eventPack: true } the jump to the
        Event pack card on the same page, which is where the prizes arrive.
-       The prize text is the Pre-event Host Features doc's, word for word,
-       except "(see Package info)" (now "(see Event pack)" after the card's
-       name) and the challenge name "Best Open-Source AI Project" (the doc
-       said "Best Use of OpenSource AI"). */
+       The partner lines are the Pre-event Host Features doc's, word for
+       word, except "(see Package info)" (now "(see Event pack)" after the
+       card's name). The every-Hack-Day line was reworded by the product
+       team: the doc's "You have a challenge as the Best Use of OpenSource
+       AI event." is now "Every Hack Day runs the Best Open-Source AI
+       Project challenge." */
     usefulInfo: {
       title: 'Useful info',
       slides: {
@@ -2662,12 +2664,12 @@ export const my = {
       prizesLabel: 'Prizes',
       lines: {
         openSourceAi: [
-          'You have a challenge as the ',
+          'Every Hack Day runs the ',
           {
             text: 'Best Open-Source AI Project',
             href: 'https://hacktoberfest-handbook.mlh.com/fest-planning-guide/open-source-prize-categories',
           },
-          ' event. Award 4 Belt Bags to the winning team (see ',
+          ' challenge. Award 4 Belt Bags to the winning team (see ',
           { text: 'Event pack', eventPack: true },
           ').',
         ],
