@@ -36,6 +36,24 @@ test('the exported page carries no Fest data of its own', async () => {
     !html.includes(my.dashboard.photos.intro),
     'the exported HTML should not contain the Photo gallery card',
   );
+  for (const deck of Object.values(my.dashboard.usefulInfo.decks)) {
+    assert.ok(
+      !html.includes(deck.url),
+      'the exported HTML should not contain the Useful info card',
+    );
+  }
+  assert.ok(
+    !html.includes(my.dashboard.usefulInfo.slides.cta),
+    'the exported HTML should not contain the Useful info card',
+  );
+  assert.ok(
+    !html.includes(my.dashboard.usefulInfo.title),
+    'the exported HTML should not contain the Useful info card',
+  );
+  assert.ok(
+    !html.includes(my.dashboard.usefulInfo.prizesLabel),
+    'the exported HTML should not contain the Useful info card',
+  );
   assert.ok(
     html.includes(my.loading),
     'the exported HTML should be the loading surface',

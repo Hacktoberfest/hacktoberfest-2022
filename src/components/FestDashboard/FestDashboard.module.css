@@ -884,10 +884,10 @@
   margin: 8px 0 0;
 }
 
-/* The Photo gallery card wears the pack's rows: a chip naming the link, a
-   line saying who it is for where the tracking number would be (in the body
-   face, not the mono one), and the actions. */
-.photoHint {
+/* The Photo gallery and Useful info cards wear the pack's rows: a chip
+   naming the link, a line saying what it is for where the tracking number
+   would be (in the body face, not the mono one), and the actions. */
+.rowHint {
   grid-area: number;
   /* colors.inkSoft */
   color: #284b44;
@@ -897,4 +897,39 @@
 /* The Hack Day reimbursement line: a requirement, not a suggestion. */
 .photoRequired {
   font-weight: 700;
+}
+
+/* A Useful info prize: a sentence in a pack-style row, its links inline. */
+.prize {
+  padding: 12px 14px;
+  /* colors.rule on colors.paper, as a parcel row */
+  border: 1px solid #8ca59e;
+  background: #f2f2eb;
+  /* colors.ink */
+  color: #10201d;
+  line-height: 1.45;
+}
+
+/* A link inside a sentence: ink type with an orange rule under it, the
+   check-in address's colours at body size. */
+.textLink {
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 600;
+  text-decoration: underline;
+  /* colors.orange */
+  text-decoration-color: #e53927;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.textLink:hover {
+  /* colors.maroon */
+  color: #671912;
+}
+
+.textLink:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
 }

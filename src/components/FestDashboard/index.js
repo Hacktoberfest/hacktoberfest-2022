@@ -14,6 +14,7 @@ import {
   festTimeRange,
   formatFestDate,
 } from 'lib/fests.mjs';
+import { usefulInfo } from 'lib/usefulInfo.mjs';
 
 import styles from './FestDashboard.module.css';
 import PackBox from './PackBox';
@@ -427,7 +428,7 @@ const CheckInCodeCard = ({ code, manageUrl }) => {
 const PhotoLink = ({ label, hint, href, cta, primary }) => (
   <li className={styles.parcel}>
     <span className={styles.carrier}>{label}</span>
-    <span className={styles.photoHint}>{hint}</span>
+    <span className={styles.rowHint}>{hint}</span>
     <span className={styles.parcelActions}>
       <a
         className={
@@ -497,6 +498,91 @@ const PhotoGalleryCard = ({ fest, photos }) => {
   );
 };
 
+/* The Event pack card's anchor, for the "(see Event pack)" links in the
+   Useful info card's prize lines. One constant for both ends, so the
+   link cannot drift from the card it points at. */
+const EVENT_PACK_ID = 'event-pack';
+
+/* One piece of a prize line (see my.dashboard.usefulInfo.lines): text, a
+   handbook link out in a new tab, or the jump to the Event pack card in
+   this one. */
+const PrizePiece = ({ piece }) => {
+  if (typeof piece === 'string') return piece;
+
+  if (piece.eventPack) {
+    return (
+      <a className={styles.textLink} href={`#${EVENT_PACK_ID}`}>
+        {piece.text}
+      </a>
+    );
+  }
+
+  return (
+    <a
+      className={styles.textLink}
+      href={piece.href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {piece.text}
+    </a>
+  );
+};
+
+/* The Fest's opening ceremony slides and, for a Hack Day, the prizes to
+   award. `info` is lib/usefulInfo.mjs's answer - which deck, which lines -
+   and never null here: a Fest it cannot place gets no card at all. The
+   deck is one pack-style row, like a Photo gallery link, with the deck
+   named so a host can tell they have the right one before it is on the
+   projector. The prizes are prose, in the same paper rows. */
+const UsefulInfoCard = ({ info }) => {
+  const copy = my.dashboard.usefulInfo;
+  const deck = copy.decks[info.deck];
+
+  return (
+    <section className={styles.pack} aria-labelledby="useful-info-heading">
+      <h2 className={styles.packTitle} id="useful-info-heading">
+        {copy.title}
+      </h2>
+      <div className={styles.packBody}>
+        <div className={styles.parcel}>
+          <span className={styles.carrier}>{copy.slides.label}</span>
+          <span className={styles.rowHint}>{copy.slides.hint(deck.name)}</span>
+          <span className={styles.parcelActions}>
+            <a
+              className={styles.parcelButton}
+              href={deck.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {copy.slides.cta}
+            </a>
+          </span>
+        </div>
+        {info.lines.length > 0 && (
+          <>
+            <p className={styles.trackingLabel}>{copy.prizesLabel}</p>
+            <ul className={styles.parcels}>
+              {info.lines.map((id) => (
+                <li key={id} className={styles.prize}>
+                  {copy.lines[id].map((piece, index) => (
+                    <PrizePiece
+                      // The pieces never reorder: position is the identity.
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
+                      piece={piece}
+                    />
+                  ))}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+    </section>
+  );
+};
+
 const FestDashboard = ({ fest, dashboard, now }) => {
   const location = [fest.city, fest.country].filter(Boolean).join(', ');
   const date = formatFestDate(fest.date);
@@ -526,6 +612,9 @@ const FestDashboard = ({ fest, dashboard, now }) => {
      hero's accent instead would drop the "x" that joins them and read as a
      name in two halves. */
   const { title, hostedBy } = splitFestName(fest.name);
+  /* Null for a format nobody could place, or an API from before partners:
+     no card rather than a guessed deck. */
+  const info = dashboard ? usefulInfo(dashboard) : null;
 
   return (
     <>
@@ -621,7 +710,11 @@ const FestDashboard = ({ fest, dashboard, now }) => {
         )}
 
         {dashboard && (
-          <section className={styles.pack} aria-labelledby="pack-heading">
+          <section
+            className={styles.pack}
+            id={EVENT_PACK_ID}
+            aria-labelledby="pack-heading"
+          >
             <h2 className={styles.packTitle} id="pack-heading">
               {my.dashboard.pack.title}
             </h2>
@@ -660,6 +753,8 @@ const FestDashboard = ({ fest, dashboard, now }) => {
             </div>
           </section>
         )}
+
+        {info && <UsefulInfoCard info={info} />}
 
         {/* Undefined only when the API predates the Photo gallery, which
             sends no key at all; links still to come are nulls and still get

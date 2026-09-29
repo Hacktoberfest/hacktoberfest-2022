@@ -1097,6 +1097,24 @@ export const SCENARIOS = Object.freeze({
    no-code state, and fest-melbourne's code is eight characters, the
    longest MLH issues; the codes are made up.
 
+   The Useful info card, one review link per row of the spec's table:
+   fest-toronto is a Gemma Hack Day, fest-guimaraes a Hack Day with Gemma
+   and Snowflake (Gemma's deck and line, no Snowflake), fest-braga a Hack
+   Day whose one partner is Snowflake (a prize line with no Event pack
+   link), fest-tokyo a Hack Day with no partner, and fest-azores a Meetup
+   that MLH lists all four partners on (the Meetup deck, no prizes). The
+   API blanks a Meetup's partners before they get here; this one keeps
+   them to show the page holds the rule too. fest-melbourne sends neither
+   key, as an API from before partners does, and gets no card; the Fests
+   on EMPTY_FEST_DASHBOARD have a format nobody could place, and get none
+   either.
+
+   fest-tokyo and fest-braga name no format. The API reads the format off
+   the host's application before the name, so they are Hack Days here by
+   application, and the photo card (which reads only the name) leaves out
+   its reimbursement line on them, exactly as it would on a live Fest
+   named that way.
+
    The packing list follows the approved preview's states: fest-tokyo has
    all five items (shipped), fest-melbourne three (no Arduino, no belt
    bags), fest-toronto stickers only, fest-azores all five before it ships,
@@ -1114,6 +1132,8 @@ export const FEST_DASHBOARDS = Object.freeze({
       galleryUrl: 'https://example.invalid/smugmug/tokyo/gallery',
       uploadUrl: 'https://example.invalid/smugmug/tokyo/upload',
     },
+    format: 'hackDay',
+    partners: [],
   },
   'fest-melbourne': {
     registrationsCount: 52,
@@ -1133,6 +1153,8 @@ export const FEST_DASHBOARDS = Object.freeze({
       galleryUrl: 'https://example.invalid/smugmug/toronto/gallery',
       uploadUrl: 'https://example.invalid/smugmug/toronto/upload',
     },
+    format: 'hackDay',
+    partners: ['gemma'],
   },
   'fest-azores': {
     registrationsCount: 12,
@@ -1145,13 +1167,38 @@ export const FEST_DASHBOARDS = Object.freeze({
       galleryUrl: 'https://example.invalid/smugmug/azores/gallery',
       uploadUrl: 'https://example.invalid/smugmug/azores/upload',
     },
+    format: 'meetUp',
+    partners: ['solana', 'snowflake', 'github', 'gemma'],
+  },
+  /* fest-guimaraes and fest-braga: nothing registered or shipped yet, like
+     EMPTY_FEST_DASHBOARD below, plus the Useful info facts. */
+  'fest-guimaraes': {
+    registrationsCount: 0,
+    checkInsCount: 0,
+    trackingNumbers: [],
+    checkInCode: null,
+    photos: { galleryUrl: null, uploadUrl: null },
+    format: 'hackDay',
+    partners: ['snowflake', 'gemma'],
+  },
+  'fest-braga': {
+    registrationsCount: 0,
+    checkInsCount: 0,
+    trackingNumbers: [],
+    checkInCode: null,
+    photos: { galleryUrl: null, uploadUrl: null },
+    format: 'hackDay',
+    partners: ['snowflake'],
   },
 });
 
 /* What an event with no dashboard row of its own shows: a Fest nobody has
    registered for yet, and whose album MLH has not made yet, which is the
-   truthful September answer. fest-guimaraes, a Hack Day, lands here: the
-   "coming soon" state with its reimbursement line. */
+   truthful September answer. fest-guimaraes, a Hack Day, has a copy of
+   this row with partners added, so its page is still the "coming soon"
+   state with its reimbursement line. The format is null, as the API sends
+   for a Fest neither its application nor its name places, so the Fests
+   that land here (fest-horta, fest-coimbra) show no Useful info card. */
 export const EMPTY_FEST_DASHBOARD = Object.freeze({
   registrationsCount: 0,
   checkInsCount: 0,
@@ -1159,6 +1206,8 @@ export const EMPTY_FEST_DASHBOARD = Object.freeze({
   packContents: [],
   checkInCode: null,
   photos: { galleryUrl: null, uploadUrl: null },
+  format: null,
+  partners: [],
 });
 
 export const DEFAULT_SCENARIO = 'no-address';

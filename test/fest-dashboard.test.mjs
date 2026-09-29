@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { normalizeDashboard, PACK_ITEMS } from '../src/lib/festDashboard.mjs';
+import { usefulInfo } from '../src/lib/usefulInfo.mjs';
 
 const body = {
   fest: { id: 'fest-tokyo', name: 'Hacktoberfest Hack Day Tokyo' },
@@ -165,6 +166,70 @@ test('an API that sends no photos key leaves the key off, so no card renders', (
   const result = normalizeDashboard(body);
 
   assert.equal('photos' in result.dashboard, false);
+});
+
+/* The Useful info card's two facts. The API sends them only on the host's
+   own dashboard; this seam only decides how the page reads what arrives,
+   and lib/usefulInfo.mjs decides what the card shows. */
+
+test('the format and partners pass through', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { format: 'hackDay', partners: ['snowflake', 'gemma'] },
+  });
+
+  assert.equal(result.dashboard.format, 'hackDay');
+  assert.deepEqual(result.dashboard.partners, ['snowflake', 'gemma']);
+});
+
+test('a Meetup and its (blanked) partners pass through', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { format: 'meetUp', partners: [] },
+  });
+
+  assert.equal(result.dashboard.format, 'meetUp');
+  assert.deepEqual(result.dashboard.partners, []);
+});
+
+test('a format that is neither Hack Day nor Meetup reads as unknown', () => {
+  for (const value of [null, 'hackathon', 'Hack Day', 'meetup', '', 42, {}]) {
+    const result = normalizeDashboard({
+      fest: body.fest,
+      dashboard: { format: value, partners: [] },
+    });
+
+    assert.equal(result.dashboard.format, null, String(value));
+  }
+});
+
+test('partner entries that are not strings are dropped', () => {
+  const result = normalizeDashboard({
+    fest: body.fest,
+    dashboard: { format: 'hackDay', partners: ['gemma', 42, null, 'solana'] },
+  });
+
+  assert.deepEqual(result.dashboard.partners, ['gemma', 'solana']);
+});
+
+test('a partners value that is not a list reads as unknown, so no card renders', () => {
+  for (const value of [null, 'gemma', { gemma: true }, 42]) {
+    const result = normalizeDashboard({
+      fest: body.fest,
+      dashboard: { format: 'hackDay', partners: value },
+    });
+
+    assert.equal(result.dashboard.partners, null, String(value));
+    assert.equal(usefulInfo(result.dashboard), null, String(value));
+  }
+});
+
+test('an API that sends neither key leaves both off, so no card renders', () => {
+  const result = normalizeDashboard(body);
+
+  assert.equal('format' in result.dashboard, false);
+  assert.equal('partners' in result.dashboard, false);
+  assert.equal(usefulInfo(result.dashboard), null);
 });
 
 /* The event pack's contents, from MLH's shipping sheet. The API sends them

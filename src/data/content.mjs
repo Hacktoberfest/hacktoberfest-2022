@@ -2608,6 +2608,103 @@ export const my = {
         hint: 'Share this with your community once photos are up.',
       },
     },
+    /* Useful info: the opening ceremony slides and, for a Hack Day, the
+       prizes to award. Which deck and which lines a Fest gets is decided in
+       lib/usefulInfo.mjs, from the format and partners the API sends; this
+       is only the words and the links, keyed by what it returns.
+
+       Every URL is untagged, like HOST_HANDBOOK_URL in data/links.js: utm
+       params on a deck or a docs link are attribution noise, and the decks
+       are mlh.link short links MLH counts itself. Written out here, as
+       my.dashboard.checkInCode.href is, so the words and their links are
+       pinned together by one content test.
+
+       A prize line is a list of pieces: a string is text, { text, href } a
+       link out (new tab), and { text, eventPack: true } the jump to the
+       Event pack card on the same page, which is where the prizes arrive.
+       The prize text is the Pre-event Host Features doc's, word for word,
+       except "(see Package info)" (now "(see Event pack)" after the card's
+       name) and the challenge name "Best Open-Source AI Project" (the doc
+       said "Best Use of OpenSource AI"). */
+    usefulInfo: {
+      title: 'Useful info',
+      slides: {
+        label: 'Slides',
+        hint: (deckName) => `Opening ceremony slides for your ${deckName}.`,
+        cta: 'View slides',
+      },
+      decks: {
+        gemma: {
+          name: 'Gemma Hack Day',
+          url: 'https://mlh.link/hacktoberfest-2026-gemma-slides',
+        },
+        github: {
+          name: 'GitHub Hack Day',
+          url: 'https://mlh.link/hacktoberfest-2026-github-slides',
+        },
+        snowflake: {
+          name: 'Snowflake Hack Day',
+          url: 'https://mlh.link/hacktoberfest-2026-snowflake-slides',
+        },
+        solana: {
+          name: 'Solana Hack Day',
+          url: 'https://mlh.link/hacktoberfest-2026-solana-slides',
+        },
+        meetUp: {
+          name: 'Meetup',
+          url: 'https://mlh.link/hacktoberfest-2026-meetup-slides',
+        },
+        hackDay: {
+          name: 'Hack Day',
+          url: 'https://mlh.link/hacktoberfest-2026-hack-day-slides',
+        },
+      },
+      prizesLabel: 'Prizes',
+      lines: {
+        openSourceAi: [
+          'You have a challenge as the ',
+          {
+            text: 'Best Open-Source AI Project',
+            href: 'https://hacktoberfest-handbook.mlh.com/fest-planning-guide/open-source-prize-categories',
+          },
+          ' event. Award 4 Belt Bags to the winning team (see ',
+          { text: 'Event pack', eventPack: true },
+          ').',
+        ],
+        gemma: [
+          {
+            text: 'Your event is a Gemma event.',
+            href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-google-gemma',
+          },
+          ' Award 4 Belt Bags to the winning team (see ',
+          { text: 'Event pack', eventPack: true },
+          ').',
+        ],
+        snowflake: [
+          {
+            text: 'Your event is a Snowflake event.',
+            href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-snowflake-coco',
+          },
+          ' Award your Arduino Tiny Machine Learning Kits to the winning team.',
+        ],
+        github: [
+          {
+            text: 'Your event is a GitHub event.',
+            href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-github-copilot',
+          },
+          ' Award your Wireless Headphones to the winning team (see ',
+          { text: 'Event pack', eventPack: true },
+          ').',
+        ],
+        solana: [
+          {
+            text: 'Your event is a Solana event.',
+            href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-solana',
+          },
+          ' Award your Ledger Nano S Plus kits to the winning team.',
+        ],
+      },
+    },
     notFound: {
       eyebrow: 'Fest dashboard',
       heading: { lead: 'We could not', accent: 'find that Fest.' },

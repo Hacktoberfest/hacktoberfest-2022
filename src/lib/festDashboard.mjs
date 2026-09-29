@@ -59,6 +59,22 @@ const photos = (value) => {
   };
 };
 
+/* The Fest's format as the API resolved it, from the host's application
+   and then the name. Anything but the two formats is the API saying it
+   could not tell, which is null, and lib/usefulInfo.mjs shows no card. */
+const format = (value) =>
+  value === 'hackDay' || value === 'meetUp' ? value : null;
+
+/* The partner keys MLH lists on the Fest. Strings only; which of them
+   count, and which one wins, is lib/usefulInfo.mjs's call. A value that is
+   not a list at all is null rather than [], because [] would read as "no
+   partner" and put the generic Hack Day deck in front of a Fest that may
+   well have Gemma. */
+const partners = (value) =>
+  Array.isArray(value)
+    ? value.filter((entry) => typeof entry === 'string')
+    : null;
+
 /* The event pack's items, in the order the card lists them: the same five
    keys the API and FestNet's shipping-sheet pass use. Anything else is
    dropped, so a key this build has no label for never renders. */
@@ -104,6 +120,13 @@ export const normalizeDashboard = (body) => {
          telling a host their links are coming. Present with nulls is the
          API saying MLH has not sent them yet. */
       ...('photos' in dashboard ? { photos: photos(dashboard.photos) } : {}),
+      /* Same seam again, for the Useful info card. An API from before
+         partners sends neither key, and the page shows no card rather than
+         the generic deck. */
+      ...('format' in dashboard ? { format: format(dashboard.format) } : {}),
+      ...('partners' in dashboard
+        ? { partners: partners(dashboard.partners) }
+        : {}),
       /* Same seam again. An API from before the packing list omits the
          key, and the card shows no box block at all. Sent, an empty list
          is a Fest the shipping sheet has no row for yet, and the block
