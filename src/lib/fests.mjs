@@ -212,6 +212,22 @@ export const eventCardState = (fest) => {
   return 'published';
 };
 
+/* Whether an organizing event card opens the Fest dashboard (/my/fest/).
+
+   Only once a host has completed the final acknowledgements. Before that the
+   card's one job is the step itself, and the API answers the dashboard 404
+   for the same Fest, so a link here would only lead to a refusal. Read off
+   acknowledgedAt rather than eventCardState on purpose: a Fest an admin
+   force-published is 'published' without anyone acknowledging it, and it
+   has no dashboard either. */
+export const hasFestDashboard = (fest) =>
+  Boolean(fest) &&
+  typeof fest === 'object' &&
+  fest.role === 'organizing' &&
+  !fest.applicationStatus &&
+  typeof fest.acknowledgedAt === 'string' &&
+  fest.acknowledgedAt.length > 0;
+
 /* Where a host edits the Fest itself. MLH's manageUrl for an approved
    event is the bare Organizer HQ event page, and the fields the
    publication checks complain about - the name, the running time - live

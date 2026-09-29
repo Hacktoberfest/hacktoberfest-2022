@@ -6,7 +6,8 @@
    page is reviewable before any of these numbers are real.
 
    The endpoint is authorized server-side: it answers 403 to a signed-in user
-   who does not organize the event and 404 to an id with no Fest behind it.
+   who does not organize the event and 404 to an id with no Fest behind it,
+   or to a Fest nobody has taken through the final acknowledgements yet.
    Nothing here re-implements that check — a static export cannot enforce
    anything, and pretending otherwise would be theatre. */
 import {
@@ -147,7 +148,15 @@ export const normalizeDashboard = (body) => {
    that gets here comes off a card on /my and carries no scenario of its own.
    Only the `organizer` scenario has organizing Fests at all, so without the
    sweep every click through from a review link would 404 — which would make
-   this whole page unreviewable in the one build where it can be reviewed. */
+   this whole page unreviewable in the one build where it can be reviewed.
+
+   Unlike the API, the mock does not refuse a Fest before its final
+   acknowledgements. fest-azores is both /my's "One step left" card and the
+   only Meetup and unshipped-pack dashboard, so refusing it would take those
+   states off every review link; and the mocked Confirm writes nothing, so
+   the card's fresh dashboard link would 404 straight after the confetti.
+   The card still hides the link until the step is done (hasFestDashboard),
+   so only a hand-typed review link reaches an unacknowledged Fest here. */
 const mockDashboard = async (festId, scenario) => {
   const named =
     SCENARIOS[selectScenario(scenario)] || SCENARIOS[DEFAULT_SCENARIO];

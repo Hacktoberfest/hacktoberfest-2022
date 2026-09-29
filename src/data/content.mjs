@@ -2716,7 +2716,9 @@ export const my = {
          cancelled Fest, whose row IS mirrored but which the card builder
          drops - 16 cancelled events sit in the table today. Naming
          cancellation is what stops this page asserting something false to a
-         host whose Fest was called off. */
+         host whose Fest was called off. A Fest no host has taken through
+         the final acknowledgements lands here too; "unpublished" covers it,
+         and the hub it points back to carries that step's button. */
       body: 'The link may be wrong, or the Fest may be unpublished or cancelled. Your own Fests are all on your Hacktoberfest page.',
     },
   },

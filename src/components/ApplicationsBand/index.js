@@ -17,6 +17,7 @@ import {
   eventCardState,
   festTimeRange,
   formatFestDate,
+  hasFestDashboard,
   organizingFests,
 } from 'lib/fests.mjs';
 
@@ -181,10 +182,13 @@ const actionFor = (fest) => {
   return null;
 };
 
-/* Where this card's own dashboard lives. Application cards have none: there
-   is no event behind them yet, and the API has nothing to answer with. */
+/* Where this card's own dashboard lives, once it has one. Application cards
+   never do: there is no event behind them yet. An event card gets one when a
+   host has completed the final acknowledgements (see hasFestDashboard), so
+   the "One step left" card carries its button and no dashboard link, and
+   gains the link the moment the modal confirms. */
 const dashboardHref = (fest) =>
-  fest.applicationStatus ? null : `/my/fest/?id=${encodeURIComponent(fest.id)}`;
+  hasFestDashboard(fest) ? `/my/fest/?id=${encodeURIComponent(fest.id)}` : null;
 
 const ApplicationCard = ({ fest, onFestAcknowledged }) => {
   const badge = badgeFor(fest);
@@ -225,9 +229,11 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
           </p>
         )}
         {/* The footer belongs to whatever the rung most needs a host to do
-           next — completing acknowledgements, or publishing in MLH — and
-           the dashboard takes the quieter spot in the body whenever the
-           footer is already spoken for. */}
+           next — completing acknowledgements, fixing a failing check, or
+           publishing in MLH — and the dashboard takes the quieter spot in
+           the body whenever the footer is already spoken for and the Fest
+           has one. Of those three, only the failing check comes after the
+           final step, so it is the one that shows both. */}
         {action && action.kind !== 'internal' && dashboardHref(fest) && (
           <a className={styles.cardDashboardLink} href={dashboardHref(fest)}>
             {my.dashboard.openCta}
