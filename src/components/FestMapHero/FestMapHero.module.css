@@ -56,8 +56,8 @@
   justify-content: center;
 }
 
-/* The task group: eyebrow, headline, search, the online way in. One
-   centred column, the search its widest thing. */
+/* The task group: eyebrow, headline, search. One centred column, the
+   search its widest thing. */
 .task {
   display: flex;
   flex-direction: column;
@@ -143,8 +143,7 @@
 }
 
 /* One rhythm down the group: 16px from the eyebrow to the headline,
-   28px to the search, 24px to the online line (a little less of each on
-   phones). */
+   28px to the search (a little less of each on phones). */
 .search {
   width: 100%;
   max-width: 560px;
@@ -157,59 +156,41 @@
   }
 }
 
-/* The online way in, as the search's alternative, on two lines at the
-   search's width: the question between thin rules running to its edges,
-   then the link under it. The fold budget under .map counts both. */
+/* The online way in, one quiet line under the map: the question in the
+   body face, then the link. The fold budget under .map counts it. */
 .online {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 560px;
-  align-items: center;
-  gap: 4px;
-  margin: 20px 0 0;
+  width: min(calc(100% - 30px), 1280px);
+  margin: 0 auto;
+  padding-bottom: 20px;
   /* colors.white, softened */
   color: rgba(247, 247, 242, 0.86);
   font-size: 0.94rem;
   line-height: 1.5;
+  text-wrap: balance;
 }
 
 @media (min-width: 768px) {
   .online {
-    margin-top: 24px;
+    width: min(calc(100% - 40px), 1280px);
+    padding-bottom: 24px;
   }
 }
 
 .onlineAsk {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 16px;
-  margin: 0;
-}
-
-.onlineRule {
-  flex: 1 1 0;
-  min-width: 16px;
-  height: 2px;
-  background: rgba(247, 247, 242, 0.22);
+  margin-right: 0.4em;
 }
 
 /* On a phone the link alone takes two lines, so the question goes and
-   the link, which says it on its own, stands alone, balanced. Wider,
-   the link keeps to its one line under the question. */
+   the link, which says it on its own, stands alone, balanced. Until the
+   two fit side by side, the question keeps to its own line over it. */
 @media (max-width: 599px) {
   .onlineAsk {
     display: none;
   }
-
-  .online a {
-    text-align: center;
-    text-wrap: balance;
-  }
 }
 
 @media (min-width: 600px) {
+  .onlineAsk,
   .online a {
     white-space: nowrap;
   }
@@ -256,7 +237,7 @@
    It is 2.98 times as wide as it is tall, so its width is the height
    left for it times 2.98: the screen, less where the hero starts
    (--hero-offset, above), less everything in the hero but the map, which
-   is 400px, or 444px below 1100px where the rail takes two lines, and
+   is 376px, or 421px below 1100px where the rail takes two lines, and
    more on the big-screen steps at the end of this file, each measured. */
 .map {
   width: min(calc(100% - 30px), 1280px);
@@ -268,7 +249,7 @@
   .map {
     width: min(
       calc(100% - 40px),
-      max(560px, calc((100svh - var(--hero-offset) - 444px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 421px) * 2.98))
     );
     padding-block: 26px 18px;
   }
@@ -278,7 +259,7 @@
   .map {
     width: min(
       calc(100% - 40px),
-      max(560px, calc((100svh - var(--hero-offset) - 400px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 376px) * 2.98))
     );
   }
 }
@@ -450,17 +431,13 @@
     font-size: 5.75rem;
   }
 
-  .search,
-  .online {
-    max-width: 640px;
-  }
-
   .search {
+    max-width: 640px;
     margin-top: 32px;
   }
 
   .online {
-    margin-top: 26px;
+    padding-bottom: 28px;
     font-size: 1rem;
   }
 
@@ -472,7 +449,7 @@
     width: min(
       calc(100% - 80px),
       2400px,
-      max(560px, calc((100svh - var(--hero-offset) - 467px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 444px) * 2.98))
     );
     padding-block: 32px 24px;
   }
@@ -522,17 +499,13 @@
     font-size: 7rem;
   }
 
-  .search,
-  .online {
-    max-width: 720px;
-  }
-
   .search {
+    max-width: 720px;
     margin-top: 36px;
   }
 
   .online {
-    margin-top: 28px;
+    padding-bottom: 32px;
     font-size: 1.06rem;
   }
 
@@ -544,7 +517,7 @@
     width: min(
       calc(100% - 96px),
       2400px,
-      max(560px, calc((100svh - var(--hero-offset) - 536px) * 2.98))
+      max(560px, calc((100svh - var(--hero-offset) - 513px) * 2.98))
     );
     padding-block: 36px 28px;
   }

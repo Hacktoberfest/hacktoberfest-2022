@@ -18,11 +18,11 @@ import styles from './FestMapHero.module.css';
 
    One centred axis, in the order a visitor needs it (the research round
    of 2026-09-28): the task first, as one group (what this is, the
-   headline, the search, the way in for anyone with no Fest nearby); then
-   the map as the proof; then a light sign-off rail with the campaign line
-   and the partners, labelled, in their own colours, the way every
-   Hacktoberfest hero since 2020 has credited them. Only the search is
-   boxed.
+   headline, the search); then the map as the proof, with one line under
+   it for anyone with no Fest nearby; then a light sign-off rail with the
+   campaign line and the partners, labelled, in their own colours, the
+   way every Hacktoberfest hero since 2020 has credited them. Only the
+   search is boxed.
 
    The hero fetches the Fests once (the same request NearbyFests shares)
    and hands them to the search and the map, and the search tells the map
@@ -98,18 +98,6 @@ const FestMapHero = () => {
           <div className={styles.search}>
             <FestSearch fests={state.fests} onHighlight={setHighlight} />
           </div>
-          {/* The other way in, set as the search's alternative: the question
-            between rules out to the search's own edges, so it belongs to
-            the field above rather than floating under it, and the link on
-            its own line under the question. */}
-          <div className={styles.online}>
-            <p className={styles.onlineAsk}>
-              <span className={styles.onlineRule} aria-hidden="true" />
-              <span>{mapHero.online.prompt}</span>
-              <span className={styles.onlineRule} aria-hidden="true" />
-            </p>
-            <a href={mapHero.online.href}>{mapHero.online.cta}</a>
-          </div>
         </div>
 
         <div className={styles.map}>
@@ -119,6 +107,13 @@ const FestMapHero = () => {
             highlight={highlight}
           />
         </div>
+
+        {/* The other way in, for anyone the map shows no Fest near: one
+            quiet line under it, so the search stands alone above. */}
+        <p className={styles.online}>
+          <span className={styles.onlineAsk}>{mapHero.online.prompt}</span>{' '}
+          <a href={mapHero.online.href}>{mapHero.online.cta}</a>
+        </p>
       </div>
 
       <div className={styles.rail}>

@@ -833,10 +833,11 @@ export const parseAnswerMarkdown = (markdown) =>
 
 /* The October homepage's hero (components/FestMapHero): the Fest map,
    and a search that answers as you type. One centred axis: the eyebrow,
-   the headline, the search and the way online on top, the map under
-   them, and a sign-off rail carrying the campaign line and the partners
-   (the research round of 2026-09-28: everything on one axis, the task in
-   one group and the identity in another, nothing in the corners). `hero`
+   the headline and the search on top, the map under them with the way
+   online as one line beneath it, and a sign-off rail carrying the
+   campaign line and the partners (the research round of 2026-09-28:
+   everything on one axis, the task in one group and the identity in
+   another, nothing in the corners). `hero`
    above is the Preptember-era hero this replaces, kept for
    components/Hero while that stays in the tree; the partner labels are
    still read from it, so the two can never name the partners
