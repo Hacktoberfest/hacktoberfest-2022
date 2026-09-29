@@ -25,7 +25,6 @@ import {
 
 import FestCard from './FestCard';
 import FestModal from './FestModal';
-import StarIcon from './StarIcon';
 import styles from './FestsDirectory.module.css';
 
 const FestsMap = dynamic(() => import('./FestsMap'), {
@@ -618,9 +617,6 @@ const FestsDirectory = () => {
             aria-labelledby="fests-featured-heading"
           >
             <h2 id="fests-featured-heading" className={styles.groupLabel}>
-              <span className={styles.groupStar}>
-                <StarIcon />
-              </span>
               {festsContent.featured.heading}
             </h2>
             <div className={styles.list}>{leading.map(card)}</div>
@@ -630,10 +626,7 @@ const FestsDirectory = () => {
               className={styles.group}
               aria-labelledby="fests-rest-heading"
             >
-              <h2
-                id="fests-rest-heading"
-                className={`${styles.groupLabel} ${styles.groupLabelQuiet}`}
-              >
+              <h2 id="fests-rest-heading" className={styles.groupLabel}>
                 {festsContent.featured.rest}
               </h2>
               <div className={styles.list}>{others.map(card)}</div>

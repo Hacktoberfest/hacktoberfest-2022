@@ -1207,14 +1207,13 @@ export const fests = {
      says so in words: greying is a colour, and a colour is not something
      everyone reading this page receives. */
   pastBadge: 'Past',
-  /* Fests an admin has pinned in FestNet lead the list under `heading`,
-     each wearing `badge` beside its format; everything else follows under
-     `rest`. With nothing pinned (or nothing pinned left after a search)
-     the list is one group with neither label, as it always was. */
+  /* Fests an admin has pinned in FestNet lead the list under `heading`;
+     everything else follows under `rest`. With nothing pinned (or nothing
+     pinned left after a search) the list is one group with neither label,
+     as it always was. */
   featured: {
     heading: 'Featured',
-    rest: 'More Fests',
-    badge: 'Featured',
+    rest: 'All Fests',
   },
   distanceUnit: 'km away',
   formatFilter: {

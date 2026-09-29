@@ -27,9 +27,7 @@ import styles from './NearbyFests.module.css';
    `homepagePins`: lead with the Fests an admin has pinned to the
    homepage in FestNet (its own pin, not /fests' Featured), then fill the
    six with the soonest of the rest. The homepage asks for this; /in-person
-   keeps the plain soonest six. Either way no card here wears the Featured
-   chip: the band is a glimpse of the directory, and the directory is
-   where a pin is labelled. */
+   keeps the plain soonest six. */
 const COUNT = 6;
 
 const NearbyFests = ({ homepagePins = false }) => {
@@ -102,7 +100,6 @@ const NearbyFests = ({ homepagePins = false }) => {
                 distanceKm={null}
                 today={today}
                 onOpen={open}
-                featuredBadge={false}
               />
             ))}
           </div>
