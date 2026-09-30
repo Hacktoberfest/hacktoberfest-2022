@@ -73,18 +73,46 @@ test('signed in: Still to do is last and counts the undone', () => {
   assert.equal(todo.count, ACTIVITIES.length - 1);
 });
 
-test('filtering keeps catalogue order and drops only the others', () => {
+/* The catalogue's ids grouped by type in the chips' order, keeping the
+   catalogue's order within each type. */
+const grouped = (activities) =>
+  TYPE_ORDER.flatMap((type) =>
+    activities.filter((a) => a.type === type).map((a) => a.id),
+  );
+
+test('the list is grouped by type in chip order, catalogue order within', () => {
   const list = merged({ fest: { completed: true } });
-  assert.deepEqual(filterActivities(list, 'all'), list);
+  const ids = filterActivities(list, 'all').map((a) => a.id);
+  assert.deepEqual(ids, grouped(ACTIVITIES));
+  assert.equal(ids.length, ACTIVITIES.length);
+  assert.deepEqual(ids.slice(0, 2), ['dev-connect', 'dev-launch-weekend']);
+  assert.deepEqual(ids.slice(-2), ['fest', 'host-fest']);
+  assert.deepEqual(
+    filterActivities(list, 'nonsense').map((a) => a.id),
+    ids,
+  );
+  assert.deepEqual(
+    list.map((a) => a.id),
+    ACTIVITIES.map((a) => a.id),
+  );
+});
+
+test('filtering drops only the others and keeps the grouped order', () => {
+  const list = merged({ fest: { completed: true } });
   assert.deepEqual(
     filterActivities(list, 'ghw').map((a) => a.id),
     ACTIVITIES.filter((a) => a.type === 'ghw').map((a) => a.id),
   );
   assert.deepEqual(
     filterActivities(list, 'todo').map((a) => a.id),
-    ACTIVITIES.filter((a) => a.id !== 'fest').map((a) => a.id),
+    grouped(ACTIVITIES).filter((id) => id !== 'fest'),
   );
-  assert.deepEqual(filterActivities(list, 'nonsense'), list);
+});
+
+test('a type the order does not know sorts last', () => {
+  const list = [{ id: 'odd', type: 'mystery' }, ...merged()];
+  const ids = filterActivities(list, 'all').map((a) => a.id);
+  assert.equal(ids[ids.length - 1], 'odd');
 });
 
 test('earnedCount counts completed activities only', () => {

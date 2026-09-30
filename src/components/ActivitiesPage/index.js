@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import ActivityCard from 'components/ActivityCard';
 import { activitiesPage } from 'data/content.mjs';
 import { chipsFor, filterActivities } from 'lib/activityFilters.mjs';
-import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import ActivityFilters from './ActivityFilters';
 import styles from './ActivitiesPage.module.css';
@@ -16,7 +15,8 @@ import styles from './ActivitiesPage.module.css';
    might fail.
 
    `slot` is what the page decided (src/lib/activitiesPageState.mjs):
-   'signIn' (no session; the how-it-works band ends with the sign-in link),
+   'signIn' (no session; nothing extra renders, since the how-it-works
+   band above, pages/activities.js, carries its own button),
    'placeholder' (signed in, fetch in flight; nothing extra renders),
    'strip' (signed in and resolved; the cards read earned and Still to do
    is offered, and nothing else renders), or 'error' (the fetch
@@ -42,53 +42,6 @@ const ActivitiesPage = ({ activities, signedIn, slot, onRetry }) => {
 
   return (
     <>
-      <section className={styles.band} aria-labelledby="how-heading">
-        <div className={styles.inner}>
-          <p className={styles.eyebrow}>{activitiesPage.how.eyebrow}</p>
-          <h2 id="how-heading" className={styles.heading}>
-            {activitiesPage.how.heading.lead}{' '}
-            <em>{activitiesPage.how.heading.accent}</em>
-          </h2>
-          <p className={styles.intro}>{activitiesPage.how.intro}</p>
-          {/* The three stickers to the pack, as cards: the two required
-              ones drawn in the book's frame, the third slot empty, since
-              it is any card below. In order, because they add up. */}
-          <ol className={styles.steps}>
-            {activitiesPage.how.steps.map((step) => (
-              <li key={step.title} className={styles.step}>
-                {step.art ? (
-                  <div className={styles.stepSticker} aria-hidden="true">
-                    <img
-                      className={styles.stepStickerImage}
-                      src={stickerImageSrc(step.art)}
-                      alt=""
-                      draggable="false"
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className={`${styles.stepSticker} ${styles.stepAny}`}
-                    aria-hidden="true"
-                  >
-                    <span>{step.mark}</span>
-                  </div>
-                )}
-                <div>
-                  <p className={styles.stepTag}>{step.tag}</p>
-                  <h3 className={styles.stepTitle}>{step.title}</h3>
-                  <p className={styles.stepCopy}>{step.copy}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          {slot === 'signIn' && (
-            <a className="hf-button" href="/login/">
-              {activitiesPage.how.signIn}
-            </a>
-          )}
-        </div>
-      </section>
-
       <section
         className={`${styles.band} ${styles.bandDeep}`}
         aria-labelledby="list-heading"
@@ -112,7 +65,7 @@ const ActivitiesPage = ({ activities, signedIn, slot, onRetry }) => {
                 className="hf-button hf-button--small"
                 onClick={onRetry}
               >
-                {activitiesPage.how.error.cta}
+                {activitiesPage.list.retry}
               </button>
             </div>
           )}

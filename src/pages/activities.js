@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import ActivitiesPage from 'components/ActivitiesPage';
 import BookCallout from 'components/BookCallout';
 import Header from 'components/Header';
+import { HomeStepsBand } from 'components/HomeBands';
 import PageHero from 'components/PageHero';
 import { activitiesPage } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
@@ -149,6 +150,11 @@ const Activities = () => {
         >
           <p>{activitiesPage.intro}</p>
         </PageHero>
+        {/* How it works is the homepage's band, the same component, so the
+            two pages always tell it the same way, here on the page's cream
+            and without the homepage's phase labels. Static, like the
+            callout: it says nothing personal. */}
+        <HomeStepsBand paper phases={false} />
         {/* Rendered only once the seam answers, so the export carries the
             hero and nothing personal; the cards arrive with the first paint
             after hydration in every build. */}

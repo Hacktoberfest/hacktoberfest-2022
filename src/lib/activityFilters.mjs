@@ -1,8 +1,9 @@
 /* The pure half of the chips on /activities/. Chips derive from the
    catalogue as merged for the visitor (lib/eligibility.mjs mergeActivities
    output), so a type with no activities has no chip and a type that gains
-   entries gains one without a code change. Filtering never reorders: the
-   catalogue's order is the page's order in every state.
+   entries gains one without a code change. The page lists the cards
+   grouped by type in the chips' order, and within a type in the
+   catalogue's order, in every state.
 
    Relative import, matching every other file in lib/: Node resolves this
    file directly and never sees jsconfig's baseUrl alias. */
@@ -38,8 +39,18 @@ export const chipsFor = (activities, { signedIn = false } = {}) => {
   return chips;
 };
 
+/* A type the order does not know sorts after the known ones. The sort is
+   stable, so the catalogue's order holds within a type. */
+const rank = (activity) => {
+  const index = TYPE_ORDER.indexOf(activity.type);
+  return index === -1 ? TYPE_ORDER.length : index;
+};
+
+export const byType = (activities) =>
+  [...list(activities)].sort((a, b) => rank(a) - rank(b));
+
 export const filterActivities = (activities, key) => {
-  const all = list(activities);
+  const all = byType(activities);
   if (key === 'todo') return all.filter((activity) => !activity.completed);
   if (TYPE_ORDER.includes(key)) {
     return all.filter((activity) => activity.type === key);

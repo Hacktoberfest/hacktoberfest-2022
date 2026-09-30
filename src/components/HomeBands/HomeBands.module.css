@@ -310,6 +310,31 @@
   background: #3d5f58;
 }
 
+/* The band on a page's own cream instead of forest (/activities, whose
+   other bands are cream): ink words, and the accent in orange, since
+   ochre and sky fall short of contrast on cream. colors.paper, ink,
+   orange, inkSoft, muted. */
+.stepsPaper {
+  color: #10201d;
+  background: #f2f2eb;
+}
+
+.stepsPaper .stepsEyebrow {
+  color: #10201d;
+}
+
+.stepsPaper .stepsHeading em {
+  color: #e53927;
+}
+
+.stepsPaper .stepCopy {
+  color: #284b44;
+}
+
+.stepsPaper .stepsNote {
+  color: #52635f;
+}
+
 .stepsIntro {
   margin-bottom: 40px;
 }

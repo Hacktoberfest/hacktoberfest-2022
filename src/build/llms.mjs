@@ -405,9 +405,13 @@ const llmsFull = () =>
           '## Activities',
           `${activitiesPage.eyebrow}. ${headingText(activitiesPage.heading)}`,
           activitiesPage.intro,
-          `${activitiesPage.how.eyebrow}. ${headingText(activitiesPage.how.heading)}`,
-          activitiesPage.how.steps.map(
-            (step) => `${step.tag} — ${step.title}: ${step.copy}`,
+          /* How it works here is the homepage's band (HomeStepsBand). */
+          `${homeSteps.eyebrow}. ${headingText(homeSteps.heading)}`,
+          homeSteps.phases.map(
+            (phase) =>
+              `${phase.label}: ${phase.steps
+                .map((step) => `${step.title}. ${step.copy}`)
+                .join(' ')}`,
           ),
         ]),
   );

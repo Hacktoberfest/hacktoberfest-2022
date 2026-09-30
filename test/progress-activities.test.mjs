@@ -59,10 +59,19 @@ test('every activity has copy, and a destination or none yet', () => {
   });
 });
 
-test('the copy never says hack day or Meet Up', () => {
-  const prose = ACTIVITIES.map((a) => `${a.label} ${a.detail}`).join(' ');
-  assert.doesNotMatch(prose, /hack\s*day/i);
-  assert.doesNotMatch(prose, /Meet Up/);
+/* A Fest is a Hack Day or a Meetup, so an activity may name the formats
+   only together, never one as if it were every Fest. Meetup is spelled as
+   the rest of the site spells it, and MLH's separate Hack Days program
+   (mlh.com/hack-days) is never linked. */
+test('the copy names Hack Day only beside Meetup, and never Meet Up', () => {
+  ACTIVITIES.forEach((activity) => {
+    const prose = `${activity.label} ${activity.detail}`;
+    if (/hack\s*day/i.test(prose)) {
+      assert.match(prose, /Meetup/, `${activity.id} names one format`);
+    }
+    assert.doesNotMatch(prose, /Meet Up/, activity.id);
+    assert.doesNotMatch(prose, /mlh\.com\/hack-days/, activity.id);
+  });
 });
 
 test('every activity declares its surface; only fest renders in My Fests', () => {

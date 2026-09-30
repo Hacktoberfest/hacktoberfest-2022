@@ -30,7 +30,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'livestreams-1',
     label: 'Check into a livestream',
     detail:
-      'Turn up to any October session and check in with the code on screen.',
+      'Tune in to any stream on the schedule and check in with the code we show on screen.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -40,7 +40,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'livestreams-3',
     label: 'Check into three livestreams',
-    detail: 'Any three October sessions, checked in with the code on screen.',
+    detail:
+      'Join us for three livestreams throughout Hacktoberfest. Don’t forget to check-in!',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -50,7 +51,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'livestreams-5',
     label: 'Check into five livestreams',
-    detail: 'Any five October sessions. The three you already have count.',
+    detail:
+      'Watch a total of five livestreams throughout Hacktoberfest, and learn about open intelligence.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -60,7 +62,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'livestream-launch',
     label: 'Check into the Hacktoberfest launch livestream',
-    detail: 'The first stream of the month. Check in with the code on screen.',
+    detail:
+      'Hacktoberfest kicks off live on October 1. Watch the launch and check in with the code on screen.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -71,7 +74,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'fest',
     label: 'Attend an in-person Fest',
     detail:
-      'A one-day, in-person event in your city. Checking in at the door is what counts.',
+      'Learn about open-source and open-weight models by attending an in-person Hack Day or Meetup in your city.',
     href: '/fests/',
     ctaLabel: 'Find a Fest',
     surface: 'fests',
@@ -81,7 +84,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'host-fest',
     label: 'Host an in-person Fest',
-    detail: 'Run a Fest of your own. Approved hosts earn it on the day.',
+    detail:
+      'Run a Fest in your city. Once it concludes, you’ll be awarded this sticker.',
     href: '/host/',
     ctaLabel: 'Host a Fest',
     surface: 'card',
@@ -92,7 +96,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'dev-relay',
     label: 'Install and log in to DevRelay',
     detail:
-      'Install DevRelay, sign in with your MyMLH account, and it counts on its own.',
+      'DevRelay makes it easier than ever to access knowledge from DEV and rewards from MLH.',
     // The real URL is not known yet; this lands once DevRelay has one.
     href: null,
     ctaLabel: 'Install',
@@ -104,7 +108,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'dev-connect',
     label: 'Connect your DEV account',
     detail:
-      'Link your DEV account to MyMLH. The five challenges below need it.',
+      'Link DEV to MyMLH from your DEV account settings. It’s how we match your challenge entries to you.',
     /* DEV's own account settings page, the same link the account strip
        offers (my.identity.devConnectHref): a real destination, off-site. */
     href: 'https://dev.to/settings/account',
@@ -124,7 +128,7 @@ export const ACTIVITIES = Object.freeze([
     cellLabel: 'Submit to the launch weekend DEV Challenge',
     label: 'Submit to the Hacktoberfest Launch Weekend DEV Challenge',
     detail:
-      'Publish your entry on DEV with the challenge tag over launch weekend, October 2 to 4.',
+      'The prompt is revealed at launch. Build something quick and post it on DEV with the challenge tag between October 2 and 4.',
     href: 'https://dev.to/challenges/hacktoberfest-weekend-2026-10-01',
     ctaLabel: 'See the challenge',
     surface: 'card',
@@ -138,7 +142,7 @@ export const ACTIVITIES = Object.freeze([
     cellLabel: 'Submit to the week 1 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 1 DEV Challenge',
     detail:
-      'Publish your entry on DEV with the challenge tag during week one, October 5 to 11.',
+      'Build something with open source AI and write it up on DEV. Use the challenge tag and post between October 5 and 11.',
     href: 'https://dev.to/challenges/hacktoberfest-week1-2026-10-05',
     ctaLabel: 'See the challenge',
     surface: 'card',
@@ -152,7 +156,7 @@ export const ACTIVITIES = Object.freeze([
     cellLabel: 'Submit to the week 2 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 2 DEV Challenge',
     detail:
-      'Publish your entry on DEV with the challenge tag during week two, October 12 to 18.',
+      'Each week has its own prompt and its own sticker. Post your entry on DEV with the challenge tag between October 12 and 18.',
     href: 'https://dev.to/challenges/hacktoberfest-week2-2026-10-12',
     ctaLabel: 'See the challenge',
     surface: 'card',
@@ -166,7 +170,7 @@ export const ACTIVITIES = Object.freeze([
     cellLabel: 'Submit to the week 3 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 3 DEV Challenge',
     detail:
-      'Publish your entry on DEV with the challenge tag during week three, October 19 to 25.',
+      'Missed a week? You can still jump in here. Post your entry on DEV with the challenge tag between October 19 and 25.',
     href: 'https://dev.to/challenges/hacktoberfest-week3-2026-10-19',
     ctaLabel: 'See the challenge',
     surface: 'card',
@@ -180,7 +184,7 @@ export const ACTIVITIES = Object.freeze([
     cellLabel: 'Submit to the week 4 DEV Challenge',
     label: 'Submit to the Hacktoberfest Week 4 DEV Challenge',
     detail:
-      'Publish your entry on DEV with the challenge tag during week four, October 26 to 31.',
+      'This is the last round of the month. Post your entry on DEV with the challenge tag between October 26 and 31.',
     href: 'https://dev.to/challenges/hacktoberfest-week4-2026-10-26',
     ctaLabel: 'See the challenge',
     surface: 'card',
@@ -191,7 +195,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'ghw',
     label: 'Complete Global Hack Week: Hacktoberfest’s registration challenges',
-    detail: 'Register for the week and finish its registration challenges.',
+    detail:
+      'Sign up for Global Hack Week, which runs October 9 to 15, and complete all of the registration challenges.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -201,7 +206,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'ghw-livestream',
     label: 'Check into a Global Hack Week: Hacktoberfest livestream',
-    detail: 'Any Global Hack Week session, checked in with the code on screen.',
+    detail:
+      'Drop into any stream during Global Hack Week and check in with the code on screen.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -211,7 +217,7 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'ghw-points-15',
     label: 'Earn 15 points at Global Hack Week: Hacktoberfest',
-    detail: 'Fifteen points across the week’s challenges.',
+    detail: 'Complete challenges to earn points throughout Global Hack Week.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -222,7 +228,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'ghw-points-30',
     label: 'Earn 30 points at Global Hack Week: Hacktoberfest',
     detail:
-      'Thirty points across the week’s challenges. The fifteen count toward it.',
+      'Your points keep adding up all week. Reach 30 to earn this one on top of the 15.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -233,7 +239,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'ghw-points-75',
     label: 'Earn 75 points at Global Hack Week: Hacktoberfest',
     detail:
-      'Seventy-five points across the week’s challenges. The thirty count toward it.',
+      'This is the big one. Reach 75 points by the time Global Hack Week wraps up.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -244,7 +250,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'discord',
     label: 'Join the MLH Community Discord',
     detail:
-      "Join MLH's Community Discord server and link your MyMLH account to your Discord account.",
+      'Come hang out in MLH’s Community Discord, then connect your Discord to your MyMLH account so we know it’s you.',
     /* The same invite HOST_DISCORD_URL in data/links.js carries, restated
        here because this file is read by Node's test runner, which cannot
        resolve links.js. */
@@ -257,7 +263,8 @@ export const ACTIVITIES = Object.freeze([
   Object.freeze({
     id: 'digitalocean',
     label: 'Connect your DigitalOcean account',
-    detail: 'Connect your DigitalOcean account from here and it counts.',
+    detail:
+      'Hacktoberfest was created by DigitalOcean. Link your DigitalOcean account to earn a bonus sticker.',
     /* Not a link: the button starts the API's connect flow
        (lib/digitalocean.mjs), which is why `action` names it and `href`
        stays null. The renderers show a button for an action and a link for
@@ -279,7 +286,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'survey-pre',
     label: 'Complete the Hacktoberfest 2026 pre-event survey',
     detail:
-      'We’ll email you a short survey. Finish it and it counts on its own.',
+      'Keep an eye on your email inbox for a short survey from us. Fill it out and we’ll award you a sticker.',
     href: null,
     ctaLabel: 'Take the survey',
     surface: 'card',
@@ -290,7 +297,7 @@ export const ACTIVITIES = Object.freeze([
     id: 'survey-post',
     label: 'Complete the Hacktoberfest 2026 post-event survey',
     detail:
-      'We’ll email you a short survey once October wraps up. Finish it and it counts on its own.',
+      'When October wraps up, we’ll email you one more survey about how it went. Fill it out to earn this one too.',
     href: null,
     ctaLabel: 'Take the survey',
     surface: 'card',

@@ -3696,45 +3696,11 @@ export const activitiesPage = {
     href: '/my/',
     stickers: ['livestreams-1', 'milestone-pack', 'ghw'],
   },
-  /* Eyebrows on every band, and the two-tone heading only on the band
-     that is the page's thesis, the stickers themselves. */
-  how: {
-    eyebrow: 'How it works',
-    heading: { lead: 'Three stickers to', accent: 'your first pack.' },
-    intro:
-      'Your book starts with two stickers just for signing up. Earn one more and a sticker pack is in the mail.',
-    /* The steps are the stickers: the two required ones drawn as
-       themselves in the book's frame, and a third slot left empty, since
-       it is whichever card below you pick (`art: null`, the `mark` in
-       its place). */
-    steps: [
-      {
-        art: 'signin',
-        tag: 'Sticker 1',
-        title: 'Sign in with MyMLH',
-        copy: 'Free, and it takes a minute.',
-      },
-      {
-        art: 'address',
-        tag: 'Sticker 2',
-        title: 'Add a postal address',
-        copy: 'In your MyMLH account. It’s where the pack gets sent.',
-      },
-      {
-        art: null,
-        mark: 'Any one',
-        tag: 'Sticker 3',
-        title: 'Complete any challenge below',
-        copy: 'A livestream, a DEV Challenge, a Fest. Whichever you like.',
-      },
-    ],
-    signIn: 'Sign in to start your sticker book',
-    /* The retry beside list.unknown, when the signed-in fetch did not
-       land. One word for the one failure surface this page has. */
-    error: {
-      cta: 'Try again',
-    },
-  },
+  /* How it works on this page is the homepage's own band
+     (components/HomeBands HomeStepsBand, homeSteps above), so it has no
+     copy of its own here. Eyebrows on every band, and the two-tone
+     heading only on the band that is the page's thesis, the stickers
+     themselves. */
   list: {
     eyebrow: 'The stickers',
     heading: { lead: 'Every', accent: 'sticker.' },
@@ -3754,10 +3720,10 @@ export const activitiesPage = {
     /* Shown above the rows when the signed-in fetch failed: the rows
        still render, undone, and without this line that reads as "you
        haven’t done any of these" rather than "we don’t know yet". The
-       retry button beside it reuses how.error.cta — same word, same
-       action, one failure surface on this page rather than two. */
+       retry button beside it says `retry`. */
     unknown:
       'We couldn’t load which of these you’ve done, so nothing here is marked done yet.',
+    retry: 'Try again',
     /* The chips above the cards. `types` is keyed by the catalogue's type;
        TYPE_ORDER in lib/activityFilters.mjs fixes the order, this fixes
        the words. A type with no activities never shows. */

@@ -141,23 +141,52 @@ const StepPile = ({ slugs }) => (
   </div>
 );
 
+/* The steps numbered across the whole band, once: the phases keep their
+   own numbering running on from the last. */
+let stepCount = 0;
+const NUMBERED_PHASES = homeSteps.phases.map((phase) => ({
+  ...phase,
+  steps: phase.steps.map((step) => {
+    stepCount += 1;
+    return { ...step, number: stepCount };
+  }),
+}));
+const NUMBERED_STEPS = NUMBERED_PHASES.flatMap((phase) => phase.steps);
+
+const HomeStep = ({ step }) => (
+  <li className={styles.step}>
+    {step.stickers && <StepPile slugs={step.stickers} />}
+    <span className={styles.stepNumber} aria-hidden="true">
+      {String(step.number).padStart(2, '0')}
+    </span>
+    <div>
+      <h3 className={styles.stepTitle}>{step.title}</h3>
+      <p className={styles.stepCopy}>{step.copy}</p>
+    </div>
+  </li>
+);
+
 /* How it works, in the steps band grammar of /in-person: phases under a
    ruled label, the steps numbered across them in the ochre square, each
    under a pile of the stickers it earns, and the note on when the post
-   arrives beside the button. */
-export const HomeStepsBand = () => {
-  let number = 0;
-  return (
-    <section className={styles.steps} aria-labelledby="home-steps-title">
-      <div className={styles.shell}>
-        <div className={styles.stepsIntro}>
-          <p className={styles.stepsEyebrow}>{homeSteps.eyebrow}</p>
-          <h2 id="home-steps-title" className={styles.stepsHeading}>
-            {homeSteps.heading.lead} <em>{homeSteps.heading.accent}</em>
-          </h2>
-        </div>
+   arrives beside the button. /activities shows the same band on its own
+   cream (`paper`) and without the phase labels (`phases={false}`), every
+   step in one even row. */
+export const HomeStepsBand = ({ paper = false, phases = true }) => (
+  <section
+    className={`${styles.steps} ${paper ? styles.stepsPaper : ''}`}
+    aria-labelledby="home-steps-title"
+  >
+    <div className={styles.shell}>
+      <div className={styles.stepsIntro}>
+        <p className={styles.stepsEyebrow}>{homeSteps.eyebrow}</p>
+        <h2 id="home-steps-title" className={styles.stepsHeading}>
+          {homeSteps.heading.lead} <em>{homeSteps.heading.accent}</em>
+        </h2>
+      </div>
+      {phases ? (
         <div className={styles.phases}>
-          {homeSteps.phases.map((phase, index) => (
+          {NUMBERED_PHASES.map((phase, index) => (
             <div
               key={phase.label}
               className={styles.phase}
@@ -169,33 +198,30 @@ export const HomeStepsBand = () => {
               >
                 {phase.label}
               </p>
-              <ol className={styles.phaseSteps} start={number + 1}>
-                {phase.steps.map((step) => {
-                  number += 1;
-                  return (
-                    <li key={step.title} className={styles.step}>
-                      {step.stickers && <StepPile slugs={step.stickers} />}
-                      <span className={styles.stepNumber} aria-hidden="true">
-                        {String(number).padStart(2, '0')}
-                      </span>
-                      <div>
-                        <h3 className={styles.stepTitle}>{step.title}</h3>
-                        <p className={styles.stepCopy}>{step.copy}</p>
-                      </div>
-                    </li>
-                  );
-                })}
+              <ol className={styles.phaseSteps} start={phase.steps[0].number}>
+                {phase.steps.map((step) => (
+                  <HomeStep key={step.title} step={step} />
+                ))}
               </ol>
             </div>
           ))}
         </div>
-        <div className={styles.stepsActions}>
-          <a className="hf-button" href={homeSteps.cta.href}>
-            {homeSteps.cta.label}
-          </a>
-          <p className={styles.stepsNote}>{online.milestones.disclaimer}</p>
-        </div>
+      ) : (
+        <ol
+          className={styles.phaseSteps}
+          style={{ '--steps': NUMBERED_STEPS.length }}
+        >
+          {NUMBERED_STEPS.map((step) => (
+            <HomeStep key={step.title} step={step} />
+          ))}
+        </ol>
+      )}
+      <div className={styles.stepsActions}>
+        <a className="hf-button" href={homeSteps.cta.href}>
+          {homeSteps.cta.label}
+        </a>
+        <p className={styles.stepsNote}>{online.milestones.disclaimer}</p>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);

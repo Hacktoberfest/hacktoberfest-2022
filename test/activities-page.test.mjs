@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { activitiesPage } from '../src/data/content.mjs';
+import { activitiesPage, homeSteps } from '../src/data/content.mjs';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 
 const readOutput = (path) =>
@@ -19,6 +19,29 @@ test('/activities builds, indexed, with its hero', async () => {
   assert.match(html, /name="robots" content="index, follow"/);
   assert.ok(html.includes(activitiesPage.eyebrow));
   assert.ok(html.includes(activitiesPage.intro));
+});
+
+/* How it works is the homepage's band: its heading, every step and its
+   button, the same on both pages, but without the phase labels here. */
+test('/activities carries the homepage’s how-it-works band', async () => {
+  const html = await readOutput('activities/index.html');
+  assert.ok(html.includes('id="home-steps-title"'));
+  assert.ok(html.includes(homeSteps.heading.lead));
+  homeSteps.phases.forEach((phase) => {
+    assert.ok(!html.includes(`>${phase.label}</p>`), phase.label);
+    phase.steps.forEach((step) => {
+      assert.ok(html.includes(step.title), step.title);
+      step.stickers.forEach((slug) =>
+        assert.ok(html.includes(`/stickers/${slug}.svg`), slug),
+      );
+    });
+  });
+  assert.match(
+    html,
+    new RegExp(
+      `<a[^>]*href="${escapeRegExp(homeSteps.cta.href)}"[^>]*>${escapeRegExp(homeSteps.cta.label)}</a>`,
+    ),
+  );
 });
 
 test('/activities ends with the book callout, pointing at /my', async () => {
@@ -43,10 +66,6 @@ test('the export carries no progress: the rows render after the seam answers', a
       `${activity.label} is in the static export`,
     );
   }
-  assert.ok(
-    !html.includes(activitiesPage.how.signIn),
-    'the sign-in slot copy is in the static export',
-  );
   assert.ok(
     !html.includes(activitiesPage.list.unknown),
     'the rows-band error notice is in the static export',

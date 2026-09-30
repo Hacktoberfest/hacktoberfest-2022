@@ -2,7 +2,6 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { activitiesPage } from '../src/data/content.mjs';
-import { REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 
 /* Copy shape, and the voice rules every band follows. */
@@ -23,28 +22,10 @@ test('the meta description names every kind of sticker, surveys included', () =>
   );
 });
 
-/* How it works: the three stickers to the pack, the two required ones
-   drawn as themselves and the third slot empty; the line under them
-   reads the thresholds, in book units. */
-test('the how-it-works steps are the three stickers to the pack', () => {
-  const { steps } = activitiesPage.how;
-  assert.equal(steps.length, 3);
-  assert.deepEqual(
-    steps.map((step) => step.art),
-    [...REQUIRED_STICKERS.map((sticker) => sticker.id), null],
-  );
-  assert.deepEqual(
-    steps.map((step) => step.tag),
-    ['Sticker 1', 'Sticker 2', 'Sticker 3'],
-  );
-  assert.ok(steps[2].mark);
-  assert.match(steps[2].title, /below/);
-  assert.match(activitiesPage.how.heading.lead, /^Three stickers/);
-  assert.match(activitiesPage.how.intro, /two stickers just for signing up/);
-});
-
-test('nothing under the steps: no milestone line, no thresholds read', () => {
-  assert.equal(activitiesPage.how.then, undefined);
+/* How it works is the homepage's own band (HomeStepsBand), so this page
+   keeps no copy of it: nothing here to drift from the homepage's. */
+test('the how-it-works band is the homepage’s, with no copy of its own', () => {
+  assert.equal(activitiesPage.how, undefined);
 });
 
 test('sources are named in words a participant would use', () => {
@@ -63,7 +44,7 @@ test('sources are named in words a participant would use', () => {
 
 test('the failed-fetch notice has its retry word', () => {
   assert.ok(activitiesPage.list.unknown.length > 10);
-  assert.equal(activitiesPage.how.error.cta, 'Try again');
+  assert.equal(activitiesPage.list.retry, 'Try again');
 });
 
 /* JSON.stringify drops function values entirely, so it silently skips
@@ -95,7 +76,6 @@ test('stickers are stickers, and the bands have their eyebrows', () => {
   strings.push(activitiesPage.strip.count(1, 4));
   const prose = strings.join(' ');
   assert.doesNotMatch(prose, /\bactivit(y|ies)\b/i);
-  assert.ok(activitiesPage.how.eyebrow);
   assert.ok(activitiesPage.list.eyebrow);
   /* The milestones band came off the page: the rewards live on the two
      landing pages, where the whole story is. */
