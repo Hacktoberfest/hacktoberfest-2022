@@ -25,7 +25,7 @@ test('the copy keeps the house voice', () => {
   assert.doesNotMatch(prose, /—/, 'no em dashes in new copy');
   assert.doesNotMatch(prose, /[^\\]'/, 'apostrophes are curly');
   /* Counts are digits, the way the rest of the site says them. */
-  assert.doesNotMatch(prose, /\b(twelve|ten|seventeen|twenty)\b/i);
+  assert.doesNotMatch(prose, /\b(twelve|ten|fifteen|seventeen|twenty)\b/i);
   assert.doesNotMatch(prose, /\bactivit(y|ies)\b/i);
 });
 

@@ -344,7 +344,7 @@ test('every scenario serves the three DEV badges last, earned exactly by their r
         [
           'dev-badge-completionist-2026',
           'Completionist DEV badge',
-          'Seventeen stickers in the book',
+          'Fifteen stickers in the book',
           progressLevel(scenario) === 3,
         ],
       ],

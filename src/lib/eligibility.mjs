@@ -46,7 +46,7 @@ export const isEligible = (eligibility) => {
 export const DEFAULT_THRESHOLDS = Object.freeze({
   stickers: 1,
   complete: 8,
-  completionist: 15,
+  completionist: 13,
 });
 
 const positiveInt = (value) => Number.isInteger(value) && value >= 1;

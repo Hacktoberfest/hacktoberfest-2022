@@ -304,7 +304,7 @@ const RewardsBand = ({ experience, justEarned }) => {
               <h3 className={styles.title}>{completionist.title}</h3>
               <p className={styles.why}>{completionistWhy(rewards)}</p>
               {/* The meter fills, then goes: earned, the card says the day
-                  and where the certificate is, not seventeen full pips. */}
+                  and where the certificate is, not fifteen full pips. */}
               {rewards.completionist.earned &&
                 shareButton('milestone-completionist', completionist)}
               {!rewards.completionist.earned && (

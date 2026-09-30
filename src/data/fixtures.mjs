@@ -30,7 +30,7 @@ const devBadges = (earnedAt = {}) =>
     [
       'dev-badge-completionist-2026',
       'Completionist DEV badge',
-      'Seventeen stickers in the book',
+      'Fifteen stickers in the book',
     ],
   ].map(([id, name, earnedBy]) => ({
     id,
@@ -65,7 +65,7 @@ export const SCENARIOS = Object.freeze({
       },
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
-    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    thresholds: { stickers: 1, complete: 8, completionist: 13 },
     /* The Attend sticker, from a Fest in August, so the default review
        link shows a DEV badge earned with no DEV account linked:
        Unclaimed. */
@@ -111,7 +111,7 @@ export const SCENARIOS = Object.freeze({
         id: 'completionist-certificate-2026',
         name: 'Completionist certificate',
         kind: 'digital',
-        earnedBy: 'Seventeen stickers in the book',
+        earnedBy: 'Fifteen stickers in the book',
         getsToYou:
           'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
         cta: null,
@@ -165,7 +165,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    thresholds: { stickers: 1, complete: 8, completionist: 13 },
     activities: [{ id: 'fest', completed: true, completedAt: '2026-08-01' }],
     /* The catalogue as GET /api/me/items serves it: the pack and the
        holographic sticker, earned by the milestones. */
@@ -204,7 +204,7 @@ export const SCENARIOS = Object.freeze({
         id: 'completionist-certificate-2026',
         name: 'Completionist certificate',
         kind: 'digital',
-        earnedBy: 'Seventeen stickers in the book',
+        earnedBy: 'Fifteen stickers in the book',
         getsToYou:
           'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
         cta: null,
@@ -253,7 +253,7 @@ export const SCENARIOS = Object.freeze({
       },
       { id: 'address', completed: false, completedAt: null, source: null },
     ],
-    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    thresholds: { stickers: 1, complete: 8, completionist: 13 },
     activities: [{ id: 'livestreams-1', completed: false }],
     /* The catalogue as GET /api/me/items serves it: the pack and the
        holographic sticker, earned by the milestones. */
@@ -292,7 +292,7 @@ export const SCENARIOS = Object.freeze({
         id: 'completionist-certificate-2026',
         name: 'Completionist certificate',
         kind: 'digital',
-        earnedBy: 'Seventeen stickers in the book',
+        earnedBy: 'Fifteen stickers in the book',
         getsToYou:
           'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
         cta: null,
@@ -324,7 +324,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    thresholds: { stickers: 1, complete: 8, completionist: 13 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
@@ -372,7 +372,7 @@ export const SCENARIOS = Object.freeze({
         id: 'completionist-certificate-2026',
         name: 'Completionist certificate',
         kind: 'digital',
-        earnedBy: 'Seventeen stickers in the book',
+        earnedBy: 'Fifteen stickers in the book',
         getsToYou:
           'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
         cta: null,
@@ -409,9 +409,9 @@ export const SCENARIOS = Object.freeze({
       },
     ],
   },
-  /* Milestone 3 (Completionist): fifteen activities done, so the third
-     card shows earned. A review link for the fullest book the season can
-     hold short of every sticker. */
+  /* Milestone 3 (Completionist): fifteen activities done, past the
+     thirteen it takes, so the third card shows earned. A review link for
+     the fullest book the season can hold short of every sticker. */
   completionist: {
     user: { ...USER, devLinked: true },
     addressValidated: true,
@@ -429,7 +429,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    thresholds: { stickers: 1, complete: 8, completionist: 13 },
     activities: [
       { id: 'fest', completed: true, completedAt: '2026-08-01' },
       { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
@@ -484,7 +484,7 @@ export const SCENARIOS = Object.freeze({
         id: 'completionist-certificate-2026',
         name: 'Completionist certificate',
         kind: 'digital',
-        earnedBy: 'Seventeen stickers in the book',
+        earnedBy: 'Fifteen stickers in the book',
         getsToYou:
           'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
         cta: null,
@@ -556,7 +556,7 @@ export const SCENARIOS = Object.freeze({
         source: 'api',
       },
     ],
-    thresholds: { stickers: 1, complete: 8, completionist: 15 },
+    thresholds: { stickers: 1, complete: 8, completionist: 13 },
     /* The Attend sticker, and the Host sticker for the Fest hosted in
        Melbourne in August, so the DEV badges for both show earned. */
     activities: [
@@ -616,7 +616,7 @@ export const SCENARIOS = Object.freeze({
         id: 'completionist-certificate-2026',
         name: 'Completionist certificate',
         kind: 'digital',
-        earnedBy: 'Seventeen stickers in the book',
+        earnedBy: 'Fifteen stickers in the book',
         getsToYou:
           'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
         cta: null,

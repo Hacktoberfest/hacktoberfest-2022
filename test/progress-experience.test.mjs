@@ -142,7 +142,7 @@ test('getExperience fetches all four split endpoints and merges the real user ov
   assert.deepEqual(result.thresholds, {
     stickers: 1,
     complete: 4,
-    completionist: 15,
+    completionist: 13,
   });
   const byId = Object.fromEntries(result.activities.map((a) => [a.id, a]));
   assert.equal(byId['livestreams-1'].completed, true);

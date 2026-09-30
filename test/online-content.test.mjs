@@ -34,7 +34,7 @@ test('the copy keeps the house voice', () => {
   assert.doesNotMatch(prose, /—/, 'no em dashes in new copy');
   assert.doesNotMatch(prose, /[^\\]'/, 'apostrophes are curly');
   /* Counts are digits, the way the rest of the site says them. */
-  assert.doesNotMatch(prose, /\b(ten|seventeen|twenty-two)\b/i);
+  assert.doesNotMatch(prose, /\b(ten|fifteen|seventeen|twenty-two)\b/i);
 });
 
 test('the page names no session or date', () => {

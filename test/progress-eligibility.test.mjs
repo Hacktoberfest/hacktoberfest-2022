@@ -190,9 +190,9 @@ test('thresholdsOf reads the experience and falls back to the defaults', () => {
 test('thresholdsOf reads completionist, and defaults it alone when a payload predates it', () => {
   assert.deepEqual(
     thresholdsOf({
-      thresholds: { stickers: 1, complete: 8, completionist: 15 },
+      thresholds: { stickers: 1, complete: 8, completionist: 13 },
     }),
-    { stickers: 1, complete: 8, completionist: 15 },
+    { stickers: 1, complete: 8, completionist: 13 },
   );
   assert.deepEqual(thresholdsOf({ thresholds: { stickers: 1, complete: 8 } }), {
     stickers: 1,

@@ -1459,7 +1459,7 @@ export const host = {
 /* The book's arithmetic, said in words on the online page: how many
    stickers there are to collect, how many of them from home, and how many
    a milestone takes. The milestone counts are the API's thresholds (1, 8
-   and 15 activity stickers, fixtures.mjs) plus the two required stickers,
+   and 13 activity stickers, fixtures.mjs) plus the two required stickers,
    the way /my counts them: in book units. */
 const BOOK_SIZE = REQUIRED_STICKERS.length + ACTIVITIES.length;
 const IN_PERSON_STICKERS = ACTIVITIES.filter(
@@ -1468,7 +1468,7 @@ const IN_PERSON_STICKERS = ACTIVITIES.filter(
 const MILESTONE_STICKERS = {
   pack: REQUIRED_STICKERS.length + 1,
   complete: 10,
-  completionist: 17,
+  completionist: 15,
 };
 
 /* The three milestones, the same three /my shows once you are signed
@@ -3159,7 +3159,7 @@ export const my = {
     heading: { lead: 'Your', accent: 'milestones.' },
     /* The line under the heading, whatever the state: what a milestone
        is and what each one gets you. The counts are the book's (eight and
-       fifteen activity stickers plus the required two); the cards' meters
+       thirteen activity stickers plus the required two); the cards' meters
        say the same numbers from the API's thresholds. The state is the
        hero's (intro below). */
     lede: 'Complete each milestone to unlock rewards shipped straight to your door.',
@@ -3171,7 +3171,7 @@ export const my = {
       complete:
         'You’ve completed Hacktoberfest 2026. The holographic sticker is yours, and your pack is in the mail.',
       completionist:
-        'You’re a Hacktoberfest 2026 Completionist. Seventeen stickers in the book, the holographic sticker yours, and the pack in the mail.',
+        'You’re a Hacktoberfest 2026 Completionist. Fifteen stickers in the book, the holographic sticker yours, and the pack in the mail.',
     },
     /* The badge on an earned card, when the date is known: the day the
        milestone was reached (lib/stickerBook.mjs rewardsState.earnedAt). */
@@ -3221,7 +3221,7 @@ export const my = {
       tag: 'Milestone 3',
       title: 'Become a Completionist',
       shareText:
-        'I’m a Hacktoberfest 2026 Completionist! Every sticker in the book. #Hacktoberfest https://hacktoberfest.com',
+        'I’m a Hacktoberfest 2026 Completionist! Fifteen stickers in the book. #Hacktoberfest https://hacktoberfest.com',
       reachedBadge: 'Earned',
       pendingBadge: (done, total) => `${done} of ${total}`,
       why: {
