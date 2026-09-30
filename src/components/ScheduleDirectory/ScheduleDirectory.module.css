@@ -110,6 +110,8 @@
   top: 74px;
   padding: 16px 15px 12px;
   margin-inline: -15px;
+  /* 24px from the bar to the first row: this and the 12px bottom padding. */
+  margin-bottom: 12px;
   /* colors.paperDeep */
   background: #e4e5da;
 }
@@ -171,22 +173,6 @@
 .bar .zoneInput {
   padding-block: 12px;
   font-size: 0.85rem;
-}
-
-/* The check-in line stays put under the bar; only the bar travels. */
-.barNote {
-  margin: 0 0 24px;
-  /* colors.muted */
-  color: #52635f;
-  font-size: 0.85rem;
-  line-height: 1.45;
-}
-
-.barNote a {
-  /* colors.inkSoft */
-  color: #284b44;
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 /* On a phone the bar stacks: count and legend over the zone control, which

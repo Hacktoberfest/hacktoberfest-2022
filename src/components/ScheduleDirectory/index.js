@@ -180,13 +180,6 @@ const ScheduleDirectory = () => {
             />
           </div>
         </div>
-        {/* What a check-in counts for, for the reader who arrived here before
-            meeting the activities; the mechanics are on /activities/. */}
-        <p className={styles.barNote}>
-          {schedule.countsNote.text}{' '}
-          <a href="/activities/">{schedule.countsNote.cta}</a>
-        </p>
-
         <AgendaStream
           events={events}
           timeZone={timeZone}
