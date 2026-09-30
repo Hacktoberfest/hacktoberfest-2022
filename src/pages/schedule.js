@@ -11,13 +11,9 @@ import { SCHEDULE_LOCKED } from 'data/scheduleLock.mjs';
 
 const SCHEDULE_URL = absoluteUrl('/schedule/');
 
-/* October's online programme.
-
-   The route is closed for now (data/closedRoutes.mjs): the /api/schedule
-   endpoint this page reads does not exist yet, and a live page stuck on its
-   error state is worse than no page. The source stays here regardless —
-   closing a route never means deleting the page — and opening it is deleting
-   one line in that file.
+/* October's online programme, read from /api/schedule. The calendar can
+   still be held back behind a Coming soon panel by the schedule lock
+   (data/scheduleLock.mjs).
 
    No `actions` on the hero: the calendar itself is what the reader came for,
    and the one link off this page belongs at the foot of it, in the callout. */

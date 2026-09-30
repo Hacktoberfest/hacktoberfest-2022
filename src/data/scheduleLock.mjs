@@ -6,5 +6,6 @@
    A switch, not a date, like STICKER_BOOK_LOCKED (data/stickerBookLock.mjs):
    the calendar appears when a deploy flips this to false.
 
-   On for now (Jacklyn, 2026-09-28). */
-export const SCHEDULE_LOCKED = true;
+   On from 2026-09-28; lifted 2026-09-29 (Jacklyn), once /api/schedule
+   was carrying the month. */
+export const SCHEDULE_LOCKED = false;
