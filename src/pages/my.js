@@ -6,6 +6,7 @@ import HubLinkBand from 'components/HubLinkBand';
 import Inventory from 'components/Inventory';
 import LockedBand from 'components/LockedBand';
 import MyHub from 'components/MyHub';
+import PromosBand from 'components/PromosBand';
 import RewardsBand from 'components/RewardsBand';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
@@ -71,7 +72,6 @@ const LockedBands = ({ experience }) => {
         intro={my.inventory.intro}
         title={my.locked.inventory.title}
         copy={my.locked.inventory.copy}
-        closing
       />
     </>
   );
@@ -113,15 +113,15 @@ const Bands = ({ experience }) => {
         />
       )}
       {/* The story in order: what is coming up, what you do, what it gets
-         you, what you have. The Fests band always leads: it is the
-         participant's calendar (hosting cards included, applications on
-         the hosting hub), and with nothing on it yet it is the two
-         invitations to find one. The inventory always closes, and it
-         alone carries the page's bottom gutter (Inventory.module.css);
-         the other bands end 8px above their neighbour. */}
+         you, what you have, then the sponsors' codes. The Fests band always
+         leads: it is the participant's calendar (hosting cards included,
+         applications on the hosting hub), and with nothing on it yet it is
+         the two invitations to find one. The promos band always closes,
+         and it alone carries the page's bottom gutter
+         (PromosBand.module.css); the other bands end 8px above their
+         neighbour. */}
       <FestsBand experience={experience} />
-      {/* Until October 1st the three bands stand closed, the last of them
-         carrying the page's bottom gutter as the inventory does. */}
+      {/* Until October 1st the three bands stand closed. */}
       {STICKER_BOOK_LOCKED ? (
         <LockedBands experience={experience} />
       ) : (
@@ -133,6 +133,8 @@ const Bands = ({ experience }) => {
           <Inventory experience={experience} justEarned={justEarned} />
         </>
       )}
+      {/* Everyone: the way to the sponsors' codes, /my/promos/. */}
+      <PromosBand />
     </>
   );
 };

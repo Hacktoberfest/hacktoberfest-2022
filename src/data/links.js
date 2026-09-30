@@ -29,6 +29,19 @@ export const MLH_ADDRESS_URL = tagged(
   { content: 'my-add-address' },
 );
 
+/* Where a /my/promos/ card sends someone to meet a promo pool's
+   requirements: the settings page's phone section, and the profile page's
+   social profiles section, which holds the GitHub connect button. */
+export const MLH_PHONE_URL = tagged(
+  'https://www.mlh.com/account/settings#phone',
+  { content: 'my-promos-phone' },
+);
+
+export const MLH_GITHUB_URL = tagged(
+  'https://www.mlh.com/account/profile#social-media',
+  { content: 'my-promos-github' },
+);
+
 /* Where /auth/callback/ sends someone whose MyMLH account shared no email
    address. Confirmed with MLH: the settings page owns the email, the same
    page MLH_ADDRESS_URL points at (it deep-links the #addresses section).

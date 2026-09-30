@@ -1502,6 +1502,10 @@ const MILESTONE_CARDS = [
 const MILESTONES_DISCLAIMER =
   'Stickers and prizes will be mailed 8-12 weeks after Hacktoberfest concludes.';
 
+/* /my/promos/'s intro, and the lede of the band on /my that leads there. */
+const PROMOS_INTRO =
+  'Tools to help you build with open-source and open-weight models throughout Hacktoberfest.';
+
 export const online = {
   title: 'Attend Online | Hacktoberfest 2026',
   description: `Hacktoberfest is back: build with open source AI from anywhere, earn a virtual sticker for every challenge you complete, and collect enough to get real ones mailed to you. ${BOOK_SIZE} stickers to collect, no pull requests required.`,
@@ -3444,11 +3448,90 @@ export const my = {
       href: '/my/',
     },
   },
+  /* The last band on /my, for everyone: the way to /my/promos/. It says
+     nothing about how many codes there are, which only that page's fetch
+     knows, so the card reads true for someone with none. */
+  promosBand: {
+    heading: { lead: 'Your', accent: 'codes and offers.' },
+    lede: PROMOS_INTRO,
+    card: {
+      title: 'Perks from Hacktoberfest’s sponsors.',
+      body: 'The companies supporting Hacktoberfest are giving out credits for your projects. New offers are added all month.',
+      cta: 'See your codes and offers',
+      href: '/my/promos/',
+    },
+  },
   /* The hosting hub's own title and hero line. The greeting stays "Hi
      <name>," on both hubs; only the accent under it says which one. */
   hosting: {
     title: 'Hosting | Hacktoberfest 2026',
     welcomeAccent: 'here’s your hosting hub.',
+  },
+  /* /my/promos/: the participant's sponsor codes, one card per code, as MLH
+     lists them. The sponsor names, offers and challenges are MLH's words;
+     only the frame is ours. A sponsor with only a challenge has no card: the
+     page is about codes, and a challenge shows only as the small link on its
+     own sponsor's code. The way back to /my/ is the link under the list. */
+  promos: {
+    title: 'Codes and offers | Hacktoberfest 2026',
+    eyebrow: 'My Hacktoberfest',
+    heading: { lead: 'Your Hacktoberfest', accent: 'codes and offers.' },
+    intro: PROMOS_INTRO,
+    back: 'Back to My Hacktoberfest',
+    backHref: '/my/',
+    /* The label over the list, which is also its heading. */
+    count: {
+      none: 'Your codes',
+      one: 'Your code',
+      many: (count) => `${count} codes`,
+    },
+    claimCta: 'Get your code',
+    claiming: 'Getting your code…',
+    claimFailed: 'We couldn’t get your code link. Please try again.',
+    claimUnavailable: 'This code isn’t available to you any more.',
+    /* The small line under a code for each of its sponsor's challenges,
+       ahead of the challenge's name. */
+    challenge: {
+      dev: 'Challenge on DEV:',
+      other: 'Challenge at your Hack Day:',
+    },
+    /* A code's row names a step MLH asks of the account only while it is
+       missing, keyed by the API's kind, and links to where it is done on
+       MyMLH (data/links.js). `act` follows when MLH says the step is not
+       done; checkRequirement follows when MLH could not tell, so no one is
+       told to redo a step they have done. A done step shows nothing. The
+       button stays live either way: MLH's claim page checks again. */
+    requirements: {
+      verified_phone: {
+        needs: 'Needs a verified phone number on MyMLH.',
+        act: 'Verify it',
+      },
+      github_oauth: {
+        needs: 'Needs a connected GitHub account on MyMLH.',
+        act: 'Connect it',
+      },
+    },
+    checkRequirement: 'Check on MyMLH',
+    /* The dashed card after the last code: sponsors keep adding pools
+       through October, so the list is not the last word. The empty state
+       says the same in its own words, so this shows only under codes. */
+    more: {
+      title: 'More codes and offers are on the way!',
+      body: 'Keep checking back here throughout Hacktoberfest for new offers to redeem.',
+    },
+    empty: {
+      title: 'No codes for you yet.',
+      body: 'Sponsors attach codes to Fests, so registering for another Fest can bring you one. New codes show up here as sponsors add them.',
+      cta: 'Find a Fest',
+      href: '/fests/',
+    },
+    /* In place of my.error, whose "Your progress is safe" speaks for the
+       hub: nothing on this page is progress. */
+    error: {
+      title: 'We couldn’t load your sponsor codes',
+      body: 'Something went wrong on our end, so your sponsor codes didn’t load.',
+      cta: 'Try again',
+    },
   },
   error: {
     title: 'We couldn’t load your Hacktoberfest',

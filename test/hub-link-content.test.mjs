@@ -37,3 +37,14 @@ test('the hosting hub has its own title and hero line', () => {
   assert.ok(my.hosting.welcomeAccent.length > 0);
   assert.doesNotMatch(my.hosting.welcomeAccent, /—/);
 });
+
+/* /my/promos/ has its own band at the foot of /my (PromosBand), not a
+   strip in this band's place. */
+test('the hub link band links only between the hubs', () => {
+  assert.deepEqual(
+    Object.keys(my.hubLink)
+      .filter((key) => key !== 'label')
+      .sort(),
+    ['attending', 'hosting'],
+  );
+});

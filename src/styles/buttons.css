@@ -53,7 +53,8 @@
   box-shadow: 0 0 0 5px #10201d;
 }
 
-.hf-button:disabled {
+.hf-button:disabled,
+.hf-button[aria-disabled='true'] {
   cursor: not-allowed;
   /* colors.paperDeep / colors.muted */
   background: #e4e5da;

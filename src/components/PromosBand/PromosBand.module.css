@@ -1,0 +1,104 @@
+/* The promos band, the last on /my. CSS Module because the hub renders
+   after a client-side fetch, where styled-components ship no CSS. The band,
+   heading and card restate the Fests band's (FestsBand.module.css), since a
+   CSS Module cannot import another, so every band's left edge and every
+   card's shadow line up; the card runs the band's full width, as the
+   panels above it do. */
+.band {
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  /* The last band on the page carries its closing room. */
+  padding-block: 40px clamp(48px, 7vw, 90px);
+}
+
+.heading {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.05rem, 3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.heading em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+}
+
+.lede {
+  margin: 10px 0 18px;
+  /* colors.inkSoft */
+  color: #284b44;
+  line-height: 1.55;
+}
+
+/* A real card, as a Fest's is: ink border, white paper, maroon shadow.
+   The words, then the button under them; wider, the button moves to the
+   card's right, level with the words. */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 6px 6px 0 #671912;
+}
+
+.cardBody {
+  min-width: 0;
+}
+
+.cardTitle {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.cardText {
+  max-width: 62ch;
+  margin: 6px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .band {
+    width: min(calc(100% - 40px), 1280px);
+  }
+
+  .card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 24px;
+  }
+
+  .card :global(.hf-button) {
+    flex: none;
+  }
+}
+
+@media (min-width: 1700px) {
+  .band {
+    width: min(calc(100% - 40px), 1440px);
+  }
+}

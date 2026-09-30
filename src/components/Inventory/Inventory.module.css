@@ -1,4 +1,5 @@
-/* The inventory band, the last on /my. CSS Module because the hub
+/* The inventory band, the last of /my's story, above the promos band.
+   CSS Module because the hub
    renders after a client-side fetch, where styled-components ship no
    CSS. Palette values are restated as literals with the token named
    beside each, the convention the other modules follow. The band's
@@ -8,8 +9,9 @@
 .band {
   width: min(calc(100% - 30px), 1280px);
   margin-inline: auto;
-  /* The last band on the page carries its closing room. */
-  padding-block: 40px clamp(48px, 7vw, 90px);
+  /* 8px short, as the bands above: the promos band under it carries the
+     page's closing room. */
+  padding-block: 40px 8px;
 }
 
 .heading {

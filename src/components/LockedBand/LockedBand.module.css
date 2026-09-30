@@ -10,12 +10,6 @@
   padding-block: 40px 8px;
 }
 
-/* The last band on the page carries its closing room, as the rewards
-   locker does (Inventory.module.css). */
-.bandClosing {
-  padding-bottom: clamp(48px, 7vw, 90px);
-}
-
 .heading {
   margin: 0;
   /* fonts.display */

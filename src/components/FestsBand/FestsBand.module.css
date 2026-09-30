@@ -1,5 +1,5 @@
 /* Shared band geometry — identical width rules to WelcomeBand. The
-   inventory follows this band now and owns the page's bottom gutter. */
+   promos band closes /my and owns the page's bottom gutter. */
 .band {
   width: min(calc(100% - 30px), 1280px);
   margin-inline: auto;

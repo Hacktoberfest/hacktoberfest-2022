@@ -29,15 +29,18 @@ export const MyLoading = ({ inline = false }) => (
    announced.
 
    Not aria-live on an inner paragraph, as MyLoading does it: these surfaces
-   carry a heading and body that only make sense read together. */
-export const MyError = ({ onRetry }) => (
+   carry a heading and body that only make sense read together.
+
+   `copy` is a page's own { title, body, cta } when my.error's words, which
+   speak for the hub, would not be true there (/my/promos/). */
+export const MyError = ({ onRetry, copy = my.error }) => (
   <div className={styles.column} role="status">
     {/* h2, not h1: the welcome band above carries the page's h1 in every
        state, this one included. */}
-    <h2 className={styles.errorTitle}>{my.error.title}</h2>
-    <p className={styles.errorBody}>{my.error.body}</p>
+    <h2 className={styles.errorTitle}>{copy.title}</h2>
+    <p className={styles.errorBody}>{copy.body}</p>
     <button type="button" className="hf-button" onClick={onRetry}>
-      {my.error.cta}
+      {copy.cta}
     </button>
   </div>
 );

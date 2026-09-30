@@ -1210,6 +1210,109 @@ export const EMPTY_FEST_DASHBOARD = Object.freeze({
   partners: [],
 });
 
+/* GET /api/me/offers for the mocked build's /my/promos/: one card per
+   sponsor, in the API's order (by company name). The three shapes a card
+   takes: a code with a native MLH challenge, a code with a DEV challenge,
+   and a challenge with no code. DigitalOcean's pool is the real one the
+   spec names; the other two sponsors are made up, so a review build never
+   says a real sponsor runs something it does not. Logos are null: there is
+   no real MLH logo to point at, and the card must read without one.
+   Requirements follow the same rule: the made-up Acme pool carries one met
+   and one unmet, so both lines are reviewable, and DigitalOcean's carries
+   none, so the review build says nothing about what the real pool asks. */
+export const OFFERS = Object.freeze([
+  {
+    company: { id: 'company-acme-cloud', name: 'Acme Cloud', logoUrl: null },
+    challenges: [
+      {
+        id: 'challenge-acme-dev',
+        name: 'Ship It with Acme Cloud',
+        shortDescription:
+          'Write up something you deployed on Acme Cloud this October.',
+        prizeDescription: 'A year of Acme Cloud Pro for three winners.',
+        url: 'https://dev.to/challenges/hacktoberfest-week2-2026-10-12',
+        external: true,
+      },
+    ],
+    promo: {
+      poolId: 'pool-acme-cloud',
+      eventId: '01a0ced1-50e8-1335-a5c2-33b29d7d155a',
+      label: 'Acme Cloud credit for Hacktoberfest',
+      description: '$50 of Acme Cloud credit for your Hacktoberfest projects.',
+      restrictions: null,
+      requirements: [
+        { kind: 'verified_phone', met: true },
+        { kind: 'github_oauth', met: false },
+      ],
+    },
+  },
+  {
+    company: {
+      id: 'company-digitalocean',
+      name: 'DigitalOcean',
+      logoUrl: null,
+    },
+    challenges: [
+      {
+        id: 'challenge-open-source-ai',
+        name: 'Best Open-Source AI Project',
+        shortDescription: 'Build an open-source AI project at your Hack Day.',
+        prizeDescription: 'Belt bags for the winning team.',
+        url: 'https://example.invalid/events/toronto',
+        external: false,
+      },
+    ],
+    promo: {
+      poolId: 'pool-digitalocean',
+      eventId: 'fest-toronto',
+      label: 'DigitalOcean $25 Credit for Hacktoberfest',
+      description: '$25 of DigitalOcean credit.',
+      restrictions: 'New DigitalOcean accounts only. One per person.',
+      requirements: [],
+    },
+  },
+  {
+    company: { id: 'company-gizmo-ai', name: 'Gizmo AI', logoUrl: null },
+    challenges: [
+      {
+        id: 'challenge-gizmo',
+        name: 'Best Use of Gizmo AI',
+        shortDescription: null,
+        prizeDescription: 'Gizmo AI hoodies for the winning team.',
+        url: 'https://example.invalid/events/toronto',
+        external: false,
+      },
+    ],
+    promo: null,
+  },
+]);
+
+/* Scenarios with a card list of their own. Anything not named here gets
+   OFFERS. `nothing-done` is someone with no sponsor anything yet: the
+   empty state. `eligible` is OFFERS for someone whose MLH account the API
+   could not check (its MLH read failed): every requirement stated, none
+   marked done or not. The status is the attendee's, not the card's, so it
+   is a scenario rather than a fourth card. */
+export const OFFERS_BY_SCENARIO = Object.freeze({
+  eligible: Object.freeze(
+    OFFERS.map((offer) =>
+      offer.promo
+        ? {
+            ...offer,
+            promo: {
+              ...offer.promo,
+              requirements: offer.promo.requirements.map(({ kind }) => ({
+                kind,
+                met: null,
+              })),
+            },
+          }
+        : offer,
+    ),
+  ),
+  'nothing-done': Object.freeze([]),
+});
+
 export const DEFAULT_SCENARIO = 'no-address';
 
 /* `error` is deliberately not in SCENARIOS: it is the one value that is not a

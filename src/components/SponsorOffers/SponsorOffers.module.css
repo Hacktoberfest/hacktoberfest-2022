@@ -1,0 +1,332 @@
+/* /my/promos/: PageHero, then one card per code in an 880px column.
+
+   The cards wear the paper-and-maroon dress the /my bands wear. CSS Modules
+   cannot import src/styles/tokens.js or compose Shell, so every colour is
+   inlined with its token named. */
+
+/* PageHero's intro in two even lines rather than a line and a stray
+   word. */
+.intro {
+  text-wrap: balance;
+}
+
+.backBottom svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+/* The list column. */
+.root {
+  display: flex;
+  width: min(calc(100% - 32px), 880px);
+  flex-direction: column;
+  margin-inline: auto;
+  padding-block: 28px 48px;
+}
+
+/* The count, ruled off to the column's edge: the /fests section label. */
+.caption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  /* colors.muted */
+  color: #52635f;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.captionRule {
+  height: 2px;
+  flex: 1;
+  /* colors.rule */
+  background: #8ca59e;
+  opacity: 0.6;
+}
+
+.codes {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* One card per code, led by the offer's title, which names the sponsor.
+   On a phone: title, then the words, then a full-width button. Wider, the
+   button moves up onto the title's line, so every card's button sits in
+   the same place whatever its lines say. */
+.code {
+  display: grid;
+  grid-template-areas:
+    'title'
+    'body'
+    'action';
+  grid-template-columns: minmax(0, 1fr);
+  padding: 18px 16px 16px;
+  /* colors.ink border, colors.white ground, colors.maroon shadow */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 5px 5px 0 #671912;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  grid-area: body;
+}
+
+.title {
+  grid-area: title;
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.5rem, 3vw, 1.625rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.text {
+  max-width: 640px;
+  margin: 8px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.906rem;
+  line-height: 1.5;
+}
+
+/* The requirement and challenge lines share one size and icon; colour
+   says which is which. */
+.need,
+.check,
+.challenge {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 6px 0 0;
+  font-size: 0.844rem;
+  line-height: 1.45;
+}
+
+.need svg,
+.challenge svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+  margin-top: 2px;
+}
+
+/* MLH says a step is missing: maroon, and it asks. */
+.need {
+  margin-top: 8px;
+  /* colors.maroon */
+  color: #671912;
+  font-weight: 600;
+}
+
+.need a {
+  color: inherit;
+}
+
+/* MLH could not tell: muted, and it only points at where to check. */
+.check,
+.challenge {
+  /* colors.muted */
+  color: #52635f;
+}
+
+.check a,
+.challenge a {
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 600;
+}
+
+.failed {
+  margin: 8px 0 0;
+  /* colors.maroon */
+  color: #671912;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.action {
+  display: flex;
+  grid-area: action;
+  margin-top: 16px;
+}
+
+/* A thumb's worth of button on a phone. */
+.action :global(.hf-button) {
+  min-height: 44px;
+  flex-grow: 1;
+}
+
+/* After the last code, the slot the next one will fill: the empty state's
+   dashes, lighter, with the plus where a card's words would start. */
+.more {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  /* colors.ink dashes on colors.paper */
+  border: 2px dashed #10201d;
+  background: #f2f2eb;
+}
+
+.more svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin-top: 1px;
+}
+
+.more p {
+  margin: 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.more strong {
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 700;
+}
+
+/* No codes: a dashed card where the list would be. */
+.empty {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 22px 18px;
+  /* colors.ink dashes on colors.paper */
+  border: 2px dashed #10201d;
+  background: #f2f2eb;
+}
+
+.empty :global(.hf-button) {
+  margin-top: 4px;
+}
+
+.empty :global(.hf-button) svg {
+  width: 14px;
+  height: 14px;
+}
+
+.emptyTitle {
+  margin: 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.5rem, 3vw, 1.75rem);
+  font-weight: 800;
+  line-height: 1.05;
+}
+
+.empty p {
+  max-width: 560px;
+  margin: 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.906rem;
+  line-height: 1.5;
+}
+
+/* The quiet way back under the list: a mono text link, not a button, so
+   the page does not end on its loudest control. */
+.backBottom {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  padding-block: 8px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.backBottom:hover {
+  /* colors.maroon */
+  color: #671912;
+}
+
+@media (min-width: 640px) {
+  .code {
+    grid-template-areas:
+      'title action'
+      'body body';
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 16px;
+    padding: 20px 24px 22px;
+  }
+
+  .action {
+    margin-top: 0;
+  }
+
+  .action :global(.hf-button) {
+    min-height: 40px;
+    flex-grow: 0;
+  }
+
+  .empty {
+    padding: 28px 30px;
+  }
+
+  .empty p {
+    font-size: 0.97rem;
+  }
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .root {
+    padding-block: 40px 64px;
+  }
+
+  .caption {
+    margin-bottom: 14px;
+    font-size: 0.75rem;
+  }
+
+  .codes {
+    gap: 18px;
+  }
+
+  .more {
+    margin-top: 18px;
+    padding: 16px 22px;
+  }
+
+  .more p {
+    font-size: 0.906rem;
+  }
+
+  .backBottom {
+    margin-top: 22px;
+    font-size: 0.78rem;
+  }
+}
