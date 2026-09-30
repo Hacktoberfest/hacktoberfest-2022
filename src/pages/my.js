@@ -12,7 +12,11 @@ import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { STICKER_BOOK_LOCKED } from 'data/stickerBookLock.mjs';
 import { connectOutcome } from 'lib/digitalocean.mjs';
-import { isOrganizing, organizingFests } from 'lib/fests.mjs';
+import {
+  hasOnlyApplications,
+  isOrganizing,
+  organizingFests,
+} from 'lib/fests.mjs';
 import { inventoryItems, itemIds } from 'lib/inventory.mjs';
 import { earnedIds, milestoneIds, noteEarned } from 'lib/justEarned.mjs';
 import { hubToOpen, readLastHub } from 'lib/myView.mjs';
@@ -110,6 +114,7 @@ const Bands = ({ experience }) => {
         <HubLinkBand
           to="hosting"
           festCount={organizingFests(experience.fests).length}
+          applicationsOnly={hasOnlyApplications(experience.fests)}
         />
       )}
       {/* The story in order: what is coming up, what you do, what it gets

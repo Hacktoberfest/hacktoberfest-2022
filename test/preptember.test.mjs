@@ -9,7 +9,11 @@ import {
   HOST_HANDBOOK_URL,
   MY_HOST_APPLY_URL,
 } from '../src/data/links.js';
-import { isOrganizing, organizingFests } from '../src/lib/fests.mjs';
+import {
+  hasOnlyApplications,
+  isOrganizing,
+  organizingFests,
+} from '../src/lib/fests.mjs';
 
 const fest = (overrides) => ({
   id: 'fest-1',
@@ -68,6 +72,34 @@ test('isOrganizing is true for any organizing entry, false otherwise', () => {
   assert.equal(isOrganizing([]), false);
   assert.equal(isOrganizing(undefined), false);
   assert.equal(isOrganizing([null, 'junk']), false);
+});
+
+/* The wording gate for /my's hosting link: every organizing entry an
+   application, whatever its rung. One event among them and the user is
+   hosting, and an attended Fest changes nothing. */
+test('hasOnlyApplications is true only when every organizing entry is an application', () => {
+  const draft = fest({
+    id: 'draft',
+    role: 'organizing',
+    status: null,
+    applicationStatus: 'draft',
+  });
+  const approved = fest({
+    id: 'approved',
+    role: 'organizing',
+    status: null,
+    applicationStatus: 'approved',
+  });
+  const event = fest({ id: 'event', role: 'organizing', status: null });
+
+  assert.equal(hasOnlyApplications([draft]), true);
+  assert.equal(hasOnlyApplications([draft, approved]), true);
+  assert.equal(hasOnlyApplications([draft, fest({ id: 'attended' })]), true);
+  assert.equal(hasOnlyApplications([draft, event]), false);
+  assert.equal(hasOnlyApplications([event]), false);
+  assert.equal(hasOnlyApplications([fest()]), false);
+  assert.equal(hasOnlyApplications([]), false);
+  assert.equal(hasOnlyApplications(undefined), false);
 });
 
 /* The application CTA ladder. Approved is "Publish event", not "View

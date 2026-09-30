@@ -48,6 +48,131 @@ const devBadges = (earnedAt = {}) =>
    before any plausible review date — so the past group is visible from a
    share link all campaign long, not only after mid-October. Upcoming
    entries sit late in October for the same reason. */
+/* A first-time sign-in with nothing done yet. Its own const so the
+   applicant scenario below can be the same person with applications. */
+const NOTHING_DONE = {
+  user: { ...USER, devLinked: false },
+  addressValidated: false,
+  required: [
+    {
+      id: 'signin',
+      completed: true,
+      completedAt: '2026-09-20T09:00:00.000Z',
+      source: 'api',
+    },
+    { id: 'address', completed: false, completedAt: null, source: null },
+  ],
+  thresholds: { stickers: 1, complete: 8, completionist: 13 },
+  activities: [{ id: 'livestreams-1', completed: false }],
+  /* The catalogue as GET /api/me/items serves it: the pack and the
+     holographic sticker, earned by the milestones. */
+  items: [
+    {
+      id: 'sticker-pack-2026',
+      name: 'The 2026 sticker pack',
+      kind: 'physical',
+      earnedBy: 'Your first sticker',
+      getsToYou:
+        'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+      cta: {
+        label: 'Update shipping address',
+        url: 'https://www.mlh.com/account/settings#addresses',
+      },
+      requiresDevLink: false,
+      earned: false,
+      earnedAt: null,
+    },
+    {
+      id: 'holographic-sticker-2026',
+      name: 'The holographic sticker',
+      kind: 'physical',
+      earnedBy: 'Ten stickers in the book',
+      getsToYou:
+        'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+      cta: {
+        label: 'Update shipping address',
+        url: 'https://www.mlh.com/account/settings#addresses',
+      },
+      requiresDevLink: false,
+      earned: false,
+      earnedAt: null,
+    },
+    {
+      id: 'completionist-certificate-2026',
+      name: 'Completionist certificate',
+      kind: 'digital',
+      earnedBy: 'Fifteen stickers in the book',
+      getsToYou:
+        'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+      cta: null,
+      requiresDevLink: false,
+      earned: false,
+      earnedAt: null,
+    },
+    ...devBadges(),
+  ],
+  fests: [],
+};
+
+/* Someone whose only link to hosting is their applications: a draft and
+   one with MLH, no Fest of theirs live yet. The review link for /my's
+   hosting link in its applications wording (lib/fests.mjs
+   hasOnlyApplications). /my/ sends them on to the hosting hub unless
+   their last hub was attending, as it does every host. */
+const APPLICANT = {
+  ...NOTHING_DONE,
+  fests: [
+    {
+      id: 'application-reykjavik',
+      name: 'Hacktober Fest Reykjavík',
+      city: null,
+      country: null,
+      date: '2026-10-10',
+      startTime: '10:00 AM',
+      endTime: '6:00 PM',
+      endsAt: '2026-10-10T18:00:00.000Z',
+      timeZone: null,
+      status: null,
+      role: 'organizing',
+      registrationUrl: null,
+      websiteUrl: null,
+      applicationStatus: 'draft',
+      manageUrl: 'https://example.invalid/applications/47507',
+      mlhPublished: null,
+      hacktoberfestPublished: null,
+      acknowledgedAt: null,
+      latitude: null,
+      longitude: null,
+      venueAddress: null,
+      publicationChecks: null,
+    },
+    {
+      id: 'application-lisbon',
+      name: 'Hacktober Fest Lisbon',
+      city: null,
+      country: null,
+      date: '2026-10-31',
+      startTime: '10:00 AM',
+      endTime: '6:00 PM',
+      endsAt: '2026-10-31T18:00:00.000Z',
+      timeZone: null,
+      status: null,
+      role: 'organizing',
+      registrationUrl: null,
+      websiteUrl: null,
+      applicationStatus: 'submitted',
+      manageUrl: 'https://example.invalid/applications/47812',
+      mlhPublished: null,
+      hacktoberfestPublished: null,
+      acknowledgedAt: null,
+      latitude: null,
+      longitude: null,
+      venueAddress: null,
+      publicationChecks: null,
+    },
+  ],
+};
+
 export const SCENARIOS = Object.freeze({
   'no-address': {
     user: { ...USER, devLinked: false },
@@ -241,69 +366,8 @@ export const SCENARIOS = Object.freeze({
       },
     ],
   },
-  'nothing-done': {
-    user: { ...USER, devLinked: false },
-    addressValidated: false,
-    required: [
-      {
-        id: 'signin',
-        completed: true,
-        completedAt: '2026-09-20T09:00:00.000Z',
-        source: 'api',
-      },
-      { id: 'address', completed: false, completedAt: null, source: null },
-    ],
-    thresholds: { stickers: 1, complete: 8, completionist: 13 },
-    activities: [{ id: 'livestreams-1', completed: false }],
-    /* The catalogue as GET /api/me/items serves it: the pack and the
-       holographic sticker, earned by the milestones. */
-    items: [
-      {
-        id: 'sticker-pack-2026',
-        name: 'The 2026 sticker pack',
-        kind: 'physical',
-        earnedBy: 'Your first sticker',
-        getsToYou:
-          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
-        cta: {
-          label: 'Update shipping address',
-          url: 'https://www.mlh.com/account/settings#addresses',
-        },
-        requiresDevLink: false,
-        earned: false,
-        earnedAt: null,
-      },
-      {
-        id: 'holographic-sticker-2026',
-        name: 'The holographic sticker',
-        kind: 'physical',
-        earnedBy: 'Ten stickers in the book',
-        getsToYou:
-          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
-        cta: {
-          label: 'Update shipping address',
-          url: 'https://www.mlh.com/account/settings#addresses',
-        },
-        requiresDevLink: false,
-        earned: false,
-        earnedAt: null,
-      },
-      {
-        id: 'completionist-certificate-2026',
-        name: 'Completionist certificate',
-        kind: 'digital',
-        earnedBy: 'Fifteen stickers in the book',
-        getsToYou:
-          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
-        cta: null,
-        requiresDevLink: false,
-        earned: false,
-        earnedAt: null,
-      },
-      ...devBadges(),
-    ],
-    fests: [],
-  },
+  'nothing-done': NOTHING_DONE,
+  applicant: APPLICANT,
   /* Milestone 2 (Hacktoberfest complete): eight activities done, same
      address gate as every other eligible scenario. Exists so that state has
      a shareable review link too, matching every other scenario here. */

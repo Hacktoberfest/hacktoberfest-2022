@@ -3450,6 +3450,14 @@ export const my = {
         count === 1
           ? 'You’re hosting a Fest this October. Its application, its dashboard and your host resources are on your hosting hub.'
           : `You’re hosting ${count} Fests this October. Applications, dashboards and host resources are on your hosting hub.`,
+      /* For someone whose Fests are all still applications
+         (lib/fests.mjs hasOnlyApplications): no Fest exists yet to be
+         hosting, and the host resources stay locked until MLH approves,
+         so neither is promised. */
+      applicationsBody: (count) =>
+        count === 1
+          ? 'You’ve started a Fest application. Where it stands and what comes next are on your hosting hub.'
+          : `You’ve started ${count} Fest applications. Where each one stands and what comes next are on your hosting hub.`,
       cta: 'Go to your hosting hub',
       href: '/my/hosting/',
     },

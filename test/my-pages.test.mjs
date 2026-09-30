@@ -593,6 +593,11 @@ const WIRING = [
   /* The attending hub: /my/. */
   {
     file: 'src/pages/my.js',
+    token: 'applicationsOnly={hasOnlyApplications(experience.fests)}',
+    why: "the hosting link's wording for someone whose Fests are all still applications. Without it they are told they are hosting a Fest that does not exist yet.",
+  },
+  {
+    file: 'src/pages/my.js',
     token: 'redirectFor={redirectFor}',
     why: 'hosts must be sent on to /my/hosting/ from here. Without it the header link lands every host on the attending hub, and the hosting hub is only reachable by typing its address.',
   },

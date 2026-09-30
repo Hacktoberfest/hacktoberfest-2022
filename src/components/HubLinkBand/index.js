@@ -15,9 +15,16 @@ import styles from './HubLinkBand.module.css';
 
    Middle-click fires auxclick rather than click, so it gets the same
    write; the context menu's "Open in new tab" is the one path no handler
-   sees, and that tab lands on whichever hub the memory says. */
-const HubLinkBand = ({ to, festCount = 0 }) => {
+   sees, and that tab lands on whichever hub the memory says.
+
+   `applicationsOnly`: the user's Fests are all still applications, so the
+   hosting link swaps "You're hosting" for the applications line. */
+const HubLinkBand = ({ to, festCount = 0, applicationsOnly = false }) => {
   const copy = my.hubLink[to];
+  const body =
+    applicationsOnly && copy.applicationsBody
+      ? copy.applicationsBody
+      : copy.body;
   return (
     <nav className={styles.band} aria-label={my.hubLink.label}>
       <div className={styles.strip}>
@@ -30,7 +37,7 @@ const HubLinkBand = ({ to, festCount = 0 }) => {
         >
           {copy.badge}
         </span>
-        <span className={styles.body}>{copy.body(festCount)}</span>
+        <span className={styles.body}>{body(festCount)}</span>
         <a
           className={styles.cta}
           href={copy.href}

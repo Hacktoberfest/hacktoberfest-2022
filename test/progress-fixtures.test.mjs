@@ -7,7 +7,7 @@ import {
   selectScenario,
 } from '../src/data/fixtures.mjs';
 import { isEligible, progressLevel } from '../src/lib/eligibility.mjs';
-import { festDidNotAttend } from '../src/lib/fests.mjs';
+import { festDidNotAttend, hasOnlyApplications } from '../src/lib/fests.mjs';
 
 /* This file evaluates experience.mjs in the mocked build. Leaving the
    variable unset used to be enough; unset resolves to the live origin now
@@ -30,6 +30,7 @@ test('selectScenario passes through every known name', () => {
     'eligible',
     'no-address',
     'nothing-done',
+    'applicant',
     'organizer',
     'complete',
     'completionist',
@@ -290,6 +291,12 @@ test('the organizer scenario shows every badge variant', () => {
 
 test('nothing-done has zero fests, exercising the invitation state', () => {
   assert.deepEqual(SCENARIOS['nothing-done'].fests, []);
+});
+
+/* The review link for /my's hosting link in its applications wording. */
+test('applicant is organizing through applications alone', () => {
+  assert.equal(hasOnlyApplications(SCENARIOS.applicant.fests), true);
+  assert.ok(SCENARIOS.applicant.fests.length > 1);
 });
 
 test('eligible completes the fest activity with a matching past fest', () => {

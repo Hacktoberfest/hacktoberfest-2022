@@ -3,7 +3,15 @@ import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
 
-const strings = (copy) => [copy.badge, copy.body(1), copy.body(3), copy.cta];
+const strings = (copy) => [
+  copy.badge,
+  copy.body(1),
+  copy.body(3),
+  ...(copy.applicationsBody
+    ? [copy.applicationsBody(1), copy.applicationsBody(3)]
+    : []),
+  copy.cta,
+];
 
 test('the hub link band points each hub at the other', () => {
   assert.equal(my.hubLink.hosting.href, '/my/hosting/');
@@ -16,6 +24,19 @@ test('the hosting link counts Fests, singular and plural', () => {
   assert.match(my.hubLink.hosting.body(1), /hosting a Fest/);
   assert.match(my.hubLink.hosting.body(3), /hosting 3 Fests/);
   assert.doesNotMatch(my.hubLink.hosting.body(1), /1 Fests?/);
+});
+
+/* Someone with only applications is not hosting anything yet, and their
+   host resources are still locked: the line says neither. */
+test('the applications-only hosting link counts applications and never says hosting', () => {
+  assert.match(my.hubLink.hosting.applicationsBody(1), /a Fest application\./);
+  assert.match(my.hubLink.hosting.applicationsBody(3), /3 Fest applications\./);
+  assert.doesNotMatch(my.hubLink.hosting.applicationsBody(1), /1 Fest/);
+  [1, 3].forEach((count) => {
+    const line = my.hubLink.hosting.applicationsBody(count);
+    assert.doesNotMatch(line, /hosting (a|\d+) Fest/, line);
+    assert.doesNotMatch(line, /resources/, line);
+  });
 });
 
 test('the attending link ignores the count', () => {

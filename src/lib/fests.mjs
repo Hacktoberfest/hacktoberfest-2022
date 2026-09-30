@@ -130,6 +130,15 @@ export const organizingFests = (fests) =>
    flight included. October's gate on the host resources band. */
 export const isOrganizing = (fests) => organizingFests(fests).length > 0;
 
+/* Organizing, but only through applications: none of the user's Fests
+   exists as an event yet, whatever rung each application is on. The link
+   to the hosting hub on /my words itself by this, since "You're hosting a
+   Fest" is not yet true of someone whose Fest is still an application. */
+export const hasOnlyApplications = (fests) => {
+  const mine = organizingFests(fests);
+  return mine.length > 0 && mine.every(isApplication);
+};
+
 /* An application that has actually been sent: any organizing entry past
    draft. Sits between isOrganizing (drafts count) and isHost (submitted
    doesn't) — the gate for /my's thank-you postcard, where a draft author
