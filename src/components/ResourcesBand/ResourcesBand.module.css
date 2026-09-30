@@ -1,9 +1,9 @@
-/* The promos band, the last on /my. CSS Module because the hub renders
+/* The resources band, the last on /my. CSS Module because the hub renders
    after a client-side fetch, where styled-components ship no CSS. The band,
-   heading and card restate the Fests band's (FestsBand.module.css), since a
-   CSS Module cannot import another, so every band's left edge and every
-   card's shadow line up; the card runs the band's full width, as the
-   panels above it do. */
+   heading and cards restate the Fests band's (FestsBand.module.css), since
+   a CSS Module cannot import another, so every band's left edge and every
+   card's shadow line up; the two cards share the band's full width, as the
+   panels above them do. */
 .band {
   width: min(calc(100% - 30px), 1280px);
   margin-inline: auto;
@@ -35,9 +35,16 @@
   line-height: 1.55;
 }
 
+/* Stacked, then side by side from tablet up. */
+.cards {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+
 /* A real card, as a Fest's is: ink border, white paper, maroon shadow.
-   The words, then the button under them; wider, the button moves to the
-   card's right, level with the words. */
+   The words, then the button under them. The words take the spare height,
+   so side by side the two buttons sit level whichever card says more. */
 .card {
   display: flex;
   flex-direction: column;
@@ -53,7 +60,37 @@
 }
 
 .cardBody {
+  flex: 1 1 auto;
   min-width: 0;
+}
+
+/* What each card is, in the Fests band's badge type (FestsBand.module.css,
+   .badge): the sponsors' codes on pink, the community on sky. */
+.chip {
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  /* colors.ink */
+  color: #10201d;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chipPromos {
+  /* colors.pinkLight */
+  background: #f6c4c1;
+}
+
+.chipDiscord {
+  /* colors.skyLight */
+  background: #d7e5f4;
 }
 
 .cardTitle {
@@ -78,22 +115,27 @@
   line-height: 1.55;
 }
 
+/* Discord's mark in the button's own ink, beside the words (the button's
+   gap spaces them). */
+.buttonIcon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
 /* breakpoints.tablet */
 @media (min-width: 768px) {
   .band {
     width: min(calc(100% - 40px), 1280px);
   }
 
-  .card {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 22px 24px;
+  .cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .card :global(.hf-button) {
-    flex: none;
+  .card {
+    padding: 22px 24px;
   }
 }
 

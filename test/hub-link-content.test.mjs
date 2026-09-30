@@ -38,7 +38,7 @@ test('the hosting hub has its own title and hero line', () => {
   assert.doesNotMatch(my.hosting.welcomeAccent, /—/);
 });
 
-/* /my/promos/ has its own band at the foot of /my (PromosBand), not a
+/* /my/promos/ has its own card at the foot of /my (ResourcesBand), not a
    strip in this band's place. */
 test('the hub link band links only between the hubs', () => {
   assert.deepEqual(

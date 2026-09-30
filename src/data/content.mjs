@@ -1502,7 +1502,7 @@ const MILESTONE_CARDS = [
 const MILESTONES_DISCLAIMER =
   'Stickers and prizes will be mailed 8-12 weeks after Hacktoberfest concludes.';
 
-/* /my/promos/'s intro, and the lede of the band on /my that leads there. */
+/* /my/promos/'s intro. */
 const PROMOS_INTRO =
   'Tools to help you build with open-source and open-weight models throughout Hacktoberfest.';
 
@@ -3461,17 +3461,28 @@ export const my = {
       href: '/my/',
     },
   },
-  /* The last band on /my, for everyone: the way to /my/promos/. It says
-     nothing about how many codes there are, which only that page's fetch
-     knows, so the card reads true for someone with none. */
-  promosBand: {
-    heading: { lead: 'Your', accent: 'codes and offers.' },
-    lede: PROMOS_INTRO,
-    card: {
+  /* The last band on /my, for everyone: two cards, the way to /my/promos/
+     and the way into MLH's Community Discord. The promos card says nothing
+     about how many codes there are, which only that page's fetch knows, so
+     it reads true for someone with none. The Discord card asks everyone,
+     joined or not: the invite opens the server for someone already in it.
+     Its link is MLH_DISCORD_URL in data/links.js. `chip` is set in capitals
+     by the stylesheet. */
+  resourcesBand: {
+    heading: { lead: 'Your', accent: 'resources.' },
+    lede: 'Credits for your projects, and people to build them with.',
+    promos: {
+      chip: 'Codes and offers',
       title: 'Perks from Hacktoberfest’s sponsors.',
       body: 'The companies supporting Hacktoberfest are giving out credits for your projects. New offers are added all month.',
       cta: 'See your codes and offers',
       href: '/my/promos/',
+    },
+    discord: {
+      chip: 'Community',
+      title: 'Join MLH’s Community Discord.',
+      body: 'Say hi to hackers from around the world, get help when you’re stuck, and chat along with the livestreams. Link it to MyMLH for the Discord sticker.',
+      cta: 'Join the Discord',
     },
   },
   /* The hosting hub's own title and hero line. The greeting stays "Hi

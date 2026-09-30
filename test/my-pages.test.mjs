@@ -309,7 +309,7 @@ test('the /my feature contains no styled-components', async () => {
     'MyStatus',
     'MyHub',
     'HubLinkBand',
-    'PromosBand',
+    'ResourcesBand',
   ];
   const offenders = [];
 
@@ -637,15 +637,15 @@ const WIRING = [
   {
     file: 'src/pages/my.js',
     token: '<FestsBand experience={experience} />',
-    why: '"Your Fests." always leads the attending hub, hosting cards included: it is the participant\'s calendar, and with nothing on it the two invitations. It never closes the page: its band ends 8px short and the promos band owns the bottom gutter.',
+    why: '"Your Fests." always leads the attending hub, hosting cards included: it is the participant\'s calendar, and with nothing on it the two invitations. It never closes the page: its band ends 8px short and the resources band owns the bottom gutter.',
   },
   {
     file: 'src/pages/my.js',
-    token: '<PromosBand />',
-    why: '"Your codes and offers." closes the attending hub for everyone: the one way to /my/promos/ on the page.',
+    token: '<ResourcesBand />',
+    why: '"Your resources." closes the attending hub for everyone: the one way to /my/promos/ and into the Discord on the page.',
   },
   {
-    file: 'src/components/PromosBand/PromosBand.module.css',
+    file: 'src/components/ResourcesBand/ResourcesBand.module.css',
     token: 'padding-block: 40px clamp(48px, 7vw, 90px);',
     why: "the last band on /my carries the page's bottom room; the bands above it end 8px short.",
   },

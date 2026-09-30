@@ -108,6 +108,11 @@ export const HOST_HANDBOOK_URL =
    gate that does not exist. */
 export const HOST_DISCORD_URL = 'https://discord.com/invite/mlh';
 
+/* The same public invite, from the Discord card in /my's "Your resources."
+   band, where participants are asked in. Its own constant because it is
+   its own placement; untagged for the reason above. */
+export const MLH_DISCORD_URL = 'https://discord.com/invite/mlh';
+
 /* The Hacktoberfest team's inbox, the third open row in /my's host
    resources band. A mailto rather than a form: the row is the private
    channel beside the public one, and anything that needs a human to read

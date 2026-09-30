@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
+import { MLH_DISCORD_URL } from '../src/data/links.js';
 
 const copy = my.promos;
 
@@ -146,23 +147,37 @@ test('the check-in requirement says only what unlocks the code', () => {
 });
 
 /* The band at the foot of /my that leads here: /my's heading grammar
-   ("Your Fests.", "Your rewards."), this page's intro as its lede, and one
-   card whose footer is the link. */
-test('the /my band names this page and leads to it', () => {
-  const band = my.promosBand;
+   ("Your Fests.", "Your rewards."), and two cards, this page's and MLH's
+   Community Discord's, each a chip, a title, a line and a button. */
+test('the /my resources band leads here and to the Discord', () => {
+  const band = my.resourcesBand;
 
-  assert.deepEqual(band.heading, { lead: 'Your', accent: 'codes and offers.' });
-  assert.equal(band.lede, copy.intro);
-  assert.equal(band.card.href, '/my/promos/');
-  assert.equal(band.card.title, 'Perks from Hacktoberfest’s sponsors.');
+  assert.deepEqual(band.heading, { lead: 'Your', accent: 'resources.' });
   assert.equal(
-    band.card.body,
+    band.lede,
+    'Credits for your projects, and people to build them with.',
+  );
+  assert.equal(band.promos.href, '/my/promos/');
+  assert.equal(band.promos.title, 'Perks from Hacktoberfest’s sponsors.');
+  assert.equal(
+    band.promos.body,
     'The companies supporting Hacktoberfest are giving out credits for your projects. New offers are added all month.',
   );
-  [band.card.title, band.card.body, band.card.cta].forEach((value) => {
-    assert.equal(typeof value, 'string');
-    assert.ok(value.trim().length > 0);
-    assert.doesNotMatch(value, /organi[sz]er/i, value);
-    assert.doesNotMatch(value, /—/, value);
-  });
+  assert.equal(band.discord.title, 'Join MLH’s Community Discord.');
+  assert.equal(band.discord.cta, 'Join the Discord');
+  /* Untagged, like the host resources invite: utm params on an invite
+     link are attribution noise. */
+  assert.equal(MLH_DISCORD_URL, 'https://discord.com/invite/mlh');
+  [band.lede, band.promos, band.discord]
+    .flatMap((value) =>
+      typeof value === 'string'
+        ? [value]
+        : [value.chip, value.title, value.body, value.cta],
+    )
+    .forEach((value) => {
+      assert.equal(typeof value, 'string');
+      assert.ok(value.trim().length > 0);
+      assert.doesNotMatch(value, /organi[sz]er/i, value);
+      assert.doesNotMatch(value, /—/, value);
+    });
 });
