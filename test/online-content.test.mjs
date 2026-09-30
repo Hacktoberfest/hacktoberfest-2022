@@ -68,7 +68,7 @@ test('the hero says what it is, states the deal, and asks for the book', () => {
   assert.ok(online.introShort.length < online.intro.length);
   assert.equal(online.facts, null, 'no facts strip');
   assert.match(online.eyebrow, /· Free$/);
-  assert.equal(online.ctaHref, '/login/');
+  assert.equal(online.ctaHref, '/my/');
   assert.equal(online.secondaryHref, '/activities/');
   assert.equal(online.hero.object, 'pile');
 });

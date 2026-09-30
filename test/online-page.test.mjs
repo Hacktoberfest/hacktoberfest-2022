@@ -32,7 +32,7 @@ test('/online builds, indexed, with its hero, both CTAs and the pile', async () 
   assert.ok(html.includes(online.intro));
   assert.match(
     html,
-    new RegExp(`<a[^>]*href="/login/"[^>]*>${escapeRegExp(online.cta)}</a>`),
+    new RegExp(`<a[^>]*href="/my/"[^>]*>${escapeRegExp(online.cta)}</a>`),
   );
   assert.match(
     html,
@@ -44,9 +44,9 @@ test('/online builds, indexed, with its hero, both CTAs and the pile', async () 
   online.pile.forEach((id) =>
     assert.ok(html.includes(`/stickers/${id}.svg`), id),
   );
-  /* The sign-in: once, in the hero. No steps band follows it. */
-  const signIns = html.match(/<a[^>]*href="\/login\/"[^>]*>/g);
-  assert.equal(signIns && signIns.length, 1);
+  /* The sign-in goes through /my/, never straight to /login/. No steps
+     band follows it. */
+  assert.doesNotMatch(html, /<a[^>]*href="\/login\/"/);
   assert.ok(!html.includes('id="how-it-works"'), 'no steps band');
 });
 

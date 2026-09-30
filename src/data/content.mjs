@@ -1021,7 +1021,7 @@ export const homeSteps = {
       ],
     },
   ],
-  cta: { label: 'Start your sticker book', href: '/login/' },
+  cta: { label: 'Start your sticker book', href: '/my/' },
 };
 
 export const subscribed = {
@@ -1526,9 +1526,11 @@ export const online = {
      (free), and the intro says the rest. */
   facts: null,
   /* The page's ask, in the hero and again beside the step that explains
-     MyMLH: starting the book is signing in. */
+     MyMLH: starting the book is signing in. It points at /my/, never
+     /login/: a signed-out /my/ hands off to /login/ on its own, and a
+     signed-in one opens the book instead of restarting OAuth. */
   cta: 'Start your sticker book',
-  ctaHref: '/login/',
+  ctaHref: '/my/',
   secondaryCta: 'See every sticker',
   secondaryHref: '/activities/',
   /* The hero's object: a pile of the stickers themselves, framed the
