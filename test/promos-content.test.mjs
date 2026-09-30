@@ -68,6 +68,14 @@ test('the empty state sends people to find a Fest', () => {
   assert.equal(copy.empty.href, '/fests/');
 });
 
+test('the empty state says codes are still coming, and what unlocks more', () => {
+  assert.equal(copy.empty.title, 'We don’t have any codes for you yet.');
+  assert.equal(
+    copy.empty.body,
+    'We’ll be adding codes throughout Hacktoberfest. Attending an in-person Fest unlocks additional codes.',
+  );
+});
+
 test('the count reads naturally for one code and for several', () => {
   assert.equal(copy.count.one, 'Your code');
   assert.equal(copy.count.many(2), '2 codes');

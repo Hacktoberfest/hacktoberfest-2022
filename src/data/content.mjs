@@ -3520,8 +3520,8 @@ export const my = {
       body: 'Keep checking back here throughout Hacktoberfest for new offers to redeem.',
     },
     empty: {
-      title: 'No codes for you yet.',
-      body: 'Sponsors attach codes to Fests, so registering for another Fest can bring you one. New codes show up here as sponsors add them.',
+      title: 'We don’t have any codes for you yet.',
+      body: 'We’ll be adding codes throughout Hacktoberfest. Attending an in-person Fest unlocks additional codes.',
       cta: 'Find a Fest',
       href: '/fests/',
     },
