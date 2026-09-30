@@ -53,9 +53,9 @@ const PALETTE = [
   { color: '#284b44', onColor: WHITE, shadow: INK, tint: '#e4e5da' }, // inkSoft
 ];
 
-/* The taxonomy, which is three things and not the five this once guessed at.
+/* The taxonomy, which is four things and not the five this once guessed at.
    A workshop, a ceremony and a showcase are all livestreams; what separates
-   the three below is not subject matter but what you do with them.
+   the four below is not subject matter but what you do with them.
 
    `event` is the forest green, and because a feature's header, tint and shadow
    are all drawn from its type, that is what colours the whole Global Hack Week
@@ -68,6 +68,9 @@ const KNOWN = {
      coloured streams. The ochre returns to the fallback pool. */
   challenge: { label: 'Challenge', slot: 10 }, // inkSoft
   event: { label: 'Event', slot: 4 }, // forest
+  /* Maroon, the slot the hash already gave it before it was known, so naming
+     it changed its label and nothing else: pink chip, ink shadow. */
+  minievent: { label: 'Mini-Event', slot: 6 }, // maroon
 };
 
 export const KNOWN_SCHEDULE_TYPES = Object.keys(KNOWN);

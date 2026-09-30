@@ -245,3 +245,51 @@ export const agendaEntries = (events) => {
     return 0;
   });
 };
+
+/* "Unannounced stream - more info soon": a slot MLH has booked but not yet
+   named. Recognised by name because that is all the API says about it. */
+const UNANNOUNCED = /^unannounced\b/i;
+
+export const isUnannounced = (event) =>
+  typeof event?.name === 'string' && UNANNOUNCED.test(event.name.trim());
+
+/* A feature's body as rows: back-to-back unannounced streams on one day fold
+   into a single `tba` row, so a gap in the programme reads as one quiet
+   placeholder rather than four identical cards.
+
+   Takes the feature entry's `contains`, which is sessions only and already in
+   date order. */
+export const featureRows = (contains) => {
+  const rows = [];
+
+  contains.forEach(({ event }) => {
+    const last = rows[rows.length - 1];
+
+    if (!isUnannounced(event)) {
+      rows.push({ kind: 'session', event, date: event.startDate });
+      return;
+    }
+
+    if (last?.kind === 'tba' && last.date === event.startDate) {
+      last.events.push(event);
+      return;
+    }
+
+    rows.push({ kind: 'tba', events: [event], date: event.startDate });
+  });
+
+  return rows;
+};
+
+/* The feature header's tally: how many calendar days it spans, counting both
+   ends, and how many sessions it holds, placeholders included. */
+export const featureTally = ({ event, contains }) => {
+  const utc = (d) =>
+    Date.UTC(+d.slice(0, 4), +d.slice(5, 7) - 1, +d.slice(8, 10));
+  const days =
+    isIsoDate(event.startDate) && isIsoDate(endOf(event))
+      ? Math.round((utc(endOf(event)) - utc(event.startDate)) / 86400000) + 1
+      : null;
+
+  return { days, sessions: contains.length };
+};

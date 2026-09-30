@@ -85,6 +85,34 @@ const KINDS = new Set(['feature', 'round', 'session']);
    only whoever uploaded it knows which. */
 const LOGO_KINDS = new Set(['sponsor', 'name']);
 
+/* Lockups the site ships itself, for a feature that arrives without a logo.
+   FestNet's hand-made rows cannot carry a logoUrl, and Global Hack Week's
+   container is one, so production showed its name as text while the mocked
+   build showed the lockup. Keyed on the event's own link, which a hand-made
+   row does carry. A logo the API sends always wins. */
+const BUNDLED_LOCKUPS = {
+  'ghw.mlh.com': '/schedule/global-hack-week.png',
+};
+
+/* FestNet names mini-events "Mini-Event: Typeracer". The row's rail chip and
+   the modal's badge already say MINI-EVENT, so the prefix goes; a name that
+   is nothing but the prefix keeps it rather than going blank. */
+const MINI_EVENT_PREFIX = /^mini-?event\s*[:\-–]\s*/i;
+
+const nameFor = (name, type) => {
+  if (!name) return 'Untitled event';
+  if (type !== 'minievent') return name;
+  return name.replace(MINI_EVENT_PREFIX, '').trim() || name;
+};
+
+const hostnameOf = (url) => {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return null;
+  }
+};
+
 /* One payload event -> the flat shape the page speaks, or null if it cannot be
    rendered honestly.
 
@@ -118,9 +146,16 @@ export const scheduleEventFrom = (event, timeZone) => {
   const rawEnd = text(event.endsAt) && dateOf(event.endsAt);
   const endDate = rawEnd && rawEnd >= startDate ? rawEnd : startDate;
 
+  const kind = KINDS.has(event.kind) ? event.kind : 'session';
+  const url = text(event.url);
+  const bundled =
+    kind === 'feature' && !text(event.logoUrl) && url
+      ? BUNDLED_LOCKUPS[hostnameOf(url)] || null
+      : null;
+
   return {
     id,
-    name: text(event.name) || 'Untitled event',
+    name: nameFor(text(event.name), text(event.type)),
     description: text(event.description),
     type: text(event.type),
     /* Structural, unlike `type` which is only a colour and a label: `kind`
@@ -129,14 +164,18 @@ export const scheduleEventFrom = (event, timeZone) => {
        challenge round are both seven days long, and only one of them is a
        container. An unrecognised value degrades to a session, which renders
        plainly rather than disappearing. */
-    kind: KINDS.has(event.kind) ? event.kind : 'session',
+    kind,
     host: text(event.host),
-    logoUrl: text(event.logoUrl),
+    logoUrl: text(event.logoUrl) || bundled,
     /* Defaults to `sponsor`, which is the safe half: a credit in the wrong
        place is untidy, where a `name` logo that turned out not to contain the
        name would leave the event unnamed on the page. */
-    logoKind: LOGO_KINDS.has(event.logoKind) ? event.logoKind : 'sponsor',
-    url: text(event.url),
+    logoKind: bundled
+      ? 'name'
+      : LOGO_KINDS.has(event.logoKind)
+        ? event.logoKind
+        : 'sponsor',
+    url,
     startsAt: text(event.startsAt),
     endsAt: text(event.endsAt),
     allDay,

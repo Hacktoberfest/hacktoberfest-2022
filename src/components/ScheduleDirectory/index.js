@@ -7,6 +7,7 @@ import {
   normalizeSchedule,
   viewerTimeZone,
 } from 'lib/schedule.mjs';
+import { scheduleType } from 'lib/scheduleTypes.mjs';
 
 import AgendaStream from './AgendaStream';
 import EventModal from './EventModal';
@@ -21,6 +22,18 @@ import styles from './ScheduleDirectory.module.css';
    toggle earlier versions carried had nothing left to toggle between — and
    with it went the URL parameter and the phone-specific default, since the
    same stream works at every width. */
+/* The legend's chips: the same words and colours the rows' rail chips use. */
+const LEGEND_CHIPS = [
+  { type: 'livestream', label: schedule.streamChip },
+  { type: 'minievent', label: schedule.miniEventChip },
+  { type: 'challenge', label: schedule.challengeChip },
+];
+
+const chipColours = (slug) => {
+  const type = scheduleType(slug);
+  return { '--type-tint': type.tint, '--type-accent': type.shadow };
+};
+
 const ScheduleDirectory = () => {
   /* The RAW payload, not normalised events: which day an event falls on
      depends on the zone it is read in, so normalisation happens below, per
@@ -117,62 +130,62 @@ const ScheduleDirectory = () => {
   }
 
   return (
-    <section className={styles.root} aria-label={schedule.monthLabel}>
+    <section
+      className={styles.root}
+      aria-label={schedule.monthLabel}
+      data-live="true"
+    >
       {/* The band is full-bleed so its ground runs edge to edge; the column
           inside it carries the shell width. */}
       <div className={styles.inner}>
-        {/* The interior section grammar /activities/ uses: the month as a
-            mono eyebrow, a display heading with its orange accent, and the
-            intro under it. The intro is what a check-in counts for, for the
-            reader who arrived here before meeting the activities; the
-            mechanics are on /activities/, and this is the pointer. */}
-        <div className={styles.header}>
-          <p className={styles.eyebrow}>{schedule.monthLabel}</p>
-          <h2 className={styles.heading}>
-            {schedule.sectionHeading.lead}{' '}
-            <em>{schedule.sectionHeading.accent}</em>
-          </h2>
-          <p className={styles.countsNote}>
-            {schedule.countsNote.text}{' '}
-            <a href="/activities/">{schedule.countsNote.cta}</a>
-          </p>
+        {/* No heading: the hero above already names the month. One sticky
+            bar instead, with what is on, how to read a row, and whose clock
+            the times are in. The legend is the chips the rows wear, in the
+            rows' own colours, so the two cannot drift apart. */}
+        <div className={styles.toolsSticky}>
+          <div className={styles.bar}>
+            <div className={styles.barInfo}>
+              <span className={styles.barCount}>
+                {schedule.monthLabel} · {events.length}{' '}
+                {events.length === 1
+                  ? schedule.eventCount.one
+                  : schedule.eventCount.many}
+              </span>
+              <span className={styles.barDivider} aria-hidden="true" />
+              <ul className={styles.legend} aria-label={schedule.legendLabel}>
+                {LEGEND_CHIPS.map(({ type, label }) => (
+                  <li key={type} className={styles.legendItem}>
+                    <span
+                      className={styles.streamChip}
+                      style={chipColours(type)}
+                    >
+                      {label}
+                    </span>
+                  </li>
+                ))}
+                <li className={styles.legendItem}>
+                  <span
+                    className={`${styles.legendSwatch} ${styles.legendClose}`}
+                    aria-hidden="true"
+                  />
+                  {schedule.legend.close}
+                </li>
+              </ul>
+            </div>
+            <ZonePicker
+              zones={zones}
+              value={timeZone}
+              viewerZone={viewerZone}
+              onChange={setTimeZone}
+            />
+          </div>
         </div>
-
-        {/* The two things a reader needs to decode the stream, on one row:
-            the legend, drawn the way the rows are drawn (the shadowed stream
-            card, the ink-shadowed challenge window, the dashed last day),
-            and the zone control. */}
-        <div className={styles.tools}>
-          <ul className={styles.legend} aria-label={schedule.legendLabel}>
-            <li className={styles.legendItem}>
-              <span
-                className={`${styles.legendSwatch} ${styles.legendStream}`}
-                aria-hidden="true"
-              />
-              {schedule.legend.stream}
-            </li>
-            <li className={styles.legendItem}>
-              <span
-                className={`${styles.legendSwatch} ${styles.legendRound}`}
-                aria-hidden="true"
-              />
-              {schedule.legend.round}
-            </li>
-            <li className={styles.legendItem}>
-              <span
-                className={`${styles.legendSwatch} ${styles.legendClose}`}
-                aria-hidden="true"
-              />
-              {schedule.legend.close}
-            </li>
-          </ul>
-          <ZonePicker
-            zones={zones}
-            value={timeZone}
-            viewerZone={viewerZone}
-            onChange={setTimeZone}
-          />
-        </div>
+        {/* What a check-in counts for, for the reader who arrived here before
+            meeting the activities; the mechanics are on /activities/. */}
+        <p className={styles.barNote}>
+          {schedule.countsNote.text}{' '}
+          <a href="/activities/">{schedule.countsNote.cta}</a>
+        </p>
 
         <AgendaStream
           events={events}

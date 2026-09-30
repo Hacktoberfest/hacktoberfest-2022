@@ -244,6 +244,59 @@ test('an unrecognised logoKind falls back to sponsor, never name', () => {
   });
 });
 
+/* Production's Global Hack Week container is a hand-made FestNet row, which
+   cannot carry a logoUrl, so the site supplies the lockup it already ships. */
+test('a Global Hack Week feature with no logo gets the bundled lockup', () => {
+  const event = scheduleEventFrom(
+    raw({ kind: 'feature', url: 'https://ghw.mlh.com/', logoUrl: null }),
+    UTC,
+  );
+
+  assert.equal(event.logoUrl, '/schedule/global-hack-week.png');
+  assert.equal(event.logoKind, 'name');
+});
+
+test('the bundled lockup never overrides a logo the API sends', () => {
+  const event = scheduleEventFrom(
+    raw({
+      kind: 'feature',
+      url: 'https://ghw.mlh.com/',
+      logoUrl: 'https://example.invalid/ghw.png',
+      logoKind: 'sponsor',
+    }),
+    UTC,
+  );
+
+  assert.equal(event.logoUrl, 'https://example.invalid/ghw.png');
+  assert.equal(event.logoKind, 'sponsor');
+});
+
+test('only a feature gets a bundled lockup', () => {
+  const event = scheduleEventFrom(
+    raw({ kind: 'session', url: 'https://ghw.mlh.com/', logoUrl: null }),
+    UTC,
+  );
+
+  assert.equal(event.logoUrl, null);
+  assert.equal(event.logoKind, 'sponsor');
+});
+
+/* The rail chip says MINI-EVENT, so the name does not have to. */
+test('a mini-event loses its Mini-Event prefix', () => {
+  const name = (value, type = 'minievent') =>
+    scheduleEventFrom(raw({ name: value, type }), UTC).name;
+
+  assert.equal(name('Mini-Event: Typeracer'), 'Typeracer');
+  assert.equal(name('mini-event - Wiki Races'), 'Wiki Races');
+  assert.equal(name('Mini-Event'), 'Mini-Event', 'never blank');
+  assert.equal(name('Tetris'), 'Tetris');
+  assert.equal(
+    name('Mini-Event: Typeracer', 'livestream'),
+    'Mini-Event: Typeracer',
+    'only a minievent is renamed',
+  );
+});
+
 // -- the zone switcher's two halves ---------------------------------------
 
 /* The reader can change the zone the page is shown in, and a zone change is

@@ -93,10 +93,10 @@ test('known types are visually distinct from one another', () => {
   assert.equal(new Set(colors).size, colors.length);
 });
 
-test('the three known types are the three the schedule actually has', () => {
+test('the four known types are the four the schedule actually has', () => {
   assert.deepEqual(
     KNOWN_SCHEDULE_TYPES.map((id) => scheduleType(id).label),
-    ['Livestream', 'Challenge', 'Event'],
+    ['Livestream', 'Challenge', 'Event', 'Mini-Event'],
   );
 });
 

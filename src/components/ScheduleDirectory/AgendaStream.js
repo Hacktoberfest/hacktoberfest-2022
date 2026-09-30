@@ -8,12 +8,13 @@ import {
   isOnAir,
   roundState,
   todayInZone,
-  weekdayName,
 } from 'lib/schedule.mjs';
 import {
   agendaEntries,
   collapsePast,
   entryDate,
+  featureRows,
+  featureTally,
   mondayOf,
 } from 'lib/scheduleAgenda.mjs';
 import { scheduleType } from 'lib/scheduleTypes.mjs';
@@ -77,19 +78,26 @@ const dayLabel = (isoDate) => {
   return `${weekday} ${day} ${MONTHS[month - 1].slice(0, 3)}`;
 };
 
-/* A name logo stands where the event's name would; a sponsor logo is a credit
-   and sits to the right. Only a logo that actually exists can replace a name —
-   see the fallback in EventLogo for the case where it fails to load. */
+/* A name logo stands where the event's name would. Only a logo that actually
+   exists can replace a name; see the fallback in EventLogo for the case where
+   it fails to load. */
 const isNameLogo = (event) => event.logoKind === 'name';
 
-/* A badge labels the departure from the default, never the rule: nine of
-   thirteen entries are livestreams, and a label carried by most of the list is
-   texture rather than information. Suppressed too when the name already
-   contains the label — "The DEV Challenge" needs no CHALLENGE beside it. The
-   type still shows in the modal and colours the accent. */
+/* A round's badge beside its name, for a round whose type is not already in
+   its name: "The DEV Challenge" needs no CHALLENGE beside it. Sessions carry
+   their type in the rail instead (railChip below). */
 const badgeLabel = (event, type) => {
-  if (type.id === 'livestream') return null;
   if (event.name.toLowerCase().includes(type.label.toLowerCase())) return null;
+  return type.label;
+};
+
+/* The word on a session's rail chip: STREAM for a livestream, flipping to ON
+   AIR while it is actually live, MINI-EVENT for a mini-event, and the type's
+   own label for anything else, so every row says what it is in one place. */
+const railChip = (event, type, onAir) => {
+  if (onAir) return schedule.onAirChip;
+  if (type.id === 'livestream') return schedule.streamChip;
+  if (type.id === 'minievent') return schedule.miniEventChip;
   return type.label;
 };
 
@@ -116,16 +124,14 @@ const DateTile = ({ isoDate }) => {
   );
 };
 
-/* One dated thing: a livestream, a workshop, a ceremony. */
+/* One dated thing: a livestream, a mini-event, a ceremony. */
 const SessionRow = ({ event, timeZone, onSelect, isPast, now }) => {
   const type = scheduleType(event.type);
-  /* The STREAM chip, on livestreams only. It sits with the time rather than
-     the name because the rail is the row's verb slot — watch live at three
-     the way a round says submit by Sunday — and it is what flips to ON AIR
-     while the window is open, so a workshop or ceremony showing a bare time
-     is itself information. */
-  const streaming = event.type === 'livestream' && !event.allDay;
-  const onAir = streaming && isOnAir(event, now);
+  /* The rail is stacked the way a round's ledger is: the type's chip on top,
+     the time under it. The chip is what flips to ON AIR while a livestream's
+     window is open. */
+  const onAir =
+    event.type === 'livestream' && !event.allDay && isOnAir(event, now);
   /* No zone suffix on the rows: the toolbar instrument above the stream
      already names the zone, and repeating it on every timed row buried the
      one signal that varies (the hour) under the one that never does. The
@@ -163,25 +169,21 @@ const SessionRow = ({ event, timeZone, onSelect, isPast, now }) => {
             ) : (
               <span className={styles.rowName}>{event.name}</span>
             )}
-            {badgeLabel(event, type) && (
-              <span className={styles.typeBadge}>{type.label}</span>
-            )}
           </span>
         </span>
-        {!named && <EventLogo event={event} />}
-        <span className={styles.rowTime}>
-          {streaming && (
-            <span
-              className={styles.streamChip}
-              data-onair={onAir ? 'true' : undefined}
-            >
-              {onAir ? schedule.onAirChip : schedule.streamChip}
-            </span>
-          )}
-          {/* The tile is aria-hidden, so the date is spelled out here for
-              anyone not reading it off the tile. */}
-          <span className={styles.srOnly}>{dayLabel(event.startDate)}, </span>
-          {event.allDay ? schedule.allDayLabel : time}
+        <span className={`${styles.rowTime} ${styles.sessionRail}`}>
+          <span
+            className={styles.streamChip}
+            data-onair={onAir ? 'true' : undefined}
+          >
+            {railChip(event, type, onAir)}
+          </span>
+          <span>
+            {/* The tile is aria-hidden, so the date is spelled out here for
+                anyone not reading it off the tile. */}
+            <span className={styles.srOnly}>{dayLabel(event.startDate)}, </span>
+            {event.allDay ? schedule.allDayLabel : time}
+          </span>
         </span>
       </button>
     </li>
@@ -191,25 +193,14 @@ const SessionRow = ({ event, timeZone, onSelect, isPast, now }) => {
 /* A submission window opening. Bolder than a session because it is a deadline
    rather than an appointment, and it recurs — four of these are what make the
    month's rhythm visible in the stream. */
-const RoundBlock = ({
-  event,
-  onSelect,
-  isPast,
-  roundNumber,
-  timeZone,
-  today,
-}) => {
+const RoundBlock = ({ event, onSelect, isPast, timeZone, today }) => {
   const type = scheduleType(event.type);
   const named = isNameLogo(event);
   /* The kicker tells the truth per round, on the same calendar the stream's
-     past-collapse runs on: before its Monday a round says which day it opens,
-     during the window it says open, and afterwards it says so. Four rounds
-     stop all claiming to be open at once. */
-  const state = roundState(event, today);
-  const kicker =
-    state === 'upcoming'
-      ? `${schedule.roundKicker.upcoming} ${weekdayName(event.startDate)}`
-      : schedule.roundKicker[state];
+     past-collapse runs on: FIRST DAY before it opens, the way its stub says
+     LAST DAY at the other end; open during the window; closed afterwards.
+     Four rounds stop all claiming to be open at once. */
+  const kicker = schedule.roundKicker[roundState(event, today)];
   /* Endpoint clocks for the ledger, when the API sends a timed round. The
      fixtures are all-day calendar spans, so these stay null and the ledger
      shows dates alone — nothing lies. */
@@ -228,12 +219,7 @@ const RoundBlock = ({
       <button
         type="button"
         className={styles.roundBlock}
-        onClick={() =>
-          /* The week number travels with the event: it is derived by the
-             agenda, not sent by the API, and the modal has to say the same
-             "DEV Challenges · Week N" the card the reader pressed did. */
-          onSelect(roundNumber ? { ...event, roundNumber } : event)
-        }
+        onClick={() => onSelect(event)}
       >
         <DateTile isoDate={event.startDate} />
         <span className={styles.rowWhat}>
@@ -243,17 +229,10 @@ const RoundBlock = ({
               {named ? (
                 <EventLogo event={event} />
               ) : (
-                <span className={styles.roundName}>
-                  {event.name}
-                  {/* Which week of the challenge, because four identical
-                      blocks hide the one thing that changes between them.
-                      Derived from Monday order in lib/scheduleAgenda.mjs, and
-                      it agrees with the stream's week rules by construction —
-                      both counts anchor on the first round. */}
-                  {roundNumber
-                    ? ` · ${schedule.roundLabel} ${roundNumber}`
-                    : ''}
-                </span>
+                /* The API's own name alone: it already says which week
+                   ("Hacktoberfest Week 1 DEV Challenge"), and a count of our
+                   own appended to it disagreed with it by one. */
+                <span className={styles.roundName}>{event.name}</span>
               )}
               {badgeLabel(event, type) && (
                 <span className={styles.typeBadge}>{type.label}</span>
@@ -261,7 +240,6 @@ const RoundBlock = ({
             </span>
           </span>
         </span>
-        {!named && <EventLogo event={event} />}
         {/* The right rail is for WHEN on every kind. A round's WHEN is a
             window, so the rail is a two-line ledger — both ends, labels
             aligned, times appearing once the API sends a timed round — led
@@ -297,7 +275,7 @@ const RoundBlock = ({
    deadline is still downstream of the reader instead of folded away with
    Monday's ticket. Deliberately lighter than the ticket — a dashed border at
    session height, a door drawn shutting — and it opens the same modal. */
-const RoundCloseStub = ({ event, onSelect, isPast, roundNumber, timeZone }) => {
+const RoundCloseStub = ({ event, onSelect, isPast, timeZone }) => {
   const type = scheduleType(event.type);
   const closesClock = event.allDay ? null : formatClock(event.endsAt, timeZone);
 
@@ -311,19 +289,14 @@ const RoundCloseStub = ({ event, onSelect, isPast, roundNumber, timeZone }) => {
       <button
         type="button"
         className={styles.closeStub}
-        onClick={() =>
-          onSelect(roundNumber ? { ...event, roundNumber } : event)
-        }
+        onClick={() => onSelect(event)}
       >
         <DateTile isoDate={event.endDate} />
         <span className={styles.rowWhat}>
           <span className={styles.rowText}>
             <span className={styles.roundText}>
               <span className={styles.roundWhen}>{schedule.lastDayLabel}</span>
-              <span className={styles.rowName}>
-                {event.name}
-                {roundNumber ? ` · ${schedule.roundLabel} ${roundNumber}` : ''}
-              </span>
+              <span className={styles.rowName}>{event.name}</span>
             </span>
           </span>
         </span>
@@ -339,8 +312,48 @@ const RoundCloseStub = ({ event, onSelect, isPast, roundNumber, timeZone }) => {
   );
 };
 
+/* A run of unannounced streams, folded into one quiet stub: drawn like the
+   last-day stub (dashed, no shadow) because it is a placeholder rather than
+   an appointment, and not pressable, because there is nothing yet to open. */
+const TbaRow = ({ row, timeZone }) => {
+  const first = row.events[0];
+  const last = row.events[row.events.length - 1];
+  const time = formatTimeRange(
+    { startsAt: first.startsAt, endsAt: last.endsAt },
+    timeZone,
+    { withZone: false },
+  );
+  const count = row.events.length;
+
+  return (
+    <li className={styles.streamItem} data-kind="tba">
+      <div className={`${styles.closeStub} ${styles.tbaStub}`}>
+        <DateTile isoDate={row.date} />
+        <span className={styles.rowWhat}>
+          <span className={styles.roundText}>
+            <span className={styles.roundWhen}>{schedule.tba.kicker}</span>
+            <span className={styles.rowName}>
+              {count === 1 ? schedule.tba.one : `${count} ${schedule.tba.many}`}
+            </span>
+          </span>
+        </span>
+        <span className={`${styles.rowTime} ${styles.sessionRail}`}>
+          <span className={`${styles.streamChip} ${styles.tbaChip}`}>
+            {schedule.tba.chip}
+          </span>
+          <span>
+            <span className={styles.srOnly}>{dayLabel(row.date)}, </span>
+            {time}
+          </span>
+        </span>
+      </div>
+    </li>
+  );
+};
+
 const FeatureBlock = ({ entry, timeZone, onSelect, isPast, now }) => {
   const { event, contains } = entry;
+  const tally = featureTally(entry);
   const type = scheduleType(event.type);
   const from = festDateParts(event.startDate);
   const to = festDateParts(event.endDate);
@@ -391,24 +404,46 @@ const FeatureBlock = ({ entry, timeZone, onSelect, isPast, now }) => {
                 of one fact inside one box. */}
             <span className={styles.srOnly}>{rangeLabel(event)}</span>
           </span>
-          {/* The third column is the sponsor credit, and collapses to nothing
-              for an event with no sponsor — which is most of them. */}
-          {!named && <EventLogo event={event} size="card" />}
+          {/* What the week holds, counted from what is inside it. */}
+          {contains.length > 0 && (
+            <span className={styles.featureCount}>
+              {tally.days
+                ? `${tally.days} ${
+                    tally.days === 1
+                      ? schedule.featureCount.day
+                      : schedule.featureCount.days
+                  } · `
+                : ''}
+              {tally.sessions}{' '}
+              {tally.sessions === 1
+                ? schedule.featureCount.session
+                : schedule.featureCount.sessions}
+            </span>
+          )}
         </button>
 
         {contains.length > 0 && (
           <ul className={styles.featureBody}>
             {/* Sessions only, by the claiming rule: a round is never Hack Week
-                programming, so one can never appear in here. */}
-            {contains.map((child) => (
-              <SessionRow
-                key={child.event.id}
-                event={child.event}
-                timeZone={timeZone}
-                onSelect={onSelect}
-                now={now}
-              />
-            ))}
+                programming, so one can never appear in here. Placeholder runs
+                fold into one stub (lib/scheduleAgenda). */}
+            {featureRows(contains).map((row) =>
+              row.kind === 'tba' ? (
+                <TbaRow
+                  key={`tba-${row.events[0].id}`}
+                  row={row}
+                  timeZone={timeZone}
+                />
+              ) : (
+                <SessionRow
+                  key={row.event.id}
+                  event={row.event}
+                  timeZone={timeZone}
+                  onSelect={onSelect}
+                  now={now}
+                />
+              ),
+            )}
           </ul>
         )}
       </div>
@@ -432,7 +467,6 @@ const renderEntry = ({ entry, timeZone, onSelect, isPast, now, today }) => {
       <RoundBlock
         {...shared}
         event={entry.event}
-        roundNumber={entry.roundNumber}
         timeZone={timeZone}
         today={today}
       />
@@ -441,12 +475,7 @@ const renderEntry = ({ entry, timeZone, onSelect, isPast, now, today }) => {
 
   if (entry.kind === 'roundClose') {
     return (
-      <RoundCloseStub
-        {...shared}
-        event={entry.event}
-        roundNumber={entry.roundNumber}
-        timeZone={timeZone}
-      />
+      <RoundCloseStub {...shared} event={entry.event} timeZone={timeZone} />
     );
   }
 
@@ -501,8 +530,7 @@ const AgendaStream = ({ events, timeZone, onSelect, now }) => {
 
           /* One week count for the whole page, anchored on the first round:
              the challenge resets each Monday, so its weeks ARE the campaign's
-             weeks, and the rules must agree with the "· Week N" on the round
-             cards. Days before the first round sit before Week 1, which is how
+             weeks. Days before the first round sit before Week 1, which is how
              the campaign actually runs; without any rounds the anchor falls
              back to the first entry. */
           const utcDay = (d) =>

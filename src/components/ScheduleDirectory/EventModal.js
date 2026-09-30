@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import Close from 'components/icons/Close';
 import { schedule } from 'data/content.mjs';
+import { MLH_TWITCH_URL } from 'data/links';
 import {
   formatClock,
   formatDay,
@@ -10,7 +11,6 @@ import {
 } from 'lib/schedule.mjs';
 import { scheduleType } from 'lib/scheduleTypes.mjs';
 
-import EventLogo from './EventLogo';
 import styles from './ScheduleDirectory.module.css';
 
 const copy = schedule.modal;
@@ -54,7 +54,8 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
      ON AIR can never open into a modal that shrugs. No resting STREAM chip
      here — the type badge above already says Livestream, and saying it twice
      in one dialog is the noise the stream's rows were spared. */
-  const onAir = current.type === 'livestream' && isOnAir(current, now);
+  const isLivestream = current.type === 'livestream';
+  const onAir = isLivestream && isOnAir(current, now);
   /* A lockup is white-on-transparent as often as not, so it needs a ground of
      its own — on the modal's paper it would simply be invisible. It gets a band
      in the event's own type colour, which is the same ground the feature header
@@ -96,23 +97,10 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
           className={styles.modalHead}
           data-lockup={hasNameLogo ? 'true' : undefined}
         >
-          {/* A name logo is the event's own name as artwork; a sponsor mark
-              goes through EventLogo, which is where the credit grammar lives:
-              the "Presented by" label appears with a mark that actually
-              loaded, or the whole credit renders nothing. A bare sponsor
-              logo at the head of the dialog read as "runs this" — the exact
-              misattribution the rows' label exists to prevent, with Hosted by
-              naming someone else two lines down. */}
-          {hasNameLogo ? (
-            current.logoUrl && (
-              <img
-                className={styles.modalLockup}
-                src={current.logoUrl}
-                alt=""
-              />
-            )
-          ) : (
-            <EventLogo event={current} size="card" />
+          {/* A name logo is the event's own name as artwork. Sponsor marks
+              are not drawn for now; see EventLogo. */}
+          {hasNameLogo && current.logoUrl && (
+            <img className={styles.modalLockup} src={current.logoUrl} alt="" />
           )}
           <div>
             {/* Suppressed when the name already contains the label — a
@@ -135,9 +123,6 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
               }
             >
               {current.name}
-              {current.roundNumber
-                ? ` · ${schedule.roundLabel} ${current.roundNumber}`
-                : ''}
             </h2>
           </div>
         </div>
@@ -181,12 +166,6 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
               </dd>
             </div>
           )}
-          {current.host && (
-            <div>
-              <dt>{copy.hostedBy}</dt>
-              <dd>{current.host}</dd>
-            </div>
-          )}
         </dl>
 
         {/* Host-authored free text, rendered as text and never as HTML —
@@ -195,18 +174,19 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
           <p className={styles.modalCopy}>{current.description}</p>
         )}
 
-        {/* Absent on some events. A dead button is worse than none, so the
-            link simply does not render rather than pointing nowhere. The
-            button is the global one (src/styles/buttons.css); .modalCta is
-            placement only. */}
-        {current.url && (
+        {/* A livestream always goes to MLH's Twitch, where it airs. Anything
+            else goes to its own page, which is absent on some events: a dead
+            button is worse than none, so the link simply does not render
+            rather than pointing nowhere. The button is the global one
+            (src/styles/buttons.css); .modalCta is placement only. */}
+        {(isLivestream || current.url) && (
           <a
             className={`hf-button ${styles.modalCta}`}
-            href={current.url}
+            href={isLivestream ? MLH_TWITCH_URL : current.url}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {copy.cta}
+            {isLivestream ? copy.watchCta : copy.cta}
           </a>
         )}
       </div>

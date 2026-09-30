@@ -15,6 +15,12 @@ export const tagged = (base, { content, ...extra }) => {
 };
 
 export const MLH_URL = tagged('https://mlh.com', { content: 'partner-mlh' });
+
+/* Every livestream on /schedule airs on MLH's Twitch channel, whatever page
+   its event links to, so the schedule's Watch button goes straight there. */
+export const MLH_TWITCH_URL = tagged('https://www.twitch.tv/mlh', {
+  content: 'schedule-livestream',
+});
 /* The season page every MLH Member Event on /fests comes from. */
 export const MLH_SEASON_URL = tagged('https://mlh.com/seasons/2027/events', {
   content: 'mlh-member-events',

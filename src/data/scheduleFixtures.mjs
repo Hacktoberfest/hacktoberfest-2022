@@ -7,11 +7,11 @@
    already use, so a placeholder URL can never resolve and is never mistaken
    for a broken real link.
 
-   Three types, which is the whole taxonomy: a workshop, a ceremony and a
+   Four types, which is the whole taxonomy: a workshop, a ceremony and a
    showcase are all `livestream`; the DEV rounds are `challenge`; Global Hack
-   Week is the one `event`. The unknown-type fallback is exercised by
-   test/schedule-types.test.mjs directly rather than by a fixture pretending to
-   a type the schedule does not have.
+   Week is the one `event`; its game nights are `minievent`. The unknown-type
+   fallback is exercised by test/schedule-types.test.mjs directly rather than
+   by a fixture pretending to a type the schedule does not have.
 
    The set mirrors the real shape of October 2026 as it has been described:
 
@@ -127,6 +127,22 @@ export const SCHEDULE_FIXTURES = [
     url: 'https://example.invalid/hacktoberfest/ghw/kickoff',
     host: 'MLH',
   },
+  /* A mini-event: a game night inside the week, not a stream, so its rail
+     chip says MINI-EVENT where a livestream's says STREAM. */
+  {
+    id: 'ghw-typeracer',
+    name: 'Mini-Event: Typeracer',
+    description:
+      'Race the rest of Global Hack Week to the fastest words per minute.',
+    type: 'minievent',
+    kind: 'session',
+    startsAt: '2026-10-10T01:00:00Z',
+    endsAt: '2026-10-10T02:00:00Z',
+    allDay: false,
+    logoUrl: null,
+    url: 'https://example.invalid/hacktoberfest/ghw/typeracer',
+    host: 'MLH',
+  },
   /* Overlaps the feature and is deliberately NOT claimed by it — see the
      claiming rule in lib/scheduleAgenda.mjs. */
   {
@@ -155,12 +171,35 @@ export const SCHEDULE_FIXTURES = [
     startsAt: '2026-10-12T16:00:00Z',
     endsAt: '2026-10-12T18:00:00Z',
     allDay: false,
-    /* A sponsored livestream: individual sessions can be backed, and the
-       credit slot is theirs. This one sits inside Global Hack Week, so the
-       mocked build shows a credit on both grounds. */
+    /* A sponsor-kind logo. The page draws none for now (see EventLogo), so
+       this proves a sponsor logo stays off the row and out of the modal. */
     logoUrl: '/sponsors/snowflake.svg',
     url: 'https://example.invalid/hacktoberfest/open-models',
     host: 'DEV',
+  },
+  /* Two slots booked but not yet named, back to back: the page folds them
+     into one "Still to be announced" stub. */
+  {
+    id: 'ghw-tba-1',
+    name: 'Unannounced stream - more info soon',
+    type: 'livestream',
+    kind: 'session',
+    startsAt: '2026-10-13T16:00:00Z',
+    endsAt: '2026-10-13T17:00:00Z',
+    allDay: false,
+    logoUrl: null,
+    url: 'https://example.invalid/hacktoberfest/ghw/tba-1',
+  },
+  {
+    id: 'ghw-tba-2',
+    name: 'Unannounced stream - more info soon',
+    type: 'livestream',
+    kind: 'session',
+    startsAt: '2026-10-13T17:00:00Z',
+    endsAt: '2026-10-13T18:00:00Z',
+    allDay: false,
+    logoUrl: null,
+    url: 'https://example.invalid/hacktoberfest/ghw/tba-2',
   },
   {
     id: 'agents-workshop',

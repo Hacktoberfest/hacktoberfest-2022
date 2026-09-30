@@ -135,21 +135,21 @@ test('one event has no logo', () => {
   );
 });
 
-/* Three types and no more: a fixture inventing a fourth would be testing a
+/* Four types and no more: a fixture inventing a fifth would be testing a
    state the schedule does not have. The fallback for an unrecognised type is
    covered directly in schedule-types.test.mjs. */
-test('every fixture uses one of the three real types', () => {
+test('every fixture uses one of the four real types', () => {
   events.forEach((event) => {
     assert.ok(
       scheduleType(event.type).known,
-      `${event.id}: ${event.type} is not one of the three`,
+      `${event.id}: ${event.type} is not one of the four`,
     );
   });
 
   assert.deepEqual(
     [...new Set(events.map((event) => event.type))].sort(),
-    ['challenge', 'event', 'livestream'],
-    'the fixtures should exercise all three',
+    ['challenge', 'event', 'livestream', 'minievent'],
+    'the fixtures should exercise all four',
   );
 });
 
@@ -191,16 +191,21 @@ test('every event appears exactly once, plus one close stub per round', () => {
   );
 });
 
-/* The stream draws three row treatments; the legend beside the zone control
-   names them, and the challenge chip is the rail's word for a window. */
-test('the legend names every row treatment and the rail has a word for a window', async () => {
+/* The legend is the rows' own chips plus the dashed last-day stub, so every
+   chip word it borrows has to exist, and the stub needs a word of its own. */
+test('the legend has a word for every chip and for the last day', async () => {
   const { schedule } = await import('../src/data/content.mjs');
-  assert.deepEqual(Object.keys(schedule.legend), ['stream', 'round', 'close']);
-  Object.values(schedule.legend).forEach((label) => {
+  [
+    schedule.streamChip,
+    schedule.miniEventChip,
+    schedule.challengeChip,
+    schedule.legend.close,
+  ].forEach((label) => {
     assert.match(label, /^[A-Z]/);
     assert.doesNotMatch(label, /—/);
   });
   assert.equal(schedule.challengeChip, 'Challenge');
+  assert.ok(schedule.eventCount.one && schedule.eventCount.many);
   assert.ok(schedule.legendLabel.length > 0);
   /* The line that says what a check-in counts for, and where the rest is. */
   assert.match(schedule.countsNote.text, /check-in/);

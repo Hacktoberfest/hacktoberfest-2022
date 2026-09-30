@@ -2270,12 +2270,30 @@ export const schedule = {
      the only state the brand orange is allowed to announce. */
   streamChip: 'Stream',
   onAirChip: 'On air',
+  /* The same rail slot on a mini-event, set in caps like the others. */
+  miniEventChip: 'Mini-event',
+  /* A run of unannounced streams inside Global Hack Week, folded into one
+     stub. `many` is rendered as `${count} ${many}`. */
+  tba: {
+    kicker: 'Still to be announced',
+    chip: 'TBA',
+    one: 'One more stream, details soon',
+    many: 'more streams, details soon',
+  },
+  /* The Global Hack Week header's tally, counted from the sessions inside
+     it: "7 days · 30 sessions". */
+  featureCount: {
+    day: 'day',
+    days: 'days',
+    session: 'session',
+    sessions: 'sessions',
+  },
   /* The DEV challenge runs all month as weekly submission windows. The
      kicker tells the truth per round — the stream's clock decides which of
      these a card wears, so four rounds stop all claiming to be open at once.
-     `upcoming` is completed with the opening weekday ("Opens Monday"). */
+     `upcoming` pairs with the stub's Last day at the window's other end. */
   roundKicker: {
-    upcoming: 'Opens',
+    upcoming: 'First day',
     open: 'Submissions open',
     closed: 'Closed',
   },
@@ -2287,35 +2305,30 @@ export const schedule = {
   /* The rail chip on a challenge round: the window's word, where a
      livestream's rail says Stream. */
   challengeChip: 'Challenge',
-  /* The legend beside the zone control, one entry per row treatment the
-     stream draws: the spined stream row, the bordered challenge window,
-     and the dashed last-day stub. */
+  /* The legend in the instrument bar: the rows' own chips (streamChip,
+     miniEventChip, challengeChip), then the dashed last-day stub, which is
+     the one row treatment with no chip to show. */
   legendLabel: 'How to read the stream',
   legend: {
-    stream: 'Stream',
-    round: 'Challenge window',
     close: 'Last day',
   },
+  /* The bar's count, after the month: "October 2026 · 43 events". */
+  eventCount: { one: 'event', many: 'events' },
   /* The stream's structural whispers: a numbered rule between Mondays, and an
      ochre one at the seam between what has happened and what has not. */
   weekLabel: 'Week',
   todayLabel: 'Today',
-  /* The rounds are one challenge reset weekly, so each block names its week —
-     the same count the stream's week rules use, anchored on the first round. */
-  roundLabel: 'Week',
-  /* Over a sponsor's mark, so a logo beside an event never reads as the
-     event's organiser. */
-  presentedByLabel: 'Presented by',
   multiDayLabel: 'Runs several days',
   modal: {
     close: 'Close',
-    hostedBy: 'Hosted by',
     /* Null on some events: not everything on the schedule has a page to send
        people to yet, and a dead button is worse than none. */
     /* Named for where it goes, not what the modal already is: the reader is
        looking at the event's details, so a button reading "Event details"
        promised more of what they had. It opens the event's own page. */
     cta: 'Open event page',
+    /* A livestream's button, which goes to MLH's Twitch channel. */
+    watchCta: 'Watch on Twitch',
   },
   /* Closes the page. The counterpart to the host callout that closes /fests:
      that one answers "no Fest near me", this one answers "I would rather be

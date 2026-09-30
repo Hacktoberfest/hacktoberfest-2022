@@ -5,6 +5,9 @@ import {
   agendaEntries,
   collapsePast,
   entryDate,
+  featureRows,
+  featureTally,
+  isUnannounced,
   mondayOf,
 } from '../src/lib/scheduleAgenda.mjs';
 
@@ -508,4 +511,62 @@ test('a close stub is not past until the window has shut', () => {
 
   const after = collapsePast(entries, '2026-10-12');
   assert.deepEqual(after.shown, entries, 'everything past collapses nothing');
+});
+
+// -- inside a feature ------------------------------------------------------
+
+const child = (id, startDate, name = id) => ({
+  kind: 'session',
+  event: { id, name, startDate, endDate: startDate },
+});
+
+const TBA = 'Unannounced stream - more info soon';
+
+test('an unannounced stream is recognised by its name', () => {
+  assert.equal(isUnannounced({ name: TBA }), true);
+  assert.equal(isUnannounced({ name: 'Opening Ceremony' }), false);
+  assert.equal(isUnannounced({}), false);
+});
+
+/* Four placeholders in a row read as one gap in the programme, not four
+   events. A run folds only within one day, so its time span stays honest. */
+test('back-to-back unannounced streams on one day fold into one row', () => {
+  const rows = featureRows([
+    child('open', '2026-10-09', 'Opening Ceremony'),
+    child('t1', '2026-10-09', TBA),
+    child('t2', '2026-10-09', TBA),
+    child('t3', '2026-10-09', TBA),
+    child('mini', '2026-10-09', 'Typeracer'),
+    child('t4', '2026-10-10', TBA),
+    child('t5', '2026-10-11', TBA),
+  ]);
+
+  assert.deepEqual(
+    rows.map((row) =>
+      row.kind === 'tba' ? row.events.map((e) => e.id) : row.event.id,
+    ),
+    ['open', ['t1', 't2', 't3'], 'mini', ['t4'], ['t5']],
+  );
+});
+
+test('a placeholder run is broken by a named session between them', () => {
+  const rows = featureRows([
+    child('t1', '2026-10-13', TBA),
+    child('day4', '2026-10-13', 'Today in Global Hack Week Day 4'),
+    child('t2', '2026-10-13', TBA),
+  ]);
+
+  assert.deepEqual(
+    rows.map((row) => row.kind),
+    ['tba', 'session', 'tba'],
+  );
+});
+
+test('the tally counts both end days and every session inside', () => {
+  const entry = {
+    event: { startDate: '2026-10-09', endDate: '2026-10-15' },
+    contains: [child('a', '2026-10-09'), child('b', '2026-10-10')],
+  };
+
+  assert.deepEqual(featureTally(entry), { days: 7, sessions: 2 });
 });

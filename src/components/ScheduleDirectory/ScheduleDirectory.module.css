@@ -90,28 +90,142 @@
   font-style: normal;
 }
 
-/* The two things a reader needs to decode the stream, on one row under the
-   header: the legend on the left, the zone control on the right. Wraps to
-   two rows on a phone, legend first. */
-.tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px 18px;
-  margin-bottom: 22px;
+/* --- Instrument bar ------------------------------------------------------
+
+   The live directory has no heading of its own: the hero above already says
+   what the month is, and a second heading only repeated it. In its place,
+   one bordered bar with the three things a reader reaches for mid-list: how
+   much is on, how to read a row, and whose clock the times are in. It sticks
+   under the site header (74px below tablet, 84px from it, border included)
+   while the stream scrolls, on its own paperDeep ground so rows pass under
+   it rather than through it. The ground bleeds into the gutter so a row's
+   6px shadow is covered too. */
+.root[data-live] {
+  padding-top: clamp(8px, 1.5vw, 16px);
 }
 
-/* The legend: three swatches drawn the way the rows are drawn, at chip
-   scale. Mono at the tag size, bold, so it reads with the chips beside it
-   rather than as fine print. */
+.toolsSticky {
+  position: sticky;
+  z-index: 5;
+  top: 74px;
+  padding: 16px 15px 12px;
+  margin-inline: -15px;
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+@media (min-width: 768px) {
+  .toolsSticky {
+    top: 84px;
+    padding-inline: 20px;
+    margin-inline: -20px;
+  }
+}
+
+.bar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  /* colors.ink / colors.white / colors.forestDeep */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 5px 5px 0 #2e4742;
+}
+
+.barInfo {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 10px 16px;
+  gap: 8px 16px;
+}
+
+.barCount {
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* colors.forest */
+  color: #3d5f58;
+}
+
+.barDivider {
+  width: 2px;
+  align-self: stretch;
+  /* colors.ink, at a quarter */
+  background: rgb(16 32 29 / 25%);
+}
+
+/* The zone control is the bar's right-hand segment rather than a box of
+   its own. */
+.bar .zonePicker {
+  border: 0;
+  border-left: 2px solid #10201d;
+}
+
+.bar .zoneInput {
+  padding-block: 12px;
+  font-size: 0.85rem;
+}
+
+/* The check-in line stays put under the bar; only the bar travels. */
+.barNote {
+  margin: 0 0 24px;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.barNote a {
+  /* colors.inkSoft */
+  color: #284b44;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* On a phone the bar stacks: count and legend over the zone control, which
+   takes the full width. */
+@media (max-width: 767px) {
+  .bar {
+    flex-direction: column;
+  }
+
+  .barInfo {
+    padding: 10px 12px;
+    border-bottom: 2px solid #10201d;
+    gap: 8px 12px;
+  }
+
+  .barDivider {
+    display: none;
+  }
+
+  .bar .zonePicker {
+    border-left: 0;
+  }
+
+  .bar .zoneInput {
+    width: auto;
+    flex: 1;
+  }
+}
+
+/* The legend: the chips the rows wear, and the dashed last-day swatch. Mono
+   at the tag size, bold, so it reads with the chips rather than as fine
+   print. */
 .legend {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   margin: 0;
   padding: 0;
-  gap: 8px 18px;
+  gap: 8px 12px;
   list-style: none;
   /* fonts.mono */
   font-family:
@@ -137,18 +251,6 @@
   height: 16px;
   /* colors.white */
   background: #f7f7f2;
-}
-
-/* The stream row: the ink card with its sky shadow. colors.ink / skyDeep */
-.legendStream {
-  border: 2px solid #10201d;
-  box-shadow: 3px 3px 0 #1f4e6b;
-}
-
-/* The challenge window: the same card with the challenge type's ink shadow. */
-.legendRound {
-  border: 2px solid #10201d;
-  box-shadow: 3px 3px 0 #10201d;
 }
 
 /* The last day: the dashed ghost. colors.rule */
@@ -430,13 +532,13 @@
    The initials fallback keeps a fixed square, because that one is ours to shape
    and a run of rows should not jog left and right down the column. */
 
-/* A sponsor credit in a row: small, quiet, and to the right of the name. */
+/* A name logo in a row, standing where the name would. */
 .ribbonLogo {
   max-width: 96px;
   height: 26px;
   flex: none;
   object-fit: contain;
-  object-position: right center;
+  object-position: left center;
 }
 
 /* What a lockup falls back to when its image is missing or fails: the name
@@ -451,28 +553,6 @@
   font-weight: 800;
   letter-spacing: -0.035em;
   line-height: 1;
-}
-
-/* A sponsor credit: the mark with its four characters of attribution, so a
-   logo beside an event never reads as the event's organiser. */
-.credit {
-  display: flex;
-  flex: none;
-  flex-direction: column;
-  align-items: end;
-  gap: 3px;
-}
-
-.creditLabel {
-  font-family:
-    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
-    Consolas, monospace;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  /* colors.muted */
-  color: #52635f;
 }
 
 /* The feature header's slot. Taller and much wider than a row's, because this
@@ -523,9 +603,8 @@
   box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
-  /* tile, name, sponsor credit, time. The credit column collapses to nothing
-     when there is no sponsor, which is most events. */
-  grid-template-columns: auto 1fr auto auto;
+  /* tile, name, rail. */
+  grid-template-columns: auto 1fr auto;
   text-align: left;
   transition:
     background 0.12s ease,
@@ -641,6 +720,15 @@
   gap: 8px;
 }
 
+/* A session's rail, stacked the way a round's ledger is: the type's chip on
+   top, right-aligned over the time, so every row carries its type in the same
+   place and the column reads as one ledger down the page. */
+.sessionRail {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+
 /* The STREAM chip on a livestream's time — the rail as the row's verb slot:
    watch live at three, the way a round's rail says submit by Sunday. Drawn by
    the tag rule above; keyed to the livestream tint and its deep partner, the
@@ -714,8 +802,8 @@
   box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
-  /* tile, text, sponsor credit, deadline. */
-  grid-template-columns: auto 1fr auto auto;
+  /* tile, text, deadline. */
+  grid-template-columns: auto 1fr auto;
   text-align: left;
   /* Every property the states below touch, or the ones left out snap while
      the rest ease — which is exactly the bug this list once had: it named
@@ -853,6 +941,32 @@
   background: #f2f2eb;
 }
 
+/* The folded placeholder run borrows the stub's drawing and gives up its
+   press: there is nothing behind it to open yet. */
+.tbaStub {
+  cursor: default;
+}
+
+.tbaStub:hover {
+  background: transparent;
+}
+
+.tbaStub .rowTime {
+  /* colors.muted */
+  color: #52635f;
+}
+
+/* Its chip is drawn dashed and empty, the same ink the stub's border uses:
+   a slot rather than a type. */
+.tbaChip {
+  padding: 1px 5px;
+  /* colors.rule */
+  border: 1px dashed #8ca59e;
+  background: transparent;
+  /* colors.muted */
+  color: #52635f;
+}
+
 .closeStub:focus-visible {
   /* colors.orange */
   outline: 3px solid #e53927;
@@ -984,6 +1098,18 @@
    paperDeep the stream sits on: the rows nested here are the same cards as
    the rows outside, and they should sit on the same ground. The extra on the
    right and bottom is room for their shadows. colors.paperDeep */
+/* The header's tally, in the rail position a row keeps its time. */
+.featureCount {
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Roboto Mono', Menlo,
+    Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .featureBody {
   display: flex;
   flex-direction: column;
@@ -1167,6 +1293,10 @@
     align-self: flex-start;
   }
 
+  .sessionRail {
+    align-items: flex-start;
+  }
+
   .ledgerLabel {
     text-align: left;
   }
@@ -1180,13 +1310,8 @@
     margin-top: 0;
   }
 
-  /* The compact tier has to survive the wrap, or the third crit's hierarchy
-     dies at 375px: with the stack left to auto-placement a session measured
-     113px against the round's 114 — near-equal masses again — and the sponsor
-     credit landed in the empty column UNDER the tile, which is also where its
-     ghost label appeared. Everything that is not the tile lives in column
-     two: name, then time, then the credit on its own line (credit plus chip
-     plus time is ~300px, which one 375px line cannot hold). */
+  /* Everything that is not the tile lives in column two: name, then the
+     stacked rail under it. */
   .sessionRow {
     row-gap: 3px;
   }
@@ -1196,17 +1321,19 @@
     margin-top: 0;
   }
 
-  .sessionRow .credit {
-    flex-direction: row;
-    align-items: center;
-    grid-row: 3;
-    grid-column: 2;
-    justify-self: start;
-    gap: 6px;
-  }
-
   .featureHead {
     grid-template-columns: auto 1fr;
+    row-gap: 4px;
+  }
+
+  /* The tally drops under the lockup, and the plaque spans both lines. */
+  .featureHead .plaque {
+    grid-row: 1 / span 2;
+  }
+
+  .featureCount {
+    grid-column: 2;
+    font-size: 0.62rem;
   }
 }
 
