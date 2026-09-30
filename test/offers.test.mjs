@@ -8,6 +8,7 @@ import {
   normalizeOffers,
   offersPageState,
   offersWithCodes,
+  promoLocked,
 } from '../src/lib/offers.mjs';
 
 /* The seam's refusals. The API already de-duplicates and filters; these
@@ -161,6 +162,7 @@ test('requirements keep known kinds, in order, with met as true, false or null',
         eventId: 'e1',
         requirements: [
           { kind: 'github_oauth', met: null },
+          { kind: 'checked_in', met: false },
           { kind: 'discord', met: true },
           null,
           'verified_phone',
@@ -174,6 +176,7 @@ test('requirements keep known kinds, in order, with met as true, false or null',
 
   assert.deepEqual(offer.promo.requirements, [
     { kind: 'github_oauth', met: null },
+    { kind: 'checked_in', met: false },
     { kind: 'verified_phone', met: null },
     { kind: 'verified_phone', met: false },
     { kind: 'github_oauth', met: null },
@@ -228,8 +231,16 @@ test('the eligible scenario is an attendee MLH could not check', async () => {
     offers.map((offer) => offer.company.id),
     OFFERS.map((offer) => offer.company.id),
   );
-  assert.ok(requirements.length > 0);
-  assert.ok(requirements.every((requirement) => requirement.met === null));
+  const account = requirements.filter((r) => r.kind !== 'checked_in');
+  const checkIns = requirements.filter((r) => r.kind === 'checked_in');
+  assert.ok(account.length > 0);
+  assert.ok(account.every((requirement) => requirement.met === null));
+  /* A check-in is answered from the attendee's own registration, not the
+     MLH account read, so the API never sends it as unknown. */
+  assert.ok(checkIns.length > 0);
+  assert.ok(
+    checkIns.every((requirement) => typeof requirement.met === 'boolean'),
+  );
 });
 
 test('the nothing-done scenario is the empty state', async () => {
@@ -271,6 +282,22 @@ const promoFor = (id) => ({
   description: null,
   restrictions: null,
   requirements: [],
+});
+
+/* A code is locked while MLH says a step it needs is not done, and its
+   button greys out. Unknown is not a lock: the API could not read the
+   account, and MLH's claim page checks again. */
+test('a promo is locked only by a step MLH says is not done', () => {
+  const kinds = ['verified_phone', 'github_oauth', 'checked_in'];
+  const promo = (...met) => ({
+    requirements: met.map((value, i) => ({ kind: kinds[i], met: value })),
+  });
+
+  assert.equal(promoLocked(promo()), false);
+  assert.equal(promoLocked(promo(true, true, true)), false);
+  assert.equal(promoLocked(promo(null, null)), false);
+  assert.equal(promoLocked(promo(false)), true);
+  assert.equal(promoLocked(promo(true, null, false)), true);
 });
 
 test('offersWithCodes keeps only sponsors with a code, in the API order', () => {

@@ -1218,7 +1218,8 @@ export const EMPTY_FEST_DASHBOARD = Object.freeze({
    says a real sponsor runs something it does not. Logos are null: there is
    no real MLH logo to point at, and the card must read without one.
    Requirements follow the same rule: the made-up Acme pool carries one met
-   and one unmet, so both lines are reviewable, and DigitalOcean's carries
+   and two unmet (an account step and a check-in), so every line is
+   reviewable, and DigitalOcean's carries
    none, so the review build says nothing about what the real pool asks. */
 export const OFFERS = Object.freeze([
   {
@@ -1243,6 +1244,7 @@ export const OFFERS = Object.freeze([
       requirements: [
         { kind: 'verified_phone', met: true },
         { kind: 'github_oauth', met: false },
+        { kind: 'checked_in', met: false },
       ],
     },
   },
@@ -1290,9 +1292,11 @@ export const OFFERS = Object.freeze([
 /* Scenarios with a card list of their own. Anything not named here gets
    OFFERS. `nothing-done` is someone with no sponsor anything yet: the
    empty state. `eligible` is OFFERS for someone whose MLH account the API
-   could not check (its MLH read failed): every requirement stated, none
-   marked done or not. The status is the attendee's, not the card's, so it
-   is a scenario rather than a fourth card. */
+   could not check (its MLH read failed): every account requirement stated,
+   none marked done or not. A check-in keeps its status, as the API answers
+   it from the attendee's own registration, never from that read. The status
+   is the attendee's, not the card's, so it is a scenario rather than a
+   fourth card. */
 export const OFFERS_BY_SCENARIO = Object.freeze({
   eligible: Object.freeze(
     OFFERS.map((offer) =>
@@ -1301,10 +1305,11 @@ export const OFFERS_BY_SCENARIO = Object.freeze({
             ...offer,
             promo: {
               ...offer.promo,
-              requirements: offer.promo.requirements.map(({ kind }) => ({
-                kind,
-                met: null,
-              })),
+              requirements: offer.promo.requirements.map((requirement) =>
+                requirement.kind === 'checked_in'
+                  ? requirement
+                  : { kind: requirement.kind, met: null },
+              ),
             },
           }
         : offer,

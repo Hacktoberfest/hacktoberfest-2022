@@ -151,3 +151,30 @@ test('a code card leads with its title, no sponsor label above it', async () => 
     'the title opens the card',
   );
 });
+
+/* A check-in happens at the Fest, so there is nothing to fix about it
+   here: an unmet one reads as locked (muted, the site's padlock), not as
+   the maroon alert a missing MyMLH step gets. */
+test('an unmet check-in reads as locked, not as an alert', async () => {
+  const source = await readFile(
+    new URL('../src/components/SponsorOffers/index.js', import.meta.url),
+    'utf8',
+  );
+
+  assert.ok(source.includes("requirement.kind === 'checked_in'"));
+  assert.ok(source.includes('<LockIcon />'));
+});
+
+/* A locked code (lib/offers.mjs's promoLocked) greys its button out and
+   does not claim: MLH would refuse it. aria-disabled, not disabled, so
+   keyboard focus can still land on it next to the lines saying why. */
+test('a locked code greys out its button and does not claim', async () => {
+  const source = await readFile(
+    new URL('../src/components/SponsorOffers/index.js', import.meta.url),
+    'utf8',
+  );
+
+  assert.ok(source.includes('const locked = promoLocked(promo);'));
+  assert.ok(source.includes("if (locked || state === 'claiming') return;"));
+  assert.ok(source.includes('aria-disabled={claiming || locked}'));
+});

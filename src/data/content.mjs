@@ -3512,8 +3512,10 @@ export const my = {
        missing, keyed by the API's kind, and links to where it is done on
        MyMLH (data/links.js). `act` follows when MLH says the step is not
        done; checkRequirement follows when MLH could not tell, so no one is
-       told to redo a step they have done. A done step shows nothing. The
-       button stays live either way: MLH's claim page checks again. */
+       told to redo a step they have done. A done step shows nothing. While a
+       step is not done the button greys out; when MLH could not tell, it
+       stays live and MLH's claim page checks again. A check-in has nothing
+       to do on MyMLH, so it has no `act` and no link. */
     requirements: {
       verified_phone: {
         needs: 'Needs a verified phone number on MyMLH.',
@@ -3522,6 +3524,9 @@ export const my = {
       github_oauth: {
         needs: 'Needs a connected GitHub account on MyMLH.',
         act: 'Connect it',
+      },
+      checked_in: {
+        needs: 'Unlocks once you check in at your Fest.',
       },
     },
     checkRequirement: 'Check on MyMLH',

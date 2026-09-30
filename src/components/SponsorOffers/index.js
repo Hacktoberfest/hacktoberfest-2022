@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { my } from 'data/content.mjs';
 import { MLH_GITHUB_URL, MLH_PHONE_URL } from 'data/links';
-import { claimAndGo, offersWithCodes } from 'lib/offers.mjs';
+import { claimAndGo, offersWithCodes, promoLocked } from 'lib/offers.mjs';
 import { clearSession, stashReturnTo } from 'lib/session.mjs';
 
 import styles from './SponsorOffers.module.css';
@@ -82,6 +82,17 @@ const PlusIcon = () => (
   </svg>
 );
 
+/* The site's padlock (LockedBand's LockedPanel), for a code that unlocks
+   at check-in. */
+const LockIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <path
+      d="M7 10V8a5 5 0 0 1 10 0v2h1.5v11h-13V10H7zm2.5 0h5V8a2.5 2.5 0 0 0-5 0v2z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 const TrophyIcon = () => (
   <svg
     viewBox="0 0 24 24"
@@ -102,24 +113,36 @@ const TrophyIcon = () => (
 
 /* Only a missing step gets a line. `false` is MLH saying it is not done,
    so the line asks; `null` is MLH not telling us, so it only points at
-   where to check. A done step shows nothing. */
+   where to check. A done step shows nothing. A check-in happens at the
+   Fest, so there is nothing to do about it here: an unmet one reads as
+   locked, muted with the padlock, not as an alert, and has no link. */
 const RequirementLine = ({ requirement }) => {
   if (requirement.met === true) return null;
   const words = copy.requirements[requirement.kind];
+  if (requirement.kind === 'checked_in') {
+    return (
+      <p className={styles.locked}>
+        <LockIcon />
+        <span>{words.needs}</span>
+      </p>
+    );
+  }
+  const href = REQUIREMENT_HREFS[requirement.kind];
   const unmet = requirement.met === false;
 
   return (
     <p className={unmet ? styles.need : styles.check}>
       {unmet && <AlertIcon />}
       <span>
-        {words.needs}{' '}
-        <a
-          href={REQUIREMENT_HREFS[requirement.kind]}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {unmet ? words.act : copy.checkRequirement}
-        </a>
+        {words.needs}
+        {href && (
+          <>
+            {' '}
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {unmet ? words.act : copy.checkRequirement}
+            </a>
+          </>
+        )}
       </span>
     </p>
   );
@@ -143,18 +166,19 @@ const ChallengeLine = ({ challenge }) => (
 );
 
 /* One code. The link is fetched on click (lib/offers.mjs says why), and a
-   busy button is what keeps a double click to one request; it is
-   aria-disabled rather than disabled so keyboard focus stays on it. A session
-   that died while the page sat open goes back through sign-in to this page,
-   the same exit the page's own fetch takes. The button stays live whatever
-   the requirements say: MLH's claim page checks them again and says what is
-   missing. */
+   busy button is what keeps a double click to one request. A locked code
+   (a step MLH says is not done, named in the lines above it) greys its
+   button out the same way and never asks for a link MLH would refuse. Both
+   are aria-disabled rather than disabled so keyboard focus stays on the
+   button. A session that died while the page sat open goes back through
+   sign-in to this page, the same exit the page's own fetch takes. */
 const CodeRow = ({ offer }) => {
   const { company, promo, challenges } = offer;
   const [state, setState] = useState('idle');
+  const locked = promoLocked(promo);
 
   const claim = async () => {
-    if (state === 'claiming') return;
+    if (locked || state === 'claiming') return;
     setState('claiming');
     const outcome = await claimAndGo({
       promo,
@@ -202,7 +226,7 @@ const CodeRow = ({ offer }) => {
           type="button"
           className="hf-button hf-button--small"
           onClick={claim}
-          aria-disabled={claiming}
+          aria-disabled={claiming || locked}
         >
           {claiming ? copy.claiming : copy.claimCta}
         </button>

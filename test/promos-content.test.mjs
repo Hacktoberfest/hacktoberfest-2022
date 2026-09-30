@@ -124,14 +124,24 @@ test('a stale offer does not ask for a retry', () => {
 
 /* A code's row names a missing step and says where to do it; a done step
    shows nothing, so each kind needs only what it needs and how to act. */
-test('every requirement kind says what it needs on MyMLH and how to act', () => {
+test('every account requirement says what it needs on MyMLH and how to act', () => {
   assert.deepEqual(Object.keys(copy.requirements), [
     'verified_phone',
     'github_oauth',
+    'checked_in',
   ]);
-  Object.values(copy.requirements).forEach((kind) => {
-    assert.deepEqual(Object.keys(kind), ['needs', 'act']);
-    assert.match(kind.needs, /^Needs .* on MyMLH\.$/);
+  [copy.requirements.verified_phone, copy.requirements.github_oauth].forEach(
+    (kind) => {
+      assert.deepEqual(Object.keys(kind), ['needs', 'act']);
+      assert.match(kind.needs, /^Needs .* on MyMLH\.$/);
+    },
+  );
+});
+
+/* A check-in happens at the Fest, not on MyMLH, so it has nothing to act on. */
+test('the check-in requirement says only what unlocks the code', () => {
+  assert.deepEqual(copy.requirements.checked_in, {
+    needs: 'Unlocks once you check in at your Fest.',
   });
 });
 

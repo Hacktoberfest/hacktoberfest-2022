@@ -49,12 +49,13 @@ const challengeFrom = (value) => {
   };
 };
 
-/* What MLH asks of an account before its claim page hands over this code,
-   and whether this participant has it done. Only kinds the card has words
+/* What MLH asks before its claim page hands over this code (an account
+   step, or a check-in at the event), and whether this participant has it
+   done. Only kinds the card has words
    for survive; a `met` that is not a boolean is the API saying it could not
    check, which the card states neutrally. An API that predates requirements
    sends none, and none is what the card shows. */
-const REQUIREMENT_KINDS = ['verified_phone', 'github_oauth'];
+const REQUIREMENT_KINDS = ['verified_phone', 'github_oauth', 'checked_in'];
 
 const requirementFrom = (value) => {
   if (!value || !REQUIREMENT_KINDS.includes(value.kind)) return null;
@@ -63,6 +64,14 @@ const requirementFrom = (value) => {
     met: typeof value.met === 'boolean' ? value.met : null,
   };
 };
+
+/* Whether a code is locked: MLH says a step it needs is not done (a phone
+   to verify, a GitHub account to connect, a check-in at the Fest). Its
+   button greys out, since MLH's claim page would refuse it. Unknown (`met`
+   null, the API could not read the account) is not a lock: the button stays
+   live and MLH's claim page checks again. */
+export const promoLocked = (promo) =>
+  promo.requirements.some((requirement) => requirement.met === false);
 
 /* The rows /my/promos/ lists: the codes. A sponsor with only a challenge
    has no row; its challenge shows only as the small link on its own code,

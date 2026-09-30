@@ -110,6 +110,7 @@
    says which is which. */
 .need,
 .check,
+.locked,
 .challenge {
   display: flex;
   align-items: flex-start;
@@ -120,6 +121,7 @@
 }
 
 .need svg,
+.locked svg,
 .challenge svg {
   width: 14px;
   height: 14px;
@@ -139,8 +141,11 @@
   color: inherit;
 }
 
-/* MLH could not tell: muted, and it only points at where to check. */
+/* MLH could not tell (it only points at where to check), a code that
+   unlocks at check-in, and a challenge: muted, as none of them is
+   something to fix here. */
 .check,
+.locked,
 .challenge {
   /* colors.muted */
   color: #52635f;
