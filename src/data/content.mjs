@@ -2727,6 +2727,261 @@ export const my = {
         ],
       },
     },
+    /* The ended Hack Day's "Get reimbursed" card: direction A of the
+       2026-09-30 canvas, one card with three steps on a rail, then the sent
+       state, which stays for good. Wording is the canvas's; where the spec
+       revised it (the winners fix line, the hour the sweep can take), the
+       spec's.
+
+       A line with a link or a bold run in it is a list of pieces, as the
+       Useful info prize lines are: a string is text, { strong } bold, and
+       { email } the team's inbox as a mailto link.
+
+       The check-in threshold never appears: it stays in the API, so the
+       failing row says "not enough" and points at Organizer HQ. The cap of
+       50 is the handbook's own and public, and the limit block names it
+       from the API's numbers. */
+    reimbursement: {
+      title: 'Get reimbursed',
+      stepCounter: (step, total) => `Step ${step} of ${total}`,
+      intro:
+        'Hacktoberfest Hack Days are eligible for reimbursement. Complete the steps below and we’ll get you set up on our reimbursement platform.',
+      email: 'hacktoberfest@mlh.io',
+      /* The mono status at the right of each step's title. */
+      status: {
+        done: 'Done',
+        locked: 'Locked',
+        agreed: 'Agreed',
+        approved: 'Approved by MLH',
+      },
+      wrapUp: {
+        title: 'Wrap up your Fest',
+        progress: (done, total) => `${done} of ${total} done`,
+        labels: {
+          checkIns: 'Attendees checked in',
+          submissions: 'Projects submitted',
+          winners: 'Winner selected for all challenges with submissions',
+          photos: 'Photos uploaded',
+        },
+        /* Read before each row's label, for screen readers: the square
+           beside it says the same thing in colour. */
+        verdicts: {
+          pass: 'Done:',
+          fail: 'Not yet:',
+          pending: 'Still checking:',
+        },
+        fix: {
+          checkIns: 'Not enough attendees are checked in yet.',
+          checkInsCta: 'Check people in on Organizer HQ',
+          submissions: 'No projects have been submitted yet.',
+          winners: (names) => {
+            const list =
+              names.length > 1
+                ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`
+                : names[0];
+            return `${list} ${names.length > 1 ? 'need' : 'needs'} a winner.`;
+          },
+          winnersCta: 'Pick winners in Organizer HQ',
+          photos: 'No photos in your album yet.',
+          photosCta: 'Upload photos',
+        },
+        photosCount: (count) =>
+          `${count} ${count === 1 ? 'photo' : 'photos'} in your album`,
+        /* FestNet's sweep reads MLH and SmugMug every 30 minutes once a
+           Fest has ended, so an hour covers the first read and a retry. */
+        pending: 'Still checking. This can take up to an hour after your Fest.',
+        /* Winners are unknown whenever FestNet's read of MLH's
+           challenge submissions fails, which can last a while, so this
+           row promises no time. The cta is a link to Organizer HQ. */
+        winnersPending: {
+          cta: 'Pick your winners in Organizer HQ',
+          tail: '.',
+        },
+        hint: 'Recently completed one of these steps? Please wait up to an hour for the change to sync to Hacktoberfest.com.',
+        summary: 'Check-ins, projects, winners and photos are all in.',
+        approvedSummary:
+          'You have completed all the steps required to be eligible for reimbursement.',
+      },
+      claim: {
+        title: 'Your reimbursement',
+        /* The handbook is linked from the statement that says it was
+           read, rather than from a row of its own. */
+        handbook: {
+          href: 'https://hacktoberfest-handbook.mlh.com/reimbursements',
+          statement: [
+            'I’ve read the ',
+            {
+              link: 'reimbursements page',
+              href: 'https://hacktoberfest-handbook.mlh.com/reimbursements',
+            },
+            ' in the host handbook.',
+          ],
+        },
+        limit: {
+          label: 'Your limit',
+          currency: 'USD',
+          calc: (checkIns, rate, country) => [
+            { strong: String(checkIns) },
+            ` ${checkIns === 1 ? 'check-in' : 'check-ins'} × `,
+            { strong: rate },
+            ` per check-in in ${country}`,
+          ],
+          body: 'This is the most MLH can reimburse for your Fest. You’re paid back what you actually spent, up to this amount, against itemized receipts.',
+          /* Over the cap, a line saying why the count stops at the cap.
+             The body below it is the same as anyone's. */
+          cappedHint: (cap) =>
+            `Reimbursement is capped at up to ${cap} check-ins per Fest.`,
+        },
+        /* Runs on from the limit's body, in the same paragraph. */
+        spentMore: [
+          'Spent more than this? Email ',
+          { email: 'hacktoberfest@mlh.io' },
+          ' before you send any receipts and we’ll help you work out what to do.',
+        ],
+        agreeStatement:
+          'I understand the reimbursement policy and agree to follow it.',
+        continueCta: 'Continue',
+        /* Continue pressed before both boxes are ticked. */
+        incomplete: 'Tick both boxes to continue.',
+        /* Folded, once Continue is pressed. */
+        summary: (amount, checkIns) => [
+          'Up to ',
+          { strong: `${amount} USD` },
+          ` for ${checkIns} ${checkIns === 1 ? 'check-in' : 'check-ins'}. You’ve read the handbook and agreed to the policy.`,
+        ],
+        /* The Fest's country is not in the handbook's rate table. The note
+           replaces the limit, the agreement and Continue. */
+        noRate: {
+          lead: (country) =>
+            `We don’t have a set rate for ${country || 'your country'}.`,
+          body: [
+            'Email ',
+            { email: 'hacktoberfest@mlh.io' },
+            ' and we’ll work out your reimbursement with you, and tell you what comes next.',
+          ],
+          cta: 'Email hacktoberfest@mlh.io',
+          handbook: [
+            'In the meantime, read the ',
+            {
+              link: 'reimbursements page',
+              href: 'https://hacktoberfest-handbook.mlh.com/reimbursements',
+            },
+            ' in the host handbook.',
+          ],
+        },
+      },
+      payee: {
+        title: 'Tell us who gets paid',
+        intro:
+          'This person gets the invite from Ramp and the payment. It can be you or anyone on your team.',
+        fields: {
+          firstName: 'First name',
+          lastName: 'Last name',
+          email: 'Email',
+        },
+        emailHint: 'Ramp sends the invite here. Use an address they check.',
+        onceLead: 'You can only send this once.',
+        onceBody: [
+          'It covers the whole Fest, for every host. To change it afterwards, email ',
+          { email: 'hacktoberfest@mlh.io' },
+          '.',
+        ],
+        sendCta: 'Send to MLH',
+        sendingCta: 'Sending…',
+        /* By lib/reimbursement.mjs's submitOutcome. A 409 saying someone
+           already sent it has no line: the page reloads and shows theirs. */
+        errors: {
+          invalid:
+            'Check the details: every field needs filling in, and the email needs to be a full address.',
+          changed:
+            'Something about your Fest changed since this page loaded. Reload the page to see where it stands.',
+          unavailable:
+            'We couldn’t reach MLH to send this. Try again in a moment.',
+        },
+      },
+      /* For good, from the API's submission: every host of the Fest sees
+         it, whoever sent it. The next steps are MLH's onboarding email,
+         adapted; the payout timing follows the email (under a week), not
+         the handbook (about 30 days after receipts). */
+      sent: {
+        title: 'You’re set up for reimbursement',
+        meta: ({ byYou, date, amount }) =>
+          [
+            `Sent by ${byYou ? 'you' : 'a co-host'}`,
+            date ? ` on ${date}` : '',
+            amount ? ` · up to ${amount} USD` : '',
+          ].join(''),
+        ramp: (name, email) => [
+          'Look out for an invite from ',
+          { strong: 'Ramp' },
+          ', MLH’s reimbursement platform, within 5 business days. It goes to ',
+          name,
+          ' at ',
+          { strong: email },
+          '.',
+        ],
+        rampNoPayee: [
+          'Look out for an invite from ',
+          { strong: 'Ramp' },
+          ', MLH’s reimbursement platform, within 5 business days.',
+        ],
+        nextLabel: 'What happens next',
+        next: {
+          accept: 'Accept the Ramp invite and set up the account.',
+          details:
+            'Fill in your contact, bank and tax details. Missing details can delay payment.',
+          id: 'You may need to upload an ID (passport, driver’s license or national ID) to verify yourself.',
+          receipts:
+            'Upload full itemized receipts. If Ramp asks for a Class, Category or memo, use these:',
+          paid: 'Once MLH approves your receipts, the money goes straight to your bank account. That usually takes under a week, depending on your country.',
+          deadline: (receipts, rampCloses) => [
+            { strong: `Submit your receipts by ${receipts}` },
+            `, 30 days after your Fest. Your Ramp account closes on ${rampCloses}.`,
+          ],
+          /* A Fest with no usable date: the same rule, in days. */
+          deadlineUndated: [
+            { strong: 'Submit your receipts within 30 days of your Fest.' },
+            ' Your Ramp account closes 60 days after it.',
+          ],
+        },
+        /* The memo's value is the Fest's full name, from the page. */
+        rampFields: {
+          class: { label: 'Class', value: 'Club Events' },
+          category: {
+            label: 'Category',
+            value: '15080 - Facilities, Catering, & Attendee Transportation',
+          },
+          memo: { label: 'Memo' },
+        },
+        copyCta: 'Copy',
+        copiedCta: 'Copied',
+        copyFailedCta: 'Select it',
+        questions: [
+          'Questions? Email ',
+          { email: 'hacktoberfest@mlh.io' },
+          '.',
+        ],
+      },
+    },
+    /* An ended Meet Up. Meet Ups are not funded, so there is no claim:
+       the card thanks the host and asks for photos, keeping the album's
+       two links, the upload first since it is the host's task. With no
+       links yet it says they are coming, in the Photo gallery card's
+       words. */
+    thanks: {
+      title: 'Thanks for hosting!',
+      body: 'We hope your Meetup went well! We’d love for you to share photos with us.',
+      upload: {
+        label: 'Upload',
+        hint: 'Add your photos to MLH’s album for this Fest.',
+        cta: 'Upload photos',
+      },
+      gallery: {
+        label: 'Gallery',
+        hint: 'Share the album with your community.',
+        cta: 'Open gallery',
+      },
+    },
     notFound: {
       eyebrow: 'Fest dashboard',
       heading: { lead: 'We could not', accent: 'find that Fest.' },

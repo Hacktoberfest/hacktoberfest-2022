@@ -13,11 +13,13 @@
 import {
   EMPTY_FEST_DASHBOARD,
   FEST_DASHBOARDS,
+  REVIEW_FESTS,
   SCENARIOS,
   DEFAULT_SCENARIO,
   selectScenario,
 } from '../data/fixtures.mjs';
 import { apiFetch } from './apiClient.mjs';
+import { normalizeReimbursement } from './reimbursement.mjs';
 import { API_BASE_URL } from './session.mjs';
 
 const number = (value) =>
@@ -135,6 +137,13 @@ export const normalizeDashboard = (body) => {
       ...('packContents' in dashboard
         ? { packContents: packContents(dashboard.packContents) }
         : {}),
+      /* Same seam again, for the ended page. An API from before wrap-up
+         omits the key, and an ended Hack Day shows its counts only rather
+         than a claim it cannot back. Sent but unreadable is null, which
+         does the same. See lib/reimbursement.mjs for the field rules. */
+      ...('reimbursement' in dashboard
+        ? { reimbursement: normalizeReimbursement(dashboard.reimbursement) }
+        : {}),
     },
   };
 };
@@ -156,15 +165,19 @@ export const normalizeDashboard = (body) => {
    states off every review link; and the mocked Confirm writes nothing, so
    the card's fresh dashboard link would 404 straight after the confetti.
    The card still hides the link until the step is done (hasFestDashboard),
-   so only a hand-typed review link reaches an unacknowledged Fest here. */
+   so only a hand-typed review link reaches an unacknowledged Fest here.
+
+   The ended Fests (REVIEW_FESTS) come last: they are on no scenario's /my,
+   so a hand-typed review link is the only way to them. */
 const mockDashboard = async (festId, scenario) => {
   const named =
     SCENARIOS[selectScenario(scenario)] || SCENARIOS[DEFAULT_SCENARIO];
   const searched = [named, ...Object.values(SCENARIOS)];
 
-  const fest = searched
-    .flatMap((fixture) => fixture.fests || [])
-    .find((entry) => entry.id === festId);
+  const fest = [
+    ...searched.flatMap((fixture) => fixture.fests || []),
+    ...REVIEW_FESTS,
+  ].find((entry) => entry.id === festId);
 
   if (!fest) {
     const error = new Error(`No mocked Fest for id ${festId}`);

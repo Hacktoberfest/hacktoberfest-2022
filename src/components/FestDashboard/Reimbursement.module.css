@@ -1,0 +1,925 @@
+/* The ended Fest's cards: "Get reimbursed" and the Meet Up's thanks.
+
+   Same conventions as FestDashboard.module.css: CSS Modules cannot import
+   src/styles/tokens.js, so every colour is inlined with its token named in
+   a comment, and nothing here is styled-components (this page renders
+   entirely in the browser, where styled-components ship no CSS).
+
+   The card wears the pack card's paper-and-maroon dress, stacked rather
+   than in the pack's label column, because three steps need the width.
+   The verdict squares, the statement boxes and the primary button are
+   the final acknowledgements' (AcknowledgementsModal.module.css),
+   restated without their entrance animations. */
+
+.card {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  /* colors.ink border, colors.white ground, colors.maroon shadow */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 6px 6px 0 #671912;
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 22px 24px;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.6rem, 6vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* The sent heading takes focus after a send; the ring is the site's. */
+.title:focus {
+  outline: none;
+}
+
+.title:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 4px;
+}
+
+/* "Step 2 of 3", in the mono label voice. */
+.counter,
+.label {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.label {
+  margin-top: 4px;
+}
+
+.line {
+  margin: 0;
+  /* colors.inkSoft */
+  color: #284b44;
+}
+
+.lead {
+  margin: 0;
+  /* colors.ink */
+  color: #10201d;
+  font-size: 1.06rem;
+}
+
+.hint {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.strong {
+  font-weight: 700;
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* A link inside a sentence: FestDashboard's .textLink. */
+.link {
+  /* colors.ink */
+  color: #10201d;
+  font-weight: 600;
+  text-decoration: underline;
+  /* colors.orange */
+  text-decoration-color: #e53927;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.link:hover {
+  /* colors.maroon */
+  color: #671912;
+}
+
+.link:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* The rail: one square marker per step on a line that is ink below a
+   done step and rule-grey otherwise, like the event pack's journey but in
+   squares, the acknowledgements' progress shape. */
+.rail {
+  display: grid;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .rail {
+    margin-top: 10px;
+  }
+}
+
+.railStep {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 12px;
+  padding-bottom: 22px;
+}
+
+.railStep:last-child {
+  padding-bottom: 0;
+}
+
+.railStep::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  bottom: 0;
+  left: 14px;
+  width: 2px;
+  /* colors.rule */
+  background: #8ca59e;
+}
+
+.railStep:last-child::before {
+  display: none;
+}
+
+.stepDone::before {
+  /* colors.ink */
+  background: #10201d;
+}
+
+@media (min-width: 768px) {
+  .railStep {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .railStep::before {
+    top: 30px;
+    left: 16px;
+  }
+}
+
+.mark {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  /* colors.ink border, colors.white ground */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .mark {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+.markCheck {
+  width: 18px;
+  height: 18px;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.stepDone .mark {
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+.stepHere .mark {
+  /* colors.orange ground, colors.white type, colors.maroon shadow */
+  background: #e53927;
+  color: #f7f7f2;
+  box-shadow: 3px 3px 0 #671912;
+}
+
+.stepTodo .mark {
+  /* colors.rule */
+  border-color: #8ca59e;
+  color: #8ca59e;
+}
+
+.stepBody {
+  min-width: 0;
+}
+
+.stepHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  flex-wrap: wrap;
+  min-height: 30px;
+  padding-top: 4px;
+}
+
+.stepTitle {
+  margin: 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .stepTitle {
+    font-size: 1.3rem;
+  }
+}
+
+.stepTodo .stepTitle {
+  /* colors.muted */
+  color: #52635f;
+}
+
+.stepStatus {
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.stepHere .stepStatus {
+  /* colors.orangeDeep */
+  color: #b8301f;
+}
+
+.stepDone .stepStatus {
+  /* colors.forest */
+  color: #3d5f58;
+}
+
+.summary {
+  margin: 2px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.9rem;
+}
+
+/* The open step: a parcel row's paper, holding the step's content. */
+.panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 10px;
+  padding: 14px;
+  /* colors.rule on colors.paper */
+  border: 1px solid #8ca59e;
+  background: #f2f2eb;
+}
+
+@media (min-width: 768px) {
+  .panel {
+    padding: 18px;
+  }
+}
+
+/* Step 1's rows: the acknowledgements' verdict squares. */
+.checks {
+  display: grid;
+  gap: 12px;
+  margin: 4px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.verdict {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  background: transparent;
+}
+
+.verdictIcon {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.verdictPass {
+  /* colors.forest */
+  background: #3d5f58;
+}
+
+.verdictFail {
+  /* colors.orangeDeep */
+  background: #b8301f;
+}
+
+/* The advisory yellow: neither a pass nor a failure, and the ink icon
+   keeps its contrast on it. */
+.verdictPending {
+  /* colors.ochre */
+  background: #f5b726;
+}
+
+.verdictPending .verdictIcon {
+  /* colors.ink */
+  color: #10201d;
+}
+
+.checkLabel {
+  min-width: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.checkSub {
+  display: block;
+  margin-top: 2px;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* The upload button under "No photos in your album yet.", on a line of
+   its own: smallButton is inline-flex, which ran it into the end of the
+   sentence. Two classes deep so it outranks smallButton, declared later. */
+.checkSub .checkAction {
+  display: flex;
+  margin-top: 10px;
+}
+
+/* A parcel row: chip, a line, an action. On a phone all three stack:
+   beside the chip, the line was squeezed into a column a few words
+   wide. From 480px the chip and line share a row and the action drops
+   under them; from 640px all three sit in one row. */
+.rows {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 14px;
+  row-gap: 8px;
+  align-items: center;
+  padding: 12px 14px;
+  /* colors.rule on colors.paper */
+  border: 1px solid #8ca59e;
+  background: #f2f2eb;
+}
+
+.row > .chip {
+  justify-self: start;
+}
+
+.row > .smallButton {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+@media (min-width: 480px) {
+  .row {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .row > .smallButton {
+    grid-column: auto;
+  }
+}
+
+.chip {
+  padding: 4px 8px;
+  /* colors.white on colors.ink */
+  background: #10201d;
+  color: #f7f7f2;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rowText {
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.9rem;
+}
+
+/* FestDashboard's parcel button. */
+.smallButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 8px 12px;
+  /* colors.ink border, colors.white on colors.orange */
+  border: 2px solid #10201d;
+  background: #e53927;
+  color: #f7f7f2;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.smallButton:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
+}
+
+.smallButtonGhost {
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+}
+
+.smallButtonDone {
+  /* colors.forest */
+  border-color: #3d5f58;
+  color: #3d5f58;
+}
+
+/* The arrow after a link that opens another site in a new tab. */
+.linkIcon {
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.25em;
+  vertical-align: -0.05em;
+}
+
+/* The acknowledgements' accept box. The real input stays for keyboard
+   and screen readers; the painted box is what everyone sees, and its hard
+   shadow presses in as the tick lands. */
+.statement {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.statementInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.statementBox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  /* colors.ink border, colors.white ground, colors.maroon shadow */
+  border: 2px solid #10201d;
+  background: #f7f7f2;
+  box-shadow: 3px 3px 0 #671912;
+  transition:
+    background 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.statementCheck {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+  opacity: 0;
+}
+
+.statementInput:checked + .statementBox {
+  /* colors.forest ground, colors.maroon shadow */
+  background: #3d5f58;
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #671912;
+}
+
+.statementInput:checked + .statementBox .statementCheck {
+  opacity: 1;
+}
+
+.statementInput:focus-visible + .statementBox {
+  /* colors.ink */
+  box-shadow: 0 0 0 4px #10201d;
+}
+
+.statementText {
+  min-width: 0;
+}
+
+/* Step 2 opens on the limit: its label, the amount in the counts'
+   display face, then how it was worked out underneath, as a caption. */
+.figure {
+  display: grid;
+  gap: 6px;
+}
+
+.money {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(3.2rem, 11vw, 4.5rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.currency {
+  margin-left: 8px;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.caption {
+  margin: 0;
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.9rem;
+}
+
+.caption strong {
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* Both agreements together, right above Continue. */
+.agree {
+  display: grid;
+  gap: 12px;
+}
+
+/* PackBox's estimate note: ink frame on colors.ochreLight. The sky one is
+   for the no-rate note, which is information rather than a caution. */
+.note {
+  padding: 12px 14px;
+  /* colors.ink frame and type on colors.ochreLight */
+  border: 2px solid #10201d;
+  background: #fbe4a6;
+  color: #10201d;
+}
+
+.noteSky {
+  /* colors.skyLight */
+  background: #d7e5f4;
+}
+
+.note p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.note p + p {
+  margin-top: 4px;
+}
+
+/* The ink ring holds on the note's grounds where the ochre one would
+   vanish. */
+.note .link:focus-visible {
+  /* colors.ink */
+  outline-color: #10201d;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* The acknowledgements' Confirm: the flow's primary action, full width on
+   a phone so it is easy to reach. */
+.button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 22px;
+  /* colors.ink border, colors.white on colors.orange, colors.maroon shadow */
+  border: 2px solid #10201d;
+  background: #e53927;
+  color: #f7f7f2;
+  box-shadow: 5px 5px 0 #671912;
+  cursor: pointer;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+@media (min-width: 640px) {
+  .button {
+    width: auto;
+  }
+}
+
+.button:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+}
+
+.button:focus-visible {
+  /* colors.ink */
+  box-shadow: 0 0 0 5px #10201d;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Step 3's form. */
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.fields {
+  display: grid;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fieldWide {
+    grid-column: 1 / -1;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+/* Never under 16px, or phones zoom in on focus. */
+.input {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  /* colors.ink border, colors.white ground, colors.ink type */
+  border: 2px solid #10201d;
+  border-radius: 0;
+  background: #f7f7f2;
+  color: #10201d;
+  font: inherit;
+  font-size: 1rem;
+  appearance: none;
+}
+
+.input:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
+}
+
+.input[aria-invalid='true'] {
+  /* colors.orangeDeep */
+  border-color: #b8301f;
+}
+
+.input:disabled {
+  opacity: 0.6;
+}
+
+.fieldHint {
+  /* colors.muted */
+  color: #52635f;
+  font-size: 0.8rem;
+}
+
+.error {
+  margin: 0;
+  font-weight: 600;
+  /* colors.orangeDeep */
+  color: #b8301f;
+}
+
+/* The sent state. */
+.sentHead {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.sentMeta {
+  margin-top: 6px;
+}
+
+.successMark {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  /* colors.ink border, colors.forest ground, colors.maroon shadow */
+  border: 2px solid #10201d;
+  background: #3d5f58;
+  box-shadow: 4px 4px 0 #671912;
+}
+
+.successCheck {
+  width: 26px;
+  height: 26px;
+  /* colors.white */
+  color: #f7f7f2;
+}
+
+.nextSteps {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nextStep {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+/* The check-in code's step numbers, in the counts' sky. */
+.num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  /* colors.ink border, colors.sky ground */
+  border: 2px solid #10201d;
+  background: #8bb2de;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.nextText {
+  margin: 2px 0 0;
+  /* colors.ink */
+  color: #10201d;
+}
+
+/* The three values for Ramp, each with its Copy. Label above value on a
+   phone; label, value and Copy on one line from 640px. */
+.kv {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 0;
+}
+
+.kvRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 12px;
+  align-items: center;
+}
+
+.kvLabel {
+  grid-column: 1 / -1;
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 640px) {
+  .kvRow {
+    grid-template-columns: 6.5rem minmax(0, 1fr) auto;
+  }
+
+  .kvLabel {
+    grid-column: auto;
+  }
+}
+
+.kvValue {
+  margin: 0;
+  padding: 6px 10px;
+  /* colors.rule on colors.paper */
+  border: 1px solid #8ca59e;
+  background: #f2f2eb;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
+}
+
+.kvAction {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .statementBox,
+  .button {
+    transition: none;
+  }
+}

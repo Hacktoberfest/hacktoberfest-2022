@@ -184,6 +184,51 @@ test('apiFetch throws with the status on a non-401 failure', async () => {
   });
 });
 
+/* The API names why it refused in the body ({ error: 'ALREADY_SUBMITTED' }),
+   and a caller telling two 409s apart needs that name. */
+test('apiFetch hands a failure its JSON body', async () => {
+  setup();
+  globalThis.fetch = async () =>
+    jsonResponse({ error: 'ALREADY_SUBMITTED' }, 409);
+
+  await assert.rejects(
+    apiFetch('/api/me/fests/evt-1/reimbursement'),
+    (error) => {
+      assert.equal(error.status, 409);
+      assert.deepEqual(error.body, { error: 'ALREADY_SUBMITTED' });
+      return true;
+    },
+  );
+});
+
+test('a failure whose body is not JSON carries a null body', async () => {
+  setup();
+  globalThis.fetch = async () => ({
+    ok: false,
+    status: 502,
+    json: async () => {
+      throw new SyntaxError('Unexpected token < in JSON');
+    },
+  });
+
+  await assert.rejects(apiFetch('/api/me'), (error) => {
+    assert.equal(error.status, 502);
+    assert.equal(error.body, null);
+    return true;
+  });
+});
+
+test('a failure with no body reader at all carries a null body', async () => {
+  setup();
+  globalThis.fetch = async () => ({ ok: false, status: 500 });
+
+  await assert.rejects(apiFetch('/api/me'), (error) => {
+    assert.equal(error.status, 500);
+    assert.equal(error.body, null);
+    return true;
+  });
+});
+
 test('apiFetch rejects with 401 when there is no session at all', async () => {
   setup(null);
   let called = false;

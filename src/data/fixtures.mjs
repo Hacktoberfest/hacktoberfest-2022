@@ -1143,6 +1143,382 @@ export const SCENARIOS = Object.freeze({
   },
 });
 
+/* Ended Fests for reviewing the wrap-up, one per state of the "Get
+   reimbursed" card (and the Meet Up's thank-you). Reachable in a mocked
+   build at /my/fest/?id=<id>, because mockDashboard searches them after the
+   scenarios, but listed on no scenario's /my: an ended Fest on the hub
+   would change what every other review link there shows. Each one ended in
+   late September 2026, so they read as ended for as long as anyone reviews
+   them.
+
+   Canadian, like the canvas, so the limit is the handbook's Canada rate of
+   $5.80 a check-in: fest-review-not-ready and fest-review-ready have the
+   canvas's 42 check-ins and $243.60.
+
+   fest-review-not-ready     one challenge without a winner, photos in
+   fest-review-pending       just ended: MLH and SmugMug not read yet
+   fest-review-winners-pending
+                             winners still checking, the other three pass:
+                             the common state while MLH refuses us winner
+                             data (a 403 as of 2026-09-30)
+   fest-review-failing       every check failing, for every fix line
+   fest-review-ready         all four in: the claim opens at step 2
+   fest-review-sent          sent by you
+   fest-review-sent-cohost   sent by a co-host
+   fest-review-approved      force-approved by MLH, checks still out
+   fest-review-no-rate       Iraq, which has no rate in the handbook
+   fest-review-over-50       63 check-ins, 50 of them counted
+   fest-review-meetup        a Meet Up: thanks, no claim */
+const reviewFest = ({
+  id,
+  number,
+  name,
+  city,
+  country,
+  date,
+  times,
+  ...rest
+}) => {
+  const slug = id.replace(/^fest-review-/, '');
+  return {
+    id,
+    name,
+    city,
+    country: country || 'Canada',
+    date,
+    startTime: times[0],
+    endTime: times[1],
+    status: null,
+    role: 'organizing',
+    registrationUrl: `https://example.invalid/fests/review-${slug}`,
+    websiteUrl: `https://example.invalid/events/review-${slug}`,
+    applicationStatus: null,
+    manageUrl: `https://example.invalid/events/${number}-hacktoberfest-review-${slug}`,
+    mlhPublished: true,
+    hacktoberfestPublished: true,
+    acknowledgedAt: '2026-09-02T14:00:00.000Z',
+    publicationChecks: [
+      { id: 'coordinates', passed: true },
+      { id: 'name', passed: true },
+      { id: 'duration', passed: true },
+      { id: 'description', passed: true },
+    ],
+    ...rest,
+  };
+};
+
+export const REVIEW_FESTS = Object.freeze([
+  reviewFest({
+    id: 'fest-review-not-ready',
+    number: 14801,
+    name: 'Hacktoberfest Hack Day Toronto x SharkHacks3',
+    city: 'Toronto',
+    date: '2026-09-26',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-26T22:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 43.6532,
+    longitude: -79.3832,
+    venueAddress: '100 Queen Street West, Toronto, ON, M5H 2N2, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-pending',
+    number: 14802,
+    name: 'Hacktoberfest Hack Day Hamilton',
+    city: 'Hamilton',
+    date: '2026-09-29',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-29T22:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 43.2557,
+    longitude: -79.8711,
+    venueAddress: '71 Main Street West, Hamilton, ON, L8P 4Y5, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-winners-pending',
+    number: 14803,
+    name: 'Hacktoberfest Hack Day Montreal',
+    city: 'Montreal',
+    date: '2026-09-27',
+    times: ['9:00 AM', '5:00 PM'],
+    endsAt: '2026-09-27T21:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 45.5019,
+    longitude: -73.5674,
+    venueAddress: '275 Rue Notre-Dame Est, Montreal, QC, H2Y 1C6, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-failing',
+    number: 14804,
+    name: 'Hacktoberfest Hack Day Guelph',
+    city: 'Guelph',
+    date: '2026-09-27',
+    times: ['10:00 AM', '4:00 PM'],
+    endsAt: '2026-09-27T20:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 43.5448,
+    longitude: -80.2482,
+    venueAddress: '1 Carden Street, Guelph, ON, N1H 3A1, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-ready',
+    number: 14805,
+    name: 'Hacktoberfest Hack Day Ottawa',
+    city: 'Ottawa',
+    date: '2026-09-26',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-26T22:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 45.4215,
+    longitude: -75.6972,
+    venueAddress: '110 Laurier Avenue West, Ottawa, ON, K1P 1J1, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-sent',
+    number: 14806,
+    name: 'Hacktoberfest Hack Day Waterloo',
+    city: 'Waterloo',
+    date: '2026-09-26',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-26T22:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 43.4643,
+    longitude: -80.5204,
+    venueAddress: '100 Regina Street South, Waterloo, ON, N2J 4A8, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-sent-cohost',
+    number: 14807,
+    name: 'Hacktoberfest Hack Day Halifax',
+    city: 'Halifax',
+    date: '2026-09-25',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-25T21:00:00.000Z',
+    timeZone: 'America/Halifax',
+    latitude: 44.6488,
+    longitude: -63.5752,
+    venueAddress: '1790 Granville Street, Halifax, NS, B3J 1X7, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-approved',
+    number: 14808,
+    name: 'Hacktoberfest Hack Day Calgary',
+    city: 'Calgary',
+    date: '2026-09-27',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-28T00:00:00.000Z',
+    timeZone: 'America/Edmonton',
+    latitude: 51.0447,
+    longitude: -114.0719,
+    venueAddress: '800 Macleod Trail SE, Calgary, AB, T2G 2M3, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-no-rate',
+    number: 14809,
+    name: 'Hacktoberfest Hack Day Baghdad',
+    city: 'Baghdad',
+    country: 'Iraq',
+    date: '2026-09-26',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-26T15:00:00.000Z',
+    timeZone: 'Asia/Baghdad',
+    latitude: 33.3152,
+    longitude: 44.3661,
+    venueAddress: '14 Abu Nuwas Street, Baghdad, 10011, Iraq',
+  }),
+  reviewFest({
+    id: 'fest-review-over-50',
+    number: 14810,
+    name: 'Hacktoberfest Hack Day Vancouver',
+    city: 'Vancouver',
+    date: '2026-09-27',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-28T01:00:00.000Z',
+    timeZone: 'America/Vancouver',
+    latitude: 49.2827,
+    longitude: -123.1207,
+    venueAddress: '555 West Hastings Street, Vancouver, BC, V6B 4N6, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-meetup',
+    number: 14811,
+    name: 'Hacktoberfest Meet Up Kingston',
+    city: 'Kingston',
+    date: '2026-09-28',
+    times: ['6:00 PM', '9:00 PM'],
+    endsAt: '2026-09-29T01:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 44.2312,
+    longitude: -76.486,
+    venueAddress: '216 Ontario Street, Kingston, ON, K7L 2Z3, Canada',
+  }),
+]);
+
+/* The handbook's Canada rate, and a limit worked out from it the way the
+   API does. Amounts are written out rather than multiplied, because 42 x
+   5.8 in floating point is 243.59999999999997. */
+const canada = (checkIns, checkInsCounted, amount) => ({
+  country: 'Canada',
+  perCheckIn: 5.8,
+  checkIns,
+  checkInsCounted,
+  amount,
+});
+
+const ALL_IN = Object.freeze({
+  checkIns: true,
+  submissions: true,
+  winners: { missing: [] },
+  photos: { count: 86 },
+});
+
+const reviewDashboard = (id, { reimbursement, ...counts }) => {
+  const slug = id.replace(/^fest-review-/, '');
+  return {
+    trackingNumbers: ['877489462372'],
+    packContents: ['arduino', 'tshirts', 'beltBags', 'infoCards', 'stickers'],
+    checkInCode: 'W7RAP2',
+    photos: {
+      galleryUrl: `https://example.invalid/smugmug/review-${slug}/gallery`,
+      uploadUrl: `https://example.invalid/smugmug/review-${slug}/upload`,
+    },
+    format: 'hackDay',
+    partners: [],
+    ...counts,
+    reimbursement: {
+      checks: ALL_IN,
+      forceApproved: false,
+      eligible: false,
+      limit: null,
+      submission: null,
+      ...reimbursement,
+    },
+  };
+};
+
+const REVIEW_FEST_DASHBOARDS = {
+  'fest-review-not-ready': reviewDashboard('fest-review-not-ready', {
+    registrationsCount: 68,
+    checkInsCount: 42,
+    partners: ['gemma'],
+    reimbursement: {
+      checks: { ...ALL_IN, winners: { missing: ['Best Use of Gemma 4'] } },
+      limit: canada(42, 42, 243.6),
+    },
+  }),
+  'fest-review-pending': reviewDashboard('fest-review-pending', {
+    registrationsCount: 40,
+    checkInsCount: 27,
+    reimbursement: {
+      checks: {
+        checkIns: true,
+        submissions: null,
+        winners: null,
+        photos: null,
+      },
+      limit: canada(27, 27, 156.6),
+    },
+  }),
+  'fest-review-winners-pending': reviewDashboard(
+    'fest-review-winners-pending',
+    {
+      registrationsCount: 51,
+      checkInsCount: 36,
+      reimbursement: {
+        checks: { ...ALL_IN, winners: null, photos: { count: 112 } },
+        limit: canada(36, 36, 208.8),
+      },
+    },
+  ),
+  'fest-review-failing': reviewDashboard('fest-review-failing', {
+    registrationsCount: 9,
+    checkInsCount: 2,
+    partners: ['gemma'],
+    reimbursement: {
+      checks: {
+        checkIns: false,
+        submissions: false,
+        winners: {
+          missing: ['Best Use of Gemma 4', 'Best Open-Source AI Project'],
+        },
+        photos: { count: 0 },
+      },
+      limit: canada(2, 2, 11.6),
+    },
+  }),
+  'fest-review-ready': reviewDashboard('fest-review-ready', {
+    registrationsCount: 59,
+    checkInsCount: 42,
+    reimbursement: { eligible: true, limit: canada(42, 42, 243.6) },
+  }),
+  'fest-review-sent': reviewDashboard('fest-review-sent', {
+    registrationsCount: 68,
+    checkInsCount: 42,
+    reimbursement: {
+      eligible: true,
+      limit: canada(42, 42, 243.6),
+      submission: {
+        submittedAt: '2026-09-27T15:12:00.000Z',
+        byYou: true,
+        payee: {
+          firstName: 'Jamie',
+          lastName: 'Rivera',
+          email: 'jamie@sharkhacks.ca',
+        },
+      },
+    },
+  }),
+  'fest-review-sent-cohost': reviewDashboard('fest-review-sent-cohost', {
+    registrationsCount: 47,
+    checkInsCount: 38,
+    reimbursement: {
+      eligible: true,
+      limit: canada(38, 38, 220.4),
+      submission: {
+        submittedAt: '2026-09-26T13:40:00.000Z',
+        byYou: false,
+        payee: {
+          firstName: 'Priya',
+          lastName: 'Natarajan',
+          email: 'priya@haligonians.dev',
+        },
+      },
+    },
+  }),
+  'fest-review-approved': reviewDashboard('fest-review-approved', {
+    registrationsCount: 61,
+    checkInsCount: 42,
+    reimbursement: {
+      checks: {
+        checkIns: true,
+        submissions: null,
+        winners: null,
+        photos: null,
+      },
+      forceApproved: true,
+      eligible: true,
+      limit: canada(42, 42, 243.6),
+    },
+  }),
+  'fest-review-no-rate': reviewDashboard('fest-review-no-rate', {
+    registrationsCount: 44,
+    checkInsCount: 30,
+    reimbursement: { eligible: true, limit: null },
+  }),
+  'fest-review-over-50': reviewDashboard('fest-review-over-50', {
+    registrationsCount: 92,
+    checkInsCount: 63,
+    reimbursement: { eligible: true, limit: canada(63, 50, 290) },
+  }),
+  /* The API sends the block for every Fest; a Meet Up's page ignores it. */
+  'fest-review-meetup': reviewDashboard('fest-review-meetup', {
+    registrationsCount: 31,
+    checkInsCount: 19,
+    format: 'meetUp',
+    reimbursement: { limit: canada(19, 19, 110.2) },
+  }),
+};
+
 /* The per-Fest dashboards, keyed by the fest ids used in SCENARIOS above.
    Mocked builds only, same as everything else here — and the only way this
    page is reviewable before October, since MLH's real counters read 0 for
@@ -1150,7 +1526,11 @@ export const SCENARIOS = Object.freeze({
 
    fest-melbourne has already happened, so it is the one that demonstrates
    the check-ins card; fest-tokyo and fest-azores are both still ahead, so
-   they show registrations only.
+   they show registrations only. Since the wrap-up shipped, fest-melbourne
+   is also an ended Fest whose API sends no format and no reimbursement
+   block, so its page is the two counts alone: its pack and code rows
+   below are no longer on screen (the pre-event cards are not shown once a
+   Fest has ended). The ended states proper are REVIEW_FESTS above.
 
    The event pack card has one state per Fest, so every state is a review
    link away: fest-tokyo has one FedEx number (the shape MLH writes for a
@@ -1254,6 +1634,8 @@ export const FEST_DASHBOARDS = Object.freeze({
     format: 'hackDay',
     partners: ['snowflake'],
   },
+  /* The ended Fests above, reachable by id only. */
+  ...REVIEW_FEST_DASHBOARDS,
 });
 
 /* What an event with no dashboard row of its own shows: a Fest nobody has

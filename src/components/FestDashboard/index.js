@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import HostResourcesBand from 'components/HostResourcesBand';
 import { MyLoading } from 'components/MyStatus';
@@ -11,6 +11,7 @@ import { splitFestName } from 'lib/festName.mjs';
 import {
   checkInsVisible,
   festEditUrl,
+  festHasEnded,
   festTimeRange,
   formatFestDate,
 } from 'lib/fests.mjs';
@@ -18,6 +19,8 @@ import { usefulInfo } from 'lib/usefulInfo.mjs';
 
 import styles from './FestDashboard.module.css';
 import PackBox from './PackBox';
+import { ReimbursementCard, ThanksCard } from './Reimbursement';
+import { copyLabelFor, useCopy } from './useCopy';
 
 /* One host's Fest, in full.
 
@@ -181,44 +184,6 @@ const CopyIcon = () => (
     />
   </svg>
 );
-
-/* How long "Copied" stays up: long enough to be seen, short enough that
-   the button is ready again before anyone wonders. */
-const COPIED_FOR_MS = 1600;
-
-/* The dashboard's one clipboard state machine: idle, then "copied" for
-   COPIED_FOR_MS, or "failed" when the browser refuses (an http origin, or
-   no clipboard API). Resolves true on success so a caller can do more on
-   failure, as the check-in code card does by revealing its code. Per
-   instance, so two rows never share one "Copied". */
-const useCopy = (text) => {
-  const [state, setState] = useState('idle');
-  const revert = useRef(null);
-
-  useEffect(() => () => clearTimeout(revert.current), []);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setState('copied');
-      clearTimeout(revert.current);
-      revert.current = setTimeout(() => setState('idle'), COPIED_FOR_MS);
-      return true;
-    } catch {
-      setState('failed');
-      return false;
-    }
-  };
-
-  return [state, copy];
-};
-
-const copyLabelFor = (state, strings) =>
-  state === 'copied'
-    ? strings.copiedCta
-    : state === 'failed'
-      ? strings.copyFailedCta
-      : strings.copyCta;
 
 /* One package: the carrier read from the number's shape, the number in the
    mono face so it can be read aloud, and two actions. The carrier's own
@@ -583,14 +548,42 @@ const UsefulInfoCard = ({ info }) => {
   );
 };
 
-const FestDashboard = ({ fest, dashboard, now }) => {
+/* What an ended Fest shows under its counts, by the format the API
+   resolved: a Hack Day's claim (once the API sends the reimbursement
+   block), a Meet Up's thanks, or nothing for a format nobody could place
+   or an API from before wrap-up. */
+const EndedCard = ({ fest, dashboard, onSubmitted, onRefresh }) => {
+  if (dashboard.format === 'hackDay' && dashboard.reimbursement) {
+    return (
+      <ReimbursementCard
+        fest={fest}
+        reimbursement={dashboard.reimbursement}
+        photos={dashboard.photos}
+        onSubmitted={onSubmitted}
+        onRefresh={onRefresh}
+      />
+    );
+  }
+  if (dashboard.format === 'meetUp') {
+    return <ThanksCard photos={dashboard.photos} />;
+  }
+  return null;
+};
+
+const FestDashboard = ({ fest, dashboard, now, onSubmitted, onRefresh }) => {
   const location = [fest.city, fest.country].filter(Boolean).join(', ');
   const date = formatFestDate(fest.date);
   const time = festTimeRange(fest);
   const flagCode = countryCodeFor(fest.country);
   const manageUrl = festEditUrl(fest);
   const viewUrl = fest.websiteUrl || fest.registrationUrl;
-  const showCheckIns = checkInsVisible(fest, now);
+  /* Decided only once the fresh fetch has landed: the hero can paint from
+     the tab's cached /my card, whose endsAt may be from before MLH moved
+     it. Never stored, so a postponed Fest is back to its pre-event page on
+     the next load. An ended Fest's check-in count is always live: the day
+     has come by definition, whatever the zone arithmetic says. */
+  const ended = Boolean(dashboard) && festHasEnded(fest, now);
+  const showCheckIns = ended || checkInsVisible(fest, now);
   /* Null while the numbers are still in flight: the hero paints from the
      card /my already had, and only the counts below wait. Every read of
      `dashboard` past this point is guarded by it. */
@@ -614,7 +607,11 @@ const FestDashboard = ({ fest, dashboard, now }) => {
   const { title, hostedBy } = splitFestName(fest.name);
   /* Null for a format nobody could place, or an API from before partners:
      no card rather than a guessed deck. */
-  const info = dashboard ? usefulInfo(dashboard) : null;
+  const info = dashboard && !ended ? usefulInfo(dashboard) : null;
+  /* The pre-event cards (the check-in code, the event pack, Useful info,
+     the Photo gallery) are for running the Fest, so they go once it has
+     ended. */
+  const preEvent = Boolean(dashboard) && !ended;
 
   return (
     <>
@@ -702,14 +699,23 @@ const FestDashboard = ({ fest, dashboard, now }) => {
           </div>
         )}
 
+        {ended && (
+          <EndedCard
+            fest={fest}
+            dashboard={dashboard}
+            onSubmitted={onSubmitted}
+            onRefresh={onRefresh}
+          />
+        )}
+
         {/* Undefined only when the API predates the code, which sends no
             key at all; null is a Fest with no code and still gets the
             card. See normalizeDashboard. */}
-        {dashboard && dashboard.checkInCode !== undefined && (
+        {preEvent && dashboard.checkInCode !== undefined && (
           <CheckInCodeCard code={dashboard.checkInCode} manageUrl={manageUrl} />
         )}
 
-        {dashboard && (
+        {preEvent && (
           <section
             className={styles.pack}
             id={EVENT_PACK_ID}
@@ -759,7 +765,7 @@ const FestDashboard = ({ fest, dashboard, now }) => {
         {/* Undefined only when the API predates the Photo gallery, which
             sends no key at all; links still to come are nulls and still get
             the card. See normalizeDashboard. */}
-        {dashboard && dashboard.photos && (
+        {preEvent && dashboard.photos && (
           <PhotoGalleryCard fest={fest} photos={dashboard.photos} />
         )}
       </div>

@@ -73,6 +73,64 @@ export const festDidNotAttend = (fest, nowMs) => {
   return nowMs - endMs >= NO_SHOW_GRACE_MS;
 };
 
+/* The instant a Fest ends, in ms, or null when there is no usable one.
+   Same stance as festDidNotAttend: endsAt is an ISO instant, so Date.parse
+   compares it without any zone. */
+const festEndMs = (fest) => {
+  if (!fest || typeof fest.endsAt !== 'string') return null;
+  const endMs = Date.parse(fest.endsAt);
+  return Number.isFinite(endMs) ? endMs : null;
+};
+
+/* Whether a Fest's end time has passed, which is what turns its host's page
+   into the wrap-up. Derived on every render from the fetched Fest and
+   never stored: MLH can move ends_at, FestNet mirrors it within five
+   minutes, and a postponed Fest has to go back to its pre-event page on
+   the next load. A missing or unreadable end, or clock, is not ended:
+   nothing on the ended page is worth showing a Fest that may not have
+   happened yet. */
+export const festHasEnded = (fest, nowMs) => {
+  const endMs = festEndMs(fest);
+  if (endMs === null || !Number.isFinite(nowMs)) return false;
+  return nowMs >= endMs;
+};
+
+/* The longest delay setTimeout honours. Anything longer overflows a signed
+   32-bit int and fires at once, which would flip a page weeks early. */
+const MAX_TIMER_DELAY_MS = 2147483647;
+
+/* How long an open page waits before it flips to the ended state, or null
+   when it should arm no timer at all: already ended, no usable end, or an
+   end further out than a timer can wait (a host who leaves the page open
+   for 25 days reloads it at some point). */
+export const festEndTimerDelay = (fest, nowMs) => {
+  const endMs = festEndMs(fest);
+  if (endMs === null || !Number.isFinite(nowMs)) return null;
+  const delay = endMs - nowMs;
+  return delay > 0 && delay <= MAX_TIMER_DELAY_MS ? delay : null;
+};
+
+/* Arms the one timer for a Fest's end and returns its cleanup, for the
+   page's effect. The clock is read here, when the timer is armed, rather
+   than taken from the page's `now`: that state is set at mount and can be
+   minutes old by the time the fetch lands, and a delay worked out from it
+   would flip the page late by exactly that much. `clock` is the test seam;
+   the page passes nothing. */
+export const scheduleFestEnd = (
+  fest,
+  onEnd,
+  {
+    now = () => Date.now(),
+    setTimer = (callback, delay) => setTimeout(callback, delay),
+    clearTimer = (id) => clearTimeout(id),
+  } = {},
+) => {
+  const delay = festEndTimerDelay(fest, now());
+  if (delay === null) return () => {};
+  const timer = setTimer(onEnd, delay);
+  return () => clearTimer(timer);
+};
+
 /* An application card: a Fest that does not exist yet, however far the
    application has got (the API sets applicationStatus on those cards
    only, and null on every event card, an approved application's public

@@ -14,6 +14,7 @@ import {
 import { my } from 'data/content.mjs';
 import { getFestDashboard } from 'lib/festDashboard.mjs';
 import { readCachedExperience } from 'lib/experienceCache.mjs';
+import { scheduleFestEnd } from 'lib/fests.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
 import {
   API_BASE_URL,
@@ -42,15 +43,54 @@ const Fest = () => {
   const [fest, setFest] = useState(null);
   const [dashboard, setDashboard] = useState(null);
   const [attempt, setAttempt] = useState(0);
-  /* Fixed at mount rather than read at render: the day-of rule for the
-     check-ins card must not change under a re-render, and a pure render is
-     what keeps it testable. */
-  const [now] = useState(() => Date.now());
+  /* Set at mount rather than read at render: the day-of rule for the
+     check-ins card and the ended page must not change under a re-render,
+     and a pure render is what keeps them testable. One thing moves it: the
+     timer below, at the Fest's end. */
+  const [now, setNow] = useState(() => Date.now());
+  const endsAt = fest ? fest.endsAt : undefined;
 
   const retry = useCallback(() => {
     setState('loading');
     setAttempt((value) => value + 1);
   }, []);
+
+  /* A fresh read of the dashboard, with the page still standing: the
+     counts and cards give way to the inline loader until it lands, and the
+     ended state is decided again from the fresh Fest rather than whatever
+     the cache painted the hero from. The reimbursement card asks for this
+     when its send meets a claim already made, or a session or Fest that
+     has gone; whatever the API says then is what the page shows. */
+  const refresh = useCallback(() => {
+    setDashboard(null);
+    setAttempt((value) => value + 1);
+  }, []);
+
+  /* The send's 201 carries the submission, so the sent state shows without
+     a round trip: it is the same shape the dashboard holds. */
+  const onSubmitted = useCallback((submission) => {
+    setDashboard((current) =>
+      current && current.reimbursement
+        ? {
+            ...current,
+            reimbursement: { ...current.reimbursement, submission },
+          }
+        : current,
+    );
+  }, []);
+
+  /* An open page flips to the ended state when the Fest ends, without a
+     reload: one timer for exactly that long, which bumps `now` and fetches
+     nothing. None when the end has passed, is unreadable, or is further
+     off than a browser timer can wait. The delay is worked out from the
+     clock as the timer is armed, not from `now`, which may be minutes old
+     by the time the fetch lands. Cleared on unmount, and re-armed whenever
+     the Fest's end moves (the fresh fetch can bring a different endsAt
+     from the cached card's) or `now` does. */
+  useEffect(
+    () => scheduleFestEnd({ endsAt }, () => setNow(Date.now())),
+    [endsAt, now],
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(globalThis.location.search);
@@ -126,7 +166,15 @@ const Fest = () => {
        header paints at once and the loader stands in for the numbers alone
        (see FestDashboard). */
     if (!fest) return <MyLoading />;
-    return <FestDashboard fest={fest} dashboard={dashboard} now={now} />;
+    return (
+      <FestDashboard
+        fest={fest}
+        dashboard={dashboard}
+        now={now}
+        onRefresh={refresh}
+        onSubmitted={onSubmitted}
+      />
+    );
   };
 
   return (

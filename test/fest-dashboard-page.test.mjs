@@ -54,6 +54,21 @@ test('the exported page carries no Fest data of its own', async () => {
     !html.includes(my.dashboard.usefulInfo.prizesLabel),
     'the exported HTML should not contain the Useful info card',
   );
+  /* The ended page: the claim, its sent state, and the Meet Up's thanks
+     are all a host's own, and render only from the fetch. */
+  for (const text of [
+    my.dashboard.reimbursement.title,
+    my.dashboard.reimbursement.intro,
+    my.dashboard.reimbursement.claim.limit.label,
+    my.dashboard.reimbursement.payee.intro,
+    my.dashboard.reimbursement.sent.title,
+    my.dashboard.thanks.title,
+  ]) {
+    assert.ok(
+      !html.includes(text),
+      `the exported HTML should not contain the ended page: ${text}`,
+    );
+  }
   assert.ok(
     html.includes(my.loading),
     'the exported HTML should be the loading surface',
@@ -89,4 +104,27 @@ test('the refusal surfaces ship with the page', async () => {
     source.includes('/my/hosting/'),
     'the refusal surfaces should link back to the hosting hub',
   );
+});
+
+/* Same proof for the ended page: it renders only in the browser, so its
+   words have to be in the page's JavaScript or a host whose Fest has
+   ended sees nothing where the claim should be. */
+test('the ended page ships with the page', async () => {
+  const html = await readOutput('my/fest/index.html');
+  const scripts = [
+    ...html.matchAll(/src="\/?(_next\/static\/[^"]+\.js)"/g),
+  ].map((match) => match[1]);
+  const source = (
+    await Promise.all(scripts.map((src) => readOutput(src)))
+  ).join('\n');
+
+  for (const text of [
+    my.dashboard.reimbursement.claim.handbook.href,
+    my.dashboard.reimbursement.claim.agreeStatement,
+    my.dashboard.reimbursement.payee.onceLead,
+    my.dashboard.reimbursement.wrapUp.winnersPending.cta,
+    my.dashboard.thanks.gallery.hint,
+  ]) {
+    assert.ok(source.includes(text), `missing from the page bundle: ${text}`);
+  }
 });

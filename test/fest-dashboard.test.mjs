@@ -283,3 +283,225 @@ test('an API that sends no packContents key leaves the key off, so no box render
 
   assert.equal('packContents' in result.dashboard, false);
 });
+
+/* The reimbursement block, sent for every Fest once the API knows about
+   wrap-up at all. Everything in it decides money on a host's screen, so
+   every field is read defensively: bad data degrades to "still checking",
+   no limit, or no submission, and never to eligible. */
+
+const REIMBURSEMENT = {
+  checks: {
+    checkIns: true,
+    submissions: true,
+    winners: { missing: ['Best Use of Gemma 4'] },
+    photos: { count: 86 },
+  },
+  forceApproved: false,
+  eligible: false,
+  limit: {
+    country: 'Canada',
+    perCheckIn: 5.8,
+    checkIns: 42,
+    checkInsCounted: 42,
+    amount: 243.6,
+  },
+  submission: null,
+};
+
+const reimbursementOf = (value) =>
+  normalizeDashboard({
+    fest: body.fest,
+    dashboard: { reimbursement: value },
+  }).dashboard.reimbursement;
+
+test('a reimbursement block passes through', () => {
+  assert.deepEqual(reimbursementOf(REIMBURSEMENT), REIMBURSEMENT);
+});
+
+test('an API that sends no reimbursement key leaves it off, so no card renders', () => {
+  const result = normalizeDashboard(body);
+
+  assert.equal('reimbursement' in result.dashboard, false);
+});
+
+test('a reimbursement value that is not an object reads as null', () => {
+  for (const value of [null, true, 'eligible', 42, []]) {
+    assert.equal(reimbursementOf(value), null, String(value));
+  }
+});
+
+test('a missing checks object reads as nothing checked yet', () => {
+  assert.deepEqual(reimbursementOf({}).checks, {
+    checkIns: false,
+    submissions: null,
+    winners: null,
+    photos: null,
+  });
+});
+
+test('check-ins pass only on a literal true', () => {
+  for (const checkIns of [1, 'true', null, undefined, {}]) {
+    const checks = reimbursementOf({ checks: { checkIns } }).checks;
+    assert.equal(checks.checkIns, false, String(checkIns));
+  }
+});
+
+test('submissions keep true and false, and anything else is still checking', () => {
+  assert.equal(
+    reimbursementOf({ checks: { submissions: true } }).checks.submissions,
+    true,
+  );
+  assert.equal(
+    reimbursementOf({ checks: { submissions: false } }).checks.submissions,
+    false,
+  );
+  for (const submissions of [null, 1, 'yes', {}]) {
+    const checks = reimbursementOf({ checks: { submissions } }).checks;
+    assert.equal(checks.submissions, null, String(submissions));
+  }
+});
+
+test('winners keep the names still missing, trimmed', () => {
+  const checks = reimbursementOf({
+    checks: { winners: { missing: [' Best Use of Gemma 4 ', 'Best UI'] } },
+  }).checks;
+
+  assert.deepEqual(checks.winners, {
+    missing: ['Best Use of Gemma 4', 'Best UI'],
+  });
+});
+
+test('every challenge with a winner, or no challenges at all, is an empty list', () => {
+  const checks = reimbursementOf({
+    checks: { winners: { missing: [] } },
+  }).checks;
+
+  assert.deepEqual(checks.winners, { missing: [] });
+});
+
+test('winners without a readable list are still checking', () => {
+  for (const winners of [null, [], 'Best UI', { missing: 'Best UI' }]) {
+    const checks = reimbursementOf({ checks: { winners } }).checks;
+    assert.equal(checks.winners, null, JSON.stringify(winners));
+  }
+});
+
+test('a missing list whose names are all unreadable is still checking, never a pass', () => {
+  const checks = reimbursementOf({
+    checks: { winners: { missing: [42, '', null] } },
+  }).checks;
+
+  assert.equal(checks.winners, null);
+});
+
+test('unreadable names drop out when readable ones remain', () => {
+  const checks = reimbursementOf({
+    checks: { winners: { missing: [42, 'Best UI'] } },
+  }).checks;
+
+  assert.deepEqual(checks.winners, { missing: ['Best UI'] });
+});
+
+test('photos keep a whole, non-negative count', () => {
+  assert.deepEqual(
+    reimbursementOf({ checks: { photos: { count: 0 } } }).checks.photos,
+    { count: 0 },
+  );
+  for (const photos of [null, { count: -1 }, { count: 2.5 }, { count: '86' }]) {
+    const checks = reimbursementOf({ checks: { photos } }).checks;
+    assert.equal(checks.photos, null, JSON.stringify(photos));
+  }
+});
+
+test('eligible and force-approved hold only on a literal true', () => {
+  for (const value of [1, 'true', null, undefined, {}]) {
+    const result = reimbursementOf({ eligible: value, forceApproved: value });
+    assert.equal(result.eligible, false, String(value));
+    assert.equal(result.forceApproved, false, String(value));
+  }
+  const approved = reimbursementOf({ eligible: true, forceApproved: true });
+  assert.equal(approved.eligible, true);
+  assert.equal(approved.forceApproved, true);
+});
+
+test('a limit with any unreadable field reads as no limit', () => {
+  const broken = [
+    { country: '' },
+    { country: 42 },
+    { perCheckIn: 0 },
+    { perCheckIn: '5.8' },
+    { checkIns: -1 },
+    { checkIns: 4.5 },
+    { checkInsCounted: '42' },
+    { checkInsCounted: 43 },
+    { amount: -1 },
+    { amount: Number.NaN },
+  ];
+
+  for (const change of broken) {
+    const limit = { ...REIMBURSEMENT.limit, ...change };
+    assert.equal(
+      reimbursementOf({ limit }).limit,
+      null,
+      JSON.stringify(change),
+    );
+  }
+  assert.equal(reimbursementOf({ limit: null }).limit, null);
+  assert.equal(reimbursementOf({ limit: 'Canada' }).limit, null);
+});
+
+test('a limit over the cap passes through with both counts', () => {
+  const limit = {
+    country: 'Canada',
+    perCheckIn: 5.8,
+    checkIns: 63,
+    checkInsCounted: 50,
+    amount: 290,
+  };
+
+  assert.deepEqual(reimbursementOf({ limit }).limit, limit);
+});
+
+test('a submission passes through, the payee trimmed', () => {
+  const submission = {
+    submittedAt: '2026-10-25T15:12:00.000Z',
+    byYou: true,
+    payee: {
+      firstName: ' Jamie ',
+      lastName: 'Rivera',
+      email: 'jamie@sharkhacks.ca ',
+    },
+  };
+
+  assert.deepEqual(reimbursementOf({ submission }).submission, {
+    submittedAt: '2026-10-25T15:12:00.000Z',
+    byYou: true,
+    payee: {
+      firstName: 'Jamie',
+      lastName: 'Rivera',
+      email: 'jamie@sharkhacks.ca',
+    },
+  });
+});
+
+test('a submission with no readable time is no submission', () => {
+  for (const submittedAt of [undefined, null, '', 'yesterday', 1761405120000]) {
+    const result = reimbursementOf({
+      submission: { submittedAt, byYou: true, payee: {} },
+    });
+    assert.equal(result.submission, null, String(submittedAt));
+  }
+  assert.equal(reimbursementOf({ submission: true }).submission, null);
+});
+
+test('a submission is by a co-host unless the API says otherwise, and keeps its time without a payee', () => {
+  const result = reimbursementOf({
+    submission: { submittedAt: '2026-10-25T15:12:00.000Z', payee: null },
+  });
+
+  assert.deepEqual(result.submission, {
+    submittedAt: '2026-10-25T15:12:00.000Z',
+    byYou: false,
+    payee: { firstName: '', lastName: '', email: '' },
+  });
+});

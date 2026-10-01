@@ -18,10 +18,24 @@ const unauthorized = () => {
   return error;
 };
 
-const failure = (status) => {
+const failure = (status, body = null) => {
   const error = new Error(`Request failed: ${status}`);
   error.status = status;
+  error.body = body;
   return error;
+};
+
+/* The API says why it refused in a JSON body ({ error: 'NOT_ELIGIBLE' }),
+   and a caller that has to tell two 409s apart needs that word. Best
+   effort: a proxy's HTML error page, or no body at all, is null rather
+   than a second failure on top of the first. */
+const failureBody = async (response) => {
+  if (typeof response.json !== 'function') return null;
+  try {
+    return await response.json();
+  } catch (_) {
+    return null;
+  }
 };
 
 /* One shared in-flight refresh. Without this, two calls that 401 together
@@ -178,7 +192,9 @@ export const apiFetch = async (path, options = {}) => {
     }
   }
 
-  if (!response.ok) throw failure(response.status);
+  if (!response.ok) {
+    throw failure(response.status, await failureBody(response));
+  }
 
   return response.json();
 };
