@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import test from 'node:test';
 
 import {
@@ -306,6 +306,39 @@ test('a name the paper has room for is left at its natural spacing', () => {
   for (const card of cards) {
     assert.ok(!card.includes('textLength'), card.slice(0, 200));
     assert.ok(!card.includes('lengthAdjust'));
+  }
+});
+
+/* lib/shareImage paints the card through an <img>, which cannot see the
+   page's webfonts, so it lifts the root's <text> lines off and the
+   canvas draws them. A line nested inside a sticker would be left to the
+   <img> and come out in Arial: so every word sits on the root, and the
+   stickers draw theirs as outlines. */
+test('every word on a card is a root-level line the canvas can draw', async () => {
+  const depthAt = (card, index) => {
+    const before = card.slice(0, index);
+    return count(before, '<svg ') - count(before, '</svg>');
+  };
+  const cards = [
+    stickerCardSvg({
+      name: 'Jacklyn',
+      sticker: { label: 'Attend a Fest', svg: FEST },
+      earnedAt: '3 October 2026',
+    }),
+    bookCardSvg({ name: 'Jacklyn', stickers: book(3), earned: 3, total: 22 }),
+  ];
+  for (const card of cards) {
+    const at = [...card.matchAll(/<text[\s>]/g)].map((match) => match.index);
+    assert.ok(at.length >= 2, 'the card has words');
+    for (const index of at) assert.equal(depthAt(card, index), 1);
+  }
+
+  const stickers = new URL('../public/stickers/', import.meta.url);
+  const files = (await readdir(stickers)).filter((f) => f.endsWith('.svg'));
+  assert.ok(files.length > 0);
+  for (const file of files) {
+    const svg = await readFile(new URL(file, stickers), 'utf8');
+    assert.ok(!/<text[\s>]/.test(svg), `${file} has a <text>`);
   }
 });
 

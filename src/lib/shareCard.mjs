@@ -5,8 +5,11 @@
 
    That trip is why everything here is self-contained. An <img> loading an
    SVG fetches nothing: no stylesheet, no font file, no <image href>, no
-   remote gradient. So the type is named by stack with real fallbacks and
-   the stickers are inlined whole, straight out of public/stickers.
+   remote gradient. So the stickers are inlined whole, straight out of
+   public/stickers. The words are the one exception: lib/shareImage lifts
+   the root's <text> lines off and the canvas draws them with the page's
+   webfonts, which the <img> cannot see. Each is still named by stack with
+   real fallbacks, for a face that did not load.
 
    Every string that came from anywhere else (a name from MyMLH, a label,
    a date) goes through escapeXml on the way in. One unescaped ampersand
@@ -93,8 +96,8 @@ const displaySize = (text) => {
 /* A rough average glyph width, as a share of the font size: enough to
    tell a line that fits from one that does not, in the condensed display
    face and in the body face alike. Erring wide is the safe direction, and
-   an SVG painted into an <img> may fall back to Helvetica or Arial, which
-   are wider still. */
+   a face that did not load falls back to Helvetica or Arial, which are
+   wider still. */
 const WIDTH_PER_CHAR = 0.55;
 
 /* A name comes from MyMLH and is as long as somebody typed it. Past the

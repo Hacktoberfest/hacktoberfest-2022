@@ -36,34 +36,120 @@ export const fetchStickerSvg = async (slug) => {
   return pending;
 };
 
-/* The card, painted. A data URL rather than a blob URL because an <img>
-   loading an SVG from a blob is tainted in Safari and the canvas then
-   refuses to give the pixels back. The SVG carries no outside reference
-   of its own (see the note at the top of lib/shareCard.mjs), so the
-   picture is complete the moment the image loads. */
-export const svgToPngBlob = (svg, size) =>
+/* The card's words come off the SVG before it is painted, and the canvas
+   draws them instead. An SVG painted through an <img> is a sealed
+   document: it cannot see the page's webfonts, so a <text> asking for
+   Barlow Semi Condensed gets Barlow only on a computer that has it
+   installed, and Arial or Helvetica on everyone else's. The canvas
+   belongs to the page and draws with the page's fonts.
+
+   Only the root's own <text> lines come off. Those are in the card's
+   units; a <text> inside a nested sticker is in the sticker's, and is
+   left where it is (no sticker has one). Each line keeps what the SVG
+   gave it, with SVG's whitespace rule applied, and a textLength becomes
+   fillText's maxWidth: a line wider than that is squeezed to fit, the
+   job textLength was doing. A document that does not parse goes to the
+   <img> whole, which then refuses it as it always has. */
+const liftWords = (svg) => {
+  const doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+  const root = doc.documentElement;
+  if (
+    !root ||
+    root.localName !== 'svg' ||
+    doc.getElementsByTagName('parsererror').length
+  )
+    return { art: svg, words: [], units: 0 };
+
+  const words = [...root.children]
+    .filter((node) => node.localName === 'text')
+    .map((node) => {
+      node.remove();
+      const number = (name) => Number(node.getAttribute(name)) || 0;
+      return {
+        value: node.textContent.replace(/\s+/g, ' ').trim(),
+        x: number('x'),
+        y: number('y'),
+        font: `${node.getAttribute('font-weight') || '400'} ${number('font-size')}px ${node.getAttribute('font-family') || 'sans-serif'}`,
+        fill: node.getAttribute('fill') || '#000',
+        align:
+          { middle: 'center', end: 'right' }[
+            node.getAttribute('text-anchor')
+          ] || 'left',
+        maxWidth: number('textLength'),
+      };
+    });
+
+  const box = (root.getAttribute('viewBox') || '').trim().split(/[\s,]+/);
+  const units = Number(box[2]) || Number(root.getAttribute('width')) || 0;
+  return {
+    art: new XMLSerializer().serializeToString(doc),
+    words,
+    units,
+  };
+};
+
+/* Every face the words ask for, loaded for the very characters they
+   carry (the page's stylesheet splits each face by script). A face that
+   will not load is no reason to hold the picture back: after three
+   seconds the words are drawn with whatever has arrived, and a face
+   still missing falls back down its stack. */
+const FONT_WAIT = 3000;
+const loadFaces = (words) => {
+  if (typeof document === 'undefined' || !document.fonts) return null;
+  return Promise.race([
+    Promise.all(
+      words.map((word) =>
+        document.fonts.load(word.font, word.value).catch(() => null),
+      ),
+    ),
+    new Promise((resolve) => setTimeout(resolve, FONT_WAIT)),
+  ]);
+};
+
+/* A data URL rather than a blob URL because an <img> loading an SVG
+   from a blob is tainted in Safari and the canvas then refuses to give
+   the pixels back. The SVG carries no outside reference of its own (see
+   the note at the top of lib/shareCard.mjs), so the art is complete the
+   moment the image loads. */
+const loadImage = (svg) =>
   new Promise((resolve, reject) => {
     const image = new Image();
-
-    image.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = size;
-      canvas.height = size;
-      const context = canvas.getContext('2d');
-      if (!context) {
-        reject(new Error('the card had nowhere to be drawn'));
-        return;
-      }
-      context.drawImage(image, 0, 0, size, size);
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob);
-        else reject(new Error('the card did not come out as a picture'));
-      }, 'image/png');
-    };
+    image.onload = () => resolve(image);
     image.onerror = () => reject(new Error('the card did not draw'));
-
     image.src = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   });
+
+/* The card, painted: the art through the <img>, then the words on top
+   in the page's own type. */
+export const svgToPngBlob = async (svg, size) => {
+  const { art, words, units } = liftWords(svg);
+  const [image] = await Promise.all([loadImage(art), loadFaces(words)]);
+
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const context = canvas.getContext('2d');
+  if (!context) throw new Error('the card had nowhere to be drawn');
+  context.drawImage(image, 0, 0, size, size);
+
+  context.scale(size / (units || size), size / (units || size));
+  context.textBaseline = 'alphabetic';
+  for (const word of words) {
+    context.font = word.font;
+    context.fillStyle = word.fill;
+    context.textAlign = word.align;
+    if (word.maxWidth)
+      context.fillText(word.value, word.x, word.y, word.maxWidth);
+    else context.fillText(word.value, word.x, word.y);
+  }
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error('the card did not come out as a picture'));
+    }, 'image/png');
+  });
+};
 
 /* Whether this is a device where the system share sheet is the way a
    picture goes to a post: a touch screen with no hover, which is a phone
