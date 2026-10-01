@@ -7,6 +7,7 @@ import {
   formatUsd,
   openingStep,
   payeeInvalidFields,
+  railSteps,
   submitOutcome,
   wrapUpChecks,
 } from '../src/lib/reimbursement.mjs';
@@ -183,6 +184,121 @@ test('a sent Fest opens on the sent state, whatever else it says', () => {
   );
 });
 
+/* The rail, in order: three steps without gift cards, four with them, the
+   gift cards second. A step is done, the one the host is on (here), or
+   still to come (todo); the step counter and every fold come from this. */
+
+const rail = (steps) => steps.map(({ id, state }) => `${id}:${state}`);
+
+const LIMIT = {
+  country: 'Canada',
+  perCheckIn: 5.8,
+  checkIns: 42,
+  checkInsCounted: 42,
+  amount: 243.6,
+};
+
+const GIFT_CARDS = { limit: 4, request: null };
+
+const REQUESTED = {
+  limit: 4,
+  request: {
+    submittedAt: '2026-10-25T15:12:00.000Z',
+    byYou: true,
+    emails: ['jamie@sharkhacks.ca'],
+  },
+};
+
+test('without gift cards the rail is the three steps it was', () => {
+  const steps = railSteps(reimbursement({ eligible: false }), null);
+  assert.deepEqual(rail(steps), ['wrapUp:here', 'claim:todo', 'payee:todo']);
+  assert.deepEqual(
+    steps.map((step) => step.number),
+    [1, 2, 3],
+  );
+  assert.deepEqual(rail(railSteps(reimbursement({ limit: LIMIT }), null)), [
+    'wrapUp:done',
+    'claim:here',
+    'payee:todo',
+  ]);
+  assert.deepEqual(
+    rail(railSteps(reimbursement({ limit: LIMIT }), null, { advanced: true })),
+    ['wrapUp:done', 'claim:done', 'payee:here'],
+  );
+});
+
+test('with gift cards there are four steps, the gift cards second', () => {
+  const steps = railSteps(reimbursement({ eligible: false }), GIFT_CARDS);
+  assert.deepEqual(rail(steps), [
+    'wrapUp:here',
+    'giftCards:todo',
+    'claim:todo',
+    'payee:todo',
+  ]);
+  assert.deepEqual(
+    steps.map((step) => step.number),
+    [1, 2, 3, 4],
+  );
+});
+
+test('the gift cards open once step 1 is done, checks or MLH’s approval', () => {
+  for (const overrides of [
+    { eligible: true },
+    { eligible: true, forceApproved: true },
+  ]) {
+    assert.deepEqual(
+      rail(
+        railSteps(reimbursement({ ...overrides, limit: LIMIT }), GIFT_CARDS),
+      ),
+      ['wrapUp:done', 'giftCards:here', 'claim:todo', 'payee:todo'],
+    );
+  }
+});
+
+test('Continue cannot skip the gift cards', () => {
+  assert.deepEqual(
+    rail(
+      railSteps(reimbursement({ limit: LIMIT }), GIFT_CARDS, {
+        advanced: true,
+      }),
+    ),
+    ['wrapUp:done', 'giftCards:here', 'claim:todo', 'payee:todo'],
+  );
+});
+
+test('requested gift cards fold, and the reimbursement opens', () => {
+  assert.deepEqual(
+    rail(railSteps(reimbursement({ limit: LIMIT }), REQUESTED)),
+    ['wrapUp:done', 'giftCards:done', 'claim:here', 'payee:todo'],
+  );
+  assert.deepEqual(
+    rail(
+      railSteps(reimbursement({ limit: LIMIT }), REQUESTED, {
+        advanced: true,
+      }),
+    ),
+    ['wrapUp:done', 'giftCards:done', 'claim:done', 'payee:here'],
+  );
+});
+
+test('a request stays done even if step 1 is open again', () => {
+  /* MLH can clear a force-approval after the request went: the request
+     was still sent, so the rail says so. */
+  assert.deepEqual(
+    rail(railSteps(reimbursement({ eligible: false }), REQUESTED)),
+    ['wrapUp:here', 'giftCards:done', 'claim:todo', 'payee:todo'],
+  );
+});
+
+test('with no rate, Continue never opens the payee step', () => {
+  assert.deepEqual(
+    rail(
+      railSteps(reimbursement({ limit: null }), REQUESTED, { advanced: true }),
+    ),
+    ['wrapUp:done', 'giftCards:done', 'claim:here', 'payee:todo'],
+  );
+});
+
 /* The payee form, held to the API's own body rules so a host hears about a
    typo before the request rather than after it. */
 
@@ -339,6 +455,34 @@ test('a dead session or a Fest that is no longer theirs: refetch, and the page s
   for (const status of [401, 403, 404]) {
     assert.equal(submitOutcome(failure(status)), 'refetch', String(status));
   }
+});
+
+test('gift cards the page did not know it needed: refetch, and step 2 appears', () => {
+  /* The reimbursement POST's 409 when the Fest has gift cards and no
+     forwarded request: gift cards turned on after the page loaded, or a
+     request that was still being forwarded when the page read it and then
+     failed. Either way the fresh dashboard shows the step. */
+  assert.equal(
+    submitOutcome(failure(409, { error: 'GIFT_CARDS_NOT_REQUESTED' })),
+    'refetch',
+  );
+});
+
+test('gift cards the page cannot show: say so, rather than refetch into the same form', () => {
+  /* The page reads no usable gift cards (normalizeGiftCards gave null), so
+     a refetch would bring back the same payee form with nothing said. */
+  assert.equal(
+    submitOutcome(failure(409, { error: 'GIFT_CARDS_NOT_REQUESTED' }), {
+      giftCardsOn: false,
+    }),
+    'changed',
+  );
+  assert.equal(
+    submitOutcome(failure(409, { error: 'GIFT_CARDS_NOT_REQUESTED' }), {
+      giftCardsOn: true,
+    }),
+    'refetch',
+  );
 });
 
 test('a body the API refused: check the details', () => {

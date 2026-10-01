@@ -43,7 +43,23 @@ const ICONS = {
   ),
 };
 
-const PackBox = ({ items }) => {
+/* Tabler's gift, for the digital gift cards: the one chip for something
+   that is not in the box. */
+const GIFT_ICON = (
+  <>
+    <path d="M4 8h16a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
+    <path d="M12 8v13" />
+    <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7" />
+    <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5" />
+  </>
+);
+
+/* `giftCards` is the Fest's gift card limit, or null for a Fest without
+   any (lib/giftCards.mjs's giftCardsFor decides). With one, the list ends
+   on a "Digital gift cards × N" chip and a hint that MLH sends them after
+   the Fest; the estimate note stays about the box, so it shows only when
+   the sheet lists something physical. */
+const PackBox = ({ items, giftCards }) => {
   const copy = my.dashboard.pack.box;
 
   return (
@@ -51,7 +67,7 @@ const PackBox = ({ items }) => {
       <p className={styles.trackingLabel} id="pack-box-label">
         {copy.label}
       </p>
-      {items.length > 0 ? (
+      {items.length > 0 || giftCards ? (
         <>
           <ul className={styles.items} aria-labelledby="pack-box-label">
             {items.map((item) => (
@@ -64,11 +80,34 @@ const PackBox = ({ items }) => {
                 {copy.items[item]}
               </li>
             ))}
+            {giftCards && (
+              <li className={`${styles.item} ${styles.itemGift}`}>
+                <span className={styles.itemIcon} aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    {GIFT_ICON}
+                  </svg>
+                </span>
+                {copy.giftCards.label}
+                {/* "× 4" is for the eye; a screen reader hears the count
+                    without the multiplication sign. */}
+                <span className={styles.itemCount} aria-hidden="true">
+                  {copy.giftCards.count(giftCards)}
+                </span>
+                <span className={styles.visuallyHidden}>
+                  {` (${giftCards})`}
+                </span>
+              </li>
+            )}
           </ul>
-          <p className={styles.estimate}>
-            <strong>{copy.estimateLead}</strong> {copy.estimateBody}{' '}
-            <a href={`mailto:${copy.email}`}>{copy.email}</a>.
-          </p>
+          {giftCards && (
+            <p className={styles.packHint}>{copy.giftCards.hint}</p>
+          )}
+          {items.length > 0 && (
+            <p className={styles.estimate}>
+              <strong>{copy.estimateLead}</strong> {copy.estimateBody}{' '}
+              <a href={`mailto:${copy.email}`}>{copy.email}</a>.
+            </p>
+          )}
         </>
       ) : (
         <p className={styles.packHint}>{copy.pending}</p>

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
-import { PARTNERS, usefulInfo } from '../src/lib/usefulInfo.mjs';
+import { PARTNERS, prizePieces, usefulInfo } from '../src/lib/usefulInfo.mjs';
 
 const copy = my.dashboard.usefulInfo;
 
@@ -11,9 +11,10 @@ const copy = my.dashboard.usefulInfo;
    fest-dashboard-page.test.mjs checks none of them is baked into the static
    export. */
 
-/* A prize line as a host reads it, and the links in it. */
-const sentence = (pieces) =>
-  pieces
+/* A prize line as a host reads it, without gift cards unless asked, and
+   the links in it. */
+const sentence = (pieces, alternative = null) =>
+  prizePieces(pieces, alternative)
     .map((piece) => (typeof piece === 'string' ? piece : piece.text))
     .join('');
 const linksOut = (pieces) =>
@@ -100,6 +101,74 @@ test('every prize line reads as agreed: the doc\'s partner lines with "(see Even
   assert.equal(
     sentence(lines.solana),
     'Your event is a Solana event. Award your Ledger Nano S Plus kits to the winning team.',
+  );
+});
+
+/* Digital gift cards (2026-10-01-digital-gift-cards-design.md, section
+   4): every prize line that awards an item gains the alternative right
+   after the item. All five award one (Belt Bags twice, then the
+   Arduino kits, the headphones and the Ledger kits), so all five carry
+   exactly one mark. */
+test('with gift cards, every prize line offers them right after its item', () => {
+  const { lines } = copy;
+  const alternative = copy.giftCards.alternative;
+
+  assert.equal(
+    alternative,
+    'or digital gift cards (based on package inventory)',
+  );
+  assert.equal(
+    sentence(lines.openSourceAi, alternative),
+    'Every Hack Day runs the Best Open-Source AI Project challenge. Award 4 Belt Bags or digital gift cards (based on package inventory) to the winning team (see Event pack).',
+  );
+  assert.equal(
+    sentence(lines.gemma, alternative),
+    'Your event is a Gemma event. Award 4 Belt Bags or digital gift cards (based on package inventory) to the winning team (see Event pack).',
+  );
+  assert.equal(
+    sentence(lines.snowflake, alternative),
+    'Your event is a Snowflake event. Award your Arduino Tiny Machine Learning Kits or digital gift cards (based on package inventory) to the winning team.',
+  );
+  assert.equal(
+    sentence(lines.github, alternative),
+    'Your event is a GitHub event. Award your Wireless Headphones or digital gift cards (based on package inventory) to the winning team (see Event pack).',
+  );
+  assert.equal(
+    sentence(lines.solana, alternative),
+    'Your event is a Solana event. Award your Ledger Nano S Plus kits or digital gift cards (based on package inventory) to the winning team.',
+  );
+});
+
+test('every prize line carries exactly one gift card mark', () => {
+  for (const [key, pieces] of Object.entries(copy.lines)) {
+    assert.equal(
+      pieces.filter((piece) => typeof piece === 'object' && piece.giftCards)
+        .length,
+      1,
+      key,
+    );
+  }
+});
+
+/* The last row of the prizes, in the ochre dress: the count, and what to
+   collect from winners. The first sentence is bold, as on the canvas. */
+test('with gift cards, the prizes end on how many there are', () => {
+  const read = (pieces) =>
+    pieces
+      .map((piece) => (typeof piece === 'string' ? piece : piece.strong))
+      .join('');
+
+  assert.equal(
+    read(copy.giftCards.row(4)),
+    'You have 4 digital gift cards to give away to winners who do not receive physical prizes. Please ensure you ask your winners who need gift cards for their emails - you’ll need to provide them after your Fest concludes.',
+  );
+  assert.deepEqual(copy.giftCards.row(4)[0], {
+    strong:
+      'You have 4 digital gift cards to give away to winners who do not receive physical prizes.',
+  });
+  assert.equal(
+    read(copy.giftCards.row(1)).slice(0, 39),
+    'You have 1 digital gift card to give aw',
   );
 });
 
@@ -207,6 +276,9 @@ test('every link is https and carries no utm params', () => {
 });
 
 test('no string carries an em dash', () => {
-  const strings = JSON.stringify(copy) + copy.slides.hint('Hack Day');
+  const strings =
+    JSON.stringify(copy) +
+    copy.slides.hint('Hack Day') +
+    JSON.stringify(copy.giftCards.row(4));
   assert.ok(!strings.includes('—'), 'an em dash crept into the copy');
 });

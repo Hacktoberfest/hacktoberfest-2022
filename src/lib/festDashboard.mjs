@@ -15,10 +15,12 @@ import {
   FEST_DASHBOARDS,
   REVIEW_FESTS,
   SCENARIOS,
+  UPCOMING_REVIEW_FESTS,
   DEFAULT_SCENARIO,
   selectScenario,
 } from '../data/fixtures.mjs';
 import { apiFetch } from './apiClient.mjs';
+import { normalizeGiftCards } from './giftCards.mjs';
 import { normalizeReimbursement } from './reimbursement.mjs';
 import { API_BASE_URL } from './session.mjs';
 
@@ -144,9 +146,28 @@ export const normalizeDashboard = (body) => {
       ...('reimbursement' in dashboard
         ? { reimbursement: normalizeReimbursement(dashboard.reimbursement) }
         : {}),
+      /* Same seam again, for digital gift cards. An API from before them
+         omits the key, and nothing changes anywhere. Sent but unreadable,
+         or a limit that is not a whole number above zero, is null, which
+         does the same. See lib/giftCards.mjs. */
+      ...('giftCards' in dashboard
+        ? { giftCards: normalizeGiftCards(dashboard.giftCards) }
+        : {}),
     },
   };
 };
+
+/* Whether the page shows the Photo gallery card (the album's upload and
+   gallery links). Before the Fest, for every format. Once it has ended,
+   for a Hack Day only, in every state of its claim, the sent state
+   included: the album is part of what reimbursement asks for, and hosts
+   keep sharing it afterwards. An ended Meet Up's thanks card carries the
+   two links itself, and a format nobody could place shows counts only.
+   An API from before the Photo gallery sends no photos, and gets no card
+   either way. */
+export const showsPhotoGallery = (dashboard, ended) =>
+  Boolean(dashboard && dashboard.photos) &&
+  (!ended || dashboard.format === 'hackDay');
 
 /* The mocked build's answer: the fest out of whichever scenario is showing,
    with its dashboard fixture. An unknown id rejects with a 404-shaped error,
@@ -167,8 +188,9 @@ export const normalizeDashboard = (body) => {
    The card still hides the link until the step is done (hasFestDashboard),
    so only a hand-typed review link reaches an unacknowledged Fest here.
 
-   The ended Fests (REVIEW_FESTS) come last: they are on no scenario's /my,
-   so a hand-typed review link is the only way to them. */
+   The review Fests (REVIEW_FESTS, ended, and UPCOMING_REVIEW_FESTS) come
+   last: they are on no scenario's /my, so a hand-typed review link is the
+   only way to them. */
 const mockDashboard = async (festId, scenario) => {
   const named =
     SCENARIOS[selectScenario(scenario)] || SCENARIOS[DEFAULT_SCENARIO];
@@ -177,6 +199,7 @@ const mockDashboard = async (festId, scenario) => {
   const fest = [
     ...searched.flatMap((fixture) => fixture.fests || []),
     ...REVIEW_FESTS,
+    ...UPCOMING_REVIEW_FESTS,
   ].find((entry) => entry.id === festId);
 
   if (!fest) {

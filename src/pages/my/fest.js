@@ -79,6 +79,16 @@ const Fest = () => {
     );
   }, []);
 
+  /* Same for the gift card request's 201: step 2 folds and the claim
+     opens without a round trip. */
+  const onGiftCardsRequested = useCallback((request) => {
+    setDashboard((current) =>
+      current && current.giftCards
+        ? { ...current, giftCards: { ...current.giftCards, request } }
+        : current,
+    );
+  }, []);
+
   /* An open page flips to the ended state when the Fest ends, without a
      reload: one timer for exactly that long, which bumps `now` and fetches
      nothing. None when the end has passed, is unreadable, or is further
@@ -173,6 +183,7 @@ const Fest = () => {
         now={now}
         onRefresh={refresh}
         onSubmitted={onSubmitted}
+        onGiftCardsRequested={onGiftCardsRequested}
       />
     );
   };

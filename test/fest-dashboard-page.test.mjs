@@ -69,6 +69,19 @@ test('the exported page carries no Fest data of its own', async () => {
       `the exported HTML should not contain the ended page: ${text}`,
     );
   }
+  /* Digital gift cards: the pack chip's hint, the prize lines' alternative
+     and step 2 are a host's own too. */
+  for (const text of [
+    my.dashboard.pack.box.giftCards.hint,
+    my.dashboard.usefulInfo.giftCards.alternative,
+    my.dashboard.reimbursement.giftCards.title,
+    my.dashboard.reimbursement.giftCards.onceLead,
+  ]) {
+    assert.ok(
+      !html.includes(text),
+      `the exported HTML should not contain gift cards: ${text}`,
+    );
+  }
   assert.ok(
     html.includes(my.loading),
     'the exported HTML should be the loading surface',
@@ -124,6 +137,10 @@ test('the ended page ships with the page', async () => {
     my.dashboard.reimbursement.payee.onceLead,
     my.dashboard.reimbursement.wrapUp.winnersPending.cta,
     my.dashboard.thanks.gallery.hint,
+    my.dashboard.reimbursement.giftCards.onceLead,
+    my.dashboard.reimbursement.giftCards.errors.rows,
+    my.dashboard.pack.box.giftCards.hint,
+    my.dashboard.usefulInfo.giftCards.alternative,
   ]) {
     assert.ok(source.includes(text), `missing from the page bundle: ${text}`);
   }

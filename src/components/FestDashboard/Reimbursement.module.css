@@ -305,6 +305,26 @@
   font-size: 0.9rem;
 }
 
+/* The gift cards' summary takes focus once the request has gone, as the
+   confirmation; the ring is the site's. */
+.summary:focus {
+  outline: none;
+}
+
+.summary:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 3px;
+}
+
+/* The gift cards' "2 of 4 cards", in the head of the open step: a count,
+   not a status, so it keeps the muted voice rather than the open step's
+   orange. */
+.stepHere .meter {
+  /* colors.muted */
+  color: #52635f;
+}
+
 /* The open step: a parcel row's paper, holding the step's content. */
 .panel {
   display: grid;
@@ -794,6 +814,146 @@
   font-weight: 600;
   /* colors.orangeDeep */
   color: #b8301f;
+}
+
+/* Step 2's rows (direction Z): "Card N" in the mono label voice, the
+   email, a remove square, then a dashed add button under them. On a phone
+   the label sits over its input; from 640px it takes a column of its own,
+   and a row's error sits under the input. */
+.cards {
+  display: grid;
+  gap: 14px;
+  max-width: 640px;
+}
+
+.cardRows {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cardRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 6px 10px;
+  align-items: center;
+}
+
+.cardLabel {
+  grid-column: 1 / -1;
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cardInput {
+  grid-column: 1;
+}
+
+.cardRemove {
+  grid-column: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  /* colors.ink frame and stroke */
+  border: 2px solid #10201d;
+  background: transparent;
+  color: #10201d;
+  cursor: pointer;
+}
+
+.cardRemove svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+}
+
+.cardRemove:hover:not(:disabled) {
+  /* colors.maroon */
+  color: #671912;
+  border-color: #671912;
+}
+
+.cardError {
+  grid-column: 1 / -1;
+  margin: 0;
+  /* colors.orangeDeep */
+  color: #b8301f;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .cardRow {
+    grid-template-columns: 74px minmax(0, 1fr) auto;
+  }
+
+  .cardLabel {
+    grid-column: 1;
+  }
+
+  .cardInput {
+    grid-column: 2;
+  }
+
+  .cardRemove {
+    grid-column: 3;
+  }
+
+  .cardError {
+    grid-column: 2 / 3;
+    margin-top: -2px;
+  }
+}
+
+.cardAdd {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  /* colors.rule, dashed: a row not there yet */
+  border: 2px dashed #8ca59e;
+  background: transparent;
+  /* colors.ink */
+  color: #10201d;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cardAdd svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+}
+
+.cardAdd:hover:not(:disabled) {
+  /* colors.ink */
+  border-color: #10201d;
+}
+
+.cardRemove:focus-visible,
+.cardAdd:focus-visible {
+  /* colors.ochre */
+  outline: 3px solid #f5b726;
+  outline-offset: 2px;
+}
+
+.cardRemove:disabled,
+.cardAdd:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
 /* The sent state. */

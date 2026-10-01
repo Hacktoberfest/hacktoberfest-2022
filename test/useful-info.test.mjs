@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { PARTNERS, usefulInfo } from '../src/lib/usefulInfo.mjs';
+import { PARTNERS, prizePieces, usefulInfo } from '../src/lib/usefulInfo.mjs';
 
 /* The spec's "What the host sees" table, one row per case. The format
    decides first and a Meetup never shows a partner or a prize; a Hack Day
@@ -154,4 +154,46 @@ test('usefulInfo: no card when there is no dashboard at all', () => {
 
 test('the partner keys are the four, in precedence order', () => {
   assert.deepEqual(PARTNERS, ['gemma', 'github', 'snowflake', 'solana']);
+});
+
+/* A prize line's gift card mark: { giftCards: true }, sitting right after
+   the item the line awards. With gift cards it is the alternative, after a
+   space; without, nothing, so the line reads exactly as it did. */
+
+const LINE = [
+  { text: 'Your event is a Gemma event.', href: 'https://example.invalid' },
+  ' Award 4 Belt Bags',
+  { giftCards: true },
+  ' to the winning team (see ',
+  { text: 'Event pack', eventPack: true },
+  ').',
+];
+
+const ALTERNATIVE = 'or digital gift cards (based on package inventory)';
+
+test('prizePieces: without gift cards the mark goes', () => {
+  assert.deepEqual(prizePieces(LINE, null), [
+    LINE[0],
+    ' Award 4 Belt Bags',
+    ' to the winning team (see ',
+    LINE[4],
+    ').',
+  ]);
+});
+
+test('prizePieces: with gift cards the alternative follows the item', () => {
+  assert.deepEqual(prizePieces(LINE, ALTERNATIVE), [
+    LINE[0],
+    ' Award 4 Belt Bags',
+    ` ${ALTERNATIVE}`,
+    ' to the winning team (see ',
+    LINE[4],
+    ').',
+  ]);
+});
+
+test('prizePieces: a line with no mark is left alone either way', () => {
+  const plain = ['Award your prizes.', { text: 'Event pack', eventPack: true }];
+  assert.deepEqual(prizePieces(plain, ALTERNATIVE), plain);
+  assert.deepEqual(prizePieces(plain, null), plain);
 });

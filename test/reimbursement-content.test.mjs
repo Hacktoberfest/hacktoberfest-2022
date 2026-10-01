@@ -36,6 +36,8 @@ test('the card and its three steps', () => {
     locked: 'Locked',
     agreed: 'Agreed',
     approved: 'Approved by MLH',
+    /* Step 2 for a Hack Day with digital gift cards (gift-cards-content). */
+    requested: 'Requested',
   });
 });
 

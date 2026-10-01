@@ -15,7 +15,9 @@ import {
   festTimeRange,
   formatFestDate,
 } from 'lib/fests.mjs';
-import { usefulInfo } from 'lib/usefulInfo.mjs';
+import { showsPhotoGallery } from 'lib/festDashboard.mjs';
+import { giftCardsFor } from 'lib/giftCards.mjs';
+import { prizePieces, usefulInfo } from 'lib/usefulInfo.mjs';
 
 import styles from './FestDashboard.module.css';
 import PackBox from './PackBox';
@@ -469,10 +471,13 @@ const PhotoGalleryCard = ({ fest, photos }) => {
 const EVENT_PACK_ID = 'event-pack';
 
 /* One piece of a prize line (see my.dashboard.usefulInfo.lines): text, a
-   handbook link out in a new tab, or the jump to the Event pack card in
-   this one. */
+   bold run, a handbook link out in a new tab, or the jump to the Event
+   pack card in this one. A line's gift card mark is resolved before it
+   gets here, by prizePieces. */
 const PrizePiece = ({ piece }) => {
   if (typeof piece === 'string') return piece;
+
+  if (piece.strong) return <strong>{piece.strong}</strong>;
 
   if (piece.eventPack) {
     return (
@@ -499,10 +504,15 @@ const PrizePiece = ({ piece }) => {
    and never null here: a Fest it cannot place gets no card at all. The
    deck is one pack-style row, like a Photo gallery link, with the deck
    named so a host can tell they have the right one before it is on the
-   projector. The prizes are prose, in the same paper rows. */
-const UsefulInfoCard = ({ info }) => {
+   projector. The prizes are prose, in the same paper rows.
+
+   `giftCards` is the Fest's digital gift card limit, or null without any:
+   with one, every prize line offers gift cards after its item, and a last
+   row in the ochre dress says how many there are. */
+const UsefulInfoCard = ({ info, giftCards }) => {
   const copy = my.dashboard.usefulInfo;
   const deck = copy.decks[info.deck];
+  const alternative = giftCards ? copy.giftCards.alternative : null;
 
   return (
     <section className={styles.pack} aria-labelledby="useful-info-heading">
@@ -530,16 +540,29 @@ const UsefulInfoCard = ({ info }) => {
             <ul className={styles.parcels}>
               {info.lines.map((id) => (
                 <li key={id} className={styles.prize}>
-                  {copy.lines[id].map((piece, index) => (
+                  {prizePieces(copy.lines[id], alternative).map(
+                    (piece, index) => (
+                      <PrizePiece
+                        // The pieces never reorder: position is the identity.
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={index}
+                        piece={piece}
+                      />
+                    ),
+                  )}
+                </li>
+              ))}
+              {giftCards && (
+                <li className={`${styles.prize} ${styles.prizeGift}`}>
+                  {copy.giftCards.row(giftCards).map((piece, index) => (
                     <PrizePiece
-                      // The pieces never reorder: position is the identity.
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       piece={piece}
                     />
                   ))}
                 </li>
-              ))}
+              )}
             </ul>
           </>
         )}
@@ -552,14 +575,22 @@ const UsefulInfoCard = ({ info }) => {
    resolved: a Hack Day's claim (once the API sends the reimbursement
    block), a Meet Up's thanks, or nothing for a format nobody could place
    or an API from before wrap-up. */
-const EndedCard = ({ fest, dashboard, onSubmitted, onRefresh }) => {
+const EndedCard = ({
+  fest,
+  dashboard,
+  onSubmitted,
+  onGiftCardsRequested,
+  onRefresh,
+}) => {
   if (dashboard.format === 'hackDay' && dashboard.reimbursement) {
     return (
       <ReimbursementCard
         fest={fest}
         reimbursement={dashboard.reimbursement}
+        giftCards={giftCardsFor(dashboard)}
         photos={dashboard.photos}
         onSubmitted={onSubmitted}
+        onGiftCardsRequested={onGiftCardsRequested}
         onRefresh={onRefresh}
       />
     );
@@ -570,7 +601,14 @@ const EndedCard = ({ fest, dashboard, onSubmitted, onRefresh }) => {
   return null;
 };
 
-const FestDashboard = ({ fest, dashboard, now, onSubmitted, onRefresh }) => {
+const FestDashboard = ({
+  fest,
+  dashboard,
+  now,
+  onSubmitted,
+  onGiftCardsRequested,
+  onRefresh,
+}) => {
   const location = [fest.city, fest.country].filter(Boolean).join(', ');
   const date = formatFestDate(fest.date);
   const time = festTimeRange(fest);
@@ -608,9 +646,12 @@ const FestDashboard = ({ fest, dashboard, now, onSubmitted, onRefresh }) => {
   /* Null for a format nobody could place, or an API from before partners:
      no card rather than a guessed deck. */
   const info = dashboard && !ended ? usefulInfo(dashboard) : null;
-  /* The pre-event cards (the check-in code, the event pack, Useful info,
-     the Photo gallery) are for running the Fest, so they go once it has
-     ended. */
+  /* The Fest's digital gift cards, or null: only a Hack Day the shipping
+     sheet gives some to has them (lib/giftCards.mjs). */
+  const giftCards = dashboard ? giftCardsFor(dashboard) : null;
+  /* The pre-event cards (the check-in code, the event pack, Useful info)
+     are for running the Fest, so they go once it has ended. The Photo
+     gallery stays on an ended Hack Day (showsPhotoGallery). */
   const preEvent = Boolean(dashboard) && !ended;
 
   return (
@@ -704,6 +745,7 @@ const FestDashboard = ({ fest, dashboard, now, onSubmitted, onRefresh }) => {
             fest={fest}
             dashboard={dashboard}
             onSubmitted={onSubmitted}
+            onGiftCardsRequested={onGiftCardsRequested}
             onRefresh={onRefresh}
           />
         )}
@@ -754,18 +796,27 @@ const FestDashboard = ({ fest, dashboard, now, onSubmitted, onRefresh }) => {
                   shipping sheet has no row for yet, and still gets the
                   block. See normalizeDashboard. */}
               {dashboard.packContents && (
-                <PackBox items={dashboard.packContents} />
+                <PackBox
+                  items={dashboard.packContents}
+                  giftCards={giftCards ? giftCards.limit : null}
+                />
               )}
             </div>
           </section>
         )}
 
-        {info && <UsefulInfoCard info={info} />}
+        {info && (
+          <UsefulInfoCard
+            info={info}
+            giftCards={giftCards ? giftCards.limit : null}
+          />
+        )}
 
         {/* Undefined only when the API predates the Photo gallery, which
             sends no key at all; links still to come are nulls and still get
-            the card. See normalizeDashboard. */}
-        {preEvent && dashboard.photos && (
+            the card. See normalizeDashboard. Once ended, a Hack Day keeps
+            it under its claim, whatever state that is in. */}
+        {dashboard && showsPhotoGallery(dashboard, ended) && (
           <PhotoGalleryCard fest={fest} photos={dashboard.photos} />
         )}
       </div>

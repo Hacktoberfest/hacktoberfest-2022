@@ -1168,7 +1168,14 @@ export const SCENARIOS = Object.freeze({
    fest-review-approved      force-approved by MLH, checks still out
    fest-review-no-rate       Iraq, which has no rate in the handbook
    fest-review-over-50       63 check-ins, 50 of them counted
-   fest-review-meetup        a Meet Up: thanks, no claim */
+   fest-review-meetup        a Meet Up: thanks, no claim
+   fest-review-gift-cards    4 digital gift cards, step 1 done: step 2
+                             (Award digital gift cards) open
+   fest-review-gift-cards-requested
+                             3 of its 4 gift cards requested: step 2
+                             folded, step 3 open
+
+   The gift card states before the Fest are UPCOMING_REVIEW_FESTS below. */
 const reviewFest = ({
   id,
   number,
@@ -1352,6 +1359,74 @@ export const REVIEW_FESTS = Object.freeze([
     longitude: -76.486,
     venueAddress: '216 Ontario Street, Kingston, ON, K7L 2Z3, Canada',
   }),
+  reviewFest({
+    id: 'fest-review-gift-cards',
+    number: 14812,
+    name: 'Hacktoberfest Hack Day Winnipeg',
+    city: 'Winnipeg',
+    date: '2026-09-26',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-26T23:00:00.000Z',
+    timeZone: 'America/Winnipeg',
+    latitude: 49.8951,
+    longitude: -97.1384,
+    venueAddress: '510 Main Street, Winnipeg, MB, R3B 1B9, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-gift-cards-requested',
+    number: 14813,
+    name: 'Hacktoberfest Hack Day Regina',
+    city: 'Regina',
+    date: '2026-09-26',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-09-27T00:00:00.000Z',
+    timeZone: 'America/Regina',
+    latitude: 50.4452,
+    longitude: -104.6189,
+    venueAddress: '2405 Legislative Drive, Regina, SK, S4S 0B3, Canada',
+  }),
+]);
+
+/* Review Fests that have not happened yet, for the digital gift cards'
+   pre-event surfaces: reachable by id in a mocked build, like
+   REVIEW_FESTS, and on no scenario's /my. Both are on the last weekend of
+   October, so they read as upcoming for as long as anyone reviews them.
+
+   fest-review-gift-cards-upcoming
+                             a Gemma Hack Day with 4 gift cards: the Event
+                             pack's chip and hint, both prize lines
+                             offering gift cards, and the ochre count row
+   fest-review-gift-cards-meetup
+                             a Meet Up whose payload carries a gift card
+                             block anyway (the API sends null for one):
+                             the page holds the rule, and nothing shows */
+export const UPCOMING_REVIEW_FESTS = Object.freeze([
+  reviewFest({
+    id: 'fest-review-gift-cards-upcoming',
+    number: 14814,
+    name: 'Hacktoberfest Hack Day Kitchener x SharkHacks4',
+    city: 'Kitchener',
+    date: '2026-10-31',
+    times: ['10:00 AM', '6:00 PM'],
+    endsAt: '2026-10-31T22:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 43.4516,
+    longitude: -80.4925,
+    venueAddress: '200 King Street West, Kitchener, ON, N2G 4G7, Canada',
+  }),
+  reviewFest({
+    id: 'fest-review-gift-cards-meetup',
+    number: 14815,
+    name: 'Hacktoberfest Meet Up London',
+    city: 'London',
+    date: '2026-10-30',
+    times: ['6:00 PM', '9:00 PM'],
+    endsAt: '2026-10-31T01:00:00.000Z',
+    timeZone: 'America/Toronto',
+    latitude: 42.9849,
+    longitude: -81.2453,
+    venueAddress: '251 Dundas Street, London, ON, N6A 6H9, Canada',
+  }),
 ]);
 
 /* The handbook's Canada rate, and a limit worked out from it the way the
@@ -1517,6 +1592,73 @@ const REVIEW_FEST_DASHBOARDS = {
     format: 'meetUp',
     reimbursement: { limit: canada(19, 19, 110.2) },
   }),
+  'fest-review-gift-cards': reviewDashboard('fest-review-gift-cards', {
+    registrationsCount: 64,
+    checkInsCount: 42,
+    partners: ['gemma'],
+    giftCards: { limit: 4, request: null },
+    reimbursement: { eligible: true, limit: canada(42, 42, 243.6) },
+  }),
+  'fest-review-gift-cards-requested': reviewDashboard(
+    'fest-review-gift-cards-requested',
+    {
+      registrationsCount: 55,
+      checkInsCount: 38,
+      giftCards: {
+        limit: 4,
+        request: {
+          submittedAt: '2026-09-27T16:05:00.000Z',
+          byYou: true,
+          emails: [
+            'jamie@sharkhacks.ca',
+            'priya@utoronto.ca',
+            'sam.o@queensu.ca',
+          ],
+        },
+      },
+      reimbursement: { eligible: true, limit: canada(38, 38, 220.4) },
+    },
+  ),
+};
+
+/* The upcoming review Fests' dashboards: nothing checked in yet, the pack
+   shipped with everything in it, the album's links. */
+const upcomingDashboard = (id, rest) => {
+  const slug = id.replace(/^fest-review-/, '');
+  return {
+    registrationsCount: 47,
+    checkInsCount: 0,
+    trackingNumbers: ['1Z999AA10123456784'],
+    packContents: ['arduino', 'tshirts', 'beltBags', 'infoCards', 'stickers'],
+    checkInCode: 'G1FT4U',
+    photos: {
+      galleryUrl: `https://example.invalid/smugmug/review-${slug}/gallery`,
+      uploadUrl: `https://example.invalid/smugmug/review-${slug}/upload`,
+    },
+    ...rest,
+  };
+};
+
+const UPCOMING_REVIEW_FEST_DASHBOARDS = {
+  'fest-review-gift-cards-upcoming': upcomingDashboard(
+    'fest-review-gift-cards-upcoming',
+    {
+      format: 'hackDay',
+      partners: ['gemma'],
+      giftCards: { limit: 4, request: null },
+    },
+  ),
+  /* The API blanks a Meet Up's partners and sends it no gift cards; this
+     one keeps the block to show the page holds the rule too. */
+  'fest-review-gift-cards-meetup': upcomingDashboard(
+    'fest-review-gift-cards-meetup',
+    {
+      registrationsCount: 22,
+      format: 'meetUp',
+      partners: [],
+      giftCards: { limit: 4, request: null },
+    },
+  ),
 };
 
 /* The per-Fest dashboards, keyed by the fest ids used in SCENARIOS above.
@@ -1634,8 +1776,9 @@ export const FEST_DASHBOARDS = Object.freeze({
     format: 'hackDay',
     partners: ['snowflake'],
   },
-  /* The ended Fests above, reachable by id only. */
+  /* The review Fests above, ended and upcoming, reachable by id only. */
   ...REVIEW_FEST_DASHBOARDS,
+  ...UPCOMING_REVIEW_FEST_DASHBOARDS,
 });
 
 /* What an event with no dashboard row of its own shows: a Fest nobody has

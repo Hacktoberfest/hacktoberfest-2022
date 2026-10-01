@@ -2,12 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 
 import { AlertIcon, CheckIcon, HourglassIcon } from 'components/icons/badges';
 import { my } from 'data/content.mjs';
+import { giftCardRowProblems, requestGiftCards } from 'lib/giftCards.mjs';
 import {
   festDeadlines,
   formatSentDate,
   formatUsd,
   openingStep,
   payeeInvalidFields,
+  railSteps,
   submitOutcome,
   submitReimbursement,
   wrapUpChecks,
@@ -25,6 +27,11 @@ import { copyLabelFor, useCopy } from './useCopy';
    step 3 who gets paid. Once anyone has sent the claim the card is the
    sent state for good, for every host of the Fest.
 
+   A Hack Day with digital gift cards has four steps (direction Z of the
+   2026-10-01 canvas): "Award digital gift cards" comes second, the
+   winners' emails inline in the step, and folds for good once a request
+   is on record. lib/reimbursement.mjs's railSteps orders the rail.
+
    Steps 2 to 3 are this card's own state: a reload before sending starts
    again at step 2 with both boxes unticked, which is the spec's rule (the
    ticks are agreements, so they are made again rather than remembered).
@@ -35,8 +42,6 @@ import { copyLabelFor, useCopy } from './useCopy';
    one by one as a reveal, here they are a standing report. */
 
 const copy = my.dashboard.reimbursement;
-
-const TOTAL_STEPS = 3;
 
 /* The arrow out of the box, for a link that opens a new tab onto another
    site's page. */
@@ -375,7 +380,14 @@ const FIELDS = [
    API's answer decides the rest (see submitOutcome). A claim someone
    already sent, or a session or Fest that has gone, reloads the page,
    which then shows what is true. */
-const PayeePanel = ({ fest, readHandbook, agreed, onSent, onRefresh }) => {
+const PayeePanel = ({
+  fest,
+  readHandbook,
+  agreed,
+  giftCardsOn,
+  onSent,
+  onRefresh,
+}) => {
   const { payee } = copy;
   const [values, setValues] = useState({
     firstName: '',
@@ -440,7 +452,7 @@ const PayeePanel = ({ fest, readHandbook, agreed, onSent, onRefresh }) => {
       if (submission) onSent(submission);
       else onRefresh();
     } catch (failure) {
-      const outcome = submitOutcome(failure);
+      const outcome = submitOutcome(failure, { giftCardsOn });
       if (outcome === 'refetch') {
         onRefresh();
         return;
@@ -537,6 +549,255 @@ const PayeePanel = ({ fest, readHandbook, agreed, onSent, onRefresh }) => {
   );
 };
 
+/* The gift card rows' two small icons, in the stroke of the remove and
+   add buttons' type. */
+const CrossIcon = () => (
+  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+    <path d="M2 2l8 8M10 2 2 10" stroke="currentColor" strokeWidth="2.2" />
+  </svg>
+);
+
+const PlusIcon = () => (
+  <svg viewBox="0 0 12 12" aria-hidden="true" focusable="false">
+    <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="2.2" />
+  </svg>
+);
+
+/* The two lines a failed request can leave: about the rows, under them,
+   and about the send, under the button, as the payee form's is. */
+const CARDS_ERROR_ID = 'gift-cards-error';
+const REQUEST_ERROR_ID = 'gift-cards-request-error';
+
+const ROW_ERRORS = new Set(['rows', 'empty']);
+
+const inputName = (key) => `gift-card-${key}`;
+
+/* Step 2's open panel: the winners' emails, one row per card, sent once.
+   The rows live in the card (they are counted in the step's head), as
+   { key, value } so a removed row takes its own value with it. Checked
+   against the API's rules before the request (giftCardRowProblems), so a
+   typo or a repeat is caught here; the API's answer decides the rest, read
+   as the payee's is (submitOutcome). A request someone already made, or a
+   session or Fest that has gone, reloads the page, which then shows what
+   is true. */
+const GiftCardsPanel = ({
+  fest,
+  limit,
+  rows,
+  setRows,
+  newKey,
+  onRequested,
+  onRefresh,
+}) => {
+  const step = copy.giftCards;
+  /* Row key -> 'invalid' | 'duplicate' | 'empty' ('empty' marks the first
+     row when every row is empty, with no line of its own). */
+  const [problems, setProblems] = useState({});
+  const [error, setError] = useState(null);
+  const [sending, setSending] = useState(false);
+  const formRef = useRef(null);
+  const requestButton = useRef(null);
+  /* Where focus goes after the next render: a row's key, or 'request'.
+     After the render, since a new row is not there yet and a disabled
+     control cannot take focus. */
+  const pendingFocus = useRef(null);
+
+  useEffect(() => {
+    const target = pendingFocus.current;
+    if (target === null || sending) return;
+    pendingFocus.current = null;
+    if (target === 'request') requestButton.current?.focus();
+    else formRef.current?.elements.namedItem(inputName(target))?.focus();
+  });
+
+  const filled = rows.filter((row) => row.value.trim()).length;
+
+  const unmark = (key) =>
+    setProblems((current) => {
+      if (!(key in current)) return current;
+      const next = { ...current };
+      delete next[key];
+      return next;
+    });
+
+  const edit = (key, value) => {
+    setRows((current) =>
+      current.map((row) => (row.key === key ? { ...row, value } : row)),
+    );
+    /* An edit is a fix attempt, so the row stops reading as wrong until
+       the next request says otherwise. */
+    unmark(key);
+    /* "Add at least one" marked card 1 for the whole list, so any edit
+       that answers it clears that mark too, not just the line. */
+    if (error === 'empty') {
+      setError(null);
+      setProblems({});
+    }
+  };
+
+  const add = () => {
+    const key = newKey();
+    setRows((current) => [...current, { key, value: '' }]);
+    pendingFocus.current = key;
+  };
+
+  /* Focus stays in the list: the row that moves up into this one's place,
+     or the one above when it was the last. */
+  const remove = (index) => {
+    const next = rows.filter((_, position) => position !== index);
+    pendingFocus.current = next[Math.min(index, next.length - 1)].key;
+    unmark(rows[index].key);
+    setRows(next);
+  };
+
+  const request = async (event) => {
+    event.preventDefault();
+    if (sending) return;
+
+    const check = giftCardRowProblems(rows.map((row) => row.value));
+    const bad = {};
+    check.problems.forEach((problem, index) => {
+      if (problem) bad[rows[index].key] = problem;
+    });
+    if (check.empty) bad[rows[0].key] = 'empty';
+
+    const firstBad = rows.find((row) => bad[row.key]);
+    if (firstBad) {
+      setProblems(bad);
+      setError(check.empty ? 'empty' : 'rows');
+      /* The first row that needs fixing takes the focus, so the host lands
+         on the problem rather than wherever they last typed. */
+      event.currentTarget.elements.namedItem(inputName(firstBad.key))?.focus();
+      return;
+    }
+
+    setProblems({});
+    setError(null);
+    setSending(true);
+    try {
+      const result = await requestGiftCards(fest.id, check.emails);
+      if (result) onRequested(result);
+      else onRefresh();
+    } catch (failure) {
+      const outcome = submitOutcome(failure);
+      if (outcome === 'refetch') {
+        onRefresh();
+        return;
+      }
+      pendingFocus.current = 'request';
+      setError(outcome);
+      setSending(false);
+    }
+  };
+
+  /* The rows line shows while a row is still marked: once every marked
+     row has been edited, there is nothing left to point at. */
+  const rowsLine =
+    ROW_ERRORS.has(error) && Object.keys(problems).length > 0
+      ? step.errors[error]
+      : null;
+  const requestLine =
+    error && !ROW_ERRORS.has(error) ? step.errors[error] : null;
+
+  return (
+    <form className={styles.form} onSubmit={request} noValidate ref={formRef}>
+      <p className={styles.line}>{step.intro(limit)}</p>
+      <p className={styles.line}>{step.instructions}</p>
+      <div className={styles.cards}>
+        <ol className={styles.cardRows}>
+          {rows.map((row, index) => {
+            const id = inputName(row.key);
+            const problem = problems[row.key];
+            const rowError = problem && problem !== 'empty';
+            const describedBy = [
+              rowError ? `${id}-error` : null,
+              problem && rowsLine ? CARDS_ERROR_ID : null,
+            ].filter(Boolean);
+            return (
+              <li key={row.key} className={styles.cardRow}>
+                <label className={styles.cardLabel} htmlFor={id}>
+                  {step.rowLabel(index + 1)}
+                </label>
+                <input
+                  className={`${styles.input} ${styles.cardInput}`}
+                  id={id}
+                  name={id}
+                  type="email"
+                  /* Someone else's address: the host's own would be the
+                     wrong thing for the browser to offer. */
+                  autoComplete="off"
+                  maxLength={254}
+                  value={row.value}
+                  aria-invalid={problem ? true : undefined}
+                  aria-describedby={describedBy.join(' ') || undefined}
+                  disabled={sending}
+                  onChange={(event) => edit(row.key, event.target.value)}
+                />
+                {rows.length > 1 && (
+                  <button
+                    type="button"
+                    className={styles.cardRemove}
+                    aria-label={step.removeLabel(index + 1)}
+                    disabled={sending}
+                    onClick={() => remove(index)}
+                  >
+                    <CrossIcon />
+                  </button>
+                )}
+                {rowError && (
+                  <p className={styles.cardError} id={`${id}-error`}>
+                    {step.rowErrors[problem]}
+                  </p>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+        {rows.length < limit && (
+          <button
+            type="button"
+            className={styles.cardAdd}
+            disabled={sending}
+            onClick={add}
+          >
+            <PlusIcon />
+            {step.addCta}
+          </button>
+        )}
+      </div>
+      {rowsLine && (
+        <p className={styles.error} id={CARDS_ERROR_ID} role="alert">
+          {rowsLine}
+        </p>
+      )}
+      <div className={styles.note}>
+        <p className={styles.strong}>{step.onceLead}</p>
+        <p>
+          <Pieces pieces={step.onceBody} />
+        </p>
+      </div>
+      <div className={styles.actions}>
+        <button
+          type="submit"
+          className={styles.button}
+          disabled={sending}
+          ref={requestButton}
+          aria-describedby={requestLine ? REQUEST_ERROR_ID : undefined}
+        >
+          {/* The addresses it would send; never "Request 0", since with
+              every row empty the request only says to add one. */}
+          {sending ? step.requestingCta : step.requestCta(Math.max(filled, 1))}
+        </button>
+      </div>
+      {requestLine && (
+        <p className={styles.error} id={REQUEST_ERROR_ID} role="alert">
+          {requestLine}
+        </p>
+      )}
+    </form>
+  );
+};
+
 const STEP_CLASS = {
   done: styles.stepDone,
   here: styles.stepHere,
@@ -544,26 +805,63 @@ const STEP_CLASS = {
 };
 
 /* One step on the rail: the square marker (a tick once done, the number
-   otherwise), the title with its mono status, then a folded summary or
-   the open panel. */
-const RailStep = ({ number, state, title, status, summary, children }) => (
-  <li
-    className={`${styles.railStep} ${STEP_CLASS[state]}`}
-    aria-current={state === 'here' ? 'step' : undefined}
-  >
-    <span className={styles.mark} aria-hidden="true">
-      {state === 'done' ? <CheckIcon className={styles.markCheck} /> : number}
-    </span>
-    <div className={styles.stepBody}>
-      <div className={styles.stepHead}>
-        <h3 className={styles.stepTitle}>{title}</h3>
-        {status && <span className={styles.stepStatus}>{status}</span>}
+   otherwise), the title with its mono status (or the gift cards' meter,
+   in the muted voice, announced as it changes), then a folded summary or
+   the open panel. focusSummary moves focus to the summary once it is
+   there: the confirmation of what the host just sent. */
+const RailStep = ({
+  number,
+  state,
+  title,
+  status,
+  meter,
+  summary,
+  focusSummary,
+  children,
+}) => {
+  const summaryRef = useRef(null);
+  const folded = Boolean(summary);
+
+  useEffect(() => {
+    if (focusSummary && folded) summaryRef.current?.focus();
+  }, [focusSummary, folded]);
+
+  return (
+    <li
+      className={`${styles.railStep} ${STEP_CLASS[state]}`}
+      aria-current={state === 'here' ? 'step' : undefined}
+    >
+      <span className={styles.mark} aria-hidden="true">
+        {state === 'done' ? <CheckIcon className={styles.markCheck} /> : number}
+      </span>
+      <div className={styles.stepBody}>
+        <div className={styles.stepHead}>
+          <h3 className={styles.stepTitle}>{title}</h3>
+          {meter ? (
+            <span
+              className={`${styles.stepStatus} ${styles.meter}`}
+              aria-live="polite"
+            >
+              {meter}
+            </span>
+          ) : (
+            status && <span className={styles.stepStatus}>{status}</span>
+          )}
+        </div>
+        {summary && (
+          <p
+            className={styles.summary}
+            ref={summaryRef}
+            tabIndex={focusSummary ? -1 : undefined}
+          >
+            {summary}
+          </p>
+        )}
+        {children && <div className={styles.panel}>{children}</div>}
       </div>
-      {summary && <p className={styles.summary}>{summary}</p>}
-      {children && <div className={styles.panel}>{children}</div>}
-    </div>
-  </li>
-);
+    </li>
+  );
+};
 
 /* One of the three values Ramp asks for, with its own Copy. */
 const RampValue = ({ label, value }) => {
@@ -698,17 +996,27 @@ const organizerHqUrl = (fest) =>
     ? fest.manageUrl
     : null;
 
+/* `giftCards` is lib/giftCards.mjs's giftCardsFor: the Fest's limit and
+   request, or null for a Fest without gift cards, which keeps the three
+   steps it always had. */
 export const ReimbursementCard = ({
   fest,
   reimbursement,
+  giftCards,
   photos,
   onSubmitted,
+  onGiftCardsRequested,
   onRefresh,
 }) => {
   const [advanced, setAdvanced] = useState(false);
   const [readHandbook, setReadHandbook] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [justSent, setJustSent] = useState(false);
+  const [justRequested, setJustRequested] = useState(false);
+  /* Step 2's rows, here rather than in the panel because the step's head
+     counts them. One empty row to start. */
+  const [cardRows, setCardRows] = useState([{ key: 0, value: '' }]);
+  const nextRowKey = useRef(1);
 
   const opening = openingStep(reimbursement);
   const { limit, forceApproved } = reimbursement;
@@ -724,7 +1032,8 @@ export const ReimbursementCard = ({
     );
   }
 
-  const step = opening === 1 ? 1 : advanced && limit ? 3 : 2;
+  const steps = railSteps(reimbursement, giftCards, { advanced });
+  const current = steps.find((step) => step.state === 'here');
   const checks = wrapUpChecks(reimbursement.checks);
   const passing = checks.filter((check) => check.verdict === 'pass').length;
   const manageUrl = organizerHqUrl(fest);
@@ -735,39 +1044,45 @@ export const ReimbursementCard = ({
     onSubmitted(submission);
   };
 
-  return (
-    <section className={styles.card} aria-labelledby="reimbursement-heading">
-      <div className={styles.head}>
-        <h2 className={styles.title} id="reimbursement-heading">
-          {copy.title}
-        </h2>
-        <span className={styles.counter}>
-          {copy.stepCounter(step, TOTAL_STEPS)}
-        </span>
-      </div>
-      {step === 1 && <p className={styles.line}>{copy.intro}</p>}
+  const onRequested = (request) => {
+    setJustRequested(true);
+    onGiftCardsRequested(request);
+  };
 
-      <ol className={styles.rail}>
+  const newRowKey = () => {
+    const key = nextRowKey.current;
+    nextRowKey.current += 1;
+    return key;
+  };
+
+  /* Each step by its id, numbered by its place on this Fest's rail. */
+  const renderStep = ({ id, number, state }) => {
+    const here = state === 'here';
+    const done = state === 'done';
+
+    if (id === 'wrapUp') {
+      return (
         <RailStep
-          number={1}
-          state={step === 1 ? 'here' : 'done'}
+          key={id}
+          number={number}
+          state={state}
           title={copy.wrapUp.title}
           status={
-            step === 1
+            here
               ? copy.wrapUp.progress(passing, checks.length)
               : forceApproved
                 ? copy.status.approved
                 : copy.status.done
           }
           summary={
-            step === 1
+            here
               ? null
               : forceApproved
                 ? copy.wrapUp.approvedSummary
                 : copy.wrapUp.summary
           }
         >
-          {step === 1 && (
+          {here && (
             <WrapUpPanel
               checks={checks}
               manageUrl={manageUrl}
@@ -775,20 +1090,60 @@ export const ReimbursementCard = ({
             />
           )}
         </RailStep>
+      );
+    }
 
+    if (id === 'giftCards') {
+      const { request } = giftCards;
+      return (
         <RailStep
-          number={2}
-          state={step === 1 ? 'todo' : step === 2 ? 'here' : 'done'}
-          title={copy.claim.title}
-          status={
-            step === 1
-              ? copy.status.locked
-              : step === 2
-                ? null
-                : copy.status.agreed
+          key={id}
+          number={number}
+          state={state}
+          title={copy.giftCards.title}
+          status={done ? copy.status.requested : copy.status.locked}
+          meter={
+            here ? copy.giftCards.meter(cardRows.length, giftCards.limit) : null
           }
           summary={
-            step === 3 ? (
+            done ? (
+              <Pieces
+                pieces={copy.giftCards.summary(
+                  request.emails.length,
+                  giftCards.limit,
+                  formatSentDate(request.submittedAt, fest.timeZone),
+                  request.byYou,
+                )}
+              />
+            ) : null
+          }
+          focusSummary={justRequested}
+        >
+          {here && (
+            <GiftCardsPanel
+              fest={fest}
+              limit={giftCards.limit}
+              rows={cardRows}
+              setRows={setCardRows}
+              newKey={newRowKey}
+              onRequested={onRequested}
+              onRefresh={onRefresh}
+            />
+          )}
+        </RailStep>
+      );
+    }
+
+    if (id === 'claim') {
+      return (
+        <RailStep
+          key={id}
+          number={number}
+          state={state}
+          title={copy.claim.title}
+          status={here ? null : done ? copy.status.agreed : copy.status.locked}
+          summary={
+            done ? (
               <Pieces
                 pieces={copy.claim.summary(
                   formatUsd(limit.amount),
@@ -798,7 +1153,7 @@ export const ReimbursementCard = ({
             ) : null
           }
         >
-          {step === 2 && (
+          {here && (
             <ClaimPanel
               limit={limit}
               country={
@@ -814,24 +1169,44 @@ export const ReimbursementCard = ({
             />
           )}
         </RailStep>
+      );
+    }
 
-        <RailStep
-          number={3}
-          state={step === 3 ? 'here' : 'todo'}
-          title={copy.payee.title}
-          status={step === 3 ? null : copy.status.locked}
-        >
-          {step === 3 && (
-            <PayeePanel
-              fest={fest}
-              readHandbook={readHandbook}
-              agreed={agreed}
-              onSent={onSent}
-              onRefresh={onRefresh}
-            />
-          )}
-        </RailStep>
-      </ol>
+    return (
+      <RailStep
+        key={id}
+        number={number}
+        state={state}
+        title={copy.payee.title}
+        status={here ? null : copy.status.locked}
+      >
+        {here && (
+          <PayeePanel
+            fest={fest}
+            readHandbook={readHandbook}
+            agreed={agreed}
+            giftCardsOn={Boolean(giftCards)}
+            onSent={onSent}
+            onRefresh={onRefresh}
+          />
+        )}
+      </RailStep>
+    );
+  };
+
+  return (
+    <section className={styles.card} aria-labelledby="reimbursement-heading">
+      <div className={styles.head}>
+        <h2 className={styles.title} id="reimbursement-heading">
+          {copy.title}
+        </h2>
+        <span className={styles.counter}>
+          {copy.stepCounter(current.number, steps.length)}
+        </span>
+      </div>
+      {current.id === 'wrapUp' && <p className={styles.line}>{copy.intro}</p>}
+
+      <ol className={styles.rail}>{steps.map(renderStep)}</ol>
     </section>
   );
 };

@@ -41,3 +41,17 @@ export const usefulInfo = (input) => {
     ? { deck: partner, lines: ['openSourceAi', partner] }
     : { deck: 'hackDay', lines: ['openSourceAi'] };
 };
+
+/* A prize line's pieces, ready to render: the { giftCards: true } mark
+   after the item the line awards becomes the gift card alternative, after
+   a space, for a Hack Day with digital gift cards (`alternative` is
+   my.dashboard.usefulInfo.giftCards.alternative), and goes otherwise, so
+   the line reads exactly as it did. Whether the Fest has gift cards is
+   lib/giftCards.mjs's giftCardsFor. */
+export const prizePieces = (pieces, alternative) =>
+  pieces.flatMap((piece) => {
+    if (!piece || typeof piece !== 'object' || !piece.giftCards) {
+      return [piece];
+    }
+    return alternative ? [` ${alternative}`] : [];
+  });

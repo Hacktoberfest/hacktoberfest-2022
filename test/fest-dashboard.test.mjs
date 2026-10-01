@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { normalizeDashboard, PACK_ITEMS } from '../src/lib/festDashboard.mjs';
+import {
+  normalizeDashboard,
+  PACK_ITEMS,
+  showsPhotoGallery,
+} from '../src/lib/festDashboard.mjs';
 import { usefulInfo } from '../src/lib/usefulInfo.mjs';
 
 const body = {
@@ -504,4 +508,90 @@ test('a submission is by a co-host unless the API says otherwise, and keeps its 
     byYou: false,
     payee: { firstName: '', lastName: '', email: '' },
   });
+});
+
+/* Digital gift cards: the API sends `giftCards` only for a Hack Day whose
+   shipping sheet row gives it some, and null otherwise. Same seam as the
+   rest: an API from before gift cards sends no key, and nothing changes. */
+
+const giftCardsOf = (value) =>
+  normalizeDashboard({
+    fest: body.fest,
+    dashboard: { giftCards: value },
+  }).dashboard.giftCards;
+
+test('a gift card block passes through', () => {
+  const giftCards = {
+    limit: 4,
+    request: {
+      submittedAt: '2026-10-25T15:12:00.000Z',
+      byYou: false,
+      emails: ['jamie@sharkhacks.ca'],
+    },
+  };
+
+  assert.deepEqual(giftCardsOf(giftCards), giftCards);
+});
+
+test('null, or a block with no usable limit, reads as no gift cards', () => {
+  assert.equal(giftCardsOf(null), null);
+  assert.equal(giftCardsOf({ limit: 0, request: null }), null);
+  assert.equal(giftCardsOf('4'), null);
+});
+
+test('an API that sends no giftCards key leaves it off, so nothing changes', () => {
+  const result = normalizeDashboard(body);
+
+  assert.equal('giftCards' in result.dashboard, false);
+});
+
+/* The Photo gallery card: before the Fest for every format, and after it
+   for a Hack Day in every state of its claim, sent included. An ended
+   Meet Up's thanks card carries the links itself. */
+
+const PHOTOS = { galleryUrl: null, uploadUrl: null };
+
+test('the Photo gallery shows before the Fest, whatever the format', () => {
+  for (const format of ['hackDay', 'meetUp', null]) {
+    assert.equal(
+      showsPhotoGallery({ format, photos: PHOTOS }, false),
+      true,
+      String(format),
+    );
+  }
+});
+
+test('an ended Hack Day keeps its Photo gallery, sent or not', () => {
+  assert.equal(
+    showsPhotoGallery({ format: 'hackDay', photos: PHOTOS }, true),
+    true,
+  );
+  assert.equal(
+    showsPhotoGallery(
+      {
+        format: 'hackDay',
+        photos: PHOTOS,
+        reimbursement: { submission: { submittedAt: '2026-10-25' } },
+      },
+      true,
+    ),
+    true,
+  );
+});
+
+test('an ended Meet Up, or a Fest nobody could place, shows no Photo gallery card', () => {
+  assert.equal(
+    showsPhotoGallery({ format: 'meetUp', photos: PHOTOS }, true),
+    false,
+  );
+  assert.equal(
+    showsPhotoGallery({ format: null, photos: PHOTOS }, true),
+    false,
+  );
+});
+
+test('an API from before the Photo gallery shows none, before or after', () => {
+  assert.equal(showsPhotoGallery({ format: 'hackDay' }, false), false);
+  assert.equal(showsPhotoGallery({ format: 'hackDay' }, true), false);
+  assert.equal(showsPhotoGallery(null, false), false);
 });

@@ -185,6 +185,47 @@ export const openingStep = (reimbursement) => {
   return reimbursement.eligible ? 2 : 1;
 };
 
+/* Steps whose being done is the API's record rather than this card's own
+   state, so they read as done wherever they sit on the rail. */
+const RECORDED = new Set(['wrapUp', 'giftCards']);
+
+/* The rail of an unsent claim, in order, each step done, the one the host
+   is on (here), or still to come (todo). Three steps, or four when the
+   Fest has gift cards (lib/giftCards.mjs's giftCardsFor), the gift cards
+   second: they open once step 1 is done (the checks, or MLH's
+   force-approval) and fold once a request is on record, for every host.
+   The API refuses the reimbursement until then (409
+   GIFT_CARDS_NOT_REQUESTED), so the card asks in the same order.
+
+   `advanced` is Continue on the claim step, this card's own state; with
+   no rate there is no Continue, so the payee step never opens. The host
+   is on the first step not done. After it, only a step the API has on
+   record can read as done: a request MLH has had since step 1 reopened
+   (a force-approval cleared) stays done rather than unsent. */
+export const railSteps = (reimbursement, giftCards, { advanced } = {}) => {
+  const ids = giftCards
+    ? ['wrapUp', 'giftCards', 'claim', 'payee']
+    : ['wrapUp', 'claim', 'payee'];
+  const done = {
+    wrapUp: reimbursement.eligible === true,
+    giftCards: Boolean(giftCards && giftCards.request),
+    claim: advanced === true && Boolean(reimbursement.limit),
+    payee: false,
+  };
+  let reached = false;
+
+  return ids.map((id, index) => {
+    let state = 'todo';
+    if (!reached && !done[id]) {
+      state = 'here';
+      reached = true;
+    } else if (done[id] && (!reached || RECORDED.has(id))) {
+      state = 'done';
+    }
+    return { id, number: index + 1, state };
+  });
+};
+
 /* The API's body rules, run before the request so a typo is caught on the
    form rather than after a round trip: names 1 to 100 characters once
    trimmed, with no control characters (a pasted line break or tab); the
@@ -205,7 +246,9 @@ const nameValid = (value) => {
   return name.length > 0 && name.length <= NAME_MAX && !CONTROL.test(name);
 };
 
-const emailValid = (value) => {
+/* Exported for the gift card rows (lib/giftCards.mjs), which the API holds
+   to this same rule. */
+export const emailValid = (value) => {
   const email = text(value);
   return email.length <= EMAIL_MAX && EMAIL.test(email) && !CONTROL.test(email);
 };
@@ -221,19 +264,32 @@ export const payeeInvalidFields = (payee) => {
 
 /* What the card does about a failed send.
 
-   refetch: someone already sent it (409 ALREADY_SUBMITTED), the session
-   died (401), or the Fest is no longer this host's or no longer there
-   (403, 404). The page reloads the dashboard, and either the sent state or
-   the page's own surface for that answer takes over.
+   refetch: someone already sent it (409 ALREADY_SUBMITTED), the Fest's
+   gift cards are not requested yet (409 GIFT_CARDS_NOT_REQUESTED), the
+   session died (401), or the Fest is no longer this host's or no longer
+   there (403, 404). The page reloads the dashboard, and the sent state,
+   the gift card step or the page's own surface for that answer takes
+   over. The gift card request (lib/giftCards.mjs) is read the same way.
    invalid: the API refused the body (400).
    changed: any other 409 (not ended, not a Hack Day, not eligible, no
    rate): the page is out of date.
-   unavailable: MLH's form (502) or anything else, so try again. */
-export const submitOutcome = (error) => {
+   unavailable: MLH's form (502) or anything else, so try again.
+
+   `giftCardsOn` is whether this page shows the Fest's gift cards. A
+   GIFT_CARDS_NOT_REQUESTED on a page that shows none would refetch into
+   the same form with no word said, so there it is "changed" instead, and
+   the reload it asks for shows the step. */
+export const submitOutcome = (error, { giftCardsOn = true } = {}) => {
   const status = error ? error.status : undefined;
   const code = error && isObject(error.body) ? error.body.error : undefined;
 
   if (status === 409 && code === 'ALREADY_SUBMITTED') return 'refetch';
+  /* The Fest has gift cards and no forwarded request: they were turned on
+     after this page loaded, or the request it read was still being
+     forwarded and then failed. The fresh dashboard shows the step. */
+  if (status === 409 && code === 'GIFT_CARDS_NOT_REQUESTED') {
+    return giftCardsOn ? 'refetch' : 'changed';
+  }
   if (status === 401 || status === 403 || status === 404) return 'refetch';
   if (status === 400) return 'invalid';
   if (status === 409) return 'changed';

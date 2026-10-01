@@ -2595,6 +2595,14 @@ export const my = {
         },
         pending:
           'Your box’s contents will appear here once we have confirmed them.',
+        /* A Hack Day with digital gift cards (lib/giftCards.mjs): one more
+           chip, in the ochre ground since it is the one thing listed that
+           is not in the box, and the hint saying so. */
+        giftCards: {
+          label: 'Digital gift cards',
+          count: (count) => `× ${count}`,
+          hint: 'Digital gift cards will be sent directly to your winners after your Fest. Please keep track of any winners who do not receive physical prizes.',
+        },
         estimateLead: 'This is an estimate for your planning purposes.',
         estimateBody:
           'Please double check your box to verify exact items and quantities before promising inventory to participants. If your box contents differ from this list, please reach out to us at',
@@ -2642,6 +2650,11 @@ export const my = {
        A prize line is a list of pieces: a string is text, { text, href } a
        link out (new tab), and { text, eventPack: true } the jump to the
        Event pack card on the same page, which is where the prizes arrive.
+       { giftCards: true } marks the end of the item a line awards: for a
+       Hack Day with digital gift cards it reads as giftCards.alternative
+       below, after a space, and otherwise it is nothing at all
+       (lib/usefulInfo.mjs's prizePieces). Every line awards an item, so
+       every line has one.
        The partner lines are the Pre-event Host Features doc's, word for
        word, except "(see Package info)" (now "(see Event pack)" after the
        card's name). The every-Hack-Day line was reworded by the product
@@ -2682,6 +2695,21 @@ export const my = {
         },
       },
       prizesLabel: 'Prizes',
+      /* A Hack Day with digital gift cards: the alternative each prize
+         line gains after its item, and a last row in the ochre dress with
+         the count. Wording is the 2026-10-01 spec's, the first sentence
+         bold as on the canvas. */
+      giftCards: {
+        alternative: 'or digital gift cards (based on package inventory)',
+        row: (count) => [
+          {
+            strong: `You have ${count} digital ${
+              count === 1 ? 'gift card' : 'gift cards'
+            } to give away to winners who do not receive physical prizes.`,
+          },
+          ' Please ensure you ask your winners who need gift cards for their emails - you’ll need to provide them after your Fest concludes.',
+        ],
+      },
       lines: {
         openSourceAi: [
           'Every Hack Day runs the ',
@@ -2689,7 +2717,9 @@ export const my = {
             text: 'Best Open-Source AI Project',
             href: 'https://hacktoberfest-handbook.mlh.com/fest-planning-guide/open-source-prize-categories',
           },
-          ' challenge. Award 4 Belt Bags to the winning team (see ',
+          ' challenge. Award 4 Belt Bags',
+          { giftCards: true },
+          ' to the winning team (see ',
           { text: 'Event pack', eventPack: true },
           ').',
         ],
@@ -2698,7 +2728,9 @@ export const my = {
             text: 'Your event is a Gemma event.',
             href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-google-gemma',
           },
-          ' Award 4 Belt Bags to the winning team (see ',
+          ' Award 4 Belt Bags',
+          { giftCards: true },
+          ' to the winning team (see ',
           { text: 'Event pack', eventPack: true },
           ').',
         ],
@@ -2707,14 +2739,18 @@ export const my = {
             text: 'Your event is a Snowflake event.',
             href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-snowflake-coco',
           },
-          ' Award your Arduino Tiny Machine Learning Kits to the winning team.',
+          ' Award your Arduino Tiny Machine Learning Kits',
+          { giftCards: true },
+          ' to the winning team.',
         ],
         github: [
           {
             text: 'Your event is a GitHub event.',
             href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-github-copilot',
           },
-          ' Award your Wireless Headphones to the winning team (see ',
+          ' Award your Wireless Headphones',
+          { giftCards: true },
+          ' to the winning team (see ',
           { text: 'Event pack', eventPack: true },
           ').',
         ],
@@ -2723,7 +2759,9 @@ export const my = {
             text: 'Your event is a Solana event.',
             href: 'https://hacktoberfest-handbook.mlh.com/hack-days-partner-modules/partner-challenge-solana',
           },
-          ' Award your Ledger Nano S Plus kits to the winning team.',
+          ' Award your Ledger Nano S Plus kits',
+          { giftCards: true },
+          ' to the winning team.',
         ],
       },
     },
@@ -2753,6 +2791,7 @@ export const my = {
         locked: 'Locked',
         agreed: 'Agreed',
         approved: 'Approved by MLH',
+        requested: 'Requested',
       },
       wrapUp: {
         title: 'Wrap up your Fest',
@@ -2801,6 +2840,64 @@ export const my = {
         summary: 'Check-ins, projects, winners and photos are all in.',
         approvedSummary:
           'You have completed all the steps required to be eligible for reimbursement.',
+      },
+      /* Step 2 for a Hack Day with digital gift cards (2026-10-01 spec,
+         direction Z): the winners' emails, inline, one row per card, sent
+         once. Wording is the spec's. The co-host summary, the requesting
+         label and the 400 line are this build's, in the same voice: the
+         spec does not word them. */
+      giftCards: {
+        title: 'Award digital gift cards',
+        intro: (limit) =>
+          `We expect that some winners of your Fest did not receive physical prizes. We will email digital gift cards to up to ${limit} ${
+            limit === 1 ? 'individual' : 'individuals'
+          } who won an MLH-provided prize category at your Fest but did not receive a physical prize.`,
+        instructions:
+          'Add the email address of each person who won an MLH-provided prize category but didn’t receive a physical prize. MLH will email them a digital gift card within 7 business days.',
+        rowLabel: (number) => `Card ${number}`,
+        removeLabel: (number) => `Remove card ${number}`,
+        addCta: 'Add another card',
+        /* In the step's head, counting the rows against the limit. */
+        meter: (count, limit) =>
+          `${count} of ${limit} ${limit === 1 ? 'card' : 'cards'}`,
+        onceLead: 'You can only request gift cards once.',
+        onceBody: [
+          'Check every address first. To change anything afterwards, email ',
+          { email: 'hacktoberfest@mlh.io' },
+          '.',
+        ],
+        requestCta: (count) =>
+          `Request ${count} ${count === 1 ? 'gift card' : 'gift cards'}`,
+        requestingCta: 'Requesting…',
+        /* Under the row they are about, by lib/giftCards.mjs's
+           giftCardRowProblems. Empty rows are skipped. */
+        rowErrors: {
+          invalid: 'That isn’t a full email address.',
+          duplicate:
+            'That person is already receiving a gift card from your Fest.',
+        },
+        /* rows and empty sit under the rows; the rest, by
+           lib/reimbursement.mjs's submitOutcome, under the button, as the
+           payee form's do. A 400 that gets past the rows' own checks
+           cannot be pinned on a row. */
+        errors: {
+          rows: 'Fix the highlighted cards first.',
+          empty: 'Add at least one email address.',
+          invalid:
+            'Check every address and try again. If it still won’t send, reload the page.',
+          changed:
+            'Something about your Fest changed since this page loaded. Reload the page to see where it stands.',
+          unavailable:
+            'We couldn’t reach MLH to send this. Try again in a moment.',
+        },
+        /* Folded, for good, from the API's request: every host sees it. */
+        summary: (count, limit, date, byYou) => [
+          `${byYou ? 'You' : 'A co-host'} requested ${count} of your ${limit} ${
+            limit === 1 ? 'gift card' : 'gift cards'
+          }${date ? ` on ${date}` : ''}. To change anything, email `,
+          { email: 'hacktoberfest@mlh.io' },
+          '.',
+        ],
       },
       claim: {
         title: 'Your reimbursement',
