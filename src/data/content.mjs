@@ -3916,8 +3916,8 @@ export const my = {
       cta: 'Find a Fest',
       href: '/fests/',
     },
-    /* In place of my.error, whose "Your progress is safe" speaks for the
-       hub: nothing on this page is progress. */
+    /* In place of my.error, whose "your stickers are safe" speaks for the
+       hub: nothing on this page is a sticker. */
     error: {
       title: 'We couldn’t load your sponsor codes',
       body: 'Something went wrong on our end, so your sponsor codes didn’t load.',
@@ -3925,8 +3925,8 @@ export const my = {
     },
   },
   error: {
-    title: 'We couldn’t load your Hacktoberfest',
-    body: 'Something went wrong on our end. Your progress is safe. This is just the page failing to fetch it.',
+    title: 'My Hacktoberfest is under heavy load',
+    body: 'We couldn’t load My Hacktoberfest right now. This normally only lasts for a few seconds, so try again! Fear not - your stickers are safe.',
     cta: 'Try again',
   },
   /* The whole-page MLH outage state. Deliberately blames nothing on the

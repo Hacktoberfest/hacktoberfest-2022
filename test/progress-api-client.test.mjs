@@ -3,8 +3,14 @@ import test from 'node:test';
 
 process.env.NEXT_PUBLIC_API_BASE_URL = 'https://api.test.invalid';
 
-const { apiFetch, apiFetchBlob, endSession, exchangeCode, resetRefreshState } =
-  await import('../src/lib/apiClient.mjs');
+const {
+  apiFetch,
+  apiFetchBlob,
+  endSession,
+  exchangeCode,
+  resetRefreshState,
+  setNetworkRetryDelays,
+} = await import('../src/lib/apiClient.mjs');
 const { SESSION_STORAGE_KEY, parseSession } = await import(
   '../src/lib/session.mjs'
 );
@@ -525,4 +531,87 @@ test('apiFetchBlob fails like apiFetch on a bad status', async () => {
     () => apiFetchBlob('/api/me/items/x/y/certificate.pdf'),
     /404/,
   );
+});
+
+/* A dropped connection rather than an answer: fetch rejects (a TypeError in
+   every browser) and there is no status at all. /my fetches four of these
+   at once, and one drop used to fail the whole page. Delays are zeroed
+   here; the real ones live in apiClient.mjs. */
+test('apiFetch retries a GET whose connection drops, then answers', async () => {
+  setup();
+  setNetworkRetryDelays([0, 0]);
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    if (calls < 3) throw new TypeError('Failed to fetch');
+    return jsonResponse({ ok: true });
+  };
+
+  const body = await apiFetch('/api/me/profile');
+
+  assert.equal(body.ok, true);
+  assert.equal(calls, 3);
+});
+
+test('apiFetch gives up after the retries with the network error itself', async () => {
+  setup();
+  setNetworkRetryDelays([0, 0]);
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    throw new TypeError('Failed to fetch');
+  };
+
+  await assert.rejects(apiFetch('/api/me/profile'), (error) => {
+    assert.ok(error instanceof TypeError);
+    // No status, so pageStateForError still lands on the retry surface.
+    assert.equal(error.status, undefined);
+    return true;
+  });
+  assert.equal(calls, 3);
+});
+
+test('apiFetch never retries a POST whose connection drops', async () => {
+  setup();
+  setNetworkRetryDelays([0, 0]);
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    throw new TypeError('Failed to fetch');
+  };
+
+  await assert.rejects(
+    apiFetch('/api/me/fests/f1/gift-cards', { method: 'POST', body: '{}' }),
+    TypeError,
+  );
+  assert.equal(calls, 1);
+});
+
+test('apiFetch does not retry an answer, even a failing one', async () => {
+  setup();
+  setNetworkRetryDelays([0, 0]);
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    return jsonResponse({ error: 'MLH_UNAVAILABLE' }, 502);
+  };
+
+  await assert.rejects(apiFetch('/api/me/fests'), (error) => {
+    assert.equal(error.status, 502);
+    return true;
+  });
+  assert.equal(calls, 1);
+});
+
+test('apiFetch does not retry an aborted GET', async () => {
+  setup();
+  setNetworkRetryDelays([0, 0]);
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    throw new DOMException('The operation was aborted.', 'AbortError');
+  };
+
+  await assert.rejects(apiFetch('/api/me/profile'), { name: 'AbortError' });
+  assert.equal(calls, 1);
 });

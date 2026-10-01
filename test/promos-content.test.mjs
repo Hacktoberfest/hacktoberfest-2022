@@ -108,7 +108,7 @@ test('the copy says hosts, never organizers, and carries no em dashes', () => {
   });
 });
 
-/* /my's error copy speaks for the whole Hacktoberfest ("Your progress is
+/* /my's error copy speaks for the whole Hacktoberfest ("your stickers are
    safe"). A promos page that failed to load has no progress to reassure
    anyone about. */
 test('the error state speaks for this page', () => {

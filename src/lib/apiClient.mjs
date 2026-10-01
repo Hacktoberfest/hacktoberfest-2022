@@ -161,6 +161,46 @@ const authorizedFetch = (path, options, accessToken) =>
     },
   });
 
+/* Two more tries for a request that got no answer at all. On Oct 1, 2026
+   Railway's Singapore edge, which carries most of our traffic from India,
+   spent an hour and a half adding five seconds or more to most of the
+   round trips through it and dropping some connections outright. A drop
+   reaches us as fetch rejecting (a TypeError, no status), and /my makes four
+   of these calls at once, so one drop failed the whole page.
+
+   GETs only: every POST here is a write (an acknowledgement, a claim, a
+   form forwarded to MLH), and one whose response was lost may well have
+   landed. Never an answer, either, however bad: a status is the API
+   speaking, and 401 and 502 already mean something to the callers. Never an
+   abort. The cost is paid only on failure: at most two seconds more before
+   the error surface, which still shows if the network stays down. */
+const NETWORK_RETRY_DELAYS_MS = [500, 1500];
+let networkRetryDelays = NETWORK_RETRY_DELAYS_MS;
+
+/* Test seam, like resetRefreshState: zero delays keep the suite fast.
+   Called with nothing, restores the real ones. */
+export const setNetworkRetryDelays = (delays = NETWORK_RETRY_DELAYS_MS) => {
+  networkRetryDelays = delays;
+};
+
+const isRead = (options) =>
+  !options || !options.method || String(options.method).toUpperCase() === 'GET';
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const authorizedFetchWithRetry = async (path, options, accessToken) => {
+  const delays = isRead(options) ? networkRetryDelays : [];
+  for (let attempt = 0; ; attempt += 1) {
+    try {
+      return await authorizedFetch(path, options, accessToken);
+    } catch (error) {
+      const aborted = error && error.name === 'AbortError';
+      if (aborted || attempt >= delays.length) throw error;
+      await wait(delays[attempt]);
+    }
+  }
+};
+
 export const apiFetch = async (path, options = {}) => {
   const session = getSession();
   if (!session) throw unauthorized();
@@ -175,7 +215,7 @@ export const apiFetch = async (path, options = {}) => {
     if (refreshed) accessToken = refreshed;
   }
 
-  let response = await authorizedFetch(path, options, accessToken);
+  let response = await authorizedFetchWithRetry(path, options, accessToken);
 
   if (response.status === 401) {
     const accessToken = await refreshSession();
@@ -185,7 +225,7 @@ export const apiFetch = async (path, options = {}) => {
     }
 
     // Exactly one retry: a second 401 means the session is genuinely dead.
-    response = await authorizedFetch(path, options, accessToken);
+    response = await authorizedFetchWithRetry(path, options, accessToken);
     if (response.status === 401) {
       clearSession();
       throw unauthorized();
