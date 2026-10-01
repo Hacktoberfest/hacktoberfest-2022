@@ -11,5 +11,5 @@
    as seen (lib/justEarned.mjs), so the first two stickers still get their
    moment the first time the book opens.
 
-   On for now (Jacklyn, 2026-09-28), until October 1st. */
-export const STICKER_BOOK_LOCKED = true;
+   On from 2026-09-28; lifted 2026-09-30 (Jacklyn), for October 1st. */
+export const STICKER_BOOK_LOCKED = false;
