@@ -42,6 +42,14 @@ const ITEM_ART = Object.freeze({
     art: 'completionist-certificate-2026',
     sticker: false,
   },
+  'fest-mentor-certificate-2026': {
+    art: 'fest-mentor-certificate-2026',
+    sticker: false,
+  },
+  'fest-judge-certificate-2026': {
+    art: 'fest-judge-certificate-2026',
+    sticker: false,
+  },
   /* DEV's three badges, drawn as themselves: DEV's own art, redrawn by
      hand into the 200 square with room around it, so a leaning badge
      never reaches the name under its cell. No sticker script lists them
@@ -63,6 +71,9 @@ export const CERTIFICATE_SLUGS = Object.freeze(
     'fest-certificate-2026',
     'fest-host-certificate-2026',
     'completionist-certificate-2026',
+    /* Granted by hand, once, so asked for without a key. */
+    'fest-mentor-certificate-2026',
+    'fest-judge-certificate-2026',
   ]),
 );
 

@@ -409,6 +409,25 @@ test('a certificate is known by slug and downloads from the API by its key', () 
   );
 });
 
+test('the mentor and judge certificates are certificates, asked for without a key', () => {
+  for (const slug of [
+    'fest-mentor-certificate-2026',
+    'fest-judge-certificate-2026',
+  ]) {
+    assert.ok(CERTIFICATE_SLUGS.has(slug));
+    assert.equal(
+      certificatePath({ id: slug, key: '' }, 'png'),
+      `/api/me/items/${slug}/certificate.png`,
+    );
+    const [item] = inventoryItems({
+      items: [{ id: slug, kind: 'digital', earned: true, key: '', name: 'x' }],
+    });
+    assert.equal(item.art, slug);
+    assert.equal(item.sticker, false);
+    assert.equal(item.certificate, true);
+  }
+});
+
 test('both Fest certificates are certificates, with a download path per grant', () => {
   assert.ok(CERTIFICATE_SLUGS.has('fest-certificate-2026'));
   assert.ok(CERTIFICATE_SLUGS.has('fest-host-certificate-2026'));

@@ -90,6 +90,21 @@ export const THINGS = Object.freeze([
     ground: 'digital',
     seal: 'crown',
   },
+  /* The mentor's and the judge's, given by hand: the host's forest card,
+     since all three thank someone for their time, each with its own seal
+     (Jacklyn, 2026-10-02). The certificates themselves carry no sticker. */
+  {
+    slug: 'fest-mentor-certificate-2026',
+    shape: 'card',
+    ground: 'digital',
+    seal: 'bulb',
+  },
+  {
+    slug: 'fest-judge-certificate-2026',
+    shape: 'card',
+    ground: 'digital',
+    seal: 'trophy',
+  },
 ]);
 
 /* Art in the stickers' own style that is not a sticker anyone earns: the
