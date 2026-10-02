@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import FestMap from 'components/FestMap';
 import FestSearch from 'components/FestSearch';
@@ -7,6 +7,7 @@ import DigitalOceanLogo from 'components/icons/DigitalOceanLogo';
 import MlhLogo from 'components/icons/MlhLogo';
 import { hero, mapHero } from 'data/content.mjs';
 import { DEV_URL, DIGITALOCEAN_URL, MLH_URL } from 'data/links';
+import { countRoll } from 'lib/countRoll.mjs';
 import { getFestsDirectoryOnce } from 'lib/festsDirectory.mjs';
 
 import styles from './FestMapHero.module.css';
@@ -92,8 +93,24 @@ const FestMapHero = () => {
               </span>
             ))}
           </p>
+          {/* The count's changed digits roll up on load, the old digit
+              drawn by the stylesheet so the text is the new count all
+              along. */}
           <h1 id="home-hero-title" className={styles.heading}>
-            {mapHero.heading.lead} <em>{mapHero.heading.accent}</em>
+            {countRoll(mapHero.heading.lead, mapHero.heading.rollFrom).map(
+              (part, i) => (
+                <Fragment key={i}>
+                  {part.from ? (
+                    <span className={styles.roll} data-from={part.from}>
+                      <span className={styles.rollTo}>{part.text}</span>
+                    </span>
+                  ) : (
+                    part.text
+                  )}
+                </Fragment>
+              ),
+            )}{' '}
+            <em>{mapHero.heading.accent}</em>
           </h1>
           <div className={styles.search}>
             <FestSearch fests={state.fests} onHighlight={setHighlight} />

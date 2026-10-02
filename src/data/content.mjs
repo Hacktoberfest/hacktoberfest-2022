@@ -846,7 +846,14 @@ export const parseAnswerMarkdown = (markdown) =>
    the Fest directory at runtime. */
 export const mapHero = {
   eyebrow: ['October 2026', 'In-person and online · Free'],
-  heading: { lead: '300+ Fests.', accent: 'One is near you.' },
+  /* On load the count rolls up from rollFrom like a counter wheel, only
+     the digits that changed turning (lib/countRoll). The page's text is
+     the lead from the start. */
+  heading: {
+    lead: '400+ Fests.',
+    accent: 'One is near you.',
+    rollFrom: '300+',
+  },
   tagline: { lead: 'Hacktoberfest 2026:', accent: 'AI belongs to everyone.' },
   online: {
     prompt: 'Can’t make it in person?',
