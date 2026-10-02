@@ -332,10 +332,10 @@ test('the /my feature contains no styled-components', async () => {
    directory exists on this site, so it is asserted below as a real
    internal route instead. The season's four activities carry the same
    rule: every href is either a real on-site route (livestreams, ghw and
-   fest point at the schedule and fests directory) or null, which the
+   fest point at the schedule and fests directory), a real https
+   destination (dev-relay points at devrelay.com), or null, which the
    renderers treat as "no destination yet" rather than rendering a CTA
-   that goes nowhere — that is dev-relay's state until it has a public
-   URL. A placeholder on the reserved .invalid TLD would fail here just
+   that goes nowhere. A placeholder on the reserved .invalid TLD would fail here just
    like a bare guess would. */
 test('catalogue hrefs are never placeholder-looking dead links', () => {
   ACTIVITIES.forEach((activity) => {

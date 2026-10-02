@@ -97,9 +97,8 @@ export const ACTIVITIES = Object.freeze([
     label: 'Install and log in to DevRelay',
     detail:
       'DevRelay makes it easier than ever to access knowledge from DEV and rewards from MLH.',
-    // The real URL is not known yet; this lands once DevRelay has one.
-    href: null,
-    ctaLabel: 'Install',
+    href: 'https://devrelay.com',
+    ctaLabel: 'Get started now',
     surface: 'card',
     type: 'tools',
     art: 'plug',
