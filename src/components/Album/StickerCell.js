@@ -2,8 +2,15 @@ import { activitiesPage, my } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
+import { openPreSurvey } from 'lib/survey.mjs';
 
 import styles from './Album.module.css';
+
+/* What an activity's `action` does on click: a button, never an href. */
+const ACTIONS = {
+  digitalocean: startDigitalOceanConnect,
+  survey: openPreSurvey,
+};
 
 /* One sticker as a cell on a page of the book: the sticker in its die-cut
    slot, centred, its name under it, and one line of status. Earned, the
@@ -99,11 +106,11 @@ const StickerCell = ({ sticker, justEarned = false, onShare }) => {
         </>
       ) : sticker.locked ? (
         <p className={styles.cellLocked}>{my.album.cell.lockedLine}</p>
-      ) : sticker.action === 'digitalocean' ? (
+      ) : ACTIONS[sticker.action] ? (
         <button
           type="button"
           className={`${styles.cellLink} ${styles.cellButton}`}
-          onClick={() => startDigitalOceanConnect()}
+          onClick={() => ACTIONS[sticker.action]()}
         >
           {sticker.ctaLabel}
         </button>

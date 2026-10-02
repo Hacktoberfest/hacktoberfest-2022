@@ -1,8 +1,15 @@
 import { activitiesPage } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
+import { openPreSurvey } from 'lib/survey.mjs';
 
 import styles from './ActivityCard.module.css';
+
+/* What an activity's `action` does on click: a button, never an href. */
+const ACTIONS = {
+  digitalocean: startDigitalOceanConnect,
+  survey: openPreSurvey,
+};
 
 /* One activity as a card, the same card wherever an activity is shown:
    the catalogue on /activities/ and the "Pick an activity" band on /my.
@@ -62,15 +69,15 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
           <p className={styles.cardHint}>{activitiesPage.list.devHint}</p>
         )}
         {/* An action rather than a destination: the button starts the
-            API's connect flow. Signed out, the same words lead to /my,
+            API's connect flow, or opens the personal survey link. Signed out, the same words lead to /my,
             where signing in comes first. Earned, no button: nothing to do. */}
-        {activity.action === 'digitalocean' &&
+        {ACTIONS[activity.action] &&
           !earned &&
           (signedIn ? (
             <button
               type="button"
               className={`hf-button hf-button--small ${styles.cardCta}`}
-              onClick={() => startDigitalOceanConnect()}
+              onClick={() => ACTIONS[activity.action]()}
             >
               {activity.ctaLabel}
             </button>

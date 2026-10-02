@@ -137,18 +137,26 @@ const REFRESH_SKEW_MS = 30_000;
    dead. Anything unreadable — the mocked build's opaque tokens included —
    is "not expiring", which lands on today's exact behavior. */
 export const tokenNeedsRefresh = (accessToken, nowMs = Date.now()) => {
-  if (typeof accessToken !== 'string') return false;
+  const payload = tokenClaims(accessToken);
+  if (!payload || typeof payload.exp !== 'number') return false;
+  return payload.exp * 1000 - nowMs < REFRESH_SKEW_MS;
+};
+
+/* The access token's claims, read and never verified, or null for anything
+   that is not a readable JWT (the mocked build's opaque tokens included).
+   The API signs `sub`, `mlhId` and `exp` (auth.controller.ts). */
+export const tokenClaims = (accessToken) => {
+  if (typeof accessToken !== 'string') return null;
   const parts = accessToken.split('.');
-  if (parts.length !== 3) return false;
+  if (parts.length !== 3) return null;
 
   try {
     const payload = JSON.parse(
       atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')),
     );
-    if (!payload || typeof payload.exp !== 'number') return false;
-    return payload.exp * 1000 - nowMs < REFRESH_SKEW_MS;
+    return payload && typeof payload === 'object' ? payload : null;
   } catch (_) {
-    return false;
+    return null;
   }
 };
 
