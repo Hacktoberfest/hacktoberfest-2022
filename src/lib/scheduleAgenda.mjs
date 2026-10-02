@@ -104,16 +104,13 @@ export const collapsePast = (entries, today) => {
 
   if (!isIsoDate(today)) return nothingCollapsed;
 
-  /* Each card folds on its own moment, not its event's whole span. The
-     opening ticket is Monday's news, so it goes with Monday — its deadline
-     lives on in the close stub, which holds until the window shuts. Sessions
-     and features keep the end-based rule that keeps Global Hack Week current
-     for all seven days. */
+  /* Every card, a round's opening ticket included, folds on its event's end.
+     An open challenge is not a past event: its opening card is how you enter
+     it, so it stays up beside its close stub until the window shuts. */
   const isPast = (entry) => {
     const event = entry.event || {};
     if (!isIsoDate(event.startDate)) return false;
 
-    if (entry.kind === 'round') return event.startDate < today;
     return endOf(event) < today;
   };
 
@@ -216,8 +213,8 @@ export const agendaEntries = (events) => {
 
   /* A round is a window, and a window has two ends: the opening ticket above,
      and a close stub derived here to sit at the deadline's own date — so
-     mid-week the deadline is still downstream of the reader instead of
-     folded away with Monday. A single-day round is one card; an open and a
+     mid-week the deadline is still downstream of the reader, not only up at
+     Monday's ticket. A single-day round is one card; an open and a
      close on the same day would say the window twice. Never claimed by a
      feature, for the same reason the round itself is not. */
   const closes = usable

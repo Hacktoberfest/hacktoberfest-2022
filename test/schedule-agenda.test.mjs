@@ -400,8 +400,8 @@ test('a lone round is round 1, not unnumbered', () => {
 
 /* A round is a window, and a window has two ends. The stream shows both: the
    opening ticket at the start date, and a close stub at the deadline's own
-   date — so mid-week the deadline is still downstream of the reader instead
-   of folded away with Monday. Both are derived here from the one round the
+   date — so mid-week the deadline is still downstream of the reader, not
+   only up at Monday's ticket. Both are derived here from the one round the
    API sends. */
 
 test('a multi-day round also yields a close stub at its end date', () => {
@@ -482,30 +482,26 @@ test('entryDate reads the start for everything except a close stub', () => {
   assert.equal(entryDate(session), '2026-10-07');
 });
 
-/* Pastness follows each card's own moment, not the round's whole span: the
-   opening ticket is Monday's news and folds when Monday is behind the reader;
-   the stub holds the deadline and folds only once the window has shut. */
-test('an open ticket folds once its opening day has passed', () => {
+/* An open challenge is not a past event. Both of a round's cards, the opening
+   ticket and the close stub, stay up until the window has shut. */
+test('an open ticket stays up while its window is open', () => {
   const entries = agendaEntries([round('r1', '2026-10-05', '2026-10-11')]);
   const { collapsed, shown } = collapsePast(entries, '2026-10-07');
 
-  assert.deepEqual(
-    collapsed.map((entry) => entry.kind),
-    ['round'],
-  );
+  assert.deepEqual(collapsed, []);
   assert.deepEqual(
     shown.map((entry) => entry.kind),
-    ['roundClose'],
+    ['round', 'roundClose'],
   );
 });
 
-test('a close stub is not past until the window has shut', () => {
+test('a round is not past until the window has shut', () => {
   const entries = agendaEntries([round('r1', '2026-10-05', '2026-10-11')]);
 
   const during = collapsePast(entries, '2026-10-11');
   assert.deepEqual(
     during.shown.map((entry) => entry.kind),
-    ['roundClose'],
+    ['round', 'roundClose'],
     'still shown on the last day',
   );
 

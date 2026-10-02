@@ -272,8 +272,8 @@ const RoundBlock = ({ event, onSelect, isPast, timeZone, today }) => {
    honest claim because nothing unrelated is scheduled against Global Hack
    Week — see the note on `contains` in lib/scheduleAgenda.mjs. */
 /* The round's other end: a stub at the deadline's own date, so mid-week the
-   deadline is still downstream of the reader instead of folded away with
-   Monday's ticket. Deliberately lighter than the ticket — a dashed border at
+   deadline is still downstream of the reader, not only up at Monday's
+   ticket. Deliberately lighter than the ticket — a dashed border at
    session height, a door drawn shutting — and it opens the same modal. */
 const RoundCloseStub = ({ event, onSelect, isPast, timeZone }) => {
   const type = scheduleType(event.type);
