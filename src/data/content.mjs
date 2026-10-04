@@ -850,7 +850,7 @@ export const mapHero = {
      the digits that changed turning (lib/countRoll). The page's text is
      the lead from the start. */
   heading: {
-    lead: '400+ Fests.',
+    lead: '450+ Fests.',
     accent: 'One is near you.',
     rollFrom: '300+',
   },

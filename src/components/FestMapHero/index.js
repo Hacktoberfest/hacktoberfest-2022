@@ -93,15 +93,19 @@ const FestMapHero = () => {
               </span>
             ))}
           </p>
-          {/* The count's changed digits roll up on load, the old digit
-              drawn by the stylesheet so the text is the new count all
-              along. */}
+          {/* The count's changed digits roll up on load, one after the
+              other, the old digit drawn by the stylesheet so the text is
+              the new count all along. */}
           <h1 id="home-hero-title" className={styles.heading}>
             {countRoll(mapHero.heading.lead, mapHero.heading.rollFrom).map(
               (part, i) => (
                 <Fragment key={i}>
                   {part.from ? (
-                    <span className={styles.roll} data-from={part.from}>
+                    <span
+                      className={styles.roll}
+                      data-from={part.from}
+                      style={{ '--roll-turn': part.turn }}
+                    >
                       <span className={styles.rollTo}>{part.text}</span>
                     </span>
                   ) : (
