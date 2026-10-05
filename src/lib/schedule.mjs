@@ -332,17 +332,36 @@ export const formatClock = (iso, timeZone) => {
   return clockTime(date, timeZone);
 };
 
-/* Where a submission window stands relative to a calendar day: upcoming, open
-   or closed. Date-granular on purpose — the kicker flips at midnight in the
-   SHOWN zone, the same clock the stream's past-collapse runs on, so the two
-   can never disagree about whether a round is over. Anything this cannot
+/* Where a submission window stands: upcoming, open or closed. The kicker, the
+   stream's past-collapse and the Today strip all ask this, so they can never
+   disagree about whether a round is over.
+
+   Two kinds of window arrive. The fixtures' DEV rounds are all-day, and an
+   all-day window is a run of calendar dates, judged against `today` in the
+   SHOWN zone. The live API's rounds are timed instead (midnight to midnight
+   Pacific, 07:00Z to 06:59Z), and a timed window shuts at an instant: east
+   of Pacific that instant lands on the next calendar day, so judging it by
+   date held Launch Weekend open all Monday after it had shut. Given `now`
+   (epoch milliseconds), a timed window is judged by its own ends; without
+   it, or without a usable end, the date rule stands. Anything this cannot
    judge reads as open, which is what the card said before it learned to
    tell the truth. */
-export const roundState = (event, today) => {
+export const roundState = (event, today, now) => {
   const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
   const isDate = (value) => typeof value === 'string' && ISO_DATE.test(value);
 
-  if (!event || typeof event !== 'object' || !isDate(today)) return 'open';
+  if (!event || typeof event !== 'object') return 'open';
+
+  if (!event.allDay && Number.isFinite(now)) {
+    const start = Date.parse(event.startsAt);
+    const end = Date.parse(event.endsAt);
+    if (!Number.isNaN(start) && !Number.isNaN(end) && end > start) {
+      if (now < start) return 'upcoming';
+      return now < end ? 'open' : 'closed';
+    }
+  }
+
+  if (!isDate(today)) return 'open';
   if (!isDate(event.startDate) || !isDate(event.endDate)) return 'open';
 
   if (today < event.startDate) return 'upcoming';

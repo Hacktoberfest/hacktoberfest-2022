@@ -95,27 +95,6 @@ const daysBetween = (from, to) => {
   return Math.round((utc(to) - utc(from)) / DAY_MS);
 };
 
-/* Where a window stands right now: 'upcoming', 'open' or 'closed'.
-
-   Two kinds of window arrive. The fixtures' DEV rounds are all-day, and
-   an all-day window is a run of calendar dates, so it is judged by date
-   exactly as /schedule/ judges it (roundState). The live API's rounds are
-   timed instead (midnight to midnight Pacific, 07:00Z to 06:59Z), and a
-   timed window closes at an instant: judging it by date would hold a
-   round open for the rest of the evening after it had shut. A timed
-   event with no usable end falls back to the date rule. */
-const windowState = (event, at, today) => {
-  if (!event.allDay) {
-    const start = instant(event.startsAt);
-    const end = instant(event.endsAt);
-    if (start !== null && end !== null && end > start) {
-      if (at < start) return 'upcoming';
-      return at < end ? 'open' : 'closed';
-    }
-  }
-  return roundState(event, today);
-};
-
 const byStart = (a, b) => {
   const first = instant(a.startsAt);
   const second = instant(b.startsAt);
@@ -202,10 +181,9 @@ const challengeItem = (events, at, today) => {
     .filter((event) => event.type === 'challenge')
     .sort(byStart);
 
-  const open = rounds.find((round) => windowState(round, at, today) === 'open');
+  const open = rounds.find((round) => roundState(round, today, at) === 'open');
   const round =
-    open ||
-    rounds.find((entry) => windowState(entry, at, today) === 'upcoming');
+    open || rounds.find((entry) => roundState(entry, today, at) === 'upcoming');
   if (!round) return null;
 
   return {
@@ -229,7 +207,7 @@ const featureItems = (events, at, today) =>
     .filter((event) => event.kind === 'feature')
     .sort(byStart)
     .map((feature) => {
-      const state = windowState(feature, at, today);
+      const state = roundState(feature, today, at);
       const upcoming =
         state === 'upcoming' &&
         daysBetween(today, feature.startDate) <= FEATURE_LEAD_DAYS;

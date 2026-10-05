@@ -509,6 +509,80 @@ test('a round is not past until the window has shut', () => {
   assert.deepEqual(after.shown, entries, 'everything past collapses nothing');
 });
 
+/* The live rounds are timed and shut at 23:59 Pacific, which is Monday
+   morning east of Pacific. Given the moment, both of a round's cards fold
+   when the window shuts, not at the end of the day its deadline lands on. */
+test('a timed round folds the moment its window shuts', () => {
+  const timed = (id, startDate, endDate, startsAt, endsAt) =>
+    day(id, startDate, endDate, {
+      kind: 'round',
+      allDay: false,
+      startsAt,
+      endsAt,
+    });
+  const entries = agendaEntries([
+    timed(
+      'launch',
+      '2026-10-01',
+      '2026-10-05',
+      '2026-10-02T02:00:00.000Z',
+      '2026-10-05T06:59:00.000Z',
+    ),
+    timed(
+      'week1',
+      '2026-10-05',
+      '2026-10-12',
+      '2026-10-05T07:00:00.000Z',
+      '2026-10-12T06:59:00.000Z',
+    ),
+  ]);
+
+  const before = collapsePast(
+    entries,
+    '2026-10-05',
+    Date.parse('2026-10-05T06:00:00Z'),
+  );
+  assert.deepEqual(before.collapsed, [], 'still open in the small hours');
+
+  const after = collapsePast(
+    entries,
+    '2026-10-05',
+    Date.parse('2026-10-05T13:40:00Z'),
+  );
+  assert.deepEqual(
+    after.collapsed.map((entry) => [entry.event.id, entry.kind]),
+    [
+      ['launch', 'round'],
+      ['launch', 'roundClose'],
+    ],
+  );
+  assert.deepEqual(
+    after.shown.map((entry) => [entry.event.id, entry.kind]),
+    [
+      ['week1', 'round'],
+      ['week1', 'roundClose'],
+    ],
+  );
+});
+
+test('sessions keep the date rule, whatever the moment', () => {
+  const entries = agendaEntries([
+    day('stream', '2026-10-05', '2026-10-05', {
+      allDay: false,
+      startsAt: '2026-10-05T14:00:00.000Z',
+      endsAt: '2026-10-05T15:00:00.000Z',
+    }),
+    day('later', '2026-10-06'),
+  ]);
+  const { collapsed } = collapsePast(
+    entries,
+    '2026-10-05',
+    Date.parse('2026-10-05T20:00:00Z'),
+  );
+
+  assert.deepEqual(collapsed, [], "today's finished stream stays with today");
+});
+
 // -- inside a feature ------------------------------------------------------
 
 const child = (id, startDate, name = id) => ({

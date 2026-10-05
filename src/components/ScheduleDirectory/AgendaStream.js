@@ -193,14 +193,14 @@ const SessionRow = ({ event, timeZone, onSelect, isPast, now }) => {
 /* A submission window opening. Bolder than a session because it is a deadline
    rather than an appointment, and it recurs — four of these are what make the
    month's rhythm visible in the stream. */
-const RoundBlock = ({ event, onSelect, isPast, timeZone, today }) => {
+const RoundBlock = ({ event, onSelect, isPast, timeZone, today, now }) => {
   const type = scheduleType(event.type);
   const named = isNameLogo(event);
-  /* The kicker tells the truth per round, on the same calendar the stream's
+  /* The kicker tells the truth per round, on the same clock the stream's
      past-collapse runs on: FIRST DAY before it opens, the way its stub says
      LAST DAY at the other end; open during the window; closed afterwards.
      Four rounds stop all claiming to be open at once. */
-  const kicker = schedule.roundKicker[roundState(event, today)];
+  const kicker = schedule.roundKicker[roundState(event, today, now)];
   /* Endpoint clocks for the ledger, when the API sends a timed round. The
      fixtures are all-day calendar spans, so these stay null and the ledger
      shows dates alone — nothing lies. */
@@ -491,7 +491,7 @@ const AgendaStream = ({ events, timeZone, onSelect, now }) => {
      can switch zones, and judging past-ness in a different zone than the one
      painting the dates would fold events the page still calls current. */
   const today = todayInZone(timeZone);
-  const { collapsed, shown } = collapsePast(entries, today);
+  const { collapsed, shown } = collapsePast(entries, today, now);
   const [showPast, setShowPast] = useState(false);
 
   const count = collapsed.length;

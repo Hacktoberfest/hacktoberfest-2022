@@ -606,6 +606,52 @@ test('a round that cannot be judged reads as open', () => {
   assert.equal(roundState(null, '2026-10-08'), 'open');
 });
 
+/* The live rounds are timed, midnight to midnight Pacific, and east of
+   Pacific the closing instant lands on the next calendar day. Judged by date
+   alone, Launch Weekend read "open" in New York all of the Monday after it
+   shut at 02:59. Given the moment, a timed round is judged by its own ends. */
+const LAUNCH_WEEKEND = {
+  startDate: '2026-10-01',
+  endDate: '2026-10-05',
+  startsAt: '2026-10-02T02:00:00.000Z',
+  endsAt: '2026-10-05T06:59:00.000Z',
+  allDay: false,
+};
+
+test('a timed round opens and shuts at its own instants', () => {
+  const at = (iso) => Date.parse(iso);
+
+  assert.equal(
+    roundState(LAUNCH_WEEKEND, '2026-10-01', at('2026-10-01T23:00:00Z')),
+    'upcoming',
+    'not open on its opening day until it opens',
+  );
+  assert.equal(
+    roundState(LAUNCH_WEEKEND, '2026-10-05', at('2026-10-05T06:58:00Z')),
+    'open',
+  );
+  assert.equal(
+    roundState(LAUNCH_WEEKEND, '2026-10-05', at('2026-10-05T13:40:00Z')),
+    'closed',
+    'closed for the rest of the day it shut',
+  );
+});
+
+test('without the moment, or for an all-day round, the date rule stands', () => {
+  const later = Date.parse('2026-10-05T13:40:00Z');
+
+  assert.equal(roundState(LAUNCH_WEEKEND, '2026-10-05'), 'open');
+  assert.equal(
+    roundState({ ...LAUNCH_WEEKEND, allDay: true }, '2026-10-05', later),
+    'open',
+  );
+  assert.equal(
+    roundState({ ...LAUNCH_WEEKEND, endsAt: null }, '2026-10-05', later),
+    'open',
+    'a timed round with no usable end falls back to the date',
+  );
+});
+
 // -- formatClock -------------------------------------------------------------
 
 /* One end of a window as a clock time in the reader's zone — the ledger needs

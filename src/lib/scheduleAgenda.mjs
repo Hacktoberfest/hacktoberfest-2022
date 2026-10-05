@@ -19,6 +19,8 @@
    Dates are 'YYYY-MM-DD' strings, already resolved to the viewer's zone by
    lib/schedule.mjs, so nothing here can shift an event onto the wrong day. */
 
+import { roundState } from './schedule.mjs';
+
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const isIsoDate = (value) => typeof value === 'string' && ISO_DATE.test(value);
@@ -99,18 +101,25 @@ export const mondayOf = (isoDate) => {
 export const entryDate = (entry) =>
   entry.kind === 'roundClose' ? endOf(entry.event) : entry.event.startDate;
 
-export const collapsePast = (entries, today) => {
+export const collapsePast = (entries, today, now) => {
   const nothingCollapsed = { collapsed: [], shown: entries };
 
   if (!isIsoDate(today)) return nothingCollapsed;
 
   /* Every card, a round's opening ticket included, folds on its event's end.
      An open challenge is not a past event: its opening card is how you enter
-     it, so it stays up beside its close stub until the window shuts. */
+     it, so it stays up beside its close stub until the window shuts. A round
+     asks roundState, the rule its kicker reads, so a timed window folds the
+     moment it shuts rather than at midnight after the day its deadline lands
+     on. Sessions keep the day: a stream that ran this morning is still
+     today's. */
   const isPast = (entry) => {
     const event = entry.event || {};
     if (!isIsoDate(event.startDate)) return false;
 
+    if (entry.kind === 'round' || entry.kind === 'roundClose') {
+      return roundState(event, today, now) === 'closed';
+    }
     return endOf(event) < today;
   };
 
