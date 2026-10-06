@@ -418,6 +418,22 @@
     filter 0.18s ease;
 }
 
+/* A secret not yet earned (StickerCell's SecretPlaceholder): no sticker
+   in the slot, only a question mark drawn in it in the slot's own rule
+   colour, 36px square, 18px in from each side of the 72, so the dashed
+   ring shows all round it. colors.rule */
+.secretMark {
+  position: absolute;
+  inset: 18px;
+  width: 36px;
+  height: 36px;
+  fill: none;
+  stroke: #8ca59e;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 /* The ink outline, the whole slot clipped, and the white border 2.3px
    in, the picture 3.5px inside that. colors.ink / white */
 .sticker::before,

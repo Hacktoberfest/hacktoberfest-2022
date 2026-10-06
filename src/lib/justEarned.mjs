@@ -32,12 +32,20 @@ const userKey = (session) =>
     ? session.user.email
     : null;
 
-/* The ids of every earned sticker in the book, in book order. */
+/* The ids of every earned sticker in the book, in book order. Never a
+   secret's placeholder (lib/stickerBook.mjs), even one marked complete by
+   mistake: its id is its place in one response, not a sticker, and the
+   next response may give it to another secret. An earned secret carries
+   its own id, which the record has never held, so the placeholder turning
+   into it is news and the sticker slaps on like any other. */
 export const earnedIds = (stickers) =>
   (Array.isArray(stickers) ? stickers : [])
     .filter(
       (sticker) =>
-        sticker && sticker.completed === true && typeof sticker.id === 'string',
+        sticker &&
+        sticker.completed === true &&
+        sticker.placeholder !== true &&
+        typeof sticker.id === 'string',
     )
     .map((sticker) => sticker.id);
 

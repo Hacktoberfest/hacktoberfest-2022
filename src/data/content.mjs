@@ -3438,6 +3438,13 @@ export const my = {
          for assistive tech, and the line where the link would be. */
       locked: 'Locked',
       lockedLine: 'Connect DEV to unlock',
+      /* A secret sticker not yet earned (lib/secretStickers.mjs): its
+         name in the book until it is earned, when the API's name takes
+         over. Its line is the API's hint, or notYet above. */
+      secretTitle: 'Secret sticker',
+      /* The tag on an earned secret's corner, where the Required tag
+         sits on a required sticker. */
+      secret: 'Secret',
     },
     /* The spine along the bottom: the book's count and the way to the
        public catalogue. */

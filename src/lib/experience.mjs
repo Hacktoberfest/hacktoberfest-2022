@@ -152,6 +152,12 @@ export const getExperience = async (session, options) => {
        completedAt and source. An API answering without them gives an empty
        list, and the book falls back to the live facts above. */
     required: Array.isArray(progress.required) ? progress.required : [],
+    /* Live. The secret stickers this person has reached, placeholders and
+       earned ones, as lib/progress.mjs keeps them apart from the
+       activities; the book places them (lib/stickerBook.mjs). After the
+       fixture's spread, so a fixture's demo secrets never reach a live
+       build. */
+    secrets: Array.isArray(progress.secrets) ? progress.secrets : [],
     /* Live: the catalogue of things the stickers earn, with this
        participant's earned-ness, as the API serves it (lib/inventory.mjs
        draws it). The fixture's items are only ever used by the mocked

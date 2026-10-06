@@ -4,10 +4,12 @@ import test from 'node:test';
 
 import { CATALOGUE, THINGS } from '../scripts/stickers/design/catalogue.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
+import { SECRET_MARK_SVG, svgDataUri } from '../src/lib/secretStickers.mjs';
 import {
   REWARD_STICKERS,
   STICKER_IMAGE_SLUGS,
   stickerImageSrc,
+  stickerSrc,
 } from '../src/lib/stickerImage.mjs';
 
 test('the reward list carries the milestones and the things that are not stickers', () => {
@@ -144,4 +146,22 @@ test('the DEV badges are standalone files in the 200 square, the badge scaled in
       `${slug} lost DEV's edge`,
     );
   }
+});
+
+/* A secret has no file: its art travels in the payload
+   (lib/secretStickers.mjs). Generic: an invented secret with a plain
+   hexagon for art. */
+test('stickerSrc: the file for a slug, a secret’s own art, or the mark', () => {
+  const art =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="#1f4e6b"/></svg>';
+  assert.equal(stickerSrc({ id: 'fest' }), '/stickers/fest.svg');
+  assert.equal(
+    stickerSrc({ id: 'demo-secret', secret: true, art }),
+    svgDataUri(art),
+  );
+  assert.equal(
+    stickerSrc({ id: 'demo-secret', secret: true, art: null }),
+    svgDataUri(SECRET_MARK_SVG),
+  );
+  assert.throws(() => stickerSrc(null));
 });

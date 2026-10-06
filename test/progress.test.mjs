@@ -197,3 +197,70 @@ test('a payload with no required field, or none at all, gives an empty list', ()
   assert.deepEqual(progressFromPayload(payload()).required, []);
   assert.deepEqual(progressFromPayload(null).required, []);
 });
+
+/* Secret stickers, generically: an invented earned one and a placeholder,
+   revealed by a catalogue sticker picked for no reason but that it
+   exists. */
+const SECRET_ART =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="#1f4e6b"/></svg>';
+
+const withSecrets = () =>
+  payload({
+    challenges: [
+      {
+        id: 'ghw',
+        name: 'Global Hack Week',
+        description: null,
+        required: false,
+        completed: true,
+        completedAt: '2026-10-13T12:00:00.000Z',
+        source: 'import',
+      },
+      {
+        id: 'demo-secret',
+        secret: true,
+        name: 'A demo secret',
+        description: 'Invented for the test.',
+        art: SECRET_ART,
+        revealedBy: 'ghw',
+        required: false,
+        completed: true,
+        completedAt: '2026-10-14T12:00:00.000Z',
+        source: 'manual',
+      },
+      {
+        id: 'secret-1',
+        secret: true,
+        hint: 'A demo hint',
+        revealedBy: 'ghw',
+        required: false,
+        completed: false,
+        completedAt: null,
+        source: null,
+      },
+    ],
+  });
+
+test('secret entries come out as `secrets`, in payload order, never as activities', () => {
+  const { activities, required, secrets } = progressFromPayload(withSecrets());
+  assert.deepEqual(
+    secrets.map((secret) => secret.id),
+    ['demo-secret', 'secret-1'],
+  );
+  assert.equal(secrets[0].name, 'A demo secret');
+  assert.equal(secrets[0].art, SECRET_ART);
+  assert.equal(secrets[1].hint, 'A demo hint');
+  assert.equal(secrets[1].name, null);
+  assert.deepEqual(
+    activities.map((a) => a.id),
+    ACTIVITIES.map((a) => a.id),
+  );
+  assert.equal(activities.find((a) => a.id === 'ghw').completed, true);
+  assert.deepEqual(required, []);
+});
+
+test('a payload with no secrets, or none at all, gives an empty list', () => {
+  assert.deepEqual(progressFromPayload(payload()).secrets, []);
+  assert.deepEqual(progressFromPayload(null).secrets, []);
+  assert.deepEqual(progressFromPayload({ challenges: 'nope' }).secrets, []);
+});

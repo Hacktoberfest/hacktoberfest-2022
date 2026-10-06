@@ -8,7 +8,11 @@ import { HomeStepsBand } from 'components/HomeBands';
 import PageHero from 'components/PageHero';
 import { activitiesPage } from 'data/content.mjs';
 import { absoluteUrl, meta } from 'data/meta';
-import { progressSlot, publicActivities } from 'lib/activitiesPageState.mjs';
+import {
+  progressSlot,
+  publicActivities,
+  withEarnedSecrets,
+} from 'lib/activitiesPageState.mjs';
 import { getExperience } from 'lib/experience.mjs';
 import { pageStateForError } from 'lib/pageState.mjs';
 import { getProgress, progressFromPayload } from 'lib/progress.mjs';
@@ -88,12 +92,18 @@ const Activities = () => {
            through progressFromPayload rather than mergeActivities keeps
            `source` alive either way — mergeActivities drops it, and
            StickerCard's "how" phrase needs it — and the merge is
-           idempotent, so both arrive the same. */
+           idempotent, so both arrive the same. The secret stickers this
+           visitor has earned join the cards, each in its revealer's
+           group; they come from the experience's own `secrets`, live or
+           the fixture's, never from the activities. */
         setActivities(
-          progressFromPayload({
-            thresholds: result.thresholds,
-            challenges: result.activities,
-          }).activities,
+          withEarnedSecrets(
+            progressFromPayload({
+              thresholds: result.thresholds,
+              challenges: result.activities,
+            }).activities,
+            result.secrets,
+          ),
         );
         setStatus('ready');
       })

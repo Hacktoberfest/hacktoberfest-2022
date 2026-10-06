@@ -11,7 +11,7 @@ import {
   readSeen,
   writeSeen,
 } from '../src/lib/justEarned.mjs';
-import { openingTab } from '../src/lib/stickerBook.mjs';
+import { bookStickers, openingTab } from '../src/lib/stickerBook.mjs';
 
 const SESSION = { accessToken: 'a', user: { email: 'ada@example.invalid' } };
 const OTHER = { accessToken: 'b', user: { email: 'bob@example.invalid' } };
@@ -122,4 +122,45 @@ test('openingTab turns to the page of a sticker earned just now', () => {
      every activity earned, that is the address on the Required page. */
   assert.equal(openingTab(stickers, new Set()), 'required');
   assert.equal(openingTab(stickers, null), 'required');
+});
+
+/* A secret, generically: an invented one, revealed by a catalogue sticker
+   picked for no reason but that it exists. */
+test('a placeholder is never recorded as earned, and the sticker it becomes is news', () => {
+  const book = (secret) =>
+    bookStickers({
+      addressValidated: true,
+      activities: [{ id: 'ghw', completed: true }],
+      secrets: [secret],
+    });
+  const before = book({
+    id: 'secret-1',
+    secret: true,
+    hint: 'A demo hint',
+    revealedBy: 'ghw',
+    completed: false,
+  });
+  const after = book({
+    id: 'demo-secret',
+    secret: true,
+    name: 'A demo secret',
+    revealedBy: 'ghw',
+    completed: true,
+    completedAt: '2026-10-14T12:00:00.000Z',
+  });
+  assert.ok(!earnedIds(before).includes('secret-1'));
+  assert.ok(earnedIds(after).includes('demo-secret'));
+  /* Marked complete by mistake, a placeholder is still not a sticker. */
+  assert.deepEqual(
+    earnedIds([{ id: 'secret-1', placeholder: true, completed: true }]),
+    [],
+  );
+
+  const store = storage();
+  assert.deepEqual(noteEarned(SESSION, earnedIds(before), store), []);
+  assert.deepEqual(noteEarned(SESSION, earnedIds(after), store), [
+    'demo-secret',
+  ]);
+  /* The book turns to the page it is on: its revealer's. */
+  assert.equal(openingTab(after, new Set(['demo-secret'])), 'ghw');
 });

@@ -17,6 +17,8 @@
    Relative import, matching every other file in lib/: Node resolves this
    file directly and never sees jsconfig's baseUrl alias. */
 import { mergeActivities } from './eligibility.mjs';
+import { secretsFrom } from './secretStickers.mjs';
+import { placeSecrets } from './stickerBook.mjs';
 
 /* The public catalogue, undone: every activity present, none completed, no
    source. Identical in shape to what getProgress(null, ...) itself
@@ -50,3 +52,16 @@ export const progressSlot = ({ hasSession, status }) => {
   if (status === 'error') return 'error';
   return 'placeholder';
 };
+
+/* The cards for a signed-in visitor: the catalogue as merged for them,
+   with the secret stickers they have earned among it
+   (lib/secretStickers.mjs), each at the end of the group of the sticker
+   that revealed it, as the book places them. A placeholder stays in
+   the book: this page lists what there is to earn and how, and the book
+   is the one place a secret is shown before it is earned. Signed out
+   there are no secrets to place, and this is not called. */
+export const withEarnedSecrets = (activities, secrets) =>
+  placeSecrets(
+    activities,
+    secretsFrom(secrets).filter((secret) => secret.completed),
+  );

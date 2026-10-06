@@ -4,17 +4,23 @@
    Relative import because Node resolves this file directly and never sees
    jsconfig's baseUrl alias. */
 import { ACTIVITIES } from '../data/eligibility.mjs';
+import { earnedSecretCount } from './secretStickers.mjs';
 
 /* Folds the API's completion data onto the local catalogue.
 
    Mapping over ACTIVITIES rather than over the response is what makes the page
    resilient in both directions: an id the API invents is dropped, and an id it
-   forgets degrades to "not done" instead of crashing the render. */
+   forgets degrades to "not done" instead of crashing the render. An entry
+   flagged secret is never a catalogue activity, whatever its id: secrets
+   are lib/secretStickers.mjs's, kept apart by lib/progress.mjs. */
 export const mergeActivities = (activities) => {
   const entries = Array.isArray(activities) ? activities : [];
   const completion = new Map(
     entries
-      .filter((entry) => entry && typeof entry.id === 'string')
+      .filter(
+        (entry) =>
+          entry && typeof entry.id === 'string' && entry.secret !== true,
+      )
       .map((entry) => [entry.id, entry]),
   );
 
@@ -32,12 +38,22 @@ export const completedCount = (merged) =>
   (Array.isArray(merged) ? merged : []).filter((activity) => activity.completed)
     .length;
 
+/* Every completion the milestones count: the catalogue's activities and
+   the secret stickers earned (`secrets`, lib/secretStickers.mjs), as the
+   API's own completedCount does, so a meter on /my never disagrees with
+   the thresholds the API judges by. A placeholder is never counted. The
+   two required stickers are not in it either; the address gates on its
+   own, below. */
+export const countedCompletions = (eligibility) =>
+  completedCount(mergeActivities(eligibility && eligibility.activities)) +
+  earnedSecretCount(eligibility && eligibility.secrets);
+
 /* The stickers threshold below is 1 today, so `> 0` agrees with it; if it
    ever moves this must read `thresholdsOf(eligibility).stickers` instead. */
 export const isEligible = (eligibility) => {
   if (!eligibility) return false;
   if (!eligibility.addressValidated) return false;
-  return completedCount(mergeActivities(eligibility.activities)) > 0;
+  return countedCompletions(eligibility) > 0;
 };
 
 /* The two milestone counts, as the API serves them on GET /api/me/progress.
@@ -83,7 +99,7 @@ export const thresholdsOf = (eligibility) => {
 export const progressLevel = (eligibility) => {
   if (!eligibility) return 0;
   if (!eligibility.addressValidated) return 0;
-  const done = completedCount(mergeActivities(eligibility.activities));
+  const done = countedCompletions(eligibility);
   const { stickers, complete, completionist } = thresholdsOf(eligibility);
   if (done >= completionist) return 3;
   if (done >= complete) return 2;

@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
+import { stickerSvgFor, svgDataUri } from 'lib/secretStickers.mjs';
 import { CARD_SIZE, bookCardSvg, stickerCardSvg } from 'lib/shareCard.mjs';
 import {
   canShareFiles,
@@ -187,6 +188,10 @@ const ShareModal = ({ share, experience, onClose }) => {
 
     const build = async () => {
       const name = shareName(experience && experience.user);
+      /* A secret's picture is its own art, never a file
+         (lib/secretStickers.mjs stickerSvgFor); every other sticker's is
+         fetched. Only earned stickers are drawn, so a placeholder never
+         reaches a card. */
       if (share.kind === 'book') {
         const all = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
         const earned = all.filter((entry) => entry.completed);
@@ -194,7 +199,7 @@ const ShareModal = ({ share, experience, onClose }) => {
           earned.map(async (entry) => ({
             id: entry.id,
             label: entry.label,
-            svg: await fetchStickerSvg(entry.id),
+            svg: await stickerSvgFor(entry, fetchStickerSvg),
           })),
         );
         const tally = bookCounts(all);
@@ -209,7 +214,7 @@ const ShareModal = ({ share, experience, onClose }) => {
         name,
         sticker: {
           label: share.sticker.label,
-          svg: await fetchStickerSvg(share.sticker.id),
+          svg: await stickerSvgFor(share.sticker, fetchStickerSvg),
         },
         earnedAt: share.sticker.completedAt
           ? formatEarnedDate(share.sticker.completedAt)
@@ -411,10 +416,7 @@ const ShareModal = ({ share, experience, onClose }) => {
               {(pngUrl || svg) && (
                 <img
                   className={styles.previewImage}
-                  src={
-                    pngUrl ||
-                    `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
-                  }
+                  src={pngUrl || svgDataUri(svg)}
                   alt=""
                 />
               )}

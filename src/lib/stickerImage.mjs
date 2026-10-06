@@ -4,6 +4,7 @@
    the illustrated stickers replace the files one by one and nothing here
    changes. Relative imports: Node's test runner reads this. */
 import { ACTIVITIES, REQUIRED_STICKERS } from '../data/eligibility.mjs';
+import { SECRET_MARK_SVG, svgDataUri } from './secretStickers.mjs';
 
 export const REWARD_STICKERS = Object.freeze([
   Object.freeze({ id: 'milestone-pack', art: 'parcel', ground: 'pack' }),
@@ -82,3 +83,12 @@ export const stickerImageSrc = (slug) => {
     throw new TypeError('a sticker slug is a string');
   return `/stickers/${slug}.svg`;
 };
+
+/* Where a sticker in the book draws its picture from, given the sticker
+   rather than its slug: the file for its slug, or, for a secret
+   (lib/secretStickers.mjs), its own art as a data: URI, since no file
+   for one exists, and the question mark where it has no art. */
+export const stickerSrc = (sticker) =>
+  sticker && sticker.secret
+    ? svgDataUri(sticker.art || SECRET_MARK_SVG)
+    : stickerImageSrc(sticker && sticker.id);

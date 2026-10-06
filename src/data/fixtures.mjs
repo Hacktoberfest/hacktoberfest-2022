@@ -44,6 +44,13 @@ const devBadges = (earnedAt = {}) =>
     earnedAt: earnedAt[id] || null,
   }));
 
+/* The demo secret sticker's art: a plain hexagon in the site's own
+   sticker shape, a 200-unit square (lib/secretStickers.mjs secretArt),
+   colors.skyDeep. Invented for the mocked build: a real secret's art
+   lives in the API, never here. */
+const DEMO_SECRET_ART =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="#1f4e6b"/></svg>';
+
 /* Fest dates: entries meant to read as "attended" are dated 2026-08-01 —
    before any plausible review date — so the past group is visible from a
    share link all campaign long, not only after mid-October. Upcoming
@@ -510,6 +517,37 @@ export const SCENARIOS = Object.freeze({
       { id: 'ghw-livestream', completed: true, completedAt: '2026-10-14' },
       { id: 'ghw-points-15', completed: true, completedAt: '2026-10-15' },
       { id: 'ghw-points-30', completed: true, completedAt: '2026-10-16' },
+    ],
+    /* Two secret stickers, invented for the mocked build: one earned,
+       with a plain hexagon for art, and one still a placeholder. Both are
+       revealed by the Global Hack Week sticker this scenario has earned,
+       as the API only sends a secret once its revealer is earned. Shaped
+       as GET /api/me/progress sends them among its challenges; kept apart
+       here as lib/progress.mjs keeps them apart, and read by the same
+       lib/secretStickers.mjs. */
+    secrets: [
+      {
+        id: 'demo-secret',
+        secret: true,
+        name: 'A demo secret',
+        description: 'Invented for the mocked build.',
+        art: DEMO_SECRET_ART,
+        revealedBy: 'ghw',
+        required: false,
+        completed: true,
+        completedAt: '2026-10-14',
+        source: 'manual',
+      },
+      {
+        id: 'secret-1',
+        secret: true,
+        hint: 'A demo hint',
+        revealedBy: 'ghw',
+        required: false,
+        completed: false,
+        completedAt: null,
+        source: null,
+      },
     ],
     /* The catalogue as GET /api/me/items serves it: the pack and the
        holographic sticker, earned by the milestones. */

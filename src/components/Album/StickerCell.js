@@ -1,7 +1,8 @@
 import { activitiesPage, my } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
-import { stickerImageSrc } from 'lib/stickerImage.mjs';
+import { SECRET_MARK_PATHS } from 'lib/secretStickers.mjs';
+import { stickerSrc } from 'lib/stickerImage.mjs';
 import { openPreSurvey } from 'lib/survey.mjs';
 
 import styles from './Album.module.css';
@@ -11,6 +12,31 @@ const ACTIONS = {
   digitalocean: startDigitalOceanConnect,
   survey: openPreSurvey,
 };
+
+/* A secret not yet earned: the die-cut slot with no sticker in it, its
+   dashed ring alone, and a question mark drawn inside it in the ring's
+   colour; "Secret sticker" for a name; the API's hint under it, or Not
+   yet. No button, no link, no padlock: the book does not say how to earn
+   a secret, only that there is one. The mark is decorative, since the
+   name says what it means. */
+const SecretPlaceholder = ({ sticker }) => (
+  <li className={styles.cell} data-secret="placeholder">
+    <div className={styles.slot}>
+      <svg
+        className={styles.secretMark}
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        {SECRET_MARK_PATHS.map((d) => (
+          <path key={d} d={d} />
+        ))}
+      </svg>
+    </div>
+    <h4 className={styles.cellTitle}>{sticker.label}</h4>
+    <p className={styles.cellStatus}>{sticker.hint || my.album.cell.notYet}</p>
+  </li>
+);
 
 /* One sticker as a cell on a page of the book: the sticker in its die-cut
    slot, centred, its name under it, and one line of status. Earned, the
@@ -24,8 +50,15 @@ const ACTIONS = {
    The cell says less than the activity card (components/ActivityCard),
    deliberately: the page is the type, so no type chip; the detail and
    the source live on /activities/, a link away. The sticker is the point
-   here. */
+   here.
+
+   A secret sticker (lib/secretStickers.mjs) is one of two things. Not
+   yet earned, it is a placeholder, drawn by SecretPlaceholder above.
+   Earned, it is this cell like any other, with the API's name, its own
+   art for a picture (lib/stickerImage.mjs stickerSrc), and a Secret tag
+   where a required sticker wears its Required one. */
 const StickerCell = ({ sticker, justEarned = false, onShare }) => {
+  if (sticker.placeholder) return <SecretPlaceholder sticker={sticker} />;
   const earned = Boolean(sticker.completed);
   const external = /^https?:\/\//.test(sticker.href || '');
   const date = sticker.completedAt
@@ -40,15 +73,20 @@ const StickerCell = ({ sticker, justEarned = false, onShare }) => {
       className={styles.cell}
       data-earned={earned ? 'true' : undefined}
       data-just-earned={earned && justEarned ? 'true' : undefined}
+      data-secret={sticker.secret ? 'earned' : undefined}
     >
-      {sticker.type === 'required' && (
-        <span className={styles.cellTag}>{my.album.cell.required}</span>
+      {sticker.secret ? (
+        <span className={styles.cellTag}>{my.album.cell.secret}</span>
+      ) : (
+        sticker.type === 'required' && (
+          <span className={styles.cellTag}>{my.album.cell.required}</span>
+        )
       )}
       <div className={styles.slot}>
         <div className={styles.sticker}>
           <img
             className={styles.stickerImage}
-            src={stickerImageSrc(sticker.id)}
+            src={stickerSrc(sticker)}
             alt=""
             draggable="false"
           />

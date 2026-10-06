@@ -20,17 +20,21 @@ import {
   thresholdsOf,
 } from './eligibility.mjs';
 import { REQUIRED_STICKERS } from '../data/eligibility.mjs';
+import { secretsFrom } from './secretStickers.mjs';
 import { API_BASE_URL } from './session.mjs';
 
 /* The two required stickers the book knows. A required slug the API adds
    later is dropped here exactly as an unknown activity is. */
 const REQUIRED_IDS = new Set(REQUIRED_STICKERS.map((sticker) => sticker.id));
 
-/* Pure. `challenges` in, `activities` and `required` out. Activities are
-   merged onto the catalogue by slug so an id the API invents is dropped
-   and an id it forgets reads as not done. `required` is the payload's
-   required entries the book knows, in payload order, trimmed to what the
-   book reads; the sticker book merges them onto REQUIRED_STICKERS itself.
+/* Pure. `challenges` in, `activities`, `required` and `secrets` out.
+   Activities are merged onto the catalogue by slug so an id the API
+   invents is dropped and an id it forgets reads as not done. `required`
+   is the payload's required entries the book knows, in payload order,
+   trimmed to what the book reads; the sticker book merges them onto
+   REQUIRED_STICKERS itself. `secrets` is the payload's secret entries, in
+   payload order, as lib/secretStickers.mjs reads them: they never become
+   activities, and the book places them (lib/stickerBook.mjs).
    `source` rides along for the activities page, which says how a
    completion was earned; the hub ignores it. */
 export const progressFromPayload = (payload) => {
@@ -39,7 +43,10 @@ export const progressFromPayload = (payload) => {
 
   const sources = new Map(
     challenges
-      .filter((entry) => entry && typeof entry.id === 'string')
+      .filter(
+        (entry) =>
+          entry && typeof entry.id === 'string' && entry.secret !== true,
+      )
       .map((entry) => [
         entry.id,
         entry.completed ? (entry.source ?? null) : null,
@@ -66,10 +73,16 @@ export const progressFromPayload = (payload) => {
       source: entry.completed ? (entry.source ?? null) : null,
     }));
 
-  return { thresholds: thresholdsOf(body), activities, required };
+  return {
+    thresholds: thresholdsOf(body),
+    activities,
+    required,
+    secrets: secretsFrom(challenges),
+  };
 };
 
-/* Signed out, or nothing to merge: the catalogue, undone. */
+/* Signed out, or nothing to merge: the catalogue, undone, and no secret,
+   since a secret only ever arrives for someone who has reached it. */
 const undone = () => ({
   thresholds: DEFAULT_THRESHOLDS,
   activities: mergeActivities([]).map((activity) => ({
@@ -77,14 +90,18 @@ const undone = () => ({
     source: null,
   })),
   required: [],
+  secrets: [],
 });
 
+/* A fixture keeps its secret entries apart from its activities
+   (data/fixtures.mjs), so they join the challenges here, the one list the
+   API sends them in. */
 const mockedProgress = (scenario) => {
   const fixture =
     SCENARIOS[selectScenario(scenario)] || SCENARIOS[DEFAULT_SCENARIO];
   return progressFromPayload({
     thresholds: fixture.thresholds,
-    challenges: fixture.activities,
+    challenges: [...fixture.activities, ...(fixture.secrets || [])],
   });
 };
 

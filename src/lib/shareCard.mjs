@@ -18,6 +18,7 @@
 
    Relative imports and no JSX: Node's test runner reads this. */
 import { my } from '../data/content.mjs';
+import { SVG_PROLOG } from './secretStickers.mjs';
 
 export const CARD_SIZE = 1080;
 
@@ -131,7 +132,7 @@ export const inlineSticker = (svg, { x, y, size } = {}) => {
      generator comment before the root; none of that belongs inside a
      nested element, so it is dropped before the root is found. */
   const source = (typeof svg === 'string' ? svg : '')
-    .replace(/^(\s*(<\?xml[^>]*\?>|<!DOCTYPE[^>]*>|<!--[\s\S]*?-->))+/i, '')
+    .replace(SVG_PROLOG, '')
     .trim();
   const open = source.match(/^<svg(?=[\s/>])[\s\S]*?>/);
   const close = source.lastIndexOf('</svg>');

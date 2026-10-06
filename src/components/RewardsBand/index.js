@@ -1,12 +1,16 @@
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
 import { MILESTONE_IDS } from 'lib/justEarned.mjs';
-import { bookStickers, rewardsState } from 'lib/stickerBook.mjs';
+import {
+  bookStickers,
+  firstActivitySticker,
+  rewardsState,
+} from 'lib/stickerBook.mjs';
 import { useState } from 'react';
 
 import ShareModal from 'components/ShareModal';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
-import { stickerImageSrc } from 'lib/stickerImage.mjs';
+import { stickerImageSrc, stickerSrc } from 'lib/stickerImage.mjs';
 
 import styles from './RewardsBand.module.css';
 
@@ -41,7 +45,8 @@ const completionistWhy = (rewards) => {
 };
 
 /* A meter of pips: the earned stickers in book order, each its own
-   picture, then dashed empty slots up to the target. Decorative; the
+   picture (an earned secret's from its own art, lib/stickerImage.mjs
+   stickerSrc), then dashed empty slots up to the target. Decorative; the
    label under it says the count. */
 const Meter = ({ pips, target }) => (
   <div className={styles.meter} aria-hidden="true">
@@ -49,7 +54,7 @@ const Meter = ({ pips, target }) => (
       (sticker, index) =>
         sticker ? (
           <span key={sticker.id} className={`${styles.pip} ${styles.pipOn}`}>
-            <img src={stickerImageSrc(sticker.id)} alt="" draggable="false" />
+            <img src={stickerSrc(sticker)} alt="" draggable="false" />
           </span>
         ) : (
           <span key={`empty-${index}`} className={styles.pip} />
@@ -69,7 +74,7 @@ const Need = ({ label, sticker }) => (
       aria-hidden="true"
     >
       {sticker ? (
-        <img src={stickerImageSrc(sticker.id)} alt="" draggable="false" />
+        <img src={stickerSrc(sticker)} alt="" draggable="false" />
       ) : null}
     </span>
     {label}
@@ -117,15 +122,14 @@ const RewardsBand = ({ experience, justEarned }) => {
     </button>
   );
   /* The pack's pips: the two required stickers by id, and the first
-     activity sticker in the book, whichever it was. rewardsState says
-     whether each requirement is met; these say which sticker to draw. */
+     activity sticker in the book, whichever it was, an earned secret
+     included (lib/stickerBook.mjs firstActivitySticker). rewardsState
+     says whether each requirement is met; these say which sticker to
+     draw. */
   const bySlug = Object.fromEntries(
     stickers.map((sticker) => [sticker.id, sticker]),
   );
-  const firstActivity =
-    stickers.find(
-      (sticker) => sticker.type !== 'required' && sticker.completed,
-    ) || null;
+  const firstActivity = firstActivitySticker(stickers);
 
   return (
     <section className={styles.band} aria-labelledby="rewards-heading">

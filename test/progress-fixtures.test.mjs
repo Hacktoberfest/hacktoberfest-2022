@@ -6,8 +6,16 @@ import {
   SCENARIOS,
   selectScenario,
 } from '../src/data/fixtures.mjs';
+import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import { isEligible, progressLevel } from '../src/lib/eligibility.mjs';
 import { festDidNotAttend, hasOnlyApplications } from '../src/lib/fests.mjs';
+import { secretArt } from '../src/lib/secretStickers.mjs';
+import {
+  bookCounts,
+  bookStickers,
+  filterBook,
+  milestoneState,
+} from '../src/lib/stickerBook.mjs';
 
 /* This file evaluates experience.mjs in the mocked build. Leaving the
    variable unset used to be enough; unset resolves to the live origin now
@@ -17,6 +25,7 @@ import { festDidNotAttend, hasOnlyApplications } from '../src/lib/fests.mjs';
 process.env.NEXT_PUBLIC_API_BASE_URL = 'mocked';
 
 const { getExperience } = await import('../src/lib/experience.mjs');
+const { getProgress } = await import('../src/lib/progress.mjs');
 
 test('selectScenario falls back to the default for junk input', () => {
   assert.equal(selectScenario(null), DEFAULT_SCENARIO);
@@ -322,4 +331,63 @@ test('every data fixture carries the required stickers, consistent with its addr
         assert.equal(entry.completed, entry.source !== null, name);
       });
     });
+});
+
+/* The review link for secret stickers: an invented one of each kind,
+   revealed by a sticker the scenario has earned. */
+test('the completionist scenario carries a demo secret, one earned and one placeholder', () => {
+  const fixture = SCENARIOS.completionist;
+  assert.deepEqual(
+    fixture.secrets.map((secret) => [secret.id, secret.completed]),
+    [
+      ['demo-secret', true],
+      ['secret-1', false],
+    ],
+  );
+  fixture.secrets.forEach((secret) => {
+    assert.equal(secret.secret, true);
+    assert.equal(secret.required, false);
+    assert.ok(
+      fixture.activities.some(
+        (activity) => activity.id === secret.revealedBy && activity.completed,
+      ),
+      `${secret.id}: revealed by a sticker the scenario has earned`,
+    );
+  });
+  assert.equal(secretArt(fixture.secrets[0].art), fixture.secrets[0].art);
+  assert.equal('name' in fixture.secrets[1], false);
+  assert.equal('art' in fixture.secrets[1], false);
+});
+
+test('the completionist book ends their revealer’s page with the demo secrets and counts the earned one', () => {
+  const book = bookStickers(SCENARIOS.completionist);
+  const page = filterBook(book, 'ghw').map((sticker) => sticker.id);
+  assert.deepEqual(page.slice(-2), ['demo-secret', 'secret-1']);
+  assert.equal(page[0], 'ghw');
+  const earnedActivities = SCENARIOS.completionist.activities.filter(
+    (activity) => activity.completed,
+  ).length;
+  assert.deepEqual(bookCounts(book), {
+    earned: 2 + earnedActivities + 1,
+    total: 2 + ACTIVITIES.length + 2,
+  });
+  assert.equal(
+    milestoneState(SCENARIOS.completionist).done,
+    earnedActivities + 1,
+  );
+  assert.equal(progressLevel(SCENARIOS.completionist), 3);
+});
+
+test('the mocked seams hand the demo secrets on, signed in', async () => {
+  const experience = await getExperience(null, { scenario: 'completionist' });
+  assert.equal(experience.secrets.length, 2);
+  const progress = await getProgress(
+    { user: { email: 'ada@example.invalid' } },
+    { scenario: 'completionist' },
+  );
+  assert.deepEqual(
+    progress.secrets.map((secret) => secret.id),
+    ['demo-secret', 'secret-1'],
+  );
+  assert.deepEqual((await getProgress(null)).secrets, []);
 });

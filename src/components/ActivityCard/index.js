@@ -1,6 +1,6 @@
 import { activitiesPage } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
-import { stickerImageSrc } from 'lib/stickerImage.mjs';
+import { stickerSrc } from 'lib/stickerImage.mjs';
 import { openPreSurvey } from 'lib/survey.mjs';
 
 import styles from './ActivityCard.module.css';
@@ -27,7 +27,13 @@ const ACTIONS = {
    `devLinked` is /my's: an activity that can only be detected through a
    linked DEV account says so until the account is linked. No activity
    needs it this season; the field is honoured so the day one does, the
-   card already knows what to say. */
+   card already knows what to say.
+
+   An earned secret sticker (lib/activitiesPageState.mjs
+   withEarnedSecrets) is a card like any other: the API's name and
+   description, its own art for a picture (lib/stickerImage.mjs
+   stickerSrc), the tick, and no button, since it carries neither a link
+   nor an action. */
 const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
   const earned = Boolean(signedIn && activity.completed);
   const external = /^https?:\/\//.test(activity.href || '');
@@ -44,7 +50,7 @@ const ActivityCard = ({ activity, signedIn, devLinked = true }) => {
         <div className={styles.sticker}>
           <img
             className={styles.stickerImage}
-            src={stickerImageSrc(activity.id)}
+            src={stickerSrc(activity)}
             alt=""
             draggable="false"
           />

@@ -4,6 +4,7 @@ import test from 'node:test';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import {
   completedCount,
+  countedCompletions,
   DEFAULT_THRESHOLDS,
   isEligible,
   mergeActivities,
@@ -242,5 +243,82 @@ test('progressLevel reaches 2 at the experience’s own complete threshold', () 
       thresholds: { stickers: 1, complete: 3 },
     }),
     1,
+  );
+});
+
+/* Secret stickers (lib/secretStickers.mjs), generically: an invented
+   earned one and a placeholder. The API's completedCount counts an earned
+   secret like any sticker and never a placeholder, and so does this. */
+const SECRETS = [
+  {
+    id: 'demo-secret',
+    secret: true,
+    completed: true,
+    completedAt: '2026-10-14T12:00:00.000Z',
+    source: 'manual',
+  },
+  {
+    id: 'secret-1',
+    secret: true,
+    hint: 'A demo hint',
+    completed: false,
+    completedAt: null,
+    source: null,
+  },
+];
+
+test('an entry flagged secret never marks a catalogue activity', () => {
+  const merged = mergeActivities([
+    { id: 'fest', secret: true, completed: true, completedAt: '2026-10-02' },
+  ]);
+  assert.equal(merged.find((a) => a.id === 'fest').completed, false);
+  assert.equal(merged.length, ACTIVITIES.length);
+});
+
+test('countedCompletions is the earned activities and the earned secrets', () => {
+  const activities = [{ id: 'fest', completed: true }];
+  assert.equal(countedCompletions({ activities }), 1);
+  assert.equal(countedCompletions({ activities, secrets: SECRETS }), 2);
+  assert.equal(countedCompletions({ secrets: [SECRETS[1]] }), 0);
+  assert.equal(countedCompletions(null), 0);
+});
+
+test('an earned secret counts toward the milestones, behind the same address gate', () => {
+  const thresholds = { stickers: 1, complete: 2, completionist: 3 };
+  const one = [{ id: 'fest', completed: true }];
+  assert.equal(
+    progressLevel({ addressValidated: true, activities: one, thresholds }),
+    1,
+  );
+  assert.equal(
+    progressLevel({
+      addressValidated: true,
+      activities: one,
+      secrets: SECRETS,
+      thresholds,
+    }),
+    2,
+  );
+  assert.equal(
+    progressLevel({
+      addressValidated: false,
+      activities: one,
+      secrets: SECRETS,
+      thresholds,
+    }),
+    0,
+  );
+  /* An earned secret alone is a sticker in the book: the pack is earned. */
+  assert.equal(
+    isEligible({ addressValidated: true, activities: [], secrets: SECRETS }),
+    true,
+  );
+  assert.equal(
+    isEligible({
+      addressValidated: true,
+      activities: [],
+      secrets: [SECRETS[1]],
+    }),
+    false,
   );
 });

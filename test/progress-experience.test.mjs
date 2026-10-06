@@ -5,6 +5,7 @@ process.env.NEXT_PUBLIC_API_BASE_URL = 'https://api.test.invalid';
 
 const { SESSION_STORAGE_KEY } = await import('../src/lib/session.mjs');
 const { getExperience } = await import('../src/lib/experience.mjs');
+const { SCENARIOS } = await import('../src/data/fixtures.mjs');
 const { resetRefreshState } = await import('../src/lib/apiClient.mjs');
 
 const SESSION = {
@@ -415,4 +416,140 @@ test('the live experience carries the items the API serves, and nothing else', a
   routeFetch({ items: {} });
   const bare = await getExperience(SESSION, { scenario: 'complete' });
   assert.deepEqual(bare.items, []);
+});
+
+/* A demo secret for a fixture to carry. The 'eligible' fixture has no
+   `secrets` field, so the live path's ordering (the payload's secrets laid
+   down AFTER the fixture spread) is unobservable unless a test gives it
+   one for the run. SCENARIOS is frozen only at the top, so the scenario
+   objects themselves can take the field; the helper puts the fixture back
+   exactly as it found it, whether the run passes or throws. */
+const FIXTURE_SECRETS = [
+  {
+    id: 'fixture-demo-secret',
+    secret: true,
+    name: 'A fixture secret',
+    description: 'Invented for the mocked build.',
+    art: null,
+    revealedBy: 'ghw',
+    required: false,
+    completed: true,
+    completedAt: '2026-10-14T12:00:00.000Z',
+    source: 'manual',
+  },
+];
+
+const withFixtureSecrets = async (scenario, run) => {
+  const fixture = SCENARIOS[scenario];
+  const had = Object.prototype.hasOwnProperty.call(fixture, 'secrets');
+  const before = fixture.secrets;
+  fixture.secrets = FIXTURE_SECRETS;
+  try {
+    return await run();
+  } finally {
+    if (had) fixture.secrets = before;
+    else delete fixture.secrets;
+  }
+};
+
+/* The live payload's secret entries ride beside the activities, never
+   inside them. Generic: an invented earned secret and a placeholder,
+   revealed by a catalogue sticker picked for no reason but that it
+   exists. The 'eligible' fixture is given a secret of its own for the
+   run, so the payload's win over it is observable: a fixture's demo
+   secrets must never reach a live build. */
+test("getExperience carries the payload's secrets beside the activities", async () => {
+  resetRefreshState();
+  installStorage();
+  routeFetch();
+  const routed = globalThis.fetch;
+  globalThis.fetch = async (url) =>
+    String(url).endsWith('/api/me/progress')
+      ? {
+          ok: true,
+          status: 200,
+          json: async () => ({
+            thresholds: { stickers: 1, complete: 4 },
+            completedCount: 2,
+            challenges: [
+              {
+                id: 'ghw',
+                completed: true,
+                completedAt: '2026-10-13T12:00:00.000Z',
+                source: 'import',
+              },
+              {
+                id: 'demo-secret',
+                secret: true,
+                name: 'A demo secret',
+                description: 'Invented for the test.',
+                art: null,
+                revealedBy: 'ghw',
+                required: false,
+                completed: true,
+                completedAt: '2026-10-14T12:00:00.000Z',
+                source: 'manual',
+              },
+              {
+                id: 'secret-1',
+                secret: true,
+                hint: 'A demo hint',
+                revealedBy: 'ghw',
+                required: false,
+                completed: false,
+                completedAt: null,
+                source: null,
+              },
+            ],
+          }),
+        }
+      : routed(url);
+
+  const result = await withFixtureSecrets('eligible', () =>
+    getExperience(SESSION, { scenario: 'eligible' }),
+  );
+
+  assert.deepEqual(
+    result.secrets.map((secret) => secret.id),
+    ['demo-secret', 'secret-1'],
+  );
+  assert.ok(
+    result.secrets.every((secret) => secret.id !== 'fixture-demo-secret'),
+    "the fixture's secret reached a live result",
+  );
+  assert.equal(result.secrets[0].name, 'A demo secret');
+  assert.equal(result.secrets[1].hint, 'A demo hint');
+  assert.ok(result.activities.every((activity) => !activity.secret));
+  assert.equal(
+    result.activities.find((activity) => activity.id === 'ghw').completed,
+    true,
+  );
+});
+
+/* A payload with no secrets gives an empty list, even over a fixture that
+   carries some: the fallback is [] and never the fixture's own. */
+test('getExperience gives an empty secrets list when the payload has none', async () => {
+  resetRefreshState();
+  installStorage();
+  routeFetch();
+
+  const result = await withFixtureSecrets('eligible', () =>
+    getExperience(SESSION, { scenario: 'eligible' }),
+  );
+
+  assert.deepEqual(result.secrets, []);
+  // The helper restored the fixture exactly: it started without the field.
+  assert.equal(Object.hasOwn(SCENARIOS.eligible, 'secrets'), false);
+});
+
+/* The completionist fixture carries demo secrets for the mocked build;
+   a live build takes the payload's, and this payload has none. */
+test('a live build never shows a fixture’s demo secrets', async () => {
+  resetRefreshState();
+  installStorage();
+  routeFetch();
+
+  const result = await getExperience(SESSION, { scenario: 'completionist' });
+
+  assert.deepEqual(result.secrets, []);
 });
