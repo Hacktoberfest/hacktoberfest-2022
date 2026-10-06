@@ -93,20 +93,34 @@ const FestMapHero = () => {
               </span>
             ))}
           </p>
-          {/* The count's changed digits roll up on load, one after the
-              other, the old digit drawn by the stylesheet so the text is
-              the new count all along. */}
+          {/* The count's changed digits roll up on load, one step at a
+              time: each wheel's old digit and the digits on its way are
+              drawn by the stylesheet from data-digit, so the text is the
+              new count all along. A face rolls in on --roll-in and out on
+              --roll-out, both turns. */}
           <h1 id="home-hero-title" className={styles.heading}>
             {countRoll(mapHero.heading.lead, mapHero.heading.rollFrom).map(
               (part, i) => (
                 <Fragment key={i}>
                   {part.from ? (
-                    <span
-                      className={styles.roll}
-                      data-from={part.from}
-                      style={{ '--roll-turn': part.turn }}
-                    >
-                      <span className={styles.rollTo}>{part.text}</span>
+                    <span className={styles.roll}>
+                      {[part.from, ...part.via].map((digit, step) => (
+                        <span
+                          key={step}
+                          className={step ? styles.rollVia : styles.rollFrom}
+                          data-digit={digit}
+                          style={{
+                            '--roll-in': part.turn + step - 1,
+                            '--roll-out': part.turn + step,
+                          }}
+                        />
+                      ))}
+                      <span
+                        className={styles.rollTo}
+                        style={{ '--roll-in': part.turn + part.via.length }}
+                      >
+                        {part.text}
+                      </span>
                     </span>
                   ) : (
                     part.text
