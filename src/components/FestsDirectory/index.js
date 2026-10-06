@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import Loader from 'components/Loader';
 import { fests as festsContent } from 'data/content.mjs';
 import { MLH_SEASON_URL } from 'data/links.js';
 import { partitionPast, sortByDateAsc, todayIso } from 'lib/festDate.mjs';
@@ -324,17 +325,10 @@ const FestsDirectory = () => {
   }, []);
 
   if (status === 'loading') {
-    /* role="status" so a retry out of the error surface below is announced.
-       Silent on first paint, which is correct — a live region does not
-       announce the content it mounts with, and this state is what the page
-       exports. */
-    return (
-      <div className={styles.page}>
-        <div className={styles.loading} role="status">
-          <p className={styles.emptyTitle}>{festsContent.loading}</p>
-        </div>
-      </div>
-    );
+    /* The Loader's inline stand-in, the same wave /schedule shows under its
+       hero. The squares are decorative; the label is the state for screen
+       readers, in the Loader's visually hidden aria-live paragraph. */
+    return <Loader label={festsContent.loading} inline />;
   }
 
   if (status === 'error') {

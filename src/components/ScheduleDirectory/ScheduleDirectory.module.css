@@ -586,6 +586,9 @@
   border: 2px solid #10201d;
   /* colors.white */
   background: #f7f7f2;
+  /* colors.ink, set here because a button does not inherit it: left to the
+     browser, iOS Safari paints button text blue. */
+  color: #10201d;
   box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
@@ -785,6 +788,8 @@
   border: 2px solid #10201d;
   /* colors.white */
   background: #f7f7f2;
+  /* colors.ink, for the reason on .sessionRow. */
+  color: #10201d;
   box-shadow: 6px 6px 0 var(--accent);
   cursor: pointer;
   gap: 14px;
@@ -891,6 +896,8 @@
   /* colors.rule */
   border: 2px dashed #8ca59e;
   background: transparent;
+  /* colors.ink, for the reason on .sessionRow. */
+  color: #10201d;
   cursor: pointer;
   gap: 14px;
   grid-template-columns: auto 1fr auto;
@@ -1166,6 +1173,8 @@
      tile: this is a placeholder for content rather than content. */
   border: 2px dashed #8ca59e;
   background: transparent;
+  /* colors.ink, for the reason on .sessionRow. */
+  color: #10201d;
   cursor: pointer;
   gap: 14px;
   text-align: left;
@@ -1324,6 +1333,12 @@
 }
 
 /* --- States ------------------------------------------------------------- */
+
+/* Only the ground: the inline Loader holds its own open space, which
+   .state's padding would double. */
+.loading {
+  background: #e4e5da;
+}
 
 .state {
   display: flex;

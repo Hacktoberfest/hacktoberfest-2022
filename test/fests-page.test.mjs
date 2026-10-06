@@ -64,14 +64,17 @@ test('/fests invites visitors without a local Fest to host one', async () => {
    left on if the fetch is slow or the retry path is taken. Pinned here
    because it is the one piece of the directory's accessibility wiring that
    reaches static HTML; the rest (the live results count, the location
-   status) only exists after hydration, which this suite cannot reach. */
-test('the exported loading surface is a status region', async () => {
+   status) only exists after hydration, which this suite cannot reach.
+
+   The surface is the shared Loader's inline stand-in, the same one
+   /schedule shows under its hero, and its label is the live region. */
+test('the exported loading surface is the inline loader, labelled', async () => {
   const html = await readOutput('fests/index.html');
+  assert.match(html, /class="Loader_loading__[^"]*Loader_inline__/);
   assert.match(
     html,
-    /class="[^"]*FestsDirectory_loading[^"]*"[^>]*role="status"/,
+    new RegExp(`aria-live="polite">${fests.loading.replace('…', '')}`),
   );
-  assert.ok(html.includes(fests.loading));
 });
 
 /* The directory itself renders client-side, so the page chunk is what

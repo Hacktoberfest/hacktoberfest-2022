@@ -953,7 +953,6 @@
    label left, arrow right — matching /my's cards. */
 
 .empty,
-.loading,
 .error {
   padding: 26px 20px;
   /* colors.ink */

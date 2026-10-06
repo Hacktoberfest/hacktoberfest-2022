@@ -100,6 +100,30 @@ test('the export carries the callout to /fests', { skip: CLOSED }, async () => {
   );
 });
 
+/* The export is the loading state, so this is where the loader's variant
+   shows. Under the hero it must be the inline stand-in: the whole-page
+   variant's full-bleed forest and viewport-tall column, dropped into the
+   state's centred flex column, shrink to the width of the four squares and
+   ship as a thin green slab in the middle of the page (live on 2026-10-06). */
+test(
+  'the loading state is the inline loader, not the whole-page one',
+  { skip: CLOSED || SCHEDULE_LOCKED },
+  async () => {
+    const html = await readOutput('schedule/index.html');
+
+    assert.match(
+      html,
+      /class="Loader_loading__[^"]*Loader_inline__/,
+      'the schedule renders the whole-page loader mid-page',
+    );
+    assert.match(
+      html,
+      new RegExp(`aria-live="polite">${schedule.loading.replace('…', '')}`),
+      'the loader carries no label for screen readers',
+    );
+  },
+);
+
 /* The rows themselves are not in the export — the directory renders after a
    client-side fetch, so the HTML is the loading state and carries no events at
    all. What IS in the export is the stylesheet, and that is where the invariant

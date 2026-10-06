@@ -95,11 +95,13 @@ const ScheduleDirectory = () => {
      call it — see the note in EventModal. */
   const closeEvent = useCallback(() => setSelected(null), []);
 
+  /* `inline`: this sits under the hero, so it is the Loader's stand-in
+     variant. The whole-page one is a full-bleed, viewport-tall screen, and in
+     .state's centred flex column it shrank to a thin green slab. */
   if (state.status === 'loading') {
     return (
-      <div className={styles.state}>
-        <Loader />
-        <p className={styles.stateBody}>{schedule.loading}</p>
+      <div className={styles.loading}>
+        <Loader label={schedule.loading} inline />
       </div>
     );
   }
