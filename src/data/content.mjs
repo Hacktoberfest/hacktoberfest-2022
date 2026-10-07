@@ -2338,6 +2338,8 @@ export const schedule = {
     cta: 'Open event page',
     /* A livestream's button, which goes to MLH's Twitch channel. */
     watchCta: 'Watch on Twitch',
+    /* A mini-event's button, which goes to MLH's Discord. */
+    discordCta: 'Join on Discord',
   },
   /* Closes the page. The counterpart to the host callout that closes /fests:
      that one answers "no Fest near me", this one answers "I would rather be

@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import Close from 'components/icons/Close';
 import { schedule } from 'data/content.mjs';
-import { MLH_TWITCH_URL } from 'data/links';
+import { MLH_TWITCH_URL, SCHEDULE_DISCORD_URL } from 'data/links';
 import {
   formatClock,
   formatDay,
@@ -56,6 +56,13 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
      in one dialog is the noise the stream's rows were spared. */
   const isLivestream = current.type === 'livestream';
   const onAir = isLivestream && isOnAir(current, now);
+  const cta = isLivestream
+    ? { href: MLH_TWITCH_URL, label: copy.watchCta }
+    : current.type === 'minievent'
+      ? { href: SCHEDULE_DISCORD_URL, label: copy.discordCta }
+      : current.url
+        ? { href: current.url, label: copy.cta }
+        : null;
   /* A lockup is white-on-transparent as often as not, so it needs a ground of
      its own — on the modal's paper it would simply be invisible. It gets a band
      in the event's own type colour, which is the same ground the feature header
@@ -174,19 +181,20 @@ const EventModal = ({ event, timeZone, onClose, now }) => {
           <p className={styles.modalCopy}>{current.description}</p>
         )}
 
-        {/* A livestream always goes to MLH's Twitch, where it airs. Anything
-            else goes to its own page, which is absent on some events: a dead
+        {/* A livestream always goes to MLH's Twitch, where it airs, and a
+            mini-event to MLH's Discord, where it is played. Anything else
+            goes to its own page, which is absent on some events: a dead
             button is worse than none, so the link simply does not render
             rather than pointing nowhere. The button is the global one
             (src/styles/buttons.css); .modalCta is placement only. */}
-        {(isLivestream || current.url) && (
+        {cta && (
           <a
             className={`hf-button ${styles.modalCta}`}
-            href={isLivestream ? MLH_TWITCH_URL : current.url}
+            href={cta.href}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {isLivestream ? copy.watchCta : copy.cta}
+            {cta.label}
           </a>
         )}
       </div>

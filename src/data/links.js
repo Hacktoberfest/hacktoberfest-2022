@@ -113,6 +113,11 @@ export const HOST_DISCORD_URL = 'https://discord.com/invite/mlh';
    its own placement; untagged for the reason above. */
 export const MLH_DISCORD_URL = 'https://discord.com/invite/mlh';
 
+/* Mini-events on /schedule happen in MLH's Discord, whatever page the row
+   links to, so their button goes to the invite the way a livestream's goes
+   to Twitch. Its own placement, untagged for the reason above. */
+export const SCHEDULE_DISCORD_URL = 'https://discord.com/invite/mlh';
+
 /* The Hacktoberfest team's inbox, the third open row in /my's host
    resources band. A mailto rather than a form: the row is the private
    channel beside the public one, and anything that needs a human to read
