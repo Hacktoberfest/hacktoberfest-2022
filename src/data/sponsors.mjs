@@ -64,6 +64,7 @@ const roster = [
     slug: 'thinking-machines',
     site: 'https://thinkingmachines.ai',
   },
+  { name: '.tech Domains', slug: 'tech', site: 'https://get.tech' },
 ];
 
 const logoScales = {

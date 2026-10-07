@@ -33,3 +33,9 @@ The Thinking Machines logo was added on September 29, 2026 from the partner-prov
 | Sponsor           | Local file              | Source                                                                                                 |
 | ----------------- | ----------------------- | ------------------------------------------------------------------------------------------------------ |
 | Thinking Machines | `thinking-machines.svg` | Black two-line wordmark (`tml-logo-bw.svg`) sent by Jen Chan (Thinking Machines) on September 28, 2026 |
+
+The .tech Domains logo was added on October 7, 2026 from the partner-provided file in .tech's Drive upload folder. Its viewBox is cropped to the artwork so the logo fills its tile.
+
+| Sponsor       | Local file | Source                                                                                                        |
+| ------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| .tech Domains | `tech.svg` | `Tech Logo black.svg`, uploaded by Maithili Shinde (.tech) on October 6, 2026 (dark `#282828`, no background) |
