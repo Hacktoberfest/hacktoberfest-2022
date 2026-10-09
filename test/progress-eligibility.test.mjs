@@ -176,6 +176,7 @@ test('thresholdsOf reads the experience and falls back to the defaults', () => {
     stickers: 1,
     complete: 4,
     completionist: DEFAULT_THRESHOLDS.completionist,
+    completionistPlusPlus: DEFAULT_THRESHOLDS.completionistPlusPlus,
   });
   // Anything that is not a positive integer pair is not a threshold.
   assert.deepEqual(
@@ -193,12 +194,18 @@ test('thresholdsOf reads completionist, and defaults it alone when a payload pre
     thresholdsOf({
       thresholds: { stickers: 1, complete: 8, completionist: 13 },
     }),
-    { stickers: 1, complete: 8, completionist: 13 },
+    {
+      stickers: 1,
+      complete: 8,
+      completionist: 13,
+      completionistPlusPlus: DEFAULT_THRESHOLDS.completionistPlusPlus,
+    },
   );
   assert.deepEqual(thresholdsOf({ thresholds: { stickers: 1, complete: 8 } }), {
     stickers: 1,
     complete: 8,
     completionist: DEFAULT_THRESHOLDS.completionist,
+    completionistPlusPlus: DEFAULT_THRESHOLDS.completionistPlusPlus,
   });
   assert.equal(
     thresholdsOf({ thresholds: { stickers: 1, complete: 8, completionist: 0 } })
@@ -223,6 +230,82 @@ test('progressLevel reaches 3 at the completionist threshold', () => {
     progressLevel({ addressValidated: false, activities: done(4), thresholds }),
     0,
   );
+});
+
+/* Completionist++, the fourth milestone: eighteen activity stickers,
+   twenty in the book with the required two. Display-only like 2 and 3,
+   behind the same address gate, and a payload that predates the key reads
+   the default for it alone, so the API and this site deploy in any
+   order. */
+test('progressLevel is 3 from thirteen activities and 4 from eighteen, the defaults', () => {
+  const level = (count, addressValidated = true) =>
+    progressLevel({ addressValidated, activities: activitiesDone(count) });
+  assert.equal(DEFAULT_THRESHOLDS.completionistPlusPlus, 18);
+  assert.equal(level(13), 3);
+  assert.equal(level(17), 3);
+  assert.equal(level(18), 4);
+  assert.equal(level(19), 4);
+  /* No address, no milestone, however full the book. */
+  assert.equal(level(18, false), 0);
+});
+
+test('progressLevel reaches 4 at the experience’s own completionistPlusPlus', () => {
+  const thresholds = {
+    stickers: 1,
+    complete: 2,
+    completionist: 3,
+    completionistPlusPlus: 5,
+  };
+  assert.equal(
+    progressLevel({
+      addressValidated: true,
+      activities: activitiesDone(4),
+      thresholds,
+    }),
+    3,
+  );
+  assert.equal(
+    progressLevel({
+      addressValidated: true,
+      activities: activitiesDone(5),
+      thresholds,
+    }),
+    4,
+  );
+});
+
+test('thresholdsOf reads completionistPlusPlus, and defaults it alone when a payload predates it', () => {
+  assert.deepEqual(
+    thresholdsOf({
+      thresholds: {
+        stickers: 1,
+        complete: 8,
+        completionist: 13,
+        completionistPlusPlus: 20,
+      },
+    }),
+    { stickers: 1, complete: 8, completionist: 13, completionistPlusPlus: 20 },
+  );
+  assert.equal(
+    thresholdsOf({
+      thresholds: { stickers: 1, complete: 8, completionist: 13 },
+    }).completionistPlusPlus,
+    18,
+  );
+  for (const unusable of [0, -1, 2.5, '18', null]) {
+    assert.equal(
+      thresholdsOf({
+        thresholds: {
+          stickers: 1,
+          complete: 8,
+          completionist: 13,
+          completionistPlusPlus: unusable,
+        },
+      }).completionistPlusPlus,
+      DEFAULT_THRESHOLDS.completionistPlusPlus,
+      `${JSON.stringify(unusable)} is not a threshold`,
+    );
+  }
 });
 
 test('progressLevel reaches 2 at the experience’s own complete threshold', () => {

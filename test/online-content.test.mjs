@@ -144,6 +144,18 @@ test('the three milestones, with the counts /my counts', () => {
   assert.equal(online.milestones.cards[0].title, 'Receive an IRL sticker pack');
 });
 
+/* Completionist++ is /my's alone (my.rewards.completionistPlusPlus): the
+   public milestones stay three, none of them the fourth, and the page
+   never names it. */
+test('the public milestones never include Completionist++', () => {
+  assert.equal(online.milestones.cards.length, 3);
+  online.milestones.cards.forEach((card) => {
+    assert.notEqual(card.id, 'completionistPlusPlus');
+    assert.notEqual(card.art, 'milestone-completionist-plus-plus');
+  });
+  assert.doesNotMatch(collectStrings(online).join(' '), /Completionist\+\+/);
+});
+
 test('the collection lists every page the book has for home, and counts the rest', () => {
   const { pages, inPerson, heading, intro } = online.collection;
   assert.deepEqual(pages, [

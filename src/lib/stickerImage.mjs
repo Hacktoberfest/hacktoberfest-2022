@@ -14,6 +14,14 @@ export const REWARD_STICKERS = Object.freeze([
     art: 'trophy',
     ground: 'completionist',
   }),
+  /* Completionist++, the fourth milestone, /my's alone. Designed
+     (scripts/stickers/design), so the placeholder script never draws it;
+     the Completionist's art and ground are here only so it could. */
+  Object.freeze({
+    id: 'milestone-completionist-plus-plus',
+    art: 'trophy',
+    ground: 'completionist',
+  }),
   /* The inventory's things (lib/inventory.mjs): drawn as themselves, not
      as stickers, so not hexagons. `shape` picks the ground the script
      draws (scripts/stickers/render.mjs). One file per item slug the

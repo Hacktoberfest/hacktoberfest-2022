@@ -229,16 +229,25 @@ export const openingTab = (stickers, justEarned) => {
 };
 
 /* The milestone numbers, with no JSX: the level (0 nothing, 1 pack earned,
-   2 complete, 3 Completionist), the activity count that counts toward it
-   (earned secrets included, as the API counts them; zero without an
-   address, the same gate progressLevel applies), the API's completion and
-   Completionist thresholds, and the address flag. */
+   2 complete, 3 Completionist, 4 Completionist++), the activity count
+   that counts toward it (earned secrets included, as the API counts them;
+   zero without an address, the same gate progressLevel applies), the
+   API's completion, Completionist and Completionist++ thresholds, and the
+   address flag. */
 export const milestoneState = (experience) => {
   const level = progressLevel(experience);
   const addressValidated = Boolean(experience && experience.addressValidated);
   const done = addressValidated ? countedCompletions(experience) : 0;
-  const { complete, completionist } = thresholdsOf(experience);
-  return { level, done, complete, completionist, addressValidated };
+  const { complete, completionist, completionistPlusPlus } =
+    thresholdsOf(experience);
+  return {
+    level,
+    done,
+    complete,
+    completionist,
+    completionistPlusPlus,
+    addressValidated,
+  };
 };
 
 /* The rewards band's numbers (components/RewardsBand). `pack` is Milestone 1 as three requirements;
@@ -246,15 +255,24 @@ export const milestoneState = (experience) => {
    threshold plus the two required stickers, filled with the earned
    stickers in book order; `completionist` is Milestone 3 the same way,
    with the Completionist threshold, and `shown` only once the first two
-   are earned, since the card is for people already complete.
+   are earned, since the card is for people already complete;
+   `completionistPlusPlus` is Milestone 4 the same way again, with its own
+   threshold, and `shown` only once Completionist is earned: it is /my's
+   alone, and a reader who is not yet a Completionist never learns of it.
    `activityStickers` is the activity count with no address gate, so the
    page can say "an activity sticker is in the book, add an address"
    rather than pretend nothing was earned. An earned secret is in it, and
    in the meters and their dates, wherever it sits in the book; a
    placeholder is never earned, so it is in none of them. */
 export const rewardsState = (experience, stickers) => {
-  const { level, done, complete, completionist, addressValidated } =
-    milestoneState(experience);
+  const {
+    level,
+    done,
+    complete,
+    completionist,
+    completionistPlusPlus,
+    addressValidated,
+  } = milestoneState(experience);
   const all = Array.isArray(stickers) ? stickers : [];
   const activityStickers = all.filter(
     (sticker) => !isRequiredSticker(sticker) && sticker.completed,
@@ -263,6 +281,7 @@ export const rewardsState = (experience, stickers) => {
   const target = complete + REQUIRED_STICKERS.length;
   const pips = earned.slice(0, target);
   const completionistTarget = completionist + REQUIRED_STICKERS.length;
+  const plusPlusTarget = completionistPlusPlus + REQUIRED_STICKERS.length;
   /* When each milestone was reached, from the stickers' own dates: the
      pack on the day its last requirement landed, the others on the day
      the book reached their count. Null where a date is missing, and the
@@ -321,8 +340,22 @@ export const rewardsState = (experience, stickers) => {
         completionistTarget - earned.slice(0, completionistTarget).length,
       ),
     },
+    completionistPlusPlus: {
+      shown: level >= 3,
+      earned: level >= 4,
+      earnedAt: level >= 4 ? reachedAt(plusPlusTarget) : null,
+      pips: earned.slice(0, plusPlusTarget),
+      target: plusPlusTarget,
+      remaining: Math.max(
+        0,
+        plusPlusTarget - earned.slice(0, plusPlusTarget).length,
+      ),
+    },
     earnedRewards:
-      (level >= 1 ? 1 : 0) + (level >= 2 ? 1 : 0) + (level >= 3 ? 1 : 0),
+      (level >= 1 ? 1 : 0) +
+      (level >= 2 ? 1 : 0) +
+      (level >= 3 ? 1 : 0) +
+      (level >= 4 ? 1 : 0),
   };
 };
 

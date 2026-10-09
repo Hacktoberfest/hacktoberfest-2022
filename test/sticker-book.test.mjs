@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { my } from '../src/data/content.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 import {
@@ -167,6 +168,7 @@ test('milestoneState: the level, the gated count, the threshold', () => {
     done: 0,
     complete: 3,
     completionist: 13,
+    completionistPlusPlus: 18,
     addressValidated: false,
   });
   /* No address: activities do not count, the same gate progressLevel has. */
@@ -253,6 +255,131 @@ test('rewardsState: thirteen activity stickers and the required two, fifteen in 
   assert.equal(state.completionist.remaining, 0);
   assert.equal(state.completionist.pips.length, 15);
   assert.equal(state.earnedRewards, 3);
+});
+
+/* Completionist++, Milestone 4: /my's alone, and only for someone who is
+   already a Completionist, so the card does not exist at levels 0 to 2.
+   Its meter is twenty pips, the threshold of eighteen plus the required
+   two, filled in book order like the others. */
+test('rewardsState: Completionist++ is shown only from Completionist on, as a meter of twenty', () => {
+  const at = (count) => {
+    const over = experience({
+      addressValidated: true,
+      activities: ACTIVITIES.slice(0, count).map((a) => ({
+        id: a.id,
+        completed: true,
+      })),
+    });
+    return rewardsState(over, bookStickers(over));
+  };
+  for (const [count, level] of [
+    [0, 0],
+    [1, 1],
+    [12, 2],
+  ]) {
+    const state = at(count);
+    assert.equal(state.level, level);
+    assert.equal(state.completionistPlusPlus.shown, false, `level ${level}`);
+    assert.equal(state.completionistPlusPlus.earned, false, `level ${level}`);
+  }
+
+  /* Fourteen activity stickers and the required two: a Completionist,
+     sixteen of twenty toward the fourth. */
+  const pending = at(14);
+  assert.equal(pending.level, 3);
+  assert.equal(pending.completionist.earned, true);
+  assert.equal(pending.completionistPlusPlus.shown, true);
+  assert.equal(pending.completionistPlusPlus.earned, false);
+  assert.equal(pending.completionistPlusPlus.earnedAt, null);
+  assert.equal(pending.completionistPlusPlus.target, 18 + 2);
+  assert.equal(pending.completionistPlusPlus.pips.length, 16);
+  assert.equal(pending.completionistPlusPlus.remaining, 4);
+  assert.equal(pending.earnedRewards, 3);
+
+  /* Eighteen and the required two: twenty in the book, earned. */
+  const earned = at(18);
+  assert.equal(earned.level, 4);
+  assert.equal(earned.completionistPlusPlus.shown, true);
+  assert.equal(earned.completionistPlusPlus.earned, true);
+  assert.equal(earned.completionistPlusPlus.pips.length, 20);
+  assert.equal(earned.completionistPlusPlus.remaining, 0);
+  assert.equal(earned.earnedRewards, 4);
+});
+
+/* The day the book's twentieth sticker landed, by the stickers' own dates
+   rather than book order: here the activities are dated backwards, so
+   the twentieth date is the first activity's, and a nineteenth activity
+   earned later does not move it. */
+test('rewardsState: Completionist++ is dated by the twentieth sticker to land', () => {
+  const ids = ACTIVITIES.slice(0, 19).map((a) => a.id);
+  const dated = experience({
+    addressValidated: true,
+    required: [
+      { id: 'signin', completed: true, completedAt: '2026-10-01' },
+      { id: 'address', completed: true, completedAt: '2026-10-01' },
+    ],
+    activities: ids.map((id, index) => ({
+      id,
+      completed: true,
+      completedAt:
+        index === 18
+          ? '2026-10-25'
+          : `2026-10-${String(19 - index).padStart(2, '0')}`,
+    })),
+  });
+  const state = rewardsState(dated, bookStickers(dated));
+  assert.equal(state.level, 4);
+  assert.equal(state.completionistPlusPlus.earnedAt, '2026-10-19');
+  /* Fifteen dates in: the Completionist day, unchanged by the fourth. */
+  assert.equal(state.completionist.earnedAt, '2026-10-14');
+});
+
+/* The fourth card's words. Pending, its line names the gap between the
+   Completionist and Completionist++ thresholds (five today) in a lower-case
+   word, the way components/RewardsBand reads it off the two targets, so
+   the sentence stays true if either threshold moves. */
+test('Completionist++ copy: the gap between the thresholds in words, and a hero line for level 4', () => {
+  const words = my.rewards.completionistPlusPlus;
+  const over = experience({
+    addressValidated: true,
+    activities: ACTIVITIES.slice(0, 14).map((a) => ({
+      id: a.id,
+      completed: true,
+    })),
+  });
+  const state = rewardsState(over, bookStickers(over));
+  const more = state.completionistPlusPlus.target - state.completionist.target;
+  assert.equal(more, 5);
+  assert.equal(
+    words.why.pending(more),
+    'You completed Hacktoberfest, but do you want to go one step further? Earn five additional stickers to earn Completionist++ bragging rights!',
+  );
+  assert.equal(words.tag, 'Milestone 4');
+  assert.equal(words.title, 'Become a Completionist++');
+  assert.equal(words.reachedBadge, 'Earned');
+  assert.equal(
+    words.pendingBadge(
+      state.completionistPlusPlus.pips.length,
+      state.completionistPlusPlus.target,
+    ),
+    '16 of 20',
+  );
+  assert.equal(
+    words.meterLabel(16, 20),
+    '16 of 20 stickers toward Completionist++',
+  );
+  assert.equal(
+    words.why.earned,
+    'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, and the bragging rights are all yours.',
+  );
+  assert.equal(
+    words.shareText,
+    'I’m a Hacktoberfest 2026 Completionist++! Twenty stickers in the book. #Hacktoberfest https://hacktoberfest.com',
+  );
+  assert.equal(
+    my.rewards.intro.completionistPlusPlus,
+    'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, the holographic sticker yours, and the pack in the mail.',
+  );
 });
 
 test('rewardsState: each milestone carries the day it was reached, from the stickers’ own dates', () => {

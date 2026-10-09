@@ -108,7 +108,22 @@ test('thresholds pass through, and fall back when unusable', () => {
       stickers: 2,
       complete: 5,
       completionist: DEFAULT_THRESHOLDS.completionist,
+      completionistPlusPlus: DEFAULT_THRESHOLDS.completionistPlusPlus,
     },
+  );
+  /* Signed in, the API's fourth number comes through as it is sent. */
+  assert.equal(
+    progressFromPayload(
+      payload({
+        thresholds: {
+          stickers: 1,
+          complete: 8,
+          completionist: 13,
+          completionistPlusPlus: 20,
+        },
+      }),
+    ).thresholds.completionistPlusPlus,
+    20,
   );
   assert.deepEqual(
     progressFromPayload(payload({ thresholds: null })).thresholds,

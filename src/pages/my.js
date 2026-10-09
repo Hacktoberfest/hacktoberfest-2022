@@ -146,7 +146,8 @@ const Bands = ({ experience }) => {
 };
 
 /* The hero's one line: the milestone intro for the level reached, the
-   sentence the rewards band used to open with. */
+   sentence the rewards band used to open with, one per level from 0 to 4
+   (lib/eligibility.mjs progressLevel). */
 const heroStatus = (experience) => {
   const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
   const rewards = rewardsState(experience, stickers);
@@ -162,6 +163,7 @@ const heroStatus = (experience) => {
     my.rewards.intro.stickersEarned(rewards.complete),
     my.rewards.intro.complete,
     my.rewards.intro.completionist,
+    my.rewards.intro.completionistPlusPlus,
   ][rewards.level];
 };
 

@@ -8,15 +8,17 @@
      the share card inlines many stickers into one document;
    - the icon: a Tabler filled icon, white with a 2.4-unit ink outline at
      Tabler's 24 grid, scaled 4.5x to a 108 box; centred at y 88 over a
-     foot, or at y 100 without one;
+     foot, or at y 100 without one. A row's `paint` fills it in another
+     colour, the outline still ink: Completionist++'s gold crown;
    - the foot: an ink band from y 148 down to the bottom point, only on a
      sticker that has something to say there;
    - on the foot, white hexagon pips (11 wide, 5 apart, on y 164)
      counting a tier, a glyph (a Tabler icon 28 tall, centred on y 165,
      white) standing for a week with no number, or a label in Martian
      Mono (a week's digit 19 tall on y 167, a word such as a survey's PRE
-     or POST 16.5 tall on y 160), the glyphs as outlines so the file
-     references no font.
+     or POST 16.5 tall on y 160, unless the row moves it with `labelY`),
+     the glyphs as outlines so the file references no font. A label wears
+     the row's `paint` too, white when there is none.
 
    The DEV mark is not a Tabler icon: a partner logo, kept black and
    white. Its square is set to 80% of the icon box with an ink square
@@ -51,23 +53,24 @@ const FOOT = `<path d="M13.4 148 L186.6 148 L186.6 150 L100 200 L13.4 150 Z" fil
 
 /* A mark's paths, placed: its own box (24 by 24 for a Tabler icon)
    scaled so the box's longer side is `size` units, centred on (100, cy).
-   Drawn twice, the ink outline under the white fill; the outline is 2.4
+   Drawn twice, the ink outline under the `paint` fill; the outline is 2.4
    units at Tabler's grid (10.8 on the sticker) whatever the box. A
    partner mark drawn with even-odd holes keeps its rule. Joins are
    round, unless the icon file asks for mitred ones (data-join="miter"):
    a sharp tip like the paper plane's needs the outline to run to a
    point. An icon may also give a silhouette (a path with
    data-role="silhouette"): the outline and an ink fill are drawn from
-   that, and the icon's own paths go on top in white, so a gap between
+   that, and the icon's own paths go on top in the paint, so a gap between
    them reads as an ink line. A path with data-role="filler" is drawn in
-   ink after the outline and under the white: a plug for a notch the
+   ink after the outline and under the paint: a plug for a notch the
    outline leaves between two pieces. A path with data-role="line" is
    drawn last as an ink stroke with round ends, 1.2 at the grid: the width
-   of the outline that shows outside the white, so a crease weighs the
+   of the outline that shows outside the paint, so a crease weighs the
    same as the edge. And an offset (data-offset="dx dy",
    grid units) nudges a mark whose weight is off its box's centre. A path
    carrying its own fill keeps it in the fill pass: a partner mark in its
-   colours, outlined like everything else. */
+   colours, outlined like everything else. `paint` is the fill's colour
+   for every other path, white unless the catalogue row gives one. */
 const outlinedMark = (
   paths,
   {
@@ -81,6 +84,7 @@ const outlinedMark = (
     lines,
     paints,
     offset = [0, 0],
+    paint = WHITE,
   },
 ) => {
   const scale = size / Math.max(box.w, box.h);
@@ -107,7 +111,7 @@ const outlinedMark = (
     ),
     silhouette ? at(`fill="${INK}"`, silhouette) : '',
     fillers ? at(`fill="${INK}"`, fillers) : '',
-    at(`fill="${WHITE}"`, paths, true),
+    at(`fill="${paint}"`, paths, true),
     lines
       ? at(
           `fill="none" stroke="${INK}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"`,
@@ -177,12 +181,15 @@ const pips = (count) => {
    each glyph's path in font units, centred on its advance and on the cap
    height's midline): a week's number, or a word. A digit sets 19 units
    tall on y 167; a word sets 16.5 tall on y 160, the most that keeps
-   LAUNCH inside the foot's sloping sides. The font's default weight is
-   400; a stroke of 1.2 units in the same white takes it to the site's
-   mono weight. */
-const footLabel = (glyphs, label) => {
+   LAUNCH inside the foot's sloping sides. `labelY` moves that line for a
+   label the default would sit wrong: ++ has no cap height to fill, so on
+   y 160 it hugs the top of the foot, and Completionist++ centres it on
+   y 166, the foot's visual centre. The font's default weight is 400; a
+   stroke of 1.2 units in the label's own colour (`paint`, white unless
+   the row says) takes it to the site's mono weight. */
+const footLabel = (glyphs, label, { paint = WHITE, labelY } = {}) => {
   const cap = label.length > 1 ? 16.5 : 19;
-  const cy = label.length > 1 ? 160 : 167;
+  const cy = labelY ?? (label.length > 1 ? 160 : 167);
   const k = cap / 800;
   const advance = 750 * k;
   let x = -(label.length * advance) / 2 + advance / 2;
@@ -193,7 +200,7 @@ const footLabel = (glyphs, label) => {
     out += `<path d="${glyph.d}" transform="translate(${f2(x)} 0) scale(${f2(k)})" stroke-width="${f2(1.2 / k)}"/>`;
     x += advance;
   }
-  return `<g transform="translate(100 ${cy})" fill="${WHITE}" stroke="${WHITE}" stroke-linejoin="round">${out}</g>`;
+  return `<g transform="translate(100 ${cy})" fill="${paint}" stroke="${paint}" stroke-linejoin="round">${out}</g>`;
 };
 
 /* `entry` is a catalogue row; `iconPaths` the d attributes of its icon
@@ -202,7 +209,10 @@ const footLabel = (glyphs, label) => {
    its silhouette path if it has one, `iconPaints` its paths' own fills if
    they carry any and `iconOffset` its nudge; `footIcon`, `tagIcon` and `insetIcon` the same three for
    the foot's glyph, the corner tag and the inset when the row names them; `ground` the colour; `glyphs` the Martian Mono outlines
-   (only a sticker with a week or a label needs them). */
+   (only a sticker with a week or a label needs them). The row's own
+   `paint` colours the icon and the label, white when absent, and its
+   `labelY` moves the label's line; pips, a foot glyph, a tag and the DEV
+   mark stay as they are. */
 /* A ground given as stops becomes a diagonal gradient; the defs go
    inside the sticker, ids namespaced by slug. */
 const gradient = (slug, stops) =>
@@ -227,6 +237,7 @@ export const composeSticker = ({
 }) => {
   const footed = Boolean(entry.tier || entry.week || entry.label || entry.foot);
   const cy = footed ? 88 : 100;
+  const paint = entry.paint || WHITE;
   const size = markSize(iconBox);
   const scale = size / Math.max(iconBox.w, iconBox.h);
   const outer = {
@@ -252,6 +263,7 @@ export const composeSticker = ({
       lines: iconLines,
       paints: iconPaints,
       offset: iconOffset,
+      paint,
     });
     if (entry.inset)
       icon += inset(insetIcon.paths, insetIcon.fillRule, entry.inset, outer);
@@ -261,7 +273,10 @@ export const composeSticker = ({
     : entry.foot
       ? footGlyph(footIcon.paths, footIcon.fillRule)
       : entry.week || entry.label
-        ? footLabel(glyphs, entry.week || entry.label)
+        ? footLabel(glyphs, entry.week || entry.label, {
+            paint,
+            labelY: entry.labelY,
+          })
         : '';
   const graded = Array.isArray(ground);
   return [

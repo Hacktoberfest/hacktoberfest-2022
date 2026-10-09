@@ -58,6 +58,39 @@ test('milestoneIds names each reached reward under its own id', () => {
   assert.deepEqual(milestoneIds(null), []);
 });
 
+/* Completionist++ rides along like the other three. Someone already past
+   eighteen when it ships has a record that predates the id, so reaching
+   it is news once, and never again. */
+test('milestoneIds names Completionist++ once it is earned, and it is new once', () => {
+  assert.equal(
+    MILESTONE_IDS.completionistPlusPlus,
+    'milestone:completionist-plus-plus',
+  );
+  const rewards = (plusPlus) => ({
+    pack: { earned: true },
+    completion: { earned: true },
+    completionist: { earned: true },
+    completionistPlusPlus: { shown: true, earned: plusPlus },
+  });
+  const three = [
+    MILESTONE_IDS.pack,
+    MILESTONE_IDS.complete,
+    MILESTONE_IDS.completionist,
+  ];
+  assert.deepEqual(milestoneIds(rewards(false)), three);
+  assert.deepEqual(milestoneIds(rewards(true)), [
+    ...three,
+    MILESTONE_IDS.completionistPlusPlus,
+  ]);
+
+  const store = storage();
+  writeSeen(SESSION, three, store);
+  assert.deepEqual(noteEarned(SESSION, milestoneIds(rewards(true)), store), [
+    MILESTONE_IDS.completionistPlusPlus,
+  ]);
+  assert.deepEqual(noteEarned(SESSION, milestoneIds(rewards(true)), store), []);
+});
+
 test('newlyEarned: nothing is new on a first look, only what the record lacks after', () => {
   assert.deepEqual(newlyEarned(['signin', 'fest'], null), []);
   assert.deepEqual(newlyEarned(['signin', 'fest'], []), ['signin', 'fest']);

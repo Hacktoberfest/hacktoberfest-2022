@@ -108,8 +108,8 @@
 
 /* The first two cards once the third is on the page: no requirements,
    no meter, the sticker at its full size with the tag, the title and its
-   one line beside it, so the three cards read as a set. They share a
-   row from tablet width and stack on a phone, as the pending pair do. */
+   one line beside it, so the cards read as a set. They share a row from
+   tablet width and stack on a phone, as the pending pair do. */
 .cardsCompact {
   gap: 16px;
 }
@@ -120,7 +120,7 @@
 }
 
 /* The Completionist card takes the row under the first two, at every
-   width. */
+   width, and the Completionist++ card the row under that. */
 .cardWide {
   grid-column: 1 / -1;
 }
@@ -498,7 +498,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* The same sticker size on every card, compact or not: the three read
+  /* The same sticker size on every card, compact or not: the cards read
      as a set. */
   .slot {
     width: 96px;

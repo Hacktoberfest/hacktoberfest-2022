@@ -55,8 +55,11 @@ export const MILESTONE_IDS = Object.freeze({
   pack: 'milestone:pack',
   complete: 'milestone:complete',
   completionist: 'milestone:completionist',
+  completionistPlusPlus: 'milestone:completionist-plus-plus',
 });
 
+/* A record written before Completionist++ existed lacks its id, so
+   someone already past it sees its moment once, on their next visit. */
 export const milestoneIds = (rewards) => {
   if (!rewards) return [];
   return [
@@ -65,6 +68,9 @@ export const milestoneIds = (rewards) => {
     rewards.completionist &&
       rewards.completionist.earned &&
       MILESTONE_IDS.completionist,
+    rewards.completionistPlusPlus &&
+      rewards.completionistPlusPlus.earned &&
+      MILESTONE_IDS.completionistPlusPlus,
   ].filter(Boolean);
 };
 

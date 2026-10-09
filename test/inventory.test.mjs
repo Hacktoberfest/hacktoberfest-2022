@@ -315,8 +315,9 @@ test('the fixtures carry the real catalogue only: the pack, the holographic stic
 /* The API serves every item once, earned or not, the DEV badges last
    (sortOrder 40, 41, 42), and a badge is earned exactly when its rule
    is: the Attend sticker (`fest`), the Host sticker (`host-fest`),
-   milestone 3. A fixture that broke this would show a badge the book on
-   the same page disagrees with. */
+   milestone 3, which a Completionist++ at level 4 has reached too. A
+   fixture that broke this would show a badge the book on the same page
+   disagrees with. */
 test('every scenario serves the three DEV badges last, earned exactly by their rules', () => {
   const GETS_TO_YOU =
     'A badge on your DEV profile, added by DEV. Not linked to MyMLH yet? It’s added the moment you connect.';
@@ -345,7 +346,7 @@ test('every scenario serves the three DEV badges last, earned exactly by their r
           'dev-badge-completionist-2026',
           'Completionist DEV badge',
           'Fifteen stickers in the book',
-          progressLevel(scenario) === 3,
+          progressLevel(scenario) >= 3,
         ],
       ],
       name,

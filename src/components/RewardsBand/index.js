@@ -16,7 +16,8 @@ import styles from './RewardsBand.module.css';
 
 /* The rewards band, above the sticker book: the milestones as more
    stickers, earned by earning stickers, each a card; the third card,
-   Completionist, only once the first two are earned. The pack card
+   Completionist, only once the first two are earned, and the fourth,
+   Completionist++, only once the third is. The pack card
    lists its three requirements as pips, each filled with the sticker that
    met it, with the address button while the address is missing; the
    completion card is a meter of pips, one per sticker toward the target,
@@ -42,6 +43,18 @@ const completionistWhy = (rewards) => {
   const { why } = my.rewards.completionist;
   if (rewards.completionist.earned) return why.earned;
   return why.remaining(rewards.completionist.remaining);
+};
+
+/* Pending, the line speaks to someone who is already a Completionist
+   about going further, so it names the gap between the two milestones
+   rather than what is left: the difference of the two targets, which is
+   the difference of the two thresholds, since both add the required two. */
+const completionistPlusPlusWhy = (rewards) => {
+  const { why } = my.rewards.completionistPlusPlus;
+  if (rewards.completionistPlusPlus.earned) return why.earned;
+  return why.pending(
+    rewards.completionistPlusPlus.target - rewards.completionist.target,
+  );
 };
 
 /* A meter of pips: the earned stickers in book order, each its own
@@ -91,10 +104,10 @@ const RewardsBand = ({ experience, justEarned }) => {
   /* Once the Completionist card is on the page the first two are done
      with: they share one row above it and drop their requirements and
      meter, keeping the sticker at full size and their one line, so the
-     three cards read as a set whatever their state. */
+     cards read as a set whatever their state. */
   const compact = rewards.completionist.shown;
   const cardClass = `${styles.card} ${compact ? styles.cardCompact : ''}`;
-  const { pack, complete, completionist } = my.rewards;
+  const { pack, complete, completionist, completionistPlusPlus } = my.rewards;
   /* The badge on an earned card: the day it was reached when the
      stickers' dates say, else the plain word. */
   const earnedBadge = (state, words) =>
@@ -321,6 +334,81 @@ const RewardsBand = ({ experience, justEarned }) => {
                     {completionist.meterLabel(
                       rewards.completionist.pips.length,
                       rewards.completionist.target,
+                    )}
+                  </p>
+                </>
+              )}
+            </div>
+          </li>
+        )}
+        {/* Milestone 4, for people already Completionists: the card only
+           exists once the third is earned
+           (rewardsState.completionistPlusPlus.shown), since no public page
+           names it, and takes its own whole row under the Completionist
+           card, the same wide card with the longest meter of all. */}
+        {rewards.completionistPlusPlus.shown && (
+          <li
+            className={`${styles.card} ${styles.cardWide}`}
+            data-earned={
+              rewards.completionistPlusPlus.earned ? 'true' : undefined
+            }
+            data-just-earned={fresh(MILESTONE_IDS.completionistPlusPlus)}
+          >
+            <div className={styles.slot}>
+              <div className={styles.sticker}>
+                <img
+                  className={styles.stickerImage}
+                  src={stickerImageSrc('milestone-completionist-plus-plus')}
+                  alt=""
+                  draggable="false"
+                />
+              </div>
+              {rewards.completionistPlusPlus.earned && (
+                <span
+                  className={styles.tick}
+                  role="img"
+                  aria-label={my.album.cell.earned}
+                >
+                  ✓
+                </span>
+              )}
+            </div>
+            <div className={styles.body}>
+              <div className={styles.top}>
+                <span className={styles.tag}>{completionistPlusPlus.tag}</span>
+                <span
+                  className={`${styles.badge} ${rewards.completionistPlusPlus.earned ? styles.badgeEarned : ''}`}
+                >
+                  {rewards.completionistPlusPlus.earned
+                    ? earnedBadge(
+                        rewards.completionistPlusPlus,
+                        completionistPlusPlus,
+                      )
+                    : completionistPlusPlus.pendingBadge(
+                        rewards.completionistPlusPlus.pips.length,
+                        rewards.completionistPlusPlus.target,
+                      )}
+                </span>
+              </div>
+              <h3 className={styles.title}>{completionistPlusPlus.title}</h3>
+              <p className={styles.why}>{completionistPlusPlusWhy(rewards)}</p>
+              {/* As the Completionist card: the meter fills, then goes,
+                  and the earned card says the day and offers the share. */}
+              {rewards.completionistPlusPlus.earned &&
+                shareButton(
+                  'milestone-completionist-plus-plus',
+                  completionistPlusPlus,
+                )}
+              {!rewards.completionistPlusPlus.earned && (
+                <>
+                  <Meter
+                    pips={rewards.completionistPlusPlus.pips}
+                    target={rewards.completionistPlusPlus.target}
+                  />
+                  <p className={styles.meterLabel}>
+                    {completionistPlusPlus.meterLabel(
+                      rewards.completionistPlusPlus.pips.length,
+                      rewards.completionistPlusPlus.target,
                     )}
                   </p>
                 </>

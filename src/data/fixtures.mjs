@@ -180,6 +180,171 @@ const APPLICANT = {
   ],
 };
 
+/* Milestone 3 (Completionist): fifteen activities done, past the
+   thirteen it takes, so the third card shows earned; with the earned demo
+   secret that is eighteen stickers in the book, so the fourth card
+   (Completionist++) shows pending at eighteen of twenty. Its own const so
+   the two Completionist++ scenarios below can be the same person, further
+   on or a little short. */
+const COMPLETIONIST = {
+  user: { ...USER, devLinked: true },
+  addressValidated: true,
+  required: [
+    {
+      id: 'signin',
+      completed: true,
+      completedAt: '2026-09-20T09:00:00.000Z',
+      source: 'api',
+    },
+    {
+      id: 'address',
+      completed: true,
+      completedAt: '2026-09-21T09:00:00.000Z',
+      source: 'api',
+    },
+  ],
+  thresholds: { stickers: 1, complete: 8, completionist: 13 },
+  activities: [
+    { id: 'fest', completed: true, completedAt: '2026-08-01' },
+    { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
+    { id: 'livestreams-3', completed: true, completedAt: '2026-10-12' },
+    { id: 'livestream-launch', completed: true, completedAt: '2026-10-01' },
+    { id: 'dev-relay', completed: true, completedAt: '2026-10-02' },
+    { id: 'dev-connect', completed: true, completedAt: '2026-10-02' },
+    { id: 'discord', completed: true, completedAt: '2026-10-03' },
+    { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
+    { id: 'livestreams-5', completed: true, completedAt: '2026-10-19' },
+    { id: 'host-fest', completed: true, completedAt: '2026-10-10' },
+    { id: 'dev-week-3', completed: true, completedAt: '2026-10-22' },
+    { id: 'ghw', completed: true, completedAt: '2026-10-13' },
+    { id: 'ghw-livestream', completed: true, completedAt: '2026-10-14' },
+    { id: 'ghw-points-15', completed: true, completedAt: '2026-10-15' },
+    { id: 'ghw-points-30', completed: true, completedAt: '2026-10-16' },
+  ],
+  /* Two secret stickers, invented for the mocked build: one earned,
+     with a plain hexagon for art, and one still a placeholder. Both are
+     revealed by the Global Hack Week sticker this scenario has earned,
+     as the API only sends a secret once its revealer is earned. Shaped
+     as GET /api/me/progress sends them among its challenges; kept apart
+     here as lib/progress.mjs keeps them apart, and read by the same
+     lib/secretStickers.mjs. */
+  secrets: [
+    {
+      id: 'demo-secret',
+      secret: true,
+      name: 'A demo secret',
+      description: 'Invented for the mocked build.',
+      art: DEMO_SECRET_ART,
+      revealedBy: 'ghw',
+      required: false,
+      completed: true,
+      completedAt: '2026-10-14',
+      source: 'manual',
+    },
+    {
+      id: 'secret-1',
+      secret: true,
+      hint: 'A demo hint',
+      revealedBy: 'ghw',
+      required: false,
+      completed: false,
+      completedAt: null,
+      source: null,
+    },
+  ],
+  /* The catalogue as GET /api/me/items serves it: the pack and the
+     holographic sticker, earned by the milestones. */
+  items: [
+    {
+      id: 'sticker-pack-2026',
+      name: 'The 2026 sticker pack',
+      kind: 'physical',
+      earnedBy: 'Your first sticker',
+      getsToYou:
+        'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
+      cta: {
+        label: 'Update shipping address',
+        url: 'https://www.mlh.com/account/settings#addresses',
+      },
+      requiresDevLink: false,
+      earned: true,
+      earnedAt: '2026-10-01T09:00:00.000Z',
+    },
+    {
+      id: 'holographic-sticker-2026',
+      name: 'The holographic sticker',
+      kind: 'physical',
+      earnedBy: 'Ten stickers in the book',
+      getsToYou:
+        'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
+      cta: {
+        label: 'Update shipping address',
+        url: 'https://www.mlh.com/account/settings#addresses',
+      },
+      requiresDevLink: false,
+      earned: true,
+      earnedAt: '2026-10-17T12:00:00.000Z',
+    },
+    {
+      id: 'completionist-certificate-2026',
+      name: 'Completionist certificate',
+      kind: 'digital',
+      earnedBy: 'Fifteen stickers in the book',
+      getsToYou:
+        'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+      cta: null,
+      requiresDevLink: false,
+      earned: true,
+      earnedAt: '2026-10-22T12:00:00.000Z',
+    },
+    {
+      id: 'fest-certificate-2026',
+      name: 'Fest attendance certificate',
+      kind: 'digital',
+      earnedBy: 'Attending a Fest',
+      getsToYou:
+        'A certificate with your name, the Fest and the date, one for every Fest you attend.',
+      cta: null,
+      requiresDevLink: false,
+      key: 'fest-london',
+      variant: { title: 'Hacktober Fest London', date: '2026-08-01' },
+      earned: true,
+      earnedAt: '2026-08-01T10:00:00.000Z',
+    },
+    ...devBadges({
+      'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z',
+      'dev-badge-host-2026': '2026-10-10T12:00:00.000Z',
+      'dev-badge-completionist-2026': '2026-10-22T12:00:00.000Z',
+    }),
+  ],
+  fests: [
+    {
+      id: 'fest-london',
+      name: 'Hacktober Fest London',
+      city: 'London',
+      country: 'United Kingdom',
+      date: '2026-08-01',
+      startTime: '9:30 AM',
+      endTime: '5:00 PM',
+      endsAt: '2026-08-01T16:00:00.000Z',
+      timeZone: 'Europe/London',
+      status: 'checked_in',
+      role: 'attending',
+      registrationUrl: null,
+      websiteUrl: null,
+      applicationStatus: null,
+      manageUrl: null,
+      mlhPublished: null,
+      hacktoberfestPublished: null,
+      acknowledgedAt: null,
+      latitude: null,
+      longitude: null,
+      venueAddress: null,
+      publicationChecks: null,
+    },
+  ],
+};
+
 export const SCENARIOS = Object.freeze({
   'no-address': {
     user: { ...USER, devLinked: false },
@@ -480,166 +645,28 @@ export const SCENARIOS = Object.freeze({
       },
     ],
   },
-  /* Milestone 3 (Completionist): fifteen activities done, past the
-     thirteen it takes, so the third card shows earned. A review link for
-     the fullest book the season can hold short of every sticker. */
-  completionist: {
-    user: { ...USER, devLinked: true },
-    addressValidated: true,
-    required: [
-      {
-        id: 'signin',
-        completed: true,
-        completedAt: '2026-09-20T09:00:00.000Z',
-        source: 'api',
-      },
-      {
-        id: 'address',
-        completed: true,
-        completedAt: '2026-09-21T09:00:00.000Z',
-        source: 'api',
-      },
-    ],
-    thresholds: { stickers: 1, complete: 8, completionist: 13 },
+  completionist: COMPLETIONIST,
+  /* Milestone 4 (Completionist++), /my's alone: the Completionist above
+     with three more DEV stickers, eighteen activities and the required
+     two, twenty in the book, so the fourth card shows earned, dated the
+     day the twentieth landed. No secrets, on this one or the next, so the
+     book's count is the catalogue's alone. */
+  'completionist-plus-plus': {
+    ...COMPLETIONIST,
     activities: [
-      { id: 'fest', completed: true, completedAt: '2026-08-01' },
-      { id: 'livestreams-1', completed: true, completedAt: '2026-10-05' },
-      { id: 'livestreams-3', completed: true, completedAt: '2026-10-12' },
-      { id: 'livestream-launch', completed: true, completedAt: '2026-10-01' },
-      { id: 'dev-relay', completed: true, completedAt: '2026-10-02' },
-      { id: 'dev-connect', completed: true, completedAt: '2026-10-02' },
-      { id: 'discord', completed: true, completedAt: '2026-10-03' },
-      { id: 'digitalocean', completed: true, completedAt: '2026-10-04' },
-      { id: 'livestreams-5', completed: true, completedAt: '2026-10-19' },
-      { id: 'host-fest', completed: true, completedAt: '2026-10-10' },
-      { id: 'dev-week-3', completed: true, completedAt: '2026-10-22' },
-      { id: 'ghw', completed: true, completedAt: '2026-10-13' },
-      { id: 'ghw-livestream', completed: true, completedAt: '2026-10-14' },
-      { id: 'ghw-points-15', completed: true, completedAt: '2026-10-15' },
-      { id: 'ghw-points-30', completed: true, completedAt: '2026-10-16' },
+      ...COMPLETIONIST.activities,
+      { id: 'dev-launch-weekend', completed: true, completedAt: '2026-10-04' },
+      { id: 'dev-week-1', completed: true, completedAt: '2026-10-08' },
+      { id: 'dev-week-2', completed: true, completedAt: '2026-10-15' },
     ],
-    /* Two secret stickers, invented for the mocked build: one earned,
-       with a plain hexagon for art, and one still a placeholder. Both are
-       revealed by the Global Hack Week sticker this scenario has earned,
-       as the API only sends a secret once its revealer is earned. Shaped
-       as GET /api/me/progress sends them among its challenges; kept apart
-       here as lib/progress.mjs keeps them apart, and read by the same
-       lib/secretStickers.mjs. */
-    secrets: [
-      {
-        id: 'demo-secret',
-        secret: true,
-        name: 'A demo secret',
-        description: 'Invented for the mocked build.',
-        art: DEMO_SECRET_ART,
-        revealedBy: 'ghw',
-        required: false,
-        completed: true,
-        completedAt: '2026-10-14',
-        source: 'manual',
-      },
-      {
-        id: 'secret-1',
-        secret: true,
-        hint: 'A demo hint',
-        revealedBy: 'ghw',
-        required: false,
-        completed: false,
-        completedAt: null,
-        source: null,
-      },
-    ],
-    /* The catalogue as GET /api/me/items serves it: the pack and the
-       holographic sticker, earned by the milestones. */
-    items: [
-      {
-        id: 'sticker-pack-2026',
-        name: 'The 2026 sticker pack',
-        kind: 'physical',
-        earnedBy: 'Your first sticker',
-        getsToYou:
-          'Mailed to the address on your MyMLH account after Hacktoberfest. Please allow 8-12 weeks for shipping.',
-        cta: {
-          label: 'Update shipping address',
-          url: 'https://www.mlh.com/account/settings#addresses',
-        },
-        requiresDevLink: false,
-        earned: true,
-        earnedAt: '2026-10-01T09:00:00.000Z',
-      },
-      {
-        id: 'holographic-sticker-2026',
-        name: 'The holographic sticker',
-        kind: 'physical',
-        earnedBy: 'Ten stickers in the book',
-        getsToYou:
-          'Mailed with your sticker pack to the address on your MyMLH account after Hacktoberfest.',
-        cta: {
-          label: 'Update shipping address',
-          url: 'https://www.mlh.com/account/settings#addresses',
-        },
-        requiresDevLink: false,
-        earned: true,
-        earnedAt: '2026-10-17T12:00:00.000Z',
-      },
-      {
-        id: 'completionist-certificate-2026',
-        name: 'Completionist certificate',
-        kind: 'digital',
-        earnedBy: 'Fifteen stickers in the book',
-        getsToYou:
-          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
-        cta: null,
-        requiresDevLink: false,
-        earned: true,
-        earnedAt: '2026-10-22T12:00:00.000Z',
-      },
-      {
-        id: 'fest-certificate-2026',
-        name: 'Fest attendance certificate',
-        kind: 'digital',
-        earnedBy: 'Attending a Fest',
-        getsToYou:
-          'A certificate with your name, the Fest and the date, one for every Fest you attend.',
-        cta: null,
-        requiresDevLink: false,
-        key: 'fest-london',
-        variant: { title: 'Hacktober Fest London', date: '2026-08-01' },
-        earned: true,
-        earnedAt: '2026-08-01T10:00:00.000Z',
-      },
-      ...devBadges({
-        'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z',
-        'dev-badge-host-2026': '2026-10-10T12:00:00.000Z',
-        'dev-badge-completionist-2026': '2026-10-22T12:00:00.000Z',
-      }),
-    ],
-    fests: [
-      {
-        id: 'fest-london',
-        name: 'Hacktober Fest London',
-        city: 'London',
-        country: 'United Kingdom',
-        date: '2026-08-01',
-        startTime: '9:30 AM',
-        endTime: '5:00 PM',
-        endsAt: '2026-08-01T16:00:00.000Z',
-        timeZone: 'Europe/London',
-        status: 'checked_in',
-        role: 'attending',
-        registrationUrl: null,
-        websiteUrl: null,
-        applicationStatus: null,
-        manageUrl: null,
-        mlhPublished: null,
-        hacktoberfestPublished: null,
-        acknowledgedAt: null,
-        latitude: null,
-        longitude: null,
-        venueAddress: null,
-        publicationChecks: null,
-      },
-    ],
+    secrets: [],
+  },
+  /* The near miss: a Completionist with fourteen activities, sixteen
+     stickers in the book, the fourth card pending at sixteen of twenty. */
+  'completionist-plus-plus-pending': {
+    ...COMPLETIONIST,
+    activities: COMPLETIONIST.activities.slice(0, 14),
+    secrets: [],
   },
   organizer: {
     user: { ...USER, devLinked: true },

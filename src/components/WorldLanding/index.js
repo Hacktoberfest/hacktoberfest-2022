@@ -624,7 +624,9 @@ const WorldLanding = ({ world, afterOpening = null, afterEarn = null }) => {
       )}
 
       {/* The three milestones, the same three /my shows once you are
-          signed in: the sticker, the count it takes, and what you get. */}
+          signed in: the sticker, the count it takes, and what you get.
+          /my adds a fourth, Completionist++, for Completionists only; it
+          never appears here (test/online-content.test.mjs guards that). */}
       {world.milestones && (
         <MilestonesRoot aria-labelledby="world-milestones-title">
           <SectionIntro>

@@ -15,6 +15,7 @@ import {
   bookStickers,
   filterBook,
   milestoneState,
+  rewardsState,
 } from '../src/lib/stickerBook.mjs';
 
 /* This file evaluates experience.mjs in the mocked build. Leaving the
@@ -43,6 +44,8 @@ test('selectScenario passes through every known name', () => {
     'organizer',
     'complete',
     'completionist',
+    'completionist-plus-plus',
+    'completionist-plus-plus-pending',
     'error',
     'mlh-down',
   ].forEach((name) => assert.equal(selectScenario(name), name));
@@ -65,6 +68,33 @@ test('the complete scenario reaches milestone 2', () => {
 
 test('the completionist scenario reaches milestone 3', () => {
   assert.equal(progressLevel(SCENARIOS.completionist), 3);
+});
+
+/* The review links for the fourth card, /my's alone: twenty stickers in
+   the book and the card earned, on the day the twentieth landed; and a
+   Completionist four short, the card at sixteen of twenty. Neither carries
+   the demo secrets, so the book's count is the catalogue's. */
+test('the Completionist++ scenarios: earned at twenty, and pending at sixteen of twenty', () => {
+  const earned = SCENARIOS['completionist-plus-plus'];
+  const book = bookStickers(earned);
+  assert.equal(progressLevel(earned), 4);
+  assert.equal(bookCounts(book).earned, 20);
+  const won = rewardsState(earned, book);
+  assert.equal(won.completionistPlusPlus.earned, true);
+  assert.equal(won.completionistPlusPlus.earnedAt, '2026-10-22');
+  assert.equal(won.earnedRewards, 4);
+
+  const pending = SCENARIOS['completionist-plus-plus-pending'];
+  const near = rewardsState(pending, bookStickers(pending));
+  assert.equal(progressLevel(pending), 3);
+  assert.equal(near.completionist.earned, true);
+  assert.equal(near.completionistPlusPlus.shown, true);
+  assert.equal(near.completionistPlusPlus.earned, false);
+  assert.equal(near.completionistPlusPlus.pips.length, 16);
+  assert.equal(near.completionistPlusPlus.target, 20);
+
+  assert.deepEqual(earned.secrets, []);
+  assert.deepEqual(pending.secrets, []);
 });
 
 test('every fixture carries a user', () => {

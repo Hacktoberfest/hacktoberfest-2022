@@ -1480,7 +1480,9 @@ const MILESTONE_STICKERS = {
 
 /* The three milestones, the same three /my shows once you are signed
    in, with the count each takes, shared by both world landing pages.
-   `art` is the milestone sticker's file (lib/stickerImage.mjs). */
+   /my adds a fourth, Completionist++, for Completionists only; it never
+   appears here (test/online-content.test.mjs guards that). `art` is the
+   milestone sticker's file (lib/stickerImage.mjs). */
 const MILESTONE_CARDS = [
   {
     id: 'pack',
@@ -1562,8 +1564,10 @@ export const online = {
     'dev-week-2',
   ],
   /* How it works, told as the three milestones, the same three /my
-     shows once you are signed in, with the count each takes. The band
-     comes straight after the hero, so there is no steps band before it.
+     shows once you are signed in, with the count each takes. /my adds a
+     fourth, Completionist++, for Completionists only; it never appears
+     here (test/online-content.test.mjs guards that). The band comes
+     straight after the hero, so there is no steps band before it.
      `art` is the milestone sticker's file (lib/stickerImage.mjs). */
   milestones: {
     eyebrow: 'How it works',
@@ -3520,18 +3524,18 @@ export const my = {
       site: 'hacktoberfest.com',
     },
   },
-  /* The rewards band (components/RewardsBand), above the book: the two
-     milestones as two more stickers, earned by earning stickers, each a
-     card with its badge, a line saying what happens next in its state,
-     and what it needs. The intro changes with the level. `n` is the
-     activity count Milestone 2 asks for (thresholds.complete). */
+  /* The rewards band (components/RewardsBand), above the book: the
+     milestones as more stickers, earned by earning stickers, each a card
+     with its badge, a line saying what happens next in its state, and
+     what it needs. The intro changes with the level. `n` is the activity
+     count Milestone 2 asks for (thresholds.complete). */
   rewards: {
     heading: { lead: 'Your', accent: 'milestones.' },
     /* The line under the heading, whatever the state: what a milestone
-       is and what each one gets you. The counts are the book's (eight and
-       thirteen activity stickers plus the required two); the cards' meters
-       say the same numbers from the API's thresholds. The state is the
-       hero's (intro below). */
+       is and what each one gets you. The counts are the book's (eight,
+       thirteen and, for a Completionist, eighteen activity stickers plus
+       the required two); the cards' meters say the same numbers from the
+       API's thresholds. The state is the hero's (intro below). */
     lede: 'Complete each milestone to unlock rewards shipped straight to your door.',
     intro: {
       pending: (n) =>
@@ -3542,6 +3546,8 @@ export const my = {
         'You’ve completed Hacktoberfest 2026. The holographic sticker is yours, and your pack is in the mail.',
       completionist:
         'You’re a Hacktoberfest 2026 Completionist. Fifteen stickers in the book, the holographic sticker yours, and the pack in the mail.',
+      completionistPlusPlus:
+        'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, the holographic sticker yours, and the pack in the mail.',
     },
     /* The badge on an earned card, when the date is known: the day the
        milestone was reached (lib/stickerBook.mjs rewardsState.earnedAt). */
@@ -3602,6 +3608,27 @@ export const my = {
       },
       meterLabel: (filled, target) =>
         `${filled} of ${target} stickers toward Completionist`,
+    },
+    /* Milestone 4, shown only once Completionist is earned, and on /my
+       alone: no public page names it. Bragging rights and nothing more:
+       nothing ships, nothing unlocks, no DEV badge. */
+    completionistPlusPlus: {
+      tag: 'Milestone 4',
+      title: 'Become a Completionist++',
+      shareText:
+        'I’m a Hacktoberfest 2026 Completionist++! Twenty stickers in the book. #Hacktoberfest https://hacktoberfest.com',
+      reachedBadge: 'Earned',
+      pendingBadge: (done, total) => `${done} of ${total}`,
+      why: {
+        earned:
+          'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, and the bragging rights are all yours.',
+        /* `more` is the gap between the two thresholds (five today), so the
+           sentence stays true if either moves. */
+        pending: (more) =>
+          `You completed Hacktoberfest, but do you want to go one step further? Earn ${numberWord(more).toLowerCase()} additional stickers to earn Completionist++ bragging rights!`,
+      },
+      meterLabel: (filled, target) =>
+        `${filled} of ${target} stickers toward Completionist++`,
     },
   },
   /* The inventory band (components/Inventory), the last on /my: what

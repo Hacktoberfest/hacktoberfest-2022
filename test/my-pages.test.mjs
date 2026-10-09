@@ -616,6 +616,18 @@ const WIRING = [
     token: '<Album experience={experience} justEarned={justEarned} />',
     why: '"Your sticker book." is the attending hub\'s second band, under the Fests.',
   },
+  /* Completionist++ (components/RewardsBand): /my's fourth milestone,
+     which no public page names, so the card must wait for Completionist. */
+  {
+    file: 'src/components/RewardsBand/index.js',
+    token: '{rewards.completionistPlusPlus.shown && (',
+    why: 'the fourth card exists only from Completionist on (rewardsState.completionistPlusPlus.shown, level 3). Ungated, everyone on /my is told of a milestone the public pages keep to three.',
+  },
+  {
+    file: 'src/components/RewardsBand/index.js',
+    token: 'data-just-earned={fresh(MILESTONE_IDS.completionistPlusPlus)}',
+    why: 'reaching Completionist++ gets the moment the other milestones get (lib/justEarned.mjs). Without it the card turns earned in silence.',
+  },
   /* The sticker book lock (data/stickerBookLock.mjs): one switch closes
      the book, the milestones and the locker together, and the page around
      them has to agree. */
@@ -633,6 +645,11 @@ const WIRING = [
     file: 'src/pages/my.js',
     token: 'if (STICKER_BOOK_LOCKED) return;',
     why: 'nothing may be noted as seen while the book is closed. Without it the first two stickers spend their just-earned moment on a page that never showed them.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'my.rewards.intro.completionistPlusPlus,',
+    why: "the hero's line at level 4. heroStatus indexes its list by rewards.level, so without a fifth entry a Completionist++ gets no status line at all.",
   },
   {
     file: 'src/pages/my.js',
@@ -807,5 +824,7 @@ test('the signed-in pages stay out of the sitemap and the llms files', async () 
     assert.doesNotMatch(file, /\/oauth/);
     // Sign-out's landing page is noindex transit, same as the rest.
     assert.doesNotMatch(file, /\/signed-out/);
+    // Completionist++ is /my's fourth milestone; no public file names it.
+    assert.doesNotMatch(file, /Completionist\+\+/);
   });
 });

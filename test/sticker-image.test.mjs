@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
+import { buildStickers } from '../scripts/stickers/design/build.mjs';
 import { CATALOGUE, THINGS } from '../scripts/stickers/design/catalogue.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import { SECRET_MARK_SVG, svgDataUri } from '../src/lib/secretStickers.mjs';
@@ -19,6 +20,7 @@ test('the reward list carries the milestones and the things that are not sticker
       'milestone-pack',
       'milestone-complete',
       'milestone-completionist',
+      'milestone-completionist-plus-plus',
       'reward-pack',
       'reward-physical',
       'reward-digital',
@@ -93,6 +95,53 @@ test('every slug has a committed SVG file that is a standalone sticker', async (
       /href=/,
       `${slug} must not reference anything outside itself`,
     );
+  }
+});
+
+/* Completionist++ (scripts/stickers/design catalogue): the Completionist
+   crown in ochre on a forest-to-ink ground, and ++ in ochre on the ink
+   foot, centred on y 166. The committed file is what the pipeline draws,
+   and the two things the row brought to it, a paint and a label line,
+   change nothing for a row that names neither. */
+const committed = (slug) =>
+  readFile(new URL(`../public/stickers/${slug}.svg`, import.meta.url), 'utf8');
+const designed = async (slug) =>
+  (await buildStickers(CATALOGUE.filter((entry) => entry.slug === slug)))[slug];
+
+test('Completionist++ is the crown and ++ in ochre on forest to ink, as the pipeline draws it', async () => {
+  const slug = 'milestone-completionist-plus-plus';
+  const svg = await committed(slug);
+  assert.equal(svg, await designed(slug));
+  assert.ok(
+    svg.includes(
+      '<linearGradient id="ground-milestone-completionist-plus-plus" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#3d5f58"/><stop offset="1.00" stop-color="#10201d"/></linearGradient>',
+    ),
+    'forest to ink, corner to corner',
+  );
+  assert.ok(
+    svg.includes(
+      '<path d="M13.4 148 L186.6 148 L186.6 150 L100 200 L13.4 150 Z" fill="#10201d"/>',
+    ),
+    'the ink foot',
+  );
+  assert.ok(
+    svg.includes(
+      '<g transform="translate(46.00 34.00) scale(4.50)" fill="#f5b726">',
+    ),
+    'the crown, raised over the foot, in ochre',
+  );
+  assert.ok(
+    svg.includes(
+      '<g transform="translate(100 166)" fill="#f5b726" stroke="#f5b726"',
+    ),
+    'the ++, in ochre, on y 166',
+  );
+  assert.doesNotMatch(svg, /#f7f7f2/, 'nothing on it is white');
+});
+
+test('a designed row with no paint or label line draws as it always has', async () => {
+  for (const slug of ['milestone-completionist', 'survey-pre', 'dev-week-1']) {
+    assert.equal(await designed(slug), await committed(slug), slug);
   }
 });
 

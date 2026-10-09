@@ -144,6 +144,7 @@ test('getExperience fetches all four split endpoints and merges the real user ov
     stickers: 1,
     complete: 4,
     completionist: 13,
+    completionistPlusPlus: 18,
   });
   const byId = Object.fromEntries(result.activities.map((a) => [a.id, a]));
   assert.equal(byId['livestreams-1'].completed, true);

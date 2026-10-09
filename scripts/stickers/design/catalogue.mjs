@@ -10,6 +10,11 @@
    - `label`: a word on the foot in Martian Mono, for a pair that is not a
      run: the surveys' PRE and POST. Its letters must be in
      martian-mono-glyphs.json.
+   - `paint`: the colour the icon and the label are filled with, white
+     when absent: Completionist++'s gold crown and ++.
+   - `labelY`: the line a label is centred on, when the default (y 160
+     for a word) would sit it wrong: Completionist++'s ++, which has no
+     cap height, sits on 166, the foot's visual centre.
    - `foot`: a glyph on the foot instead of a number, named like an icon:
      launch weekend's rocket.
    - `inset`: a second icon drawn in ink inside the first, centred `at` a
@@ -35,11 +40,14 @@ export const GROUNDS = Object.freeze({
   /* The milestones are not a page of the book; the rewards band draws
      them, and they wear gradients of palette tokens rather than a flat
      colour, a ladder that cools as the milestones climb: warm for the
-     pack, holo for the completed book, cool for the completionist.
-     colors.ochre / orange; ochre / pink / sky; sky / forest / ink */
+     pack, holo for the completed book, cool for the completionist, and
+     darkest for Completionist++, forest to ink under a gold crown.
+     colors.ochre / orange; ochre / pink / sky; sky / forest / ink;
+     forest / ink */
   pack: ['#f5b726', '#e53927'],
   complete: ['#f5b726', '#e97b77', '#8bb2de'],
   completionist: ['#8bb2de', '#3d5f58', '#10201d'],
+  completionistPlusPlus: ['#3d5f58', '#10201d'],
   /* The locker's things wear their kind: the pack its envelope's ochre,
      a physical thing sky, a digital one forest. The attendee's Fest
      certificate is paper, a certificate as it would be printed, with its
@@ -156,6 +164,17 @@ export const CATALOGUE = Object.freeze([
   { slug: 'milestone-pack', icon: 'mail-opened', ground: 'pack' },
   { slug: 'milestone-complete', icon: 'hexagon', ground: 'complete' },
   { slug: 'milestone-completionist', icon: 'crown', ground: 'completionist' },
+  /* Completionist++, the fourth milestone, /my's alone: the Completionist
+     crown in gold, colors.ochre, and a gold ++ on the foot (Jacklyn,
+     2026-10-09). */
+  {
+    slug: 'milestone-completionist-plus-plus',
+    icon: 'crown',
+    ground: 'completionistPlusPlus',
+    label: '++',
+    paint: '#f5b726',
+    labelY: 166,
+  },
   { slug: 'ghw', icon: 'square-rounded-check', ground: 'ghw' },
   {
     slug: 'ghw-livestream',
