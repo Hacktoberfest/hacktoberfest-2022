@@ -213,9 +213,14 @@ export const ACTIVITIES = Object.freeze([
     type: 'ghw',
     art: 'play',
   }),
+  /* The three GHW points stickers are 10, 20 and 30 points since
+     2026-10-09. Their ids still say 15, 30 and 75, the thresholds they
+     launched with: FestNet cannot change a challenge's slug, and the
+     week was already running, so the ids stayed and only the numbers
+     moved. The threshold itself lives in each FestNet row's rule. */
   Object.freeze({
     id: 'ghw-points-15',
-    label: 'Earn 15 points at Global Hack Week: Hacktoberfest',
+    label: 'Earn 10 points at Global Hack Week: Hacktoberfest',
     detail: 'Complete challenges to earn points throughout Global Hack Week.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
@@ -225,9 +230,9 @@ export const ACTIVITIES = Object.freeze([
   }),
   Object.freeze({
     id: 'ghw-points-30',
-    label: 'Earn 30 points at Global Hack Week: Hacktoberfest',
+    label: 'Earn 20 points at Global Hack Week: Hacktoberfest',
     detail:
-      'Your points keep adding up all week. Reach 30 to earn this one on top of the 15.',
+      'Your points keep adding up all week. Reach 20 to earn this one on top of the 10.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
@@ -236,9 +241,9 @@ export const ACTIVITIES = Object.freeze([
   }),
   Object.freeze({
     id: 'ghw-points-75',
-    label: 'Earn 75 points at Global Hack Week: Hacktoberfest',
+    label: 'Earn 30 points at Global Hack Week: Hacktoberfest',
     detail:
-      'This is the big one. Reach 75 points by the time Global Hack Week wraps up.',
+      'This is the big one. Reach 30 points by the time Global Hack Week wraps up.',
     href: '/schedule/',
     ctaLabel: 'See the schedule',
     surface: 'card',
