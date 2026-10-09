@@ -36,6 +36,7 @@ test('every wall sponsor entry is complete and tagged', () => {
       'TLDR',
       'Thinking Machines',
       '.tech Domains',
+      'SerpApi',
     ],
     'the curated wall matches the confirmed sponsor roster and order',
   );
@@ -87,6 +88,7 @@ test('brand-color logo assets retain their approved treatments', async () => {
     tldr,
     thinkingMachines,
     tech,
+    serpapi,
   ] = await Promise.all([
     readFile(
       new URL('../public/sponsors/mongodb.svg', import.meta.url),
@@ -127,6 +129,10 @@ test('brand-color logo assets retain their approved treatments', async () => {
       'utf8',
     ),
     readFile(new URL('../public/sponsors/tech.svg', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../public/sponsors/serpapi.svg', import.meta.url),
+      'utf8',
+    ),
   ]);
   assert.ok(
     mongodb.includes('#023430'),
@@ -169,6 +175,10 @@ test('brand-color logo assets retain their approved treatments', async () => {
   assert.ok(
     tech.includes('#282828') && !tech.includes('width="1920"'),
     '.tech Domains must use its dark wordmark without a background',
+  );
+  assert.ok(
+    serpapi.includes('#377FEA') && serpapi.includes('#8C45EF'),
+    'SerpApi must keep its blue-to-purple gradient mark',
   );
 });
 

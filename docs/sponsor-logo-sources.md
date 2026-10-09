@@ -39,3 +39,9 @@ The .tech Domains logo was added on October 7, 2026 from the partner-provided fi
 | Sponsor       | Local file | Source                                                                                                        |
 | ------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
 | .tech Domains | `tech.svg` | `Tech Logo black.svg`, uploaded by Maithili Shinde (.tech) on October 6, 2026 (dark `#282828`, no background) |
+
+The SerpApi logo was added on September 29, 2026 from the partner-provided file. An unused gradient reference on the wordmark path was removed; the wordmark keeps its inline black fill and the mark keeps its blue-to-purple gradient.
+
+| Sponsor | Local file    | Source                                                                                      |
+| ------- | ------------- | ------------------------------------------------------------------------------------------- |
+| SerpApi | `serpapi.svg` | `logo_white_background` (SVG), uploaded by Adarsh Divakaran (SerpApi) on September 29, 2026 |

@@ -65,6 +65,7 @@ const roster = [
     site: 'https://thinkingmachines.ai',
   },
   { name: '.tech Domains', slug: 'tech', site: 'https://get.tech' },
+  { name: 'SerpApi', slug: 'serpapi', site: 'https://serpapi.com', wide: true },
 ];
 
 const logoScales = {
