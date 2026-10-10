@@ -192,6 +192,13 @@ test('every fixture carries a fests array with well-formed entries', () => {
       assert.ok(
         typeof fest.acknowledgedAt === 'string' || fest.acknowledgedAt === null,
       );
+      // Whether an admin's override lists it: a boolean on organizing event
+      // cards, null on attending and application cards, as the API sends.
+      if (fest.role === 'organizing' && fest.applicationStatus === null) {
+        assert.equal(typeof fest.forcePublished, 'boolean', fest.id);
+      } else {
+        assert.equal(fest.forcePublished, null, fest.id);
+      }
       // The venue trio ships on every card too: the pin and address the
       // acknowledgements' map slide renders, nulls where not geocoded.
       assert.ok(typeof fest.latitude === 'number' || fest.latitude === null);
@@ -317,6 +324,13 @@ test('the organizer scenario shows every badge variant', () => {
     ),
   );
   assert.ok(organizingEvents.some((f) => f.hacktoberfestPublished));
+  // Listed by an admin's override with nobody acknowledging it, so the
+  // dashboard link that override opens is reviewable.
+  assert.ok(
+    organizingEvents.some(
+      (f) => f.hacktoberfestPublished && !f.acknowledgedAt && f.forcePublished,
+    ),
+  );
   assert.ok(
     organizingEvents.some((f) => f.mlhPublished === false && f.manageUrl),
   );

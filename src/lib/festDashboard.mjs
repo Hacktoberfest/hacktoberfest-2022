@@ -185,8 +185,10 @@ export const showsPhotoGallery = (dashboard, ended) =>
    only Meetup and unshipped-pack dashboard, so refusing it would take those
    states off every review link; and the mocked Confirm writes nothing, so
    the card's fresh dashboard link would 404 straight after the confetti.
-   The card still hides the link until the step is done (hasFestDashboard),
-   so only a hand-typed review link reaches an unacknowledged Fest here.
+   The card still hides the link until the step is done or an admin has
+   force-published the Fest (hasFestDashboard; fest-melbourne is the forced
+   one), so only a hand-typed review link reaches any other unacknowledged
+   Fest here.
 
    The review Fests (REVIEW_FESTS, ended, and UPCOMING_REVIEW_FESTS) come
    last: they are on no scenario's /my, so a hand-typed review link is the

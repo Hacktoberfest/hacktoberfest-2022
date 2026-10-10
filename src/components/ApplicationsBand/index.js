@@ -184,9 +184,10 @@ const actionFor = (fest) => {
 
 /* Where this card's own dashboard lives, once it has one. Application cards
    never do: there is no event behind them yet. An event card gets one when a
-   host has completed the final acknowledgements (see hasFestDashboard), so
-   the "One step left" card carries its button and no dashboard link, and
-   gains the link the moment the modal confirms. */
+   host has completed the final acknowledgements, or an admin has
+   force-published it (see hasFestDashboard), so the "One step left" card
+   carries its button and no dashboard link, and gains the link the moment
+   the modal confirms. */
 const dashboardHref = (fest) =>
   hasFestDashboard(fest) ? `/my/fest/?id=${encodeURIComponent(fest.id)}` : null;
 

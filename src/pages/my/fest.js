@@ -29,8 +29,9 @@ import {
    everyone and event ids are guessable, so the endpoint answers 403 to a
    signed-in user who does not organize the event and 404 to an id with no
    Fest behind it, or to a Fest no host has taken through the final
-   acknowledgements yet (/my links here only after that step, see
-   hasFestDashboard). This page is an honest reporter of that answer.
+   acknowledgements yet and no admin has force-published (/my links here
+   only after one of those, see hasFestDashboard). This page is an honest
+   reporter of that answer.
 
    The same effect discipline as /my, and for the same reasons documented
    there: location.search rather than the router's query (an exported page's

@@ -281,19 +281,25 @@ export const eventCardState = (fest) => {
 
 /* Whether an organizing event card opens the Fest dashboard (/my/fest/).
 
-   Only once a host has completed the final acknowledgements. Before that the
-   card's one job is the step itself, and the API answers the dashboard 404
-   for the same Fest, so a link here would only lead to a refusal. Read off
-   acknowledgedAt rather than eventCardState on purpose: a Fest an admin
-   force-published is 'published' without anyone acknowledging it, and it
-   has no dashboard either. */
+   Once a host has completed the final acknowledgements, or an admin has
+   force-published the Fest. Before either, the card's one job is the step
+   itself, and the API answers the dashboard 404 for the same Fest, so a link
+   here would only lead to a refusal.
+
+   The override counts because it lists a Fest nobody acknowledged, and a
+   listed card never offers the step ('published' outranks everything in
+   eventCardState), so without it the host could never get here: the Sydney
+   Meetup's host sat at "View fest" through their wrap-up. Read off the two
+   sign-offs rather than eventCardState on purpose, and they are exactly the
+   pair the API gates on. */
 export const hasFestDashboard = (fest) =>
   Boolean(fest) &&
   typeof fest === 'object' &&
   fest.role === 'organizing' &&
   !fest.applicationStatus &&
-  typeof fest.acknowledgedAt === 'string' &&
-  fest.acknowledgedAt.length > 0;
+  ((typeof fest.acknowledgedAt === 'string' &&
+    fest.acknowledgedAt.length > 0) ||
+    fest.forcePublished === true);
 
 /* Where a host edits the Fest itself. MLH's manageUrl for an approved
    event is the bare Organizer HQ event page, and the fields the

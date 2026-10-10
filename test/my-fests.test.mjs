@@ -444,10 +444,11 @@ test('eventCardState: a listed Fest stays published even with a failing check', 
   );
 });
 
-/* The Fest dashboard (/my/fest/) opens only once a host has been through
-   the final acknowledgements. Before that step the card's one job is the
-   step itself, and the API answers the dashboard 404 for the same Fest. */
-test('hasFestDashboard: only a Fest past its final acknowledgements', () => {
+/* The Fest dashboard (/my/fest/) opens once a host has been through the
+   final acknowledgements, or an admin has force-published the Fest. Before
+   either, the card's one job is the step itself, and the API answers the
+   dashboard 404 for the same Fest. */
+test('hasFestDashboard: only a Fest past its final acknowledgements, or forced', () => {
   const card = (over) =>
     fest({
       role: 'organizing',
@@ -475,11 +476,37 @@ test('hasFestDashboard: only a Fest past its final acknowledgements', () => {
     false,
   );
 
-  /* Listed without anyone acknowledging it - an admin's force-publish - is
-     still short of the step, whatever the badge says. */
+  /* Listed by an admin's force-publish with nobody acknowledging it: the
+     override opens the dashboard, since a listed card never offers the
+     step. The Sydney Meetup's host sat at "View fest" through their wrap-up
+     before this. */
+  assert.equal(
+    hasFestDashboard(
+      card({
+        hacktoberfestPublished: true,
+        acknowledgedAt: null,
+        forcePublished: true,
+      }),
+    ),
+    true,
+  );
+
+  /* Listed with neither, as an API from before the flag reads, or with the
+     override since removed: still short of the step, whatever the badge
+     says. */
   assert.equal(
     hasFestDashboard(
       card({ hacktoberfestPublished: true, acknowledgedAt: null }),
+    ),
+    false,
+  );
+  assert.equal(
+    hasFestDashboard(
+      card({
+        hacktoberfestPublished: true,
+        acknowledgedAt: null,
+        forcePublished: false,
+      }),
     ),
     false,
   );
@@ -502,9 +529,34 @@ test('hasFestDashboard: applications, attending, and junk have none', () => {
     hasFestDashboard(fest({ role: 'attending', acknowledgedAt })),
     false,
   );
+  // The override opens no more than the acknowledgements do.
+  assert.equal(
+    hasFestDashboard(
+      fest({
+        role: 'organizing',
+        applicationStatus: 'approved',
+        forcePublished: true,
+      }),
+    ),
+    false,
+  );
+  assert.equal(
+    hasFestDashboard(fest({ role: 'attending', forcePublished: true })),
+    false,
+  );
   assert.equal(
     hasFestDashboard(
       fest({ role: 'organizing', applicationStatus: null, acknowledgedAt: '' }),
+    ),
+    false,
+  );
+  assert.equal(
+    hasFestDashboard(
+      fest({
+        role: 'organizing',
+        applicationStatus: null,
+        forcePublished: 'true',
+      }),
     ),
     false,
   );
