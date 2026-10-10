@@ -13,6 +13,7 @@ import {
 } from 'lib/stickerBook.mjs';
 
 import styles from './Album.module.css';
+import PageSheet from './PageSheet';
 import StickerCell from './StickerCell';
 
 /* The sticker book: every sticker there is to earn this October, on a
@@ -159,7 +160,9 @@ const Album = ({ experience, justEarned }) => {
         </div>
         {/* Every page renders, stacked in one grid cell with only the open
             one visible, so the book is always as tall as its tallest page
-            and never jumps as the reader turns it. A closed page is
+            and never jumps as the reader turns it. A page shows two rows
+            of stickers at most and scrolls the rest (PageSheet), so the
+            tallest page is never taller than that. A closed page is
             visibility: hidden, which also takes it out of the tab order
             and the accessibility tree. */}
         <div className={styles.pages}>
@@ -180,7 +183,7 @@ const Album = ({ experience, justEarned }) => {
                   <p className={styles.pageNote}>{my.album.pages[entry.key]}</p>
                 )}
               </div>
-              <ul className={styles.cells}>
+              <PageSheet justEarned={justEarned}>
                 {filterBook(stickers, entry.key).map((sticker) => (
                   <StickerCell
                     key={sticker.id}
@@ -193,7 +196,7 @@ const Album = ({ experience, justEarned }) => {
                     }
                   />
                 ))}
-              </ul>
+              </PageSheet>
             </div>
           ))}
         </div>

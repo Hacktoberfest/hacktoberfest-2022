@@ -8,11 +8,13 @@ import {
   REQUIRED_TAB,
   bookCounts,
   bookStickers,
+  PAGE_ROWS,
   bookTabs,
   defaultTab,
   filterBook,
   milestoneState,
   rewardsState,
+  rowsBelow,
 } from '../src/lib/stickerBook.mjs';
 
 /* The sticker book's pure half: the two required stickers ahead of the
@@ -550,4 +552,37 @@ test('an experience with no required list behaves as before', () => {
   assert.equal(book.find((s) => s.id === 'signin').completed, true);
   assert.equal(book.find((s) => s.id === 'address').completed, true);
   assert.equal(book.find((s) => s.id === 'address').source, 'mlh');
+});
+
+/* A page shows two rows of stickers and scrolls the rest inside the book
+   (components/Album/PageSheet). rowsBelow is how many rows sit under the
+   two, which decides whether the page scrolls and what its cue says. */
+test('a page shows two rows before it scrolls', () => {
+  assert.equal(PAGE_ROWS, 2);
+});
+
+test('rows below the two: none until a third row starts, then one per row', () => {
+  assert.equal(rowsBelow(0, 3), 0);
+  assert.equal(rowsBelow(5, 3), 0);
+  assert.equal(rowsBelow(6, 3), 0);
+  assert.equal(rowsBelow(7, 3), 1);
+  assert.equal(rowsBelow(9, 3), 1);
+  assert.equal(rowsBelow(10, 3), 2);
+});
+
+test('rows below count the columns the page has: two across on a phone', () => {
+  assert.equal(rowsBelow(4, 2), 0);
+  assert.equal(rowsBelow(5, 2), 1);
+  assert.equal(rowsBelow(7, 2), 2);
+});
+
+test('rows below are none when the columns are not known yet', () => {
+  assert.equal(rowsBelow(7, 0), 0);
+  assert.equal(rowsBelow(7, Number.NaN), 0);
+  assert.equal(rowsBelow(7, undefined), 0);
+});
+
+test('the cue under a scrolling page names the rows still below', () => {
+  assert.equal(my.album.moreRows(1), '1 more row');
+  assert.equal(my.album.moreRows(2), '2 more rows');
 });

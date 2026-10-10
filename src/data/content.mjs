@@ -3415,6 +3415,10 @@ export const my = {
       'Stickers may take up to 12 hours to be marked as earned after completing an activity.',
     tabsLabel: 'Sticker book pages',
     tabCount: (earned, total) => `${earned} of ${total}`,
+    /* The cue over the foot of a page that scrolls (components/Album/
+       PageSheet): how many rows of stickers are still below. Gone once
+       the reader reaches the end. */
+    moreRows: (count) => `${count} more ${count === 1 ? 'row' : 'rows'}`,
     /* Two pages wear a mark instead of their name at their head
        (components/Album); the tabs stay words. DEV's logo leads and `rest`
        follows it; `name` is what the logo stands for, read out ahead of

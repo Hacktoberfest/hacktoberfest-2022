@@ -279,6 +279,7 @@
    so the first row and column's rules sit on the page's own edge and are
    never doubled. Two across on a phone, three from tablet width. */
 .cells {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: 0;
@@ -287,6 +288,71 @@
   /* colors.rule */
   border-top: 1.5px dashed #8ca59e;
   border-left: 1.5px dashed #8ca59e;
+  scrollbar-width: thin;
+  scrollbar-color: #8ca59e transparent;
+}
+
+/* A page with more rows than it shows (PageSheet sets the height): the
+   rest scroll inside the sheet, under its own top rule. */
+.cells[data-capped='true'] {
+  overflow-y: auto;
+}
+
+/* The sheet around the cells, so the fade and the cue can sit over the
+   foot of a page that scrolls. */
+.sheet {
+  position: relative;
+}
+
+/* The fade over the foot of a page with rows still below: the paper
+   rising over the last row shown, clear of the scrollbar. colors.white */
+.sheet[data-more='true']::after {
+  content: '';
+  position: absolute;
+  left: 1.5px;
+  right: 10px;
+  bottom: 0;
+  height: 64px;
+  background: linear-gradient(rgba(247, 247, 242, 0), #f7f7f2 85%);
+  pointer-events: none;
+}
+
+/* The cue on the fade: how many rows are still below, in the tag's ink
+   and mono, with an arrow down. It points, it does not act, so a click
+   or a scroll passes through it to the sheet. colors.ink / white */
+.more {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #10201d;
+  color: #f7f7f2;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.more svg {
+  width: 11px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .cell {

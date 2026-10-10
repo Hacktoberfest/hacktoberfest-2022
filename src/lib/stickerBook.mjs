@@ -198,6 +198,21 @@ export const bookTabs = (stickers) =>
 /* One page: the tab's stickers, in book order. Nothing ever reorders. */
 export const filterBook = (stickers, key) => ofType(stickers, key);
 
+/* How many rows of stickers a page shows before it scrolls the rest
+   inside the book (components/Album/PageSheet), so a page that grows, a
+   secret or two on top of its catalogue, never makes the whole book grow
+   with it. */
+export const PAGE_ROWS = 2;
+
+/* The rows of a page that sit below the ones it shows: `count` stickers
+   laid out `columns` across, the grid's own count at the width it is
+   drawn (two on a phone, three from tablet). None while the columns are
+   not known, so a page is never capped on a guess. */
+export const rowsBelow = (count, columns, shown = PAGE_ROWS) => {
+  if (!Number.isInteger(columns) || columns < 1) return 0;
+  return Math.max(0, Math.ceil(count / columns) - shown);
+};
+
 /* The page holding the first unearned sticker, in book order, so the
    address comes before any activity and the catalogue's own order decides
    between activities. A finished book opens on the first page. A secret
