@@ -8,10 +8,22 @@
    Relative import, matching every other file in lib/: Node resolves this
    file directly and never sees jsconfig's baseUrl alias. */
 
+/* The Bonus category (2026-10-13): a page of secret stickers alone, from
+   the Hacktoberfest team. The catalogue never holds one
+   (test/activity-filters.test.mjs), so a sticker reaches it only as a
+   secret: one whose category is Bonus, placed only once it is earned, or
+   one revealed by a Bonus sticker the person already holds
+   (lib/stickerBook.mjs placeSecrets). Either way nobody sees the page,
+   its tab or its chip before they have a sticker in it. The word, the
+   page's line and its colour are in this public code; what is in it
+   never is. */
+export const BONUS_TYPE = 'bonus';
+
 /* The categories, in the order the sticker book and /activities/ show
-   them (2026-09-10, Misc added 2026-09-25): DEV Challenges, Livestreams,
-   Global Hack Week, Tools, Misc, In Person. Required is
-   the book's own page, not a type. */
+   them (2026-09-10, Misc added 2026-09-25, Bonus 2026-10-13): DEV
+   Challenges, Livestreams, Global Hack Week, Tools, Misc, In Person,
+   Bonus. Required is the book's own page, not a type. Bonus comes last,
+   so a page that only some people ever see never moves the others. */
 export const TYPE_ORDER = Object.freeze([
   'dev',
   'livestreams',
@@ -19,6 +31,7 @@ export const TYPE_ORDER = Object.freeze([
   'tools',
   'misc',
   'inperson',
+  BONUS_TYPE,
 ]);
 
 const list = (activities) => (Array.isArray(activities) ? activities : []);

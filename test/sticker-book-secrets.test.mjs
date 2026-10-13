@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
+import { BONUS_TYPE } from '../src/lib/activityFilters.mjs';
 import {
   REQUIRED_TAB,
   bookCounts,
@@ -13,6 +14,7 @@ import {
   firstActivitySticker,
   isRequiredSticker,
   milestoneState,
+  openingTab,
   placeSecrets,
   rewardsState,
 } from '../src/lib/stickerBook.mjs';
@@ -410,4 +412,189 @@ test('the pack’s activity pip draws the first activity sticker, an earned secr
   assert.equal(firstActivitySticker(festAndRequiredSecret).id, 'fest');
   assert.equal(firstActivitySticker(bookStickers(experience())), null);
   assert.equal(firstActivitySticker(null), null);
+});
+
+/* Categories: the page a secret goes on, chosen in FestNet, ahead of its
+   revealer's. The Bonus one is invented like the rest: an earned sticker
+   with a made-up name and the same plain hexagon, revealed by nothing. */
+const bonus = (over = {}) =>
+  earned({
+    id: 'demo-bonus',
+    name: 'A demo bonus sticker',
+    category: BONUS_TYPE,
+    revealedBy: null,
+    ...over,
+  });
+
+test('an earned secret with a category ends that page, not its revealer’s', () => {
+  const plain = bookStickers(experience());
+  const book = bookStickers(
+    experience({ secrets: [earned({ category: 'tools' })] }),
+  );
+  assert.deepEqual(ids(filterBook(book, 'tools')), [
+    ...ids(filterBook(plain, 'tools')),
+    'demo-secret',
+  ]);
+  assert.equal(filterBook(book, 'tools').at(-1).type, 'tools');
+  assert.deepEqual(ids(filterBook(book, 'ghw')), ids(filterBook(plain, 'ghw')));
+});
+
+test('a placeholder with a category waits on that page, not its revealer’s', () => {
+  const plain = bookStickers(experience());
+  const book = bookStickers(
+    experience({ secrets: [placeholder({ category: 'dev' })] }),
+  );
+  const last = filterBook(book, 'dev').at(-1);
+  assert.equal(last.id, 'secret-1');
+  assert.equal(last.placeholder, true);
+  assert.equal(last.hint, 'A demo hint');
+  assert.equal(
+    filterBook(book, 'dev').length,
+    filterBook(plain, 'dev').length + 1,
+  );
+  assert.deepEqual(ids(filterBook(book, 'ghw')), ids(filterBook(plain, 'ghw')));
+});
+
+test('a category the book has no page for is no category: the revealer’s page, then the last page', () => {
+  const book = bookStickers(
+    experience({
+      secrets: [
+        placeholder({ category: 'not-a-page' }),
+        /* Required is the book's own page, never a category. */
+        placeholder({ id: 'secret-2', category: REQUIRED_TAB }),
+        placeholder({
+          id: 'secret-3',
+          category: 'not-a-page',
+          revealedBy: null,
+        }),
+      ],
+    }),
+  );
+  const page = (id) => book.find((sticker) => sticker.id === id).type;
+  assert.equal(page('secret-1'), 'ghw');
+  assert.equal(page('secret-2'), 'ghw');
+  assert.equal(
+    page('secret-3'),
+    bookTabs(bookStickers(experience())).at(-1).key,
+  );
+});
+
+test('an unearned Bonus secret is never placed, so the book has no Bonus page', () => {
+  const plain = bookStickers(experience());
+  const book = bookStickers(
+    experience({
+      secrets: [
+        placeholder({ category: BONUS_TYPE }),
+        placeholder({
+          id: 'secret-2',
+          category: BONUS_TYPE,
+          hint: null,
+          revealedBy: null,
+        }),
+      ],
+    }),
+  );
+  assert.deepEqual(ids(book), ids(plain));
+  assert.deepEqual(bookTabs(book), bookTabs(plain));
+  assert.ok(!bookTabs(book).some((tab) => tab.key === BONUS_TYPE));
+  assert.deepEqual(bookCounts(book), bookCounts(plain));
+  assert.deepEqual(
+    ids(
+      placeSecrets(
+        [{ id: 'ghw', type: 'ghw' }],
+        [placeholder({ category: BONUS_TYPE })],
+      ),
+    ),
+    ['ghw'],
+  );
+});
+
+test('an earned Bonus secret brings the Bonus page, last, with only itself on it', () => {
+  const plain = bookStickers(experience());
+  const book = bookStickers(
+    experience({
+      secrets: [bonus(), placeholder({ id: 'secret-2', category: BONUS_TYPE })],
+    }),
+  );
+  const tabs = bookTabs(book);
+  assert.deepEqual(tabs.at(-1), { key: BONUS_TYPE, count: 1, earned: 1 });
+  assert.deepEqual(tabs.slice(0, -1), bookTabs(plain));
+  const page = filterBook(book, BONUS_TYPE);
+  assert.deepEqual(ids(page), ['demo-bonus']);
+  assert.equal(page[0].secret, true);
+  assert.equal(page[0].label, 'A demo bonus sticker');
+  assert.equal(page[0].art, ART);
+  assert.deepEqual(bookCounts(book), {
+    earned: bookCounts(plain).earned + 1,
+    total: bookCounts(plain).total + 1,
+  });
+});
+
+test('an earned Bonus secret counts toward the milestones like any secret', () => {
+  const activities = [{ id: 'fest', completed: true }];
+  assert.equal(
+    milestoneState(experience({ activities, secrets: [bonus()] })).done,
+    2,
+  );
+  assert.equal(
+    milestoneState(
+      experience({
+        activities,
+        secrets: [placeholder({ category: BONUS_TYPE })],
+      }),
+    ).done,
+    1,
+  );
+});
+
+test('a Bonus sticker earned just now opens the book on Bonus, and never decides it otherwise', () => {
+  const book = bookStickers(experience({ secrets: [bonus()] }));
+  const plain = bookStickers(experience());
+  assert.equal(openingTab(book, new Set(['demo-bonus'])), BONUS_TYPE);
+  assert.equal(openingTab(book, new Set()), defaultTab(plain));
+  assert.equal(defaultTab(book), defaultTab(plain));
+});
+
+test('the Bonus page is never where a secret with nowhere else to go ends up', () => {
+  /* A list that already holds a Bonus sticker, as no caller's does today:
+     the catalogue has none. A lost secret still takes the last other page. */
+  const placed = placeSecrets(
+    [
+      { id: 'ghw', type: 'ghw' },
+      { id: 'demo-bonus', type: BONUS_TYPE, secret: true, completed: true },
+    ],
+    [
+      placeholder({ revealedBy: null }),
+      earned({ revealedBy: 'not-in-the-book' }),
+    ],
+  );
+  assert.deepEqual(
+    placed.slice(2).map((sticker) => [sticker.id, sticker.type]),
+    [
+      ['secret-1', 'ghw'],
+      ['demo-secret', 'ghw'],
+    ],
+  );
+});
+
+test('a secret revealed by an earned Bonus sticker, with no category, waits on Bonus', () => {
+  const book = bookStickers(
+    experience({
+      secrets: [bonus(), placeholder({ revealedBy: 'demo-bonus' })],
+    }),
+  );
+  assert.deepEqual(ids(filterBook(book, BONUS_TYPE)), [
+    'demo-bonus',
+    'secret-1',
+  ]);
+  assert.deepEqual(bookTabs(book).at(-1), {
+    key: BONUS_TYPE,
+    count: 2,
+    earned: 1,
+  });
+  /* Without the Bonus sticker its revealer is not in the book: no Bonus page. */
+  const alone = bookStickers(
+    experience({ secrets: [placeholder({ revealedBy: 'demo-bonus' })] }),
+  );
+  assert.ok(!bookTabs(alone).some((tab) => tab.key === BONUS_TYPE));
 });

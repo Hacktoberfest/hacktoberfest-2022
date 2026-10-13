@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import {
+  BONUS_TYPE,
   TYPE_ORDER,
   chipsFor,
   earnedCount,
@@ -30,7 +31,10 @@ test('the type order is fixed', () => {
     'tools',
     'misc',
     'inperson',
+    'bonus',
   ]);
+  assert.equal(BONUS_TYPE, 'bonus');
+  assert.equal(TYPE_ORDER.at(-1), BONUS_TYPE);
 });
 
 test('signed out: All plus one chip per type present, in order, with counts', () => {
@@ -124,4 +128,45 @@ test('earnedCount counts completed activities only', () => {
     2,
   );
   assert.equal(earnedCount(null), 0);
+});
+
+/* Bonus holds secret stickers alone (lib/secretStickers.mjs), so the
+   catalogue never has one: a catalogue sticker of that type would put the
+   Bonus chip and page in front of everyone, and nobody may see either
+   before they have earned a sticker in it. */
+test('no catalogue activity is a Bonus sticker', () => {
+  assert.deepEqual(
+    ACTIVITIES.filter((activity) => activity.type === BONUS_TYPE).map(
+      (activity) => activity.id,
+    ),
+    [],
+  );
+  for (const signedIn of [false, true]) {
+    assert.ok(
+      !chipsFor(merged(), { signedIn }).some((chip) => chip.key === BONUS_TYPE),
+    );
+  }
+});
+
+/* An earned Bonus sticker, invented for the test, among the cards as
+   lib/activitiesPageState.mjs withEarnedSecrets places it. */
+test('a Bonus chip comes with a Bonus sticker, after every other type and before Still to do', () => {
+  const list = [
+    ...merged({ fest: { completed: true } }),
+    { id: 'demo-bonus', type: BONUS_TYPE, secret: true, completed: true },
+  ];
+  const chips = chipsFor(list, { signedIn: true });
+  assert.deepEqual(
+    chips.slice(-2).map((chip) => [chip.key, chip.count]),
+    [
+      [BONUS_TYPE, 1],
+      ['todo', ACTIVITIES.length - 1],
+    ],
+  );
+  assert.equal(chips[0].count, ACTIVITIES.length + 1);
+  assert.deepEqual(
+    filterActivities(list, BONUS_TYPE).map((activity) => activity.id),
+    ['demo-bonus'],
+  );
+  assert.equal(filterActivities(list, 'all').at(-1).id, 'demo-bonus');
 });

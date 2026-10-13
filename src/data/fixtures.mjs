@@ -51,6 +51,12 @@ const devBadges = (earnedAt = {}) =>
 const DEMO_SECRET_ART =
   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="#1f4e6b"/></svg>';
 
+/* The demo Bonus sticker's art: the same plain hexagon in colors.indigo,
+   the Bonus page's own colour. Invented for the mocked build like the
+   one above. */
+const DEMO_BONUS_ART =
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><path d="M100 0 L186.6 50 L186.6 150 L100 200 L13.4 150 L13.4 50 Z" fill="#2f3a8f"/></svg>';
+
 /* Fest dates: entries meant to read as "attended" are dated 2026-08-01 —
    before any plausible review date — so the past group is visible from a
    share link all campaign long, not only after mid-October. Upcoming
@@ -183,9 +189,9 @@ const APPLICANT = {
 };
 
 /* Milestone 3 (Completionist): fifteen activities done, past the
-   thirteen it takes, so the third card shows earned; with the earned demo
-   secret that is eighteen stickers in the book, so the fourth card
-   (Completionist++) shows pending at eighteen of twenty. Its own const so
+   thirteen it takes, so the third card shows earned; with the two earned
+   demo secrets that is nineteen stickers in the book, so the fourth card
+   (Completionist++) shows pending at nineteen of twenty. Its own const so
    the two Completionist++ scenarios below can be the same person, further
    on or a little short. */
 const COMPLETIONIST = {
@@ -223,13 +229,17 @@ const COMPLETIONIST = {
     { id: 'ghw-points-15', completed: true, completedAt: '2026-10-15' },
     { id: 'ghw-points-30', completed: true, completedAt: '2026-10-16' },
   ],
-  /* Two secret stickers, invented for the mocked build: one earned,
-     with a plain hexagon for art, and one still a placeholder. Both are
+  /* Three secret stickers, invented for the mocked build. Two are
      revealed by the Global Hack Week sticker this scenario has earned,
-     as the API only sends a secret once its revealer is earned. Shaped
-     as GET /api/me/progress sends them among its challenges; kept apart
-     here as lib/progress.mjs keeps them apart, and read by the same
-     lib/secretStickers.mjs. */
+     as the API only sends a secret once its revealer is earned: one
+     earned, with a plain hexagon for art, and one still a placeholder.
+     The third is a Bonus sticker, earned, revealed by nothing and placed
+     by its category alone, which brings the Bonus page into this
+     scenario's book and its chip onto /activities/. No other scenario
+     has one, so the default /my shows the book without that page.
+     Shaped as GET /api/me/progress sends them among its challenges;
+     kept apart here as lib/progress.mjs keeps them apart, and read by
+     the same lib/secretStickers.mjs. */
   secrets: [
     {
       id: 'demo-secret',
@@ -237,6 +247,7 @@ const COMPLETIONIST = {
       name: 'A demo secret',
       description: 'Invented for the mocked build.',
       art: DEMO_SECRET_ART,
+      category: null,
       revealedBy: 'ghw',
       required: false,
       completed: true,
@@ -247,11 +258,25 @@ const COMPLETIONIST = {
       id: 'secret-1',
       secret: true,
       hint: 'A demo hint',
+      category: null,
       revealedBy: 'ghw',
       required: false,
       completed: false,
       completedAt: null,
       source: null,
+    },
+    {
+      id: 'demo-bonus',
+      secret: true,
+      name: 'A demo bonus sticker',
+      description: 'Invented for the mocked build.',
+      art: DEMO_BONUS_ART,
+      category: 'bonus',
+      revealedBy: null,
+      required: false,
+      completed: true,
+      completedAt: '2026-10-15',
+      source: 'manual',
     },
   ],
   /* The catalogue as GET /api/me/items serves it: the pack and the

@@ -56,6 +56,7 @@ test('a placeholder keeps its hint and nothing that could name it', () => {
         completedAt: null,
         source: null,
         revealedBy: 'ghw',
+        category: null,
         name: null,
         description: null,
         art: null,
@@ -74,6 +75,7 @@ test('an earned secret keeps its words, its art and when it was earned', () => {
       completedAt: '2026-10-14T12:00:00.000Z',
       source: 'manual',
       revealedBy: 'ghw',
+      category: null,
       name: 'A demo secret',
       description: 'Invented for the test.',
       art: ART,
@@ -105,6 +107,24 @@ test('only entries flagged secret with a string id are kept, in payload order', 
 
 test('reading its own output changes nothing', () => {
   const once = secretsFrom([earned(), placeholder()]);
+  assert.deepEqual(secretsFrom(once), once);
+});
+
+/* The page a secret is bound for, chosen in FestNet: one of the book's
+   types, or none. Read as a word like the others; whether the book knows
+   the word is lib/stickerBook.mjs placeSecrets's to decide. */
+test('a category is kept on both shapes, trimmed, or null', () => {
+  const [slot, sticker] = secretsFrom([
+    placeholder({ category: ' dev ' }),
+    earned({ category: 'bonus' }),
+  ]);
+  assert.equal(slot.category, 'dev');
+  assert.equal(sticker.category, 'bonus');
+  for (const none of [undefined, null, '', '   ', 42, ['bonus']]) {
+    const [kept] = secretsFrom([earned({ category: none })]);
+    assert.equal(kept.category, null, String(none));
+  }
+  const once = secretsFrom([placeholder({ category: 'tools' })]);
   assert.deepEqual(secretsFrom(once), once);
 });
 

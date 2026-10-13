@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { activitiesPage } from '../src/data/content.mjs';
+import { activitiesPage, my } from '../src/data/content.mjs';
 import { TYPE_ORDER } from '../src/lib/activityFilters.mjs';
 
 /* Copy shape, and the voice rules every band follows. */
@@ -108,4 +108,12 @@ test('every type has a label, and the chips have their words', () => {
 test('the strip line counts stickers, and the strip itself is off this page', () => {
   assert.equal(activitiesPage.strip.count(3, 4), '3 of 4 stickers earned');
   assert.equal(activitiesPage.strip.hubCta, undefined);
+});
+
+/* The Bonus page's words (lib/activityFilters.mjs BONUS_TYPE): its name on
+   the chip, the card's tag and the book's tab, and the line under its
+   title on /my. Only someone who has earned a Bonus sticker reads either. */
+test('the Bonus type has its name and its page line', () => {
+  assert.equal(activitiesPage.list.types.bonus, 'Bonus');
+  assert.equal(my.album.pages.bonus, 'Surprises from the Hacktoberfest team.');
 });

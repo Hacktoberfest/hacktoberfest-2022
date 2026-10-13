@@ -200,8 +200,10 @@
    stickers, so tab and sticker agree about which page is which and no two
    pages share one. DEV's is ochre rather than DEV's own black: the
    stickers keep the black-and-white DEV mark and need a ground it shows
-   on; tools is maroon, since the rule grey read as unearned.
-   colors.forest / ochre / sky / orange / maroon / skyDeep / pink */
+   on; tools is maroon, since the rule grey read as unearned; Bonus is
+   indigo, a colour of its own, since its page comes and goes with what
+   someone has earned.
+   colors.forest / ochre / sky / orange / maroon / skyDeep / pink / indigo */
 .accent_required {
   --tab-accent: #3d5f58;
 }
@@ -222,6 +224,9 @@
 }
 .accent_inperson {
   --tab-accent: #e97b77;
+}
+.accent_bonus {
+  --tab-accent: #2f3a8f;
 }
 
 /* The pages, every one rendered and stacked in the same grid cell so the

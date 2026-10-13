@@ -55,11 +55,13 @@ export const progressSlot = ({ hasSession, status }) => {
 
 /* The cards for a signed-in visitor: the catalogue as merged for them,
    with the secret stickers they have earned among it
-   (lib/secretStickers.mjs), each at the end of the group of the sticker
-   that revealed it, as the book places them. A placeholder stays in
-   the book: this page lists what there is to earn and how, and the book
-   is the one place a secret is shown before it is earned. Signed out
-   there are no secrets to place, and this is not called. */
+   (lib/secretStickers.mjs), each at the end of the group the book puts
+   it on: its category's, else its revealer's (lib/stickerBook.mjs
+   placeSecrets). A placeholder stays in the book: this page lists what
+   there is to earn and how, and the book is the one place a secret is
+   shown before it is earned. An earned Bonus sticker brings the Bonus
+   group and its chip with it, as it brings the page in the book. Signed
+   out there are no secrets to place, and this is not called. */
 export const withEarnedSecrets = (activities, secrets) =>
   placeSecrets(
     activities,

@@ -23,6 +23,10 @@ export const colors = {
   ochreLight: '#fbe4a6',
   ochreDeep: '#8a5d13',
   maroon: '#671912',
+  /* The Bonus page's own (lib/activityFilters.mjs BONUS_TYPE): its tab's
+     rule in the sticker book and its cards on /activities/, a colour no
+     other page wears. White reads on it at 9.2:1. */
+  indigo: '#2f3a8f',
 };
 
 export const fonts = {

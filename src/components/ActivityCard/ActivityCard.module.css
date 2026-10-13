@@ -204,6 +204,16 @@
   background: #1f4e6b;
   color: #f7f7f2;
 }
+/* Bonus: indigo, the colour its tab in the sticker book wears, as a solid
+   tag like Tools' and Misc's; white on it reads at 9.2:1.
+   colors.indigo / white */
+.card.type_bonus {
+  --card-accent: #2f3a8f;
+}
+.type.type_bonus {
+  background: #2f3a8f;
+  color: #f7f7f2;
+}
 
 .cardTitle {
   margin: 0;

@@ -7,7 +7,11 @@ import {
   publicActivities,
   withEarnedSecrets,
 } from '../src/lib/activitiesPageState.mjs';
-import { filterActivities } from '../src/lib/activityFilters.mjs';
+import {
+  BONUS_TYPE,
+  chipsFor,
+  filterActivities,
+} from '../src/lib/activityFilters.mjs';
 
 /* The pure branching behind two review findings on /activities/: the
    sign-in link must never flash for a visitor who has a session (Finding
@@ -132,6 +136,71 @@ test('earned secrets end their own groups in the grouped list, in the payload’
     .map((card) => card.type)
     .filter((type, at, all) => at === 0 || type !== all[at - 1]);
   assert.equal(new Set(runs).size, runs.length);
+});
+
+/* An invented Bonus sticker, earned, and one bound for Bonus not yet
+   earned, which the API never sends and this page would never show. */
+test('signed in, an earned Bonus secret is a group of its own, last, with its chip', () => {
+  const cards = withEarnedSecrets(publicActivities(), [
+    {
+      id: 'demo-bonus',
+      secret: true,
+      name: 'A demo bonus sticker',
+      description: 'Invented for the test.',
+      art: null,
+      category: BONUS_TYPE,
+      revealedBy: null,
+      required: false,
+      completed: true,
+      completedAt: '2026-10-15T12:00:00.000Z',
+      source: 'manual',
+    },
+    {
+      id: 'secret-1',
+      secret: true,
+      hint: 'A demo hint',
+      category: BONUS_TYPE,
+      revealedBy: 'ghw',
+      required: false,
+      completed: false,
+      completedAt: null,
+      source: null,
+    },
+  ]);
+  assert.equal(cards.length, ACTIVITIES.length + 1);
+  assert.equal(filterActivities(cards, 'all').at(-1).id, 'demo-bonus');
+  assert.deepEqual(
+    filterActivities(cards, BONUS_TYPE).map((card) => card.id),
+    ['demo-bonus'],
+  );
+  assert.deepEqual(
+    chipsFor(cards, { signedIn: true })
+      .slice(-2)
+      .map((chip) => chip.key),
+    [BONUS_TYPE, 'todo'],
+  );
+});
+
+test('an unearned Bonus secret adds no card and no chip', () => {
+  const cards = withEarnedSecrets(publicActivities(), [
+    {
+      id: 'secret-1',
+      secret: true,
+      hint: 'A demo hint',
+      category: BONUS_TYPE,
+      revealedBy: null,
+      required: false,
+      completed: false,
+      completedAt: null,
+      source: null,
+    },
+  ]);
+  assert.deepEqual(cards, publicActivities());
+  assert.ok(
+    !chipsFor(cards, { signedIn: true }).some(
+      (chip) => chip.key === BONUS_TYPE,
+    ),
+  );
 });
 
 test('no secrets: the cards are the catalogue, unchanged', () => {

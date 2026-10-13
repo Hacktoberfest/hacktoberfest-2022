@@ -11,7 +11,10 @@
    it, and a hint, with no name, no description and no art. An earned one
    carries its own slug, its name and description, its art as the whole
    SVG in text, and when and how it was earned. A secret the person has
-   not reached is not in the payload at all.
+   not reached is not in the payload at all. Either shape may carry a
+   category: the page of the book it goes on, chosen in FestNet, or none
+   for the page of the sticker that revealed it (lib/stickerBook.mjs
+   placeSecrets).
 
    Pure, and no imports: lib/eligibility.mjs counts with it, so it cannot
    lean on anything that leans on that, and node --test reads it directly
@@ -55,7 +58,9 @@ const words = (value) =>
    (lib/stickerBook.mjs placeSecrets). An entry is kept only when it is
    flagged secret and its id is a string. A placeholder keeps its hint and
    nothing that could name it; an earned one keeps its words and its art,
-   the art only when secretArt passes it.
+   the art only when secretArt passes it. Both keep their category as a
+   word, or null: whether the book knows the word is placeSecrets's to
+   decide, so a page added to the book later needs no change here.
 
    Reading its own output gives the same output, so the mocked build can
    hand its fixture's API-shaped entries to the reader the live payload
@@ -75,6 +80,7 @@ export const secretsFrom = (entries) =>
         completedAt: (completed && entry.completedAt) || null,
         source: completed ? (entry.source ?? null) : null,
         revealedBy: words(entry.revealedBy),
+        category: words(entry.category),
         name: completed ? words(entry.name) : null,
         description: completed ? words(entry.description) : null,
         art: completed ? secretArt(entry.art) : null,

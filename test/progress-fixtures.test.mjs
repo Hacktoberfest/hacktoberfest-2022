@@ -7,12 +7,14 @@ import {
   selectScenario,
 } from '../src/data/fixtures.mjs';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
+import { BONUS_TYPE } from '../src/lib/activityFilters.mjs';
 import { isEligible, progressLevel } from '../src/lib/eligibility.mjs';
 import { festDidNotAttend, hasOnlyApplications } from '../src/lib/fests.mjs';
 import { secretArt } from '../src/lib/secretStickers.mjs';
 import {
   bookCounts,
   bookStickers,
+  bookTabs,
   filterBook,
   milestoneState,
   rewardsState,
@@ -378,60 +380,116 @@ test('every data fixture carries the required stickers, consistent with its addr
 });
 
 /* The review link for secret stickers: an invented one of each kind,
-   revealed by a sticker the scenario has earned. */
-test('the completionist scenario carries a demo secret, one earned and one placeholder', () => {
+   revealed by a sticker the scenario has earned, and an invented Bonus
+   sticker, earned, revealed by nothing and placed by its category. */
+test('the completionist scenario carries demo secrets: one earned, one placeholder, one Bonus', () => {
   const fixture = SCENARIOS.completionist;
   assert.deepEqual(
-    fixture.secrets.map((secret) => [secret.id, secret.completed]),
+    fixture.secrets.map((secret) => [
+      secret.id,
+      secret.completed,
+      secret.category,
+    ]),
     [
-      ['demo-secret', true],
-      ['secret-1', false],
+      ['demo-secret', true, null],
+      ['secret-1', false, null],
+      ['demo-bonus', true, BONUS_TYPE],
     ],
   );
   fixture.secrets.forEach((secret) => {
     assert.equal(secret.secret, true);
     assert.equal(secret.required, false);
-    assert.ok(
-      fixture.activities.some(
-        (activity) => activity.id === secret.revealedBy && activity.completed,
-      ),
-      `${secret.id}: revealed by a sticker the scenario has earned`,
-    );
   });
-  assert.equal(secretArt(fixture.secrets[0].art), fixture.secrets[0].art);
+  fixture.secrets
+    .filter((secret) => secret.category !== BONUS_TYPE)
+    .forEach((secret) => {
+      assert.ok(
+        fixture.activities.some(
+          (activity) => activity.id === secret.revealedBy && activity.completed,
+        ),
+        `${secret.id}: revealed by a sticker the scenario has earned`,
+      );
+    });
+  assert.equal(fixture.secrets[2].revealedBy, null);
+  fixture.secrets
+    .filter((secret) => secret.completed)
+    .forEach((secret) =>
+      assert.equal(secretArt(secret.art), secret.art, secret.id),
+    );
   assert.equal('name' in fixture.secrets[1], false);
   assert.equal('art' in fixture.secrets[1], false);
 });
 
-test('the completionist book ends their revealer’s page with the demo secrets and counts the earned one', () => {
+test('the completionist book ends their revealer’s page with the demo secrets, ends with a Bonus page, and counts the earned ones', () => {
   const book = bookStickers(SCENARIOS.completionist);
   const page = filterBook(book, 'ghw').map((sticker) => sticker.id);
   assert.deepEqual(page.slice(-2), ['demo-secret', 'secret-1']);
   assert.equal(page[0], 'ghw');
+  assert.deepEqual(bookTabs(book).at(-1), {
+    key: BONUS_TYPE,
+    count: 1,
+    earned: 1,
+  });
+  assert.deepEqual(
+    filterBook(book, BONUS_TYPE).map((sticker) => sticker.id),
+    ['demo-bonus'],
+  );
   const earnedActivities = SCENARIOS.completionist.activities.filter(
     (activity) => activity.completed,
   ).length;
   assert.deepEqual(bookCounts(book), {
-    earned: 2 + earnedActivities + 1,
-    total: 2 + ACTIVITIES.length + 2,
+    earned: 2 + earnedActivities + 2,
+    total: 2 + ACTIVITIES.length + 3,
   });
   assert.equal(
     milestoneState(SCENARIOS.completionist).done,
-    earnedActivities + 1,
+    earnedActivities + 2,
   );
   assert.equal(progressLevel(SCENARIOS.completionist), 3);
+  /* The fourth card stays pending, one short, as the scenario says. */
+  const plusPlus = rewardsState(
+    SCENARIOS.completionist,
+    book,
+  ).completionistPlusPlus;
+  assert.equal(plusPlus.earned, false);
+  assert.equal(plusPlus.pips.length, 19);
+  assert.equal(plusPlus.target, 20);
+});
+
+/* The default /my is the hidden state: no Bonus sticker, so no Bonus
+   page. Only the completionist review link shows one. */
+test('only the completionist scenario carries a Bonus sticker, so the default /my has no Bonus page', () => {
+  Object.entries(SCENARIOS).forEach(([name, fixture]) => {
+    const shown = name === 'completionist';
+    assert.equal(
+      (fixture.secrets || []).filter((secret) => secret.category === BONUS_TYPE)
+        .length,
+      shown ? 1 : 0,
+      name,
+    );
+    assert.equal(
+      bookTabs(bookStickers(fixture)).some((tab) => tab.key === BONUS_TYPE),
+      shown,
+      name,
+    );
+  });
+  assert.notEqual(DEFAULT_SCENARIO, 'completionist');
 });
 
 test('the mocked seams hand the demo secrets on, signed in', async () => {
   const experience = await getExperience(null, { scenario: 'completionist' });
-  assert.equal(experience.secrets.length, 2);
+  assert.equal(experience.secrets.length, 3);
   const progress = await getProgress(
     { user: { email: 'ada@example.invalid' } },
     { scenario: 'completionist' },
   );
   assert.deepEqual(
-    progress.secrets.map((secret) => secret.id),
-    ['demo-secret', 'secret-1'],
+    progress.secrets.map((secret) => [secret.id, secret.category]),
+    [
+      ['demo-secret', null],
+      ['secret-1', null],
+      ['demo-bonus', BONUS_TYPE],
+    ],
   );
   assert.deepEqual((await getProgress(null)).secrets, []);
 });

@@ -93,9 +93,10 @@ const Activities = () => {
            `source` alive either way — mergeActivities drops it, and
            StickerCard's "how" phrase needs it — and the merge is
            idempotent, so both arrive the same. The secret stickers this
-           visitor has earned join the cards, each in its revealer's
-           group; they come from the experience's own `secrets`, live or
-           the fixture's, never from the activities. */
+           visitor has earned join the cards, each in the group the book
+           puts it on (its category's, else its revealer's); they come
+           from the experience's own `secrets`, live or the fixture's,
+           never from the activities. */
         setActivities(
           withEarnedSecrets(
             progressFromPayload({

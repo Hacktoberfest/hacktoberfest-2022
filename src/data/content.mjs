@@ -3426,7 +3426,9 @@ export const my = {
        name, as the image's alt, from activitiesPage.list.types. */
     devMark: { name: 'DEV', rest: 'Challenges' },
     /* One line under each page's title, keyed by tab. A type without a
-       line here still renders, with no note. */
+       line here still renders, with no note. Bonus's is read only by
+       someone who has earned a Bonus sticker, since the page comes with
+       the first one. */
     pages: {
       required: 'You must collect these stickers to receive any rewards.',
       dev: 'Build with open-weight models and open-source AI, and share what you learned.',
@@ -3435,6 +3437,7 @@ export const my = {
       tools: 'Utilize great tools to help you build awesome projects.',
       misc: 'Complete our pre- and post-event surveys.',
       inperson: 'Meet your local community and collect swag.',
+      bonus: 'Surprises from the Hacktoberfest team.',
     },
     /* The cells on a page: the sticker, its name, one line of status. The
        line under an earned sticker is the date, or its source in words
@@ -4174,6 +4177,10 @@ export const activitiesPage = {
          for them. A non-survey sticker of this type needs a new name. */
       misc: 'Surveys',
       inperson: 'Fests',
+      /* Secret stickers from the Hacktoberfest team (lib/activityFilters.mjs
+         BONUS_TYPE). Shown only to someone who has earned one: the chip,
+         the tab and the card's tag all come with the first. */
+      bonus: 'Bonus',
       /* The sticker book's Required page on /my (lib/stickerBook.mjs): the
          two stickers everyone earns. Not in TYPE_ORDER, so /activities/
          never offers it as a chip. */

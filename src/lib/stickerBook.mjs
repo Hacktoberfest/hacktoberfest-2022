@@ -8,7 +8,7 @@
    directly and never sees jsconfig's baseUrl alias. */
 import { my } from '../data/content.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../data/eligibility.mjs';
-import { TYPE_ORDER } from './activityFilters.mjs';
+import { BONUS_TYPE, TYPE_ORDER } from './activityFilters.mjs';
 import {
   countedCompletions,
   mergeActivities,
@@ -147,30 +147,55 @@ const secretSticker = (secret, type) => ({
   locked: false,
 });
 
-/* The last page there is, in tab order: where a secret goes when the
-   sticker that revealed it is not among the stickers. */
+/* The last page there is, in tab order: where a secret goes when it
+   names no page the book has and the sticker that revealed it is not
+   among the stickers. Never Bonus, whatever the list holds: a secret
+   gets there by its category, or by a revealer already on that page,
+   which only an earned Bonus sticker can be, and never as a fallback. */
 const lastPage = (stickers) =>
   [REQUIRED_TAB]
     .concat(TYPE_ORDER)
-    .filter((key) => stickers.some((sticker) => sticker.type === key))
+    .filter(
+      (key) =>
+        key !== BONUS_TYPE && stickers.some((sticker) => sticker.type === key),
+    )
     .at(-1) || REQUIRED_TAB;
 
+/* The page a secret goes on: its category, when that is a page the book
+   has (TYPE_ORDER); else the page of the sticker named by its
+   `revealedBy`, looked for among the stickers placed so far; else the
+   fallback, the last page. A category the book does not know, Required
+   among them, is no category, so a page added in FestNet before it is
+   added here sends its stickers to their revealer's page meanwhile. */
+const pageOf = (secret, placed, fallback) => {
+  if (TYPE_ORDER.includes(secret.category)) return secret.category;
+  const revealer = placed.find((sticker) => sticker.id === secret.revealedBy);
+  return revealer ? revealer.type : fallback;
+};
+
 /* The secrets placed among the stickers, the book's or the cards on
-   /activities/: each takes the page of the sticker named by its
-   `revealedBy` and goes at the end of that page, after every regular
-   sticker on it, never in the middle. A page and a group are read off the
-   list by type, in list order, so a secret appended to the list is last
-   on its page wherever it is shown. Secrets that share a page keep the
-   payload's order, which is the API's sort. A secret whose revealer is not
-   among the stickers, or that names none, goes at the end of the last
-   page. Returns a new list and leaves the one given alone. */
+   /activities/: each goes on its page (pageOf above) at the end of it,
+   after every regular sticker on it, never in the middle. A page and a
+   group are read off the list by type, in list order, so a secret
+   appended to the list is last on its page wherever it is shown. Secrets
+   that share a page keep the payload's order, which is the API's sort.
+
+   A secret bound for Bonus is placed only once it is earned. Bonus holds
+   secret stickers alone and nobody may see it before they have one
+   (lib/activityFilters.mjs BONUS_TYPE); bookTabs makes a tab, and chipsFor
+   a chip, only for a page with stickers on it, so leaving the unearned
+   ones out here is what keeps both from showing to someone with nothing
+   on that page. FestNet gives such a secret no hint and the API never
+   sends one unearned; this is the third guard, and does not lean on the
+   other two. Returns a new list and leaves the one given alone. */
 export const placeSecrets = (stickers, secrets) => {
   const placed = Array.isArray(stickers) ? [...stickers] : [];
   const fallback = lastPage(placed);
-  secretsFrom(secrets).forEach((secret) => {
-    const revealer = placed.find((sticker) => sticker.id === secret.revealedBy);
-    placed.push(secretSticker(secret, revealer ? revealer.type : fallback));
-  });
+  secretsFrom(secrets)
+    .filter((secret) => secret.completed || secret.category !== BONUS_TYPE)
+    .forEach((secret) => {
+      placed.push(secretSticker(secret, pageOf(secret, placed, fallback)));
+    });
   return placed;
 };
 
@@ -181,7 +206,9 @@ const ofType = (stickers, type) =>
 
 /* Required first, then the activity types in TYPE_ORDER, each only when
    the book holds at least one sticker of it, so a type that gains entries
-   gains a tab with no code change and an empty page never exists. */
+   gains a tab with no code change and an empty page never exists. Bonus,
+   last, is one of them: its tab comes with the first Bonus sticker earned
+   (placeSecrets above), and not before. */
 export const bookTabs = (stickers) =>
   [REQUIRED_TAB].concat(TYPE_ORDER).flatMap((key) => {
     const page = ofType(stickers, key);
@@ -233,7 +260,10 @@ export const defaultTab = (stickers) => {
 
 /* Where the book opens: on the page of a sticker earned just now
    (lib/justEarned.mjs), so its moment is seen, and otherwise on the
-   default page. The first such sticker in book order decides. */
+   default page. The first such sticker in book order decides. A Bonus
+   sticker earned just now opens the book on Bonus, so the page is seen on
+   the visit it first appears; being earned, it never decides the default
+   page. */
 export const openingTab = (stickers, justEarned) => {
   const fresh =
     justEarned instanceof Set ? justEarned : new Set(justEarned || []);
