@@ -354,7 +354,7 @@ test('Completionist++ copy: the gap between the thresholds in words, and a hero 
   assert.equal(more, 5);
   assert.equal(
     words.why.pending(more),
-    'You completed Hacktoberfest, but do you want to go one step further? Earn five additional stickers to earn Completionist++ bragging rights!',
+    'You completed Hacktoberfest, but do you want to go one step further? Earn five additional stickers to earn Completionist++ bragging rights and a certificate!',
   );
   assert.equal(words.tag, 'Milestone 4');
   assert.equal(words.title, 'Become a Completionist++');
@@ -372,7 +372,7 @@ test('Completionist++ copy: the gap between the thresholds in words, and a hero 
   );
   assert.equal(
     words.why.earned,
-    'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, and the bragging rights are all yours.',
+    'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, a certificate to show for it, and the bragging rights are all yours.',
   );
   assert.equal(
     words.shareText,

@@ -6,6 +6,7 @@ import { progressLevel } from '../src/lib/eligibility.mjs';
 import {
   CERTIFICATE_SLUGS,
   WIDE_AFTER,
+  certificateFilename,
   certificatePath,
   inventoryItems,
   inventoryLayout,
@@ -279,13 +280,14 @@ test('the locker opens on what is new, else the newest earned thing, else nothin
   assert.equal(openingSlot([], new Set()), null);
 });
 
-test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended or hosted, the Completionist certificate, and the three DEV badges', () => {
+test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended or hosted, the Completionist and Completionist++ certificates, and the three DEV badges', () => {
   const real = new Set([
     'sticker-pack-2026',
     'holographic-sticker-2026',
     'fest-certificate-2026',
     'fest-host-certificate-2026',
     'completionist-certificate-2026',
+    'completionist-plus-plus-certificate-2026',
     'dev-badge-fest-2026',
     'dev-badge-host-2026',
     'dev-badge-completionist-2026',
@@ -391,6 +393,14 @@ test('a certificate is known by slug and downloads from the API by its key', () 
     certificatePath({ id: 'completionist-certificate-2026', key: '' }, 'pdf'),
     '/api/me/items/completionist-certificate-2026/certificate.pdf',
   );
+  assert.ok(CERTIFICATE_SLUGS.has('completionist-plus-plus-certificate-2026'));
+  assert.equal(
+    certificatePath(
+      { id: 'completionist-plus-plus-certificate-2026', key: '' },
+      'png',
+    ),
+    '/api/me/items/completionist-plus-plus-certificate-2026/certificate.png',
+  );
   const [cert, pack] = inventoryItems(
     experience([
       {
@@ -408,6 +418,70 @@ test('a certificate is known by slug and downloads from the API by its key', () 
     certificatePath(cert, 'pdf'),
     '/api/me/items/fest-certificate-2026/evt%201%2F2/certificate.pdf',
   );
+});
+
+/* The file a download saves as: the API's own name for it, the slug and,
+   for a certificate earned once per Fest, the Fest's key, so a thing
+   earned once never ends in a stray hyphen. */
+test('a certificate saves as the API names it, with a key only when it has one', () => {
+  assert.equal(
+    certificateFilename({ id: 'fest-certificate-2026', key: 'evt-1' }, 'pdf'),
+    'hacktoberfest-2026-fest-certificate-2026-evt-1.pdf',
+  );
+  assert.equal(
+    certificateFilename(
+      { id: 'completionist-plus-plus-certificate-2026', key: '' },
+      'png',
+    ),
+    'hacktoberfest-2026-completionist-plus-plus-certificate-2026.png',
+  );
+});
+
+/* The two completion certificates, as the API seeds them (migration
+   20261013120000_add_completionist_certificates): the Completionist's,
+   granted by Milestone 3, and the Completionist++'s, granted by
+   Milestone 4, which sorts right after it. Each is drawn as its own card
+   and downloads without a key. */
+test('the Completionist++ certificate follows the Completionist one, earned only at Milestone 4', () => {
+  for (const [name, earned] of [
+    ['completionist-plus-plus', true],
+    ['completionist-plus-plus-pending', false],
+  ]) {
+    const { items } = SCENARIOS[name];
+    const at = items.findIndex(
+      (item) => item.id === 'completionist-certificate-2026',
+    );
+    assert.ok(at >= 0, name);
+    const plus = items[at + 1];
+    assert.equal(plus.id, 'completionist-plus-plus-certificate-2026', name);
+    assert.equal(plus.earned, earned, name);
+    assert.equal(typeof plus.earnedAt === 'string', earned, name);
+    assert.equal(plus.name, 'Completionist++ certificate');
+    assert.equal(plus.kind, 'digital');
+    assert.equal(plus.earnedBy, 'Twenty stickers in the book');
+    assert.equal(
+      plus.getsToYou,
+      'A certificate of completion with your name and the day you became a Completionist++, as a PDF or a PNG.',
+    );
+    assert.equal(plus.cta, null);
+    assert.equal(plus.requiresDevLink, false);
+    const [item] = inventoryItems({ items: [plus] });
+    assert.equal(item.art, 'completionist-plus-plus-certificate-2026');
+    assert.equal(item.sticker, false);
+    assert.equal(item.certificate, true);
+  }
+  for (const [name, scenario] of Object.entries(SCENARIOS)) {
+    if (!Array.isArray(scenario.items)) continue;
+    scenario.items
+      .filter((item) => item.id === 'completionist-certificate-2026')
+      .forEach((item) =>
+        assert.equal(
+          item.getsToYou,
+          'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
+          name,
+        ),
+      );
+  }
 });
 
 test('the mentor and judge certificates are certificates, asked for without a key', () => {

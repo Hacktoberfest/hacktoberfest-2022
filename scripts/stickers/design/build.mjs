@@ -65,10 +65,12 @@ const readIcon = async (name) => {
   };
 };
 
+/* The Martian Mono outlines a label or a card's mark is set in. */
+const readGlyphs = async () =>
+  JSON.parse(await readFile(join(here, 'martian-mono-glyphs.json'), 'utf8'));
+
 export const buildStickers = async (entries = CATALOGUE) => {
-  const glyphs = JSON.parse(
-    await readFile(join(here, 'martian-mono-glyphs.json'), 'utf8'),
-  );
+  const glyphs = await readGlyphs();
   const out = {};
   for (const entry of entries) {
     const icon = await readIcon(entry.icon);
@@ -94,6 +96,7 @@ export const buildStickers = async (entries = CATALOGUE) => {
 };
 
 export const buildThings = async () => {
+  const glyphs = await readGlyphs();
   const out = {};
   for (const entry of THINGS) {
     out[entry.slug] = composeThing({
@@ -101,6 +104,7 @@ export const buildThings = async () => {
       shapeIcon: entry.icon ? await readIcon(entry.icon) : undefined,
       sealIcon: entry.seal ? await readIcon(entry.seal) : undefined,
       ground: GROUNDS[entry.ground],
+      glyphs,
     });
   }
   return out;

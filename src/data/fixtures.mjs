@@ -110,7 +110,7 @@ const NOTHING_DONE = {
       kind: 'digital',
       earnedBy: 'Fifteen stickers in the book',
       getsToYou:
-        'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
       cta: null,
       requiresDevLink: false,
       earned: false,
@@ -293,7 +293,7 @@ const COMPLETIONIST = {
       kind: 'digital',
       earnedBy: 'Fifteen stickers in the book',
       getsToYou:
-        'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+        'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
       cta: null,
       requiresDevLink: false,
       earned: true,
@@ -347,6 +347,30 @@ const COMPLETIONIST = {
     },
   ],
 };
+
+/* The Completionist++ certificate as GET /api/me/items serves it, earned
+   on `earnedAt` or, given null, not yet: right after the Completionist's,
+   where its sortOrder puts it, the DEV badges still last. */
+const withPlusPlusCertificate = (items, earnedAt) =>
+  items.flatMap((item) =>
+    item.id === 'completionist-certificate-2026'
+      ? [
+          item,
+          {
+            id: 'completionist-plus-plus-certificate-2026',
+            name: 'Completionist++ certificate',
+            kind: 'digital',
+            earnedBy: 'Twenty stickers in the book',
+            getsToYou:
+              'A certificate of completion with your name and the day you became a Completionist++, as a PDF or a PNG.',
+            cta: null,
+            requiresDevLink: false,
+            earned: earnedAt !== null,
+            earnedAt,
+          },
+        ]
+      : [item],
+  );
 
 export const SCENARIOS = Object.freeze({
   'no-address': {
@@ -413,7 +437,7 @@ export const SCENARIOS = Object.freeze({
         kind: 'digital',
         earnedBy: 'Fifteen stickers in the book',
         getsToYou:
-          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+          'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
         cta: null,
         requiresDevLink: false,
         earned: false,
@@ -507,7 +531,7 @@ export const SCENARIOS = Object.freeze({
         kind: 'digital',
         earnedBy: 'Fifteen stickers in the book',
         getsToYou:
-          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+          'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
         cta: null,
         requiresDevLink: false,
         earned: false,
@@ -615,7 +639,7 @@ export const SCENARIOS = Object.freeze({
         kind: 'digital',
         earnedBy: 'Fifteen stickers in the book',
         getsToYou:
-          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+          'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
         cta: null,
         requiresDevLink: false,
         earned: false,
@@ -655,8 +679,9 @@ export const SCENARIOS = Object.freeze({
   /* Milestone 4 (Completionist++), /my's alone: the Completionist above
      with three more DEV stickers, eighteen activities and the required
      two, twenty in the book, so the fourth card shows earned, dated the
-     day the twentieth landed. No secrets, on this one or the next, so the
-     book's count is the catalogue's alone. */
+     day the twentieth landed, and the locker holds the Completionist++
+     certificate. No secrets, on this one or the next, so the book's
+     count is the catalogue's alone. */
   'completionist-plus-plus': {
     ...COMPLETIONIST,
     activities: [
@@ -666,13 +691,21 @@ export const SCENARIOS = Object.freeze({
       { id: 'dev-week-2', completed: true, completedAt: '2026-10-15' },
     ],
     secrets: [],
+    /* Dated the day the twentieth landed, as the fourth card is, later
+       that day than the Completionist's, so the locker opens on it. */
+    items: withPlusPlusCertificate(
+      COMPLETIONIST.items,
+      '2026-10-22T18:00:00.000Z',
+    ),
   },
   /* The near miss: a Completionist with fourteen activities, sixteen
-     stickers in the book, the fourth card pending at sixteen of twenty. */
+     stickers in the book, the fourth card pending at sixteen of twenty,
+     and the Completionist++ certificate not yet earned. */
   'completionist-plus-plus-pending': {
     ...COMPLETIONIST,
     activities: COMPLETIONIST.activities.slice(0, 14),
     secrets: [],
+    items: withPlusPlusCertificate(COMPLETIONIST.items, null),
   },
   organizer: {
     user: { ...USER, devLinked: true },
@@ -753,7 +786,7 @@ export const SCENARIOS = Object.freeze({
         kind: 'digital',
         earnedBy: 'Fifteen stickers in the book',
         getsToYou:
-          'A certificate with your name and the year on it, made the moment you ask for it, as a PDF or a PNG.',
+          'A certificate of completion with your name and the day you became a Completionist, as a PDF or a PNG.',
         cta: null,
         requiresDevLink: false,
         earned: false,

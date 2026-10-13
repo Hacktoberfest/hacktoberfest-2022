@@ -203,6 +203,41 @@ const footLabel = (glyphs, label, { paint = WHITE, labelY } = {}) => {
   return `<g transform="translate(100 ${cy})" fill="${paint}" stroke="${paint}" stroke-linejoin="round">${out}</g>`;
 };
 
+/* A card's mark where its short third rule would be: a word in the same
+   Martian Mono outlines, on the same 750-unit advance, in the rules'
+   colour. Its outlines start at x 40, where the rules start, and centre
+   on y 120, the third rule's line; the extent is read off the outlines
+   (all absolute M, L, Q and Z, so their numbers come in x y pairs),
+   since a glyph centres on the cap height's midline and ++ has no cap
+   height to fill. The foot label's stroke trick, heavier: scaled 0.03
+   (a cap height of 24) with a 3-unit stroke in its own colour, a plus's
+   bars are 6 wide, as heavy as the rules above it, and it is 21.3
+   across, so ++ runs about as far as the rule it replaces. The
+   Completionist++ card's ++. */
+const CARD_MARK = { k: 0.03, stroke: 3, left: 40, cy: 120 };
+
+const cardMark = (glyphs, text, colour) => {
+  const { k, stroke, left, cy } = CARD_MARK;
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxY = -Infinity;
+  const placed = [...text].map((char, i) => {
+    const glyph = glyphs[char];
+    if (!glyph) throw new Error(`no Martian Mono outline for "${char}"`);
+    const x = i * 750;
+    const n = glyph.d.match(/-?\d*\.?\d+/g).map(Number);
+    for (let j = 0; j < n.length; j += 2) {
+      minX = Math.min(minX, x + n[j]);
+      minY = Math.min(minY, n[j + 1]);
+      maxY = Math.max(maxY, n[j + 1]);
+    }
+    return `<path d="${glyph.d}"${x ? ` transform="translate(${x} 0)"` : ''}/>`;
+  });
+  const tx = left - minX * k;
+  const ty = cy - ((minY + maxY) / 2) * k;
+  return `<g transform="translate(${f2(tx)} ${f2(ty)}) scale(${k})" fill="${colour}" stroke="${colour}" stroke-width="${f2(stroke / k)}" stroke-linejoin="round">${placed.join('')}</g>`;
+};
+
 /* `entry` is a catalogue row; `iconPaths` the d attributes of its icon
    file, `iconBox` that file's viewBox size, `iconFillRule` its rule if it
    sets one, `iconJoin` its join style if it asks for one, `iconSilhouette`
@@ -300,9 +335,10 @@ export const composeSticker = ({
    32-and-20 strokes under the fill: 6 of ink, then 10 of white, showing
    outside the shape). The envelope is the pack sticker's own envelope
    (icons/mail-opened.svg), its creases in ink at the edge's weight; a
-   gift box and a badge are plain; a card carries three
-   ruled lines and an ochre seal at its lower right with the seal's icon
-   in white on it. A shape keeps 18 units from the box's sides, since the
+   gift box and a badge are plain; a card carries three ruled lines, or
+   two and a mark in place of the short third, and an ochre seal at its
+   lower right with the seal's icon in white on it. A shape keeps 18
+   units from the box's sides, since the
    ink edge reaches 16 outside it and the box is the picture's edge. */
 const OCHRE = '#f5b726';
 
@@ -363,25 +399,39 @@ const THING_SHAPES = {
     shapeMark(shapeIcon.paths, ground, 176, shapeIcon.lines),
   gift: ({ ground, shapeIcon }) => shapeMark(shapeIcon.paths, ground, 176),
   badge: ({ ground, shapeIcon }) => shapeMark(shapeIcon.paths, ground, 176),
-  card: ({ ground, sealIcon, rules = WHITE }) =>
+  card: ({ ground, sealIcon, rules = WHITE, mark, glyphs }) =>
     [
       skin([roundedRect(18, 46, 164, 108, 10)], ground),
       ruled('M40 80 H118', rules, 6),
       ruled('M40 100 H100', rules, 6),
-      ruled('M40 120 H84', rules, 6),
+      mark ? cardMark(glyphs, mark, rules) : ruled('M40 120 H84', rules, 6),
       seal(sealIcon.paths, sealIcon.fillRule, 150, 122),
     ].join('\n'),
 };
 
 /* `entry` is a THINGS row; `shapeIcon` and `sealIcon` the icon files
    (paths and fill rule) its shape and seal name, when they do; `ground`
-   the colour. */
-export const composeThing = ({ entry, shapeIcon, sealIcon, ground }) => {
+   the colour; `glyphs` the Martian Mono outlines, which only a card with
+   a `mark` needs. */
+export const composeThing = ({
+  entry,
+  shapeIcon,
+  sealIcon,
+  ground,
+  glyphs,
+}) => {
   const draw = THING_SHAPES[entry.shape];
   if (!draw) throw new Error(`no shape "${entry.shape}" for ${entry.slug}`);
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">`,
-    draw({ ground, shapeIcon, sealIcon, rules: entry.rules }),
+    draw({
+      ground,
+      shapeIcon,
+      sealIcon,
+      rules: entry.rules,
+      mark: entry.mark,
+      glyphs,
+    }),
     `</svg>`,
     '',
   ].join('\n');

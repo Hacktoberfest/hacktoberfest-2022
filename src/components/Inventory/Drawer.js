@@ -3,7 +3,12 @@ import { useEffect, useState } from 'react';
 import { my } from 'data/content.mjs';
 import { apiFetchBlob } from 'lib/apiClient.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
-import { certificatePath, itemAction, itemMarks } from 'lib/inventory.mjs';
+import {
+  certificateFilename,
+  certificatePath,
+  itemAction,
+  itemMarks,
+} from 'lib/inventory.mjs';
 import { API_BASE_URL } from 'lib/session.mjs';
 import { downloadBlob } from 'lib/shareImage.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
@@ -53,7 +58,7 @@ const CertificateDownloads = ({ item }) => {
     setFailed(false);
     try {
       const blob = await apiFetchBlob(certificatePath(item, format));
-      downloadBlob(blob, `hacktoberfest-2026-${item.id}-${item.key}.${format}`);
+      downloadBlob(blob, certificateFilename(item, format));
     } catch (_) {
       setFailed(true);
     } finally {

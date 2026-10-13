@@ -3614,8 +3614,8 @@ export const my = {
         `${filled} of ${target} stickers toward Completionist`,
     },
     /* Milestone 4, shown only once Completionist is earned, and on /my
-       alone: no public page names it. Bragging rights and nothing more:
-       nothing ships, nothing unlocks, no DEV badge. */
+       alone: no public page names it. Bragging rights and a certificate:
+       nothing ships, no DEV badge. */
     completionistPlusPlus: {
       tag: 'Milestone 4',
       title: 'Become a Completionist++',
@@ -3625,11 +3625,11 @@ export const my = {
       pendingBadge: (done, total) => `${done} of ${total}`,
       why: {
         earned:
-          'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, and the bragging rights are all yours.',
+          'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, a certificate to show for it, and the bragging rights are all yours.',
         /* `more` is the gap between the two thresholds (five today), so the
            sentence stays true if either moves. */
         pending: (more) =>
-          `You completed Hacktoberfest, but do you want to go one step further? Earn ${numberWord(more).toLowerCase()} additional stickers to earn Completionist++ bragging rights!`,
+          `You completed Hacktoberfest, but do you want to go one step further? Earn ${numberWord(more).toLowerCase()} additional stickers to earn Completionist++ bragging rights and a certificate!`,
       },
       meterLabel: (filled, target) =>
         `${filled} of ${target} stickers toward Completionist++`,

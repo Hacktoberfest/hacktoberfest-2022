@@ -2,7 +2,10 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
-import { buildStickers } from '../scripts/stickers/design/build.mjs';
+import {
+  buildStickers,
+  buildThings,
+} from '../scripts/stickers/design/build.mjs';
 import { CATALOGUE, THINGS } from '../scripts/stickers/design/catalogue.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../src/data/eligibility.mjs';
 import { SECRET_MARK_SVG, svgDataUri } from '../src/lib/secretStickers.mjs';
@@ -27,6 +30,7 @@ test('the reward list carries the milestones and the things that are not sticker
       'fest-certificate-2026',
       'fest-host-certificate-2026',
       'completionist-certificate-2026',
+      'completionist-plus-plus-certificate-2026',
       'fest-mentor-certificate-2026',
       'fest-judge-certificate-2026',
     ],
@@ -142,6 +146,75 @@ test('Completionist++ is the crown and ++ in ochre on forest to ink, as the pipe
 test('a designed row with no paint or label line draws as it always has', async () => {
   for (const slug of ['milestone-completionist', 'survey-pre', 'dev-week-1']) {
     assert.equal(await designed(slug), await committed(slug), slug);
+  }
+});
+
+/* The locker's certificate cards follow their certificates: the
+   participant's paper card ruled in forest, the host's forest card ruled
+   in white, and the two completion cards in the completion look, an ink
+   card ruled in the certificate's ochre frame, the crown seal as it was.
+   The ++ card ends in ++, Martian Mono outlines in the rules' ochre,
+   where the Completionist's short third rule is. */
+const COMPLETION_CARDS = [
+  'completionist-certificate-2026',
+  'completionist-plus-plus-certificate-2026',
+];
+
+test('the completion cards are ink ruled in ochre, the ++ card ending in ++, as the pipeline draws them', async () => {
+  const drawn = await buildThings();
+  for (const slug of COMPLETION_CARDS) {
+    const svg = await committed(slug);
+    assert.equal(svg, drawn[slug], slug);
+    assert.ok(
+      svg.includes('<g fill="#10201d"><path d="M28 46 H172'),
+      `${slug} is an ink card`,
+    );
+    for (const rule of ['M40 80 H118', 'M40 100 H100']) {
+      assert.ok(
+        svg.includes(`<path d="${rule}" fill="none" stroke="#f5b726"`),
+        `${slug} is ruled in ochre`,
+      );
+    }
+    assert.ok(
+      svg.includes(
+        '<circle cx="150" cy="122" r="20" fill="#f5b726" stroke="#10201d" stroke-width="5.4"/>',
+      ),
+      `${slug} keeps its crown seal`,
+    );
+  }
+  const plain = await committed('completionist-certificate-2026');
+  const plus = await committed('completionist-plus-plus-certificate-2026');
+  assert.ok(
+    plain.includes('<path d="M40 120 H84" fill="none" stroke="#f5b726"'),
+    'the Completionist card keeps its short third rule',
+  );
+  assert.ok(!plus.includes('M40 120 H84'), 'the ++ card has no third rule');
+  const glyphs = JSON.parse(
+    await readFile(
+      new URL(
+        '../scripts/stickers/design/martian-mono-glyphs.json',
+        import.meta.url,
+      ),
+      'utf8',
+    ),
+  );
+  assert.equal(
+    plus.split(`<path d="${glyphs['+'].d}"`).length - 1,
+    2,
+    'two pluses in Martian Mono outlines',
+  );
+  assert.ok(
+    plus.includes('fill="#f5b726" stroke="#f5b726"'),
+    'the ++ in the rules’ ochre',
+  );
+});
+
+test('the other locker things draw as they always have', async () => {
+  const drawn = await buildThings();
+  for (const { slug } of THINGS.filter(
+    (entry) => !COMPLETION_CARDS.includes(entry.slug),
+  )) {
+    assert.equal(drawn[slug], await committed(slug), slug);
   }
 });
 

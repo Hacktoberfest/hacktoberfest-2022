@@ -47,7 +47,8 @@ export const REWARD_STICKERS = Object.freeze([
   }),
   /* The known items' own pictures, by their API slugs (lib/inventory.mjs
      ITEM_ART): the Fest certificates, attendee's and host's, the
-     Completionist's, and the mentor's and judge's given by hand. */
+     Completionist's and the Completionist++'s, and the mentor's and
+     judge's given by hand. */
   Object.freeze({
     id: 'fest-certificate-2026',
     art: 'medal',
@@ -62,6 +63,12 @@ export const REWARD_STICKERS = Object.freeze([
   }),
   Object.freeze({
     id: 'completionist-certificate-2026',
+    art: 'medal',
+    ground: 'certificate',
+    shape: 'card',
+  }),
+  Object.freeze({
+    id: 'completionist-plus-plus-certificate-2026',
     art: 'medal',
     ground: 'certificate',
     shape: 'card',

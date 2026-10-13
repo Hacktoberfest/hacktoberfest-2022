@@ -42,6 +42,10 @@ const ITEM_ART = Object.freeze({
     art: 'completionist-certificate-2026',
     sticker: false,
   },
+  'completionist-plus-plus-certificate-2026': {
+    art: 'completionist-plus-plus-certificate-2026',
+    sticker: false,
+  },
   'fest-mentor-certificate-2026': {
     art: 'fest-mentor-certificate-2026',
     sticker: false,
@@ -70,7 +74,10 @@ export const CERTIFICATE_SLUGS = Object.freeze(
   new Set([
     'fest-certificate-2026',
     'fest-host-certificate-2026',
+    /* The Completionist's and the Completionist++'s, granted by their
+       milestones, once, so asked for without a key. */
     'completionist-certificate-2026',
+    'completionist-plus-plus-certificate-2026',
     /* Granted by hand, once, so asked for without a key. */
     'fest-mentor-certificate-2026',
     'fest-judge-certificate-2026',
@@ -83,6 +90,12 @@ export const certificatePath = (item, format) =>
   item.key
     ? `/api/me/items/${encodeURIComponent(item.id)}/${encodeURIComponent(item.key)}/certificate.${format}`
     : `/api/me/items/${encodeURIComponent(item.id)}/certificate.${format}`;
+
+/* The name a downloaded certificate saves as, the API's own
+   (Content-Disposition on the route above): the slug and, for a thing
+   earned more than once, the grant's key. */
+export const certificateFilename = (item, format) =>
+  `hacktoberfest-2026-${item.id}${item.key ? `-${item.key}` : ''}.${format}`;
 
 const GENERIC_ART = Object.freeze({
   physical: { art: 'reward-physical', sticker: false },

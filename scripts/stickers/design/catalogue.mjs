@@ -57,13 +57,20 @@ export const GROUNDS = Object.freeze({
   physical: '#8bb2de',
   digital: '#3d5f58',
   paper: '#f7f7f2',
+  /* The completion certificates' cards, the Completionist's and the
+     Completionist++'s, wear their certificate's ink sheet, ruled in its
+     ochre frame. colors.ink */
+  completion: '#10201d',
 });
 
 /* The locker's things: not stickers, so not hexagons. Each is its own
    shape wearing the sticker's skin (compose.mjs, composeThing): an
    `envelope`; a `gift` box or a `badge`, drawn from the Tabler filled
    icon named by `icon`; or a `card` with a `seal` icon on it and its
-   ruled lines in `rules` when white would not show on its ground. The generic
+   ruled lines in `rules` when white would not show on its ground. A
+   card's `mark` is a word in Martian Mono that takes the place of its
+   short third rule, in the rules' colour: the Completionist++ card's ++.
+   Its letters must be in martian-mono-glyphs.json. The generic
    physical thing is a gift box, not any one thing MLH sends. Slugs are the
    art names the locker asks for (lib/inventory.mjs, lib/stickerImage.mjs):
    one generic per kind, and a known item's own by its API slug. */
@@ -92,11 +99,24 @@ export const THINGS = Object.freeze([
     ground: 'digital',
     seal: 'star',
   },
+  /* The completion certificates' cards follow their certificates the way
+     the participant's and the host's do: the ink sheet for the card, the
+     ochre frame for its rules, the crown seal on both, and ++ ending the
+     Completionist++'s (Jacklyn, 2026-10-13). */
   {
     slug: 'completionist-certificate-2026',
     shape: 'card',
-    ground: 'digital',
+    ground: 'completion',
+    rules: '#f5b726',
     seal: 'crown',
+  },
+  {
+    slug: 'completionist-plus-plus-certificate-2026',
+    shape: 'card',
+    ground: 'completion',
+    rules: '#f5b726',
+    seal: 'crown',
+    mark: '++',
   },
   /* The mentor's and the judge's, given by hand: the host's forest card,
      since all three thank someone for their time, each with its own seal
