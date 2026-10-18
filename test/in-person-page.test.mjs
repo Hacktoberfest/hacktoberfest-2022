@@ -3,6 +3,7 @@ import { access, readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { faq, fests, host, inPerson } from '../src/data/content.mjs';
+import { HACK_DAYS_URLS } from '../src/data/links.js';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -132,11 +133,13 @@ test('/in-person carries its FAQ slice and ends pointing online', async () => {
       `<a[^>]*href="/online/"[^>]*>${escapeRegExp(inPerson.onlineCallout.cta)}</a>`,
     ),
   );
-  /* The fork’s second door. */
+  /* The fork’s second door: MLH Hack Days, now that Fest applications
+     are closed, in a new tab like every outbound link. `html` is already
+     decoded, so the href's ampersands are plain. */
   assert.match(
     html,
     new RegExp(
-      `<a[^>]*href="/host/"[^>]*>${escapeRegExp(inPerson.onlineCallout.secondaryCta)}</a>`,
+      `<a(?=[^>]*target="_blank")[^>]*href="${escapeRegExp(HACK_DAYS_URLS.inPersonCallout)}"[^>]*>${escapeRegExp(inPerson.onlineCallout.secondaryCta)}</a>`,
     ),
   );
 });

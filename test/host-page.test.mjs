@@ -3,7 +3,11 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { host } from '../src/data/content.mjs';
-import { HOST_HANDBOOK_URL } from '../src/data/links.js';
+import {
+  HACK_DAYS_EMAIL,
+  HACK_DAYS_URLS,
+  HOST_HANDBOOK_URL,
+} from '../src/data/links.js';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -93,34 +97,100 @@ test('/host lists the full support story', async () => {
   });
 });
 
-test('/host walks the organizer journey in steps', async () => {
+/* React writes an href's ampersands as &amp;, and every tagged link
+   carries several query parameters. */
+const hrefPattern = (url) => escapeRegExp(url.replace(/&/g, '&amp;'));
+
+/* An outbound link opens in a new tab, the way the handbook link does. */
+const outboundLink = (url, label) =>
+  new RegExp(
+    `<a[^>]*href="${hrefPattern(url)}"[^>]*target="_blank"[^>]*>${escapeRegExp(label)}`,
+  );
+
+/* Fest applications are closed (October 2026): the notice is the first
+   thing in <main>, ahead of the hero, and sends would-be hosts to MLH
+   Hack Days. */
+test('/host opens on the closed notice', async () => {
   const html = await readOutput('host/index.html');
-  host.apply.steps.forEach((step) => {
-    assert.ok(html.includes(step.title), `missing step title: ${step.id}`);
-    assert.ok(html.includes(step.copy), `missing step copy: ${step.id}`);
+  const main = html.slice(html.indexOf('<main'));
+  [host.closed.badge, host.closed.lead, host.closed.body].forEach((line) => {
+    assert.ok(main.includes(line), `missing notice copy: ${line}`);
   });
+  assert.ok(
+    main.indexOf(host.closed.lead) < main.indexOf(host.heading.lead),
+    'the notice should come before the hero',
+  );
+  assert.match(html, outboundLink(HACK_DAYS_URLS.hostNotice, host.closed.cta));
 });
 
-test('/host links the hosting guide and the apply CTA', async () => {
+/* Nothing on the page asks anyone to apply for a Fest any more: no apply
+   CTA, no apply band, no link into the closed application. */
+test('/host no longer asks anyone to apply for a Fest', async () => {
+  const html = await readOutput('host/index.html');
+  assert.ok(!html.includes('Apply to host a Fest'), 'apply CTA still there');
+  assert.ok(
+    !html.includes('Applications are now open'),
+    'apply band still there',
+  );
+  assert.ok(
+    !html.includes('organize.mlh.com/host/hacktoberfest-2026'),
+    'the closed application is still linked',
+  );
+});
+
+test('/host’s hero asks for the directory, then MLH Hack Days', async () => {
   const html = await readOutput('host/index.html');
   assert.match(
     html,
-    new RegExp(`<a[^>]*href="${escapeRegExp(HOST_HANDBOOK_URL)}"[^>]*>`),
+    new RegExp(`<a[^>]*href="/fests/"[^>]*>${escapeRegExp(host.heroCta)}</a>`),
   );
-  /* The apply CTA is an internal link to the hosting hub, not an outbound
-     link to the MLH application: applying starts from "Start your first
-     application" on /my/hosting/, so /host hands off rather than jumping
-     straight out. /my/ would work too, but only after a redirect for
-     hosts and not at all for a first-time applicant, who is not sent on. */
-  const applyLinks = html.match(
+  assert.match(
+    html,
+    outboundLink(HACK_DAYS_URLS.hostHero, host.heroHackDaysCta),
+  );
+});
+
+test('the Hack Day card ends on MLH Hack Days', async () => {
+  const html = await readOutput('host/index.html');
+  const { hackDaysNow } = host.formats;
+  assert.ok(html.includes(hackDaysNow.lead));
+  assert.ok(html.includes(hackDaysNow.body));
+  assert.match(html, outboundLink(HACK_DAYS_URLS.hostFormat, hackDaysNow.cta));
+  // On the Hack Day card, so after its tag and before the Meet Up's.
+  const footIndex = html.indexOf(hackDaysNow.lead);
+  assert.ok(html.indexOf(host.formats.cards[0].title) < footIndex);
+  assert.ok(footIndex < html.indexOf(host.formats.cards[1].title));
+});
+
+/* This month's hosts still land here from the nav: the support card's
+   footer sends them to their hub and the handbook. */
+test('/host links this month’s hosts to their hub and the handbook', async () => {
+  const html = await readOutput('host/index.html');
+  const { guide } = host.support;
+  assert.ok(html.includes(guide.title));
+  assert.ok(html.includes(guide.copy));
+  assert.match(
+    html,
     new RegExp(
-      `<a[^>]*href="/my/hosting/"[^>]*>${escapeRegExp(host.apply.cta)}</a>`,
-      'g',
+      `<a[^>]*href="/my/hosting/"[^>]*>${escapeRegExp(guide.hubCta)}</a>`,
     ),
   );
-  assert.ok(
-    applyLinks && applyLinks.length >= 2,
-    'the apply CTA should render in both the hero and the apply band',
+  assert.match(html, outboundLink(HOST_HANDBOOK_URL, guide.cta));
+});
+
+test('/host closes on what an MLH Hack Day comes with', async () => {
+  const html = await readOutput('host/index.html');
+  const { hackDays } = host;
+  [hackDays.eyebrow, hackDays.body, hackDays.cardTitle, hackDays.note].forEach(
+    (line) => assert.ok(html.includes(line), `missing band copy: ${line}`),
+  );
+  hackDays.perks.forEach((perk) =>
+    assert.ok(html.includes(perk), `missing perk: ${perk}`),
+  );
+  assert.match(html, outboundLink(HACK_DAYS_URLS.hostBand, hackDays.cta));
+  assert.match(
+    html,
+    new RegExp(`<a[^>]*href="mailto:${escapeRegExp(HACK_DAYS_EMAIL)}"`),
   );
 });
 

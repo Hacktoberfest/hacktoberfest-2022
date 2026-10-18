@@ -1,11 +1,13 @@
 import { my } from 'data/content.mjs';
+import { HACK_DAYS_URLS } from 'data/links';
 
 import styles from './WhyHostBand.module.css';
 
-/* The band that closes /my during Preptember, right above the footer —
-   the fests directory's HostCallout ("No Fest near you? That's your
-   cue.") retold as "why host". Same design: a full-bleed sky chapter with
-   the white callout box on it, photo on desktop, one CTA to /host/.
+/* The band that closes /my/hosting for anyone who hasn't applied, right
+   above the footer — the fests directory's HostCallout retold as "why
+   host". Same design: a full-bleed sky chapter with the white callout box
+   on it, photo on desktop, one CTA, which goes to MLH Hack Days now that
+   Fest applications are closed.
 
    Rebuilt as a CSS Module rather than reusing HostCallout itself: that
    component is styled-components, and on /my — which exports in its
@@ -34,7 +36,12 @@ const WhyHostBand = () => (
             </li>
           ))}
         </ol>
-        <a className={styles.cta} href="/host/">
+        <a
+          className={styles.cta}
+          href={HACK_DAYS_URLS.myWhyHost}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {my.whyHost.cta}
         </a>
       </div>

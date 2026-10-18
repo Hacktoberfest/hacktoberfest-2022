@@ -3,8 +3,10 @@ import Head from 'next/head';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import HostSection from 'components/HostSection';
+import ClosedNotice from 'components/HostSection/ClosedNotice';
 import PageHero from 'components/PageHero';
 import { host } from 'data/content.mjs';
+import { HACK_DAYS_URLS } from 'data/links';
 import { absoluteUrl, meta } from 'data/meta';
 
 const HOST_URL = absoluteUrl('/host/');
@@ -38,11 +40,27 @@ const Host = () => (
     </Head>
     <Header standalone />
     <main id="main">
+      <ClosedNotice />
+      {/* Fest applications are closed, so the hero's loud ask is the
+         directory; MLH Hack Days sit beside it for anyone who came here
+         to host. */}
       <PageHero
         eyebrow={host.eyebrow}
         lead={host.heading.lead}
         accent={host.heading.accent}
-        actions={<Button href="/my/hosting/">{host.apply.cta}</Button>}
+        actions={
+          <>
+            <Button href="/fests/">{host.heroCta}</Button>
+            <Button
+              href={HACK_DAYS_URLS.hostHero}
+              target="_blank"
+              rel="noopener noreferrer"
+              $variant="secondary"
+            >
+              {host.heroHackDaysCta}
+            </Button>
+          </>
+        }
       >
         <p>{host.intro}</p>
       </PageHero>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from 'components/Button';
 import Shell from 'components/Shell';
 import { fests } from 'data/content.mjs';
+import { HACK_DAYS_URLS } from 'data/links';
 import { breakpoints, colors, fonts } from 'styles/tokens';
 
 /* The band that closes /fests below the directory, turning a fruitless
@@ -108,7 +109,13 @@ const HostCallout = ({ tone = 'sky' }) => (
           {fests.hostCallout.title}
         </CalloutTitle>
         <CalloutBody>{fests.hostCallout.body}</CalloutBody>
-        <CalloutCta href="/host/">{fests.hostCallout.cta}</CalloutCta>
+        <CalloutCta
+          href={HACK_DAYS_URLS.festsCallout}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {fests.hostCallout.cta}
+        </CalloutCta>
       </div>
       <CalloutPhoto
         $tone={tone}

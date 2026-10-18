@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from 'components/Button';
 import Shell from 'components/Shell';
 import { inPerson } from 'data/content.mjs';
+import { HACK_DAYS_URLS } from 'data/links';
 import { breakpoints, colors, fonts } from 'styles/tokens';
 
 import StickerPile from 'components/WorldLanding/StickerPile';
@@ -81,7 +82,12 @@ const OnlineCallout = () => (
             and becoming the reason their city has one. */}
         <Actions>
           <Button href="/online/">{inPerson.onlineCallout.cta}</Button>
-          <Button href="/host/" $variant="outline">
+          <Button
+            href={HACK_DAYS_URLS.inPersonCallout}
+            target="_blank"
+            rel="noopener noreferrer"
+            $variant="outline"
+          >
             {inPerson.onlineCallout.secondaryCta}
           </Button>
         </Actions>

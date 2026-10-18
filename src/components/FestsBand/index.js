@@ -1,11 +1,6 @@
 import { my } from 'data/content.mjs';
 import { FIND_A_FEST_URL } from 'data/links';
-import {
-  calendarFests,
-  festDidNotAttend,
-  festIsPast,
-  isOrganizing,
-} from 'lib/fests.mjs';
+import { calendarFests, festDidNotAttend, festIsPast } from 'lib/fests.mjs';
 
 import FestCard from './FestCard';
 import styles from './FestsBand.module.css';
@@ -32,14 +27,6 @@ const FestsBand = ({ experience }) => {
     didNotAttend: festDidNotAttend(fest, now.getTime()),
   }));
   const hasFests = fests.length > 0;
-  /* An organizer needs no host pitch at all, so the ghost card goes away,
-     an application in flight included, which is why this reads the full
-     list and not the calendar; anyone else with a Fest on their list
-     found one, so it drops its "No Fest near you" opener. */
-  const organizing = isOrganizing(experience.fests);
-  const hostGhostBody = hasFests
-    ? my.fests.hostGhost.bodyRegistered
-    : my.fests.hostGhost.body;
   const findGhost = hasFests ? my.fests.findGhostMore : my.fests.findGhost;
 
   return (
@@ -73,18 +60,8 @@ const FestsBand = ({ experience }) => {
             <span aria-hidden="true">→</span>
           </a>
         </div>
-        {!organizing && (
-          <div className={styles.ghostCard}>
-            <div className={styles.ghostContent}>
-              <h3 className={styles.ghostTitle}>{my.fests.hostGhost.title}</h3>
-              <p className={styles.ghostBody}>{hostGhostBody}</p>
-            </div>
-            <a className={styles.ghostAction} href="/host/">
-              {my.fests.hostGhost.cta}
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        )}
+        {/* The host ask that used to follow it left /my when Fest
+           applications closed; /my/hosting points to MLH Hack Days. */}
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { LIVE_EVENTS_URL } from '../lib/apiBase.mjs';
 import { campaignFor } from './campaign.mjs';
+import { MLH_HACK_DAYS_URL } from './hackDays.mjs';
 
 /* Ordinary outbound links and Typeform popups use the same campaign values;
    utm_content distinguishes each individual placement. */
@@ -81,24 +82,34 @@ export const FIND_A_FEST_URL = '/fests/';
    utm params on an API endpoint are attribution noise. */
 export const FESTS_API_URL = LIVE_EVENTS_URL;
 
-/* The one link that leaves for the MLH application, reached from /my's
-   Preptember pitch band. /host and the nav both send would-be organizers
-   to /my rather than straight out, so every application now starts on the
-   signed-in hub and carries this single utm_content. The /host-specific
-   constant ('host-apply') retired with that CTA's outbound link: nothing
-   rendered it any more, and a tag no link carries is attribution
-   fiction. */
-export const MY_HOST_APPLY_URL = tagged(
-  'https://organize.mlh.com/host/hacktoberfest-2026',
-  { content: 'my-host-apply' },
-);
-
 /* The Host Handbook — MLH's organizer guide on GitBook, open to everyone
    whether or not they've applied. Untagged like the handbook link on
    /host, which now points here too:
    utm params on a docs link are attribution noise. */
 export const HOST_HANDBOOK_URL =
   'https://mlh.gitbook.io/mlh-hacktoberfest-organizer-guide';
+
+/* MLH Hack Days (data/hackDays.mjs), where every host ask on the site
+   leads now that Fest applications are closed. One tag per placement. */
+export { HACK_DAYS_EMAIL } from './hackDays.mjs';
+
+const hackDays = (content) => tagged(MLH_HACK_DAYS_URL, { content });
+
+export const HACK_DAYS_URLS = Object.freeze({
+  // /host: the closed notice, the hero, the Hack Day card, the closing band.
+  hostNotice: hackDays('host-closed-notice'),
+  hostHero: hackDays('host-hero'),
+  hostFormat: hackDays('host-hack-day-card'),
+  hostBand: hackDays('host-hack-days-band'),
+  // /my/hosting: the two ghost voices and the perks band.
+  myHostingClosed: hackDays('my-hosting-closed'),
+  myHostingAgain: hackDays('my-hosting-run-again'),
+  myWhyHost: hackDays('my-hosting-why-host'),
+  // The "No Fest near you?" asks elsewhere.
+  festsCallout: hackDays('fests-host-callout'),
+  inPersonCallout: hackDays('in-person-callout'),
+  search: hackDays('search-no-match'),
+});
 
 /* The #hacktoberfest-2026 channel in MLH's Discord, in /my's host
    resources band. Untagged for the same reason the handbook is — utm

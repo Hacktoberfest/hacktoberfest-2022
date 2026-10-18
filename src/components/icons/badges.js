@@ -16,6 +16,25 @@ export const PencilIcon = ({ className }) => (
   </svg>
 );
 
+/* A cross, square-capped like the check — a draft application that Fest
+   applications closed before it was sent. */
+export const ClosedIcon = ({ className }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path
+      d="M6 6l12 12M18 6 6 18"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="square"
+    />
+  </svg>
+);
+
 export const CheckIcon = ({ className }) => (
   <svg
     className={className}

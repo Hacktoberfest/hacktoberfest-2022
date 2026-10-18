@@ -28,6 +28,7 @@ import {
   timeline,
 } from '../data/content.mjs';
 import { ACTIVITIES, REQUIRED_STICKERS } from '../data/eligibility.mjs';
+import { HACK_DAYS_EMAIL, MLH_HACK_DAYS_URL } from '../data/hackDays.mjs';
 import { sponsors } from '../data/sponsors.mjs';
 import { LIVE_EVENTS_URL } from '../lib/apiBase.mjs';
 
@@ -72,7 +73,7 @@ const START_HERE = [
   },
   {
     route: '/host/',
-    text: '[Host a Fest](./host/): The Fest formats, the support organizers get, and how to apply to host.',
+    text: '[Host a Fest](./host/): Fest applications are now closed. The Fest formats, the support hosts get, and MLH Hack Days for anyone who still wants to host.',
   },
   {
     route: '/sponsor/',
@@ -331,11 +332,13 @@ const llmsFull = () =>
     ...worldSection('/online/', 'Attend online', online),
     ...worldSection('/in-person/', 'Attend in person', inPerson),
     '## Host a Fest',
+    `${host.closed.lead} ${host.closed.body} (CTA: ${host.closed.cta} — ${MLH_HACK_DAYS_URL})`,
     `${host.eyebrow}. ${headingText(host.heading)}`,
     host.intro,
     host.formats.cards.map(
       (card) => `${card.tag} — ${card.title} ${card.copy.join(' ')}`,
     ),
+    `${host.formats.hackDaysNow.lead} ${host.formats.hackDaysNow.body}`,
     `${host.formats.comparison.label}: ${host.formats.comparison.rows
       .map(
         (row) =>
@@ -343,12 +346,11 @@ const llmsFull = () =>
       )
       .join('. ')}.`,
     host.support.items.map((item) => `${item.title}: ${item.copy}`),
-    host.apply.steps.map(
-      (step, index) => `Step ${index + 1} — ${step.title}: ${step.copy}`,
-    ),
-    // The hosting guide has no published URL yet, so the copy is named
-    // without a link — same honesty rule aiContext follows.
-    `${host.apply.body} (CTA: ${host.apply.cta} — opens the interest form.)`,
+    `${host.support.guide.title} ${host.support.guide.copy}`,
+    `${host.hackDays.eyebrow}. ${headingText(host.hackDays.heading)}`,
+    host.hackDays.body,
+    `${host.hackDays.cardTitle}: ${host.hackDays.perks.join('; ')}. ${host.hackDays.note} (CTA: ${host.hackDays.cta} — ${MLH_HACK_DAYS_URL})`,
+    `${host.hackDays.finePrint} ${HACK_DAYS_EMAIL}.`,
     '## Sponsor Hacktoberfest',
     `${sponsor.eyebrow}. ${headingText(sponsor.heading)}`,
     sponsor.intro,

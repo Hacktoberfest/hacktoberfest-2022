@@ -57,7 +57,8 @@ export const NAV = Object.freeze([
       Object.freeze({
         label: 'Host a Fest',
         href: '/host/',
-        description: 'Bring Hacktoberfest to your community.',
+        // Fest applications are closed; /host says so and points to MLH.
+        description: 'How Fests work, and how to host an MLH Hack Day.',
       }),
     ]),
   }),

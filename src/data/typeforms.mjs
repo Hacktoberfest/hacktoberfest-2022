@@ -12,8 +12,9 @@ const popup = (id, content, hidden) => ({
 /* The header's "Learn about Hosting" is a link to /host/ now, so the old nav popup
    (utm_content 'nav-host') retired with it. The /host apply CTA that
    replaced it is an internal link to /my now, so 'host-apply' retired
-   too — MY_HOST_APPLY_URL in data/links.js is the only tagged apply
-   link left. The hero's own host CTA followed once applications opened:
+   too, and 'my-host-apply' followed when Fest applications closed: every
+   host ask now leads to MLH Hack Days (HACK_DAYS_URLS in data/links.js).
+   The hero's own host CTA followed once applications opened:
    it links to /host/ rather than collecting interest, so 'hero-host'
    retired with it, and 'get-involved-host' went the same way when the
    Get Involved host card's CTA became a link too. Every host ask on the

@@ -696,7 +696,7 @@ const WIRING = [
   {
     file: 'src/pages/my/hosting.js',
     token: '<ApplicationsBand',
-    why: "the hosting hub's first real band: the user's own applications, and — via its ghost — the page's one apply CTA. Without it the hub is a resources card over nothing.",
+    why: "the hosting hub's first real band: the user's own applications, and — via its ghost — the way to MLH Hack Days now that Fest applications are closed. Without it the hub is a resources card over nothing.",
   },
   {
     file: 'src/pages/my/hosting.js',

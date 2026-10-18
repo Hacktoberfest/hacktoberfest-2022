@@ -118,6 +118,15 @@
   background: #f9c9c2;
 }
 
+/* Applications closed: a draft Fest applications closed on before it was
+   sent. Grey, the one rung with no move left for anyone. */
+.badgeClosed {
+  /* colors.paperDeep */
+  background: #e4e5da;
+  /* colors.muted */
+  color: #52635f;
+}
+
 /* Revisions required: the deep red of the palette, inverted like the
    other "act now" badges but pulling the opposite way — the one rung
    that asks the host to fix something rather than finish it, so it
@@ -173,6 +182,15 @@
 
 .cardTime {
   white-space: nowrap;
+}
+
+/* Says why a closed draft has no link, where the footer would be. */
+.cardNote {
+  margin: 10px 0 0;
+  /* colors.inkSoft */
+  color: #284b44;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 /* Where a host opens this Fest's own dashboard, on the cards whose footer

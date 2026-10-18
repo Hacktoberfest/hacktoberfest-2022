@@ -8,6 +8,7 @@ import {
 } from 'react';
 
 import { fests as festsCopy, mapHero } from 'data/content.mjs';
+import { HACK_DAYS_URLS } from 'data/links';
 import { festDateParts, todayIso } from 'lib/festDate.mjs';
 import {
   countrySuggestions,
@@ -226,7 +227,8 @@ const buildGroups = ({
               id: 'host',
               main: copy.host.title,
               sub: copy.host.hint,
-              href: '/host/',
+              // Fest applications are closed: MLH Hack Days instead.
+              href: HACK_DAYS_URLS.search,
             },
           ].filter(Boolean),
         },

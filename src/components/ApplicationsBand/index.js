@@ -3,12 +3,12 @@ import { useCallback, useRef, useState } from 'react';
 import AcknowledgementsModal from 'components/AcknowledgementsModal';
 import PublicationChecksModal from 'components/PublicationChecksModal';
 import { my } from 'data/content.mjs';
-import { MY_HOST_APPLY_URL } from 'data/links';
+import { HACK_DAYS_URLS } from 'data/links';
 import {
   AlertIcon,
   CheckIcon,
+  ClosedIcon,
   HourglassIcon,
-  PencilIcon,
   PlaneIcon,
   StarIcon,
 } from 'components/icons/badges';
@@ -28,9 +28,9 @@ import styles from './ApplicationsBand.module.css';
    flight and confirmed events — as full-width cards, one per row. Badges,
    CTAs, and their copy are the fests band's (my.fests), deliberately: an
    application card here must read identically to the same card in Your
-   Fests when the flag flips. The ghost stands in when there is nothing to
-   list, and its CTA is the application itself — the one ask Preptember
-   exists to make. */
+   Fests when the flag flips. The ghost closes the list; with Fest
+   applications closed, it points at MLH Hack Days rather than the
+   application, and a draft that was never sent shows as closed. */
 
 /* The application badge ladder — the fests band's application rungs,
    with a published event as the top rung. That fallback says
@@ -49,12 +49,17 @@ import styles from './ApplicationsBand.module.css';
 
    Participation badges don't exist here: organizing entries carry no
    status. */
+/* A draft is an application nobody can send any more: Fest applications
+   are closed. Submitted applications, and ones MLH sent back, are still
+   in MLH's hands and keep their rungs. */
+const isClosedDraft = (fest) => fest.applicationStatus === 'draft';
+
 const badgeFor = (fest) => {
-  if (fest.applicationStatus === 'draft') {
+  if (isClosedDraft(fest)) {
     return {
-      label: my.fests.applicationBadges.draft,
-      className: `${styles.badge} ${styles.badgeApplication}`,
-      icon: <PencilIcon className={styles.badgeIcon} />,
+      label: my.applications.closedBadge,
+      className: `${styles.badge} ${styles.badgeClosed}`,
+      icon: <ClosedIcon className={styles.badgeIcon} />,
     };
   }
   if (fest.applicationStatus === 'submitted') {
@@ -127,6 +132,8 @@ const badgeFor = (fest) => {
    links where the host manages it, and anything with a public page links
    there. */
 const actionFor = (fest) => {
+  // The draft's link would lead back into an application that is closed.
+  if (isClosedDraft(fest)) return null;
   if (fest.manageUrl && fest.applicationStatus) {
     return {
       kind: 'link',
@@ -229,6 +236,9 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
             {time && <span className={styles.cardTime}> · {time}</span>}
           </p>
         )}
+        {isClosedDraft(fest) && (
+          <p className={styles.cardNote}>{my.applications.closedNote}</p>
+        )}
         {/* The footer belongs to whatever the rung most needs a host to do
            next — completing acknowledgements, fixing a failing check, or
            publishing in MLH — and the dashboard takes the quieter spot in
@@ -289,12 +299,15 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
 const ApplicationsBand = ({ experience, onFestAcknowledged }) => {
   const fests = organizingFests(experience.fests);
 
-  /* The ghost always closes the list — the application is Preptember's
-     one ask, and the page never stops making it. Voice follows the list:
-     the first-application sell for an empty one, the host-another
-     invitation under real cards. */
-  const ghost =
-    fests.length > 0 ? my.applications.ghostMore : my.applications.ghost;
+  /* The ghost always closes the list, and with Fest applications closed it
+     sends would-be hosts to MLH Hack Days. Voice follows the list: "Fest
+     applications are closed" for an empty one, "Run it again" under real
+     cards. Each voice carries its own tag. */
+  const hasEntries = fests.length > 0;
+  const ghost = hasEntries ? my.applications.ghostMore : my.applications.ghost;
+  const ghostHref = hasEntries
+    ? HACK_DAYS_URLS.myHostingAgain
+    : HACK_DAYS_URLS.myHostingClosed;
 
   return (
     <section className={styles.band} aria-labelledby="applications-heading">
@@ -318,7 +331,7 @@ const ApplicationsBand = ({ experience, onFestAcknowledged }) => {
           </div>
           <a
             className={styles.ghostAction}
-            href={MY_HOST_APPLY_URL}
+            href={ghostHref}
             target="_blank"
             rel="noopener noreferrer"
           >

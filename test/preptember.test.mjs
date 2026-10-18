@@ -6,8 +6,8 @@ import {
   HOST_BRAND_KIT_URL,
   HOST_DISCORD_URL,
   HOST_EMAIL_URL,
+  HACK_DAYS_URLS,
   HOST_HANDBOOK_URL,
-  MY_HOST_APPLY_URL,
 } from '../src/data/links.js';
 import {
   hasOnlyApplications,
@@ -230,14 +230,32 @@ test('the why-host copy carries a title, five perks, CTA, and photo alt', () => 
   my.whyHost.perks.forEach((perk) => assert.ok(perk));
 });
 
-/* The single outbound route to the MLH application. /host and the nav
-   both hand off to /my rather than linking out themselves, so this is the
-   only link that carries an apply tag — pinned here so the destination
-   and the tag can't drift apart unnoticed. */
-test('the /my apply link points at the MLH application and carries its tag', () => {
-  const mine = new URL(MY_HOST_APPLY_URL);
+/* Fest applications are closed (October 2026), so the hosting hub's two
+   ghost voices and its perks band send would-be hosts to MLH Hack Days,
+   never back into the closed Fest application. Each carries its own tag
+   so the placements can be told apart. */
+test('the hosting hub sends would-be hosts to MLH Hack Days, each placement tagged', () => {
+  const placements = {
+    myHostingClosed: 'my-hosting-closed',
+    myHostingAgain: 'my-hosting-run-again',
+    myWhyHost: 'my-hosting-why-host',
+  };
+  Object.entries(placements).forEach(([key, tag]) => {
+    const url = new URL(HACK_DAYS_URLS[key]);
+    assert.equal(url.origin, 'https://www.mlh.com', key);
+    assert.equal(url.pathname, '/hack-days', key);
+    assert.equal(url.searchParams.get('utm_content'), tag, key);
+  });
+  assert.ok(
+    !Object.values(HACK_DAYS_URLS).some((href) =>
+      href.includes('organize.mlh.com/host/hacktoberfest-2026'),
+    ),
+    'no link may lead into the closed Fest application',
+  );
+});
 
-  assert.equal(mine.origin, 'https://organize.mlh.com');
-  assert.equal(mine.pathname, '/host/hacktoberfest-2026');
-  assert.equal(mine.searchParams.get('utm_content'), 'my-host-apply');
+/* A draft can no longer be sent, so its card says why it has no link. */
+test('a closed draft carries its badge and its note', () => {
+  assert.ok(my.applications.closedBadge);
+  assert.match(my.applications.closedNote, /closed/);
 });

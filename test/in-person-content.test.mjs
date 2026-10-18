@@ -168,7 +168,7 @@ test('the nearby band says how many, and the close is a fork', () => {
   assert.match(inPerson.onlineCallout.title, /No Fest near you/);
   assert.match(inPerson.onlineCallout.body, /earn stickers/);
   assert.match(inPerson.onlineCallout.cta, /online/i);
-  assert.equal(inPerson.onlineCallout.secondaryCta, 'Host a Fest');
+  assert.equal(inPerson.onlineCallout.secondaryCta, 'Host a Hack Day');
 });
 
 /* The FAQ answers this page borrows, read against how Fests work: a

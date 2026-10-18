@@ -64,9 +64,13 @@ export const SectionIntroCopy = styled.p`
   color: #34433f;
 `;
 
+/* Cards keep their own heights: the Hack Day card runs longer by its
+   MLH Hack Days foot, and stretching the Meet Up card to match would
+   leave a blank band in it. */
 export const FormatGrid = styled(Shell)`
   display: grid;
   grid-template-columns: 1fr;
+  align-items: start;
   gap: 18px;
 
   @media (min-width: ${breakpoints.tablet}) {
@@ -114,11 +118,10 @@ export const FormatCardCopy = styled.p`
 
 /* The at-a-glance facts, moved inside each card: the old comparison
    table's cell vocabulary (mono values, hairline rows) without saying
-   everything twice. The auto margin pins both cards' facts to a shared
-   bottom edge; the padding keeps a floor under the copy when the cards
-   are the same height. */
+   everything twice. They follow the copy directly, so the two cards'
+   rows line up whenever their copy runs to the same number of lines. */
 export const FormatCardFacts = styled.dl`
-  margin: auto 0 0;
+  margin: 0;
   padding-top: 26px;
 `;
 
@@ -148,6 +151,36 @@ export const FormatCardFactRow = styled.div`
     font-weight: 650;
     text-align: right;
   }
+`;
+
+/* The Hack Day card's foot: MLH Hack Days, the same format still on
+   offer. Bled to the card's edges by its padding so it reads as the
+   card's footer rather than another row of facts. */
+export const FormatCardNow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 20px;
+  margin: 26px -30px -30px;
+  padding: 18px 30px;
+  border-top: 2px solid ${colors.ink};
+  background: ${colors.pinkLight};
+
+  p {
+    margin: 0;
+    font-size: 0.93rem;
+    text-wrap: pretty;
+  }
+`;
+
+export const FormatCardNowLink = styled.a`
+  color: ${colors.ink};
+  font-family: ${fonts.mono};
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-underline-offset: 3px;
+  white-space: nowrap;
 `;
 
 /* The photo reel between the formats and the support story: the same
@@ -425,6 +458,8 @@ export const SupportItemCopy = styled.p`
   text-wrap: pretty;
 `;
 
+/* Stacked at every width: the copy over a row of two buttons, which
+   would crowd the copy into a sliver if they shared one line. */
 export const CardFooter = styled.div`
   display: flex;
   flex-direction: column;
@@ -433,12 +468,6 @@ export const CardFooter = styled.div`
   padding: 24px 28px;
   border-top: 2px solid ${colors.ink};
   background: ${colors.paper};
-
-  @media (min-width: ${breakpoints.tablet}) {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
 `;
 
 /* The card's own headline, the piece that made it read as filler: every
@@ -461,9 +490,15 @@ export const GuideCopy = styled.p`
   text-wrap: pretty;
 `;
 
-/* Outline demotion: the apply CTA one screen later stays the page's
-   only loud button. flex: none keeps the footer row from folding the
-   label when the copy takes its share of the width. */
+export const GuideActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+`;
+
+/* Outline demotion: the hero's Find a Fest and the Hack Days card's
+   button stay the page's only loud ones. flex: none keeps a wrapped row
+   from folding a label. */
 export const GuideButton = styled(Button)`
   flex: none;
   background: transparent;
@@ -475,46 +510,46 @@ export const GuideButton = styled(Button)`
   }
 `;
 
-export const ApplyRoot = styled.section`
+/* The closing band, where the apply band used to be: the forest chapter
+   with the pitch on the left and, on the right, a white card of what an
+   MLH Hack Day comes with. The areas keep the phone order (the card
+   before the small print) and the 1fr tail row keeps the small print
+   under the body when the card runs taller. */
+export const HackDaysRoot = styled.section`
   padding-block: clamp(80px, 9vw, 124px);
   color: ${colors.white};
   border-bottom: 2px solid ${colors.ink};
   background: ${colors.forest};
 `;
 
-/* The apply band as a split: the pitch and the button on the left, the
-   organizer journey as a vertical rail on the right. The areas keep
-   the phone order the centered layout had (steps before the button, so
-   the section still ends on the CTA); the 1fr tail row keeps the
-   button pinned under the body when the rail runs taller. */
-export const ApplySplit = styled(Shell)`
+export const HackDaysSplit = styled(Shell)`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-areas:
     'eyebrow'
     'heading'
     'body'
-    'rail'
-    'button';
+    'card'
+    'fineprint';
 
   @media (min-width: ${breakpoints.tablet}) {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: auto auto auto 1fr;
     column-gap: clamp(40px, 6vw, 90px);
     grid-template-areas:
-      'eyebrow rail'
-      'heading rail'
-      'body    rail'
-      'button  rail';
+      'eyebrow   card'
+      'heading   card'
+      'body      card'
+      'fineprint card';
   }
 `;
 
-export const ApplyEyebrow = styled(Eyebrow)`
+export const HackDaysEyebrow = styled(Eyebrow)`
   grid-area: eyebrow;
   color: ${colors.pinkLight};
 `;
 
-export const ApplyHeading = styled.h2`
+export const HackDaysHeading = styled.h2`
   grid-area: heading;
   margin: 13px 0 0;
   font-family: ${fonts.display};
@@ -534,76 +569,147 @@ export const ApplyHeading = styled.h2`
   }
 `;
 
-export const ApplyBody = styled.p`
+export const HackDaysBody = styled.p`
   grid-area: body;
   max-width: 42ch;
   margin: 22px 0 0;
   text-wrap: pretty;
 `;
 
-/* The organizer journey as a rail: the three steps hang off one
-   vertical rule, each pinned to it by a sky node. */
-export const StepsList = styled.ol`
-  display: flex;
-  flex-direction: column;
+export const HackDaysFinePrint = styled.p`
+  grid-area: fineprint;
+  max-width: 46ch;
+  margin: 34px 0 0;
+  color: rgba(247, 247, 242, 0.82);
+  font-size: 0.85rem;
+  text-wrap: pretty;
+
+  a {
+    color: inherit;
+    text-underline-offset: 3px;
+  }
+`;
+
+export const HackDaysCard = styled.div`
+  grid-area: card;
   align-self: start;
-  gap: 34px;
-  grid-area: rail;
-  margin: 44px 0 0;
-  padding: 8px 0 0 36px;
-  border-left: 2px solid rgba(247, 247, 242, 0.35);
-  list-style: none;
+  margin-top: 44px;
+  padding: clamp(24px, 3vw, 32px);
+  color: ${colors.ink};
+  border: 2px solid ${colors.ink};
+  background: ${colors.white};
+  box-shadow: 7px 7px 0 ${colors.maroon};
 
   @media (min-width: ${breakpoints.tablet}) {
     margin-top: 0;
   }
 `;
 
-export const StepItem = styled.li`
-  position: relative;
-`;
-
-/* The node that ties a step to the rail, sized to sit astride the
-   rule: item content starts 36px right of it, so -44px centers the
-   14px square on the 2px line. */
-export const StepNode = styled.span`
-  position: absolute;
-  top: 4px;
-  left: -44px;
-  width: 14px;
-  height: 14px;
-  border: 2px solid ${colors.ink};
-  background: ${colors.sky};
-`;
-
-export const StepNumber = styled.span`
-  display: block;
-  color: ${colors.sky};
-  font-family: ${fonts.mono};
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-`;
-
-export const StepTitle = styled.h3`
-  margin: 8px 0 0;
+export const HackDaysCardTitle = styled.h3`
+  margin: 0;
   font-family: ${fonts.display};
-  font-size: 1.45rem;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
 `;
 
-export const StepCopy = styled.p`
-  margin: 8px 0 0;
-  color: rgba(247, 247, 242, 0.82);
-  font-size: 0.9rem;
+export const HackDaysList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+`;
+
+export const HackDaysItem = styled.li`
+  display: flex;
+  gap: 12px;
+  font-size: 0.95rem;
   text-wrap: pretty;
 `;
 
-export const ApplyButton = styled(Button)`
-  align-self: start;
-  justify-self: start;
-  grid-area: button;
-  margin-top: 34px;
+/* The list marker, drawn: a tick in the forest green. */
+export const HackDaysCheck = styled.svg`
+  flex: none;
+  margin-top: 2px;
+
+  path {
+    stroke: ${colors.forest};
+  }
+`;
+
+export const HackDaysButton = styled(Button)`
+  margin-top: 26px;
+`;
+
+export const HackDaysNote = styled.p`
+  margin: 16px 0 0;
+  color: ${colors.muted};
+  font-size: 0.85rem;
+`;
+
+/* The band above the hero: Fest applications are closed, and where to
+   go instead. Ochre, the palette's attention colour, so it reads as a
+   notice rather than another chapter of the page. */
+export const ClosedRoot = styled.aside`
+  padding-block: 18px;
+  color: ${colors.ink};
+  border-bottom: 2px solid ${colors.ink};
+  background: ${colors.ochre};
+`;
+
+export const ClosedRow = styled(Shell)`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 32px;
+`;
+
+export const ClosedMessage = styled.div`
+  display: flex;
+  flex: 1 1 520px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+`;
+
+export const ClosedBadge = styled.span`
+  flex: none;
+  padding: 5px 10px;
+  color: ${colors.white};
+  border-radius: 6px;
+  background: ${colors.ink};
+  font-family: ${fonts.mono};
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+`;
+
+export const ClosedText = styled.p`
+  flex: 1 1 320px;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+
+  strong {
+    font-weight: 700;
+  }
+`;
+
+/* A white button with an ink shadow: the maroon shadow the pink buttons
+   wear turns to mud on ochre. */
+export const ClosedButton = styled(Button)`
+  flex: none;
+  background: ${colors.white};
+  box-shadow: 4px 4px 0 ${colors.ink};
+
+  &:hover {
+    background: ${colors.paperDeep};
+    box-shadow: 2px 2px 0 ${colors.ink};
+  }
 `;

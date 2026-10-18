@@ -4,6 +4,7 @@ import test from 'node:test';
 
 import { CLOSED_ROUTES, routeIsClosed } from '../src/data/closedRoutes.mjs';
 import { fests } from '../src/data/content.mjs';
+import { HACK_DAYS_URLS } from '../src/data/links.js';
 import { FESTS_FIXTURES } from '../src/data/festsFixtures.mjs';
 import { festFormatFromName } from '../src/lib/festFormat.mjs';
 import { splitFestName } from '../src/lib/festName.mjs';
@@ -51,10 +52,12 @@ test('/fests invites visitors without a local Fest to host one', async () => {
   /* The callout is static page markup, so it must be in the export — on
      screen whatever the directory's client-side fetch is doing. */
   assert.ok(html.includes(fests.hostCallout.title));
+  /* Fest applications are closed, so the ask is an MLH Hack Day, linked
+     straight to MLH in a new tab. */
   assert.match(
     html,
     new RegExp(
-      `<a[^>]*href="/host/"[^>]*>${escapeRegExp(fests.hostCallout.cta)}</a>`,
+      `<a(?=[^>]*target="_blank")[^>]*href="${escapeRegExp(HACK_DAYS_URLS.festsCallout.replace(/&/g, '&amp;'))}"[^>]*>${escapeRegExp(fests.hostCallout.cta)}</a>`,
     ),
   );
 });

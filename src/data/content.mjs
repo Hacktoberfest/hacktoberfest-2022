@@ -898,9 +898,10 @@ export const mapHero = {
       title: 'Hacktoberfest is online too',
       hint: 'Join from anywhere, all month',
     },
+    // Leads to MLH (HACK_DAYS_URLS.search): Fest applications are closed.
     host: {
-      title: 'Host a Fest in your city',
-      hint: 'Bring Hacktoberfest to your community',
+      title: 'Host a Hack Day in your city',
+      hint: 'MLH Hack Days, on a date you choose',
     },
     /* Announced politely, a beat after typing stops. */
     status: {
@@ -1238,37 +1239,64 @@ export const fests = {
     map: 'Map',
   },
   /* Closes the page below the directory: whatever the search found (or
-     didn't), the answer to a missing Fest is hosting one. Points at
-     /host, which carries the formats and the application. */
+     didn't), the answer to a missing Fest is hosting something. Fest
+     applications are closed, so that something is an MLH Hack Day, and
+     the CTA goes straight to MLH (HACK_DAYS_URLS.festsCallout). */
   hostCallout: {
-    title: 'No Fest near you? That’s your cue.',
-    body: 'Every Fest on this list exists because someone local decided to make it happen. Anyone can host one: a funded Hack Day or a casual Meetup. If your city isn’t on the map yet, you’re exactly the person to fix that.',
-    cta: 'Host a Fest',
+    title: 'No Fest near you? Host a Hack Day.',
+    body: 'Fest applications for 2026 are now closed, but you can still bring people together to build. MLH Hack Days are free, in-person mini hackathons that anyone can host, on a date that works for your community.',
+    cta: 'Host a Hack Day',
     photoAlt:
       'Hack Day participants working on laptops around a table while a host leans in to help',
   },
 };
 
-/* Copy for /host, the organizer-facing page. A Fest is one of two formats:
-   a Hack Day (a funded mini-hackathon — people build projects) or a Meet Up
-   (a lighter gathering, no projects, no MLH funding). "Hack Day" here is an
-   official Fest format name; it resembles MLH's separate Hack Days program
-   (mlh.com/hack-days) but is not it, so the copy never links that program.
+/* Copy for /host, the hosting page. A Fest is one of two formats: a Hack
+   Day (a funded mini-hackathon — people build projects) or a Meet Up (a
+   lighter gathering, no projects, no MLH funding).
+
+   Fest applications closed in October 2026, so the page no longer asks
+   anyone to apply. It explains how Fests work, sends attendees to the
+   directory and current hosts to their hub, and points anyone who still
+   wants to host at MLH Hack Days (mlh.com/hack-days): MLH's own program,
+   the same shape as the Fest format of the same name. The page used to
+   keep the two apart and never link that program; with Fests closed,
+   linking it is the point, and the copy always says "MLH Hack Day" so
+   the two never read as one thing. Every Hack Days claim here comes
+   from MLH's page and its organizer guide.
+
    The support items restate what the FAQ already promises; nothing here
    offers more than the FAQ does, so the two can't drift apart in
    substance. */
 export const host = {
   title: 'Host a Fest | Hacktoberfest 2026',
   description:
-    'Bring Hacktoberfest to your city. Host a one-day, in-person Hack Day or Meet Up about open source AI. Compare the formats, see the support organizers get, and apply to host.',
+    'Fest applications for Hacktoberfest 2026 are now closed. See how Fests work, find one near you, or host an MLH Hack Day instead.',
+  /* The band above the hero, on the page and nowhere else: the first
+     thing anyone arriving to apply reads. */
+  closed: {
+    badge: 'Applications closed',
+    lead: 'Fest applications are now closed.',
+    body: 'Still want to host? MLH Hack Days are taking applications.',
+    cta: 'Go to MLH Hack Days',
+  },
   eyebrow: 'Attend in-person · Host a Fest',
-  heading: { lead: 'Bring Hacktoberfest', accent: 'to your city.' },
-  intro: 'Anyone can host a Fest. Choose between a Hack Day or a Meet Up.',
+  heading: { lead: 'Hosted by', accent: 'people like you.' },
+  intro:
+    'Every Fest this October exists because someone local raised their hand. Hosts are running Hack Days and Meet Ups all month. Find one near you, or see how the day works below.',
+  heroCta: 'Find a Fest',
+  heroHackDaysCta: 'Host an MLH Hack Day',
   formats: {
     eyebrow: 'The formats',
     heading: { lead: 'Two ways to', accent: 'run the day.' },
-    intro:
-      'Every Fest is one day and in person. From there, pick the format that fits your community.',
+    intro: 'Every Fest is one day and in person, in one of two formats.',
+    /* The foot of the Hack Day card: the format, still on offer from
+       MLH under its own name. */
+    hackDaysNow: {
+      lead: 'Want to run one now?',
+      body: 'MLH Hack Days work the same way.',
+      cta: 'Host an MLH Hack Day',
+    },
     cards: [
       {
         id: 'hack-day',
@@ -1397,51 +1425,49 @@ export const host = {
       {
         id: 'promotion',
         title: 'Promotion',
-        copy: 'Your Fest is listed in our searchable directory and promoted across MLH and DEV channels.',
+        copy: 'Every Fest is listed in our searchable directory and promoted across MLH and DEV channels.',
       },
       {
         id: 'programming',
         title: 'Programming support',
-        copy: 'Help shaping your Fest activities so you’re not starting from scratch.',
+        copy: 'Help shaping Fest activities, so no host starts from scratch.',
       },
       {
         id: 'funding',
         title: 'Funding',
-        copy: 'Hack Day organizers receive funding to help cover their event, with financial reimbursement from MLH for certain event-related expenses. Meet Ups run without MLH funding.',
+        copy: 'Hack Day hosts receive funding, with reimbursement from MLH for certain event expenses. Meet Ups run without MLH funding.',
       },
     ],
+    /* The card's footer, for the hosts running Fests this month: their
+       hub first, the handbook beside it. */
     guide: {
-      /* Not "start from scratch" again: the programming support item
-         directly above already uses that phrase. */
-      title: 'The manual for all of it.',
-      copy: 'From booking venues to event programming to getting your swag, the host handbook has all the information you need.',
+      title: 'Hosting a Fest this month?',
+      copy: 'Your dashboard and check-ins are on your hosting hub. The host handbook covers the rest, from the day itself to wrapping up.',
+      hubCta: 'Your hosting hub',
       cta: 'Read the host handbook',
     },
   },
-  apply: {
-    eyebrow: 'Apply to host',
-    heading: { lead: 'Ready to host', accent: 'your Fest?' },
-    body: 'Applications are now open and Fests are confirmed on a rolling basis.',
-    /* The organizer journey as three steps; the middle one carries the
-       confirmation promise that used to be a support item. */
-    steps: [
-      {
-        id: 'apply',
-        title: 'Apply',
-        copy: 'Tell us about your community and the type of Fest you want to run.',
-      },
-      {
-        id: 'confirmed',
-        title: 'Get confirmed',
-        copy: 'Fests are confirmed on a rolling basis, within a week of a completed application.',
-      },
-      {
-        id: 'host',
-        title: 'Host your Fest',
-        copy: 'Get ready to run your Hack Day or Meet Up!',
-      },
+  /* The closing band, where the apply band used to be: what an MLH Hack
+     Day comes with, in MLH's own terms (3 to 12 hours, the event pack,
+     food reimbursed per checked-in hacker, OrganizerHQ), and the month's
+     notice MLH asks for. */
+  hackDays: {
+    eyebrow: 'Applications closed',
+    heading: { lead: 'Missed the window?', accent: 'Host a Hack Day.' },
+    body: 'Fest applications for 2026 are now closed. MLH Hack Days are MLH’s own mini hackathons: the same shape as a Fest Hack Day, on a date you choose.',
+    cardTitle: 'An MLH Hack Day comes with',
+    perks: [
+      '3 to 12 hours of building, in person and free to attend',
+      'An event pack of stickers, partner swag and prizes',
+      'Food reimbursed for every hacker who checks in',
+      'Registration and check-in on OrganizerHQ, no website needed',
     ],
-    cta: 'Apply to host a Fest',
+    cta: 'Host an MLH Hack Day',
+    note: 'Apply at least a month before your date.',
+    /* Followed by MLH's address for Hack Day questions (HACK_DAYS_EMAIL
+       in data/links.js), linked by the component. */
+    finePrint:
+      'MLH Hack Days are a Major League Hacking program, separate from Hacktoberfest. Questions about hosting one go to',
   },
 };
 /* The two world landing pages: the marketing case for attending online
@@ -1811,9 +1837,10 @@ export const inPerson = {
      the one place this page points at the other world. */
   onlineCallout: {
     title: 'No Fest near you?',
-    body: 'Join our online events and earn stickers from wherever you are. Our sticker pack ships worldwide. Or, bring a Fest to your city: anyone can host one.',
+    body: 'Join our online events and earn stickers from wherever you are. Our sticker pack ships worldwide. Or host an MLH Hack Day in your city, on a date you choose.',
     cta: 'Attend online',
-    secondaryCta: 'Host a Fest',
+    // Straight to MLH (HACK_DAYS_URLS.inPersonCallout): Fests are closed.
+    secondaryCta: 'Host a Hack Day',
   },
 };
 
@@ -2385,7 +2412,7 @@ export const aiContext = {
   orientation:
     'Hacktoberfest is an annual event stewarded by Major League Hacking (MLH) and DEV, with presenting partner DigitalOcean. It began in 2014 as a pull-request challenge run by DigitalOcean. In 2026 it becomes an event you take part in: 300+ community-hosted, one-day “Fests”, plus an online event open to everyone. The focus is hands-on building with open models, open source agents, and open tooling.',
   participation: [
-    'Hosting is the live call to action. Anyone can host a Fest: a meetup group, a university club, or a few coworkers with a room to book. Fests come in two formats: Hack Days, funded mini-hackathons where people build projects, and Meet Ups, lighter gatherings that MLH does not fund. Every organizer gets swag and programming support. Applications are open, and Fests are confirmed on a rolling basis.',
+    'Fest applications are now closed. Fests run through October in two formats: Hack Days, funded mini-hackathons where people build projects, and Meet Ups, lighter gatherings that MLH does not fund. Anyone who still wants to host can apply to host an MLH Hack Day (https://www.mlh.com/hack-days), a separate MLH program of free, in-person mini hackathons held on a date the host picks.',
     'Sponsorship has its own page at /sponsor/: the confirmed sponsor wall, the campaign footprint, and how to start sponsor setup or request partnership info.',
     'Confirmed Fests are published at /fests/, searchable by name, city, or country, with a map and a nearest-to-me sort. Individual Fests set their own attendee sign-up, linked from the directory. More Fests are added as they are approved, so the list grows through Preptember.',
   ],
@@ -2477,11 +2504,14 @@ export const my = {
      cards. Badges and CTAs reuse my.fests wholesale (same rungs, same
      words), so this object only holds the frame.
 
-     The ghost always renders, after any cards, because the application
-     is Preptember's one ask and the page never stops making it. Two
-     voices: `ghost` sells the first application to an empty list,
-     `ghostMore` invites a host to add another — "anyone can host" is
-     noise to someone already hosting. */
+     The ghost always renders, after any cards. Fest applications are
+     closed, so neither voice asks for one any more; both send would-be
+     hosts to MLH Hack Days. `ghost` speaks to an empty list, `ghostMore`
+     to a host with Fests already on it, who knows the format.
+
+     A draft can no longer be finished: it wears `closedBadge` and
+     `closedNote` and loses its link. Submitted applications, and ones MLH
+     sent back for revisions, keep theirs while MLH reviews them. */
   applications: {
     heading: { lead: 'Your', accent: 'applications.' },
     lede: 'Here are your Fest applications.',
@@ -2492,15 +2522,18 @@ export const my = {
        has not published yet. Naming the publish is what tells the two
        apart; "Hosting" is October's word, in Your Fests. */
     publishedBadge: 'Event Published',
+    closedBadge: 'Applications closed',
+    closedNote:
+      'This application wasn’t submitted before Fest applications closed.',
     ghost: {
-      title: 'Start your first application.',
-      body: 'Anyone can host a Fest this October — a funded Hack Day or a lighter Meetup with swag. Applications are confirmed on a rolling basis, usually within a week.',
-      cta: 'Apply to host a Fest',
+      title: 'Fest applications are closed.',
+      body: 'Want to host something of your own? MLH Hack Days are free, in-person mini hackathons on a date you choose, and they’re taking applications.',
+      cta: 'Go to MLH Hack Days',
     },
     ghostMore: {
-      title: 'Host another Fest.',
-      body: 'Want to run both a Hack Day and a Meetup? Want to run Fests in multiple cities? The sky’s the limit.',
-      cta: 'Start another application',
+      title: 'Run it again.',
+      body: 'Fest applications are closed, but MLH Hack Days run the way your Fest did, on a date you choose.',
+      cta: 'Host an MLH Hack Day',
     },
   },
   /* /my/fest/ — one Fest, as its hosts see it. The numbers come from MLH:
@@ -3340,25 +3373,24 @@ export const my = {
       },
     ],
   },
-  /* Closes the Preptember page above the footer — the fests directory's
-     "That's your cue." callout retold as "why host", the pitch as four
-     numbered perk rows rather than a paragraph. Every row that promises
-     something restates a host.support item, so this list can never
-     promise more than /host does — funding stays Hack-Day-only here for
-     the same reason it does there. The last row promises nothing; it
-     closes the pitch on the feeling rather than the perks. The CTA points at /host/, which carries the formats and the
-     application; the direct apply link already lives in the applications
-     ghost above, so this band sells rather than repeats the ask. */
+  /* Closes /my/hosting for anyone who hasn't applied — the fests
+     directory's callout retold as "why host", the pitch as numbered perk
+     rows rather than a paragraph. With Fest applications closed it pitches
+     MLH Hack Days instead, and every row that promises something restates
+     host.hackDays (MLH's own terms), so this list can never promise more
+     than /host does. The last row promises nothing; it closes the pitch on
+     the feeling rather than the perks. The CTA goes straight to MLH
+     (HACK_DAYS_URLS.myWhyHost). */
   whyHost: {
-    title: 'Perks for Hosts',
+    title: 'Perks for MLH Hack Day hosts',
     perks: [
-      'Stickers, t-shirts, and swag for your participants',
-      'MLH funding if you’re hosting a Hack Day',
-      'Programming support, so you’re not planning your day alone',
-      'Promotion in the Fests directory and across MLH and DEV channels',
+      'An event pack of stickers, partner swag and prizes',
+      'Food reimbursed for every hacker who checks in',
+      'Registration and check-in on OrganizerHQ, no website needed',
+      'A guide for every step, from booking a room to getting reimbursed',
       'TFW you’ve brought your community together',
     ],
-    cta: 'Host a Fest',
+    cta: 'Host an MLH Hack Day',
     photoAlt:
       'Hack Day participants working on laptops around a table while a host leans in to help',
   },
@@ -3811,10 +3843,11 @@ export const my = {
       rejected: 'Revise your application',
     },
     viewFestCta: 'View fest',
-    /* The two ghost cards in the fests grid — dashed like the directory's
-       empty state: slots waiting to be filled, not Fests. findGhost stands
-       in for the grid when there are no Fests yet, paired with hostGhost's
-       standing nudge that Fests need hosts too. */
+    /* The ghost card in the fests grid — dashed like the directory's
+       empty state: a slot waiting to be filled, not a Fest. findGhost
+       stands in for the grid when there are no Fests yet. A second ghost,
+       the host ask, was dropped from /my when Fest applications closed
+       (2026-10-18); /my/hosting carries the MLH Hack Days ask instead. */
     findGhost: {
       title: 'Find your first Fest.',
       body: 'Hundreds of one-day Fests are happening across the world this October. There’s probably one near you.',
@@ -3828,16 +3861,6 @@ export const my = {
       title: 'Register for another Fest.',
       body: 'Fests run all October, all over the world. Grab a spot at another one near you.',
       cta: 'Find a Fest',
-    },
-    hostGhost: {
-      title: 'Host your own Fest.',
-      body: 'No Fest near you, or want to lead one yourself? Anyone can host a Hack Day or a Meetup.',
-      /* Swapped in when the user is already registered for a Fest but not
-         hosting one — "No Fest near you" doesn't apply to someone who
-         found theirs. */
-      bodyRegistered:
-        'Want to lead one yourself? Anyone can host a Hack Day or a Meetup.',
-      cta: 'Host a Fest',
     },
   },
   /* The band under the account strip that points hosts at the other hub.
