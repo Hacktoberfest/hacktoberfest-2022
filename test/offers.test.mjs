@@ -37,6 +37,7 @@ const card = (overrides = {}) => ({
       { kind: 'verified_phone', met: true },
       { kind: 'github_oauth', met: false },
     ],
+    codesRemaining: 12,
   },
   ...overrides,
 });
@@ -142,7 +143,21 @@ test('a promo MLH gave no label is still a promo', () => {
     description: null,
     restrictions: null,
     requirements: [],
+    codesRemaining: null,
   });
+});
+
+test('codes left is a whole count, else unknown', () => {
+  const left = (codesRemaining) =>
+    normalizeOffers([
+      card({ promo: { poolId: 'p1', eventId: 'e1', codesRemaining } }),
+    ])[0].promo.codesRemaining;
+
+  assert.equal(left(0), 0);
+  assert.equal(left(1200), 1200);
+  for (const bad of [undefined, null, -1, 1.5, '12']) {
+    assert.equal(left(bad), null, String(bad));
+  }
 });
 
 test('a promo from an API that predates requirements has none', () => {
@@ -298,6 +313,12 @@ test('a promo is locked only by a step MLH says is not done', () => {
   assert.equal(promoLocked(promo(null, null)), false);
   assert.equal(promoLocked(promo(false)), true);
   assert.equal(promoLocked(promo(true, null, false)), true);
+});
+
+test('a promo with every code claimed is locked; an unknown count is not', () => {
+  assert.equal(promoLocked({ requirements: [], codesRemaining: 0 }), true);
+  assert.equal(promoLocked({ requirements: [], codesRemaining: 3 }), false);
+  assert.equal(promoLocked({ requirements: [], codesRemaining: null }), false);
 });
 
 test('offersWithCodes keeps only sponsors with a code, in the API order', () => {

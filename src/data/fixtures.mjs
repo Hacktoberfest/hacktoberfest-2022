@@ -1956,7 +1956,8 @@ export const EMPTY_FEST_DASHBOARD = Object.freeze({
    Requirements follow the same rule: the made-up Acme pool carries one met
    and two unmet (an account step and a check-in), so every line is
    reviewable, and DigitalOcean's carries
-   none, so the review build says nothing about what the real pool asks. */
+   none, so the review build says nothing about what the real pool asks.
+   Codes left likewise: Acme's are all claimed, DigitalOcean's unknown. */
 export const OFFERS = Object.freeze([
   {
     company: { id: 'company-acme-cloud', name: 'Acme Cloud', logoUrl: null },
@@ -1982,6 +1983,7 @@ export const OFFERS = Object.freeze([
         { kind: 'github_oauth', met: false },
         { kind: 'checked_in', met: false },
       ],
+      codesRemaining: 0,
     },
   },
   {
@@ -2007,6 +2009,7 @@ export const OFFERS = Object.freeze([
       description: '$25 of DigitalOcean credit.',
       restrictions: 'New DigitalOcean accounts only. One per person.',
       requirements: [],
+      codesRemaining: null,
     },
   },
   {

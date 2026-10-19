@@ -66,12 +66,19 @@ const requirementFrom = (value) => {
 };
 
 /* Whether a code is locked: MLH says a step it needs is not done (a phone
-   to verify, a GitHub account to connect, a check-in at the Fest). Its
-   button greys out, since MLH's claim page would refuse it. Unknown (`met`
-   null, the API could not read the account) is not a lock: the button stays
-   live and MLH's claim page checks again. */
+   to verify, a GitHub account to connect, a check-in at the Fest), or that
+   every code is claimed. Its button greys out, since MLH's claim page would
+   refuse it. Unknown (`met` or `codesRemaining` null, the API could not
+   tell) is not a lock: the button stays live and MLH's claim page checks
+   again. */
 export const promoLocked = (promo) =>
+  promo.codesRemaining === 0 ||
   promo.requirements.some((requirement) => requirement.met === false);
+
+/* How many codes MLH has left; null when the API does not say, as one
+   that predates the count does not. */
+const countFrom = (value) =>
+  Number.isInteger(value) && value >= 0 ? value : null;
 
 /* The rows /my/promos/ lists: the codes. A sponsor with only a challenge
    has no row; its challenge shows only as the small link on its own code,
@@ -94,6 +101,7 @@ const promoFrom = (value) => {
     requirements: Array.isArray(value.requirements)
       ? value.requirements.map(requirementFrom).filter(Boolean)
       : [],
+    codesRemaining: countFrom(value.codesRemaining),
   };
 };
 

@@ -3948,6 +3948,13 @@ export const my = {
     claiming: 'Getting your code…',
     claimFailed: 'We couldn’t get your code link. Please try again.',
     claimUnavailable: 'This code isn’t available to you any more.',
+    /* The line under a code's fine print: how many MLH has left, or that
+       none are, which also greys its button out. */
+    codesLeft: (count) =>
+      count === 1
+        ? '1 code left.'
+        : `${count.toLocaleString('en-US')} codes left.`,
+    outOfCodes: 'All codes have been claimed for now.',
     /* The small line under a code for each of its sponsor's challenges,
        ahead of the challenge's name. */
     challenge: {
