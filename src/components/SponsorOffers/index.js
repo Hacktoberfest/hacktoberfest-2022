@@ -148,18 +148,15 @@ const RequirementLine = ({ requirement }) => {
   );
 };
 
-/* How many codes MLH has left, muted; once none are, the alert says so
-   and promoLocked greys the button out. Nothing when the API does not
-   say. */
-const CodesLeftLine = ({ count }) => {
-  if (count === null) return null;
-  return (
+/* A muted alert once MLH has no codes left, when promoLocked also greys
+   the button out. How many are left is never shown. */
+const OutOfCodesLine = ({ count }) =>
+  count === 0 ? (
     <p className={styles.locked}>
-      {count === 0 && <AlertIcon />}
-      <span>{count === 0 ? copy.outOfCodes : copy.codesLeft(count)}</span>
+      <AlertIcon />
+      <span>{copy.outOfCodes}</span>
     </p>
-  );
-};
+  ) : null;
 
 /* The sponsor's challenge, small, under its code. */
 const ChallengeLine = ({ challenge }) => (
@@ -217,7 +214,7 @@ const CodeRow = ({ offer }) => {
       <h3 className={styles.title}>{promo.label || company.name}</h3>
       <div className={styles.body}>
         {finePrint && <p className={styles.text}>{finePrint}</p>}
-        <CodesLeftLine count={promo.codesRemaining} />
+        <OutOfCodesLine count={promo.codesRemaining} />
         {promo.requirements.map((requirement) => (
           <RequirementLine key={requirement.kind} requirement={requirement} />
         ))}

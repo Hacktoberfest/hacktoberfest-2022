@@ -20,8 +20,6 @@ const strings = [
   copy.claiming,
   copy.claimFailed,
   copy.claimUnavailable,
-  copy.codesLeft(1),
-  copy.codesLeft(1200),
   copy.outOfCodes,
   copy.challenge.dev,
   copy.challenge.other,
@@ -183,9 +181,4 @@ test('the /my resources band leads here and to the Discord', () => {
       assert.doesNotMatch(value, /organi[sz]er/i, value);
       assert.doesNotMatch(value, /—/, value);
     });
-});
-
-test('codes left reads as a count', () => {
-  assert.equal(copy.codesLeft(1), '1 code left.');
-  assert.equal(copy.codesLeft(1200), '1,200 codes left.');
 });
