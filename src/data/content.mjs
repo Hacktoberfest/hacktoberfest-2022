@@ -3964,7 +3964,8 @@ export const my = {
        told to redo a step they have done. A done step shows nothing. While a
        step is not done the button greys out; when MLH could not tell, it
        stays live and MLH's claim page checks again. A check-in has nothing
-       to do on MyMLH, so it has no `act` and no link. */
+       to do on MyMLH, so it has no `act` and no link, and nor does a GitHub
+       account too new to claim with: only time fixes that. */
     requirements: {
       verified_phone: {
         needs: 'Needs a verified phone number on MyMLH.',
@@ -3973,6 +3974,9 @@ export const my = {
       github_oauth: {
         needs: 'Needs a connected GitHub account on MyMLH.',
         act: 'Connect it',
+      },
+      github_account_age: {
+        needs: 'Needs a GitHub account at least 30 days old.',
       },
       checked_in: {
         needs: 'Unlocks once you check in at your Fest.',

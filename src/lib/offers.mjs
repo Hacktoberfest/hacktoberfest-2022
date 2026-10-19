@@ -55,7 +55,12 @@ const challengeFrom = (value) => {
    for survive; a `met` that is not a boolean is the API saying it could not
    check, which the card states neutrally. An API that predates requirements
    sends none, and none is what the card shows. */
-const REQUIREMENT_KINDS = ['verified_phone', 'github_oauth', 'checked_in'];
+const REQUIREMENT_KINDS = [
+  'verified_phone',
+  'github_oauth',
+  'github_account_age',
+  'checked_in',
+];
 
 const requirementFrom = (value) => {
   if (!value || !REQUIREMENT_KINDS.includes(value.kind)) return null;

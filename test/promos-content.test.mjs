@@ -130,6 +130,7 @@ test('every account requirement says what it needs on MyMLH and how to act', () 
   assert.deepEqual(Object.keys(copy.requirements), [
     'verified_phone',
     'github_oauth',
+    'github_account_age',
     'checked_in',
   ]);
   [copy.requirements.verified_phone, copy.requirements.github_oauth].forEach(
@@ -144,6 +145,13 @@ test('every account requirement says what it needs on MyMLH and how to act', () 
 test('the check-in requirement says only what unlocks the code', () => {
   assert.deepEqual(copy.requirements.checked_in, {
     needs: 'Unlocks once you check in at your Fest.',
+  });
+});
+
+/* Only waiting makes a GitHub account old enough, so there is nothing to act on. */
+test('the GitHub account age requirement says only how old the account must be', () => {
+  assert.deepEqual(copy.requirements.github_account_age, {
+    needs: 'Needs a GitHub account at least 30 days old.',
   });
 });
 
