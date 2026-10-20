@@ -173,7 +173,12 @@ const page = ({ animationFrames = true } = {}) => {
       const url = el.getAttribute(attr).split('?')[0];
       return [...head.children]
         .reverse()
-        .find((c) => (c.getAttribute(attr) || '').split('?')[0] === url);
+        .find(
+          (c) =>
+            c.tagName === el.tagName &&
+            c.getAttribute('rel') === el.getAttribute('rel') &&
+            (c.getAttribute(attr) || '').split('?')[0] === url,
+        );
     },
   };
 };
@@ -425,26 +430,85 @@ test('a browser without animation frames still gets the retry and the hold', () 
   assert.notEqual(p.latest(original), original);
 });
 
-test('scripts and preloads are retried without holding the page', () => {
+test('a script is retried without holding the page', () => {
   const p = page();
   const chunk = p.add('script', {
     src: '/_next/static/chunks/pages/my-b723e6ae59947f9c.js',
     defer: '',
   });
-  const preload = p.add('link', {
-    rel: 'preload',
-    href: SHARED_CSS,
-    as: 'style',
-  });
 
   p.fail(chunk);
-  p.fail(preload);
 
   const retriedChunk = p.latest(chunk);
   assert.match(retriedChunk.getAttribute('src'), /\?__retry=1-/);
   assert.equal(retriedChunk.async, false);
-  assert.match(p.latest(preload).getAttribute('href'), /\?__retry=1-/);
   assert.equal(p.held(), false);
+});
+
+/* A preload or a prefetch fetches for a tag that asks for the same URL
+   itself, so a retry of one under a new URL is a file nothing ever uses. */
+test('preloads and prefetches are not retried', () => {
+  const p = page();
+  const links = [
+    { rel: 'preload', href: SHARED_CSS, as: 'style' },
+    {
+      rel: 'preload',
+      href: '/_next/static/chunks/pages/my-b723e6ae59947f9c.js',
+      as: 'script',
+    },
+    {
+      rel: 'modulepreload',
+      href: '/_next/static/chunks/pages/my-b723e6ae59947f9c.js',
+    },
+    {
+      rel: 'prefetch',
+      href: '/_next/static/chunks/pages/activities-0a8e3a1b2c4d5e6f.js',
+      as: 'script',
+    },
+  ].map((attributes) => p.add('link', attributes));
+
+  for (const link of links) p.fail(link);
+
+  assert.equal(p.head.children.length, links.length);
+  assert.equal(p.held(), false);
+});
+
+/* Next links a preload ahead of every stylesheet it puts in the head, and
+   a URL Cloudflare has pinned to a 404 fails every tag that asks for it.
+   The retries are counted per URL, so the preload's failures must not
+   spend the ones the stylesheet needs. */
+test('a preload that 404s leaves its stylesheet every retry', () => {
+  const p = page();
+  p.add('link', { rel: 'preload', href: SHARED_CSS, as: 'style' });
+  const original = stylesheet(p, SHARED_CSS);
+
+  const failed = new Set();
+  const failEverything = () => {
+    const due = p.head.children.filter((c) => !failed.has(c));
+    for (const el of due) {
+      failed.add(el);
+      p.fail(el);
+    }
+    return due.length;
+  };
+
+  for (let i = 0; i < ASSET_RETRY_MAX; i++) {
+    failEverything();
+    assert.equal(p.held(), true, `still held after round ${i + 1}`);
+  }
+  assert.match(
+    p.latest(original).getAttribute('href'),
+    new RegExp(`\\?__retry=${ASSET_RETRY_MAX}-`),
+  );
+
+  failEverything();
+  assert.equal(p.held(), false);
+  assert.equal(failEverything(), 0, 'nothing left to retry');
+  assert.equal(
+    p.head.children.filter((c) => c.getAttribute('rel') === 'stylesheet')
+      .length,
+    1 + ASSET_RETRY_MAX,
+  );
 });
 
 test('a stylesheet from anywhere but /_next/ is neither retried nor held for', () => {

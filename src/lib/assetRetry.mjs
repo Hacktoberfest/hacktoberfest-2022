@@ -21,7 +21,10 @@
 
    Bounded per URL, so a genuinely absent file 404s its ten times and stops,
    leaving the page exactly where it would have been anyway. Nothing is
-   retried that did not announce its own failure.
+   retried that did not announce its own failure, and only stylesheets and
+   scripts are retried at all. Next puts a preload ahead of every
+   stylesheet, and both fail when the URL does; the ten are counted per
+   URL, so retried preloads would leave the stylesheet about five.
 
    What the hold is for (Oct 20, 2026): the two App Platform apps shipped
    one commit with different names for /my's shared CSS chunk, and a
@@ -184,13 +187,11 @@ export const assetRetryScript = `(function () {
   }
   function retry(el) {
     var isScript = el.tagName === 'SCRIPT';
+    var isStylesheet = !isScript;
     var attr = isScript ? 'src' : 'href';
     var value = el.getAttribute(attr);
     if (!value || value.indexOf('/_next/') === -1) return;
     var url = value.split('?')[0];
-    /* Only a stylesheet holds the page. A preload of one paints nothing,
-       and the stylesheet that uses it reports its own failure. */
-    var isStylesheet = !isScript && (el.getAttribute('rel') || '').toLowerCase() === 'stylesheet';
     tries[url] = (tries[url] || 0) + 1;
     if (tries[url] > MAX) {
       if (isStylesheet) settle(url);
@@ -214,10 +215,14 @@ export const assetRetryScript = `(function () {
     }
     (el.parentNode || document.head).insertBefore(next, el.nextSibling);
   }
+  /* A preload, or the router's prefetch of a page it links to, is not
+     retried: it fetches for a tag that asks for the same URL itself, so a
+     retry under a new URL is a file nothing uses, and its failures would
+     spend the count that tag needs. */
   window.addEventListener('error', function (event) {
     var el = event.target;
     if (!el || !el.tagName) return;
-    if (el.tagName === 'SCRIPT' || el.tagName === 'LINK') retry(el);
+    if (el.tagName === 'SCRIPT' || (el.tagName === 'LINK' && (el.getAttribute('rel') || '').toLowerCase() === 'stylesheet')) retry(el);
   }, true);
   /* The check at the top of each frame. A stylesheet with no sheet has
      failed, and its error event will bring the retry. The load listener
