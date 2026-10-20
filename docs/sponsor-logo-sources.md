@@ -45,3 +45,16 @@ The SerpApi logo was added on September 29, 2026 from the partner-provided file.
 | Sponsor | Local file    | Source                                                                                      |
 | ------- | ------------- | ------------------------------------------------------------------------------------------- |
 | SerpApi | `serpapi.svg` | `logo_white_background` (SVG), uploaded by Adarsh Divakaran (SerpApi) on September 29, 2026 |
+
+The Auth0 and Browserbase logos were added on October 19, 2026, when both joined the Week 3 DEV Challenge. Auth0 hasn't sent logo files yet, so its logo is MLH's existing partner asset (the same file as the DEV challenge hub); swap it when Auth0's files arrive. Both viewBoxes are cropped to the artwork (Browserbase's right margin trimmed; Auth0's height extended so the shield's tip isn't clipped).
+
+| Sponsor     | Local file        | Source                                                                                                           |
+| ----------- | ----------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Auth0       | `auth0.svg`       | MLH's existing Auth0 partner asset (black shield and wordmark, no background), as used on dev.to/challenges/hf26 |
+| Browserbase | `browserbase.svg` | `browserbase-logo-color-light-bg.svg`, uploaded by Browserbase to their Drive upload folder on October 14, 2026  |
+
+Paper Instruments was added on October 19, 2026, when it joined the Week 3 DEV Challenge, from the partner-provided file Joey Besgen sent the same day. Its viewBox is cropped to the artwork so the logo fills its tile.
+
+| Sponsor           | Local file              | Source                                                                                                                     |
+| ----------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Paper Instruments | `paper-instruments.svg` | `paper-instruments-horizontal.svg`, sent by Joey Besgen (Paper Instruments) on October 19, 2026 (dark `#211E1C`, outlined) |

@@ -66,6 +66,19 @@ const roster = [
   },
   { name: '.tech Domains', slug: 'tech', site: 'https://get.tech' },
   { name: 'SerpApi', slug: 'serpapi', site: 'https://serpapi.com', wide: true },
+  { name: 'Auth0', slug: 'auth0', site: 'https://auth0.com/ai' },
+  {
+    name: 'Browserbase',
+    slug: 'browserbase',
+    site: 'https://www.browserbase.com',
+    wide: true,
+  },
+  {
+    name: 'Paper Instruments',
+    slug: 'paper-instruments',
+    site: 'https://www.paperinstruments.com',
+    wide: true,
+  },
 ];
 
 const logoScales = {

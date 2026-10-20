@@ -37,6 +37,9 @@ test('every wall sponsor entry is complete and tagged', () => {
       'Thinking Machines',
       '.tech Domains',
       'SerpApi',
+      'Auth0',
+      'Browserbase',
+      'Paper Instruments',
     ],
     'the curated wall matches the confirmed sponsor roster and order',
   );
@@ -89,6 +92,9 @@ test('brand-color logo assets retain their approved treatments', async () => {
     thinkingMachines,
     tech,
     serpapi,
+    auth0,
+    browserbase,
+    paperInstruments,
   ] = await Promise.all([
     readFile(
       new URL('../public/sponsors/mongodb.svg', import.meta.url),
@@ -131,6 +137,15 @@ test('brand-color logo assets retain their approved treatments', async () => {
     readFile(new URL('../public/sponsors/tech.svg', import.meta.url), 'utf8'),
     readFile(
       new URL('../public/sponsors/serpapi.svg', import.meta.url),
+      'utf8',
+    ),
+    readFile(new URL('../public/sponsors/auth0.svg', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../public/sponsors/browserbase.svg', import.meta.url),
+      'utf8',
+    ),
+    readFile(
+      new URL('../public/sponsors/paper-instruments.svg', import.meta.url),
       'utf8',
     ),
   ]);
@@ -179,6 +194,24 @@ test('brand-color logo assets retain their approved treatments', async () => {
   assert.ok(
     serpapi.includes('#377FEA') && serpapi.includes('#8C45EF'),
     'SerpApi must keep its blue-to-purple gradient mark',
+  );
+  assert.ok(
+    auth0.includes('M266.31,1H154.65') &&
+      !auth0.includes('<rect') &&
+      !auth0.includes('fill="#fff'),
+    'Auth0 must use its black shield-and-wordmark lockup without a background',
+  );
+  assert.ok(
+    browserbase.includes('#FF4500') &&
+      (browserbase.match(/fill="black"/g) ?? []).length >= 10,
+    'Browserbase must use its light-background lockup: orange mark, black wordmark',
+  );
+  assert.ok(
+    paperInstruments.includes('#211E1C') &&
+      paperInstruments.includes('Signifier wordmark') &&
+      !paperInstruments.includes('<text') &&
+      paperInstruments.includes('viewBox="12 12 567 96"'),
+    'Paper Instruments must use its own horizontal logo (outlined Signifier wordmark), cropped to the artwork',
   );
 });
 
