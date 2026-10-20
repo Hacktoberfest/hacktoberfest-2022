@@ -17,6 +17,38 @@ const getBuildId = () => {
   return null;
 };
 
+/* Hands webpack the client entries sorted by name, so two builds of one
+   commit emit the same files.
+
+   Next does not: it resolves every page's entry after an async read of
+   the page file, all at once, so the entry object's key order is whatever
+   order those reads happened to finish in, and it varies run to run on one
+   machine. Most output does not care. CSS does: when pages import the same
+   CSS modules in conflicting orders (/my/fest reaches PageHero before
+   Header's TodayStrip, the other /my pages the reverse),
+   mini-css-extract-plugin settles the shared stylesheet's order by
+   whichever page's entry came first, and the order is in the content
+   hash, so it is in the filename.
+
+   That only matters because production is two App Platform apps building
+   the same commit separately. On Oct 19, 2026 they disagreed: each app's
+   /my HTML linked its own name for the shared stylesheet, the other app
+   404'd that name half the time, Cloudflare pinned the 404, and /my drew
+   unstyled (PageHero's corner geometry at full page width) until the
+   asset-retry script in _document.js fetched it past the edge.
+
+   Plain sort() rather than localeCompare: code-unit order is the same on
+   every machine, and a locale-dependent comparison would just be another
+   way for the two builds to differ. */
+const sortedEntries = (entry) => async () => {
+  const entries = await (typeof entry === 'function' ? entry() : entry);
+  return Object.fromEntries(
+    Object.keys(entries)
+      .sort()
+      .map((name) => [name, entries[name]]),
+  );
+};
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   output: 'export',
@@ -66,7 +98,10 @@ module.exports = {
     );
     return proposedBuildId;
   },
-  webpack(config) {
+  webpack(config, { dev, isServer }) {
+    /* The client build only: its files are the ones the HTML names by
+       hash. Dev serves nothing that gets deployed. */
+    if (!dev && !isServer) config.entry = sortedEntries(config.entry);
     config.plugins.push(
       new EnvironmentPlugin({
         BASE_URL: '',
