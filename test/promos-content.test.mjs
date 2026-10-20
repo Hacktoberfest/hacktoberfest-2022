@@ -190,3 +190,23 @@ test('the /my resources band leads here and to the Discord', () => {
       assert.doesNotMatch(value, /—/, value);
     });
 });
+
+/* The sponsor opt-ins, the band's third card. The words are the consent
+   itself: what is shared (name and email), with whom, and when (after
+   Hacktoberfest), so every string is pinned as approved on 2026-10-20. */
+test('the sponsor opt-ins say what is shared, with whom, and when', () => {
+  const copy = my.resourcesBand.optIns;
+
+  assert.deepEqual(copy, {
+    chip: 'Stay in touch',
+    title: 'Hear from Hacktoberfest’s sponsors.',
+    body: 'Want news and offers from the companies behind Hacktoberfest? Tick the ones you’d like to hear from. After Hacktoberfest, we’ll share your name and email with them so they can get in touch.',
+    label: 'Share my name and email with',
+    saved: 'Saved',
+    failed: 'We couldn’t save that. Please try again.',
+  });
+  Object.values(copy).forEach((value) => {
+    assert.doesNotMatch(value, /organi[sz]er/i, value);
+    assert.doesNotMatch(value, /—/, value);
+  });
+});

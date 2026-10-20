@@ -113,6 +113,26 @@ const MyHub = ({
     });
   }, []);
 
+  /* A saved sponsor opt-in, written through the same way: the PUT's own
+     answer for that one sponsor, so a reload paints it. One sponsor at a
+     time, so two saves in flight cannot overwrite each other's answer
+     with a stale map. */
+  const onSponsorOptIn = useCallback((slug, optedIn) => {
+    setExperience((current) => {
+      if (!current) return current;
+      const next = {
+        ...current,
+        user: {
+          ...current.user,
+          sponsorOptIns: { ...current.user.sponsorOptIns, [slug]: optedIn },
+        },
+      };
+      const session = getSession();
+      if (session) writeCachedExperience(session, next);
+      return next;
+    });
+  }, []);
+
   useEffect(() => {
     /* location.search rather than useRouter().query, and no isReady gate.
        Same reasoning as /auth/callback/, which carries the long version: an
@@ -318,11 +338,11 @@ const MyHub = ({
           <MyError onRetry={retry} />
         )}
         {/* The bands are the page's: it decides what a ready hub holds,
-           and gets the acknowledgement write-through for the applications
-           band to use. */}
+           and gets the write-throughs: the acknowledgement for the
+           applications band, the sponsor opt-ins for the resources band. */}
         {state === 'ready' &&
           experience &&
-          children(experience, { onFestAcknowledged })}
+          children(experience, { onFestAcknowledged, onSponsorOptIn })}
       </main>
     </>
   );

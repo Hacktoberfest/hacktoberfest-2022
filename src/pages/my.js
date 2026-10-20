@@ -89,7 +89,7 @@ const LockedBands = ({ experience }) => {
    when the next fetch lands. Once new, always new for this mount: the
    record is brought up to date at once, but the set only grows, so a
    revalidation does not cut a moment short. */
-const Bands = ({ experience }) => {
+const Bands = ({ experience, onSponsorOptIn }) => {
   const [justEarned, setJustEarned] = useState(() => new Set());
 
   useEffect(() => {
@@ -138,9 +138,13 @@ const Bands = ({ experience }) => {
           <Inventory experience={experience} justEarned={justEarned} />
         </>
       )}
-      {/* Everyone: the way to the sponsors' codes, /my/promos/, and into
-         MLH's Community Discord. */}
-      <ResourcesBand />
+      {/* Everyone: the way to the sponsors' codes, /my/promos/, into
+         MLH's Community Discord, and the sponsor opt-ins, each saved
+         answer written through to the hub's experience. */}
+      <ResourcesBand
+        optIns={experience.user.sponsorOptIns}
+        onOptInSaved={onSponsorOptIn}
+      />
     </>
   );
 };
@@ -191,7 +195,9 @@ const My = () => {
       redirectFor={redirectFor}
       status={heroStatus}
     >
-      {(experience) => <Bands experience={experience} />}
+      {(experience, { onSponsorOptIn }) => (
+        <Bands experience={experience} onSponsorOptIn={onSponsorOptIn} />
+      )}
     </MyHub>
   );
 };

@@ -3923,6 +3923,19 @@ export const my = {
       body: 'Say hi to hackers from around the world, get help when you’re stuck, and chat along with the livestreams. Link it to MyMLH for the Discord sticker.',
       cta: 'Join the Discord',
     },
+    /* The third card, full width under the two: the sponsor opt-ins
+       (components/ResourcesBand/OptIns.js, lib/sponsorOptIns.mjs). Ticking
+       a box asks MLH to share the participant's name and email with that
+       sponsor after Hacktoberfest, and the words say exactly that. `label`
+       is followed by the sponsor's name in bold. */
+    optIns: {
+      chip: 'Stay in touch',
+      title: 'Hear from Hacktoberfest’s sponsors.',
+      body: 'Want news and offers from the companies behind Hacktoberfest? Tick the ones you’d like to hear from. After Hacktoberfest, we’ll share your name and email with them so they can get in touch.',
+      label: 'Share my name and email with',
+      saved: 'Saved',
+      failed: 'We couldn’t save that. Please try again.',
+    },
   },
   /* The hosting hub's own title and hero line. The greeting stays "Hi
      <name>," on both hubs; only the accent under it says which one. */

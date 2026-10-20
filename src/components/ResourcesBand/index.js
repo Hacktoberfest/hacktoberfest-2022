@@ -2,6 +2,7 @@ import { DiscordIcon } from 'components/SocialIcons';
 import { my } from 'data/content.mjs';
 import { MLH_DISCORD_URL } from 'data/links';
 
+import OptIns from './OptIns';
 import styles from './ResourcesBand.module.css';
 
 const copy = my.resourcesBand;
@@ -11,9 +12,11 @@ const copy = my.resourcesBand;
    title, a line and the site's button (hf-button, --small inside a card):
    the sponsors' codes, the page's one way to /my/promos/, and MLH's
    Community Discord, the page's one way in. Neither card reads the
-   experience, so the band says the same true thing to everyone. It closes
+   experience, so the band says the same true thing to everyone. Under
+   them, full width, the sponsor opt-ins (OptIns.js): `optIns` is the
+   profile's map and `onOptInSaved` the hub's write-through. It closes
    the page, so it carries the bottom room the bands above leave to it. */
-const ResourcesBand = () => (
+const ResourcesBand = ({ optIns, onOptInSaved }) => (
   <section className={styles.band} aria-labelledby="resources-heading">
     <h2 id="resources-heading" className={styles.heading}>
       {copy.heading.lead} <em>{copy.heading.accent}</em>
@@ -50,6 +53,7 @@ const ResourcesBand = () => (
           {copy.discord.cta}
         </a>
       </div>
+      <OptIns optIns={optIns} onSaved={onOptInSaved} />
     </div>
   </section>
 );

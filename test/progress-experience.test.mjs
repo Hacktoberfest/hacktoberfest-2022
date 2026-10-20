@@ -185,6 +185,38 @@ test('getExperience maps devLinked: true onto user.devLinked', async () => {
   assert.equal(result.user.devLinked, true);
 });
 
+/* The sponsor opt-ins ride on the profile: what it says is ticked, and
+   every other sponsor reads unticked. */
+test('getExperience carries the profile’s sponsorOptIns onto the user', async () => {
+  resetRefreshState();
+  installStorage();
+  routeFetch({ profile: { ...PROFILE, sponsorOptIns: { temporal: true } } });
+
+  const result = await getExperience(SESSION, { scenario: 'eligible' });
+
+  assert.deepEqual(result.user.sponsorOptIns, {
+    digitalocean: false,
+    temporal: true,
+    'prior-labs': false,
+  });
+});
+
+/* Same deploy-order stance as devLinked: a profile from an API without the
+   field reads as nobody having opted in, never as a guess. */
+test('a profile without sponsorOptIns reads every box unticked', async () => {
+  resetRefreshState();
+  installStorage();
+  routeFetch();
+
+  const result = await getExperience(SESSION, { scenario: 'eligible' });
+
+  assert.deepEqual(result.user.sponsorOptIns, {
+    digitalocean: false,
+    temporal: false,
+    'prior-labs': false,
+  });
+});
+
 /* The mirror image: 'eligible' has devLinked true in the fixture, so a false
    result proves the live payload overrode it. */
 test('getExperience maps devLinked: false onto user.devLinked', async () => {

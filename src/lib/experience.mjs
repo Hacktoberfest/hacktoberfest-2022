@@ -17,6 +17,7 @@ import { apiFetch } from './apiClient.mjs';
 import { withoutSeasonRegistration } from './fests.mjs';
 import { progressForExperience } from './progress.mjs';
 import { API_BASE_URL, displayName } from './session.mjs';
+import { optInsFrom } from './sponsorOptIns.mjs';
 
 /* The data a scenario name stands for. Never throws: an unknown name, and
    the two names that are not data shapes at all, all land on the default
@@ -79,6 +80,10 @@ const userFromProfile = (mockedUser, profile) => ({
      devLinked to false, so a frontend shipped ahead of the API half reads
      every account as unlinked. Ship the API half first. */
   devLinked: Boolean(profile.devLinked),
+  /* The sponsor opt-ins on "Your resources.", every sponsor unticked
+     unless the profile says otherwise. The same deploy-order stance: a
+     frontend ahead of the API reads every box as unticked. */
+  sponsorOptIns: optInsFrom(profile.sponsorOptIns),
   /* The API's allowlist deliberately omits an avatar URL, so the account
      strip renders initials. Widening it is a decision about exposing more
      MyMLH data, not something to paper over here. */

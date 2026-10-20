@@ -663,8 +663,23 @@ const WIRING = [
   },
   {
     file: 'src/pages/my.js',
-    token: '<ResourcesBand />',
-    why: '"Your resources." closes the attending hub for everyone: the one way to /my/promos/ and into the Discord on the page.',
+    token: '<ResourcesBand\n        optIns={experience.user.sponsorOptIns}',
+    why: '"Your resources." closes the attending hub for everyone: the one way to /my/promos/ and into the Discord on the page, and the sponsor opt-ins, which read the profile\'s answers.',
+  },
+  {
+    file: 'src/pages/my.js',
+    token: 'onOptInSaved={onSponsorOptIn}',
+    why: "a saved opt-in must reach the hub's experience and its cache. Without it a reload paints the answer from before the tick.",
+  },
+  {
+    file: 'src/components/MyHub/index.js',
+    token: 'children(experience, { onFestAcknowledged, onSponsorOptIn })',
+    why: 'the shell hands the bands both write-throughs; without onSponsorOptIn the resources band has no way to keep the cache true.',
+  },
+  {
+    file: 'src/components/ResourcesBand/index.js',
+    token: '<OptIns optIns={optIns} onSaved={onOptInSaved} />',
+    why: 'the sponsor opt-ins are the third card in "Your resources.", the place picked for them on the design canvas (option A, 2026-10-20).',
   },
   {
     file: 'src/components/ResourcesBand/ResourcesBand.module.css',

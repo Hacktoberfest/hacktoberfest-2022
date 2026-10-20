@@ -124,6 +124,181 @@
   flex: none;
 }
 
+/* The sponsor opt-ins (OptIns.js): the third card, across both columns
+   under the other two. Stretched, unlike the button cards, so the tiles
+   span it. */
+.optIns {
+  grid-column: 1 / -1;
+  align-items: stretch;
+}
+
+/* The card's words, with how the last save went at the far end. */
+.optInsHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 24px;
+}
+
+.chipOptIns {
+  /* colors.forestLight */
+  background: #cfe0db;
+}
+
+/* Empty until a save lands, then "Saved" with a tick, or the failure. */
+.optInsStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  /* colors.forest */
+  color: #3d5f58;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.optInsFailed {
+  /* colors.orangeDeep: the acknowledgements dialog's error red. */
+  color: #b8301f;
+}
+
+.optInsStatusIcon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+
+/* Stacked, then three across from tablet up. */
+.optInList {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* One sponsor: its logo, then the checkbox and its words. The whole tile
+   is the label, so a tap anywhere on it ticks the box. */
+.optIn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.paper */
+  background: #f2f2eb;
+  cursor: pointer;
+}
+
+.optInMark {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+
+/* Each logo in its own colours, at one height. */
+.optInLogo {
+  display: block;
+  width: auto;
+  max-width: 150px;
+  height: 24px;
+}
+
+/* Temporal's wordmark is light and narrow: at the shared height it reads
+   as the lesser sponsor beside the other two, so it gets a little more,
+   the way the sponsor wall scales its marks (data/sponsors.mjs). */
+.optInLogoTemporal {
+  height: 31px;
+}
+
+.optInChoice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  /* colors.ink */
+  color: #10201d;
+  line-height: 1.45;
+}
+
+/* The real input stays for keyboard and screen readers; the painted box
+   below is what everyone sees. */
+.optInInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* The acknowledgements dialog's checkbox (AcknowledgementsModal.module.css,
+   .statementBox): ink border, white ground, and the buttons' hard shadow,
+   which presses in as the tick lands. */
+.optInBox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  /* colors.ink */
+  border: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+  /* colors.maroon */
+  box-shadow: 3px 3px 0 #671912;
+  transition:
+    background 120ms ease,
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    opacity 120ms ease;
+}
+
+.optInCheck {
+  width: 14px;
+  height: 14px;
+  /* colors.white */
+  color: #f7f7f2;
+  opacity: 0;
+}
+
+.optInInput:checked + .optInBox {
+  /* colors.forest */
+  background: #3d5f58;
+  transform: translate(2px, 2px);
+  /* colors.maroon */
+  box-shadow: 1px 1px 0 #671912;
+}
+
+.optInInput:checked + .optInBox .optInCheck {
+  opacity: 1;
+}
+
+.optInInput:focus-visible + .optInBox {
+  /* colors.ink */
+  box-shadow: 0 0 0 4px #10201d;
+}
+
+/* A box whose save is in flight is held, and looks it. */
+.optInInput[aria-disabled='true'] + .optInBox {
+  opacity: 0.55;
+}
+
 /* breakpoints.tablet */
 @media (min-width: 768px) {
   .band {
@@ -136,6 +311,10 @@
 
   .card {
     padding: 22px 24px;
+  }
+
+  .optInList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
