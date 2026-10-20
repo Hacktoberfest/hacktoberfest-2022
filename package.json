@@ -39,19 +39,19 @@
     "@typeform/embed-react": "^5.5.0",
     "country-list": "^2.4.1",
     "flag-icons": "^7.6.0",
-    "html-react-parser": "^5.2.17",
-    "maplibre-gl": "^5.24.0",
-    "markdown-it": "^14.3.3",
-    "next": "^15.5.28",
+    "html-react-parser": "^6.1.8",
+    "maplibre-gl": "^6.15.0",
+    "markdown-it": "^15.0.3",
+    "next": "^16.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "serve": "^14.2.6",
-    "sitemap": "^8.0.3",
+    "sitemap": "^10.0.0",
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
     "webpack": "^5.112.0"
   }
