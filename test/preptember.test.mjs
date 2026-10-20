@@ -254,8 +254,11 @@ test('the hosting hub sends would-be hosts to MLH Hack Days, each placement tagg
   );
 });
 
-/* A draft can no longer be sent, so its card says why it has no link. */
-test('a closed draft carries its badge and its note', () => {
+/* Nothing unpublished can be published any more, so every such card says
+   why it has no link: a draft that it was never sent, the rest that they
+   never went live. */
+test('a closed card carries its badge and the note for its rung', () => {
   assert.ok(my.applications.closedBadge);
-  assert.match(my.applications.closedNote, /closed/);
+  assert.match(my.applications.closedNote, /submitted.*closed/);
+  assert.match(my.applications.closedUnpublishedNote, /published.*closed/);
 });

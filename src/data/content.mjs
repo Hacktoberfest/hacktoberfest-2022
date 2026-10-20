@@ -2509,9 +2509,11 @@ export const my = {
      hosts to MLH Hack Days. `ghost` speaks to an empty list, `ghostMore`
      to a host with Fests already on it, who knows the format.
 
-     A draft can no longer be finished: it wears `closedBadge` and
-     `closedNote` and loses its link. Submitted applications, and ones MLH
-     sent back for revisions, keep theirs while MLH reviews them. */
+     Nothing unpublished can reach publishing any more: every card short
+     of `publishedBadge` wears `closedBadge` and loses its link. A draft's
+     note says it was never sent (`closedNote`); every other rung, from a
+     submitted application to an MLH event waiting on its checks, says it
+     never went live (`closedUnpublishedNote`). */
   applications: {
     heading: { lead: 'Your', accent: 'applications.' },
     lede: 'Here are your Fest applications.',
@@ -2525,6 +2527,8 @@ export const my = {
     closedBadge: 'Applications closed',
     closedNote:
       'This application wasn’t submitted before Fest applications closed.',
+    closedUnpublishedNote:
+      'This application wasn’t published before Fest applications closed.',
     ghost: {
       title: 'Fest applications are closed.',
       body: 'Want to host something of your own? MLH Hack Days are free, in-person mini hackathons on a date you choose, and they’re taking applications.',

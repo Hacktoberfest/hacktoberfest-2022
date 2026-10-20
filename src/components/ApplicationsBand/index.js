@@ -30,7 +30,7 @@ import styles from './ApplicationsBand.module.css';
    application card here must read identically to the same card in Your
    Fests when the flag flips. The ghost closes the list; with Fest
    applications closed, it points at MLH Hack Days rather than the
-   application, and a draft that was never sent shows as closed. */
+   application, and anything not yet published shows as closed. */
 
 /* The application badge ladder — the fests band's application rungs,
    with a published event as the top rung. That fallback says
@@ -49,13 +49,16 @@ import styles from './ApplicationsBand.module.css';
 
    Participation badges don't exist here: organizing entries carry no
    status. */
-/* A draft is an application nobody can send any more: Fest applications
-   are closed. Submitted applications, and ones MLH sent back, are still
-   in MLH's hands and keep their rungs. */
-const isClosedDraft = (fest) => fest.applicationStatus === 'draft';
+/* Fest applications are closed, and so is the road to publishing: any
+   card not yet published (a draft, an application at any rung, or an
+   MLH event still short of acknowledgements or checks) wears the closed
+   badge and loses its link. Only a published Fest, the top rung, keeps
+   its card as it was. The rungs below stay in place, dormant, so the
+   ladder comes back with this one line if publishing ever reopens. */
+const isClosed = (fest) => eventCardState(fest) !== 'published';
 
 const badgeFor = (fest) => {
-  if (isClosedDraft(fest)) {
+  if (isClosed(fest)) {
     return {
       label: my.applications.closedBadge,
       className: `${styles.badge} ${styles.badgeClosed}`,
@@ -132,8 +135,8 @@ const badgeFor = (fest) => {
    links where the host manages it, and anything with a public page links
    there. */
 const actionFor = (fest) => {
-  // The draft's link would lead back into an application that is closed.
-  if (isClosedDraft(fest)) return null;
+  // Every link left on a closed card leads back into a closed process.
+  if (isClosed(fest)) return null;
   if (fest.manageUrl && fest.applicationStatus) {
     return {
       kind: 'link',
@@ -236,8 +239,12 @@ const ApplicationCard = ({ fest, onFestAcknowledged }) => {
             {time && <span className={styles.cardTime}> · {time}</span>}
           </p>
         )}
-        {isClosedDraft(fest) && (
-          <p className={styles.cardNote}>{my.applications.closedNote}</p>
+        {isClosed(fest) && (
+          <p className={styles.cardNote}>
+            {fest.applicationStatus === 'draft'
+              ? my.applications.closedNote
+              : my.applications.closedUnpublishedNote}
+          </p>
         )}
         {/* The footer belongs to whatever the rung most needs a host to do
            next — completing acknowledgements, fixing a failing check, or
