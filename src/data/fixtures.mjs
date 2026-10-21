@@ -338,6 +338,26 @@ const COMPLETIONIST = {
       earned: true,
       earnedAt: '2026-08-01T10:00:00.000Z',
     },
+    /* A win at the same Fest, as the API keys it: by the Fest and the
+       challenge, the challenge as the variant's prize. */
+    {
+      id: 'fest-winner-certificate-2026',
+      name: 'Fest winner certificate',
+      kind: 'digital',
+      earnedBy: 'Winning a challenge at an in-person Fest',
+      getsToYou:
+        'A certificate of achievement with your name, the challenge, your project and the Fest, one for every challenge your team wins.',
+      cta: null,
+      requiresDevLink: false,
+      key: 'fest-london:challenge-open-source-ai',
+      variant: {
+        title: 'Hacktober Fest London',
+        date: '2026-08-01',
+        prize: 'Best Open-Source AI Project',
+      },
+      earned: true,
+      earnedAt: '2026-08-01T16:00:00.000Z',
+    },
     ...devBadges({
       'dev-badge-fest-2026': '2026-08-01T10:00:00.000Z',
       'dev-badge-host-2026': '2026-10-10T12:00:00.000Z',

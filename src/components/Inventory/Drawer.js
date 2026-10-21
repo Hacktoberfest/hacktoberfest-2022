@@ -20,7 +20,7 @@ import { statusLabel } from './Slot';
    sticker book sets a page. A head and a note, then the thing as one
    entry, its picture beside the kind, the date and the name, the variant
    under it for a thing earned more than once (the Fest a certificate is
-   for, and its day), then the two facts every thing has (earned by, gets
+   for, and its day, after the challenge for a win), then the two facts every thing has (earned by, gets
    to you), its one call to action, all as the API serves them; a
    certificate offers its two downloads instead, rendered by the API on
    the click. A thing on DEV with no DEV account linked is Unclaimed: its
@@ -200,6 +200,7 @@ const Drawer = ({ item, ghost }) => {
           <h4 className={styles.entryTitle}>{item.name}</h4>
           {item.variant && (
             <p className={styles.entryVariant}>
+              {item.variant.prize ? `${item.variant.prize} · ` : ''}
               {item.variant.title}
               {variantDate ? ` · ${variantDate}` : ''}
             </p>

@@ -33,6 +33,7 @@ test('the reward list carries the milestones and the things that are not sticker
       'completionist-plus-plus-certificate-2026',
       'fest-mentor-certificate-2026',
       'fest-judge-certificate-2026',
+      'fest-winner-certificate-2026',
     ],
   );
 });

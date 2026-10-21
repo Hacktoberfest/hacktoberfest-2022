@@ -133,6 +133,16 @@ export const THINGS = Object.freeze([
     ground: 'digital',
     seal: 'trophy',
   },
+  /* The winner's, one per challenge won at a Fest: its certificate's
+     paper sheet ruled in its ink frame, an award ribbon for its seal
+     (Jacklyn, 2026-10-20, option C). */
+  {
+    slug: 'fest-winner-certificate-2026',
+    shape: 'card',
+    ground: 'paper',
+    rules: '#10201d',
+    seal: 'award',
+  },
 ]);
 
 /* Art in the stickers' own style that is not a sticker anyone earns: the

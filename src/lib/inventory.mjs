@@ -54,6 +54,10 @@ const ITEM_ART = Object.freeze({
     art: 'fest-judge-certificate-2026',
     sticker: false,
   },
+  'fest-winner-certificate-2026': {
+    art: 'fest-winner-certificate-2026',
+    sticker: false,
+  },
   /* DEV's three badges, drawn as themselves: DEV's own art, redrawn by
      hand into the 200 square with room around it, so a leaning badge
      never reaches the name under its cell. No sticker script lists them
@@ -81,6 +85,9 @@ export const CERTIFICATE_SLUGS = Object.freeze(
     /* Granted by hand, once, so asked for without a key. */
     'fest-mentor-certificate-2026',
     'fest-judge-certificate-2026',
+    /* One per challenge won at a Fest, keyed by the Fest and the
+       challenge. */
+    'fest-winner-certificate-2026',
   ]),
 );
 
@@ -93,9 +100,16 @@ export const certificatePath = (item, format) =>
 
 /* The name a downloaded certificate saves as, the API's own
    (Content-Disposition on the route above): the slug and, for a thing
-   earned more than once, the grant's key. */
+   earned more than once, the grant's key, with anything but letters,
+   digits and hyphens turned to a hyphen as the API turns it (a win's key
+   is "<event>:<challenge>"). */
 export const certificateFilename = (item, format) =>
-  `hacktoberfest-2026-${item.id}${item.key ? `-${item.key}` : ''}.${format}`;
+  `${`hacktoberfest-2026-${item.id}${item.key ? `-${item.key}` : ''}`.replace(/[^a-z0-9-]+/gi, '-')}.${format}`;
+
+/* What a cell says under a repeated thing's name: the Fest, or for a win
+   the challenge (a team can win two at one Fest). */
+export const variantLine = (variant) =>
+  variant ? variant.prize || variant.title : '';
 
 const GENERIC_ART = Object.freeze({
   physical: { art: 'reward-physical', sticker: false },
@@ -133,6 +147,10 @@ export const inventoryItems = (experience) => {
                 typeof row.variant.title === 'string' ? row.variant.title : '',
               date:
                 typeof row.variant.date === 'string' ? row.variant.date : null,
+              /* A win's variant also names the challenge. */
+              ...(typeof row.variant.prize === 'string' && row.variant.prize
+                ? { prize: row.variant.prize }
+                : {}),
             }
           : null;
       return {

@@ -7,6 +7,7 @@ import {
   CERTIFICATE_SLUGS,
   WIDE_AFTER,
   certificateFilename,
+  variantLine,
   certificatePath,
   inventoryItems,
   inventoryLayout,
@@ -280,12 +281,13 @@ test('the locker opens on what is new, else the newest earned thing, else nothin
   assert.equal(openingSlot([], new Set()), null);
 });
 
-test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended or hosted, the Completionist and Completionist++ certificates, and the three DEV badges', () => {
+test('the fixtures carry the real catalogue only: the pack, the holographic sticker, the Fest certificates where a Fest was attended, hosted or won at, the Completionist and Completionist++ certificates, and the three DEV badges', () => {
   const real = new Set([
     'sticker-pack-2026',
     'holographic-sticker-2026',
     'fest-certificate-2026',
     'fest-host-certificate-2026',
+    'fest-winner-certificate-2026',
     'completionist-certificate-2026',
     'completionist-plus-plus-certificate-2026',
     'dev-badge-fest-2026',
@@ -304,6 +306,11 @@ test('the fixtures carry the real catalogue only: the pack, the holographic stic
   );
   assert.equal(cert.key, 'fest-london');
   assert.equal(cert.variant.title, 'Hacktober Fest London');
+  const won = SCENARIOS.completionist.items.find(
+    (item) => item.id === 'fest-winner-certificate-2026',
+  );
+  assert.equal(won.key, 'fest-london:challenge-open-source-ai');
+  assert.equal(won.variant.prize, 'Best Open-Source AI Project');
   const hosted = SCENARIOS.organizer.items.find(
     (item) => item.id === 'fest-host-certificate-2026',
   );
@@ -501,6 +508,61 @@ test('the mentor and judge certificates are certificates, asked for without a ke
     assert.equal(item.sticker, false);
     assert.equal(item.certificate, true);
   }
+});
+
+test("the winner's certificate is one per challenge won, its variant naming the challenge", () => {
+  const slug = 'fest-winner-certificate-2026';
+  assert.ok(CERTIFICATE_SLUGS.has(slug));
+  const [win, attended] = inventoryItems({
+    items: [
+      {
+        id: slug,
+        kind: 'digital',
+        earned: true,
+        key: 'evt-1:ch-1',
+        name: 'Fest winner certificate',
+        variant: {
+          title: 'Hack Day Toronto',
+          date: '2026-10-18',
+          prize: 'Best Use of Snowflake',
+        },
+      },
+      {
+        id: 'fest-certificate-2026',
+        kind: 'digital',
+        earned: true,
+        key: 'evt-1',
+        name: 'x',
+        variant: { title: 'Hack Day Toronto', date: '2026-10-18', prize: 7 },
+      },
+    ],
+  });
+  assert.equal(win.art, slug);
+  assert.equal(win.sticker, false);
+  assert.equal(win.certificate, true);
+  assert.equal(win.slot, `${slug}:evt-1:ch-1`);
+  assert.deepEqual(win.variant, {
+    title: 'Hack Day Toronto',
+    date: '2026-10-18',
+    prize: 'Best Use of Snowflake',
+  });
+  assert.deepEqual(attended.variant, {
+    title: 'Hack Day Toronto',
+    date: '2026-10-18',
+  });
+  assert.equal(
+    certificatePath(win, 'pdf'),
+    `/api/me/items/${slug}/evt-1%3Ach-1/certificate.pdf`,
+  );
+  // The cell names the challenge; a Fest certificate's names the Fest.
+  assert.equal(variantLine(win.variant), 'Best Use of Snowflake');
+  assert.equal(variantLine(attended.variant), 'Hack Day Toronto');
+  assert.equal(variantLine(null), '');
+  // Saved as the API names it: the colon is a hyphen.
+  assert.equal(
+    certificateFilename(win, 'pdf'),
+    `hacktoberfest-2026-${slug}-evt-1-ch-1.pdf`,
+  );
 });
 
 test('both Fest certificates are certificates, with a download path per grant', () => {

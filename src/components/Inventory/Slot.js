@@ -1,5 +1,5 @@
 import { my } from 'data/content.mjs';
-import { itemMarks } from 'lib/inventory.mjs';
+import { itemMarks, variantLine } from 'lib/inventory.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
 
 import styles from './Inventory.module.css';
@@ -14,7 +14,8 @@ export const statusLabel = (item) =>
    (components/Album/StickerCell): the thing in its slot, peeled up and
    leaning its own way once earned, with a tick on its corner; its name
    under it, the API's, with the variant's title for a thing earned more
-   than once (a certificate per Fest); and one line saying which kind of
+   than once (a certificate per Fest), or the challenge for a win (the
+   variant's prize); and one line saying which kind of
    thing it is. A thing on DEV with no DEV account linked is Unclaimed:
    the line says so in orangeDeep, and its corner carries a "!" where the
    tick would be. Only earned things are drawn. A sticker sits
@@ -30,7 +31,7 @@ const Slot = ({ item, selected, isNew, onPick }) => {
       type="button"
       role="option"
       aria-selected={selected}
-      aria-label={`${item.variant ? `${item.name}, ${item.variant.title}` : item.name}, ${status}`}
+      aria-label={`${item.variant ? `${item.name}, ${variantLine(item.variant)}` : item.name}, ${status}`}
       data-slot={item.slot}
       data-item={item.id}
       data-kind={item.kind}
@@ -64,7 +65,7 @@ const Slot = ({ item, selected, isNew, onPick }) => {
       </span>
       <span className={styles.cellTitle}>{item.name}</span>
       {item.variant && (
-        <span className={styles.cellVariant}>{item.variant.title}</span>
+        <span className={styles.cellVariant}>{variantLine(item.variant)}</span>
       )}
       <span className={styles.cellStatus}>{status}</span>
       {isNew && (
