@@ -2,10 +2,12 @@ import ApplicationsBand from 'components/ApplicationsBand';
 import CountdownBand from 'components/CountdownBand';
 import HostResourcesBand from 'components/HostResourcesBand';
 import HubLinkBand from 'components/HubLinkBand';
+import MyBrb from 'components/MyBrb';
 import MyHub from 'components/MyHub';
 import ThankYouBand from 'components/ThankYouBand';
 import WhyHostBand from 'components/WhyHostBand';
 import { my } from 'data/content.mjs';
+import { MY_BRB } from 'data/myBrb.mjs';
 import { PREPTEMBER } from 'data/preptember.mjs';
 import { hasApplied, isHost, isOrganizing } from 'lib/fests.mjs';
 
@@ -56,4 +58,5 @@ const Hosting = () => (
   </MyHub>
 );
 
-export default Hosting;
+/* BRB mode (data/myBrb.mjs) stands in for the whole page. */
+export default MY_BRB ? MyBrb : Hosting;

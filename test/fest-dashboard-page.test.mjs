@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
+import { MY_BRB } from '../src/data/myBrb.mjs';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -17,7 +18,11 @@ test('the Fest dashboard is exported and marked noindex', async () => {
    serves this file to anyone who asks, so anything personal baked into it
    would be readable without a session. The page's own fetch is what puts a
    Fest on screen, and the API is what decides whether the reader may see it. */
-test('the exported page carries no Fest data of its own', async () => {
+test('the exported page carries no Fest data of its own', async (t) => {
+  if (MY_BRB) {
+    t.skip('BRB mode is on, so the export is the BRB screen');
+    return;
+  }
   const html = await readOutput('my/fest/index.html');
 
   assert.ok(

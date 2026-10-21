@@ -5,6 +5,7 @@ import test from 'node:test';
 import { authError, my, signedOut } from '../src/data/content.mjs';
 import { ACTIVITIES } from '../src/data/eligibility.mjs';
 import { FIND_A_FEST_URL } from '../src/data/links.js';
+import { MY_BRB } from '../src/data/myBrb.mjs';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -119,7 +120,11 @@ test('the /my stylesheet is emitted and linked from the page', async () => {
    and nothing else from the hub is — the loading state's contract is that
    no partial content renders, so the welcome hero's fallback greeting must
    not appear alongside it. */
-test('the exported /my page is the whole-page loading surface', async () => {
+test('the exported /my page is the whole-page loading surface', async (t) => {
+  if (MY_BRB) {
+    t.skip('BRB mode is on, so the export is the BRB screen');
+    return;
+  }
   const html = await readOutput('my/index.html');
   const css = await readLinkedCss(html, '/my');
 
@@ -151,7 +156,11 @@ test('the exported /my page is the whole-page loading surface', async () => {
    anyone who asks, so the loader is all it may hold. The band copy proves
    the hub itself is absent; the attending link proves the cross-link band
    is absent too (it renders only once the fests half has answered). */
-test('the exported /my/hosting page is the whole-page loading surface', async () => {
+test('the exported /my/hosting page is the whole-page loading surface', async (t) => {
+  if (MY_BRB) {
+    t.skip('BRB mode is on, so the export is the BRB screen');
+    return;
+  }
   const html = await readOutput('my/hosting/index.html');
 
   assert.match(html, new RegExp(my.loading.replace('…', '')));
@@ -175,6 +184,29 @@ test('the exported /my/hosting page is the whole-page loading surface', async ()
     !html.includes(my.hubLink.attending.cta),
     'the exported HTML should not contain the cross-link band',
   );
+});
+
+/* BRB mode (data/myBrb.mjs): every /my page is the BRB screen and nothing
+   else. The page is swapped out at its default export, so its loader never
+   renders and nothing of the hub is in the file. */
+test('while BRB mode is on, every /my page exports the BRB screen', async (t) => {
+  if (!MY_BRB) {
+    t.skip('BRB mode is off');
+    return;
+  }
+
+  for (const path of ['my', 'my/hosting', 'my/fest', 'my/promos']) {
+    const html = await readOutput(`${path}/index.html`);
+
+    assert.match(html, /<meta name="robots" content="noindex"/, path);
+    [my.brb.title, my.brb.accent, my.brb.body].forEach((line) =>
+      assert.ok(html.includes(line), `/${path}/ is missing "${line}"`),
+    );
+    assert.ok(
+      !html.includes(my.loading),
+      `/${path}/ should not render the loader under BRB`,
+    );
+  }
 });
 
 /* The transit screen shares the loader: /auth/callback/ exports in its

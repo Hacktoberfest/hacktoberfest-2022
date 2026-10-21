@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import FestDashboard from 'components/FestDashboard';
 import Header from 'components/Header';
+import MyBrb from 'components/MyBrb';
 import {
   MyError,
   MyForbidden,
@@ -12,6 +13,7 @@ import {
   MyNotFound,
 } from 'components/MyStatus';
 import { my } from 'data/content.mjs';
+import { MY_BRB } from 'data/myBrb.mjs';
 import { getFestDashboard } from 'lib/festDashboard.mjs';
 import { readCachedExperience } from 'lib/experienceCache.mjs';
 import { scheduleFestEnd } from 'lib/fests.mjs';
@@ -208,4 +210,5 @@ const Fest = () => {
   );
 };
 
-export default Fest;
+/* BRB mode (data/myBrb.mjs) stands in for the whole page. */
+export default MY_BRB ? MyBrb : Fest;

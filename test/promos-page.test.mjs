@@ -4,6 +4,7 @@ import test from 'node:test';
 
 import { my } from '../src/data/content.mjs';
 import { OFFERS } from '../src/data/fixtures.mjs';
+import { MY_BRB } from '../src/data/myBrb.mjs';
 
 const readOutput = (path) =>
   readFile(new URL(`../out/${path}`, import.meta.url), 'utf8');
@@ -17,7 +18,11 @@ test('the promos page is exported and marked noindex', async () => {
 /* Same stance as /my/fest/: a static host serves this file to anyone who
    asks, so it is the loading surface and nothing else. The page's own fetch
    is what puts a sponsor on screen. */
-test('the exported page carries no offers of its own', async () => {
+test('the exported page carries no offers of its own', async (t) => {
+  if (MY_BRB) {
+    t.skip('BRB mode is on, so the export is the BRB screen');
+    return;
+  }
   const html = await readOutput('my/promos/index.html');
 
   for (const offer of OFFERS) {

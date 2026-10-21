@@ -5,11 +5,13 @@ import FestsBand from 'components/FestsBand';
 import HubLinkBand from 'components/HubLinkBand';
 import Inventory from 'components/Inventory';
 import LockedBand from 'components/LockedBand';
+import MyBrb from 'components/MyBrb';
 import MyHub from 'components/MyHub';
 import ResourcesBand from 'components/ResourcesBand';
 import RewardsBand from 'components/RewardsBand';
 import { my } from 'data/content.mjs';
 import { MLH_ADDRESS_URL } from 'data/links';
+import { MY_BRB } from 'data/myBrb.mjs';
 import { STICKER_BOOK_LOCKED } from 'data/stickerBookLock.mjs';
 import { connectOutcome } from 'lib/digitalocean.mjs';
 import {
@@ -202,4 +204,5 @@ const My = () => {
   );
 };
 
-export default My;
+/* BRB mode (data/myBrb.mjs) stands in for the whole page. */
+export default MY_BRB ? MyBrb : My;

@@ -4038,6 +4038,16 @@ export const my = {
     accent: 'Try again shortly.',
     body: 'Hacktoberfest runs on MyMLH, and we can’t reach it right now. Nothing is wrong with your account or your progress, so please check back in a few minutes.',
   },
+  /* BRB mode (data/myBrb.mjs): every /my page while the switch is on.
+     The same shape as the outage state above and no button either, since
+     nothing the participant presses brings the page back sooner. Names no
+     time: the switch is flipped by hand. */
+  brb: {
+    eyebrow: 'Your Hacktoberfest',
+    title: 'We’ll be right',
+    accent: 'back.',
+    body: 'We’re making a few quick updates to My Hacktoberfest. Your stickers and progress are safe, so please check back shortly.',
+  },
   loading: 'Loading your Hacktoberfest…',
 };
 

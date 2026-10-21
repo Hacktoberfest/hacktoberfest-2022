@@ -3,10 +3,12 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
 import Header from 'components/Header';
+import MyBrb from 'components/MyBrb';
 import { MyError, MyLoading, MyMlhDown } from 'components/MyStatus';
 import SponsorOffers from 'components/SponsorOffers';
 import PromosHero from 'components/SponsorOffers/Hero';
 import { my } from 'data/content.mjs';
+import { MY_BRB } from 'data/myBrb.mjs';
 import { getOffers, offersPageState } from 'lib/offers.mjs';
 import {
   API_BASE_URL,
@@ -102,4 +104,5 @@ const Promos = () => {
   );
 };
 
-export default Promos;
+/* BRB mode (data/myBrb.mjs) stands in for the whole page. */
+export default MY_BRB ? MyBrb : Promos;
