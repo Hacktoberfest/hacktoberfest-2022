@@ -4044,9 +4044,9 @@ export const my = {
      time: the switch is flipped by hand. */
   brb: {
     eyebrow: 'Your Hacktoberfest',
-    title: 'We’ll be right',
-    accent: 'back.',
-    body: 'We’re making a few quick updates to My Hacktoberfest. Your stickers and progress are safe, so please check back shortly.',
+    title: 'We’ll be',
+    accent: 'right back.',
+    body: 'My Hacktoberfest is currently under maintenance. Your stickers and progress are safe, and any stickers and rewards you earn during this time will automatically be awarded once we’re back. See you soon!',
   },
   loading: 'Loading your Hacktoberfest…',
 };
