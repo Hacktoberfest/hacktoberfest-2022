@@ -7,5 +7,5 @@
    A switch, not a date, like STICKER_BOOK_LOCKED (data/stickerBookLock.mjs):
    /my comes back when a deploy flips this to false.
 
-   On from 2026-10-21 (Jacklyn). */
-export const MY_BRB = true;
+   On from 2026-10-21; lifted 2026-10-22 (Jacklyn). */
+export const MY_BRB = false;
