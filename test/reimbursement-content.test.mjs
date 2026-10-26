@@ -57,7 +57,17 @@ test('step 1 says what each failure needs, without the check-in threshold', () =
   assert.equal(fix.checkIns, 'Not enough attendees are checked in yet.');
   assert.equal(fix.checkInsCta, 'Check people in on Organizer HQ');
   assert.ok(!/\d/.test(fix.checkIns), 'the threshold never leaves the API');
-  assert.equal(fix.submissions, 'No projects have been submitted yet.');
+  assert.deepEqual(fix.submissions, [
+    'We noticed that you have fewer projects submitted than we’d expect for your number of check-ins. Please email ',
+    { email: 'hacktoberfest@mlh.io' },
+    ' to be manually approved for reimbursement.',
+  ]);
+  assert.ok(
+    !/\d/.test(
+      fix.submissions.filter((piece) => typeof piece === 'string').join(''),
+    ),
+    'the projects ratio never leaves the API',
+  );
   assert.equal(
     fix.winners(['Best Use of Gemma 4']),
     'Best Use of Gemma 4 needs a winner.',

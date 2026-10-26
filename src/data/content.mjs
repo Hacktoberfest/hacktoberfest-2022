@@ -2862,7 +2862,16 @@ export const my = {
         fix: {
           checkIns: 'Not enough attendees are checked in yet.',
           checkInsCta: 'Check people in on Organizer HQ',
-          submissions: 'No projects have been submitted yet.',
+          /* The API wants a project for every 8 check-ins, counted up to
+             50, and at least one. Like the check-in threshold, the ratio
+             never leaves it: the row says only that there are not enough,
+             and MLH approves the exceptions by hand. Pieces, as in
+             onceBody. */
+          submissions: [
+            'We noticed that you have fewer projects submitted than we’d expect for your number of check-ins. Please email ',
+            { email: 'hacktoberfest@mlh.io' },
+            ' to be manually approved for reimbursement.',
+          ],
           winners: (names) => {
             const list =
               names.length > 1

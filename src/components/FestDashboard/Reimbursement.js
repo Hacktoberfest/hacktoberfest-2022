@@ -196,7 +196,11 @@ const CheckSub = ({ check, manageUrl, uploadUrl }) => {
     );
   }
 
-  return <span className={styles.checkSub}>{fix.submissions}</span>;
+  return (
+    <span className={styles.checkSub}>
+      <Pieces pieces={fix.submissions} />
+    </span>
+  );
 };
 
 /* Step 1's open panel: the four rows, then the hint. */
