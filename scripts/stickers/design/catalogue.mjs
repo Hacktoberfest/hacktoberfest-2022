@@ -188,6 +188,9 @@ export const CATALOGUE = Object.freeze([
   { slug: 'ghw-points-30', icon: 'bolt', ground: 'ghw', tier: 2 },
   { slug: 'ghw-points-75', icon: 'bolt', ground: 'ghw', tier: 3 },
   { slug: 'livestream-launch', icon: 'rocket', ground: 'livestreams' },
+  /* The launch's bookend: Tabler's filled confetti, a party popper, on
+     the same sky with no foot (Jacklyn, 2026-10-27). */
+  { slug: 'livestream-closing', icon: 'confetti', ground: 'livestreams' },
   { slug: 'discord', icon: 'brand-discord', ground: 'tools' },
   { slug: 'dev-relay', icon: 'devrelay', ground: 'tools' },
   { slug: 'dev-connect', icon: 'dev-badge', ground: 'dev', tag: 'link' },

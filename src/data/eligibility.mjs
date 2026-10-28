@@ -1,6 +1,7 @@
 /* The season's activities: what a participant completes to earn a sticker
-   pack, and enough of to complete Hacktoberfest. Twenty-two this season:
-   the 2026-09-10 list and the two surveys (2026-09-25). The ids are the
+   pack, and enough of to complete Hacktoberfest. Twenty-three this season:
+   the 2026-09-10 list, the two surveys (2026-09-25) and the closing
+   ceremony (2026-10-27). The ids are the
    slugs of the challenges in
    FestNet, confirmed against production on 2026-09-11 (an id the API sends
    that is not here is dropped, an id here the API does not send reads as
@@ -69,6 +70,17 @@ export const ACTIVITIES = Object.freeze([
     surface: 'card',
     type: 'livestreams',
     art: 'rocket',
+  }),
+  Object.freeze({
+    id: 'livestream-closing',
+    label: 'Check into the Hacktoberfest closing ceremony',
+    detail:
+      'Hacktoberfest wraps up live on October 31. Watch the closing ceremony and check in with the code on screen.',
+    href: '/schedule/',
+    ctaLabel: 'See the schedule',
+    surface: 'card',
+    type: 'livestreams',
+    art: 'flag',
   }),
   Object.freeze({
     id: 'fest',
