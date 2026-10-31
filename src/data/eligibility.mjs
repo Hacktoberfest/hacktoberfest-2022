@@ -296,18 +296,15 @@ export const ACTIVITIES = Object.freeze([
      (type `misc`: whatever belongs to no other). Each is earned when Customer.io tells
      FestNet the person finished it in Qualtrics (POST
      /api/webhooks/survey). The link is personal (it carries the MyMLH id
-     the webhook is keyed by), so the pre-event survey is an action rather
-     than an href: lib/survey.mjs builds the URL from the session on click.
-     The post-event survey still only arrives by email, so it has neither
-     and the renderers show no button; `ctaLabel` keeps the catalogue's
-     shape. */
+     the webhook is keyed by), so each survey is an action rather than an
+     href: lib/survey.mjs builds the URL from the session on click. */
   Object.freeze({
     id: 'survey-pre',
     label: 'Complete the Hacktoberfest 2026 pre-event survey',
     detail:
       'Keep an eye on your email inbox for a short survey from us. Fill it out and we’ll award you a sticker.',
     href: null,
-    action: 'survey',
+    action: 'survey-pre',
     ctaLabel: 'Take the survey',
     surface: 'card',
     type: 'misc',
@@ -319,6 +316,7 @@ export const ACTIVITIES = Object.freeze([
     detail:
       'When October wraps up, we’ll email you one more survey about how it went. Fill it out to earn this one too.',
     href: null,
+    action: 'survey-post',
     ctaLabel: 'Take the survey',
     surface: 'card',
     type: 'misc',

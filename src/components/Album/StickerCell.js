@@ -3,14 +3,15 @@ import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
 import { SECRET_MARK_PATHS } from 'lib/secretStickers.mjs';
 import { stickerSrc } from 'lib/stickerImage.mjs';
-import { openPreSurvey } from 'lib/survey.mjs';
+import { openPostSurvey, openPreSurvey } from 'lib/survey.mjs';
 
 import styles from './Album.module.css';
 
 /* What an activity's `action` does on click: a button, never an href. */
 const ACTIONS = {
   digitalocean: startDigitalOceanConnect,
-  survey: openPreSurvey,
+  'survey-pre': openPreSurvey,
+  'survey-post': openPostSurvey,
 };
 
 /* A secret not yet earned: the die-cut slot with no sticker in it, its

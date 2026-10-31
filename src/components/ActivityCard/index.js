@@ -1,14 +1,15 @@
 import { activitiesPage } from 'data/content.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { stickerSrc } from 'lib/stickerImage.mjs';
-import { openPreSurvey } from 'lib/survey.mjs';
+import { openPostSurvey, openPreSurvey } from 'lib/survey.mjs';
 
 import styles from './ActivityCard.module.css';
 
 /* What an activity's `action` does on click: a button, never an href. */
 const ACTIONS = {
   digitalocean: startDigitalOceanConnect,
-  survey: openPreSurvey,
+  'survey-pre': openPreSurvey,
+  'survey-post': openPostSurvey,
 };
 
 /* One activity as a card, the same card wherever an activity is shown:
