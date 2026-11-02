@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { mapHero } from 'data/content.mjs';
+import { routeIsRetired } from 'data/retiredRoutes.mjs';
 import { WORLD_GRID } from 'data/worldGrid.mjs';
 import {
   festCellPlace,
@@ -44,6 +45,9 @@ import styles from './FestMap.module.css';
    this is only ever a shortcut. */
 const CELL = 10;
 const SQUARE = 8;
+/* After Hacktoberfest the directory is retired (data/retiredRoutes.mjs):
+   a hovered square is still named, but no longer a link. */
+const linked = !routeIsRetired('/fests/');
 /* The light's radius, in the full drawing's units (about thirteen cells). */
 const SPOT = 130;
 
@@ -258,7 +262,7 @@ const Drawing = ({ factor, fests, gap, highlight, className }) => {
     setHover(null);
   };
   const onClick = () => {
-    if (hovered?.href) window.location.assign(hovered.href);
+    if (linked && hovered?.href) window.location.assign(hovered.href);
   };
   const matchOf = (cell) =>
     matches
@@ -270,7 +274,7 @@ const Drawing = ({ factor, fests, gap, highlight, className }) => {
   return (
     <div
       className={className}
-      data-hovering={hovered ? 'true' : 'false'}
+      data-hovering={linked && hovered ? 'true' : 'false'}
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onClick={onClick}

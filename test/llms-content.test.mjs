@@ -4,16 +4,17 @@ import test from 'node:test';
 
 import {
   answerText,
-  faq,
-  homeAbout,
-  homeOnline,
-  homeSteps,
+  homeCeremony,
+  homePhotos,
+  homeThanks,
   mapHero,
   mission,
   missionPage,
+  recapHero,
   siteMeta,
   timeline,
 } from '../src/data/content.mjs';
+import { RETIRED_ROUTES } from '../src/data/retiredRoutes.mjs';
 
 /* The llms files once fell a whole round of revisions behind the page, and
    nothing caught it. Both are now generated from src/data/content.mjs, so
@@ -40,39 +41,33 @@ const normalize = (text) => decode(text).replace(/\s+/g, ' ');
 // Straight and curly quotes are the same word to a reader; compare either.
 const loosen = (text) => normalize(text).replace(/[’']/g, "'");
 
-// The homepage callout only renders faq.homepage.ids now — the rest of
-// the items live on /questions — so the copy checked against the rendered
-// homepage and the copy checked against llms-full.txt are different
-// slices of the same FAQ set. See the /questions page design doc.
-const homepageFaqItems = faq.homepage.ids.map((id) =>
-  faq.items.find((item) => item.id === id),
-);
-
-/* The October homepage's own copy (the Fest map hero, What is
-   Hacktoberfest?, the online band and the steps), the lines both the page
-   and llms-full.txt carry. */
+/* The homepage's own copy after October (the recap hero, the thank-you
+   band, the closing ceremony and the photos' places), the lines both the
+   page and llms-full.txt carry. The FAQ left
+   with /questions/, so neither carries it now. */
 const sharedCopy = [
-  mapHero.eyebrow[0],
-  mapHero.heading.accent,
-  mapHero.search.label,
-  mapHero.online.prompt,
-  mapHero.online.cta,
+  recapHero.eyebrow[0],
+  recapHero.heading.lead,
+  recapHero.heading.accent,
+  ...recapHero.stats.flatMap((stat) => [stat.value, stat.label]),
   mapHero.tagline.accent,
-  ...homeAbout.paragraphs.map(answerText),
-  homeOnline.intro,
-  ...homeOnline.cards.flatMap((card) => [card.title, card.copy, card.cta]),
-  ...homeSteps.phases.flatMap((phase) =>
-    phase.steps.flatMap((step) => [step.title, step.copy]),
-  ),
-  homeSteps.cta.label,
-  faq.intro,
+  homeThanks.heading.lead,
+  homeThanks.heading.accent,
+  ...homeThanks.paragraphs,
+  homeCeremony.heading.lead,
+  homeCeremony.heading.accent,
+  homeCeremony.intro,
+  homeCeremony.video.title,
+  homePhotos.eyebrow,
+  homePhotos.heading.lead,
+  homePhotos.heading.accent,
+  homePhotos.intro,
+  ...homePhotos.photos.map((photo) => photo.place),
 ];
 
-const faqCopy = (items) =>
-  items.flatMap((item) => [item.question, answerText(item.answer)]);
-
 /* The story so far and the mission moved off the homepage to /mission/,
-   so they are checked against that page's HTML instead. */
+   which was retired with the rest of the season's pages
+   (src/data/retiredRoutes.mjs). llms-full.txt still carries them. */
 const missionCopy = [
   missionPage.intro,
   timeline.intro,
@@ -80,33 +75,25 @@ const missionCopy = [
   ...mission.paragraphs.map(answerText),
 ];
 
-const homepageCopy = [...sharedCopy, ...faqCopy(homepageFaqItems)];
-const fullCopy = [...sharedCopy, ...missionCopy, ...faqCopy(faq.items)];
+const homepageCopy = sharedCopy;
+const fullCopy = [...sharedCopy, ...missionCopy];
 
 test('the rendered page carries every line of copy', async () => {
   /* Inline markup — the mission's <strong> spans, the FAQ's inline links —
      interrupts a paragraph's text in the HTML, so tags become spaces before
      comparing and normalize() collapses the doubles. That is also the right
      frame: the copy list holds each line as a reader hears it. */
-  const html = loosen((await read('out/index.html')).replace(/<[^>]+>/g, ' '));
+  // A <wbr> is a place a line may break, not a space, so it goes first.
+  const html = loosen(
+    (await read('out/index.html'))
+      .replace(/<wbr\s*\/?>/g, '')
+      .replace(/<[^>]+>/g, ' '),
+  );
 
   homepageCopy.forEach((line) => {
     assert.ok(
       html.includes(loosen(line)),
       `missing from the rendered page: ${line.slice(0, 60)}…`,
-    );
-  });
-});
-
-test('the mission page carries the story so far and the mission', async () => {
-  const html = loosen(
-    (await read('out/mission/index.html')).replace(/<[^>]+>/g, ' '),
-  );
-
-  missionCopy.forEach((line) => {
-    assert.ok(
-      html.includes(loosen(line)),
-      `missing from /mission/: ${line.slice(0, 60)}…`,
     );
   });
 });
@@ -123,8 +110,6 @@ test('the homepage no longer carries them', async () => {
 test('llms-full.txt carries every line of copy the page does', async () => {
   const full = loosen(await read('public/llms-full.txt'));
 
-  // llms-full.txt iterates faq.items directly (see src/build/llms.mjs), so
-  // it carries the full set even though the homepage only shows 4.
   fullCopy.forEach((line) => {
     assert.ok(
       full.includes(loosen(line)),
@@ -139,32 +124,42 @@ test('llms.txt orients a crawler without contradicting the page', async () => {
   // The summary line and the page's meta description are the same sentence.
   assert.ok(index.includes(loosen(siteMeta.description)));
 
-  // Every era of the timeline is accounted for, linked into /mission/.
+  // Every era of the timeline is accounted for. /mission/ is retired, so
+  // the years are no longer links into it.
   timeline.eras.forEach((era) => {
-    assert.ok(
-      index.includes(`[${era.year}](./mission/#history)`),
-      `missing era: ${era.year}`,
-    );
+    assert.ok(index.includes(`- ${era.year}: `), `missing era: ${era.year}`);
   });
 
   /* Attendance used to be the thing this file had to be honest about: no
-     dates, no venues, nothing to sign up for. The directory answers that
-     now, so the honesty moved rather than lapsed — the file has to point
-     at where the Fests actually are, and at the endpoint behind them,
-     instead of asserting an absence that is no longer true. Left
-     unstated, an answer engine is free to keep repeating the old line
-     that there is nothing to attend. */
-  assert.match(index, /confirmed Fests are published at \/fests\//i);
+     dates, no venues, nothing to sign up for, then where the Fests were.
+     After October the honesty is that it is over: left unstated, an
+     answer engine is free to keep sending people to Fests that have
+     happened. The endpoint the map draws from is still the source for a
+     machine. */
+  assert.match(index, /Hacktoberfest 2026 is over\./);
   assert.ok(
     index.includes('https://hacktoberfest-api.mlh.com/api/events'),
     'llms.txt should hand a machine the events endpoint',
   );
 });
 
-/* The schema is generated from src/data/structuredData.js, which restricts
-   the homepage FAQPage node to faq.homepage.ids — the same four items the
-   homepage callout renders — rather than the full set the /questions
-   page carries. These assertions hold the shape of what actually ships. */
+/* A retired page redirects home (src/data/retiredRoutes.mjs), so neither
+   file may send an answer engine to one, as a link or as a path in the
+   prose. */
+test('neither llms file points at a retired page', async () => {
+  const files = [
+    ['llms.txt', await read('public/llms.txt')],
+    ['llms-full.txt', await read('public/llms-full.txt')],
+  ];
+  files.forEach(([name, text]) => {
+    RETIRED_ROUTES.forEach((route) => {
+      assert.ok(!text.includes(route), `${name} points at ${route}`);
+    });
+  });
+});
+
+/* The schema is generated from src/data/structuredData.js. These
+   assertions hold the shape of what actually ships. */
 const shippedJsonLd = async () => {
   const html = await read('out/index.html');
   const match = html.match(
@@ -174,18 +169,12 @@ const shippedJsonLd = async () => {
   return JSON.parse(match[1]);
 };
 
-test('the FAQ ships as FAQPage schema matching the copy', async () => {
+/* The FAQ left the homepage after October, and schema naming questions
+   the page does not carry would describe content it does not have. */
+test('the homepage ships no FAQPage schema', async () => {
   const graph = (await shippedJsonLd())['@graph'];
-  const faqPage = graph.find((node) => node['@type'] === 'FAQPage');
-
-  assert.ok(faqPage, 'no FAQPage node in the graph');
-  assert.equal(faqPage.mainEntity.length, homepageFaqItems.length);
-
-  homepageFaqItems.forEach((item, index) => {
-    const question = faqPage.mainEntity[index];
-    assert.equal(question.name, item.question);
-    assert.equal(question.acceptedAnswer.text, answerText(item.answer));
-  });
+  assert.ok(graph.some((node) => node['@type'] === 'Event'));
+  assert.ok(!graph.some((node) => node['@type'] === 'FAQPage'));
 });
 
 /* A literal "<" in an answer would close the script tag early and spill

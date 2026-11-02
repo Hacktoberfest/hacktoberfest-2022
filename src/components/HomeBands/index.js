@@ -1,11 +1,17 @@
+import { useEffect, useRef, useState } from 'react';
+
 import {
   answerText,
   homeAbout,
+  homeCeremony,
   homeOnline,
+  homePhotos,
   homeSteps,
+  homeThanks,
   online,
 } from 'data/content.mjs';
 import { stickerImageSrc } from 'lib/stickerImage.mjs';
+import { youtubeEmbedUrl, youtubeWatchUrl } from 'lib/youtube.mjs';
 
 import styles from './HomeBands.module.css';
 
@@ -139,6 +145,150 @@ const StepPile = ({ slugs }) => (
       </span>
     ))}
   </div>
+);
+
+/* After Hacktoberfest, under the hero: the thank-you, and the year in a
+   sentence, beside a pile of the book's own stickers, the steps band's
+   grammar at a larger size. */
+export const HomeThanksBand = () => (
+  <section className={styles.thanks} aria-labelledby="home-thanks-title">
+    <div className={`${styles.shell} ${styles.thanksInner}`}>
+      <div className={styles.thanksStickers}>
+        <StepPile slugs={homeThanks.stickers} />
+      </div>
+      <div>
+        <h2 id="home-thanks-title" className={styles.thanksHeading}>
+          {homeThanks.heading.lead} <em>{homeThanks.heading.accent}</em>
+        </h2>
+        {homeThanks.paragraphs.map((paragraph) => (
+          <p key={paragraph} className={styles.thanksCopy}>
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+/* After Hacktoberfest, under the thank-you: the closing ceremony's replay,
+   on the hero's forest deep so it reads as a screening between two light
+   bands. The player is a press away rather than on the page: the video's
+   own thumbnail is one big play button, which swaps itself for YouTube's
+   player, already playing. Until then the page loads nothing from
+   YouTube, and the link under the video is the way to it for anyone whose
+   script has not run yet. */
+export const HomeCeremonyBand = () => {
+  const [playing, setPlaying] = useState(false);
+  const playerRef = useRef(null);
+  const { video } = homeCeremony;
+
+  /* The button that was pressed is gone, so focus moves to the player
+     rather than falling back to the top of the page. */
+  useEffect(() => {
+    if (playing) playerRef.current?.focus();
+  }, [playing]);
+
+  return (
+    <section className={styles.ceremony} aria-labelledby="home-ceremony-title">
+      <div className={styles.ceremonyInner}>
+        <div className={styles.ceremonyIntro}>
+          <h2 id="home-ceremony-title" className={styles.ceremonyHeading}>
+            {homeCeremony.heading.lead} <em>{homeCeremony.heading.accent}</em>
+          </h2>
+          <p className={styles.ceremonyCopy}>{homeCeremony.intro}</p>
+        </div>
+        <figure className={styles.ceremonyVideo}>
+          <div className={styles.screen}>
+            {playing ? (
+              <iframe
+                ref={playerRef}
+                className={styles.player}
+                src={youtubeEmbedUrl(video.youtubeId)}
+                title={video.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            ) : (
+              <button
+                type="button"
+                className={styles.poster}
+                aria-label={video.play}
+                onClick={() => setPlaying(true)}
+              >
+                <img
+                  className={styles.posterImage}
+                  src={video.thumbnail}
+                  alt=""
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span className={styles.play} aria-hidden="true">
+                  <svg viewBox="0 0 30 34" focusable="false">
+                    <path d="M2 2 28 17 2 32Z" />
+                  </svg>
+                </span>
+              </button>
+            )}
+          </div>
+          <figcaption className={styles.ceremonyCaption}>
+            <span className={styles.ceremonyTitle}>{video.title}</span>
+            <a
+              className={styles.ceremonyLink}
+              href={youtubeWatchUrl(video.youtubeId)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {video.watchOnYouTube}
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  );
+};
+
+/* After Hacktoberfest, under the closing ceremony: Fests in pictures, in
+   the online band's section grammar. The first photo takes two columns
+   and, from tablet up, two rows; the rest fill the grid round it, each
+   with its city on it. All below the fold, so each waits until it is
+   nearly in view. */
+export const HomePhotosBand = () => (
+  <section className={styles.photos} aria-labelledby="home-photos-title">
+    <div className={styles.shell}>
+      <div className={styles.intro}>
+        <div>
+          <p className={styles.eyebrow}>{homePhotos.eyebrow}</p>
+          <h2 id="home-photos-title" className={styles.heading}>
+            {homePhotos.heading.lead} <em>{homePhotos.heading.accent}</em>
+          </h2>
+        </div>
+        <p className={styles.introCopy}>{homePhotos.intro}</p>
+      </div>
+      <ul className={styles.photoGrid}>
+        {homePhotos.photos.map((photo) => (
+          <li key={photo.src} className={styles.photo}>
+            <figure className={styles.photoFigure}>
+              <img
+                className={styles.photoImage}
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption className={styles.photoPlace}>
+                {photo.place}
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 );
 
 /* The steps numbered across the whole band, once: the phases keep their

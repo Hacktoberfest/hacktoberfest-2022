@@ -114,8 +114,8 @@ const RewardsBand = ({ experience, justEarned }) => {
     state.earnedAt
       ? my.rewards.earnedOn(formatEarnedDate(state.earnedAt))
       : words.reachedBadge;
-  /* The line under the heading says what milestones are; the level's
-     own sentence is the hero's status line (pages/my.js heroStatus). */
+  /* The line under the heading says what milestones are. The level's own
+     sentence, once the hero's status line, left /my after October. */
   /* A milestone shares the way a sticker does: its own picture, its
      title as the label, through the book's modal. */
   const [share, setShare] = useState(null);

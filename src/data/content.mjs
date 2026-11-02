@@ -227,12 +227,14 @@ export const mission = {
 
 /* The homepage sponsor wall: the /sponsor roster shown as pure credit, no
    recruitment asks (those live on /sponsor). Header follows the shared
-   section pattern: mono eyebrow, display heading, intro on the right. */
+   section pattern: mono eyebrow, display heading, intro on the right.
+   After October the intro is a thank-you, in the past tense; MLH and DEV
+   are credited rather than thanked, since the site speaks for them. */
 export const homeWall = {
   eyebrow: 'Partners & sponsors',
   heading: { lead: 'Backing the', accent: 'builders.' },
   intro:
-    'Hacktoberfest is powered by MLH and DEV and presented by DigitalOcean. Alongside them, this year’s sponsors cover the Fests, the swag, and the participant packs that reach builders around the world.',
+    'A huge thank you to presenting partner DigitalOcean and to this year’s sponsors, who covered the Fests, the swag, and the participant packs that reached builders around the world. Hacktoberfest 2026 was powered by MLH and DEV.',
 };
 
 export const getInvolved = {
@@ -863,7 +865,7 @@ export const mapHero = {
   },
   map: {
     label: (fests, countries) =>
-      `A map of the world with a square for every place a Fest is happening: ${fests} Fests in ${countries} countries.`,
+      `A map of the world with a square for every place that hosted a Fest: ${fests} Fests in ${countries} countries/territories.`,
     loadingLabel: 'A map of the world, with the Fests still loading onto it.',
     /* Beside a hovered square's city: the square's other Fests. */
     nearby: (n) => `+${n} nearby`,
@@ -911,6 +913,134 @@ export const mapHero = {
       none: 'No Fests match. Other options are listed.',
     },
   },
+};
+
+/* The post-season homepage's hero (components/RecapHero): the thank-you,
+   the map and the season in numbers.
+   The numbers are copy, not counts, rounded down from the events API on
+   2026-10-30 (509 events, 71 countries and territories, 345 places, 53
+   livestreams). The participants are the season's final count, exact,
+   as of 2026-11-02. "Countries/territories", never "countries" alone:
+   Gibraltar, Guam and the Isle of Man are among the 71. */
+export const recapHero = {
+  eyebrow: ['October 2026', 'In-person and online'],
+  heading: { lead: 'Thank you,', accent: '115,385 of you.' },
+  stats: [
+    { value: '500+', label: 'In-person Fests' },
+    { value: '70+', label: 'Countries/territories' },
+    { value: '300+', label: 'Cities' },
+    { value: '6', label: 'Continents' },
+    { value: '50+', label: 'Livestreams' },
+  ],
+};
+
+/* Under the post-season hero: the thank-you, then the year in three
+   short paragraphs. Hacktoberfest evolved (open-weight and open source
+   AI, the mission's own focus), the community was as strong as ever,
+   and thank you. Plain, in Jacklyn's framing. */
+export const homeThanks = {
+  heading: { lead: 'Thanks to', accent: 'everyone.' },
+  paragraphs: [
+    'Hacktoberfest evolved this year. Instead of counting pull requests, we put the focus on building with open-weight models and open source AI, at Fests around the world and online.',
+    'The community was as strong as ever. 115,385 of you took part, at 500+ Fests in 70+ countries/territories and online, from Global Hack Week to the DEV Challenges.',
+    'Thank you to everyone who took part, and to the hosts, mentors and judges who gave their time to make the Fests happen. We can’t wait to do it again.',
+  ],
+  /* Drawn from public/stickers, the book's own art. */
+  stickers: ['host-fest', 'fest'],
+};
+
+/* Under the thank-you: the closing ceremony's replay (HomeCeremonyBand),
+   MLH's own upload. The thumbnail is a copy of YouTube's, saved as
+   public/closing-ceremony.jpg so the page asks nothing of YouTube until
+   someone presses play. */
+export const homeCeremony = {
+  heading: { lead: 'Watch the', accent: 'closing ceremony.' },
+  intro:
+    'Hacktoberfest 2026 wrapped up on October 31st. Missing the closing ceremony? Catch up with it here!',
+  video: {
+    youtubeId: 'D4oKpgJLiAA',
+    title: 'Hacktoberfest 2026: Closing Ceremony',
+    thumbnail: '/closing-ceremony.jpg',
+    play: 'Play Hacktoberfest 2026: Closing Ceremony',
+    watchOnYouTube: 'Watch on YouTube',
+  },
+};
+
+/* Under the closing ceremony: Fests in pictures (HomePhotosBand), nine
+   from the shortlist MLH made for the closing ceremony, across five
+   continents. Each is in public/photos, resized, turned upright and
+   stripped of its metadata, location included. The first is the large
+   one; width and height are the files' own. */
+export const homePhotos = {
+  eyebrow: 'Fests in pictures',
+  heading: { lead: 'Hello from', accent: 'everywhere.' },
+  intro:
+    'Take a peek at a few of the 500+ Fests that happened around the world.',
+  photos: [
+    {
+      src: '/photos/accra.jpg',
+      width: 1600,
+      height: 1076,
+      place: 'Accra, Ghana',
+      alt: 'Dozens of people in green Hacktoberfest T-shirts posing together on a rooftop under a blue sky.',
+    },
+    {
+      src: '/photos/gombe.jpg',
+      width: 960,
+      height: 768,
+      place: 'Gombe, Nigeria',
+      alt: 'A team gathered round a laptop, one member in a Hacktoberfest T-shirt pointing at the screen.',
+    },
+    {
+      src: '/photos/san-francisco.jpg',
+      width: 960,
+      height: 640,
+      place: 'San Francisco, United States',
+      alt: 'A winner on stage with both arms raised, holding up a prize.',
+    },
+    {
+      src: '/photos/lucknow.jpg',
+      width: 960,
+      height: 720,
+      place: 'Lucknow, India',
+      alt: 'A selfie in front of a packed room of hackers cheering with their arms raised.',
+    },
+    {
+      src: '/photos/southampton.jpg',
+      width: 960,
+      height: 639,
+      place: 'Southampton, United Kingdom',
+      alt: 'Four winners holding up their certificates under a Hosted by Hacktoberfest wall.',
+    },
+    {
+      src: '/photos/barranquilla.jpg',
+      width: 960,
+      height: 720,
+      place: 'Barranquilla, Colombia',
+      alt: 'A full room of hackers, many in Hacktoberfest T-shirts, smiling and making peace signs.',
+    },
+    {
+      src: '/photos/gliwice.jpg',
+      width: 960,
+      height: 720,
+      place: 'Gliwice, Poland',
+      alt: 'A mentor in a Hacktoberfest T-shirt cheering with an excited team at a laptop.',
+    },
+    {
+      src: '/photos/cebu-city.jpg',
+      width: 960,
+      height: 640,
+      place: 'Cebu City, Philippines',
+      alt: 'A speaker mid-cheer with a microphone and one arm raised.',
+    },
+    {
+      src: '/photos/dahlonega.jpg',
+      width: 960,
+      height: 720,
+      place: 'Dahlonega, United States',
+      alt: 'Two smiling hackers holding up a Hacktoberfest T-shirt.',
+    },
+  ],
 };
 
 /* Straight under the map hero, for the visitor who arrived not knowing
@@ -2399,7 +2529,7 @@ export const siteMeta = {
   siteName: 'Hacktoberfest',
   title: 'Hacktoberfest 2026 | AI belongs to everyone',
   description:
-    '300+ in-person Fests plus a global online event, all about building with open-source AI. Join a Fest near you this October.',
+    '115,385 people took part in Hacktoberfest 2026, at 500+ in-person Fests in 70+ countries/territories and online, all building with open source AI. Thank you.',
   imageAlt: 'Hacktoberfest 2026',
 };
 
@@ -2407,18 +2537,20 @@ export const siteMeta = {
    page only implies: who runs the event, and which paths are actually open
    right now. Keep it honest about what hasn't been announced — an answer
    engine stating that tickets are available would be worse than it saying
-   nothing. */
+   nothing. After October that honesty is saying the season is over, and
+   that its pages are gone (data/retiredRoutes.mjs). */
 export const aiContext = {
   orientation:
-    'Hacktoberfest is an annual event stewarded by Major League Hacking (MLH) and DEV, with presenting partner DigitalOcean. It began in 2014 as a pull-request challenge run by DigitalOcean. In 2026 it becomes an event you take part in: 300+ community-hosted, one-day “Fests”, plus an online event open to everyone. The focus is hands-on building with open models, open source agents, and open tooling.',
-  participation: [
-    'Fest applications are now closed. Fests run through October in two formats: Hack Days, funded mini-hackathons where people build projects, and Meet Ups, lighter gatherings that MLH does not fund. Anyone who still wants to host can apply to host an MLH Hack Day (https://www.mlh.com/hack-days), a separate MLH program of free, in-person mini hackathons held on a date the host picks.',
-    'Sponsorship has its own page at /sponsor/: the confirmed sponsor wall, the campaign footprint, and how to start sponsor setup or request partnership info.',
-    'Confirmed Fests are published at /fests/, searchable by name, city, or country, with a map and a nearest-to-me sort. Individual Fests set their own attendee sign-up, linked from the directory. More Fests are added as they are approved, so the list grows through Preptember.',
+    'Hacktoberfest is an annual event stewarded by Major League Hacking (MLH) and DEV, with presenting partner DigitalOcean. It began in 2014 as a pull-request challenge run by DigitalOcean. In 2026 it became an event you take part in: 500+ community-hosted, one-day “Fests” in 70+ countries/territories, plus an online event open to everyone, with 115,385 participants in all. The focus was hands-on building with open models, open source agents, and open tooling.',
+  afterwards: [
+    'Hacktoberfest 2026 is over. The season’s other pages (the Fest directory, the schedule, the activities, the FAQ, and the host, sponsor and brand pages) are retired and redirect to the homepage.',
+    'Participants can still sign in to My Hacktoberfest with their MyMLH account to see the stickers they earned and download their certificates.',
+    'Fests ran through October in two formats: Hack Days, funded mini-hackathons where people built projects, and Meet Ups, lighter gatherings that MLH did not fund. MLH Hack Days (https://www.mlh.com/hack-days) are a separate MLH program of free, in-person mini hackathons held on a date the host picks.',
   ],
   facts: [
-    'Dates: October 2026. Specific Fest dates are not yet announced.',
-    'Format: in person at 300+ local Fests, plus a global online event.',
+    'Dates: October 1 to 31, 2026.',
+    'Participants: 115,385.',
+    'Format: 500+ in-person Fests in 300+ cities across 70+ countries/territories, plus a global online event with 50+ livestreams.',
     'Organizers: Major League Hacking (MLH) and DEV.',
     'Presenting partner: DigitalOcean.',
     'Theme: AI belongs to everyone, and the focus is open source AI.',
@@ -3587,20 +3719,8 @@ export const my = {
        is and what each one gets you. The counts are the book's (eight,
        thirteen and, for a Completionist, eighteen activity stickers plus
        the required two); the cards' meters say the same numbers from the
-       API's thresholds. The state is the hero's (intro below). */
+       API's thresholds. */
     lede: 'Complete each milestone to unlock rewards shipped straight to your door.',
-    intro: {
-      pending: (n) =>
-        `Any sticker puts the pack in the mail. ${numberWord(n + 2)} stickers in the book unlock the holographic one, and that’s Hacktoberfest complete.`,
-      stickersEarned: (n) =>
-        `Your pack is on its way. ${numberWord(n + 2)} stickers in the book unlock the holographic sticker and complete Hacktoberfest.`,
-      complete:
-        'You’ve completed Hacktoberfest 2026. The holographic sticker is yours, and your pack is in the mail.',
-      completionist:
-        'You’re a Hacktoberfest 2026 Completionist. Fifteen stickers in the book, the holographic sticker yours, and the pack in the mail.',
-      completionistPlusPlus:
-        'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, the holographic sticker yours, and the pack in the mail.',
-    },
     /* The badge on an earned card, when the date is known: the day the
        milestone was reached (lib/stickerBook.mjs rewardsState.earnedAt). */
     earnedOn: (date) => `Earned ${date}`,
@@ -3777,9 +3897,10 @@ export const my = {
   },
   fests: {
     heading: { lead: 'Your', accent: 'Fests.' },
-    /* The line under the heading, whatever the state: what Fests are and
-       why to go. The cards under it say where this person is going. */
-    lede: '300+ in-person Fests are running around the world this Hacktoberfest. Sign up for one, learn about open source and open-weight AI, and meet your local community.',
+    /* The line under the heading. After October it looks back: the
+       cards under it are the Fests this person went to, registered for
+       or hosted. The band only shows when there is at least one. */
+    lede: '500+ in-person Fests took place around the world this October. Here are yours.',
     /* Badges come from the participation status the API sends —
        "Registered" until the organizer scans you in, "Checked in" after.
        Never derived from the calendar: a registered no-show stays
@@ -3856,25 +3977,9 @@ export const my = {
       rejected: 'Revise your application',
     },
     viewFestCta: 'View fest',
-    /* The ghost card in the fests grid — dashed like the directory's
-       empty state: a slot waiting to be filled, not a Fest. findGhost
-       stands in for the grid when there are no Fests yet. A second ghost,
-       the host ask, was dropped from /my when Fest applications closed
-       (2026-10-18); /my/hosting carries the MLH Hack Days ask instead. */
-    findGhost: {
-      title: 'Find your first Fest.',
-      body: 'Hundreds of one-day Fests are happening across the world this October. There’s probably one near you.',
-      cta: 'Find a Fest',
-    },
-    /* The find ghost's second voice, once any Fest is on the list —
-       registered, checked in, hosting, or hosted alike. It replaced the
-       pink Find a Fest button that used to sit under the grid: one find
-       CTA, always in the grid, in whichever voice fits. */
-    findGhostMore: {
-      title: 'Register for another Fest.',
-      body: 'Fests run all October, all over the world. Grab a spot at another one near you.',
-      cta: 'Find a Fest',
-    },
+    /* The dashed "Find your first Fest" / "Register for another Fest"
+       card that closed the grid left after October, with the directory
+       it linked to (data/retiredRoutes.mjs). */
   },
   /* The band under the account strip that points hosts at the other hub.
      /my/ is the attending hub and /my/hosting/ the hosting hub; only

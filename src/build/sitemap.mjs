@@ -15,20 +15,13 @@ const BASE_URL = (process.env.BASE_URL || '').replace(/\/*$/, '');
    and did exactly that). Launching a page means adding it here; the
    sitemap and the heal both follow. Pages that must stay out of the
    sitemap (the sign-in path) are verified via AUTH_PAGES in cache.mjs
-   instead. */
-export const SITE_PAGES = [
-  '/',
-  '/online/',
-  '/in-person/',
-  '/fests/',
-  '/host/',
-  '/sponsor/',
-  '/schedule/',
-  '/activities/',
-  '/questions/',
-  '/brand/',
-  '/mission/',
-];
+   instead.
+
+   After Hacktoberfest the public site is the homepage alone. The season's
+   other pages only redirect to it now (data/retiredRoutes.mjs), and a
+   sitemap entry for a redirect would point crawlers at a page that is
+   not there. */
+export const SITE_PAGES = ['/'];
 
 const sitemap = async () => {
   // Define the sitemap URLs

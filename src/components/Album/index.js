@@ -216,9 +216,6 @@ const Album = ({ experience, justEarned }) => {
               {my.share.bookCta}
             </button>
           )}
-          <a className={styles.spineLink} href="/activities/">
-            {my.album.spine.detailCta}
-          </a>
         </div>
       </div>
       <p className={styles.disclaimer}>{my.album.disclaimer}</p>

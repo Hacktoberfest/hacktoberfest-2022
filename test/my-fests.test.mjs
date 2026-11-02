@@ -232,17 +232,14 @@ test('isHost: in-progress applications and attending alone do not', () => {
   }
 });
 
-/* The find ghost always closes the fests grid, in one of two voices:
-   "find your first" for an empty list, "register for another" once any
-   Fest is on it — registered, checked in, hosting, or hosted alike.
-   Both voices need all three pieces, since either can be the grid's
-   find CTA. */
-test('the fests band carries both find-ghost voices', () => {
-  [my.fests.findGhost, my.fests.findGhostMore].forEach((ghost) => {
-    assert.ok(ghost.title);
-    assert.ok(ghost.body);
-    assert.ok(ghost.cta);
-  });
+/* After October the band looks back and asks nothing: no card to find
+   or register for another Fest (the directory is retired), and a lede in
+   the past tense. */
+test('the fests band looks back and offers no Fest to find', () => {
+  assert.equal(my.fests.findGhost, undefined);
+  assert.equal(my.fests.findGhostMore, undefined);
+  assert.match(my.fests.lede, /took place/);
+  assert.ok(!/are running|sign up/i.test(my.fests.lede));
 });
 
 test('hasApplied: a sent application opens the thank-you gate', () => {

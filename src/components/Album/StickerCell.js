@@ -1,4 +1,5 @@
 import { activitiesPage, my } from 'data/content.mjs';
+import { stickerHasLink } from 'data/stickerLinks.mjs';
 import { startDigitalOceanConnect } from 'lib/digitalocean.mjs';
 import { formatEarnedDate } from 'lib/earnedDate.mjs';
 import { SECRET_MARK_PATHS } from 'lib/secretStickers.mjs';
@@ -145,6 +146,10 @@ const StickerCell = ({ sticker, justEarned = false, onShare }) => {
         </>
       ) : sticker.locked ? (
         <p className={styles.cellLocked}>{my.album.cell.lockedLine}</p>
+      ) : !stickerHasLink(sticker) ? (
+        /* After the season, only the post-event survey keeps a way to
+           earn it (data/stickerLinks.mjs). */
+        <p className={styles.cellStatus}>{my.album.cell.notYet}</p>
       ) : ACTIONS[sticker.action] ? (
         <button
           type="button"

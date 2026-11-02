@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { faq, homeSteps, homeWall } from '../src/data/content.mjs';
+import { homeThanks, homeWall } from '../src/data/content.mjs';
 import {
   HOME_WALL_DIGITALOCEAN_URL,
   HOME_WALL_MLH_URL,
@@ -18,12 +18,13 @@ test('the homepage wall copy is complete', () => {
   assert.ok(homeWall.intro);
 });
 
-/* Its neighbours on the October homepage: the steps band above it and
-   the FAQ below. */
+/* Its neighbour on the homepage after October: the thank-you band above
+   it. */
 test('the homepage wall heading does not repeat a neighbour section', () => {
   const heading = `${homeWall.heading.lead} ${homeWall.heading.accent}`;
-  [homeSteps.heading, faq.heading].forEach((neighbour) =>
-    assert.notEqual(heading, `${neighbour.lead} ${neighbour.accent}`),
+  assert.notEqual(
+    heading,
+    `${homeThanks.heading.lead} ${homeThanks.heading.accent}`,
   );
 });
 

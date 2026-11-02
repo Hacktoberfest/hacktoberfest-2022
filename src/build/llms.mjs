@@ -1,6 +1,7 @@
 import { writeFile } from 'fs/promises';
 
 import { routeIsClosed } from '../data/closedRoutes.mjs';
+import { routeIsRetired } from '../data/retiredRoutes.mjs';
 import {
   activitiesPage,
   aiContext,
@@ -11,9 +12,10 @@ import {
   fests,
   headingText,
   hero,
-  homeAbout,
-  homeOnline,
+  homeCeremony,
+  homePhotos,
   homeSteps,
+  homeThanks,
   host,
   inPerson,
   mapHero,
@@ -21,6 +23,7 @@ import {
   missionPage,
   my,
   online,
+  recapHero,
   siteMeta,
   sponsor,
   schedule,
@@ -31,6 +34,7 @@ import { ACTIVITIES, REQUIRED_STICKERS } from '../data/eligibility.mjs';
 import { HACK_DAYS_EMAIL, MLH_HACK_DAYS_URL } from '../data/hackDays.mjs';
 import { sponsors } from '../data/sponsors.mjs';
 import { LIVE_EVENTS_URL } from '../lib/apiBase.mjs';
+import { youtubeWatchUrl } from '../lib/youtube.mjs';
 
 /* Writes the two plain-text files answer engines read, from the same copy the
    page renders (src/data/content.mjs).
@@ -45,15 +49,25 @@ const bullets = (items) => items.map((item) => `- ${item}`).join('\n');
 
 const SIGNED_IN_HREF = /^\/(?:my|login)\b/;
 
+/* A page these files may describe or link: not closed (data/closedRoutes)
+   and not retired after October (data/retiredRoutes). A section whose page
+   is gone goes with it, since its copy is no longer on the site. */
+const routeIsLive = (route) => !routeIsClosed(route) && !routeIsRetired(route);
+
 /* The orientation file's "Start here" list, each on-site entry tagged with
-   the route it points at so a closed route drops out of the list instead of
-   sending an answer engine to a 404. See data/closedRoutes.mjs. `route:
-   null` is an entry that is not a page — llms-full.txt is a file, and the
-   pruner never touches it. */
+   the route it points at so a closed or retired route drops out of the list
+   instead of sending an answer engine to a 404 or a redirect. See
+   data/closedRoutes.mjs and data/retiredRoutes.mjs. `route: null` is an
+   entry that is not a page — llms-full.txt is a file, and the pruner never
+   touches it. */
 const START_HERE = [
   {
     route: '/',
-    text: '[Hacktoberfest 2026](./): What Hacktoberfest is, every Fest on a map with a search for the nearest, the ways to join online, and how the sticker book works.',
+    text: '[Hacktoberfest 2026](./): The season in numbers, every Fest on a map, and a thank-you to the hosts, mentors and judges who made it happen.',
+  },
+  {
+    route: null,
+    text: `[Every Fest as JSON](${LIVE_EVENTS_URL}): The public events endpoint the homepage map is drawn from, with every Fest of the season. It needs no authentication.`,
   },
   {
     route: '/mission/',
@@ -102,7 +116,12 @@ const START_HERE = [
 ];
 
 const openEntries = (entries) =>
-  entries.filter((entry) => !entry.route || !routeIsClosed(entry.route));
+  entries.filter((entry) => !entry.route || routeIsLive(entry.route));
+
+/* An era's year, linked into the story on /mission/ while that page is
+   up. */
+const eraYear = (era) =>
+  routeIsLive('/mission/') ? `[${era.year}](./mission/#history)` : era.year;
 
 const llmsIndex = () =>
   paragraphs(
@@ -111,20 +130,25 @@ const llmsIndex = () =>
     aiContext.orientation,
     '## Start here',
     bullets(openEntries(START_HERE).map((entry) => entry.text)),
-    '## Taking part',
-    bullets(aiContext.participation),
+    '## After Hacktoberfest',
+    bullets([
+      ...aiContext.afterwards,
+      `The closing ceremony's replay, ${homeCeremony.video.title}, is on YouTube: ${youtubeWatchUrl(homeCeremony.video.youtubeId)}`,
+    ]),
     `## ${timeline.eyebrow}`,
     bullets(
-      timeline.eras.map(
-        (era) => `[${era.year}](./mission/#history): ${era.title} ${era.copy}`,
-      ),
+      timeline.eras.map((era) => `${eraYear(era)}: ${era.title} ${era.copy}`),
     ),
     `## ${mission.eyebrow}`,
     // The closing paragraph is the thesis; the rest is the argument for it.
     answerText(mission.paragraphs[mission.paragraphs.length - 1]),
-    `## ${faq.eyebrow}`,
-    bullets(faq.items.map((item) => item.question)),
-    'Answers to all of these are in [llms-full.txt](./llms-full.txt).',
+    routeIsLive('/questions/')
+      ? [
+          `## ${faq.eyebrow}`,
+          bullets(faq.items.map((item) => item.question)),
+          'Answers to all of these are in [llms-full.txt](./llms-full.txt).',
+        ]
+      : [],
     '## Key facts',
     bullets(aiContext.facts),
   );
@@ -139,7 +163,7 @@ const pageStickers = (type) =>
 /* One world landing page as prose (components/WorldLanding renders the
    same object), or nothing while its route is closed. */
 const worldSection = (route, title, world) =>
-  routeIsClosed(route)
+  !routeIsLive(route)
     ? []
     : [
         `## ${title}`,
@@ -251,56 +275,47 @@ const worldSection = (route, title, world) =>
 const llmsFull = () =>
   paragraphs(
     '# Hacktoberfest 2026 — Complete site copy',
-    /* The October homepage: the Fest map hero, the soonest Fests, the
-       online band and the steps. The map and the Fests themselves come
-       from the events endpoint, so the prose names what the page does
-       with them rather than listing them. */
+    /* The homepage after October: the thank-you over the map, the season
+       in numbers and the people who made the Fests happen. The map comes
+       from the events endpoint, so the prose names it rather than
+       listing the Fests. */
     '## Hero',
-    mapHero.eyebrow.join(' · '),
-    headingText(mapHero.heading),
-    `A map of the world with a square for every place a Fest is happening, and a search box (${mapHero.search.label}) that lists matching cities, countries and Fests as you type and submits to the Fests directory (/fests/?q=).`,
-    `${mapHero.online.prompt} ${mapHero.online.cta} (${mapHero.online.href})`,
+    recapHero.eyebrow.join(' · '),
+    headingText(recapHero.heading),
+    `A map of the world with a square for every place that hosted a Fest, drawn from the events endpoint (${LIVE_EVENTS_URL}).`,
+    recapHero.stats.map((stat) => `${stat.value} ${stat.label}`).join(' · '),
     headingText(mapHero.tagline),
     `${hero.poweredByLabel} MLH x DEV. ${hero.presentingLabel}: DigitalOcean.`,
-    `## ${headingText(homeAbout.heading)}`,
-    homeAbout.paragraphs.map(answerText),
-    `## ${inPerson.nearby.eyebrow}`,
-    headingText(inPerson.nearby.heading),
-    inPerson.nearby.intro,
-    `## ${homeOnline.eyebrow}`,
-    headingText(homeOnline.heading),
-    homeOnline.intro,
-    homeOnline.cards.map(
-      (card) => `${card.title}: ${card.copy} (CTA: ${card.cta})`,
-    ),
-    `CTA: ${homeOnline.cta.label} (${homeOnline.cta.href})`,
-    `## ${homeSteps.eyebrow}`,
-    headingText(homeSteps.heading),
-    homeSteps.phases.map(
-      (phase) =>
-        `${phase.label}: ${phase.steps
-          .map((step) => `${step.title}. ${step.copy}`)
-          .join(' ')}`,
-    ),
-    /* No sign-in path here: the llms files carry no /login or /my,
-       which test/my-pages.test.mjs holds them to. */
-    `CTA: ${homeSteps.cta.label} (signs in with MyMLH)`,
-    `## ${faq.eyebrow}`,
-    headingText(faq.heading),
-    faq.intro,
-    faq.items.map((item) => {
-      // Links are named in the prose but their URLs only exist in the markup,
-      // so append them — a plain-text reader has no other way to follow one.
-      // Site-relative ones stay relative, same as the links in llms.txt
-      // above. A link into the signed-in pages is left out: the prose already
-      // names My Hacktoberfest, and the llms files carry no /my or /login,
-      // which test/my-pages.test.mjs holds them to.
-      const links = answerLinks(item.answer).filter(
-        (href) => !SIGNED_IN_HREF.test(href),
-      );
-      const suffix = links.length ? ` (${links.join(' ')})` : '';
-      return `${item.question} — ${answerText(item.answer)}${suffix}`;
-    }),
+    `## ${headingText(homeThanks.heading)}`,
+    homeThanks.paragraphs,
+    `## ${headingText(homeCeremony.heading)}`,
+    homeCeremony.intro,
+    `${homeCeremony.video.title}: ${youtubeWatchUrl(homeCeremony.video.youtubeId)}`,
+    `## ${homePhotos.eyebrow}`,
+    headingText(homePhotos.heading),
+    homePhotos.intro,
+    homePhotos.photos.map((photo) => `${photo.place}: ${photo.alt}`),
+    routeIsLive('/questions/')
+      ? [
+          `## ${faq.eyebrow}`,
+          headingText(faq.heading),
+          faq.intro,
+          faq.items.map((item) => {
+            // Links are named in the prose but their URLs only exist in the
+            // markup, so append them — a plain-text reader has no other way
+            // to follow one. Site-relative ones stay relative, same as the
+            // links in llms.txt above. A link into the signed-in pages is
+            // left out: the prose already names My Hacktoberfest, and the
+            // llms files carry no /my or /login, which
+            // test/my-pages.test.mjs holds them to.
+            const links = answerLinks(item.answer).filter(
+              (href) => !SIGNED_IN_HREF.test(href),
+            );
+            const suffix = links.length ? ` (${links.join(' ')})` : '';
+            return `${item.question} — ${answerText(item.answer)}${suffix}`;
+          }),
+        ]
+      : [],
     /* The /mission/ page: the story so far, then the mission. */
     '## Mission',
     `${missionPage.eyebrow}. ${headingText(missionPage.heading)}`,
@@ -310,12 +325,17 @@ const llmsFull = () =>
     timeline.eras.map((era) => `${era.year} — ${era.title} ${era.copy}`),
     `${mission.eyebrow}. ${headingText(mission.heading)}`,
     mission.paragraphs.map(answerText),
-    '## After signing up',
-    `${subscribed.eyebrow}. ${headingText(subscribed.heading)}`,
-    subscribed.body,
+    routeIsLive('/subscribed/')
+      ? [
+          '## After signing up',
+          `${subscribed.eyebrow}. ${headingText(subscribed.heading)}`,
+          subscribed.body,
+        ]
+      : [],
     /* Whole sections come and go with their route: the full-text file is
-       the site's copy, and a closed page's copy is not on the site. */
-    routeIsClosed('/fests/')
+       the site's copy, and a closed or retired page's copy is not on the
+       site. */
+    !routeIsLive('/fests/')
       ? []
       : [
           '## Find a Fest',
@@ -331,42 +351,51 @@ const llmsFull = () =>
        Fests section is: a closed page's copy is not on the site. */
     ...worldSection('/online/', 'Attend online', online),
     ...worldSection('/in-person/', 'Attend in person', inPerson),
-    '## Host a Fest',
-    `${host.closed.lead} ${host.closed.body} (CTA: ${host.closed.cta} — ${MLH_HACK_DAYS_URL})`,
-    `${host.eyebrow}. ${headingText(host.heading)}`,
-    host.intro,
-    host.formats.cards.map(
-      (card) => `${card.tag} — ${card.title} ${card.copy.join(' ')}`,
-    ),
-    `${host.formats.hackDaysNow.lead} ${host.formats.hackDaysNow.body}`,
-    `${host.formats.comparison.label}: ${host.formats.comparison.rows
-      .map(
-        (row) =>
-          `${row.label} — Hack Day: ${row.hackDay}; Meet Up: ${row.meetUp}`,
-      )
-      .join('. ')}.`,
-    host.support.items.map((item) => `${item.title}: ${item.copy}`),
-    `${host.support.guide.title} ${host.support.guide.copy}`,
-    `${host.hackDays.eyebrow}. ${headingText(host.hackDays.heading)}`,
-    host.hackDays.body,
-    `${host.hackDays.cardTitle}: ${host.hackDays.perks.join('; ')}. ${host.hackDays.note} (CTA: ${host.hackDays.cta} — ${MLH_HACK_DAYS_URL})`,
-    `${host.hackDays.finePrint} ${HACK_DAYS_EMAIL}.`,
-    '## Sponsor Hacktoberfest',
-    `${sponsor.eyebrow}. ${headingText(sponsor.heading)}`,
-    sponsor.intro,
-    `Confirmed sponsors: ${sponsors.map((entry) => entry.name).join(', ')}.`,
-    sponsor.stats.items.map(
-      (item) => `${item.eyebrow} — ${item.value} ${item.unit}: ${item.copy}`,
-    ),
-    sponsor.partnership.intro,
-    sponsor.partnership.benefits.map(
-      (benefit) => `${benefit.title}: ${benefit.copy}`,
-    ),
-    `CTAs: ${sponsor.setupCta} (the sponsor portal) · ${sponsor.infoCta} (opens the sponsorship form).`,
+    ...(routeIsLive('/host/')
+      ? [
+          '## Host a Fest',
+          `${host.closed.lead} ${host.closed.body} (CTA: ${host.closed.cta} — ${MLH_HACK_DAYS_URL})`,
+          `${host.eyebrow}. ${headingText(host.heading)}`,
+          host.intro,
+          host.formats.cards.map(
+            (card) => `${card.tag} — ${card.title} ${card.copy.join(' ')}`,
+          ),
+          `${host.formats.hackDaysNow.lead} ${host.formats.hackDaysNow.body}`,
+          `${host.formats.comparison.label}: ${host.formats.comparison.rows
+            .map(
+              (row) =>
+                `${row.label} — Hack Day: ${row.hackDay}; Meet Up: ${row.meetUp}`,
+            )
+            .join('. ')}.`,
+          host.support.items.map((item) => `${item.title}: ${item.copy}`),
+          `${host.support.guide.title} ${host.support.guide.copy}`,
+          `${host.hackDays.eyebrow}. ${headingText(host.hackDays.heading)}`,
+          host.hackDays.body,
+          `${host.hackDays.cardTitle}: ${host.hackDays.perks.join('; ')}. ${host.hackDays.note} (CTA: ${host.hackDays.cta} — ${MLH_HACK_DAYS_URL})`,
+          `${host.hackDays.finePrint} ${HACK_DAYS_EMAIL}.`,
+        ]
+      : []),
+    ...(routeIsLive('/sponsor/')
+      ? [
+          '## Sponsor Hacktoberfest',
+          `${sponsor.eyebrow}. ${headingText(sponsor.heading)}`,
+          sponsor.intro,
+          `Confirmed sponsors: ${sponsors.map((entry) => entry.name).join(', ')}.`,
+          sponsor.stats.items.map(
+            (item) =>
+              `${item.eyebrow} — ${item.value} ${item.unit}: ${item.copy}`,
+          ),
+          sponsor.partnership.intro,
+          sponsor.partnership.benefits.map(
+            (benefit) => `${benefit.title}: ${benefit.copy}`,
+          ),
+          `CTAs: ${sponsor.setupCta} (the sponsor portal) · ${sponsor.infoCta} (opens the sponsorship form).`,
+        ]
+      : []),
     /* Whole sections come and go with their route, the same rule the Fests
        section follows above: /schedule is closed until the API serves it, and
        a crawler must not be told about copy that is not on the site. */
-    ...(routeIsClosed('/schedule/')
+    ...(!routeIsLive('/schedule/')
       ? []
       : [
           '## October schedule',
@@ -374,34 +403,38 @@ const llmsFull = () =>
           schedule.intro,
           `${schedule.monthLabel}. ${schedule.festsCallout.title} ${schedule.festsCallout.body} (CTA: ${schedule.festsCallout.cta} — ./fests/)`,
         ]),
-    '## Brand kit',
-    `${brand.eyebrow}. ${headingText(brand.heading)}`,
-    brand.intro,
-    `${brand.colors.eyebrow}: ${brand.colors.swatches
-      .map((swatch) => `${swatch.name} ${swatch.hex}`)
-      .join(', ')}.`,
-    brand.colors.intro,
-    `${brand.type.eyebrow}: ${brand.type.families
-      .map((family) => `${family.name} (${family.role.toLowerCase()})`)
-      .join(', ')}. ${brand.type.intro}`,
-    `${brand.logos.eyebrow}: ${brand.logos.marks
-      .map((mark) => `${mark.name} — ${mark.use}`)
-      .join(
-        ' ',
-      )} ${brand.logos.intro} Files are at ./brand/logos/<mark>-<colorway>.svg, for example ./brand/logos/hf-mark-forest.svg.`,
-    `${brand.partners.eyebrow}: ${headingText(brand.partners.heading)} ${brand.partners.intro}`,
-    brand.partners.list.map(
-      (partner) =>
-        `${partner.name}: ${partner.note} Files at ${partner.path}/${partner.variants
-          .map((variant) => `${variant.file}.${variant.ext || 'svg'}`)
-          .join(
-            ', ',
-          )}, unchanged from the partner's own; guidelines at ${partner.guidelines.href}.`,
-    ),
-    `${brand.rules.eyebrow}: ${headingText(brand.rules.heading)} ${brand.rules.intro}`,
-    `${brand.rules.dos.title}: ${brand.rules.dos.items.join(' ')}`,
-    `${brand.rules.donts.title}: ${brand.rules.donts.items.join(' ')}`,
-    ...(routeIsClosed('/activities/')
+    ...(routeIsLive('/brand/')
+      ? [
+          '## Brand kit',
+          `${brand.eyebrow}. ${headingText(brand.heading)}`,
+          brand.intro,
+          `${brand.colors.eyebrow}: ${brand.colors.swatches
+            .map((swatch) => `${swatch.name} ${swatch.hex}`)
+            .join(', ')}.`,
+          brand.colors.intro,
+          `${brand.type.eyebrow}: ${brand.type.families
+            .map((family) => `${family.name} (${family.role.toLowerCase()})`)
+            .join(', ')}. ${brand.type.intro}`,
+          `${brand.logos.eyebrow}: ${brand.logos.marks
+            .map((mark) => `${mark.name} — ${mark.use}`)
+            .join(
+              ' ',
+            )} ${brand.logos.intro} Files are at ./brand/logos/<mark>-<colorway>.svg, for example ./brand/logos/hf-mark-forest.svg.`,
+          `${brand.partners.eyebrow}: ${headingText(brand.partners.heading)} ${brand.partners.intro}`,
+          brand.partners.list.map(
+            (partner) =>
+              `${partner.name}: ${partner.note} Files at ${partner.path}/${partner.variants
+                .map((variant) => `${variant.file}.${variant.ext || 'svg'}`)
+                .join(
+                  ', ',
+                )}, unchanged from the partner's own; guidelines at ${partner.guidelines.href}.`,
+          ),
+          `${brand.rules.eyebrow}: ${headingText(brand.rules.heading)} ${brand.rules.intro}`,
+          `${brand.rules.dos.title}: ${brand.rules.dos.items.join(' ')}`,
+          `${brand.rules.donts.title}: ${brand.rules.donts.items.join(' ')}`,
+        ]
+      : []),
+    ...(!routeIsLive('/activities/')
       ? []
       : [
           '## Activities',

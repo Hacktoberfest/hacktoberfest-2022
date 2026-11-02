@@ -670,18 +670,8 @@ const WIRING = [
   },
   {
     file: 'src/pages/my.js',
-    token: 'if (STICKER_BOOK_LOCKED)\n    return rewards.addressValidated',
-    why: "the hero's line must say when the book opens while it is locked. Without it the hero speaks of milestones on a page that shows none.",
-  },
-  {
-    file: 'src/pages/my.js',
     token: 'if (STICKER_BOOK_LOCKED) return;',
     why: 'nothing may be noted as seen while the book is closed. Without it the first two stickers spend their just-earned moment on a page that never showed them.',
-  },
-  {
-    file: 'src/pages/my.js',
-    token: 'my.rewards.intro.completionistPlusPlus,',
-    why: "the hero's line at level 4. heroStatus indexes its list by rewards.level, so without a fifth entry a Completionist++ gets no status line at all.",
   },
   {
     file: 'src/pages/my.js',
@@ -855,6 +845,19 @@ test('the wiring on both /my pages is still there', async () => {
     [],
     `page wiring has gone missing:\n\n- ${missing.join('\n\n- ')}\n`,
   );
+});
+
+/* After October the attending hub's hero is the greeting alone: the
+   milestone sentence under it ("Any sticker puts the pack in the
+   mail." and its other states) spoke of a season still running, so
+   pages/my.js hands MyHub no status line at all. */
+test('the attending hub hero carries no status line', async () => {
+  const source = await readFile(
+    new URL('../src/pages/my.js', import.meta.url),
+    'utf8',
+  );
+  assert.ok(!/\bstatus=\{/.test(source), 'pages/my.js passes a status line');
+  assert.equal(my.rewards.intro, undefined);
 });
 
 test('the signed-in pages stay out of the sitemap and the llms files', async () => {

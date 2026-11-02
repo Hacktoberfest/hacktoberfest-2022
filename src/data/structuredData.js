@@ -1,4 +1,3 @@
-import { answerText, faq } from './content.mjs';
 import { absoluteUrl, meta } from './meta';
 
 /* JSON-LD for the homepage, as one @graph so the nodes can reference each
@@ -16,7 +15,6 @@ import { absoluteUrl, meta } from './meta';
 const ID = {
   website: absoluteUrl('/#website'),
   event: absoluteUrl('/#event'),
-  faq: absoluteUrl('/#faq'),
   mlh: 'https://mlh.com/#organization',
   dev: 'https://dev.to/#organization',
   digitalocean: 'https://www.digitalocean.com/#organization',
@@ -64,8 +62,8 @@ const event = {
   startDate: '2026-10-01',
   endDate: '2026-10-31',
   eventStatus: 'https://schema.org/EventScheduled',
-  /* 300+ community-hosted Fests plus a global online event. Only the online
-     half can be pinned to a location until the Fests are announced. */
+  /* 500+ community-hosted Fests plus a global online event. Only the
+     online half has one location to name. */
   eventAttendanceMode: 'https://schema.org/MixedEventAttendanceMode',
   location: {
     '@type': 'VirtualLocation',
@@ -76,33 +74,13 @@ const event = {
   about: 'Building with open source AI',
 };
 
-/* Google restricted FAQ rich results to government and health sites in 2023,
-   so this will not produce dropdowns in search. It is here so answer engines
-   get an explicit question-and-answer pair instead of inferring one from
-   prose — the reason the FAQ exists at all.
-
-   Restricted to homepage.ids, not the full faq.items: the homepage callout
-   now shows four questions and links to /questions for the rest, so structured
-   data naming all twenty-four would describe content the page doesn't
-   carry. The /questions page is a later task's concern. */
-const faqPage = {
-  '@type': 'FAQPage',
-  '@id': ID.faq,
-  mainEntity: faq.homepage.ids
-    .map((id) => faq.items.find((item) => item.id === id))
-    .map((item) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: answerText(item.answer),
-      },
-    })),
-};
+/* No FAQPage node: the FAQ left the homepage after October, and schema
+   naming questions the page does not carry would describe content it
+   does not have. */
 
 const homepageJsonLd = {
   '@context': 'https://schema.org',
-  '@graph': [website, event, faqPage, mlh, dev, digitalocean],
+  '@graph': [website, event, mlh, dev, digitalocean],
 };
 
 /* Serialized here rather than at the call site so the "<" escape can't be

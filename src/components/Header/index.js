@@ -23,8 +23,9 @@ import {
 } from './Header.styles';
 import NavGroup from './NavGroup';
 
-/* The nav is data/nav.mjs: Home, a verb per world with its
-   destinations, and About (the mission and the FAQs). Header owns only
+/* The nav is data/nav.mjs: Home alone since Hacktoberfest ended, with
+   the dropdown groups still supported for when a destination comes
+   back. Header owns only
    the chip, whose label follows the Preptember flag, and the open/closed
    state of the dropdowns.
 

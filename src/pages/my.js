@@ -151,28 +151,6 @@ const Bands = ({ experience, onSponsorOptIn }) => {
   );
 };
 
-/* The hero's one line: the milestone intro for the level reached, the
-   sentence the rewards band used to open with, one per level from 0 to 4
-   (lib/eligibility.mjs progressLevel). */
-const heroStatus = (experience) => {
-  const stickers = bookStickers(experience, { addressHref: MLH_ADDRESS_URL });
-  const rewards = rewardsState(experience, stickers);
-  /* Locked, the milestone intro speaks of a book nobody can open yet:
-     the line says when it opens instead, and asks for the address only
-     while MLH has none. */
-  if (STICKER_BOOK_LOCKED)
-    return rewards.addressValidated
-      ? my.locked.status.ready
-      : my.locked.status.noAddress;
-  return [
-    my.rewards.intro.pending(rewards.complete),
-    my.rewards.intro.stickersEarned(rewards.complete),
-    my.rewards.intro.complete,
-    my.rewards.intro.completionist,
-    my.rewards.intro.completionistPlusPlus,
-  ][rewards.level];
-};
-
 const My = () => {
   /* The API's DigitalOcean flow lands back here with ?connected= on the
      address bar. The book itself says how it went (the sticker is earned
@@ -189,13 +167,16 @@ const My = () => {
     globalThis.history.replaceState(null, '', '/my/');
   }, []);
 
+  /* No status line under the greeting after October: the milestone
+     sentence it carried in every state ("Any sticker puts the pack in the
+     mail.", "Your pack is on its way." and the rest) spoke of a season
+     still running, so MyHub gets none. */
   return (
     <MyHub
       title={my.title}
       accent={my.welcome.accent}
       hub="attending"
       redirectFor={redirectFor}
-      status={heroStatus}
     >
       {(experience, { onSponsorOptIn }) => (
         <Bands experience={experience} onSponsorOptIn={onSponsorOptIn} />

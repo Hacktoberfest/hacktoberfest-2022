@@ -9,15 +9,18 @@ import Head from 'next/head';
 // import EraSection from 'components/EraSection'; // "What changes in 2026"
 // import GetInvolvedSection from 'components/GetInvolvedSection'; // "Help make it happen"
 // import Hero from 'components/Hero'; // "AI belongs to everyone", the Preptember hero
-import FaqSection from 'components/FaqSection';
-import FestMapHero from 'components/FestMapHero';
+// October's homepage, retired with the pages it led to (data/retiredRoutes.mjs):
+// import FaqSection from 'components/FaqSection';
+// import FestMapHero from 'components/FestMapHero';
+// import { HomeAboutBand, HomeOnlineBand, HomeStepsBand } from 'components/HomeBands';
+// import NearbyFests from 'components/NearbyFests';
 import Header from 'components/Header';
 import {
-  HomeAboutBand,
-  HomeOnlineBand,
-  HomeStepsBand,
+  HomeCeremonyBand,
+  HomePhotosBand,
+  HomeThanksBand,
 } from 'components/HomeBands';
-import NearbyFests from 'components/NearbyFests';
+import RecapHero from 'components/RecapHero';
 import SponsorWallSection from 'components/SponsorWallSection';
 import { meta } from 'data/meta';
 import { homepageJsonLdScript } from 'data/structuredData';
@@ -73,16 +76,20 @@ const Home = () => (
     </Head>
     <Header />
     <main id="main">
-      {/* October: every Fest on the map, what Hacktoberfest is, the
-          soonest Fests, the way in for anyone with none nearby, and how
-          the sticker book works. */}
-      <FestMapHero />
-      <HomeAboutBand />
-      {/* The Fests pinned to the homepage in FestNet lead the six here,
-          unlabelled. */}
-      <NearbyFests homepagePins />
-      <HomeOnlineBand />
-      <HomeStepsBand />
+      {/* After October: the thank-you and the season in numbers over
+          every Fest on the map, the people who made the Fests happen,
+          the closing ceremony's replay, then Fests in pictures. October's homepage was the map hero with its search,
+          what Hacktoberfest is, the soonest Fests (pinned ones first),
+          the way in online, the steps and the FAQ. */}
+      <RecapHero />
+      <HomeThanksBand />
+      <HomeCeremonyBand />
+      <HomePhotosBand />
+      {/* <FestMapHero /> */}
+      {/* <HomeAboutBand /> */}
+      {/* <NearbyFests homepagePins /> */}
+      {/* <HomeOnlineBand /> */}
+      {/* <HomeStepsBand /> */}
       {/* <Rally /> */}
       {/* <EraSection /> */}
       {/* <FestsSection /> */}
@@ -91,7 +98,7 @@ const Home = () => (
       {/* The story so far and the mission live on /mission/ now. */}
       <SponsorWallSection />
       {/* <GetInvolvedSection /> */}
-      <FaqSection />
+      {/* <FaqSection /> */}
     </main>
   </>
 );

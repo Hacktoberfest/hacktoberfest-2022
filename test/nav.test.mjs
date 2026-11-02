@@ -5,25 +5,14 @@ import { routeIsClosed } from '../src/data/closedRoutes.mjs';
 import { NAV, navGroups, navRoutes } from '../src/data/nav.mjs';
 import { SITE_PAGES } from '../src/build/sitemap.mjs';
 
-test('the nav is Home, two verbs, and About, in that order', () => {
+/* After Hacktoberfest the site is the homepage and /my, and the chip
+   that leads to /my is Header's, not the nav's. */
+test('the nav is Home alone, with no dropdown groups', () => {
   assert.deepEqual(
     NAV.map((entry) => entry.label),
-    ['Home', 'Attend online', 'Attend in-person', 'About'],
+    ['Home'],
   );
-});
-
-test('each group holds exactly the agreed destinations', () => {
-  const groups = Object.fromEntries(
-    navGroups(NAV).map((group) => [
-      group.label,
-      group.items.map((item) => item.label),
-    ]),
-  );
-  assert.deepEqual(groups, {
-    'Attend online': ['Overview', 'Schedule', 'Activities'],
-    'Attend in-person': ['Overview', 'Find a Fest', 'Host a Fest'],
-    About: ['Mission', 'FAQs'],
-  });
+  assert.deepEqual(navGroups(NAV), []);
 });
 
 test('every destination is a page the site exports and has not closed', () => {

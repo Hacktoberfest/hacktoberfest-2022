@@ -1,0 +1,322 @@
+/* The post-season hero, restating FestMapHero's type and rail on the
+   forest deep ground the canvas chose, so the forest nav above it reads
+   as a separate band. Values mirror src/styles/tokens.js and should move
+   with it. */
+.hero {
+  /* colors.white */
+  color: #f7f7f2;
+  /* colors.ink */
+  border-bottom: 2px solid #10201d;
+  /* colors.forestDeep */
+  background: #2e4742;
+  text-align: center;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(calc(100% - 30px), 1280px);
+  margin-inline: auto;
+  padding-block: clamp(36px, 4.4vw, 64px) clamp(48px, 5vw, 72px);
+}
+
+/* breakpoints.tablet */
+@media (min-width: 768px) {
+  .stage {
+    width: min(calc(100% - 40px), 1280px);
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  /* colors.forestLight */
+  color: #cfe0db;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+/* One clause per line on phones, sharing a line from tablet up. */
+.eyebrowLine {
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .eyebrow {
+    font-size: 0.78rem;
+  }
+
+  .eyebrowLine {
+    display: inline;
+  }
+
+  .eyebrowLine + .eyebrowLine::before {
+    content: ' · ';
+  }
+}
+
+/* One line from tablet up; the count drops under the thanks on phones. */
+.heading {
+  margin: 14px 0 0;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(2.6rem, 6.4vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.heading em {
+  display: block;
+  /* colors.pink */
+  color: #e97b77;
+  font-style: normal;
+}
+
+@media (min-width: 600px) {
+  .heading {
+    margin-top: 16px;
+  }
+
+  .heading em {
+    display: inline;
+  }
+}
+
+/* As wide as the content, and from tablet up no wider than keeps the
+   numbers above the fold under the nav: the map is 2.98 times as wide as
+   it is tall, and everything else down to the numbers' labels is about
+   340px, plus the nav's 84px. */
+.map {
+  width: 100%;
+  padding-top: 22px;
+}
+
+@media (min-width: 768px) {
+  .map {
+    width: min(100%, max(560px, calc((100svh - 84px - 340px) * 2.98)));
+    padding-top: 26px;
+  }
+}
+
+/* The season in numbers: two to a row on phones under the first, which
+   spans both, then one row from tablet up. */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 12px;
+  width: 100%;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stat:first-child {
+  grid-column: span 2;
+}
+
+@media (min-width: 768px) {
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px clamp(32px, 4vw, 56px);
+    margin-top: 30px;
+  }
+}
+
+.statValue {
+  display: block;
+  /* fonts.display */
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.stat:first-child .statValue {
+  /* colors.ochre */
+  color: #f5b726;
+  font-size: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .statValue,
+  .stat:first-child .statValue {
+    font-size: clamp(2.75rem, 4.2vw, 3.5rem);
+  }
+}
+
+.statLabel {
+  display: block;
+  margin-top: 8px;
+  /* colors.forestLight */
+  color: #cfe0db;
+  /* fonts.mono */
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .statLabel {
+    font-size: 0.75rem;
+  }
+}
+
+/* The sign-off, as FestMapHero has it: the campaign line and the
+   partners on a light band, so each mark sits in its own colours with no
+   chip round it. */
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 15px 20px;
+  /* colors.ink */
+  color: #10201d;
+  border-top: 2px solid #10201d;
+  /* colors.white */
+  background: #f7f7f2;
+}
+
+@media (min-width: 1100px) {
+  .rail {
+    flex-direction: row;
+    gap: 28px;
+    padding: 16px 40px;
+  }
+}
+
+.tagline {
+  margin: 0;
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.625rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.tagline em {
+  /* colors.orange */
+  color: #e53927;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.rule {
+  display: none;
+  flex: 0 0 auto;
+  width: 2px;
+  height: 28px;
+  /* colors.paperDeep */
+  background: #e4e5da;
+}
+
+@media (min-width: 1100px) {
+  .rule[data-between='tagline'] {
+    display: block;
+  }
+}
+
+.lockups {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (min-width: 600px) {
+  .lockups {
+    flex-direction: row;
+    gap: 28px;
+  }
+
+  .rule[data-between='lockups'] {
+    display: block;
+  }
+}
+
+.lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lockupLabel {
+  /* colors.muted */
+  color: #52635f;
+  font-family:
+    'Martian Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Code',
+    'Roboto Mono', Menlo, Consolas, monospace;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.lockupMarks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lockupMarks a {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Ink focus ring on the light band, where the site's white one would
+   vanish. */
+.lockupMarks a:focus-visible {
+  outline-color: #10201d;
+  outline-offset: 3px;
+}
+
+.mlh,
+.dev,
+.digitalocean {
+  display: block;
+  width: auto;
+  height: 20px;
+}
+
+.digitalocean {
+  height: 16px;
+}
+
+@media (min-width: 768px) {
+  .mlh,
+  .dev {
+    height: 26px;
+  }
+
+  .digitalocean {
+    height: 22px;
+  }
+}
+
+.times {
+  font-family:
+    'Barlow Semi Condensed', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+}

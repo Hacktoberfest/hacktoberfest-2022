@@ -378,10 +378,6 @@ test('Completionist++ copy: the gap between the thresholds in words, and a hero 
     words.shareText,
     'I’m a Hacktoberfest 2026 Completionist++! Twenty stickers in the book. #Hacktoberfest https://hacktoberfest.com',
   );
-  assert.equal(
-    my.rewards.intro.completionistPlusPlus,
-    'You’re a Hacktoberfest 2026 Completionist++. Twenty stickers in the book, the holographic sticker yours, and the pack in the mail.',
-  );
 });
 
 test('rewardsState: each milestone carries the day it was reached, from the stickers’ own dates', () => {

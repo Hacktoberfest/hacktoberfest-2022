@@ -713,7 +713,6 @@
   line-height: 1;
 }
 
-.spineLink,
 .spineShare {
   /* fonts.mono */
   font-family:
@@ -726,10 +725,10 @@
   text-underline-offset: 3px;
 }
 
-/* The book's share, beside the link to the catalogue: the spine link's
-   face on a button, as .cellButton does it for the cell. Nothing here may
-   reset the font, since this rule comes after the face above and would
-   win; a button has no underline of its own, so the link's is drawn. */
+/* The book's share: the spine's mono face on a button, as .cellButton
+   does it for the cell. Nothing here may reset the font, since this rule
+   comes after the face above and would win; a button has no underline of
+   its own, so a link's is drawn. */
 .spineShare {
   appearance: none;
   background: none;
